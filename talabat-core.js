@@ -37,10 +37,10 @@
 
 
   Object.assign(I.ru, { login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
-    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.',
+    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
   Object.assign(I.en, { login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
-    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.',
+    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
   /* ---------- Extra dictionary ---------- */
@@ -183,6 +183,15 @@
     if (f.phone != null && f.phone !== '' && !/^\+?[0-9]{7,15}$/.test(String(f.phone))) return false;
     return true;
   }
+  function validBanner(f) {
+    if (f.placement != null && f.placement !== 'top' && f.placement !== 'bottom') return false;
+    var d = function (v) { return v == null || (typeof v === 'string' && isFinite(Date.parse(v))); };
+    if (!d(f.starts_at) || !d(f.ends_at)) return false;
+    if (f.starts_at && f.ends_at && Date.parse(f.ends_at) <= Date.parse(f.starts_at)) return false;
+    if (f.title != null && (String(f.title).trim().length < 1 || String(f.title).length > 80)) return false;
+    return true;
+  }
+  function badBanner() { toast(t('err_bad_banner'), true); return Promise.resolve({ error: 'bad_banner', toasted: true }); }
   function badStore() { toast(t('err_bad_value'), true); return Promise.resolve({ error: 'bad_value', toasted: true }); }
   function me() { return ME ? { id: ME.id, name: ME.name || ME.email, email: ME.email, phone: ME.phone || '', cashLimit: +ME.cash_limit || 1000, blocked: !!ME.accept_blocked } : null; }
 
@@ -309,9 +318,9 @@
       });
     },
 
-    banners: function (all) { return DB.banners.filter(function (b) { return all || b.is_active; }); },
-    addBanner: function (f) { return sb.from('banners').insert(f).then(done); },
-    updateBanner: function (id, f) { return sb.from('banners').update(f).eq('id', id).then(done); },
+    banners: function (all) { var now = Date.now(); return DB.banners.filter(function (b) { return all || (b.is_active && (!b.starts_at || Date.parse(b.starts_at) <= now) && (!b.ends_at || Date.parse(b.ends_at) > now)); }); },
+    addBanner: function (f) { if (!validBanner(f)) return badBanner(); return sb.from('banners').insert(f).then(done); },
+    updateBanner: function (id, f) { if (!validBanner(f)) return badBanner(); return sb.from('banners').update(f).eq('id', id).then(done); },
     deleteBanner: function (id) { return sb.from('banners').delete().eq('id', id).then(done); },
     isFav: function (storeId) { return DB.favs.indexOf(storeId) >= 0; },
     toggleFav: function (storeId) {

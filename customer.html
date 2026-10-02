@@ -37,36 +37,44 @@ input[type=text]{width:100%;padding:11px 13px;border:1px solid #cbd5e1;border-ra
 .sh{font-weight:800;font-size:16px;padding:18px 15px 8px;color:#1a202c}.hs{display:flex;gap:10px;overflow-x:auto;padding:0 15px 4px;scrollbar-width:none}
 .mini{flex-shrink:0;width:150px;background:#fff;border-radius:12px;border:1px solid #edf2f7;overflow:hidden;cursor:pointer;position:relative}.mini img,.mini .ph{width:100%;height:86px;object-fit:cover;display:block;background:#edf2f7}.mini .tt{padding:8px;font-size:12px;font-weight:700}
 .bns{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:16px 15px 0;scrollbar-width:none}
-.bn{flex:0 0 92%;scroll-snap-align:center;aspect-ratio:7/3;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#ff5a00,#ff8c42);cursor:pointer}
+.bn{flex:0 0 92%;scroll-snap-align:center;aspect-ratio:2/1;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#ff5a00,#ff8c42);cursor:pointer}
 .bn img{width:100%;height:100%;object-fit:cover;display:block}.bn b{position:absolute;left:16px;bottom:14px;right:16px;color:#fff;font-size:18px;text-shadow:0 2px 6px #0008}
+.bb{display:block;width:100%;aspect-ratio:3/1;margin-top:18px;position:relative;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#ff5a00,#ff8c42)}.bb img{width:100%;height:100%;object-fit:cover;display:block}.bb b{position:absolute;left:16px;bottom:12px;right:16px;color:#fff;font-size:18px;text-shadow:0 2px 6px #0008}
+.lk{flex-shrink:0;width:130px;background:#fff;border-radius:12px;border:1px solid #edf2f7;overflow:hidden;position:relative}.lk img,.lk .ph{width:100%;height:90px;object-fit:cover;display:block;background:#edf2f7}.lk .tt{padding:7px 8px;font-size:12px;font-weight:700}.lk .pl{position:absolute;right:6px;top:60px;width:32px;height:32px;border-radius:50%;background:#fff;border:0;box-shadow:0 2px 6px #0003;font-size:20px;color:#ff5a00;font-weight:800;cursor:pointer}
+.ci{display:flex;gap:10px;align-items:center}.ci img,.ci .ph{width:64px;height:64px;border-radius:10px;object-fit:cover;background:#edf2f7;flex-shrink:0}.ci .i{flex:1;min-width:0}.del{background:none;border:0;font-size:18px;cursor:pointer;padding:4px}
+.sv{background:#e8f8ee;color:#15803d;border-radius:12px;padding:10px 14px;font-weight:700;font-size:13px;margin-bottom:12px}
+.new{background:#2563eb}
 .bdg{background:#e74c3c;color:#fff;border-radius:10px;font-size:10px;padding:1px 6px;margin-left:4px;font-weight:700}
 .closed{font-size:12px;color:#718096;text-align:center;padding:6px}
 </style></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=9"></script>
+<script src="talabat-core.js?v=10"></script>
 <script>
 TLB.addDict({home:'Главная',orders:'Заказы',me:'Профиль',deliverTo:'ДОСТАВКА В',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',
 noMenu:'Меню скоро появится',closed:'Закрыто',addBtn:'Добавить',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',place:'Оплатить заказ',
 noOrders:'Заказов пока нет',back:'Назад',courier:'Курьер',cancelO:'Отменить заказ',chatH:'Сообщение курьеру',send:'Отправить',langL:'Язык',none:'Нет',s_pending:'Ожидание',s_preparing:'Готовится',s_pickedup:'В пути',s_delivered:'Доставлено',cartT:'Корзина',note:'Тестовая версия',
-free:'Бесплатно',bestOffers:'Лучшие предложения',favs:'Избранное',search:'Поиск ресторанов, товаров, блюд…',noRes:'Ничего не найдено',searchCat:'Поиск в категории…',fOpen:'Открыто сейчас',fFree:'Бесплатная доставка',discS:'Скидка магазина',phoneL:'Телефон',phoneSave:'Сохранить',needPh:'Укажите номер телефона в профиле, чтобы курьер мог вам позвонить.',storeMap:'Магазин на карте',fDisc:'Лучшие скидки',
+free:'Бесплатно',bestOffers:'Лучшие предложения',favs:'Избранное',search:'Поиск ресторанов, товаров, блюд…',noRes:'Ничего не найдено',searchCat:'Поиск в категории…',fOpen:'Открыто сейчас',fFree:'Бесплатная доставка',discS:'Скидка магазина',phoneL:'Телефон',phoneSave:'Сохранить',needPh:'Укажите номер телефона в профиле, чтобы курьер мог вам позвонить.',storeMap:'Магазин на карте',reorderS:'Заказать ещё раз',discoverS:'Откройте для себя',freeS:'Бесплатная доставка',offersSub:'Скидка до {n}% на ваш счёт',youLike:'Вам может понравиться',addMore:'Добавить ещё',saving:'Вы экономите',newTag:'NEW',removeI:'Убрать',fDisc:'Лучшие скидки',
 noStores:'В этой категории пока нет магазинов',reorder:'↻ Заказать снова',reorderMiss:'Некоторых товаров уже нет. Продолжить без них?',sendLoc:'📍 Место'},
 {home:'Home',orders:'Orders',me:'Profile',deliverTo:'DELIVER TO',rest:'Restaurants',grocery:'Groceries',pharmacy:'Pharmacy',beauty:'Beauty',flowers:'Flowers',gifts:'Gifts',shops:'Shops',sweets:'Sweets',
 noMenu:'Menu coming soon',closed:'Closed',addBtn:'Add',cartEmpty:'Your cart is empty',sub:'Subtotal',deliv:'Delivery',disc:'Discount',tip:'Courier tip',total:'Total',payM:'Payment method',card:'Alif card',cash:'Cash to courier',place:'Pay for order',
 noOrders:'No orders yet',back:'Back',courier:'Courier',cancelO:'Cancel order',chatH:'Message courier',send:'Send',langL:'Language',none:'None',s_pending:'Waiting',s_preparing:'Preparing',s_pickedup:'On the way',s_delivered:'Delivered',cartT:'Cart',note:'Test version',
-free:'Free',bestOffers:'Best offers',favs:'Favorites',search:'Search restaurants, products, dishes…',noRes:'Nothing found',searchCat:'Search in category…',fOpen:'Open now',fFree:'Free delivery',discS:'Store discount',phoneL:'Phone',phoneSave:'Save',needPh:'Add your phone number in Profile so the courier can call you.',storeMap:'Restaurant on map',fDisc:'Best discounts',
+free:'Free',bestOffers:'Best offers',favs:'Favorites',search:'Search restaurants, products, dishes…',noRes:'Nothing found',searchCat:'Search in category…',fOpen:'Open now',fFree:'Free delivery',discS:'Store discount',phoneL:'Phone',phoneSave:'Save',needPh:'Add your phone number in Profile so the courier can call you.',storeMap:'Restaurant on map',reorderS:'Order again',discoverS:'Discover more',freeS:'Free delivery',offersSub:'Enjoy up to {n}% off your bill',youLike:'You might also like',addMore:'Add more',saving:'You are saving',newTag:'NEW',removeI:'Remove',fDisc:'Best discounts',
 noStores:'No stores in this category yet',reorder:'↻ Order again',reorderMiss:'Some items are no longer available. Continue without them?',sendLoc:'📍 Place'});
 const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
 const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],IC={rest:'🍔',grocery:'🛒',pharmacy:'💊',beauty:'💄',flowers:'💐',gifts:'🎁',shops:'🛍️',sweets:'🍰'};
 let STORES=[],ME={name:'',phone:''};
 let S={v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',fo:false,ff:false,fd:false};
-const syncStores=()=>{STORES=TLB.stores().map(x=>({id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',p:+x.discount_pct>0?'-'+(+x.discount_pct)+'%':'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,disc:+x.discount_pct}))};
+const syncStores=()=>{STORES=TLB.stores().map(x=>({id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',p:+x.discount_pct>0?'-'+(+x.discount_pct)+'%':'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,disc:+x.discount_pct,cr:x.created_at||''}))};
 const menuOf=n=>TLB.allMenus(false)[n]||[];
 const go=(v,x)=>{Object.assign(S,{v},x||{});render();scrollTo(0,0)};
 const openStore=i=>go('menu',{store:STORES[i].n,back:S.v=='cat'?'cat':'home'});
 const openCat=c=>go('cat',{catKey:c,cq:'',fo:false,ff:false,fd:false});
 const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
+const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p);
+function delLine(id){delete S.cart[id];render()}
+function goMore(){go('menu',{store:S.cartStore,back:'cart'})}
 function add(id,d){S.cart[id]=(S.cart[id]||0)+d;if(S.cart[id]<=0)delete S.cart[id];render()}
 function addFrom(id){if(Object.keys(S.cart).length&&S.cartStore!==S.store){if(!confirm(t('clear_cart')))return;S.cart={}}S.cartStore=S.store;add(id,1)}
 function calc(){const m=menuOf(S.cartStore),st=STORES.find(x=>x.n==S.cartStore)||{fee:10,disc:0};let sub=0;
@@ -93,7 +101,7 @@ function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
 const pic=u=>u?`<img src="${esc(u)}" alt="">`:`<div class="ph"></div>`;
 const heart=s=>`<div class="hrt" onclick="event.stopPropagation();TLB.toggleFav('${s.id}')">${TLB.isFav(s.id)?'❤️':'🤍'}</div>`;
 const feeTxt=s=>s.ft=='free'?t('free'):s.fee+' TJS';
-const mini=s=>`<div class="mini" onclick="openStore(${STORES.indexOf(s)})">${heart(s)}${pic(s.i)}<div class="tt">${esc(s.n)} ${s.p?`<span class="tag">${s.p}</span>`:''}</div></div>`;
+const mini=s=>`<div class="mini" onclick="openStore(${STORES.indexOf(s)})">${heart(s)}${pic(s.i)}<div class="tt">${esc(s.n)} ${s.p?`<span class="tag">${s.p}</span>`:''}${s.cr&&Date.now()-Date.parse(s.cr)<30*864e5?` <span class="tag new">${t('newTag')}</span>`:''}</div></div>`;
 const storeCard=(s,h)=>`<div class="card st" onclick="openStore(${STORES.indexOf(s)})">${heart(s)}${pic(s.i)}<div>
   <div class="row"><b>${esc(s.n)}</b>${TLB.isOpen(s.n)?(s.p?`<span class="tag">${s.p}</span>`:''):`<span class="tag x">${t('closed')}</span>`}</div>
   <p>${esc(s.d)}</p>${h?`<p style="color:#ff5a00">🍽 ${esc(h.name)} — ${h.price} TJS</p>`:''}<p>🚴 ${feeTxt(s)}</p></div></div>`;
@@ -102,11 +110,16 @@ const matches=(M,q)=>STORES.map(s=>({s,h:q&&(M[s.n]||[]).find(i=>i.name.toLowerC
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);
   const head=`<div class="hd"><small>${t('deliverTo')}</small><b>📍 Проспект Рудаки, 12</b><input type="text" id="sq" placeholder="🔍 ${t('search')}" value="${esc(S.q)}" oninput="S.q=this.value;render()"></div>`;
   if(q){const list=matches(M,q);return head+`<div class="pg">${list.length?list.map(({s,h})=>storeCard(s,h)).join(''):`<div class="card">${t('noRes')}</div>`}</div>`}
-  const bn=TLB.banners(),offers=STORES.filter(s=>s.disc>0).sort((a,b)=>b.disc-a.disc).slice(0,8),favs=STORES.filter(s=>TLB.isFav(s.id));
+  const bn=inB('top'),bb=inB('bottom'),offers=STORES.filter(s=>s.disc>0).sort((a,b)=>b.disc-a.disc).slice(0,8),favs=STORES.filter(s=>TLB.isFav(s.id));
+  const again=[...new Set(TLB.orders().filter(o=>o.status=='delivered').map(o=>o.store))].map(n=>STORES.find(s=>s.n==n)).filter(Boolean).slice(0,8);
+  const fresh=STORES.filter(s=>s.cr&&Date.now()-Date.parse(s.cr)<30*864e5).sort((a,b)=>Date.parse(b.cr)-Date.parse(a.cr)).slice(0,8);
+  const freeD=STORES.filter(s=>s.ft=='free').slice(0,8),maxD=offers.length?offers[0].disc:0;
+  const sec=(ic,k,list,sub)=>list.length?`<div class="sh">${ic} ${t(k)}</div>${sub||''}<div class="hs">${list.map(mini).join('')}</div>`:'';
   return head+`<div class="cats">${CATS.map(c=>`<div class="ct" onclick="openCat('${c}')"><i>${IC[c]}</i>${t(c)}</div>`).join('')}</div>
   ${bn.length?`<div class="bns">${bn.map(b=>`<div class="bn" style="flex-basis:${bn.length>1?'92%':'100%'}" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>`:''}
-  ${offers.length?`<div class="sh">🔥 ${t('bestOffers')}</div><div class="hs">${offers.map(mini).join('')}</div>`:''}
-  ${favs.length?`<div class="sh">❤️ ${t('favs')}</div><div class="hs">${favs.map(mini).join('')}</div>`:''}`}
+  ${sec('🔥','bestOffers',offers,maxD>0?`<div style="font-size:12px;color:#718096;padding:0 15px 8px">${t('offersSub').replace('{n}',maxD)}</div>`:'')}
+  ${sec('🔁','reorderS',again)}${sec('✨','discoverS',fresh)}${sec('🚴','freeS',freeD)}${sec('❤️','favs',favs)}
+  ${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}`}
 function vCat(){const c=S.catKey,q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true);
   let list=matches(M,q).filter(({s})=>s.c==c);
   if(S.fo)list=list.filter(({s})=>TLB.isOpen(s.n));
@@ -121,12 +134,16 @@ function vMenu(){const m=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store
   return `<div class="pg"><button class="btn g" onclick="go('${S.back||'home'}')">← ${t('back')}</button><h2 style="margin-top:14px">${esc(S.store)} ${open?'':`<span class="tag x">${t('closed')}</span>`}</h2>${(()=>{const st=TLB.stores().find(x=>x.name==S.store);return st&&st.lat!=null&&st.lng!=null&&isFinite(+st.lat)&&isFinite(+st.lng)?`<a href="https://www.google.com/maps?q=${+st.lat},${+st.lng}" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:#2563eb">📍 ${t('storeMap')}</a>`:''})()}
   ${m.length?m.map(i=>{const q=S.cartStore==S.store&&S.cart[i.id]||0;return `<div class="card it row">${i.image?`<img src="${esc(i.image)}" alt="">`:'<div style="width:52px;height:52px;border-radius:8px;background:#edf2f7"></div>'}<div class="i"><b>${esc(i.name)}</b>${i.popular?' 🌟':''}<div class="pr">${i.price} TJS</div></div>
    ${q?`<div class="qty"><button onclick="add('${i.id}',-1)">−</button><span>${q}</span><button onclick="add('${i.id}',1)">+</button></div>`:`<button class="btn" onclick="addFrom('${i.id}')">${t('addBtn')}</button>`}</div>`}).join(''):`<div class="card">${t('noMenu')}</div>`}</div>`}
-function vCart(){const m=menuOf(S.cartStore),c=calc(),ids=Object.keys(S.cart);
+function vCart(){const m=menuOf(S.cartStore),c=calc(),ids=Object.keys(S.cart),mm=TLB.allMenus(true)[S.cartStore]||[];
   if(!ids.length)return `<div class="pg"><h2>${t('cartT')}</h2><div class="card">${t('cartEmpty')}</div></div>`;
+  const like=mm.filter(x=>!S.cart[x.id]).slice(0,10);
   return `<div class="pg"><h2>${t('cartT')} — ${esc(S.cartStore)}</h2>
-  ${ids.map(id=>{const i=m.find(x=>x.id==id)||{name:'?',price:0};return `<div class="card row"><div><b>${esc(i.name)}</b><div class="pr">${i.price} TJS</div></div><div class="qty"><button onclick="add('${id}',-1)">−</button><span>${S.cart[id]}</span><button onclick="add('${id}',1)">+</button></div></div>`}).join('')}
+  ${ids.map(id=>{const i=m.find(x=>x.id==id)||{name:'?',price:0};return `<div class="card ci">${pic(i.image)}<div class="i"><b>${esc(i.name)}</b><div class="pr">${i.price} TJS</div></div><div class="qty"><button onclick="add('${id}',-1)">−</button><span>${S.cart[id]}</span><button onclick="add('${id}',1)">+</button></div><button class="del" title="${t('removeI')}" onclick="delLine('${id}')">🗑</button></div>`}).join('')}
+  <button class="btn g big" style="margin-bottom:12px" onclick="goMore()">＋ ${t('addMore')}</button>
+  ${like.length?`<div class="sh" style="padding:6px 0 8px">${t('youLike')}</div><div class="hs" style="padding:0 0 12px">${like.map(i=>`<div class="lk">${pic(i.image)}<button class="pl" onclick="add('${i.id}',1)">+</button><div class="tt">${esc(i.name)}<div class="pr">${i.price} TJS</div></div></div>`).join('')}</div>`:''}
   <div class="card"><b>${t('tip')}</b><div class="row" style="margin-top:8px">${[0,3,5,10].map(v=>`<div class="tip ${S.tip==v?'on':''}" onclick="S.tip=${v};render()">${v?v+' TJS':t('none')}</div>`).join('')}</div></div>
   <div class="card"><b>${t('payM')}</b>${['apple','card','cash'].map(p=>`<div class="row" style="padding:9px 0" onclick="S.pay='${p}';render()"><span>${t(p)}</span><input type="radio" ${S.pay==p?'checked':''}></div>`).join('')}</div>
+  ${c.d>0?`<div class="sv">🎉 ${t('saving')} ${c.d} TJS</div>`:''}
   <div class="card"><div class="row"><span>${t('sub')}</span><span>${c.sub} TJS</span></div>${c.d>0?`<div class="row"><span>${t('discS')}</span><span style="color:#27ae60">−${c.d} TJS</span></div>`:''}<div class="row"><span>${t('deliv')}</span><span>${c.fee} TJS</span></div>
   <div class="row" style="font-size:17px;font-weight:800;margin:10px 0"><span>${t('total')}</span><span class="pr">${c.total} TJS</span></div><button class="btn big" onclick="place()">${t('place')}</button></div></div>`}
 function vOrders(){const l=TLB.orders();
