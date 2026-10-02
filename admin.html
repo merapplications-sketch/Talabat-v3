@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Talabat — Admin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f4f6f8;color:#333;padding:28px 14px 30px}
+.w{max-width:900px;margin:0 auto}
+.top{background:#1a202c;color:#fff;border-radius:14px;padding:16px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.k{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-align:center}.k b{font-size:20px;color:#ff5a00;display:block}.k span{font-size:11px;color:#718096}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+h3{font-size:15px;margin:14px 0 10px;color:#1a202c}
+.tabs{display:flex;gap:8px;margin-bottom:12px}.tabs button{flex:1;border:0;background:#e2e8f0;border-radius:8px;padding:10px 4px;font-weight:700;font-size:12px;color:#4a5568;cursor:pointer}.tabs .on{background:#ff5a00;color:#fff}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;scrollbar-width:none}
+.chip{flex-shrink:0;background:#e2e8f0;border:0;border-radius:16px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;color:#4a5568}.chip.on{background:#ff5a00;color:#fff}
+.b{border:0;border-radius:8px;padding:8px 11px;color:#fff;font-weight:700;font-size:12px;cursor:pointer;background:#27ae60;text-decoration:none;display:inline-block}.b.r{background:#e74c3c}.b.g{background:#718096}.b.o{background:#e67e22}
+.s{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:#edf2f7}
+.s.pending{background:#fef3c7;color:#b45309}.s.preparing,.s.ready{background:#dbeafe;color:#1d4ed8}.s.pickedup{background:#e9d5ff;color:#7e22ce}.s.delivered,.s.approved{background:#dcfce7;color:#15803d}.s.rejected,.s.cancelled,.s.suspended{background:#fee2e2;color:#b91c1c}
+input,select{width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e0;border-radius:8px;font-size:14px;background:#fff}
+small{color:#718096}
+.btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.l{display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px}
+.tl{border-left:3px solid #ff5a00;padding:2px 0 8px 10px;margin-left:4px;font-size:13px}.tl small{display:block}
+.msg{background:#f1f5f9;border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:12px}.msg.driver{background:#fff3ed}
+.warn{background:#fde2e2;color:#b91c1c;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;margin-top:6px}
+</style></head><body><div class="w" id="app"></div>
+<script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="talabat-core.js?v=7"></script>
+<script>
+TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
+aAdd:'Добавить магазин',aName:'Название',aDesc:'Описание',aCom:'Комиссия, %',aFeeT:'Тип доставки',aFix:'Фиксированная',aDist:'По расстоянию',aFree:'Бесплатная',aFeeB:'Базовая цена доставки',aKm:'Цена за км (после 3 км)',aDis:'Скидка магазина, %',aSave:'Создать магазин',aFill:'Введите название',
+aOn:'Активен',aOff:'Отключён',aSus:'Отключить',aAc:'Включить',aEditC:'Комиссия %',aOwn:'Владелец (email)',aOwnB:'Назначить владельца',aNoOwn:'нет владельца',aHasOwn:'владелец назначен',aPend:'Ожидают одобрения (аптеки)',aApp:'Одобрить',
+aNoD:'Курьеров нет',aDrvA:'Одобрить',aDrvS:'Заблокировать',aNote:'Вход по email. Заявки курьеров одобряются здесь.',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',aDel:'доставка',
+aBTitle:'Заголовок баннера',aBImg:'📷 Загрузить картинку',aBNone:'Без ссылки',aBAdd:'Добавить баннер',aRm:'Удалить',aBNo:'Баннеров нет',aBOrd:'Порядок показа (0 — первым, потом 1, 2…)',aBHint:'Размер картинки: 1400×600. Заголовок виден только если картинки нет.',aCover:'Обложка',aEdit:'Изменить',aImgB:'Картинка',aTitleB:'Название',
+aPh:'Телефон магазина',aBack:'Назад',aClient:'Клиент',aStoreL:'Магазин',aDrvL:'Курьер',aItemsL:'Состав заказа',aPayL:'Оплата',aTimeL:'Хронология',aChatL:'Переписка',aNoChat:'Переписки нет',aSub:'Товары',aDisc:'Скидка',aDelF:'Доставка',aTip:'Чаевые',aTot:'Итого',aCommL:'Комиссия',
+aCashGot:'Получено наличными',aCashNote:'Комментарий',aSettled:'Сдано в кассу',aNotSet:'Ещё не сдано',aMin:'мин',aSec:'с',aTotalT:'Общее время',
+aeP:'Заказ оформлен',aeA:'Ресторан принял',aeD:'Назначен курьер',aeR:'Готов к выдаче',aeU:'Курьер забрал',aeV:'Доставлен',aeX:'Отклонён рестораном',aeC:'Отменён клиентом',
+aCashH:'Наличные на руках',aLimit:'Лимит',aOver:'⚠️ Превышен лимит наличных',aBlock:'Остановить приём заказов',aAllow:'Разрешить приём заказов',aBlocked:'Приём остановлен',aSettle:'Принять наличные',aSettleQ:'Принять от курьера наличные на сумму',aSetLim:'Лимит'},
+{aT:'Admin dashboard',aOrd:'Orders',aRev:'Revenue (delivered)',aComm:'Platform commission',aAct:'In progress',aAll:'All',aNo:'No orders',aItems:'items',tO:'Orders',tS:'Stores',tD:'Couriers',tB:'Banners',
+aAdd:'Add store',aName:'Name',aDesc:'Description',aCom:'Commission, %',aFeeT:'Delivery type',aFix:'Fixed',aDist:'By distance',aFree:'Free',aFeeB:'Base delivery fee',aKm:'Price per km (after 3 km)',aDis:'Store discount, %',aSave:'Create store',aFill:'Enter a name',
+aOn:'Active',aOff:'Disabled',aSus:'Disable',aAc:'Enable',aEditC:'Commission %',aOwn:'Owner (email)',aOwnB:'Assign owner',aNoOwn:'no owner',aHasOwn:'owner assigned',aPend:'Waiting for approval (pharmacy)',aApp:'Approve',
+aNoD:'No couriers',aDrvA:'Approve',aDrvS:'Suspend',aNote:'Email login. Courier applications are approved here.',rest:'Restaurants',grocery:'Groceries',pharmacy:'Pharmacy',beauty:'Beauty',flowers:'Flowers',gifts:'Gifts',shops:'Shops',sweets:'Sweets',aDel:'delivery',
+aBTitle:'Banner title',aBImg:'📷 Upload image',aBNone:'No link',aBAdd:'Add banner',aRm:'Delete',aBNo:'No banners',aBOrd:'Display order (0 = first, then 1, 2…)',aBHint:'Image size: 1400×600. The title shows only when there is no image.',aCover:'Cover',aEdit:'Edit',aImgB:'Image',aTitleB:'Title',
+aPh:'Store phone',aBack:'Back',aClient:'Customer',aStoreL:'Store',aDrvL:'Courier',aItemsL:'Order items',aPayL:'Payment',aTimeL:'Timeline',aChatL:'Chat',aNoChat:'No messages',aSub:'Items',aDisc:'Discount',aDelF:'Delivery',aTip:'Tip',aTot:'Total',aCommL:'Commission',
+aCashGot:'Cash received',aCashNote:'Note',aSettled:'Handed to office',aNotSet:'Not handed over yet',aMin:'min',aSec:'s',aTotalT:'Total time',
+aeP:'Order placed',aeA:'Restaurant accepted',aeD:'Courier assigned',aeR:'Ready for pickup',aeU:'Picked up by courier',aeV:'Delivered',aeX:'Rejected by restaurant',aeC:'Cancelled by customer',
+aCashH:'Cash on hand',aLimit:'Limit',aOver:'⚠️ Cash limit exceeded',aBlock:'Pause new orders',aAllow:'Allow new orders',aBlocked:'Orders paused',aSettle:'Receive cash',aSettleQ:'Receive from the courier cash of',aSetLim:'Limit'});
+const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
+const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],ST=['pending','preparing','ready','pickedup','delivered','rejected','cancelled'];
+const KIND={pending:'aeP',preparing:'aeA',driver_assigned:'aeD',ready:'aeR',pickedup:'aeU',delivered:'aeV',rejected:'aeX',cancelled:'aeC'};
+let tab='o',f='all',D=null,bimg='';
+const run=async p=>{const r=await p;if(r&&r.error&&!r.toasted)alert(t('err_'+r.error))};
+const v=id=>$(id).value.trim();
+const fmt=ts=>new Date(ts).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+const dur=ms=>{const s=Math.max(0,Math.round(ms/1000)),m=Math.floor(s/60);return (m?m+' '+t('aMin')+' ':'')+(s%60)+' '+t('aSec')};
+const tel=p=>p?`<a href="tel:${esc(p)}" class="b" style="padding:6px 10px">📞 ${esc(p)}</a>`:'<small>—</small>';
+function resizeImg(fl,w,q,cb){const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,w/im.width);c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',q))};im.src=ev.target.result};r.readAsDataURL(fl)}
+function addStore(){if(!v('sn')){alert(t('aFill'));return}
+  run(TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:v('sp')||null,commission_pct:+v('sm')||0,fee_type:v('sf'),fee_base:+v('sb')||0,fee_per_km:+v('sk')||0,discount_pct:+v('sd')||0}))}
+function editC(id,c){const x=prompt(t('aEditC'),c);if(x!==null&&!isNaN(+x))run(TLB.updateStore(id,{commission_pct:+x}))}
+function setOwner(id){const e=prompt(t('aOwn'));if(e)run(TLB.assignOwner(id,e.trim()))}
+function coverFile(e,id){const fl=e.target.files[0];if(fl)resizeImg(fl,640,.7,d=>run(TLB.updateStore(id,{cover_url:d})))}
+function editStore(id){const s=TLB.stores(true).find(x=>x.id==id);if(!s)return;
+  const n=prompt(t('aName'),s.name);if(n===null)return;
+  const d=prompt(t('aDesc'),s.description||'');if(d===null)return;
+  const ph=prompt(t('aPh'),s.phone||'');if(ph===null)return;
+  const ds=prompt(t('aDis'),s.discount_pct);if(ds===null)return;
+  const ft=prompt(t('aFeeT')+' (fixed / distance / free)',s.fee_type);if(ft===null)return;
+  const fb=prompt(t('aFeeB'),s.fee_base);if(fb===null)return;
+  run(TLB.updateStore(id,{name:n.trim()||s.name,description:d,phone:ph.trim()||null,discount_pct:+ds||0,fee_type:['fixed','distance','free'].includes(ft.trim())?ft.trim():s.fee_type,fee_base:+fb||0}))}
+function pickB(e){const fl=e.target.files[0];if(fl)resizeImg(fl,900,.7,d=>{bimg=d;$('bp').src=d;$('bp').style.display='block'})}
+function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=($('bl').value+':').split(':'),lt=p[0]=='cat'?'category':p[0];
+  run(TLB.addBanner({title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0}));bimg=''}
+function bannerImg(e,id){const fl=e.target.files[0];if(fl)resizeImg(fl,900,.7,d=>run(TLB.updateBanner(id,{image_url:d})))}
+function bannerTitle(id,cur){const x=prompt(t('aBTitle'),cur);if(x!==null&&x.trim())run(TLB.updateBanner(id,{title:x.trim().slice(0,80)}))}
+function bannerOrder(id,cur){const x=prompt(t('aBOrd'),cur);if(x!==null&&!isNaN(+x))run(TLB.updateBanner(id,{sort:+x}))}
+function bannerLink(id,val){const p=(val+':').split(':');run(TLB.updateBanner(id,{link_type:p[0]=='cat'?'category':p[0],link_value:p[1]||null}))}
+function setLimit(id,cur){const x=prompt(t('aSetLim'),cur);if(x!==null&&!isNaN(+x)&&+x>0)run(TLB.setDriverLimit(id,+x))}
+function settle(id,bal){if(confirm(t('aSettleQ')+' '+bal.toFixed(2)+' TJS?'))run(TLB.settleCash(id))}
+
+function vOrders(){const all=TLB.orders(),sh=all.filter(o=>f=='all'||o.status==f);
+  return `<div class="chips">${['all',...ST].map(s=>`<button class="chip ${f==s?'on':''}" onclick="f='${s}';render()">${s=='all'?t('aAll'):t(s)}</button>`).join('')}</div>
+  ${sh.length?sh.map(o=>`<div class="card" style="cursor:pointer" onclick="D=${o.id};render();scrollTo(0,0)"><div class="row"><b>#${o.id} — ${esc(o.store)}</b><span class="s ${o.status}">${t(o.status)}</span></div>
+  <div class="row" style="margin-top:6px"><small>${fmt(o.createdAt)} • ${esc(o.client.name)} • ${o.items.reduce((s,i)=>s+i.qty,0)} ${t('aItems')}</small><b style="color:#ff5a00">${o.total} TJS</b></div>
+  <small>🛵 ${o.driver?esc(o.driverName):'—'} • ${t('aDel')} ${o.delivery} • ${esc(t(o.payment))}</small></div>`).join(''):`<div class="card">${t('aNo')}</div>`}`}
+function vDetail(){const o=TLB.order(D);if(!o){D=null;return vOrders()}
+  const ev=TLB.events(o.id),cash=TLB.isCash(o);
+  const t0=ev.length?Date.parse(ev[0].at):o.createdAt,t1=ev.length?Date.parse(ev[ev.length-1].at):t0;
+  return `<button class="b g" onclick="D=null;render()">← ${t('aBack')}</button>
+  <div class="card" style="margin-top:12px"><div class="row"><b>#${o.id} — ${esc(o.store)}</b><span class="s ${o.status}">${t(o.status)}</span></div><small>${fmt(o.createdAt)}</small></div>
+  <div class="card"><b>👤 ${t('aClient')}</b><p style="margin:4px 0">${esc(o.client.name)}</p>${tel(o.client.phone)}<p style="margin-top:8px">📍 ${esc(o.address)}</p></div>
+  <div class="card"><b>🏪 ${t('aStoreL')}</b><p style="margin:4px 0">${esc(o.store)}</p>${tel(o.storePhone)}</div>
+  <div class="card"><b>🛵 ${t('aDrvL')}</b><p style="margin-top:4px">${o.driver?esc(o.driverName):'—'}</p></div>
+  <div class="card"><b>🧾 ${t('aItemsL')}</b><div style="height:6px"></div>
+  ${o.items.map(i=>`<div class="l"><span>${i.qty}× ${esc(i.name)}${i.note?` <small style="color:#e74c3c">💬 ${esc(i.note)}</small>`:''}</span><span>${(i.qty*i.price).toFixed(2)}</span></div>`).join('')}
+  <hr style="border:0;border-top:1px solid #e2e8f0;margin:8px 0">
+  <div class="l"><span>${t('aSub')}</span><span>${o.subtotal.toFixed(2)}</span></div><div class="l"><span>${t('aDisc')}</span><span>−${o.discount.toFixed(2)}</span></div>
+  <div class="l"><span>${t('aDelF')}</span><span>${o.delivery.toFixed(2)}</span></div><div class="l"><span>${t('aTip')}</span><span>${o.tip.toFixed(2)}</span></div>
+  <div class="l" style="font-weight:800"><span>${t('aTot')}</span><span>${o.total.toFixed(2)} TJS</span></div>
+  <div class="l"><small>${t('aCommL')} (${o.commissionPct}%)</small><small>${o.commission.toFixed(2)}</small></div></div>
+  <div class="card"><b>💳 ${t('aPayL')}: ${esc(t(o.payment))}</b>
+  ${cash&&o.status=='delivered'?`<div class="l" style="margin-top:6px"><span>${t('aCashGot')}</span><b>${o.cashCollected==null?'—':o.cashCollected.toFixed(2)+' TJS'}</b></div>${o.cashNote?`<div class="l"><span>${t('aCashNote')}</span><span>${esc(o.cashNote)}</span></div>`:''}<small>${o.cashSettled?'✅ '+t('aSettled'):'⏳ '+t('aNotSet')}</small>`:''}</div>
+  <div class="card"><b>⏱ ${t('aTimeL')}</b><div style="height:8px"></div>
+  ${ev.length?ev.map((e,i)=>`<div class="tl"><b>${t(KIND[e.kind]||'aeP')}</b><small>${fmt(e.at)}${i?' (+'+dur(Date.parse(e.at)-Date.parse(ev[i-1].at))+')':''}</small></div>`).join('')+(ev.length>1?`<div class="l"><b>${t('aTotalT')}</b><b>${dur(t1-t0)}</b></div>`:''):`<small>${fmt(o.createdAt)}</small>`}</div>
+  <div class="card"><b>💬 ${t('aChatL')}</b><div style="height:8px"></div>
+  ${o.chat.length?o.chat.map(m=>`<div class="msg ${m.s}"><small>${m.s=='client'?t('aClient'):t('aDrvL')} • ${fmt(m.at)}</small>${TLB.fmtMsg(m.t)}</div>`).join(''):`<small>${t('aNoChat')}</small>`}</div>`}
+function vStores(){const ss=TLB.stores(true),pend=TLB.pendingItems();
+  return `<div class="card"><b>${t('aAdd')}</b><div style="height:8px"></div>
+  <input id="sn" placeholder="${t('aName')}"><input id="ss" placeholder="${t('aDesc')}"><input id="sp" type="tel" placeholder="${t('aPh')}">
+  <select id="sc">${CATS.map(c=>`<option value="${c}">${t(c)}</option>`).join('')}</select>
+  <input id="sm" type="number" placeholder="${t('aCom')}" value="10">
+  <select id="sf"><option value="fixed">${t('aFix')}</option><option value="distance">${t('aDist')}</option><option value="free">${t('aFree')}</option></select>
+  <input id="sb" type="number" placeholder="${t('aFeeB')}" value="10"><input id="sk" type="number" placeholder="${t('aKm')}" value="0"><input id="sd" type="number" placeholder="${t('aDis')}" value="0">
+  <button class="b" style="width:100%;padding:12px" onclick="addStore()">${t('aSave')}</button></div>
+  ${ss.map(s=>`<div class="card"><div class="row"><b>${esc(s.name)}</b><span class="s ${s.is_active?'approved':'suspended'}">${s.is_active?t('aOn'):t('aOff')}</span></div>
+  ${s.cover_url?`<img src="${esc(s.cover_url)}" style="width:100%;height:90px;object-fit:cover;border-radius:8px;margin:8px 0" alt="">`:''}
+  <small>${t(s.category)} • ${t('aCom')}: ${s.commission_pct}% • ${s.fee_type=='free'?t('aFree'):s.fee_base+' TJS'} • ${s.owner_id?t('aHasOwn'):t('aNoOwn')}</small>
+  <div style="margin-top:6px">${s.phone?`<a class="b" href="tel:${esc(s.phone)}" style="padding:6px 10px">📞 ${esc(s.phone)}</a>`:`<small>📞 —</small>`}</div>
+  <div class="btns"><button class="b ${s.is_active?'r':''}" onclick="run(TLB.updateStore('${s.id}',{is_active:${!s.is_active}}))">${s.is_active?t('aSus'):t('aAc')}</button>
+  <button class="b o" onclick="editC('${s.id}',${s.commission_pct})">${t('aEditC')}</button><button class="b g" onclick="setOwner('${s.id}')">${t('aOwnB')}</button>
+  <label class="b g" style="margin:0">📷 ${t('aCover')}<input type="file" accept="image/*" style="display:none" onchange="coverFile(event,'${s.id}')"></label><button class="b" onclick="editStore('${s.id}')">✏️ ${t('aEdit')}</button></div></div>`).join('')}
+  ${pend.length?`<h3>${t('aPend')}</h3>${pend.map(i=>`<div class="card row"><div><b>${esc(i.name)}</b><br><small>${esc(i.store)} • ${i.price} TJS</small></div><button class="b" onclick="run(TLB.approveItem('${i.id}'))">${t('aApp')}</button></div>`).join('')}`:''}`}
+function vDrivers(){const d=TLB.drivers();
+  return d.length?d.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000,over=bal>=lim;
+  return `<div class="card"><div class="row"><b>🛵 ${esc(x.name||x.id.slice(0,8))}</b><span class="s ${x.driver_status||'pending'}">${x.driver_status||'pending'}</span></div>
+  <div class="l" style="margin-top:8px"><span>💵 ${t('aCashH')}</span><b>${bal.toFixed(2)} / ${lim} TJS</b></div>
+  ${over?`<div class="warn">${t('aOver')}</div>`:''}${x.accept_blocked?`<div class="warn">⛔ ${t('aBlocked')}</div>`:''}
+  <div class="btns"><button class="b" onclick="run(TLB.setDriverStatus('${x.id}','approved'))">${t('aDrvA')}</button><button class="b r" onclick="run(TLB.setDriverStatus('${x.id}','suspended'))">${t('aDrvS')}</button>
+  <button class="b ${x.accept_blocked?'':'o'}" onclick="run(TLB.setDriverBlocked('${x.id}',${!x.accept_blocked}))">${x.accept_blocked?t('aAllow'):t('aBlock')}</button>
+  <button class="b g" onclick="setLimit('${x.id}',${lim})">${t('aSetLim')}</button><button class="b" onclick="settle('${x.id}',${bal})" ${bal>0?'':'disabled style="opacity:.4"'}>${t('aSettle')}</button></div></div>`}).join(''):`<div class="card">${t('aNoD')}</div>`}
+function vBanners(){const bs=TLB.banners(true),ss=TLB.stores(true);
+  const opts=cur=>`<option value="none">${t('aBNone')}</option>${ss.map(x=>`<option value="store:${x.id}" ${cur=='store:'+x.id?'selected':''}>🏪 ${esc(x.name)}</option>`).join('')}${CATS.map(c=>`<option value="cat:${c}" ${cur=='cat:'+c?'selected':''}>📂 ${t(c)}</option>`).join('')}`;
+  return `<div class="card"><b>${t('aBAdd')}</b><div style="height:8px"></div><input id="bt" placeholder="${t('aBTitle')}">
+  <small style="display:block;margin-bottom:6px">${t('aBHint')}</small><label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
+  <img id="bp" style="display:none;width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" alt="">
+  <select id="bl">${opts('none')}</select>
+  <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>
+  ${bs.length?bs.map(b=>{const cur=b.link_type=='store'?'store:'+b.link_value:b.link_type=='category'?'cat:'+b.link_value:'none';
+  return `<div class="card"><div class="row"><b>${esc(b.title)} <small>#${b.sort}</small></b><span class="s ${b.is_active?'approved':'suspended'}">${b.is_active?t('aOn'):t('aOff')}</span></div>
+  ${b.image_url?`<img src="${esc(b.image_url)}" style="width:100%;max-height:110px;object-fit:cover;border-radius:8px;margin:8px 0" alt="">`:''}
+  <select onchange="bannerLink('${b.id}',this.value)">${opts(cur)}</select>
+  <div class="btns"><label class="b g" style="margin:0">📷 ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event,'${b.id}')"></label>
+  <button class="b o" onclick="bannerTitle('${b.id}',${JSON.stringify(b.title).replace(/"/g,'&quot;')})">✏️ ${t('aTitleB')}</button><button class="b o" onclick="bannerOrder('${b.id}',${b.sort})">#</button>
+  <button class="b ${b.is_active?'r':''}" onclick="run(TLB.updateBanner('${b.id}',{is_active:${!b.is_active}}))">${b.is_active?t('aSus'):t('aAc')}</button>
+  <button class="b g" onclick="if(confirm('?'))run(TLB.deleteBanner('${b.id}'))">${t('aRm')}</button></div></div>`}).join(''):`<div class="card">${t('aBNo')}</div>`}`}
+function render(){
+  const all=TLB.orders(),del=all.filter(o=>o.status=='delivered'),act=all.filter(o=>['pending','preparing','ready','pickedup'].includes(o.status));
+  const body=D&&tab=='o'?vDetail():({o:vOrders,s:vStores,d:vDrivers,b:vBanners}[tab])();
+  $('app').innerHTML=`<div class="top"><b style="font-size:17px">👑 ${t('aT')}</b><br><small style="color:#a0aec0">${t('aNote')}</small></div>
+  <div class="grid"><div class="k"><b>${all.length}</b><span>${t('aOrd')}</span></div><div class="k"><b>${del.reduce((s,o)=>s+o.total,0)} TJS</b><span>${t('aRev')}</span></div>
+  <div class="k"><b>${del.reduce((s,o)=>s+o.commission,0).toFixed(1)} TJS</b><span>${t('aComm')}</span></div><div class="k"><b>${act.length}</b><span>${t('aAct')}</span></div></div>
+  <div class="tabs">${[['o','tO'],['s','tS'],['d','tD'],['b','tB']].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;render()">${t(x[1])}</button>`).join('')}</div>`+body}
+TLB.start('admin',()=>{TLB.on(()=>{const a=document.activeElement;if(a&&/^(INPUT|SELECT)$/.test(a.tagName)&&$('app').contains(a))return;render()});render()});
+</script></body></html>
