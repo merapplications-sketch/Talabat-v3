@@ -28,7 +28,7 @@ small{color:#718096}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=10"></script>
+<script src="talabat-core.js?v=11"></script>
 <script>
 TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
 aAdd:'Добавить магазин',aName:'Название',aDesc:'Описание',aCom:'Комиссия, %',aFeeT:'Тип доставки',aFix:'Фиксированная',aDist:'По расстоянию',aFree:'Бесплатная',aFeeB:'Базовая цена доставки',aKm:'Цена за км (после 3 км)',aDis:'Скидка магазина, %',aSave:'Создать магазин',aFill:'Введите название',
@@ -38,7 +38,7 @@ aBTitle:'Заголовок баннера',aBImg:'📷 Загрузить ка�
 aPh:'Телефон магазина',aBack:'Назад',aClient:'Клиент',aStoreL:'Магазин',aDrvL:'Курьер',aItemsL:'Состав заказа',aPayL:'Оплата',aTimeL:'Хронология',aChatL:'Переписка',aNoChat:'Переписки нет',aSub:'Товары',aDisc:'Скидка',aDelF:'Доставка',aTip:'Чаевые',aTot:'Итого',aCommL:'Комиссия',
 aCashGot:'Получено наличными',aCashNote:'Комментарий',aSettled:'Сдано в кассу',aNotSet:'Ещё не сдано',aMin:'мин',aSec:'с',aTotalT:'Общее время',
 aeP:'Заказ оформлен',aeA:'Ресторан принял',aeD:'Назначен курьер',aeR:'Готов к выдаче',aeU:'Курьер забрал',aeV:'Доставлен',aeX:'Отклонён рестораном',aeC:'Отменён клиентом',
-aCashH:'Наличные на руках',aLimit:'Лимит',aOver:'⚠️ Превышен лимит наличных',aBlock:'Остановить приём заказов',aAllow:'Разрешить приём заказов',aBlocked:'Приём остановлен',aSettle:'Принять наличные',aSettleQ:'Принять от курьера наличные на сумму',aSetLim:'Лимит',aEdS:'Редактирование магазина',aEdD:'Редактирование курьера',aCat:'Категория',aMaxDis:'Максимум скидки, % (потолок для магазина)',aLoc:'Расположение на карте',aLocSet:'📍 Указать на карте',aLocClr:'Убрать',aLocNone:'Не указано',aSv:'Сохранить',aCoverCh:'📷 Сменить обложку',aOwnPh:'email владельца',aStat:'Статус',aLimP:'Лимит наличных, TJS',aMapOpen:'Открыть на карте',aBPl:'Место показа',aBTop:'Вверху главной (карусель)',aBBot:'Внизу главной (рекламный, на всю ширину)',aBFrom:'Показывать с',aBTo:'Показывать до',aBDates:'Даты'},
+aCashH:'Наличные на руках',aLimit:'Лимит',aOver:'⚠️ Превышен лимит наличных',aBlock:'Остановить приём заказов',aAllow:'Разрешить приём заказов',aBlocked:'Приём остановлен',aSettle:'Принять наличные',aSettleQ:'Принять от курьера наличные на сумму',aSetLim:'Лимит',aEdS:'Редактирование магазина',aEdD:'Редактирование курьера',aCat:'Категория',aMaxDis:'Максимум скидки, % (потолок для магазина)',aLoc:'Расположение на карте',aLocSet:'📍 Указать на карте',aLocClr:'Убрать',aLocNone:'Не указано',aSv:'Сохранить',aCoverCh:'📷 Сменить обложку',aOwnPh:'email владельца',aStat:'Статус',aLimP:'Лимит наличных, TJS',aMapOpen:'Открыть на карте',aBPl:'Место показа',aBTop:'Вверху главной (карусель)',aBBot:'Внизу главной (рекламный, на всю ширину)',aBFrom:'Показывать с',aBTo:'Показывать до',aBDates:'Даты',tP:'Промокоды',aAddS:'➕ Добавить магазин',aAddB:'➕ Добавить баннер',aAddP:'➕ Добавить промокод',aClose:'✕ Закрыть',aSearch:'🔍 Поиск магазина или категории…',aPick:'Выбрать',aNoRes:'Ничего не найдено',aBNow:'Показывается сейчас',aBSched:'Запланирован',aBExp:'Срок истёк',aBOffS:'Выключен',aFFD:'Бесплатная доставка на первый заказ (платит платформа)',aPromo:'Промокод',aPCode:'Код (латиница, цифры, 3–20)',aPKind:'Тип скидки',aPPct:'Процент, %',aPFix:'Фиксированная, TJS',aPVal:'Значение',aPMin:'Мин. сумма заказа, TJS',aPMax:'Макс. число использований (пусто = без лимита)',aPUsed:'использовано',aPNo:'Промокодов нет',aPNote:'Скидку по промокоду оплачивает платформа: комиссия считается от цены магазина. Один раз на клиента.'},
 {aT:'Admin dashboard',aOrd:'Orders',aRev:'Revenue (delivered)',aComm:'Platform commission',aAct:'In progress',aAll:'All',aNo:'No orders',aItems:'items',tO:'Orders',tS:'Stores',tD:'Couriers',tB:'Banners',
 aAdd:'Add store',aName:'Name',aDesc:'Description',aCom:'Commission, %',aFeeT:'Delivery type',aFix:'Fixed',aDist:'By distance',aFree:'Free',aFeeB:'Base delivery fee',aKm:'Price per km (after 3 km)',aDis:'Store discount, %',aSave:'Create store',aFill:'Enter a name',
 aOn:'Active',aOff:'Disabled',aSus:'Disable',aAc:'Enable',aEditC:'Commission %',aOwn:'Owner (email)',aOwnB:'Assign owner',aNoOwn:'no owner',aHasOwn:'owner assigned',aPend:'Waiting for approval (pharmacy)',aApp:'Approve',
@@ -47,11 +47,11 @@ aBTitle:'Banner title',aBImg:'📷 Upload image',aBNone:'No link',aBAdd:'Add ban
 aPh:'Store phone',aBack:'Back',aClient:'Customer',aStoreL:'Store',aDrvL:'Courier',aItemsL:'Order items',aPayL:'Payment',aTimeL:'Timeline',aChatL:'Chat',aNoChat:'No messages',aSub:'Items',aDisc:'Discount',aDelF:'Delivery',aTip:'Tip',aTot:'Total',aCommL:'Commission',
 aCashGot:'Cash received',aCashNote:'Note',aSettled:'Handed to office',aNotSet:'Not handed over yet',aMin:'min',aSec:'s',aTotalT:'Total time',
 aeP:'Order placed',aeA:'Restaurant accepted',aeD:'Courier assigned',aeR:'Ready for pickup',aeU:'Picked up by courier',aeV:'Delivered',aeX:'Rejected by restaurant',aeC:'Cancelled by customer',
-aCashH:'Cash on hand',aLimit:'Limit',aOver:'⚠️ Cash limit exceeded',aBlock:'Pause new orders',aAllow:'Allow new orders',aBlocked:'Orders paused',aSettle:'Receive cash',aSettleQ:'Receive from the courier cash of',aSetLim:'Limit',aEdS:'Edit store',aEdD:'Edit courier',aCat:'Category',aMaxDis:'Max discount, % (cap for the store)',aLoc:'Location on the map',aLocSet:'📍 Set on the map',aLocClr:'Remove',aLocNone:'Not set',aSv:'Save',aCoverCh:'📷 Change cover',aOwnPh:'owner email',aStat:'Status',aLimP:'Cash limit, TJS',aMapOpen:'Open on map',aBPl:'Placement',aBTop:'Top of home (carousel)',aBBot:'Bottom of home (paid ad, full width)',aBFrom:'Show from',aBTo:'Show until',aBDates:'Dates'});
+aCashH:'Cash on hand',aLimit:'Limit',aOver:'⚠️ Cash limit exceeded',aBlock:'Pause new orders',aAllow:'Allow new orders',aBlocked:'Orders paused',aSettle:'Receive cash',aSettleQ:'Receive from the courier cash of',aSetLim:'Limit',aEdS:'Edit store',aEdD:'Edit courier',aCat:'Category',aMaxDis:'Max discount, % (cap for the store)',aLoc:'Location on the map',aLocSet:'📍 Set on the map',aLocClr:'Remove',aLocNone:'Not set',aSv:'Save',aCoverCh:'📷 Change cover',aOwnPh:'owner email',aStat:'Status',aLimP:'Cash limit, TJS',aMapOpen:'Open on map',aBPl:'Placement',aBTop:'Top of home (carousel)',aBBot:'Bottom of home (paid ad, full width)',aBFrom:'Show from',aBTo:'Show until',aBDates:'Dates',tP:'Promo codes',aAddS:'➕ Add store',aAddB:'➕ Add banner',aAddP:'➕ Add promo code',aClose:'✕ Close',aSearch:'🔍 Search store or category…',aPick:'Choose',aNoRes:'Nothing found',aBNow:'Live now',aBSched:'Scheduled',aBExp:'Expired',aBOffS:'Off',aFFD:'Free delivery on first order (paid by the platform)',aPromo:'Promo code',aPCode:'Code (letters, digits, 3–20)',aPKind:'Discount type',aPPct:'Percent, %',aPFix:'Fixed, TJS',aPVal:'Value',aPMin:'Min. order, TJS',aPMax:'Max. total uses (empty = unlimited)',aPUsed:'used',aPNo:'No promo codes',aPNote:'The platform pays for promo discounts: commission is still calculated on the store price. Once per customer.'});
 const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
 const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],ST=['pending','preparing','ready','pickedup','delivered','rejected','cancelled'];
 const KIND={pending:'aeP',preparing:'aeA',driver_assigned:'aeD',ready:'aeR',pickedup:'aeU',delivered:'aeV',rejected:'aeX',cancelled:'aeC'};
-let tab='o',f='all',D=null,bimg='',E=null,ED={},DE=null,DD={};
+let tab='o',f='all',D=null,bimg='',E=null,ED={},DE=null,DD={},showAddS=false,showAddB=false,showAddP=false,BL='none';
 const run=async p=>{const r=await p;if(r&&r.error&&!r.toasted)alert(t('err_'+r.error))};
 const v=id=>$(id).value.trim();
 const fmt=ts=>new Date(ts).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -59,10 +59,21 @@ const dur=ms=>{const s=Math.max(0,Math.round(ms/1000)),m=Math.floor(s/60);return
 const tel=p=>p?`<a href="tel:${esc(p)}" class="b" style="padding:6px 10px">📞 ${esc(p)}</a>`:'<small>—</small>';
 function resizeImg(fl,w,q,cb){const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,w/im.width);c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',q))};im.src=ev.target.result};r.readAsDataURL(fl)}
 function addStore(){if(!v('sn')){alert(t('aFill'));return}
-  run(TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:v('sp')||null,commission_pct:+v('sm')||0,fee_type:v('sf'),fee_base:+v('sb')||0,fee_per_km:+v('sk')||0,discount_pct:+v('sd')||0}))}
+  TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:v('sp')||null,commission_pct:+v('sm')||0,fee_type:v('sf'),fee_base:+v('sb')||0,fee_per_km:+v('sk')||0,discount_pct:+v('sd')||0}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddS=false;render()}})}
 function pickB(e){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>{bimg=d;$('bp').src=d;$('bp').style.display='block'})}
-function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=($('bl').value+':').split(':'),lt=p[0]=='cat'?'category':p[0];
-  run(TLB.addBanner({title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}));bimg=''}
+function linkLabel(v){if(!v||v=='none')return t('aBNone');const p=String(v).split(':');if(p[0]=='store'){const s=TLB.stores(true).find(x=>x.id==p[1]);return '🏪 '+(s?s.name:'?')}if(p[0]=='cat')return '📂 '+t(p[1]);return t('aBNone')}
+function pickLink(cb){const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;z-index:10000;background:#fff;display:flex;flex-direction:column;font:14px -apple-system,BlinkMacSystemFont,sans-serif';
+const top=document.createElement('div');top.style.cssText='padding:14px;display:flex;gap:8px;align-items:center;padding-top:calc(14px + env(safe-area-inset-top,0px))';
+const inp=document.createElement('input');inp.type='search';inp.placeholder=t('aSearch');inp.style.cssText='flex:1;margin:0';
+const x=document.createElement('button');x.className='b g';x.textContent='✕';x.onclick=()=>ov.remove();top.append(inp,x);
+const list=document.createElement('div');list.style.cssText='flex:1;overflow:auto;padding:0 14px 20px';ov.append(top,list);document.body.appendChild(ov);
+const all=[['none',t('aBNone')]].concat(CATS.map(c=>['cat:'+c,'📂 '+t(c)]),TLB.stores(true).map(s=>['store:'+s.id,'🏪 '+s.name]));
+function draw(){const q=inp.value.trim().toLowerCase();list.textContent='';const m=all.filter(r=>!q||r[1].toLowerCase().includes(q));
+if(!m.length){const e=document.createElement('div');e.style.cssText='padding:20px;color:#718096;text-align:center';e.textContent=t('aNoRes');list.appendChild(e);return}
+m.forEach(r=>{const b=document.createElement('button');b.style.cssText='display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #edf2f7;background:#fff;padding:14px 6px;font-size:15px;cursor:pointer';b.textContent=r[1];b.onclick=()=>{ov.remove();cb(r[0])};list.appendChild(b)})}
+inp.oninput=draw;draw();setTimeout(()=>inp.focus(),50)}
+function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').split(':'),lt=p[0]=='cat'?'category':p[0];
+  run(TLB.addBanner({title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';render()}}));bimg=''}
 const dIso=(v,end)=>v?v+(end?'T23:59:59+05:00':'T00:00:00+05:00'):null;
 const dShow=ts=>ts?new Date(ts).toLocaleDateString('sv-SE',{timeZone:'Asia/Dushanbe'}):'';
 function bannerPlace(id,v){run(TLB.updateBanner(id,{placement:v=='bottom'?'bottom':'top'}))}
@@ -72,13 +83,13 @@ function bannerTitle(id,cur){const x=prompt(t('aBTitle'),cur);if(x!==null&&x.tri
 function bannerOrder(id,cur){const x=prompt(t('aBOrd'),cur);if(x!==null&&!isNaN(+x))run(TLB.updateBanner(id,{sort:+x}))}
 function bannerLink(id,val){const p=(val+':').split(':');run(TLB.updateBanner(id,{link_type:p[0]=='cat'?'category':p[0],link_value:p[1]||null}))}
 function openStoreEdit(id){const s=TLB.stores(true).find(x=>x.id==id);if(!s)return;E=id;
-ED={name:s.name||'',description:s.description||'',phone:s.phone||'',category:s.category,commission_pct:s.commission_pct,fee_type:s.fee_type,fee_base:s.fee_base,fee_per_km:s.fee_per_km,discount_pct:s.discount_pct||0,max_discount_pct:s.max_discount_pct==null?30:s.max_discount_pct,lat:s.lat==null?null:+s.lat,lng:s.lng==null?null:+s.lng,cover:null,owner:''};render();scrollTo(0,0)}
+ED={name:s.name||'',description:s.description||'',phone:s.phone||'',category:s.category,commission_pct:s.commission_pct,fee_type:s.fee_type,fee_base:s.fee_base,fee_per_km:s.fee_per_km,discount_pct:s.discount_pct||0,max_discount_pct:s.max_discount_pct==null?30:s.max_discount_pct,lat:s.lat==null?null:+s.lat,lng:s.lng==null?null:+s.lng,free_first_delivery:!!s.free_first_delivery,cover:null,owner:''};render();scrollTo(0,0)}
 function ed(k,v){ED[k]=v}
 function edCover(e){const fl=e.target.files[0];if(fl)resizeImg(fl,640,.7,d=>{ED.cover=d;render()})}
 function edLoc(){TLB.pickLocation((la,ln)=>{ED.lat=+la.toFixed(6);ED.lng=+ln.toFixed(6);render()},ED.lat!=null?[ED.lat,ED.lng]:null)}
 function edLocClr(){ED.lat=null;ED.lng=null;render()}
 async function saveStore(){const n=x=>x===''||x==null?0:+x;
-const f={name:String(ED.name).trim(),description:String(ED.description).trim(),phone:String(ED.phone).trim()||null,category:ED.category,commission_pct:n(ED.commission_pct),fee_type:ED.fee_type,fee_base:n(ED.fee_base),fee_per_km:n(ED.fee_per_km),max_discount_pct:n(ED.max_discount_pct),discount_pct:n(ED.discount_pct),lat:ED.lat,lng:ED.lng};
+const f={name:String(ED.name).trim(),description:String(ED.description).trim(),phone:String(ED.phone).trim()||null,category:ED.category,commission_pct:n(ED.commission_pct),fee_type:ED.fee_type,fee_base:n(ED.fee_base),fee_per_km:n(ED.fee_per_km),max_discount_pct:n(ED.max_discount_pct),discount_pct:n(ED.discount_pct),free_first_delivery:!!ED.free_first_delivery,lat:ED.lat,lng:ED.lng};
 if(!f.name){alert(t('aFill'));return}
 if(!CATS.includes(f.category)||!['fixed','distance','free'].includes(f.fee_type))return;
 if(f.discount_pct>f.max_discount_pct){alert(t('err_discount_over_max'));return}
@@ -106,7 +117,7 @@ function vDetail(){const o=TLB.order(D);if(!o){D=null;return vOrders()}
   <div class="card"><b>🧾 ${t('aItemsL')}</b><div style="height:6px"></div>
   ${o.items.map(i=>`<div class="l"><span>${i.qty}× ${esc(i.name)}${i.note?` <small style="color:#e74c3c">💬 ${esc(i.note)}</small>`:''}</span><span>${(i.qty*i.price).toFixed(2)}</span></div>`).join('')}
   <hr style="border:0;border-top:1px solid #e2e8f0;margin:8px 0">
-  <div class="l"><span>${t('aSub')}</span><span>${o.subtotal.toFixed(2)}</span></div>${o.discount>0?`<div class="l"><span>${t('aDisc')}</span><span>−${o.discount.toFixed(2)}</span></div>`:''}
+  <div class="l"><span>${t('aSub')}</span><span>${o.subtotal.toFixed(2)}</span></div>${o.discount>0?`<div class="l"><span>${t('aDisc')}</span><span>−${o.discount.toFixed(2)}</span></div>`:''}${o.promoDiscount>0?`<div class="l"><span>${t('aPromo')} ${esc(o.promoCode)}</span><span>−${o.promoDiscount.toFixed(2)}</span></div>`:''}
   <div class="l"><span>${t('aDelF')}</span><span>${o.delivery.toFixed(2)}</span></div><div class="l"><span>${t('aTip')}</span><span>${o.tip.toFixed(2)}</span></div>
   <div class="l" style="font-weight:800"><span>${t('aTot')}</span><span>${o.total.toFixed(2)} TJS</span></div>
   <div class="l"><small>${t('aCommL')} (${o.commissionPct}%)</small><small>${o.commission.toFixed(2)}</small></div></div>
@@ -130,6 +141,7 @@ ${img?`<img src="${esc(img)}" style="width:100%;height:110px;object-fit:cover;bo
 <small>${t('aDis')}</small><input type="number" min="0" max="100" ${iv('discount_pct')} oninput="ed('discount_pct',this.value)">
 <small>${t('aMaxDis')}</small><input type="number" min="0" max="100" ${iv('max_discount_pct')} oninput="ed('max_discount_pct',this.value)">
 <small>${t('aFeeT')}</small><select onchange="ed('fee_type',this.value)">${[['fixed','aFix'],['distance','aDist'],['free','aFree']].map(x=>`<option value="${x[0]}" ${ED.fee_type==x[0]?'selected':''}>${t(x[1])}</option>`).join('')}</select>
+<label style="display:flex;gap:8px;align-items:center;margin:4px 0 10px;font-size:13px"><input type="checkbox" style="width:auto;margin:0" ${ED.free_first_delivery?'checked':''} onchange="ed('free_first_delivery',this.checked)">${t('aFFD')}</label>
 <small>${t('aFeeB')}</small><input type="number" min="0" ${iv('fee_base')} oninput="ed('fee_base',this.value)">
 <small>${t('aKm')}</small><input type="number" min="0" ${iv('fee_per_km')} oninput="ed('fee_per_km',this.value)">
 <small>${t('aLoc')}</small>
@@ -150,14 +162,15 @@ ${bal>=lim?`<div class="warn">${t('aOver')}</div>`:''}${x.accept_blocked?`<div c
 <div class="btns"><button class="b ${x.accept_blocked?'':'o'}" onclick="run(TLB.setDriverBlocked('${x.id}',${!x.accept_blocked}))">${x.accept_blocked?t('aAllow'):t('aBlock')}</button>
 <button class="b" onclick="settle('${x.id}',${bal})" ${bal>0?'':'disabled style="opacity:.4"'}>${t('aSettle')}</button></div></div>`}
 function vStores(){const ss=TLB.stores(true),pend=TLB.pendingItems();
-  return `<div class="card"><b>${t('aAdd')}</b><div style="height:8px"></div>
+  return `${showAddS?`<div class="card"><div class="row"><b>${t('aAdd')}</b><button class="b g" onclick="showAddS=false;render()">${t('aClose')}</button></div><div style="height:8px"></div>
   <input id="sn" placeholder="${t('aName')}"><input id="ss" placeholder="${t('aDesc')}"><input id="sp" type="tel" placeholder="${t('aPh')}">
   <select id="sc">${CATS.map(c=>`<option value="${c}">${t(c)}</option>`).join('')}</select>
   <input id="sm" type="number" placeholder="${t('aCom')}" value="10">
   <select id="sf"><option value="fixed">${t('aFix')}</option><option value="distance">${t('aDist')}</option><option value="free">${t('aFree')}</option></select>
   <input id="sb" type="number" placeholder="${t('aFeeB')}" value="10"><input id="sk" type="number" placeholder="${t('aKm')}" value="0"><input id="sd" type="number" placeholder="${t('aDis')}" value="0">
-  <button class="b" style="width:100%;padding:12px" onclick="addStore()">${t('aSave')}</button></div>
-  ${ss.map(s=>`<div class="card"><div class="row"><b>${esc(s.name)}</b><span class="s ${s.is_active?'approved':'suspended'}">${s.is_active?t('aOn'):t('aOff')}</span></div>
+  <button class="b" style="width:100%;padding:12px" onclick="addStore()">${t('aSave')}</button></div>`:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddS=true;render()">${t('aAddS')}</button>`}
+
+${ss.map(s=>`<div class="card"><div class="row"><b>${esc(s.name)}</b><span class="s ${s.is_active?'approved':'suspended'}">${s.is_active?t('aOn'):t('aOff')}</span></div>
 ${s.cover_url?`<img src="${esc(s.cover_url)}" style="width:100%;height:90px;object-fit:cover;border-radius:8px;margin:8px 0" alt="">`:''}
 <small>${t(s.category)} • ${t('aCom')}: ${s.commission_pct}% • ${s.fee_type=='free'?t('aFree'):s.fee_base+' TJS'} • ${s.owner_id?t('aHasOwn'):t('aNoOwn')}</small>
 <div class="btns"><button class="b" onclick="openStoreEdit('${s.id}')">✏️ ${t('aEdit')}</button></div></div>`).join('')}
@@ -169,34 +182,54 @@ function vDrivers(){const d=TLB.drivers();
   <div class="l" style="margin-top:8px"><span>💵 ${t('aCashH')}</span><b>${bal.toFixed(2)} / ${lim} TJS</b></div>
   ${over?`<div class="warn">${t('aOver')}</div>`:''}${x.accept_blocked?`<div class="warn">⛔ ${t('aBlocked')}</div>`:''}
   <div class="btns"><button class="b" onclick="openDrvEdit('${x.id}')">✏️ ${t('aEdit')}</button></div></div>`}).join(''):`<div class="card">${t('aNoD')}</div>`}
-function vBanners(){const bs=TLB.banners(true),ss=TLB.stores(true);
-  const opts=cur=>`<option value="none">${t('aBNone')}</option>${ss.map(x=>`<option value="store:${x.id}" ${cur=='store:'+x.id?'selected':''}>🏪 ${esc(x.name)}</option>`).join('')}${CATS.map(c=>`<option value="cat:${c}" ${cur=='cat:'+c?'selected':''}>📂 ${t(c)}</option>`).join('')}`;
-  return `<div class="card"><b>${t('aBAdd')}</b><div style="height:8px"></div><input id="bt" placeholder="${t('aBTitle')}">
+function bState(b){const n=Date.now();if(!b.is_active)return['suspended',t('aBOffS')];if(b.starts_at&&Date.parse(b.starts_at)>n)return['pending',t('aBSched')+' '+dShow(b.starts_at)];if(b.ends_at&&Date.parse(b.ends_at)<=n)return['rejected',t('aBExp')];return['approved',t('aBNow')]}
+function vBanners(){const bs=TLB.banners(true);
+  const addF=`<div class="card"><div class="row"><b>${t('aBAdd')}</b><button class="b g" onclick="showAddB=false;render()">${t('aClose')}</button></div><div style="height:8px"></div><input id="bt" placeholder="${t('aBTitle')}">
   <small style="display:block;margin-bottom:6px">${t('aBHint')}</small><label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
   <img id="bp" style="display:none;width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" alt="">
-  <select id="bl">${opts('none')}</select>
+  <button id="blb" class="b g" style="width:100%;margin-bottom:8px;padding:11px;text-align:left" onclick="pickLink(v=>{BL=v;$('blb').textContent='🔗 '+linkLabel(v)})">🔗 ${esc(linkLabel(BL))}</button>
   <small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>
   <small>${t('aBFrom')}</small><input id="bfr" type="date"><small>${t('aBTo')}</small><input id="bto" type="date">
-  <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>
-  ${bs.length?bs.map(b=>{const cur=b.link_type=='store'?'store:'+b.link_value:b.link_type=='category'?'cat:'+b.link_value:'none';
-  return `<div class="card"><div class="row"><b>${esc(b.title)} <small>#${b.sort}</small></b><span class="s ${b.is_active?'approved':'suspended'}">${b.is_active?t('aOn'):t('aOff')}</span></div>
+  <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>`;
+  return `${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;render()">${t('aAddB')}</button>`}
+  ${bs.length?bs.map(b=>{const cur=b.link_type=='store'?'store:'+b.link_value:b.link_type=='category'?'cat:'+b.link_value:'none',st=bState(b);
+  return `<div class="card"><div class="row"><b>${esc(b.title)} <small>#${b.sort}</small></b><span class="s ${st[0]}">${st[1]}</span></div>
+  <small>${(b.placement||'top')=='bottom'?t('aBBot'):t('aBTop')}</small>
   ${b.image_url?`<img src="${esc(b.image_url)}" style="width:100%;max-height:110px;object-fit:cover;border-radius:8px;margin:8px 0" alt="">`:''}
-  <select onchange="bannerLink('${b.id}',this.value)">${opts(cur)}</select>
+  <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink('${b.id}',v))">🔗 ${esc(linkLabel(cur))}</button>
   <small>${t('aBPl')}</small><select onchange="bannerPlace('${b.id}',this.value)"><option value="top" ${(b.placement||'top')=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${b.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>
   <small>${t('aBFrom')}</small><input type="date" value="${dShow(b.starts_at)}" onchange="bannerDate('${b.id}','starts_at',this.value)"><small>${t('aBTo')}</small><input type="date" value="${dShow(b.ends_at)}" onchange="bannerDate('${b.id}','ends_at',this.value)">
   <div class="btns"><label class="b g" style="margin:0">📷 ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event,'${b.id}')"></label>
   <button class="b o" onclick="bannerTitle('${b.id}',${JSON.stringify(b.title).replace(/"/g,'&quot;')})">✏️ ${t('aTitleB')}</button><button class="b o" onclick="bannerOrder('${b.id}',${b.sort})">#</button>
   <button class="b ${b.is_active?'r':''}" onclick="run(TLB.updateBanner('${b.id}',{is_active:${!b.is_active}}))">${b.is_active?t('aSus'):t('aAc')}</button>
   <button class="b g" onclick="if(confirm('?'))run(TLB.deleteBanner('${b.id}'))">${t('aRm')}</button></div></div>`}).join(''):`<div class="card">${t('aBNo')}</div>`}`}
+function addPromo(){const code=v('pcode').toUpperCase(),kind=$('pkind').value,val=+v('pval'),mn=+v('pmin')||0,mx=v('pmax')===''?null:+v('pmax');
+TLB.addPromo({code,kind,value:val,min_order:mn,max_uses:mx,starts_at:dIso($('pfr').value,false),ends_at:dIso($('pto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddP=false;render()}})}
+function promoUsed(code){return TLB.orders().filter(o=>o.promoCode==code&&o.status!='rejected'&&o.status!='cancelled').length}
+function vPromos(){const ps=TLB.promos(),n=Date.now();
+const addF=`<div class="card"><div class="row"><b>${t('aAddP')}</b><button class="b g" onclick="showAddP=false;render()">${t('aClose')}</button></div><div style="height:8px"></div>
+<small>${t('aPCode')}</small><input id="pcode" maxlength="20" autocapitalize="characters" style="text-transform:uppercase">
+<small>${t('aPKind')}</small><select id="pkind"><option value="percent">${t('aPPct')}</option><option value="fixed">${t('aPFix')}</option></select>
+<small>${t('aPVal')}</small><input id="pval" type="number" min="0" step="0.01">
+<small>${t('aPMin')}</small><input id="pmin" type="number" min="0" value="0">
+<small>${t('aPMax')}</small><input id="pmax" type="number" min="1">
+<small>${t('aBFrom')}</small><input id="pfr" type="date"><small>${t('aBTo')}</small><input id="pto" type="date">
+<small style="display:block;margin-bottom:8px">${t('aPNote')}</small><button class="b" style="width:100%;padding:12px" onclick="addPromo()">${t('aAddP')}</button></div>`;
+return `${showAddP?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddP=true;render()">${t('aAddP')}</button>`}
+${ps.length?ps.map(p=>{const used=promoUsed(String(p.code).toUpperCase()),st=!p.is_active?['suspended',t('aBOffS')]:(p.starts_at&&Date.parse(p.starts_at)>n)?['pending',t('aBSched')+' '+dShow(p.starts_at)]:(p.ends_at&&Date.parse(p.ends_at)<=n)?['rejected',t('aBExp')]:(p.max_uses&&used>=p.max_uses)?['rejected',t('aBExp')]:['approved',t('aBNow')];
+return `<div class="card"><div class="row"><b style="letter-spacing:1px">${esc(p.code)}</b><span class="s ${st[0]}">${st[1]}</span></div>
+<small>${p.kind=='percent'?(+p.value)+'%':(+p.value)+' TJS'} • ${t('aPMin')}: ${+p.min_order} • ${t('aPUsed')}: ${used}${p.max_uses?' / '+p.max_uses:''}${p.starts_at||p.ends_at?` • ${dShow(p.starts_at)||'…'} → ${dShow(p.ends_at)||'…'}`:''}</small>
+<div class="btns"><button class="b ${p.is_active?'r':''}" onclick="run(TLB.updatePromo('${p.id}',{is_active:${!p.is_active}}))">${p.is_active?t('aSus'):t('aAc')}</button>
+<button class="b g" onclick="if(confirm('?'))run(TLB.deletePromo('${p.id}'))">${t('aRm')}</button></div></div>`}).join(''):`<div class="card">${t('aPNo')}</div>`}`}
 function alerts(){const ov=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000));if(!ov.length)return'';
 return `<div class="card" style="border-color:#fca5a5;background:#fff5f5"><b style="color:#b91c1c">${t('aOver')}: ${ov.length}</b>${ov.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000;return `<div class="row" style="margin-top:8px"><span>🛵 ${esc(x.name||x.id.slice(0,8))} <small>${bal.toFixed(2)} / ${lim} TJS</small></span>${x.accept_blocked?`<span class="s suspended">⛔ ${t('aBlocked')}</span>`:`<button class="b o" onclick="run(TLB.setDriverBlocked('${x.id}',true))">${t('aBlock')}</button>`}</div>`}).join('')}<button class="b g" style="margin-top:10px" onclick="tab='d';D=null;E=null;DE=null;render()">${t('tD')} →</button></div>`}
 function render(){
   const all=TLB.orders(),del=all.filter(o=>o.status=='delivered'),act=all.filter(o=>['pending','preparing','ready','pickedup'].includes(o.status));
-  const body=D&&tab=='o'?vDetail():tab=='s'&&E?vStoreEdit():tab=='d'&&DE?vDrvEdit():({o:vOrders,s:vStores,d:vDrivers,b:vBanners}[tab])();
+  const body=D&&tab=='o'?vDetail():tab=='s'&&E?vStoreEdit():tab=='d'&&DE?vDrvEdit():({o:vOrders,s:vStores,d:vDrivers,b:vBanners,c:vPromos}[tab])();
   const ovN=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000)).length;
 $('app').innerHTML=`<div class="top"><b style="font-size:17px">👑 ${t('aT')}</b><br><small style="color:#a0aec0">${t('aNote')}</small></div>
   ${alerts()}<div class="grid"><div class="k"><b>${all.length}</b><span>${t('aOrd')}</span></div><div class="k"><b>${del.reduce((s,o)=>s+o.total,0)} TJS</b><span>${t('aRev')}</span></div>
   <div class="k"><b>${del.reduce((s,o)=>s+o.commission,0).toFixed(1)} TJS</b><span>${t('aComm')}</span></div><div class="k"><b>${act.length}</b><span>${t('aAct')}</span></div></div>
-  <div class="tabs">${[['o','tO'],['s','tS'],['d','tD'],['b','tB']].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;E=null;DE=null;render()">${t(x[1])}${x[0]=='d'&&ovN?' ⚠️':''}</button>`).join('')}</div>`+body}
+  <div class="tabs">${[['o','tO'],['s','tS'],['d','tD'],['b','tB'],['c','tP']].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;E=null;DE=null;render()">${t(x[1])}${x[0]=='d'&&ovN?' ⚠️':''}</button>`).join('')}</div>`+body}
 TLB.start('admin',()=>{TLB.on(()=>{const a=document.activeElement;if(a&&/^(INPUT|SELECT)$/.test(a.tagName)&&$('app').contains(a))return;render()});render()});
 </script></body></html>
