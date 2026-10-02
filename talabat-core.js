@@ -37,10 +37,10 @@
 
 
   Object.assign(I.ru, { login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
-    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.',
+    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
   Object.assign(I.en, { login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
-    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.',
+    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
   /* ---------- Extra dictionary ---------- */
@@ -77,18 +77,19 @@
     s.onload = cb; s.onerror = function () { toast(t('mapFail'), true); }; document.head.appendChild(s);
   }
   /* One-time (not live) location: map opens on the device position, the user can drag the pin or tap the map. */
-  function pickLocation(cb) {
+  function pickLocation(cb, start) {
     loadLeaflet(function () {
       var ov = document.createElement('div');
       ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:#fff;display:flex;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,sans-serif';
       ov.innerHTML = '<div style="padding:14px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px"><span data-i18n="locTitle"></span><span id="tlb-lx" style="font-size:24px;cursor:pointer;padding:0 6px">✕</span></div><div id="tlb-map" style="flex:1;min-height:200px"></div><div style="padding:12px 14px 18px"><div data-i18n="locHint" style="font-size:12px;color:#718096;margin-bottom:10px"></div><button id="tlb-ls" data-i18n="locSend" ' + BT + '></button></div>';
       document.body.appendChild(ov); applyI18n();
-      var map = L.map('tlb-map').setView([38.5598, 68.787], 14);
+      var st = (start && isFinite(+start[0]) && isFinite(+start[1])) ? [+start[0], +start[1]] : null;
+      var map = L.map('tlb-map').setView(st || [38.5598, 68.787], st ? 17 : 14);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
       var mk = L.marker(map.getCenter(), { draggable: true, icon: L.divIcon({ html: '<div style="font-size:34px;line-height:34px">📍</div>', className: '', iconSize: [34, 34], iconAnchor: [17, 34] }) }).addTo(map);
       map.on('click', function (e) { mk.setLatLng(e.latlng); });
       setTimeout(function () { map.invalidateSize(); }, 150);
-      if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (p) { var ll = [p.coords.latitude, p.coords.longitude]; map.setView(ll, 17); mk.setLatLng(ll); }, function () { }, { enableHighAccuracy: true, timeout: 10000 });
+      if (!st && navigator.geolocation) navigator.geolocation.getCurrentPosition(function (p) { var ll = [p.coords.latitude, p.coords.longitude]; map.setView(ll, 17); mk.setLatLng(ll); }, function () { }, { enableHighAccuracy: true, timeout: 10000 });
       function close() { map.remove(); ov.remove(); }
       $('tlb-lx').onclick = close;
       $('tlb-ls').onclick = function () { var ll = mk.getLatLng(); close(); cb(ll.lat, ll.lng); };
@@ -154,7 +155,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
+    var ks = ['discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -172,6 +173,17 @@
   }
   function doneQ(r) { return done(r, true); }
   function storeByName(n) { return DB.stores.find(function (s) { return s.name === n; }); }
+  function cleanStore(f) { var c = Object.assign({}, f); if (typeof c.phone === 'string') c.phone = c.phone.replace(/[\s()-]/g, '') || null; return c; }
+  function validStore(f) {
+    var n = function (k, lo, hi) { if (f[k] == null || f[k] === '') return true; var v = +f[k]; return isFinite(v) && v >= lo && v <= hi; };
+    if (!(n('commission_pct', 0, 100) && n('discount_pct', 0, 100) && n('max_discount_pct', 0, 100) && n('fee_base', 0, 100000) && n('fee_per_km', 0, 100000) && n('lat', -90, 90) && n('lng', -180, 180))) return false;
+    if ((f.lat == null) !== (f.lng == null) && ('lat' in f || 'lng' in f)) return false;
+    if (f.name != null && (String(f.name).trim().length < 1 || String(f.name).length > 80)) return false;
+    if (f.description != null && String(f.description).length > 500) return false;
+    if (f.phone != null && f.phone !== '' && !/^\+?[0-9]{7,15}$/.test(String(f.phone))) return false;
+    return true;
+  }
+  function badStore() { toast(t('err_bad_value'), true); return Promise.resolve({ error: 'bad_value', toasted: true }); }
   function me() { return ME ? { id: ME.id, name: ME.name || ME.email, email: ME.email, phone: ME.phone || '', cashLimit: +ME.cash_limit || 1000, blocked: !!ME.accept_blocked } : null; }
 
   /* ---------- login screens ---------- */
@@ -281,14 +293,15 @@
     deleteItem: function (id) { return sb.from('menu_items').delete().eq('id', id).then(done); },
     approveItem: function (id) { return sb.from('menu_items').update({ approved: true }).eq('id', id).then(done); },
 
-    addStore: function (f) { return sb.from('stores').insert(f).then(done); },
-    updateStore: function (id, f) { return sb.from('stores').update(f).eq('id', id).then(done); },
+    addStore: function (f) { var c = cleanStore(f); if (!validStore(c)) return badStore(); return sb.from('stores').insert(c).then(done); },
+    updateStore: function (id, f) { var c = cleanStore(f); if (!validStore(c)) return badStore(); return sb.from('stores').update(c).eq('id', id).then(done); },
+    setMyDiscount: function (storeN, pct) { var s = storeByName(storeN), v = +pct; if (!s || !isFinite(v) || v < 0 || v > 100) return Promise.resolve({ error: 'bad_value' }); return rpc('set_my_discount', { p_store: String(s.id), p_pct: v }, true); },
     updateMyStore: function (storeN, f) { var s = storeByName(storeN); if (!s) return Promise.resolve({ error: 'generic' }); return rpc('update_my_store', { p_store: s.id, p_description: f.description == null ? null : f.description, p_cover: f.cover || null }, true); },
     assignOwner: function (id, email) { return rpc('assign_owner', { p_store: id, p_email: email }, true); },
     setDriverStatus: function (id, st) { return sb.from('profiles').update({ driver_status: st }).eq('id', id).then(done); },
     setMyPhone: function (p) { p = String(p || '').replace(/[\s()-]/g, ''); if (!/^\+?[0-9]{7,15}$/.test(p)) return Promise.resolve({ error: 'bad_phone' }); return rpc('set_my_phone', { p_phone: p }, true).then(function (r) { return r.error ? r : { ok: true, phone: p }; }); },
     setDriverBlocked: function (id, v) { return sb.from('profiles').update({ accept_blocked: !!v }).eq('id', id).then(done); },
-    setDriverLimit: function (id, v) { return sb.from('profiles').update({ cash_limit: v }).eq('id', id).then(done); },
+    setDriverLimit: function (id, v) { v = +v; if (!isFinite(v) || v <= 0 || v > 1000000) return badStore(); return sb.from('profiles').update({ cash_limit: v }).eq('id', id).then(done); },
     settleCash: function (driverId) {
       return sb.rpc('settle_driver_cash', { p_driver: driverId }).then(function (r) {
         if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
