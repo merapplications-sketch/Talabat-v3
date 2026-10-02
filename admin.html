@@ -28,7 +28,7 @@ small{color:#718096}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=7"></script>
+<script src="talabat-core.js?v=8"></script>
 <script>
 TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
 aAdd:'Добавить магазин',aName:'Название',aDesc:'Описание',aCom:'Комиссия, %',aFeeT:'Тип доставки',aFix:'Фиксированная',aDist:'По расстоянию',aFree:'Бесплатная',aFeeB:'Базовая цена доставки',aKm:'Цена за км (после 3 км)',aDis:'Скидка магазина, %',aSave:'Создать магазин',aFill:'Введите название',
@@ -97,7 +97,7 @@ function vDetail(){const o=TLB.order(D);if(!o){D=null;return vOrders()}
   <div class="card"><b>🧾 ${t('aItemsL')}</b><div style="height:6px"></div>
   ${o.items.map(i=>`<div class="l"><span>${i.qty}× ${esc(i.name)}${i.note?` <small style="color:#e74c3c">💬 ${esc(i.note)}</small>`:''}</span><span>${(i.qty*i.price).toFixed(2)}</span></div>`).join('')}
   <hr style="border:0;border-top:1px solid #e2e8f0;margin:8px 0">
-  <div class="l"><span>${t('aSub')}</span><span>${o.subtotal.toFixed(2)}</span></div><div class="l"><span>${t('aDisc')}</span><span>−${o.discount.toFixed(2)}</span></div>
+  <div class="l"><span>${t('aSub')}</span><span>${o.subtotal.toFixed(2)}</span></div>${o.discount>0?`<div class="l"><span>${t('aDisc')}</span><span>−${o.discount.toFixed(2)}</span></div>`:''}
   <div class="l"><span>${t('aDelF')}</span><span>${o.delivery.toFixed(2)}</span></div><div class="l"><span>${t('aTip')}</span><span>${o.tip.toFixed(2)}</span></div>
   <div class="l" style="font-weight:800"><span>${t('aTot')}</span><span>${o.total.toFixed(2)} TJS</span></div>
   <div class="l"><small>${t('aCommL')} (${o.commissionPct}%)</small><small>${o.commission.toFixed(2)}</small></div></div>
@@ -146,12 +146,15 @@ function vBanners(){const bs=TLB.banners(true),ss=TLB.stores(true);
   <button class="b o" onclick="bannerTitle('${b.id}',${JSON.stringify(b.title).replace(/"/g,'&quot;')})">✏️ ${t('aTitleB')}</button><button class="b o" onclick="bannerOrder('${b.id}',${b.sort})">#</button>
   <button class="b ${b.is_active?'r':''}" onclick="run(TLB.updateBanner('${b.id}',{is_active:${!b.is_active}}))">${b.is_active?t('aSus'):t('aAc')}</button>
   <button class="b g" onclick="if(confirm('?'))run(TLB.deleteBanner('${b.id}'))">${t('aRm')}</button></div></div>`}).join(''):`<div class="card">${t('aBNo')}</div>`}`}
+function alerts(){const ov=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000));if(!ov.length)return'';
+return `<div class="card" style="border-color:#fca5a5;background:#fff5f5"><b style="color:#b91c1c">${t('aOver')}: ${ov.length}</b>${ov.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000;return `<div class="row" style="margin-top:8px"><span>🛵 ${esc(x.name||x.id.slice(0,8))} <small>${bal.toFixed(2)} / ${lim} TJS</small></span>${x.accept_blocked?`<span class="s suspended">⛔ ${t('aBlocked')}</span>`:`<button class="b o" onclick="run(TLB.setDriverBlocked('${x.id}',true))">${t('aBlock')}</button>`}</div>`}).join('')}<button class="b g" style="margin-top:10px" onclick="tab='d';D=null;render()">${t('tD')} →</button></div>`}
 function render(){
   const all=TLB.orders(),del=all.filter(o=>o.status=='delivered'),act=all.filter(o=>['pending','preparing','ready','pickedup'].includes(o.status));
   const body=D&&tab=='o'?vDetail():({o:vOrders,s:vStores,d:vDrivers,b:vBanners}[tab])();
-  $('app').innerHTML=`<div class="top"><b style="font-size:17px">👑 ${t('aT')}</b><br><small style="color:#a0aec0">${t('aNote')}</small></div>
-  <div class="grid"><div class="k"><b>${all.length}</b><span>${t('aOrd')}</span></div><div class="k"><b>${del.reduce((s,o)=>s+o.total,0)} TJS</b><span>${t('aRev')}</span></div>
+  const ovN=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000)).length;
+$('app').innerHTML=`<div class="top"><b style="font-size:17px">👑 ${t('aT')}</b><br><small style="color:#a0aec0">${t('aNote')}</small></div>
+  ${alerts()}<div class="grid"><div class="k"><b>${all.length}</b><span>${t('aOrd')}</span></div><div class="k"><b>${del.reduce((s,o)=>s+o.total,0)} TJS</b><span>${t('aRev')}</span></div>
   <div class="k"><b>${del.reduce((s,o)=>s+o.commission,0).toFixed(1)} TJS</b><span>${t('aComm')}</span></div><div class="k"><b>${act.length}</b><span>${t('aAct')}</span></div></div>
-  <div class="tabs">${[['o','tO'],['s','tS'],['d','tD'],['b','tB']].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;render()">${t(x[1])}</button>`).join('')}</div>`+body}
+  <div class="tabs">${[['o','tO'],['s','tS'],['d','tD'],['b','tB']].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;render()">${t(x[1])}${x[0]=='d'&&ovN?' ⚠️':''}</button>`).join('')}</div>`+body}
 TLB.start('admin',()=>{TLB.on(()=>{const a=document.activeElement;if(a&&/^(INPUT|SELECT)$/.test(a.tagName)&&$('app').contains(a))return;render()});render()});
 </script></body></html>

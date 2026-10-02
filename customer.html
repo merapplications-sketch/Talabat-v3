@@ -45,17 +45,17 @@ input[type=text]{width:100%;padding:11px 13px;border:1px solid #cbd5e1;border-ra
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=7"></script>
+<script src="talabat-core.js?v=8"></script>
 <script>
 TLB.addDict({home:'Главная',orders:'Заказы',me:'Профиль',deliverTo:'ДОСТАВКА В',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',
 noMenu:'Меню скоро появится',closed:'Закрыто',addBtn:'Добавить',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',place:'Оплатить заказ',
 noOrders:'Заказов пока нет',back:'Назад',courier:'Курьер',cancelO:'Отменить заказ',chatH:'Сообщение курьеру',send:'Отправить',langL:'Язык',none:'Нет',s_pending:'Ожидание',s_preparing:'Готовится',s_pickedup:'В пути',s_delivered:'Доставлено',cartT:'Корзина',note:'Тестовая версия',
-free:'Бесплатно',bestOffers:'Лучшие предложения',favs:'Избранное',search:'Поиск ресторанов, товаров, блюд…',noRes:'Ничего не найдено',searchCat:'Поиск в категории…',fOpen:'Открыто сейчас',fFree:'Бесплатная доставка',fDisc:'Лучшие скидки',
+free:'Бесплатно',bestOffers:'Лучшие предложения',favs:'Избранное',search:'Поиск ресторанов, товаров, блюд…',noRes:'Ничего не найдено',searchCat:'Поиск в категории…',fOpen:'Открыто сейчас',fFree:'Бесплатная доставка',discS:'Скидка магазина',phoneL:'Телефон',phoneSave:'Сохранить',needPh:'Укажите номер телефона в профиле, чтобы курьер мог вам позвонить.',fDisc:'Лучшие скидки',
 noStores:'В этой категории пока нет магазинов',reorder:'↻ Заказать снова',reorderMiss:'Некоторых товаров уже нет. Продолжить без них?',sendLoc:'📍 Место'},
 {home:'Home',orders:'Orders',me:'Profile',deliverTo:'DELIVER TO',rest:'Restaurants',grocery:'Groceries',pharmacy:'Pharmacy',beauty:'Beauty',flowers:'Flowers',gifts:'Gifts',shops:'Shops',sweets:'Sweets',
 noMenu:'Menu coming soon',closed:'Closed',addBtn:'Add',cartEmpty:'Your cart is empty',sub:'Subtotal',deliv:'Delivery',disc:'Discount',tip:'Courier tip',total:'Total',payM:'Payment method',card:'Alif card',cash:'Cash to courier',place:'Pay for order',
 noOrders:'No orders yet',back:'Back',courier:'Courier',cancelO:'Cancel order',chatH:'Message courier',send:'Send',langL:'Language',none:'None',s_pending:'Waiting',s_preparing:'Preparing',s_pickedup:'On the way',s_delivered:'Delivered',cartT:'Cart',note:'Test version',
-free:'Free',bestOffers:'Best offers',favs:'Favorites',search:'Search restaurants, products, dishes…',noRes:'Nothing found',searchCat:'Search in category…',fOpen:'Open now',fFree:'Free delivery',fDisc:'Best discounts',
+free:'Free',bestOffers:'Best offers',favs:'Favorites',search:'Search restaurants, products, dishes…',noRes:'Nothing found',searchCat:'Search in category…',fOpen:'Open now',fFree:'Free delivery',discS:'Store discount',phoneL:'Phone',phoneSave:'Save',needPh:'Add your phone number in Profile so the courier can call you.',fDisc:'Best discounts',
 noStores:'No stores in this category yet',reorder:'↻ Order again',reorderMiss:'Some items are no longer available. Continue without them?',sendLoc:'📍 Place'});
 const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
 const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],IC={rest:'🍔',grocery:'🛒',pharmacy:'💊',beauty:'💄',flowers:'💐',gifts:'🎁',shops:'🛍️',sweets:'🍰'};
@@ -73,9 +73,11 @@ function calc(){const m=menuOf(S.cartStore),st=STORES.find(x=>x.n==S.cartStore)|
   for(const id in S.cart){const it=m.find(x=>x.id==id);if(it)sub+=it.price*S.cart[id]}
   const d=Math.round(sub*st.disc)/100,fee=sub?st.fee:0;return{sub,d,fee,total:Math.max(5,sub-d+fee+S.tip)}}
 async function place(){
+  if(!ME.phone){alert(t('needPh'));go('me');return}
   const r=await TLB.placeOrder({store:S.cartStore,cart:S.cart,tip:S.tip,payment:S.pay,address:'Проспект Рудаки, д. 12, кв. 4'});
   if(r.error){alert(t('err_'+r.error));return}
   S.cart={};S.tip=0;go('track',{tid:r.id})}
+async function savePhone(){const r=await TLB.setMyPhone($('ph').value);if(r.error){alert(t('err_'+r.error));return}ME.phone=r.phone;render()}
 function cancelO(){if(confirm(t('confirm_cancel'))){TLB.setStatus(S.tid,'cancelled');go('orders')}}
 function sendChat(){const e=$('ci'),v=e.value.trim();if(!v)return;e.value='';TLB.chat(S.tid,'client',v)}
 function sendLoc(){TLB.pickLocation((la,ln)=>TLB.chat(S.tid,'client','LOC:'+la.toFixed(6)+','+ln.toFixed(6)))}
@@ -125,7 +127,7 @@ function vCart(){const m=menuOf(S.cartStore),c=calc(),ids=Object.keys(S.cart);
   ${ids.map(id=>{const i=m.find(x=>x.id==id)||{name:'?',price:0};return `<div class="card row"><div><b>${esc(i.name)}</b><div class="pr">${i.price} TJS</div></div><div class="qty"><button onclick="add('${id}',-1)">−</button><span>${S.cart[id]}</span><button onclick="add('${id}',1)">+</button></div></div>`}).join('')}
   <div class="card"><b>${t('tip')}</b><div class="row" style="margin-top:8px">${[0,3,5,10].map(v=>`<div class="tip ${S.tip==v?'on':''}" onclick="S.tip=${v};render()">${v?v+' TJS':t('none')}</div>`).join('')}</div></div>
   <div class="card"><b>${t('payM')}</b>${['apple','card','cash'].map(p=>`<div class="row" style="padding:9px 0" onclick="S.pay='${p}';render()"><span>${t(p)}</span><input type="radio" ${S.pay==p?'checked':''}></div>`).join('')}</div>
-  <div class="card"><div class="row"><span>${t('sub')}</span><span>${c.sub} TJS</span></div><div class="row"><span>${t('disc')}</span><span style="color:#27ae60">−${c.d} TJS</span></div><div class="row"><span>${t('deliv')}</span><span>${c.fee} TJS</span></div>
+  <div class="card"><div class="row"><span>${t('sub')}</span><span>${c.sub} TJS</span></div>${c.d>0?`<div class="row"><span>${t('discS')}</span><span style="color:#27ae60">−${c.d} TJS</span></div>`:''}<div class="row"><span>${t('deliv')}</span><span>${c.fee} TJS</span></div>
   <div class="row" style="font-size:17px;font-weight:800;margin:10px 0"><span>${t('total')}</span><span class="pr">${c.total} TJS</span></div><button class="btn big" onclick="place()">${t('place')}</button></div></div>`}
 function vOrders(){const l=TLB.orders();
   return `<div class="pg"><h2>${t('orders')}</h2>${l.length?l.map(o=>`<div class="card"><div onclick="go('track',{tid:${o.id}})"><div class="row"><b>#${o.id} — ${esc(o.store)}</b><span class="pr">${o.total} TJS</span></div><p style="font-size:12px;color:#ff5a00;margin-top:4px">${t(o.status)} ${TLB.unread(o.id)?`<span class="bdg">💬 ${TLB.unread(o.id)}</span>`:''}</p></div>
@@ -139,7 +141,8 @@ function vTrack(){const o=TLB.order(S.tid);if(!o)return vOrders();
   ${o.driver&&!dead?`<div class="card"><b>🛵 ${t('courier')}: ${esc(o.driverName)}</b><div class="chat" id="ch">${o.chat.map(m=>`<div class="m ${m.s=='client'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
   ${live?`<div class="row"><input type="text" id="ci" placeholder="${t('chatH')}"><button class="btn g" onclick="sendLoc()">${t('sendLoc')}</button><button class="btn" onclick="sendChat()">${t('send')}</button></div>`:`<div class="closed">🔒 ${t('chatClosed')}</div>`}</div>`:''}
   <button class="btn g big" style="margin-top:4px" onclick="reorder(${o.id})">${t('reorder')}</button></div>`}
-function vMe(){return `<div class="pg"><div class="card" style="text-align:center"><div style="font-size:40px">👤</div><b>${esc(ME.name)}</b><p style="font-size:12px;color:#718096">${esc(ME.phone)}</p></div>
+function vMe(){return `<div class="pg"><div class="card" style="text-align:center"><div style="font-size:40px">👤</div><b>${esc(ME.name)}</b></div>
+  <div class="card"><b>${t('phoneL')}</b><div class="row" style="margin-top:8px;gap:6px"><input type="tel" id="ph" value="${esc(ME.phone)}" placeholder="+992…" maxlength="16" style="flex:1;padding:10px;border:1px solid #cbd5e0;border-radius:8px;font-size:14px"><button class="btn" onclick="savePhone()">${t('phoneSave')}</button></div></div>
   <div class="card row"><b>${t('langL')}</b><div><button class="btn ${TLB.lang()=='ru'?'':'g'}" onclick="TLB.setLang('ru')">RU</button> <button class="btn ${TLB.lang()=='en'?'':'g'}" onclick="TLB.setLang('en')">EN</button></div></div>
   <button class="btn big r" onclick="TLB.logout()">${t('logout')}</button><p style="font-size:11px;color:#a0aec0;text-align:center;margin-top:14px">${t('note')}</p></div>`}
 function render(){
@@ -147,7 +150,7 @@ function render(){
   const V={home:vHome,cat:vCat,menu:vMenu,cart:vCart,orders:vOrders,track:vTrack,me:vMe}[S.v]();
   const nav=['home','orders','me'],ic={home:'🏠',orders:'📦',me:'👤'},un=TLB.totalUnread();
   const bar=cartCount()&&['home','menu','cat'].includes(S.v)?`<div class="bar" onclick="go('cart')"><span>🛒 ${t('cartT')} (${cartCount()})</span><span>${calc().total} TJS</span></div>`:'';
-  const a=document.activeElement,kid=a&&['ci','sq','cq'].includes(a.id)?a.id:null,keep=kid?a.value:null;
+  const a=document.activeElement,kid=a&&['ci','sq','cq','ph'].includes(a.id)?a.id:null,keep=kid?a.value:null;
   $('app').innerHTML=V+bar+`<div class="nav">${nav.map(k=>`<div class="${S.v==k||(k=='home'&&['cat','menu','cart'].includes(S.v))||(k=='orders'&&S.v=='track')?'on':''}" onclick="${k=='home'?"S.q='';":''}go('${k}')"><span>${ic[k]}</span>${t(k)}${k=='orders'&&un?`<span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
   if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();e.setSelectionRange(keep.length,keep.length)}
   const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight}
