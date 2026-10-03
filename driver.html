@@ -4,40 +4,40 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; connect-src 'self' https://dzydscryrnahnneydnry.supabase.co wss://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <title>Talabat — Driver</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f4f6f8;color:#333;padding-bottom:90px}
-.hd{background:#1a202c;color:#fff;padding:28px 15px 16px;border-radius:0 0 20px 20px;display:flex;justify-content:space-between;align-items:center}
-.av{width:44px;height:44px;border-radius:50%;background:#ff5a00;display:flex;align-items:center;justify-content:center;font-size:20px;margin-right:12px}
-.pill{background:#ffffff22;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px}
-.dot{width:8px;height:8px;border-radius:50%;background:#27ae60}.dot.off{background:#e74c3c}
-.pg{padding:14px}h3{font-size:15px;margin:6px 0 10px;color:#1a202c}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:15px;margin-bottom:12px}.card.act{border:2px solid #ff5a00}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.badge{background:#fff3ed;color:#ff5a00;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px}
-.route{background:#f8fafc;border-radius:10px;padding:10px;margin:10px 0;font-size:12px;line-height:1.7}
-.b{display:block;width:100%;border:0;border-radius:12px;padding:13px;font-size:14px;font-weight:700;color:#fff;background:#ff5a00;text-align:center;text-decoration:none;margin-top:9px;cursor:pointer}
-.b.g{background:#27ae60}.b.m{background:#3498db;padding:10px;font-size:13px}.b.d{background:#cbd5e1;color:#718096}.b.s{background:#edf2f7;color:#2d3748}.b.r{background:#e74c3c}
-.chip{display:inline-block;background:#edf2f7;border:1px solid #cbd5e0;border-radius:12px;padding:5px 9px;font-size:11px;font-weight:600;margin:0 4px 4px 0;cursor:pointer}
-.chat{max-height:120px;overflow:auto;display:flex;flex-direction:column;gap:5px;margin:6px 0;font-size:12px}
-.m{padding:6px 10px;border-radius:8px;max-width:80%;background:#edf2f7}.m.me{align-self:flex-end;background:#fff3ed;color:#c2410c}
-.earn{background:linear-gradient(135deg,#ff5a00,#ff8c42);border-radius:16px;padding:20px;color:#fff;margin-bottom:12px}
-.earn b{font-size:28px;display:block;margin:4px 0 10px}.earn div div{background:#ffffff26;border-radius:10px;padding:10px;text-align:center;flex:1}
-.info{background:#fff3ed;border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:#c0392b}
-.info2{background:#e8f5e9;color:#2e7d32;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700;margin-bottom:10px}
-.warn{background:#fff3cd;color:#8a6d00;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;margin-bottom:10px}.warn.r{background:#fde2e2;color:#b91c1c}
-.inv{background:#f8fafc;border:1px dashed #cbd5e0;border-radius:12px;padding:12px;margin:10px 0;font-size:13px}
-.inv .l{display:flex;justify-content:space-between;margin-bottom:4px}.inv .t{font-weight:800;font-size:15px;border-top:1px solid #e2e8f0;padding-top:6px;margin-top:6px}
-.collect{background:#e8f5e9;color:#1b5e20;border-radius:10px;padding:10px;text-align:center;font-weight:800;margin-top:8px}.paid{background:#e3f2fd;color:#0d47a1;border-radius:10px;padding:8px;text-align:center;font-weight:700;margin-top:8px}
-input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px;margin-bottom:8px}
-.ov{position:fixed;top:0;left:0;right:0;bottom:0;background:#0007;z-index:900;display:flex;align-items:flex-end}.md{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:20px 18px 28px}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;padding-bottom:env(safe-area-inset-bottom)}
-.nav div{flex:1;text-align:center;padding:9px 0;font-size:11px;font-weight:600;color:#718096;cursor:pointer}.nav .on{color:#ff5a00}.nav span{display:block;font-size:19px}
-.bdg{background:#e74c3c;color:#fff;border-radius:10px;font-size:10px;padding:1px 6px;font-weight:700}
+<style>:root{--o:#f1511b;--o2:#d94512;--tint:#fff0ea;--ink:#1c1c21;--mut:#8b8f98;--line:#eeeef1;--bg:#f6f6f8;--ok:#1fa05a;--okbg:#e6f6ed;--bad:#d92d20;--badbg:#fdeceb;--wbg:#fff0e5;--sh:0 2px 14px rgba(28,28,33,.06)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font:14px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+.hd{background:linear-gradient(135deg,#f1511b,#ff7a3d);color:#fff;padding:calc(22px + env(safe-area-inset-top,0px)) 16px 20px;border-radius:0 0 28px 28px;display:flex;justify-content:space-between;align-items:center}
+.av{width:46px;height:46px;border-radius:50%;background:#fff;color:var(--o);display:flex;align-items:center;justify-content:center;font-size:20px;margin-right:12px;font-weight:700}
+.pill{background:#ffffff2e;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:#7dffb0}.dot.off{background:#ffd0c8}
+.pg{padding:16px}h3{font-size:16px;margin:6px 0 12px;color:var(--ink)}
+.card{background:#fff;border-radius:22px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}.card.act{box-shadow:0 0 0 2px var(--o),var(--sh)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.badge{background:var(--tint);color:var(--o);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+.route{background:#f7f7f9;border-radius:16px;padding:12px;margin:12px 0;font-size:13px;line-height:1.7}
+.b{display:block;width:100%;border:0;border-radius:999px;padding:14px;font-size:15px;font-weight:700;color:#fff;background:var(--o);text-align:center;text-decoration:none;margin-top:10px;cursor:pointer}.b:active{background:var(--o2)}
+.b.g{background:var(--ok)}.b.m{background:var(--tint);color:var(--o);padding:11px;font-size:13px}.b.d{background:#e4e5ea;color:var(--mut)}.b.s{background:#f1f1f4;color:var(--ink)}.b.r{background:var(--badbg);color:var(--bad)}
+.chip{display:inline-block;background:#f1f1f4;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:600;margin:0 6px 6px 0;cursor:pointer}
+.chat{max-height:130px;overflow:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0;font-size:13px}
+.m{padding:7px 12px;border-radius:14px;max-width:80%;background:#f1f1f4}.m.me{align-self:flex-end;background:var(--tint);color:#9a3300}
+.earn{background:linear-gradient(135deg,#f1511b,#ff7a3d);border-radius:24px;padding:22px;color:#fff;margin-bottom:14px;box-shadow:0 10px 26px rgba(241,81,27,.28)}
+.earn b{font-size:30px;display:block;margin:4px 0 12px}.earn div div{background:#ffffff2b;border-radius:14px;padding:11px;text-align:center;flex:1}
+.info{background:var(--tint);border-radius:14px;padding:10px 12px;font-size:12px;font-weight:600;color:#a8340c}
+.info2{background:var(--okbg);color:var(--ok);border-radius:14px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:12px}
+.warn{background:var(--wbg);color:#9a5300;border-radius:14px;padding:11px 14px;font-size:12px;font-weight:600;margin-bottom:12px}.warn.r{background:var(--badbg);color:var(--bad)}
+.inv{background:#f7f7f9;border:1px dashed #d6d7de;border-radius:16px;padding:14px;margin:12px 0;font-size:13px}
+.inv .l{display:flex;justify-content:space-between;margin-bottom:5px}.inv .t{font-weight:700;font-size:16px;border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
+.collect{background:var(--okbg);color:var(--ok);border-radius:14px;padding:12px;text-align:center;font-weight:700;margin-top:10px}.paid{background:#e8effd;color:#1d4ed8;border-radius:14px;padding:10px;text-align:center;font-weight:600;margin-top:10px}
+input[type=text],input[type=number]{width:100%;padding:12px 14px;margin-bottom:10px;background:#f3f3f6;border:1.5px solid transparent;border-radius:14px;font-size:14px;color:var(--ink);outline:0}input:focus,select:focus,textarea:focus{border-color:var(--o);background:#fff}
+.ov{position:fixed;top:0;left:0;right:0;bottom:0;background:#0007;z-index:900;display:flex;align-items:flex-end}.md{background:#fff;width:100%;border-radius:26px 26px 0 0;padding:22px 18px calc(28px + env(safe-area-inset-bottom,0px))}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;box-shadow:0 -4px 20px rgba(28,28,33,.07);border-radius:22px 22px 0 0;display:flex;padding:6px 4px env(safe-area-inset-bottom,0px)}
+.nav div{flex:1;text-align:center;padding:8px 0;font-size:11px;font-weight:600;color:var(--mut);cursor:pointer}.nav .on{color:var(--o)}.nav span{display:block;font-size:20px}
+.bdg{background:var(--bad);color:#fff;border-radius:10px;font-size:10px;padding:1px 6px;font-weight:700}
 </style></head><body><div id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=13"></script>
+<script src="talabat-core.js?v=14"></script>
 <script>
 TLB.addDict({dOrders:'Заказы',dHist:'История',dMe:'Профиль',newO:'Новые заказы',offl:'Вы не в сети. Включите «На линии».',busy:'У вас есть активный заказ. Новые заказы скрыты до завершения.',noO:'Нет доступных заказов. Ожидание…',pick:'Забрать',drop:'Доставить',take:'Принять заказ 🚀',actO:'Активный заказ',call:'📞 Звонок',chatB:'💬 Чат',q1:'🚪 Я у дома',q2:'⏳ Задерживаюсь',q3:'📍 Где адрес?',q1t:'Я подъезжаю к дому 🚪',q2t:'Задерживаюсь в пути ⏳',q3t:'Не могу найти адрес 📍',q4:'🙏 Спасибо',q4t:'Спасибо! Постараюсь приехать как можно быстрее 🙏',q5:'🛵 Уже еду',q5t:'Я забрал ваш заказ и уже еду к вам 🛵',q6:'📞 Позвоню вам',q6t:'Пожалуйста, ответьте на звонок, я скоро буду у вас 📞',q7:'⏳ Заказ готовится',q7t:'Заказ ещё готовится в ресторане, скоро выезжаю к вам ⏳',noPh:'Нет номера клиента — напишите в чате',storeMap:'Магазин на карте',mapStore:'🗺 Карта ресторана',mapClient:'🗺 Карта: адрес клиента',promoT:'Промокод',map:'🗺️ Открыть карту',wait:'Ждите: заказ ещё готовится',gotIt:'Заказ забран из ресторана 📦',dlv:'Заказ доставлен ✅',st1:'1. Езжайте в ресторан',st2:'2. Доставьте заказ клиенту',bal:'Заработок',cnt:'Выполнено заказов',noH:'История пуста',trans:'Не удалось: проверьте статус заказа',
 inv:'Счёт',collect:'Получите с клиента',paidOnline:'Оплачено онлайн',subT:'Товары',discT:'Скидка',delT:'Доставка',tipT:'Чаевые',totT:'Итого',cashHand:'Наличные на руках',cashWarn:'⚠️ Наличных больше лимита. Сдайте деньги в офис.',blockedB:'Приём новых заказов остановлен администратором.',recvQ:'Получено от клиента (TJS)',diffN:'Причина, если сумма отличается',confirmB:'Подтвердить доставку',cancelB:'Отмена',msgPh:'Сообщение клиенту',sendB:'Отправить',lim:'Лимит',langL:'Язык',sendLoc:'📍 Место'},

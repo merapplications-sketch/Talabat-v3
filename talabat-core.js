@@ -36,10 +36,10 @@
   });
 
 
-  Object.assign(I.ru, { login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
+  Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
     pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
-  Object.assign(I.en, { login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
+  Object.assign(I.en, { tagline: 'Food and grocery delivery', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
     pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
@@ -213,18 +213,21 @@
   function me() { return ME ? { id: ME.id, name: ME.name || ME.email, email: ME.email, phone: ME.phone || '', cashLimit: +ME.cash_limit || 1000, blocked: !!ME.accept_blocked } : null; }
 
   /* ---------- login screens ---------- */
-  var IN = 'style="width:100%;padding:12px;margin-bottom:10px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px"';
-  var BT = 'style="width:100%;padding:13px;border:0;border-radius:10px;background:#ff5a00;color:#fff;font-weight:700;font-size:15px;margin-top:6px"';
-  function overlay(html) {
+  var IN = 'style="width:100%;height:48px;padding:0 14px;margin-bottom:10px;border:1.5px solid #eeeef1;border-radius:14px;font-size:15px;background:#f7f7f9;outline:0"';
+  var BT = 'style="width:100%;height:50px;border:0;border-radius:999px;background:#f1511b;color:#fff;font-weight:700;font-size:16px;margin-top:6px;cursor:pointer"';
+  var LOGO = '<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="#fff"/><path d="M20 26h24l-2 18a3 3 0 0 1-3 2.6H25a3 3 0 0 1-3-2.6z" fill="none" stroke="#f1511b" stroke-width="3.4" stroke-linejoin="round"/><path d="M26 26v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#f1511b" stroke-width="3.4" stroke-linecap="round"/></svg>';
+  function overlay(html, brand) {
     var d = $('tlb-ov');
-    if (!d) { d = document.createElement('div'); d.id = 'tlb-ov'; d.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9998;background:#f4f6f8;display:flex;align-items:center;justify-content:center;padding:20px;font:14px -apple-system,BlinkMacSystemFont,sans-serif'; document.body.appendChild(d); }
-    d.innerHTML = '<div style="background:#fff;border-radius:16px;padding:22px;width:100%;max-width:340px;box-shadow:0 4px 20px #0002">' + html + '</div>';
+    if (!d) { d = document.createElement('div'); d.id = 'tlb-ov'; d.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;font:15px -apple-system,BlinkMacSystemFont,sans-serif;overflow:auto'; document.body.appendChild(d); }
+    d.style.background = brand ? 'linear-gradient(180deg,#f1511b,#e24410)' : '#f6f6f8';
+    d.innerHTML = (brand ? '<div style="text-align:center;color:#fff;margin-bottom:22px">' + LOGO + '<div style="font-size:30px;font-weight:800;margin-top:10px;letter-spacing:.3px">Talabat</div><div data-i18n="tagline" style="opacity:.92;margin-top:4px;font-size:14px"></div></div>' : '') +
+      '<div style="background:#fff;border-radius:22px;padding:22px;width:100%;max-width:360px;box-shadow:0 12px 40px #0003">' + html + '</div>';
     applyI18n();
   }
   function logout() { sb.auth.signOut().then(function () { location.reload(); }); }
   function showLogin(msg) {
-    overlay('<h2 style="color:#ff5a00;margin-bottom:14px">Talabat</h2><input id="tlb-em" type="email" autocomplete="username" placeholder="Email" ' + IN + '><input id="tlb-pw" type="password" autocomplete="current-password" data-i18n-ph="password" ' + IN + '><div id="tlb-er" style="color:#e74c3c;font-size:12px;margin-bottom:8px;min-height:14px">' + esc(msg || '') + '</div><button id="tlb-go" data-i18n="login" ' + BT + '></button>' +
-      (need === 'customer' ? '<button id="tlb-su" data-i18n="signup" ' + BT.replace('#ff5a00', '#edf2f7').replace('#fff', '#2d3748') + '></button>' : ''));
+    overlay('<input id="tlb-em" type="email" autocomplete="username" placeholder="Email" ' + IN + '><input id="tlb-pw" type="password" autocomplete="current-password" data-i18n-ph="password" ' + IN + '><div id="tlb-er" style="color:#e74c3c;font-size:12px;margin-bottom:8px;min-height:14px">' + esc(msg || '') + '</div><button id="tlb-go" data-i18n="login" ' + BT + '></button>' +
+      (need === 'customer' ? '<button id="tlb-su" data-i18n="signup" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>' : ''), true);
     var go = function (signup) {
       var args = { email: $('tlb-em').value.trim(), password: $('tlb-pw').value };
       $('tlb-er').textContent = '';
@@ -304,7 +307,7 @@
     myCash: function () { return ME ? (DB.cash[ME.id] || 0) : 0; },
     placeOrder: function (o) {
       var s = storeByName(o.store); if (!s) return Promise.resolve({ error: 'store_unavailable' });
-      var items = Object.keys(o.cart).map(function (id) { return { item_id: id, qty: o.cart[id], note: (o.notes || {})[id] || '' }; });
+      var items = Object.keys(o.cart).map(function (id) { return { item_id: id, qty: o.cart[id], note: String((o.notes || {})[id] || '').slice(0, 120) }; });
       return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: o.address || '', p_lat: null, p_lng: null, p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null })
         .then(function (r) { return r.error ? r : { id: r.data }; });
     },
@@ -315,7 +318,7 @@
       return sb.rpc('check_promo', { p_code: k, p_store: s.id, p_items: items }).then(function (r) {
         if (r.error) return { error: errKey(r.error) };
         var d = r.data || {};
-        return d.ok ? { discount: +d.discount } : { error: errKey({ message: d.error }) };
+        return d.ok ? { discount: +d.discount, base: +d.base || 0 } : { error: errKey({ message: d.error }), min: +d.min || 0, have: +d.have || 0 };
       });
     },
     setStatus: function (id, to) { return rpc('set_order_status', { p_id: id, p_to: to }); },

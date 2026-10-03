@@ -4,33 +4,34 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; connect-src 'self' https://dzydscryrnahnneydnry.supabase.co wss://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <title>Talabat — Admin</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f4f6f8;color:#333;padding:28px 14px 30px}
-.w{max-width:900px;margin:0 auto}
-.top{background:#1a202c;color:#fff;border-radius:14px;padding:16px;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
-.k{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-align:center}.k b{font-size:20px;color:#ff5a00;display:block}.k span{font-size:11px;color:#718096}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;margin-bottom:12px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-h3{font-size:15px;margin:14px 0 10px;color:#1a202c}
-.tabs{display:flex;gap:8px;margin-bottom:12px}.tabs button{flex:1;border:0;background:#e2e8f0;border-radius:8px;padding:10px 4px;font-weight:700;font-size:12px;color:#4a5568;cursor:pointer}.tabs .on{background:#ff5a00;color:#fff}
-.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;scrollbar-width:none}
-.chip{flex-shrink:0;background:#e2e8f0;border:0;border-radius:16px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;color:#4a5568}.chip.on{background:#ff5a00;color:#fff}
-.b{border:0;border-radius:8px;padding:8px 11px;color:#fff;font-weight:700;font-size:12px;cursor:pointer;background:#27ae60;text-decoration:none;display:inline-block}.b.r{background:#e74c3c}.b.g{background:#718096}.b.o{background:#e67e22}
-.s{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:#edf2f7}
-.s.pending{background:#fef3c7;color:#b45309}.s.preparing,.s.ready{background:#dbeafe;color:#1d4ed8}.s.pickedup{background:#e9d5ff;color:#7e22ce}.s.delivered,.s.approved{background:#dcfce7;color:#15803d}.s.rejected,.s.cancelled,.s.suspended{background:#fee2e2;color:#b91c1c}
-input,select{width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e0;border-radius:8px;font-size:14px;background:#fff}
-small{color:#718096}
-.btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.l{display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px}
-.tl{border-left:3px solid #ff5a00;padding:2px 0 8px 10px;margin-left:4px;font-size:13px}.tl small{display:block}
-.msg{background:#f1f5f9;border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:12px}.msg.driver{background:#fff3ed}
-.warn{background:#fde2e2;color:#b91c1c;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;margin-top:6px}
+<style>:root{--o:#f1511b;--o2:#d94512;--tint:#fff0ea;--ink:#1c1c21;--mut:#8b8f98;--line:#eeeef1;--bg:#f6f6f8;--ok:#1fa05a;--okbg:#e6f6ed;--bad:#d92d20;--badbg:#fdeceb;--wbg:#fff0e5;--sh:0 2px 14px rgba(28,28,33,.06)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font:14px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding:calc(18px + env(safe-area-inset-top,0px)) 14px 34px}
+.w{max-width:1040px;margin:0 auto}
+.top{background:linear-gradient(135deg,#f1511b,#ff7a3d);color:#fff;border-radius:24px;padding:20px;margin-bottom:14px}.top h2{font-size:20px}.top p,.top small{color:#ffe3d6}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}@media(min-width:760px){.grid{grid-template-columns:repeat(4,1fr)}}
+.k{background:#fff;border-radius:20px;padding:16px;text-align:left;box-shadow:var(--sh)}.k b{font-size:22px;color:var(--o);display:block}.k span{font-size:12px;color:var(--mut)}
+.card{background:#fff;border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h3{font-size:16px;margin:14px 0 10px;color:var(--ink)}
+.tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs button{flex:1;border:0;background:#ececf0;border-radius:999px;padding:11px 16px;font-weight:600;font-size:13px;color:#55585f;cursor:pointer;white-space:nowrap}.tabs .on{background:var(--o);color:#fff}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none}
+.chip{flex-shrink:0;background:#ececf0;border:0;border-radius:999px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;color:#55585f}.chip.on{background:var(--o);color:#fff}
+.b{border:0;border-radius:999px;padding:9px 16px;color:#fff;font-weight:600;font-size:13px;cursor:pointer;background:var(--o);text-decoration:none;display:inline-block}.b:active{background:var(--o2)}.b.r{background:var(--badbg);color:var(--bad)}.b.g{background:#f1f1f4;color:var(--ink)}.b.o{background:var(--tint);color:var(--o)}
+.s{font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px;background:#f1f1f4;color:var(--mut)}
+.s.pending{background:var(--wbg);color:#c2410c}.s.preparing,.s.ready{background:#e8effd;color:#1d4ed8}.s.pickedup{background:#f0e8fd;color:#6d28d9}.s.delivered,.s.approved{background:var(--okbg);color:var(--ok)}.s.rejected,.s.cancelled,.s.suspended{background:var(--badbg);color:var(--bad)}
+input,select,textarea{width:100%;padding:12px 14px;margin-bottom:10px;background:#f3f3f6;border:1.5px solid transparent;border-radius:14px;font-size:14px;color:var(--ink);outline:0}input:focus,select:focus,textarea:focus{border-color:var(--o);background:#fff}
+small{color:var(--mut)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.l{display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px}
+.tl{border-left:3px solid var(--o);padding:2px 0 8px 12px;margin-left:4px;font-size:13px}.tl small{display:block}
+.msg{background:#f3f3f6;border-radius:12px;padding:7px 12px;margin-bottom:6px;font-size:12px}.msg.driver{background:var(--tint)}
+.warn{background:var(--badbg);color:var(--bad);border-radius:12px;padding:8px 12px;font-size:12px;font-weight:600;margin-top:8px}
+@media(min-width:900px){#app>.card,#app .card{padding:18px 20px}}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=13"></script>
+<script src="talabat-core.js?v=14"></script>
 <script>
 TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
 aAdd:'Добавить магазин',aName:'Название',aDesc:'Описание',aCom:'Комиссия, %',aFeeT:'Тип доставки',aFix:'Фиксированная',aDist:'По расстоянию',aFree:'Бесплатная',aFeeB:'Базовая цена доставки',aKm:'Цена за км (после 3 км)',aDis:'Скидка магазина, %',aSave:'Создать магазин',aFill:'Введите название',
