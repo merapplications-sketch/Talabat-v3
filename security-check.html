@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://dzydscryrnahnneydnry.supabase.co wss://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Talabat security check</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font:15px/1.45 -apple-system,BlinkMacSystemFont,sans-serif;background:#f6f6f8;color:#1c1c21;padding:calc(18px + env(safe-area-inset-top,0px)) 14px 40px}
+.w{max-width:720px;margin:0 auto}h1{font-size:22px}p{color:#8b8f98;margin:6px 0 14px}
+.card{background:#fff;border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 14px rgba(28,28,33,.06)}
+button{border:0;border-radius:999px;background:#f1511b;color:#fff;font:700 15px inherit;height:48px;width:100%;cursor:pointer}button[disabled]{opacity:.5}
+.r{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #eeeef1}.r:last-child{border:0}.t{flex-shrink:0;font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;height:22px}
+.PASS{background:#e6f6ed;color:#1fa05a}.FAIL{background:#fdeceb;color:#d92d20}.WARN{background:#fff0e5;color:#c2410c}.SKIP{background:#f1f1f4;color:#8b8f98}
+.r b{display:block;font-size:14px}.r span{font-size:12px;color:#8b8f98;word-break:break-word}
+.sum{font-size:17px;font-weight:700;margin-bottom:6px}
+</style></head><body><div class="w">
+<h1>Security self-check</h1>
+<p>Tries to do things a normal customer must NOT be able to do. Nothing here should succeed.
+Open the customer app in this browser, sign in with a <b>throwaway test account</b>, then come back to this page and tap the button.</p>
+<div class="card"><button id="go">Run the check</button></div>
+<div class="card" id="sumc" style="display:none"><div class="sum" id="sum"></div><div id="who" style="font-size:12px;color:#8b8f98"></div></div>
+<div class="card" id="out" style="display:none"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+var URL_='https://dzydscryrnahnneydnry.supabase.co',KEY='sb_publishable_zQKbsSffub7O-f87vsXAaQ_GHFnSOQz';
+var $=function(i){return document.getElementById(i)},out=$('out'),counts={PASS:0,FAIL:0,WARN:0,SKIP:0};
+function row(st,title,detail){counts[st]++;var r=document.createElement('div');r.className='r';var t=document.createElement('div');t.className='t '+st;t.textContent=st;
+  var b=document.createElement('div'),h=document.createElement('b'),s=document.createElement('span');h.textContent=title;s.textContent=detail||'';b.appendChild(h);b.appendChild(s);r.appendChild(t);r.appendChild(b);out.appendChild(r)}
+/* "blocked" = the server returned an error, or returned no rows */
+var blocked=function(r){return !!r.error||!r.data||(Array.isArray(r.data)&&r.data.length===0)};
+var msg=function(r){return r.error?String(r.error.message||r.error.code||'error').slice(0,120):(Array.isArray(r.data)?r.data.length+' rows':'ok')};
+async function expectBlocked(title,p){try{var r=await p;if(blocked(r))row('PASS',title,'blocked ('+msg(r)+')');else row('FAIL',title,'IT WORKED: '+msg(r)+' - this must be fixed')}catch(e){row('PASS',title,'blocked ('+String(e.message||e).slice(0,100)+')')}}
+async function expectError(title,p){try{var r=await p;if(r.error)row('PASS',title,'refused ('+msg(r)+')');else row('FAIL',title,'IT WORKED - this must be fixed')}catch(e){row('PASS',title,'refused ('+String(e.message||e).slice(0,100)+')')}}
+async function run(){
+  out.textContent='';counts={PASS:0,FAIL:0,WARN:0,SKIP:0};out.style.display='block';$('go').disabled=true;
+  /* ---------- 1) not signed in (public key only) ---------- */
+  var anon=supabase.createClient(URL_,KEY,{auth:{persistSession:false,autoRefreshToken:false,storageKey:'tlb-sec-anon'}});
+  await expectBlocked('Public key cannot read stores',anon.from('stores').select('id').limit(1));
+  await expectBlocked('Public key cannot read menu items',anon.from('menu_items').select('id').limit(1));
+  await expectBlocked('Public key cannot read banners',anon.from('banners').select('id').limit(1));
+  await expectBlocked('Public key cannot read profiles',anon.from('profiles').select('id').limit(1));
+  await expectBlocked('Public key cannot read orders',anon.from('orders').select('id').limit(1));
+  await expectError('Public key cannot place an order',anon.rpc('place_order',{p_store:'00000000-0000-0000-0000-000000000000',p_items:[{item_id:'00000000-0000-0000-0000-000000000000',qty:1}]}));
+  /* ---------- 2) signed in as a normal customer ---------- */
+  var c=supabase.createClient(URL_,KEY,{auth:{storageKey:'tlb-auth-customer'}});
+  var u=(await c.auth.getUser()).data.user;
+  if(!u){row('SKIP','Not signed in as a customer','Open the customer app in this browser, sign in, then run this page again.');fin(null);return}
+  var prof=await c.from('profiles').select('role').eq('id',u.id).single();
+  if(!prof.data||prof.data.role!=='customer'){row('SKIP','This account is not a plain customer','Role: '+(prof.data&&prof.data.role)+'. Use a normal customer account for this check.');fin(u);return}
+  var st=await c.from('stores').select('id').limit(1),sid=st.data&&st.data[0]&&st.data[0].id;
+  var it=await c.from('menu_items').select('id,store_id').limit(1),item=it.data&&it.data[0];
+  await expectBlocked('Customer cannot read promo codes',c.from('promo_codes').select('*'));
+  await expectBlocked('Customer cannot insert a banner',c.from('banners').insert({title:'x'}).select());
+  if(sid){
+    await expectBlocked('Customer cannot change a store commission',c.from('stores').update({commission_pct:0}).eq('id',sid).select());
+    await expectBlocked('Customer cannot rename a store',c.from('stores').update({name:'hacked'}).eq('id',sid).select());
+    await expectError('Customer cannot set a store discount',c.rpc('set_my_discount',{p_store:sid,p_pct:5}));
+    await expectError('Customer cannot assign a store owner',c.rpc('assign_owner',{p_store:sid,p_email:'nobody@example.com'}));
+  }else row('SKIP','Store tests','No store is visible to this account.');
+  if(item)await expectBlocked('Customer cannot approve a menu item',c.from('menu_items').update({approved:true}).eq('id',item.id).select());
+  else row('SKIP','Menu item approval test','No menu item is visible.');
+  var own=await c.from('profiles').select('id');
+  if(own.error)row('WARN','Reading profiles failed',msg(own));
+  else if(own.data.length===1&&own.data[0].id===u.id)row('PASS','Customer sees only their own profile','1 row');
+  else row('FAIL','Customer can see other profiles',own.data.length+' rows visible - this must be fixed');
+  var ro=await c.from('profiles').update({role:'admin'}).eq('id',u.id).select();
+  if(ro.error||!ro.data||!ro.data.length)row('PASS','Customer cannot make themselves admin','refused ('+msg(ro)+')');
+  else{row('FAIL','Customer made themselves ADMIN','Reverting now...');await c.from('profiles').update({role:'customer'}).eq('id',u.id)}
+  var rl=await c.from('profiles').update({cash_limit:999999}).eq('id',u.id).select();
+  if(rl.error||!rl.data||!rl.data.length)row('PASS','Customer cannot change their cash limit','refused ('+msg(rl)+')');
+  else row('FAIL','Customer changed their cash limit','this must be fixed');
+  await expectBlocked('Customer cannot create another profile',c.from('profiles').insert({id:crypto.randomUUID(),name:'x'}).select());
+  await expectError('Customer cannot settle driver cash',c.rpc('settle_driver_cash',{p_driver:u.id}));
+  await expectError('Internal promo function is not callable',c.rpc('promo_eval',{p_code:'TEST',p_base:100,p_uid:u.id,p_lock:false}));
+  var ia=await c.rpc('is_admin');row(ia.data===false?'PASS':'FAIL','is_admin() is false for a customer',String(ia.data));
+  var ords=await c.from('orders').select('customer_id');
+  if(ords.error)row('WARN','Reading orders failed',msg(ords));
+  else if(ords.data.every(function(o){return o.customer_id===u.id}))row('PASS','Customer sees only their own orders',ords.data.length+' rows');
+  else row('FAIL','Customer can see other people\'s orders','this must be fixed');
+  var cb=await c.rpc('cash_balances');
+  if(cb.error||!cb.data||cb.data.length===0)row('PASS','Customer cannot read courier cash balances','blocked');else row('FAIL','Customer can read courier cash balances','this must be fixed');
+  if(sid&&item){var seen=false;for(var i=0;i<13&&!seen;i++){var q=await c.rpc('check_promo',{p_code:'ZZ'+Math.random().toString(36).slice(2,8).toUpperCase(),p_store:item.store_id,p_items:[{item_id:item.id,qty:1}]});if(q.error&&/too_many/i.test(q.error.message||''))seen=true}
+    row(seen?'PASS':'FAIL','Promo code guessing is rate-limited',seen?'blocked after about 10 wrong codes (wait 10 minutes before testing promos again)':'13 wrong codes were not blocked')}
+  else row('SKIP','Promo rate-limit test','Needs at least one visible menu item.');
+  /* ---------- dispatch, location and ratings ---------- */
+  await expectBlocked('Customer cannot read courier offers table',c.from('order_offers').select('*'));
+  await expectBlocked('Customer cannot write offers directly',c.from('order_offers').insert({order_id:1,driver_id:u.id,expires_at:new Date(Date.now()+60000).toISOString()}).select());
+  await expectError('Customer cannot take an order (driver_accept)',c.rpc('driver_accept',{p_id:1}));
+  await expectError('Customer cannot call the internal dispatch function',c.rpc('dispatch_next',{p_order:1}));
+  await expectError('Customer cannot list eligible couriers',c.rpc('eligible_couriers',{p_order:1,p_reoffer:false}));
+  await expectError('Customer cannot assign a courier to an order',c.rpc('admin_assign_driver',{p_order:1,p_driver:u.id}));
+  var mo=await c.rpc('my_offers');
+  if(mo.error||!mo.data||mo.data.length===0)row('PASS','Customer has no courier offers','empty');else row('FAIL','Customer sees courier offers','this must be fixed');
+  await c.rpc('driver_location',{p_lat:38.5,p_lng:68.7});
+  var me2=await c.from('profiles').select('lat,lng').eq('id',u.id).single();
+  if(me2.data&&me2.data.lat==null&&me2.data.lng==null)row('PASS','Customer cannot store a courier location on their profile','still empty');
+  else if(me2.error)row('WARN','Could not verify location columns',msg(me2)+' (run patch13 first)');
+  else row('FAIL','A customer saved a courier location','this must be fixed');
+  await expectError('Customer cannot rate an order that is not theirs / not delivered',c.rpc('rate_order',{p_order:1,p_store:5,p_driver:5,p_comment:'x'}));
+  await expectBlocked('Customer cannot write ratings directly',c.from('ratings').insert({order_id:1,customer_id:u.id,store_id:sid||u.id,store_stars:5}).select());
+  var rr=await c.from('ratings').select('customer_id');
+  if(rr.error)row('WARN','Reading ratings failed',msg(rr)+' (run patch13 first)');
+  else if(rr.data.every(function(x){return x.customer_id===u.id}))row('PASS','Customer sees only their own ratings',rr.data.length+' rows');
+  else row('FAIL','Customer can read other people\'s ratings','this must be fixed');
+  var cm=await c.from('stores').select('commission_pct').limit(1);
+  if(cm.data&&cm.data.length&&cm.data[0].commission_pct!=null)row('WARN','Commission is readable by every signed-in user','Known risk (not yet fixed): store commission can be read by any logged-in account. Fix: move it to an admin-only table.');
+  else row('PASS','Commission is hidden from customers','');
+  fin(u)}
+function fin(u){$('sumc').style.display='block';$('go').disabled=false;
+  $('sum').textContent=counts.FAIL?('PROBLEM: '+counts.FAIL+' check(s) FAILED'):('OK: '+counts.PASS+' passed'+(counts.WARN?(', '+counts.WARN+' warning(s)'):''));
+  $('sum').style.color=counts.FAIL?'#d92d20':'#1fa05a';$('who').textContent=u?('Signed in as '+(u.email||u.id)):'Signed out';}
+$('go').onclick=function(){run().catch(function(e){row('FAIL','Check crashed',String(e&&e.message||e));fin(null)})};
+</script></body></html>

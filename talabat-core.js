@@ -37,10 +37,10 @@
 
 
   Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
-    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
+    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
   Object.assign(I.en, { tagline: 'Food and grocery delivery', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
-    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
+    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
   /* ---------- Extra dictionary ---------- */
@@ -98,7 +98,7 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [] };
+  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [] };
   var seenChat = {}, lastStatus = {}, unread = {};
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
@@ -137,7 +137,10 @@
       sb.from('order_events').select('*').order('at'),
       sb.rpc('cash_balances'),
       sb.from('profiles').select('*').eq('id', ME.id).single(),
-      ME.role === 'admin' ? sb.from('promo_codes').select('*').order('created_at', { ascending: false }) : Promise.resolve({ data: [] })
+      ME.role === 'admin' ? sb.from('promo_codes').select('*').order('created_at', { ascending: false }) : Promise.resolve({ data: [] }),
+      ME.role === 'driver' ? sb.rpc('my_offers') : Promise.resolve({ data: [] }),
+      ME.role === 'admin' ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
+      (ME.role === 'admin' || ME.role === 'customer') ? sb.from('ratings').select('*').order('created_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] })
     ]).then(function (r) {
       var bad = r.slice(0, 6).find(function (x) { return x.error; });
       if (bad) { console.error(bad.error); return; }
@@ -152,12 +155,22 @@
       DB.cash = {}; if (!r[9].error) (r[9].data || []).forEach(function (x) { DB.cash[x.driver_id] = +x.balance; });
       if (!r[10].error && r[10].data) ME = Object.assign(ME, r[10].data);
       DB.promos = r[11].error ? [] : (r[11].data || []);
-      ORD = shape(); notify(); fire();
+      var gotAt = Date.now();
+      DB.myOffers = r[12].error ? [] : (r[12].data || []).map(function (x) { return { order_id: x.order_id, mode: x.mode, rank: x.rank, dist: x.dist_km == null ? null : +x.dist_km, secs: +x.secs_left || 0, got: gotAt }; });
+      DB.offersAll = r[13].error ? [] : (r[13].data || []);
+      DB.ratings = r[14].error ? [] : (r[14].data || []);
+      ORD = shape(); notify(); fire(); maybeTick();
     });
+  }
+  /* Dispatch heartbeat: expires old offers and moves waiting orders to the next courier. Only when it can matter. */
+  function maybeTick() {
+    if (!ME || !sb) return;
+    var need_ = ME.role === 'driver' ? !!ME.online : (ME.role === 'admin' || ME.role === 'merchant') ? DB.orders.some(function (o) { return !o.driver_id && (o.status === 'preparing' || o.status === 'ready'); }) : false;
+    if (need_) sb.rpc('dispatch_tick').then(function () { }, function () { });
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
+    var ks = ['no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -308,7 +321,39 @@
 
     order: function (id) { return ORD.find(function (o) { return o.id == id; }) || null; },
     orders: function (fn) { return ORD.filter(fn || function () { return true; }); },
-    offers: function () { return ORD.filter(function (o) { return !o.driver && (o.status === 'preparing' || o.status === 'ready'); }); },
+    offers: function () {
+      return DB.myOffers.map(function (f) {
+        var o = ORD.filter(function (x) { return x.id === f.order_id; })[0]; if (!o) return null;
+        return Object.assign({}, o, { offer: { mode: f.mode, rank: f.rank, dist: f.dist, left: Math.max(0, f.secs - (Date.now() - f.got) / 1000) } });
+      }).filter(Boolean);
+    },
+    decline: function (id) { return sb.rpc('driver_decline', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
+    sendLocation: function (lat, lng, acc) { if (!isFinite(lat) || !isFinite(lng)) return Promise.resolve({ ok: false }); return sb.rpc('driver_location', { p_lat: lat, p_lng: lng, p_acc: isFinite(acc) ? acc : null }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
+    assignDriver: function (orderId, driverId) { return rpc('admin_assign_driver', { p_order: orderId, p_driver: driverId }, true); },
+    allOffers: function () { return DB.offersAll; },
+    ratings: function () { return DB.ratings; },
+    ratingOf: function (orderId) { return DB.ratings.filter(function (x) { return x.order_id === orderId; })[0] || null; },
+    rateOrder: function (orderId, store, driver, comment) {
+      var ok = function (v) { return v == null || (v >= 1 && v <= 5 && Math.floor(v) === v); };
+      if (!ok(store) || !ok(driver) || (store == null && driver == null)) return Promise.resolve({ error: 'bad_value' });
+      return rpc('rate_order', { p_order: orderId, p_store: store == null ? null : store, p_driver: driver == null ? null : driver, p_comment: String(comment || '').slice(0, 300) }, true);
+    },
+    mapView: function (elId, points, center) {
+      loadLeaflet(function () {
+        var box = $(elId); if (!box) return;
+        var map = L.map(elId).setView(center || [38.5598, 68.787], 12);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
+        var group = [];
+        (points || []).forEach(function (p) {
+          if (!isFinite(+p.lat) || !isFinite(+p.lng)) return;
+          var m = L.circleMarker([+p.lat, +p.lng], { radius: p.kind === 'store' ? 8 : 10, color: '#fff', weight: 2, fillColor: p.kind === 'store' ? (p.open ? '#1fa05a' : '#8b8f98') : (p.busy ? '#f59e0b' : '#f1511b'), fillOpacity: 1 }).addTo(map);
+          var tip = document.createElement('div'); tip.textContent = String(p.label || ''); m.bindTooltip(tip, { permanent: true, direction: 'top', offset: [0, -6] });
+          group.push([+p.lat, +p.lng]);
+        });
+        if (group.length) map.fitBounds(group, { padding: [30, 30], maxZoom: 15 });
+        setTimeout(function () { map.invalidateSize(); }, 150);
+      });
+    },
     events: function (id) { return DB.events.filter(function (e) { return e.order_id == id; }); },
     cash: function (driverId) { return DB.cash[driverId] || 0; },
     myCash: function () { return ME ? (DB.cash[ME.id] || 0) : 0; },
