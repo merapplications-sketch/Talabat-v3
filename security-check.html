@@ -118,6 +118,14 @@ async function run(){
   await expectError('Customer cannot mark a rating as handled',c.rpc('resolve_rating',{p_order:1,p_note:'x'}));
   await expectError('Customer cannot reopen a rating',c.rpc('reopen_rating',{p_order:1}));
   await expectBlocked('Customer cannot edit ratings directly',c.from('ratings').update({handled_at:new Date().toISOString()}).eq('customer_id',u.id).select());
+  /* ---------- delivery addresses ---------- */
+  var mine=await c.from('addresses').select('user_id');
+  if(mine.error)row('WARN','Reading addresses failed',msg(mine)+' (run patch16 first)');
+  else if(mine.data.every(function(x){return x.user_id===u.id}))row('PASS','Customer sees only their own addresses',mine.data.length+' rows');
+  else row('FAIL','Customer can read other people\'s addresses','this must be fixed');
+  await expectBlocked('Customer cannot save an address for another user',c.from('addresses').insert({user_id:crypto.randomUUID(),label:'home',street:'security test',lat:38.5,lng:68.7}).select());
+  await expectBlocked('An address with an impossible map point is refused',c.from('addresses').insert({user_id:u.id,label:'home',street:'security test',lat:123,lng:68.7}).select());
+  if(item)await expectError('An order WITHOUT an address / map point is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'',p_lat:null,p_lng:null}));
   var cm=await c.from('stores').select('commission_pct').limit(1);
   if(cm.data&&cm.data.length&&cm.data[0].commission_pct!=null)row('WARN','Commission is readable by every signed-in user','Known risk (not yet fixed): store commission can be read by any logged-in account. Fix: move it to an admin-only table.');
   else row('PASS','Commission is hidden from customers','');

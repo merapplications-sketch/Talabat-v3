@@ -36,11 +36,11 @@
   });
 
 
-  Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
-    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
+  Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', loading:'Загрузка…',bootT:'Не удалось загрузить приложение',bootS:'Проверьте интернет и нажмите «Обновить». Если не помогает — выйдите и войдите снова.',bootReload:'Обновить',bootSignout:'Выйти и войти заново',applyT:'Стать курьером',applyS:'Укажите ваш номер телефона. Администратор рассмотрит заявку и откроет вам доступ.',applyB:'Подать заявку',notLinked:'Ваш аккаунт ещё не привязан к ресторану. Сообщите администратору ваш email — он привяжет аккаунт к вашему ресторану.',authPwHint2:'Минимум 8 символов. Придумайте новый пароль для Talabat — не используйте пароль от почты.',authPhoneL:'Телефон (+992…)', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
+    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_address_required: 'Добавьте адрес доставки на карте.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
-  Object.assign(I.en, { tagline: 'Food and grocery delivery', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
-    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
+  Object.assign(I.en, { tagline: 'Food and grocery delivery', loading:'Loading…',bootT:'Could not load the app',bootS:'Check your internet and tap “Reload”. If it does not help, sign out and sign in again.',bootReload:'Reload',bootSignout:'Sign out and sign in again',applyT:'Become a courier',applyS:'Enter your phone number. The admin will review your request and open access for you.',applyB:'Apply',notLinked:'Your account is not linked to a restaurant yet. Send your email to the administrator — they will link the account to your restaurant.',authPwHint2:'At least 8 characters. Create a NEW password for Talabat — do not use your email password.',authPhoneL:'Phone (+992…)', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
+    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_address_required: 'Add a delivery address on the map.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
   /* ---------- Extra dictionary ---------- */
@@ -98,11 +98,11 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [] };
+  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [] };
   var seenChat = {}, lastStatus = {}, unread = {};
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  var VERSION = 'v19';
+  var VERSION = 'v20';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -111,7 +111,7 @@
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
         items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
-        payment: o.payment || '', address: o.address, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        payment: o.payment || '', address: o.address, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
         client: { name: o.customer_name || '', phone: o.customer_phone || '' }, customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
@@ -145,7 +145,8 @@
       ME.role === 'admin' ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
       (ME.role === 'admin' || ME.role === 'customer') ? sb.from('ratings').select('*').order('created_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
       sb.from('item_option_groups').select('*').order('sort').order('created_at'),
-      sb.from('item_options').select('*').order('sort').order('name')
+      sb.from('item_options').select('*').order('sort').order('name'),
+      ME.role === 'customer' ? sb.from('addresses').select('*').order('created_at') : Promise.resolve({ data: [] })
     ]).then(function (r) {
       var bad = r.slice(0, 6).find(function (x) { return x.error; });
       if (bad) { console.error(bad.error); return; }
@@ -165,8 +166,9 @@
       DB.offersAll = r[13].error ? [] : (r[13].data || []);
       DB.ratings = r[14].error ? [] : (r[14].data || []);
       DB.groups = r[15].error ? [] : (r[15].data || []); DB.options = r[16].error ? [] : (r[16].data || []);
+      DB.addresses = r[17].error ? [] : (r[17].data || []);
       ORD = shape(); notify(); fire(); maybeTick();
-    });
+    }).catch(function (e) { console.error(e); lastErr = String((e && e.message) || e); });
   }
   /* Dispatch heartbeat: expires old offers and moves waiting orders to the next courier. Only when it can matter. */
   function maybeTick() {
@@ -190,7 +192,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
+    var ks = ['address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -247,6 +249,14 @@
     return true;
   }
   function cleanPct(v) { var n = +v; return isFinite(n) && n > 0 && n <= 100 ? Math.round(n * 100) / 100 : 0; }
+  function num(v) { if (v === null || v === undefined || v === '' || typeof v === 'boolean') return NaN; var n = +v; return isFinite(n) ? n : NaN; }
+  function cleanAddr(f) {
+    var street = String(f.street == null ? '' : f.street).replace(/\s+/g, ' ').trim(), det = String(f.details == null ? '' : f.details).replace(/\s+/g, ' ').trim();
+    var lat = num(f.lat), lng = num(f.lng), lab = f.label;
+    if (['home', 'work', 'other'].indexOf(lab) < 0 || street.length < 3 || street.length > 120 || det.length > 120) return null;
+    if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+    return { label: lab, street: street, details: det || null, lat: lat, lng: lng };
+  }
   function cleanSection(v) { v = String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, 40); return v || null; }
   function badStore() { toast(t('err_bad_value'), true); return Promise.resolve({ error: 'bad_value', toasted: true }); }
   function me() { return ME ? { id: ME.id, name: ME.name || ME.email, email: ME.email, phone: ME.phone || '', cashLimit: +ME.cash_limit || 1000, blocked: !!ME.accept_blocked } : null; }
@@ -263,6 +273,23 @@
       '<div style="background:#fff;border-radius:22px;padding:22px;width:100%;max-width:360px;box-shadow:0 12px 40px #0003">' + html + '</div>';
     applyI18n();
   }
+  var bootTimer = null, lastErr = '';
+  function bootShow() {
+    if ($('tlb-boot')) return;
+    var d = document.createElement('div'); d.id = 'tlb-boot';
+    d.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9990;background:#f6f6f8;display:flex;flex-direction:column;align-items:center;justify-content:center;font:15px -apple-system,BlinkMacSystemFont,sans-serif;color:#6b7280';
+    d.innerHTML = '<div style="width:44px;height:44px;border-radius:50%;border:4px solid #ffd9cc;border-top-color:#f1511b;animation:tlbspin 0.9s linear infinite"></div><div style="margin-top:14px" data-i18n="loading"></div><style>@keyframes tlbspin{to{transform:rotate(360deg)}}</style>';
+    document.body.appendChild(d); applyI18n();
+    clearTimeout(bootTimer); bootTimer = setTimeout(function () { if ($('tlb-boot')) bootFail(lastErr || 'timeout'); }, 12000);
+  }
+  function bootHide() { clearTimeout(bootTimer); var d = $('tlb-boot'); if (d) d.remove(); }
+  function bootFail(err) {
+    lastErr = String((err && err.message) || err || '').slice(0, 160);
+    bootHide();
+    overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0e5;color:#c2410c;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">!</div><b style="font-size:18px" data-i18n="bootT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="bootS"></p>' + (lastErr ? '<p style="color:#9ca3af;font-size:11px;word-break:break-all;margin-bottom:12px">' + esc(lastErr) + '</p>' : '') + '</div><button id="tlb-rl" data-i18n="bootReload" ' + BT + '></button><button id="tlb-rs2" data-i18n="bootSignout" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>', true);
+    $('tlb-rl').onclick = function () { location.reload(); };
+    $('tlb-rs2').onclick = function () { try { localStorage.removeItem('tlb-auth-' + need); } catch (e) { } location.reload(); };
+  }
   function logout() { sb.auth.signOut().then(function () { location.reload(); }); }
   var authMode = 'in', resendAt = 0;
   function authErr(e) {
@@ -277,7 +304,7 @@
     return t('err_generic') + ' (' + String((e && e.message) || '').slice(0, 80) + ')';
   }
   function authTabs() {
-    if (need !== 'customer') return '';
+    if (need === 'admin') return '';
     var on = 'background:#fff;color:#1c1c21;box-shadow:0 1px 4px #0002', off = 'background:none;color:#8b8f98';
     var b = 'flex:1;border:0;border-radius:10px;padding:10px 0;font-weight:700;font-size:14px;cursor:pointer;';
     return '<div style="display:flex;background:#f1f1f4;border-radius:13px;padding:3px;margin-bottom:16px"><button id="tlb-t-in" data-i18n="login" style="' + b + (authMode === 'in' ? on : off) + '"></button><button id="tlb-t-up" data-i18n="signup" style="' + b + (authMode === 'up' ? on : off) + '"></button></div>';
@@ -295,12 +322,12 @@
   }
   function showLogin(msg, mode) {
     if (mode) authMode = mode;
-    var su = authMode === 'up' && need === 'customer';
+    var su = authMode === 'up' && need !== 'admin';
     overlay(authTabs() +
       (su ? '<input id="tlb-nm" type="text" maxlength="40" autocomplete="name" data-i18n-ph="authNameL" ' + IN + '>' : '') +
       '<input id="tlb-em" type="email" autocomplete="username" autocapitalize="off" placeholder="Email" ' + IN + '>' +
       '<div style="position:relative"><input id="tlb-pw" type="password" autocomplete="' + (su ? 'new-password' : 'current-password') + '" data-i18n-ph="password" ' + IN.replace('padding:0 14px', 'padding:0 48px 0 14px') + '><button id="tlb-eye" type="button" aria-label="show" style="position:absolute;right:6px;top:4px;width:40px;height:40px;border:0;background:none;font-size:18px;cursor:pointer;color:#8b8f98">👁</button></div>' +
-      (su ? '<div data-i18n="authPwHint" style="font-size:12px;color:#8b8f98;margin:-4px 0 8px"></div>' : '') +
+      (su ? '<div data-i18n="authPwHint2" style="font-size:12px;color:#8b8f98;margin:-4px 0 8px;line-height:1.4"></div>' : '') +
       '<div id="tlb-er" role="alert" style="color:#d92d20;background:' + (msg ? '#fdeceb' : 'transparent') + ';border-radius:12px;padding:' + (msg ? '10px 12px' : '0') + ';font-size:13px;font-weight:600;margin-bottom:10px;min-height:0">' + esc(msg || '') + '</div>' +
       '<button id="tlb-go" ' + BT + '></button>', true);
     $('tlb-go').textContent = su ? t('signup') : t('login');
@@ -328,6 +355,24 @@
     $('tlb-go').onclick = go;
     ['tlb-em', 'tlb-pw', 'tlb-nm'].forEach(function (id) { var e = $(id); if (e) e.onkeydown = function (ev) { if (ev.key === 'Enter') go(); }; });
   }
+  function showApply() {
+    overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0ea;color:#f1511b;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">🛵</div><b style="font-size:18px" data-i18n="applyT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="applyS"></p></div>' +
+      '<input id="tlb-ap" type="tel" autocomplete="tel" inputmode="tel" maxlength="16" placeholder="+992…" ' + IN + '><div id="tlb-er" role="alert" style="color:#d92d20;font-size:13px;font-weight:600;min-height:18px;margin-bottom:8px"></div>' +
+      '<button id="tlb-go" data-i18n="applyB" ' + BT + '></button><button id="tlb-lo" data-i18n="logout" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>', true);
+    $('tlb-lo').onclick = logout;
+    $('tlb-go').onclick = function () {
+      var p = $('tlb-ap').value.replace(/[\s()-]/g, '');
+      if (!/^\+?[0-9]{7,15}$/.test(p)) { $('tlb-er').textContent = t('err_bad_phone'); return; }
+      $('tlb-go').disabled = true;
+      sb.rpc('set_my_phone', { p_phone: p }).then(function (r) {
+        if (r.error) { $('tlb-go').disabled = false; $('tlb-er').textContent = t('err_generic'); return; }
+        return sb.rpc('apply_as_driver').then(function (r2) {
+          if (r2.error) { $('tlb-go').disabled = false; $('tlb-er').textContent = t('err_generic'); return; }
+          return enter({ id: ME.id, email: ME.email });
+        });
+      });
+    };
+  }
   function blocked(key) {
     overlay('<h3 style="margin-bottom:10px;color:#1a202c" data-i18n="' + key + '"></h3><p style="color:#718096;margin-bottom:14px;font-size:13px">' + esc(ME.email) + ' — ' + esc(ME.role) + '</p><button id="tlb-lo" data-i18n="logout" ' + BT + '></button>');
     $('tlb-lo').onclick = logout;
@@ -342,18 +387,21 @@
   }
   function enter(user) {
     return sb.from('profiles').select('*').eq('id', user.id).single().then(function (x) {
-      if (x.error || !x.data) { showLogin(x.error ? x.error.message : 'profile'); return; }
+      if (x.error || !x.data) { bootHide(); showLogin(x.error ? x.error.message : 'profile'); return; }
       ME = Object.assign({ email: user.email }, x.data);
       logoutBtn();
-      if (ME.role !== need) return blocked('wrongRole');
-      if (need === 'driver' && ME.driver_status !== 'approved') return blocked('pendingApp');
+      if (need === 'driver' && ME.role === 'customer') { bootHide(); return showApply(); }
+      if (need === 'merchant' && ME.role === 'customer') { bootHide(); return blocked('notLinked'); }
+      if (ME.role !== need) { bootHide(); return blocked('wrongRole'); }
+      if (need === 'driver' && ME.driver_status !== 'approved') { bootHide(); return blocked('pendingApp'); }
       var o = $('tlb-ov'); if (o) o.remove();
-      return refresh().then(function () {
-        sb.channel('tlb').on('postgres_changes', { event: '*', schema: 'public' }, function () { refresh(); }).subscribe();
-        setInterval(refresh, 4000);
+      return refresh().catch(function (e) { console.error(e); lastErr = String((e && e.message) || e); }).then(function () {
+        sb.channel('tlb').on('postgres_changes', { event: '*', schema: 'public' }, function () { refresh().catch(function () { }); }).subscribe();
+        setInterval(function () { refresh().catch(function () { }); }, 4000);
+        bootHide();
         onReady(me());
       });
-    });
+    }).catch(function (e) { console.error(e); bootFail(e); });
   }
 
   /* ---------- API ---------- */
@@ -366,7 +414,9 @@
     start: function (role, cb) {
       need = role; onReady = cb;
       sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + role } });
-      sb.auth.getSession().then(function (x) { if (x.data.session) enter(x.data.session.user); else showLogin(); });
+      bootShow();
+      sb.auth.getSession().then(function (x) { if (x.data.session) return enter(x.data.session.user); bootHide(); showLogin(); })
+        .catch(function (e) { console.error(e); bootFail(e); });
     },
     me: me, logout: logout, toast: toast, beep: beep, fmtMsg: fmtMsg, pickLocation: pickLocation,
     chrome: function (on) { chromeOn = !!on; applyChrome(); },
@@ -396,6 +446,15 @@
     addOption: function (groupId, f) { var n = String(f.name || '').trim(), p = +f.price || 0; if (!n || n.length > 60 || !isFinite(p) || p < 0 || p > 100000) return badStore(); return sb.from('item_options').insert({ group_id: groupId, name: n, price_delta: Math.round(p * 100) / 100 }).then(done); },
     updateOption: function (id, f) { var u = {}; if ('name' in f) { var n = String(f.name || '').trim(); if (!n || n.length > 60) return badStore(); u.name = n; } if ('price' in f) { var p = +f.price; if (!isFinite(p) || p < 0 || p > 100000) return badStore(); u.price_delta = Math.round(p * 100) / 100; } if ('available' in f) u.available = !!f.available; return sb.from('item_options').update(u).eq('id', id).then(function (r) { return done(r, true); }); },
     deleteOption: function (id) { return sb.from('item_options').delete().eq('id', id).then(done); },
+    addresses: function () { return DB.addresses; },
+    addAddress: function (f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').insert(Object.assign({ user_id: ME.id }, c)).select('id').single().then(function (r) { if (r.error) { console.error(r.error); toast(t('err_generic'), true); return { error: 'generic', toasted: true }; } return refresh().then(function () { return { ok: true, id: r.data.id }; }); }); },
+    updateAddress: function (id, f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').update(c).eq('id', id).then(done); },
+    deleteAddress: function (id) { return sb.from('addresses').delete().eq('id', id).then(done); },
+    setDefaultAddress: function (id) { return sb.rpc('set_default_address', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
+    quote: function (storeN, lat, lng) {
+      var st = storeByName(storeN); if (!st || isNaN(num(lat)) || isNaN(num(lng))) return Promise.resolve({ error: 'bad_value' });
+      return sb.rpc('delivery_quote', { p_store: st.id, p_lat: num(lat), p_lng: num(lng) }).then(function (r) { return r.error ? { error: errKey(r.error) } : { fee: +r.data.fee, km: r.data.km == null ? null : +r.data.km }; }, function () { return { error: 'generic' }; });
+    },
     getMenu: function (n) { return this.allMenus(false)[n] || []; },
     ping: function (online) { return sb.rpc('driver_ping', { p_online: !!online }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
     isOpen: function (n) { var s = storeByName(n); return !!s && s.is_open && s.is_active; },
@@ -410,7 +469,7 @@
       }).filter(Boolean);
     },
     decline: function (id) { return sb.rpc('driver_decline', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
-    sendLocation: function (lat, lng, acc) { if (!isFinite(lat) || !isFinite(lng)) return Promise.resolve({ ok: false }); return sb.rpc('driver_location', { p_lat: lat, p_lng: lng, p_acc: isFinite(acc) ? acc : null }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
+    sendLocation: function (lat, lng, acc) { if (isNaN(num(lat)) || isNaN(num(lng))) return Promise.resolve({ ok: false }); return sb.rpc('driver_location', { p_lat: num(lat), p_lng: num(lng), p_acc: isNaN(num(acc)) ? null : num(acc) }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
     assignDriver: function (orderId, driverId) { return rpc('admin_assign_driver', { p_order: orderId, p_driver: driverId }, true); },
     allOffers: function () { return DB.offersAll; },
     ratings: function () { return DB.ratings; },
@@ -449,7 +508,8 @@
       var s = storeByName(o.store); if (!s) return Promise.resolve({ error: 'store_unavailable' });
       var items = linesOf(o.lines || o.cart, o.notes);
       if (!items) return Promise.resolve({ error: 'bad_value' });
-      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: o.address || '', p_lat: null, p_lng: null, p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null })
+      if (o.lat != null && (!(num(o.lat) >= -90 && num(o.lat) <= 90) || !(num(o.lng) >= -180 && num(o.lng) <= 180))) return Promise.resolve({ error: 'bad_value' });
+      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null })
         .then(function (r) { return r.error ? r : { id: r.data }; });
     },
     checkPromo: function (storeN, cart, code) {
