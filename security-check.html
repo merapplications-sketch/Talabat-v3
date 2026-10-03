@@ -103,6 +103,21 @@ async function run(){
   if(rr.error)row('WARN','Reading ratings failed',msg(rr)+' (run patch13 first)');
   else if(rr.data.every(function(x){return x.customer_id===u.id}))row('PASS','Customer sees only their own ratings',rr.data.length+' rows');
   else row('FAIL','Customer can read other people\'s ratings','this must be fixed');
+  /* ---------- product options and rating follow-up ---------- */
+  if(item){
+    await expectBlocked('Customer cannot create option groups',c.from('item_option_groups').insert({item_id:item.id,name:'hack'}).select());
+    await expectError('Order with a fake option id is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:['00000000-0000-0000-0000-000000000000']}],p_tip:0,p_payment:'cash',p_address:'security test'}));
+  }else row('SKIP','Option tests','No menu item is visible.');
+  var og=await c.from('item_option_groups').select('id').limit(1),gid=og.data&&og.data[0]&&og.data[0].id;
+  if(gid){
+    await expectBlocked('Customer cannot create options',c.from('item_options').insert({group_id:gid,name:'free',price_delta:0}).select());
+    await expectBlocked('Customer cannot change an option price',c.from('item_options').update({price_delta:0}).eq('group_id',gid).select());
+    await expectBlocked('Customer cannot delete option groups',c.from('item_option_groups').delete().eq('id',gid).select());
+  }else row('SKIP','Option price tests','No option group exists yet (add one in the restaurant app and run again).');
+  await expectError('Internal option pricing function is not callable',c.rpc('price_line',{p_item:item?item.id:u.id,p_opts:[]}));
+  await expectError('Customer cannot mark a rating as handled',c.rpc('resolve_rating',{p_order:1,p_note:'x'}));
+  await expectError('Customer cannot reopen a rating',c.rpc('reopen_rating',{p_order:1}));
+  await expectBlocked('Customer cannot edit ratings directly',c.from('ratings').update({handled_at:new Date().toISOString()}).eq('customer_id',u.id).select());
   var cm=await c.from('stores').select('commission_pct').limit(1);
   if(cm.data&&cm.data.length&&cm.data[0].commission_pct!=null)row('WARN','Commission is readable by every signed-in user','Known risk (not yet fixed): store commission can be read by any logged-in account. Fix: move it to an admin-only table.');
   else row('PASS','Commission is hidden from customers','');
