@@ -36,10 +36,10 @@
   });
 
 
-  Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', loading:'Загрузка…',bootT:'Не удалось загрузить приложение',bootS:'Проверьте интернет и нажмите «Обновить». Если не помогает — выйдите и войдите снова.',bootReload:'Обновить',bootSignout:'Выйти и войти заново',applyT:'Стать курьером',applyS:'Укажите ваш номер телефона. Администратор рассмотрит заявку и откроет вам доступ.',applyB:'Подать заявку',notLinked:'Ваш аккаунт ещё не привязан к ресторану. Сообщите администратору ваш email — он привяжет аккаунт к вашему ресторану.',authPwHint2:'Минимум 8 символов. Придумайте новый пароль для Talabat — не используйте пароль от почты.',authPhoneL:'Телефон (+992…)', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
+  Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', offline:'Нет подключения к интернету', loading:'Загрузка…',bootT:'Не удалось загрузить приложение',bootS:'Проверьте интернет и нажмите «Обновить». Если не помогает — выйдите и войдите снова.',bootReload:'Обновить',bootSignout:'Выйти и войти заново',applyT:'Стать курьером',applyS:'Укажите ваш номер телефона. Администратор рассмотрит заявку и откроет вам доступ.',applyB:'Подать заявку',notLinked:'Ваш аккаунт ещё не привязан к ресторану. Сообщите администратору ваш email — он привяжет аккаунт к вашему ресторану.',authPwHint2:'Минимум 8 символов. Придумайте новый пароль для Talabat — не используйте пароль от почты.',authPhoneL:'Телефон (+992…)', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
     pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_address_required: 'Добавьте адрес доставки на карте.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
-  Object.assign(I.en, { tagline: 'Food and grocery delivery', loading:'Loading…',bootT:'Could not load the app',bootS:'Check your internet and tap “Reload”. If it does not help, sign out and sign in again.',bootReload:'Reload',bootSignout:'Sign out and sign in again',applyT:'Become a courier',applyS:'Enter your phone number. The admin will review your request and open access for you.',applyB:'Apply',notLinked:'Your account is not linked to a restaurant yet. Send your email to the administrator — they will link the account to your restaurant.',authPwHint2:'At least 8 characters. Create a NEW password for Talabat — do not use your email password.',authPhoneL:'Phone (+992…)', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
+  Object.assign(I.en, { tagline: 'Food and grocery delivery', offline:'No internet connection', loading:'Loading…',bootT:'Could not load the app',bootS:'Check your internet and tap “Reload”. If it does not help, sign out and sign in again.',bootReload:'Reload',bootSignout:'Sign out and sign in again',applyT:'Become a courier',applyS:'Enter your phone number. The admin will review your request and open access for you.',applyB:'Apply',notLinked:'Your account is not linked to a restaurant yet. Send your email to the administrator — they will link the account to your restaurant.',authPwHint2:'At least 8 characters. Create a NEW password for Talabat — do not use your email password.',authPhoneL:'Phone (+992…)', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
     pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_address_required: 'Add a delivery address on the map.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
@@ -100,9 +100,10 @@
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
   var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [] };
   var seenChat = {}, lastStatus = {}, unread = {};
+  var sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastTick = 0, fireT = null, errSent = 0;
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  var VERSION = 'v20';
+  var VERSION = 'v21';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -126,55 +127,179 @@
     if (fresh) beep();
     firstLoad = false;
   }
-  function refresh() {
-    if (!ME) return Promise.resolve();
+  function reportError(msg, ctx) {
+    try {
+      if (!sb || !ME || errSent >= 5) return; errSent++;
+      sb.rpc('report_client_error', { p_app: need, p_message: String(msg || '').slice(0, 300), p_context: String(ctx || '').slice(0, 300), p_ua: String((navigator && navigator.userAgent) || '').slice(0, 160) }).then(function () { }, function () { });
+    } catch (e) { }
+  }
+  window.addEventListener('error', function (e) { reportError(e.message, String(e.filename || '').split('/').pop() + ':' + e.lineno); });
+  window.addEventListener('unhandledrejection', function (e) { reportError('Promise: ' + String((e.reason && e.reason.message) || e.reason), ''); });
+  /* ===================== data layer =====================
+     Four small sections instead of one giant reload every 4 seconds:
+       stat   = stores, menu, options, banners      (slow: every 60 s)
+       orders = my orders + their items/chat         (realtime + 10-25 s)
+       misc   = favorites, ratings, addresses, ...   (every 10-60 s)
+       offers = courier offers (couriers only)       (realtime + 4 s)
+     Nothing runs while the tab is hidden; failures back off (x2, up to x8); realtime events only reload the section they touch. */
+  var STORE_COLS = 'id,name,category,description,logo_url,cover_url,address,lat,lng,fee_type,fee_base,fee_per_km,fee_free_km,discount_pct,is_open,is_active,is_featured,created_at,phone,free_first_delivery,google_place_id,rating,rating_count,rating_updated_at';
+  var LIMITS = { customer: 60, driver: 60, merchant: 200, admin: 300 };
+  var EVERY = {
+    customer: { orders: 25000, stat: 60000, misc: 40000 },
+    merchant: { orders: 10000, stat: 60000, misc: 60000 },
+    driver: { orders: 10000, offers: 4000, stat: 90000, misc: 60000 },
+    admin: { orders: 10000, misc: 10000, stat: 60000 }
+  };
+  var ACTIVE = ['pending', 'preparing', 'ready', 'pickedup'];
+  function changed(name, data) { var k = JSON.stringify(data); if (sigs[name] === k) return false; sigs[name] = k; return true; }
+  function fireSoon() {
+    if (typeof requestAnimationFrame === 'undefined') return fire();
+    if (fireT) return; fireT = setTimeout(function () { fireT = null; fire(); }, 120);
+  }
+  function loadStat() {
     return Promise.all([
-      sb.from('stores').select('*').order('created_at'),
-      sb.from('menu_items').select('*').order('created_at'),
-      sb.from('orders').select('*').order('created_at', { ascending: false }).limit(200),
-      sb.from('order_items').select('*'),
-      sb.from('order_chat').select('*').order('created_at'),
-      ME.role === 'admin' ? sb.from('profiles').select('*').eq('role', 'driver') : Promise.resolve({ data: [] }),
-      sb.from('banners').select('*').order('sort').order('created_at'),
-      sb.from('favorites').select('store_id'),
-      sb.from('order_events').select('*').order('at'),
-      sb.rpc('cash_balances'),
-      sb.from('profiles').select('*').eq('id', ME.id).single(),
-      ME.role === 'admin' ? sb.from('promo_codes').select('*').order('created_at', { ascending: false }) : Promise.resolve({ data: [] }),
-      ME.role === 'driver' ? sb.rpc('my_offers') : Promise.resolve({ data: [] }),
-      ME.role === 'admin' ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
-      (ME.role === 'admin' || ME.role === 'customer') ? sb.from('ratings').select('*').order('created_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
-      sb.from('item_option_groups').select('*').order('sort').order('created_at'),
-      sb.from('item_options').select('*').order('sort').order('name'),
-      ME.role === 'customer' ? sb.from('addresses').select('*').order('created_at') : Promise.resolve({ data: [] })
+      sb.from('stores').select(STORE_COLS).order('created_at').limit(1000),
+      sb.from('menu_items').select('*').order('created_at').limit(5000),
+      sb.from('banners').select('*').order('sort').order('created_at').limit(100),
+      sb.from('item_option_groups').select('*').order('sort').order('created_at').limit(5000),
+      sb.from('item_options').select('*').order('sort').order('name').limit(20000),
+      (ME.role === 'admin' || ME.role === 'merchant') ? sb.rpc('store_private') : Promise.resolve({ data: [] })
     ]).then(function (r) {
-      var bad = r.slice(0, 6).find(function (x) { return x.error; });
-      if (bad) { console.error(bad.error); return; }
-      var s = JSON.stringify(r.map(function (x) { return x.data; }));
-      if (s === sig) return;
-      sig = s;
-      DB.stores = r[0].data || []; DB.items = r[1].data || []; DB.orders = r[2].data || [];
-      DB.oitems = r[3].data || []; DB.chat = r[4].data || []; DB.drivers = r[5].data || [];
-      DB.banners = r[6].error ? [] : (r[6].data || []);
-      DB.favs = r[7].error ? [] : (r[7].data || []).map(function (x) { return x.store_id; });
-      DB.events = r[8].error ? [] : (r[8].data || []);
-      DB.cash = {}; if (!r[9].error) (r[9].data || []).forEach(function (x) { DB.cash[x.driver_id] = +x.balance; });
-      if (!r[10].error && r[10].data) ME = Object.assign(ME, r[10].data);
-      DB.promos = r[11].error ? [] : (r[11].data || []);
-      var gotAt = Date.now();
-      DB.myOffers = r[12].error ? [] : (r[12].data || []).map(function (x) { return { order_id: x.order_id, mode: x.mode, rank: x.rank, dist: x.dist_km == null ? null : +x.dist_km, secs: +x.secs_left || 0, got: gotAt }; });
-      DB.offersAll = r[13].error ? [] : (r[13].data || []);
-      DB.ratings = r[14].error ? [] : (r[14].data || []);
-      DB.groups = r[15].error ? [] : (r[15].data || []); DB.options = r[16].error ? [] : (r[16].data || []);
-      DB.addresses = r[17].error ? [] : (r[17].data || []);
-      ORD = shape(); notify(); fire(); maybeTick();
+      if (r[0].error || r[1].error) throw (r[0].error || r[1].error);
+      var priv = {}; (r[5].error ? [] : (r[5].data || [])).forEach(function (p) { priv[p.id] = p; });
+      var stores = (r[0].data || []).map(function (x) { var p = priv[x.id]; return p ? Object.assign({}, x, { owner_id: p.owner_id, commission_pct: p.commission_pct, max_discount_pct: p.max_discount_pct }) : x; });
+      var pack = [stores, r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data];
+      if (!changed('stat', pack)) return false;
+      DB.stores = pack[0] || []; DB.items = pack[1] || []; DB.banners = pack[2] || []; DB.groups = pack[3] || []; DB.options = pack[4] || [];
+      return true;
+    });
+  }
+  function ordersQuery() {
+    var q = sb.from('orders').select('*').order('created_at', { ascending: false }).limit(LIMITS[ME.role] || 60);
+    if (ME.role === 'customer') q = q.eq('customer_id', ME.id);
+    else if (ME.role === 'driver') q = q.eq('driver_id', ME.id);
+    else if (ME.role === 'merchant') {
+      var ids = DB.stores.filter(function (x) { return x.owner_id === ME.id; }).map(function (x) { return x.id; });
+      if (!ids.length) return null;
+      q = q.in('store_id', ids);
+    }
+    return q;
+  }
+  function loadOrders() {
+    var q = ordersQuery();
+    var offerIds = ME.role === 'driver' ? DB.myOffers.map(function (f) { return f.order_id; }) : [];
+    var qs = [q ? q : Promise.resolve({ data: [] }), offerIds.length ? sb.from('orders').select('*').in('id', offerIds) : Promise.resolve({ data: [] })];
+    return Promise.all(qs).then(function (r) {
+      if (r[0].error) throw r[0].error;
+      var seen = {}, rows = [];
+      (r[0].data || []).concat(r[1].error ? [] : (r[1].data || [])).forEach(function (o) { if (!seen[o.id]) { seen[o.id] = 1; rows.push(o); } });
+      rows.sort(function (x, y) { return Date.parse(y.created_at) - Date.parse(x.created_at); });
+      var ids = rows.map(function (o) { return o.id; });
+      var live = rows.filter(function (o) { return ACTIVE.indexOf(o.status) >= 0 || extraOrders[o.id]; }).map(function (o) { return o.id; });
+      return Promise.all([
+        ids.length ? sb.from('order_items').select('*').in('order_id', ids) : Promise.resolve({ data: [] }),
+        live.length ? sb.from('order_chat').select('*').in('order_id', live).order('created_at') : Promise.resolve({ data: [] }),
+        (ME.role === 'driver' || ME.role === 'admin') ? sb.rpc('cash_balances') : Promise.resolve({ data: [] })
+      ]).then(function (x) {
+        if (x[0].error) throw x[0].error;
+        var cash = {}; if (!x[2].error) (x[2].data || []).forEach(function (c) { cash[c.driver_id] = +c.balance; });
+        // chat of orders opened on demand (admin detail) that are no longer "live" stays in memory
+        var keepChat = DB.chat.filter(function (c) { return live.indexOf(c.order_id) < 0 && extraOrders[c.order_id]; });
+        var chat = (x[1].error ? [] : (x[1].data || [])).concat(keepChat);
+        if (!changed('orders', [rows, x[0].data, chat, cash])) return false;
+        DB.orders = rows; DB.oitems = x[0].data || []; DB.chat = chat; DB.cash = cash;
+        return true;
+      });
+    });
+  }
+  function loadMisc() {
+    var admin = ME.role === 'admin', cust = ME.role === 'customer';
+    return Promise.all([
+      sb.from('profiles').select('*').eq('id', ME.id).single(),
+      sb.from('favorites').select('store_id').limit(300),
+      (admin || cust) ? sb.from('ratings').select('*').order('created_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
+      cust ? sb.from('addresses').select('*').order('created_at').limit(20) : Promise.resolve({ data: [] }),
+      admin ? sb.from('promo_codes').select('*').order('created_at', { ascending: false }).limit(200) : Promise.resolve({ data: [] }),
+      admin ? sb.from('profiles').select('*').eq('role', 'driver').limit(1000) : Promise.resolve({ data: [] }),
+      admin ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] })
+    ]).then(function (r) {
+      if (r[0].error && r[1].error) throw r[0].error;
+      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data];
+      if (!changed('misc', pack)) return false;
+      if (pack[0]) ME = Object.assign(ME, pack[0]);
+      DB.favs = (pack[1] || []).map(function (x) { return x.store_id; });
+      DB.ratings = pack[2] || []; DB.addresses = pack[3] || []; DB.promos = pack[4] || []; DB.drivers = pack[5] || []; DB.offersAll = pack[6] || [];
+      return true;
+    });
+  }
+  function loadOffers() {
+    return sb.rpc('my_offers').then(function (r) {
+      if (r.error) throw r.error;
+      var gotAt = Date.now(), list = (r.data || []).map(function (x) { return { order_id: x.order_id, mode: x.mode, rank: x.rank, dist: x.dist_km == null ? null : +x.dist_km, secs: +x.secs_left || 0, got: gotAt }; });
+      var key = list.map(function (o) { return o.order_id + ':' + o.mode + ':' + o.rank; }).join(',');
+      var same = sigs.offers === key; sigs.offers = key;
+      DB.myOffers = list;                      // seconds-left always refreshed (the countdown reads them)
+      if (list.some(function (o) { return !DB.orders.some(function (x) { return x.id === o.order_id; }); })) kick('orders');
+      return !same || list.length > 0;
+    });
+  }
+  var LOADERS = { stat: loadStat, orders: loadOrders, misc: loadMisc, offers: loadOffers };
+  function runSection(name) {
+    if (secRun[name]) return secRun[name];
+    secT0[name] = Date.now();
+    var go = function () { return LOADERS[name](); };
+    // a restaurant needs to know its own stores before it can ask for its orders
+    var p = (name === 'orders' && ME.role === 'merchant' && !DB.stores.length) ? loadStat().then(go) : go();
+    secRun[name] = p.then(function (ch) { secFail[name] = 0; return !!ch; }, function (e) {
+      secFail[name] = (secFail[name] || 0) + 1; console.error(name, e); lastErr = String((e && e.message) || e); return false;
+    }).then(function (v) { secRun[name] = null; return v; });
+    return secRun[name];
+  }
+  function refresh(which) {
+    if (!ME || !sb) return Promise.resolve();
+    var names = which ? [].concat(which) : ['stat', 'orders', 'misc'].concat(ME.role === 'driver' ? ['offers'] : []);
+    return Promise.all(names.map(runSection)).then(function (res) {
+      if (res.some(Boolean)) { ORD = shape(); notify(); fireSoon(); maybeTick(); }
     }).catch(function (e) { console.error(e); lastErr = String((e && e.message) || e); });
+  }
+  function kick(sec) {
+    if (kicks[sec]) return;
+    kicks[sec] = setTimeout(function () { kicks[sec] = null; refresh(sec); }, 250 + Math.floor(Math.random() * 400));
+  }
+  function subscribeRealtime() {
+    var ch = sb.channel('tlb-' + ME.id);
+    var on = function (table, sec) { ch.on('postgres_changes', { event: '*', schema: 'public', table: table }, function () { kick(sec); }); };
+    on('orders', 'orders'); on('order_chat', 'orders');
+    if (ME.role === 'driver') on('order_offers', 'offers');
+    if (ME.role === 'admin') { on('ratings', 'misc'); on('order_offers', 'misc'); }
+    ch.subscribe();
+  }
+  function startScheduler() {
+    var every = EVERY[ME.role] || EVERY.customer, now0 = Date.now();
+    Object.keys(every).forEach(function (k) { secT0[k] = now0 - Math.floor(Math.random() * every[k] * 0.5); });   // spread the users in time
+    setInterval(function () {
+      if (offlineNow || (typeof document !== 'undefined' && document.hidden)) return;
+      var now = Date.now();
+      Object.keys(every).forEach(function (sec) {
+        if (sec === 'offers' && !ME.online) return;
+        var mult = Math.min(8, Math.pow(2, secFail[sec] || 0));
+        if (now - (secT0[sec] || 0) >= every[sec] * mult) refresh(sec);
+      });
+    }, 1000);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) setTimeout(function () { refresh(); }, Math.floor(Math.random() * 1200)); });
+    window.addEventListener('online', function () { offlineNow = false; var b = $('tlb-off'); if (b) b.remove(); refresh(); });
+    window.addEventListener('offline', function () {
+      offlineNow = true; if ($('tlb-off')) return;
+      var b = document.createElement('div'); b.id = 'tlb-off'; b.setAttribute('data-i18n', 'offline');
+      b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10002;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;text-align:center;padding:calc(6px + env(safe-area-inset-top,0px)) 8px 6px';
+      document.body.appendChild(b); applyI18n();
+    });
   }
   /* Dispatch heartbeat: expires old offers and moves waiting orders to the next courier. Only when it can matter. */
   function maybeTick() {
-    if (!ME || !sb) return;
+    if (!ME || !sb || Date.now() - lastTick < 4000) return;
     var need_ = ME.role === 'driver' ? !!ME.online : (ME.role === 'admin' || ME.role === 'merchant') ? DB.orders.some(function (o) { return !o.driver_id && (o.status === 'preparing' || o.status === 'ready'); }) : false;
-    if (need_) sb.rpc('dispatch_tick').then(function () { }, function () { });
+    if (need_) { lastTick = Date.now(); sb.rpc('dispatch_tick').then(function () { }, function () { }); }
   }
   var UUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
   /* cart -> server lines. Accepts a list of {item_id, qty, options, note} or a legacy {itemId: qty} map. Returns null if anything looks wrong. */
@@ -251,11 +376,13 @@
   function cleanPct(v) { var n = +v; return isFinite(n) && n > 0 && n <= 100 ? Math.round(n * 100) / 100 : 0; }
   function num(v) { if (v === null || v === undefined || v === '' || typeof v === 'boolean') return NaN; var n = +v; return isFinite(n) ? n : NaN; }
   function cleanAddr(f) {
-    var street = String(f.street == null ? '' : f.street).replace(/\s+/g, ' ').trim(), det = String(f.details == null ? '' : f.details).replace(/\s+/g, ' ').trim();
+    var one = function (v) { return String(v == null ? '' : v).replace(/\s+/g, ' ').trim(); };
+    var street = one(f.street), house = one(f.house), ent = one(f.entrance), flr = one(f.floor), apt = one(f.apartment), note = one(f.note);
     var lat = num(f.lat), lng = num(f.lng), lab = f.label;
-    if (['home', 'work', 'other'].indexOf(lab) < 0 || street.length < 3 || street.length > 120 || det.length > 120) return null;
+    if (['home', 'work', 'other'].indexOf(lab) < 0 || street.length < 3 || street.length > 120) return null;
+    if (house.length < 1 || house.length > 20 || ent.length > 10 || flr.length > 10 || apt.length > 10 || note.length > 120) return null;
     if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
-    return { label: lab, street: street, details: det || null, lat: lat, lng: lng };
+    return { label: lab, street: street, house: house, entrance: ent || null, floor: flr || null, apartment: apt || null, note: note || null, lat: lat, lng: lng };
   }
   function cleanSection(v) { v = String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, 40); return v || null; }
   function badStore() { toast(t('err_bad_value'), true); return Promise.resolve({ error: 'bad_value', toasted: true }); }
@@ -348,7 +475,7 @@
       req.then(function (r) {
         busy = false;
         if (r.error) { $('tlb-go').disabled = false; $('tlb-go').textContent = su ? t('signup') : t('login'); return show(authErr(r.error)); }
-        if (!r.data.session) { return showSignupDone(email); }
+        if (!r.data || !r.data.session) { return showSignupDone(email); }
         enter(r.data.user);
       }, function () { busy = false; $('tlb-go').disabled = false; $('tlb-go').textContent = su ? t('signup') : t('login'); show(t('err_generic')); });
     };
@@ -395,9 +522,9 @@
       if (ME.role !== need) { bootHide(); return blocked('wrongRole'); }
       if (need === 'driver' && ME.driver_status !== 'approved') { bootHide(); return blocked('pendingApp'); }
       var o = $('tlb-ov'); if (o) o.remove();
-      return refresh().catch(function (e) { console.error(e); lastErr = String((e && e.message) || e); }).then(function () {
-        sb.channel('tlb').on('postgres_changes', { event: '*', schema: 'public' }, function () { refresh().catch(function () { }); }).subscribe();
-        setInterval(function () { refresh().catch(function () { }); }, 4000);
+      return refresh().then(function () {
+        try { subscribeRealtime(); } catch (e) { console.error(e); }
+        startScheduler();
         bootHide();
         onReady(me());
       });
@@ -447,13 +574,13 @@
     updateOption: function (id, f) { var u = {}; if ('name' in f) { var n = String(f.name || '').trim(); if (!n || n.length > 60) return badStore(); u.name = n; } if ('price' in f) { var p = +f.price; if (!isFinite(p) || p < 0 || p > 100000) return badStore(); u.price_delta = Math.round(p * 100) / 100; } if ('available' in f) u.available = !!f.available; return sb.from('item_options').update(u).eq('id', id).then(function (r) { return done(r, true); }); },
     deleteOption: function (id) { return sb.from('item_options').delete().eq('id', id).then(done); },
     addresses: function () { return DB.addresses; },
-    addAddress: function (f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').insert(Object.assign({ user_id: ME.id }, c)).select('id').single().then(function (r) { if (r.error) { console.error(r.error); toast(t('err_generic'), true); return { error: 'generic', toasted: true }; } return refresh().then(function () { return { ok: true, id: r.data.id }; }); }); },
+    addAddress: function (f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').insert(Object.assign({ user_id: ME.id }, c)).select('id').single().then(function (r) { if (r.error) { console.error(r.error); toast(t('err_generic'), true); return { error: 'generic', toasted: true }; } return refresh().then(function () { return { ok: true, id: r.data ? r.data.id : null }; }); }); },
     updateAddress: function (id, f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').update(c).eq('id', id).then(done); },
     deleteAddress: function (id) { return sb.from('addresses').delete().eq('id', id).then(done); },
     setDefaultAddress: function (id) { return sb.rpc('set_default_address', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
     quote: function (storeN, lat, lng) {
       var st = storeByName(storeN); if (!st || isNaN(num(lat)) || isNaN(num(lng))) return Promise.resolve({ error: 'bad_value' });
-      return sb.rpc('delivery_quote', { p_store: st.id, p_lat: num(lat), p_lng: num(lng) }).then(function (r) { return r.error ? { error: errKey(r.error) } : { fee: +r.data.fee, km: r.data.km == null ? null : +r.data.km }; }, function () { return { error: 'generic' }; });
+      return sb.rpc('delivery_quote', { p_store: st.id, p_lat: num(lat), p_lng: num(lng) }).then(function (r) { if (r.error || !r.data || !isFinite(+r.data.fee)) return { error: r.error ? errKey(r.error) : 'generic' }; return { fee: +r.data.fee, km: r.data.km == null ? null : +r.data.km }; }, function () { return { error: 'generic' }; });
     },
     getMenu: function (n) { return this.allMenus(false)[n] || []; },
     ping: function (online) { return sb.rpc('driver_ping', { p_online: !!online }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
@@ -484,6 +611,53 @@
       var ok = function (v) { return v == null || (v >= 1 && v <= 5 && Math.floor(v) === v); };
       if (!ok(store) || !ok(driver) || (store == null && driver == null)) return Promise.resolve({ error: 'bad_value' });
       return rpc('rate_order', { p_order: orderId, p_store: store == null ? null : store, p_driver: driver == null ? null : driver, p_comment: String(comment || '').slice(0, 300) }, true);
+    },
+    uploadImage: function (file, o) {
+      o = o || {};
+      return new Promise(function (resolve) {
+        if (!file || !/^image\//.test(file.type || '') || file.size > 12 * 1024 * 1024) { toast(t('err_bad_value'), true); return resolve(null); }
+        var fr = new FileReader();
+        fr.onerror = function () { toast(t('err_generic'), true); resolve(null); };
+        fr.onload = function () {
+          var im = new Image();
+          im.onerror = function () { toast(t('err_bad_value'), true); resolve(null); };
+          im.onload = function () {
+            var max = o.maxW || 800, k = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement('canvas');
+            c.width = Math.max(1, Math.round(im.width * k)); c.height = Math.max(1, Math.round(im.height * k));
+            c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+            var q = o.q || 0.78, inline = function () { resolve(c.toDataURL('image/jpeg', q)); };
+            if (!c.toBlob || !sb || !sb.storage || !ME) return inline();
+            c.toBlob(function (blob) {
+              if (!blob) return inline();
+              var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+              var path = ME.id + '/' + id + '.jpg';
+              sb.storage.from('media').upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false }).then(function (r) {
+                if (r.error) { console.error(r.error); return inline(); }                    // storage not set up yet: keep working with an inline image
+                resolve(sb.storage.from('media').getPublicUrl(path).data.publicUrl);
+              }, function () { inline(); });
+            }, 'image/jpeg', q);
+          };
+          im.src = fr.result;
+        };
+        fr.readAsDataURL(file);
+      });
+    },
+    reportError: reportError,
+    loadOrderExtra: function (id) {
+      if (!ME || !sb || (extraLoaded[id] && Date.now() - extraLoaded[id] < 15000)) return Promise.resolve();
+      extraLoaded[id] = Date.now(); extraOrders[id] = 1;
+      return Promise.all([sb.from('order_chat').select('*').eq('order_id', id).order('created_at'), sb.from('order_events').select('*').eq('order_id', id).order('at')]).then(function (r) {
+        var seen = {}; DB.chat.forEach(function (c) { seen[c.id] = 1; });
+        (r[0].error ? [] : (r[0].data || [])).forEach(function (c) { if (!seen[c.id]) { DB.chat.push(c); seen[c.id] = 1; } });
+        DB.events = DB.events.filter(function (e) { return e.order_id !== id; }).concat(r[1].error ? [] : (r[1].data || []));
+        ORD = shape(); fireSoon();
+      }).catch(function (e) { console.error(e); });
+    },
+    audit: function (limit) {
+      return sb.from('audit_log').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
+    },
+    clientErrors: function (limit) {
+      return sb.from('client_errors').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
     },
     mapView: function (elId, points, center) {
       loadLeaflet(function () {
@@ -568,9 +742,9 @@
     toggleFav: function (storeId) {
       var has = DB.favs.indexOf(storeId) >= 0;
       DB.favs = has ? DB.favs.filter(function (x) { return x !== storeId; }) : DB.favs.concat([storeId]);
-      fire();
+      fireSoon();
       var q = has ? sb.from('favorites').delete().eq('user_id', ME.id).eq('store_id', storeId) : sb.from('favorites').insert({ user_id: ME.id, store_id: storeId });
-      return q.then(function (r) { if (r.error) console.error(r.error); sig = ''; return refresh(); });
+      return q.then(function (r) { if (r.error) console.error(r.error); sigs = {}; return refresh(['misc']); });
     }
   };
 })();

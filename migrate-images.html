@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location}catch(e){}}</script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://dzydscryrnahnneydnry.supabase.co; connect-src 'self' https://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Talabat image migration</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font:15px/1.45 -apple-system,BlinkMacSystemFont,sans-serif;background:#f6f6f8;color:#1c1c21;padding:calc(18px + env(safe-area-inset-top,0px)) 14px 40px}
+.w{max-width:720px;margin:0 auto}h1{font-size:22px}p{color:#8b8f98;margin:6px 0 14px}.card{background:#fff;border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 14px rgba(28,28,33,.06)}
+button{border:0;border-radius:999px;background:#f1511b;color:#fff;font:700 15px inherit;height:48px;width:100%;cursor:pointer;margin-top:8px}button.g{background:#f1f1f4;color:#1c1c21}button[disabled]{opacity:.5}
+.row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #eeeef1;font-size:14px}.row:last-child{border:0}.ok{color:#1fa05a;font-weight:700}.bad{color:#d92d20;font-weight:700}
+#log{max-height:260px;overflow:auto;font-size:12px;color:#55585f;white-space:pre-wrap;word-break:break-word}
+</style></head><body><div class="w">
+<h1>Move images to Storage</h1>
+<p>One-time tool for the ADMIN. It takes every image that is stored inside a database row (data:image…) and moves it to Supabase Storage, then saves the short link instead.
+After this the apps stop downloading images inside every data refresh. Safe to run again: rows already converted are skipped. Needs <b>schema_patch17.sql</b> to be executed first.</p>
+<div class="card"><div id="who" style="font-size:13px;color:#8b8f98">Checking sign-in…</div>
+<button id="scan" class="g" disabled>1) Scan (count only, changes nothing)</button><button id="go" disabled>2) Convert now</button></div>
+<div class="card" id="res" style="display:none"></div><div class="card" id="logc" style="display:none"><div id="log"></div></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+var URL_='https://dzydscryrnahnneydnry.supabase.co',KEY='sb_publishable_zQKbsSffub7O-f87vsXAaQ_GHFnSOQz';
+var sb=supabase.createClient(URL_,KEY,{auth:{storageKey:'tlb-auth-admin'}}),me=null,$=function(i){return document.getElementById(i)};
+var TARGETS=[{t:'stores',c:['logo_url','cover_url']},{t:'menu_items',c:['image_url']},{t:'banners',c:['image_url']}];
+function log(m){$('logc').style.display='block';var l=$('log');l.textContent+=m+'\n';l.scrollTop=l.scrollHeight}
+function row(k,v,cls){var d=document.createElement('div');d.className='row';var a=document.createElement('span');a.textContent=k;var b=document.createElement('span');b.textContent=v;if(cls)b.className=cls;d.appendChild(a);d.appendChild(b);$('res').appendChild(d)}
+function toBlob(dataUrl){var m=/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/.exec(dataUrl);if(!m)return null;var bin=atob(m[2]),n=bin.length,u=new Uint8Array(n);for(var i=0;i<n;i++)u[i]=bin.charCodeAt(i);return{blob:new Blob([u],{type:m[1]}),ext:m[1]==='image/png'?'png':m[1]==='image/webp'?'webp':'jpg',type:m[1]}}
+async function find(){var out=[];for(var k=0;k<TARGETS.length;k++){var T=TARGETS[k];for(var j=0;j<T.c.length;j++){var col=T.c[j];var r=await sb.from(T.t).select('id,'+col).like(col,'data:image%').limit(500);if(r.error){log('ERROR reading '+T.t+'.'+col+': '+r.error.message);continue}(r.data||[]).forEach(function(x){out.push({t:T.t,c:col,id:x.id,v:x[col]})})}}return out}
+async function scan(){$('res').style.display='block';$('res').textContent='';var f=await find(),by={};f.forEach(function(x){var k=x.t+'.'+x.c;by[k]=(by[k]||0)+1});Object.keys(by).forEach(function(k){row(k,by[k]+' image(s) inside the database')});if(!f.length)row('Nothing to convert','all images are already links','ok');var kb=Math.round(f.reduce(function(s,x){return s+x.v.length},0)/1024);if(f.length)row('Total size that every refresh was downloading',kb+' KB','bad');return f}
+async function go(){$('go').disabled=true;$('scan').disabled=true;var f=await scan();var ok=0,bad=0;
+  for(var i=0;i<f.length;i++){var x=f[i],p=toBlob(x.v);if(!p){bad++;log('skip '+x.t+' '+x.id+': not a jpeg/png/webp data image');continue}
+    var path=me.id+'/migrated/'+x.t+'-'+x.id+'-'+x.c+'.'+p.ext;
+    var up=await sb.storage.from('media').upload(path,p.blob,{contentType:p.type,cacheControl:'31536000',upsert:true});
+    if(up.error){bad++;log('upload failed '+x.t+' '+x.id+': '+up.error.message);continue}
+    var url=sb.storage.from('media').getPublicUrl(path).data.publicUrl,u={};u[x.c]=url;
+    var r=await sb.from(x.t).update(u).eq('id',x.id);
+    if(r.error){bad++;log('update failed '+x.t+' '+x.id+': '+r.error.message);continue}
+    ok++;log('ok '+x.t+' '+x.id+' '+x.c)}
+  $('res').textContent='';row('Converted',String(ok),'ok');row('Failed',String(bad),bad?'bad':'ok');row('Remaining','run "Scan" to confirm it says nothing is left');$('go').disabled=false;$('scan').disabled=false}
+(async function(){var u=(await sb.auth.getUser()).data.user;if(!u){$('who').textContent='Not signed in. Open the ADMIN app (admin.html) in this browser, sign in, then reload this page.';return}
+  var p=await sb.from('profiles').select('role').eq('id',u.id).single();if(!p.data||p.data.role!=='admin'){$('who').textContent='This account is not an admin ('+(p.data&&p.data.role)+'). Sign in to admin.html with the admin account.';return}
+  me=u;$('who').textContent='Signed in as admin: '+(u.email||u.id);$('scan').disabled=false;$('go').disabled=false;$('scan').onclick=scan;$('go').onclick=go})();
+</script></body></html>

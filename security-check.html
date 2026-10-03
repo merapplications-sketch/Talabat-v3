@@ -126,9 +126,23 @@ async function run(){
   await expectBlocked('Customer cannot save an address for another user',c.from('addresses').insert({user_id:crypto.randomUUID(),label:'home',street:'security test',lat:38.5,lng:68.7}).select());
   await expectBlocked('An address with an impossible map point is refused',c.from('addresses').insert({user_id:u.id,label:'home',street:'security test',lat:123,lng:68.7}).select());
   if(item)await expectError('An order WITHOUT an address / map point is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'',p_lat:null,p_lng:null}));
+  /* ---------- patch 17: private columns, audit, error log, storage, safe retry ---------- */
   var cm=await c.from('stores').select('commission_pct').limit(1);
-  if(cm.data&&cm.data.length&&cm.data[0].commission_pct!=null)row('WARN','Commission is readable by every signed-in user','Known risk (not yet fixed): store commission can be read by any logged-in account. Fix: move it to an admin-only table.');
+  if(cm.error)row('PASS','Restaurant commission is hidden from customers','refused ('+msg(cm)+')');
+  else if(cm.data&&cm.data.length&&cm.data[0].commission_pct!=null)row('FAIL','Commission is readable by every signed-in user','run schema_patch17.sql - this must be fixed');
   else row('PASS','Commission is hidden from customers','');
+  var cw=await c.from('stores').select('owner_id,max_discount_pct').limit(1);
+  if(cw.error)row('PASS','Store owner id and discount cap are hidden from customers','refused ('+msg(cw)+')');else row('FAIL','Store owner / discount cap readable by customers','run schema_patch17.sql');
+  var sp=await c.rpc('store_private');
+  if(sp.error||!sp.data||sp.data.length===0)row('PASS','store_private() returns nothing for a customer','empty');else row('FAIL','store_private() leaks private store data to a customer','this must be fixed');
+  await expectBlocked('Customer cannot read the audit log',c.from('audit_log').select('*').limit(1));
+  await expectBlocked('Customer cannot read other people\'s app errors',c.from('client_errors').select('*').limit(1));
+  await expectBlocked('Customer cannot write the audit log',c.from('audit_log').insert({action:'x',table_name:'x'}).select());
+  var up=await c.storage.from('media').upload(u.id+'/security-test.jpg',new Blob([new Uint8Array([255,216,255,224])],{type:'image/jpeg'}),{contentType:'image/jpeg',upsert:true});
+  if(up.error)row('PASS','Customer cannot upload files to Storage','refused ('+String(up.error.message).slice(0,80)+')');
+  else{row('FAIL','Customer uploaded a file to public Storage','this must be fixed');await c.storage.from('media').remove([u.id+'/security-test.jpg'])}
+  if(item)await expectError('A malformed retry key is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_key:'x'}));
+  if(item)await expectBlocked('An image from another website cannot be saved on a dish',c.from('menu_items').update({image_url:'https://evil.example/pixel.png'}).eq('id',item.id).select());
   fin(u)}
 function fin(u){$('sumc').style.display='block';$('go').disabled=false;
   $('sum').textContent=counts.FAIL?('PROBLEM: '+counts.FAIL+' check(s) FAILED'):('OK: '+counts.PASS+' passed'+(counts.WARN?(', '+counts.WARN+' warning(s)'):''));
