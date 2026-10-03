@@ -62,7 +62,7 @@ small{color:var(--mut)}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=18"></script>
+<script src="talabat-core.js?v=19"></script>
 <script>
 TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
 aAdd:'Добавить магазин',aName:'Название',aDesc:'Описание',aCom:'Комиссия, %',aFeeT:'Тип доставки',aFix:'Фиксированная',aDist:'По расстоянию',aFree:'Бесплатная',aFeeB:'Базовая цена доставки',aKm:'Цена за км (после 3 км)',aDis:'Скидка магазина, %',aSave:'Создать магазин',aFill:'Введите название',
@@ -329,7 +329,7 @@ function render(){
   if(lastLow>=0&&lowN>lastLow){try{TLB.beep()}catch(e){}}lastLow=lowN;
   const kp=(ic,v,l)=>`<div class="k"><i>${ic}</i><b>${v}</b><span>${l}</span></div>`;
   const badge=x=>x=='d'&&ovN?`<em>${ovN}</em>`:x=='r'&&lowN?`<em>${lowN}</em>`:'';
-  $('app').innerHTML=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div><div class="tps">${t('aNote')}</div></div></div>${livePills()}</div>
+  $('app').innerHTML=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div><div class="tps">${t('aNote')} · ${esc(TLB.version||'')}</div></div></div>${livePills()}</div>
   ${alerts()}<div class="grid">${kp('📦',all.length,t('aKOrd'))}${kp('💰',del.reduce((s,o)=>s+o.total,0)+' TJS',t('aKRev'))}${kp('%',del.reduce((s,o)=>s+o.commission,0).toFixed(1)+' TJS',t('aKCom'))}${kp('⏱',act.length,t('aKAct'))}</div>
   <div class="tabs">${[['o','tO'],['s','tS'],['d','tD'],['r','tR'],['b','tB'],['c','tP']].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;E=null;DE=null;BE=null;render()">${t(x[1])}${badge(x[0])}</button>`).join('')}</div>`+body+assignModal()+mapModal()+resModal();
   if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}}

@@ -102,7 +102,10 @@
   var seenChat = {}, lastStatus = {}, unread = {};
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: DB.groups.some(function (g) { return g.item_id === i.id; }), store: storeName(i.store_id) }; }
+  var VERSION = 'v19';
+  function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+  function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+  function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
   function shape() {
     return DB.orders.map(function (o) {
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
@@ -193,7 +196,7 @@
   }
   function rpc(name, args, okToast) {
     return sb.rpc(name, args).then(function (r) {
-      if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
+      if (r.error) { console.error(r.error); return { error: errKey(r.error), detail: String((r.error && r.error.message) || '').slice(0, 140) }; }
       if (okToast) toast(t('saved'));
       return refresh().then(function () { return { data: r.data }; });
     });
@@ -355,6 +358,7 @@
 
   /* ---------- API ---------- */
   window.TLB = {
+    version: VERSION,
     t: t, esc: esc, applyI18n: applyI18n, setLang: setLang, lang: function () { return lang; },
     addDict: function (ru, en) { Object.assign(I.ru, ru); Object.assign(I.en, en); },
     on: function (f) { subs.push(f); },
