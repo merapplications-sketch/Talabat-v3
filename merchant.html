@@ -22,15 +22,35 @@ input[type=text],input[type=number],input[type=search]{width:100%;padding:12px 1
 .thumb{width:54px;height:54px;border-radius:14px;object-fit:cover;background:#ececf0}
 .k{background:#fff;border-radius:18px;padding:14px;text-align:left;flex:1;box-shadow:var(--sh)}.k b{font-size:20px;color:var(--o);display:block}.k span{font-size:12px;color:var(--mut)}
 .bar{width:36px;border-radius:8px 8px 0 0;margin:0 auto}
+
+.pl{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:#f1f1f4;color:var(--mut)}.pl.pending{background:var(--wbg);color:#c2410c}.pl.preparing,.pl.ready{background:#e8effd;color:#1d4ed8}.pl.pickedup{background:#f0e8fd;color:#6d28d9}
+.card.new{box-shadow:0 0 0 2px var(--o),var(--sh)}.mut{color:var(--mut)}.xs{font-size:12px}.ok{color:var(--ok)}.bad{color:var(--bad)}.b6{font-weight:600}.rg{display:flex;align-items:center}
+.seg{display:flex;background:#f1f1f4;border-radius:999px;padding:3px}.seg button{flex:1;border:0;background:none;border-radius:999px;padding:9px;font-weight:600;font-size:13px;color:var(--mut);cursor:pointer}.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px #0002}
+.info{background:#e8effd;color:#1d4ed8;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:600;margin-top:10px}.info.ok{background:var(--okbg);color:var(--ok)}
+.empty{text-align:center;color:var(--mut);padding:30px 16px}
+h3{font-size:16px;margin:14px 2px 10px}
+.sec{margin-bottom:6px}.sh{font-weight:700;font-size:15px;margin:14px 4px 8px;display:flex;gap:8px;align-items:baseline}
+.mr{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}.mr:last-child{border:0}
+.mr .th{width:58px;height:58px;border-radius:14px;overflow:hidden;background:#ececf0;flex-shrink:0}.mr .th img{width:100%;height:100%;object-fit:cover}
+.mt2{flex:1;min-width:0}.mt2 .nm{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mt2 .pr{font-size:14px;color:var(--o)}.mt2 .pr s{color:var(--mut);font-size:12px}.dc{background:var(--tint);border-radius:6px;padding:1px 6px;font-size:11px;font-weight:700}
+.sw{width:50px;height:30px;border-radius:999px;background:#d4d6db;border:0;position:relative;flex-shrink:0;cursor:pointer;transition:background .15s}.sw i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:left .15s}.sw.on{background:var(--ok)}.sw.on i{left:23px}
+.swb{display:flex;align-items:center;gap:8px;border:0;border-radius:999px;background:#ffffff33;color:#fff;font-weight:700;font-size:13px;padding:6px 14px 6px 8px;cursor:pointer}.swb i{width:22px;height:22px;border-radius:50%;background:#fff;opacity:.55}.swb.on i{background:#7dffb0;opacity:1}
+.sbx{flex:1;display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:0 14px;height:46px;box-shadow:var(--sh);color:var(--mut)}.sbx input{border:0;outline:0;margin:0;background:none;padding:0;flex:1;height:100%;border-radius:0}.sbx input:focus{background:none}
+.ov{position:fixed;left:0;right:0;top:0;bottom:0;background:#0007;z-index:900;display:flex;align-items:flex-end;justify-content:center}.md{background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom,0px))}
+.rb{width:38px;height:38px;border-radius:50%;background:#f1f1f4;border:0;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.photo{display:flex;align-items:center;justify-content:center;height:150px;border-radius:18px;background:#f3f3f6;border:1.5px dashed #d6d7de;overflow:hidden;margin-bottom:12px;color:var(--mut);text-align:center;font-size:13px;font-weight:600;cursor:pointer}.photo img{width:100%;height:100%;object-fit:cover}
+.fl{display:block;font-size:12px;color:var(--mut);font-weight:600;margin-bottom:6px}.fl input{margin-top:5px;margin-bottom:6px;color:var(--ink);font-weight:500}
+.chs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}.ch{background:#f1f1f4;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer}
+select{border:0;border-radius:999px;font-weight:600}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=14"></script>
+<script src="talabat-core.js?v=15"></script>
 <script>
-TLB.addDict({mOrders:'Заказы',mMenu:'Меню',mStats:'Аналитика',live:'Активные заказы',noAct:'Нет активных заказов',prep:'Время приготовления',acc:'Принять ✓',rej:'Отклонить ✕',rdy:'Готов к выдаче 📦',withC:'Передан курьеру — ждём доставку',waitC:'Ждём курьера',pay:'Оплата',open:'ОНЛАЙН',shut:'ЗАКРЫТО',addD:'Добавить блюдо',nm:'Название блюда',pr:'Цена, TJS',hit:'🌟 Хит продаж',photo:'📷 Фото из галереи',addB:'Добавить в меню',stop:'В стоп-лист',on:'Включить',del:'Удалить',avail:'Доступно',stopped:'В стоп-листе',fill:'Заполните название и цену',dD:'День',dW:'Неделя',dM:'Месяц',dY:'Год',done:'Выполнено',rejd:'Отклонено',rev:'Выручка',hist:'История',noH:'Пока пусто',sto:'Магазин',mSt:'Профиль',stCover:'📷 Изменить обложку',stDesc:'Описание магазина',mDisc:'Скидка магазина, %',mDiscMax:'Максимум (задаёт администрация):',secL:'Раздел меню',secPh:'Например: Бургеры, Напитки',itDis:'Скидка на блюдо, %',itDisMax:'не больше',stSave:'Сохранить'},
-{mOrders:'Orders',mMenu:'Menu',mStats:'Analytics',live:'Active orders',noAct:'No active orders',prep:'Prep time',acc:'Accept ✓',rej:'Reject ✕',rdy:'Ready for pickup 📦',withC:'Handed to courier — awaiting delivery',waitC:'Waiting for courier',pay:'Payment',open:'ONLINE',shut:'CLOSED',addD:'Add item',nm:'Item name',pr:'Price, TJS',hit:'🌟 Bestseller',photo:'📷 Photo from gallery',addB:'Add to menu',stop:'Stop-list',on:'Enable',del:'Delete',avail:'Available',stopped:'In stop-list',fill:'Enter name and price',dD:'Day',dW:'Week',dM:'Month',dY:'Year',done:'Completed',rejd:'Rejected',rev:'Revenue',hist:'History',noH:'Nothing yet',sto:'Store',mSt:'Profile',stCover:'📷 Change cover photo',stDesc:'Store description',mDisc:'Store discount, %',mDiscMax:'Maximum (set by admin):',secL:'Menu section',secPh:'e.g. Burgers, Drinks',itDis:'Item discount, %',itDisMax:'max',stSave:'Save'});
+TLB.addDict({mOrders:'Заказы',mMenu:'Меню',mStats:'Аналитика',live:'Активные заказы',noAct:'Нет активных заказов',prep:'Время приготовления',acc:'Принять ✓',rej:'Отклонить ✕',rdy:'Готов к выдаче 📦',withC:'Передан курьеру — ждём доставку',waitC:'Ждём курьера',pay:'Оплата',open:'ОНЛАЙН',shut:'ЗАКРЫТО',addD:'Добавить блюдо',nm:'Название блюда',pr:'Цена, TJS',hit:'🌟 Хит продаж',photo:'📷 Фото из галереи',addB:'Добавить в меню',stop:'В стоп-лист',on:'Включить',del:'Удалить',avail:'Доступно',stopped:'В стоп-листе',fill:'Заполните название и цену',dD:'День',dW:'Неделя',dM:'Месяц',dY:'Год',done:'Выполнено',rejd:'Отклонено',rev:'Выручка',hist:'История',noH:'Пока пусто',sto:'Магазин',mSt:'Профиль',stCover:'📷 Изменить обложку',stDesc:'Описание магазина',mDisc:'Скидка магазина, %',mDiscMax:'Максимум (задаёт администрация):',secL:'Раздел меню',secPh:'Например: Бургеры, Напитки',itDis:'Скидка на блюдо, %',itDisMax:'не больше',stSave:'Сохранить',newO:'Новые',inWork:'В работе',editD:'Редактировать блюдо',searchM:'Поиск блюда…',inStock:'В наличии',hitL:'Хит продаж',saveB:'Сохранить',closeB:'Закрыть',photoCh:'Изменить фото',photoAdd:'Добавить фото',delItem:'Удалить блюдо',delQ:'Удалить это блюдо из меню?',itemsN:'блюд',noItems:'В меню пока нет блюд. Добавьте первое.',secNone:'Без раздела',soldOut:'Нет в наличии',cust:'Клиент',addNew:'Добавить блюдо'},
+{mOrders:'Orders',mMenu:'Menu',mStats:'Analytics',live:'Active orders',noAct:'No active orders',prep:'Prep time',acc:'Accept ✓',rej:'Reject ✕',rdy:'Ready for pickup 📦',withC:'Handed to courier — awaiting delivery',waitC:'Waiting for courier',pay:'Payment',open:'ONLINE',shut:'CLOSED',addD:'Add item',nm:'Item name',pr:'Price, TJS',hit:'🌟 Bestseller',photo:'📷 Photo from gallery',addB:'Add to menu',stop:'Stop-list',on:'Enable',del:'Delete',avail:'Available',stopped:'In stop-list',fill:'Enter name and price',dD:'Day',dW:'Week',dM:'Month',dY:'Year',done:'Completed',rejd:'Rejected',rev:'Revenue',hist:'History',noH:'Nothing yet',sto:'Store',mSt:'Profile',stCover:'📷 Change cover photo',stDesc:'Store description',mDisc:'Store discount, %',mDiscMax:'Maximum (set by admin):',secL:'Menu section',secPh:'e.g. Burgers, Drinks',itDis:'Item discount, %',itDisMax:'max',stSave:'Save',newO:'New',inWork:'In progress',editD:'Edit item',searchM:'Search dishes…',inStock:'In stock',hitL:'Bestseller',saveB:'Save',closeB:'Close',photoCh:'Change photo',photoAdd:'Add photo',delItem:'Delete item',delQ:'Delete this item from the menu?',itemsN:'items',noItems:'No dishes in the menu yet. Add the first one.',secNone:'No section',soldOut:'Out of stock',cust:'Customer',addNew:'Add dish'});
 const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
-let STORE='',tab='o',per='dD',img='',lastN=-1;
+let STORE='',tab='o',per='dD',img='',lastN=-1,SH=null,mq='';
 const ACT=['pending','preparing','ready','pickedup'];
 const act=()=>TLB.orders(o=>o.store==STORE&&ACT.includes(o.status));
 const past=()=>TLB.orders(o=>o.store==STORE&&['delivered','rejected','cancelled'].includes(o.status));
@@ -39,31 +59,49 @@ document.addEventListener('click',()=>{},{once:true});
 const setTab=x=>{tab=x;render()};
 const setStore=v=>{STORE=v;localStorage.setItem('tlb_mstore',v);lastN=-1;render()};
 const st=async(id,s)=>{const r=await TLB.setStatus(id,s);if(r.error)alert(t('err_'+r.error))};
+const SVG=(p,s)=>`<svg viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;flex-shrink:0">${p}</svg>`;
+const I={plus:'<path d="M12 5v14M5 12h14"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',chev:'<path d="M9 6l6 6-6 6"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',trash:'<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/>'};
+const MX=()=>{const s=TLB.myStores().find(x=>x.name==STORE)||{};return s.max_discount_pct==null?30:+s.max_discount_pct};
 const tog=id=>{const i=TLB.getMenu(STORE).find(x=>x.id==id);if(i)TLB.updateItem(id,{available:!i.available})};
-const del=id=>{if(confirm('OK?'))TLB.deleteItem(id)};
-function pick(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),s=200/Math.max(im.width,im.height,200);c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);img=c.toDataURL('image/jpeg',.7);$('pv').src=img;$('pv').style.display='block'};im.src=ev.target.result};r.readAsDataURL(f)}
-function addItem(){const n=$('nn').value.trim(),p=parseFloat($('np').value);if(!n||!(p>0)){alert(t('fill'));return}
-  const pop=$('nh').checked,im=img;TLB.addItem(STORE,{name:n.slice(0,60),price:p,image:im,popular:pop,section:$('nsec').value,discount:$('ndis').value});img=''}
-function setDisc(id,v,mx){const n=+v;if(!isFinite(n)||n<0||n>mx){alert(t('err_discount_over_max'));render();return}TLB.updateItem(id,{discount_pct:n})}
-function setSec(id,v){TLB.updateItem(id,{section:v})}
-function vOrders(){const l=act();
-  return `<h3 style="margin-bottom:10px">${t('live')}</h3>${l.length?l.map(o=>`<div class="card"><div class="row"><b>#${o.id}</b><b style="color:#ff5a00">${o.total} TJS</b></div>
-  <p style="font-size:12px;color:#718096">${t('pay')}: ${esc(t(o.payment))} • ${esc(o.client.name)}</p>
+function openSheet(id){const i=id?TLB.getMenu(STORE).find(x=>x.id==id):null;SH=i?{id:i.id,name:i.name,price:String(i.price),section:i.section||'',disc:String(+i.discount||0),pop:!!i.popular,image:i.image||'',changed:false}:{id:null,name:'',price:'',section:'',disc:'0',pop:false,image:'',changed:false};render()}
+let SECL=[];
+function pickSec(i){if(SECL[i]!=null){SH.section=SECL[i];render()}}
+function closeSheet(){SH=null;render()}
+function shSet(k,v){SH[k]=v}
+function shPick(e){const f=e.target.files[0];if(!f)return;rz(f,480,.72,d=>{SH.image=d;SH.changed=true;render()})}
+async function saveSheet(){const n=SH.name.trim(),p=parseFloat(SH.price),dc=parseFloat(SH.disc||'0'),mx=MX();
+  if(!n||!(p>0)){alert(t('fill'));return}
+  if(!isFinite(dc)||dc<0||dc>mx){alert(t('err_discount_over_max'));return}
+  const f={name:n.slice(0,60),price:p,popular:SH.pop,section:SH.section,discount_pct:dc};
+  if(SH.changed)f.image=SH.image;
+  const r=SH.id?await TLB.updateItem(SH.id,f):await TLB.addItem(STORE,{name:f.name,price:p,image:SH.image,popular:SH.pop,section:SH.section,discount:dc});
+  if(r&&r.error)return;SH=null;render()}
+function delItem(){if(!SH||!SH.id)return;if(confirm(t('delQ'))){TLB.deleteItem(SH.id);SH=null;render()}}
+const stPill=s=>`<span class="pl ${s}">${t(s)}</span>`;
+function vOrders(){const l=act(),nw=l.filter(o=>o.status=='pending'),wk=l.filter(o=>o.status!='pending');
+  const card=o=>`<div class="card ${o.status=='pending'?'new':''}"><div class="row"><div><b style="font-size:17px">#${o.id}</b><div class="xs mut">${esc(o.client.name)} · ${esc(t(o.payment))}</div></div><div style="text-align:right"><b style="color:var(--o);font-size:17px">${o.total} TJS</b><div style="margin-top:4px">${stPill(o.status)}${o.status!='pending'?` <span class="xs mut">${o.prepTime} min</span>`:''}</div></div></div>
   <div class="items">${o.items.map(i=>`<div><span>${i.qty}× ${esc(i.name)}</span><span>${i.qty*i.price}</span></div>${i.note?`<div class="note">💬 ${esc(i.note)}</div>`:''}`).join('')}</div>
-  <p style="font-weight:700;font-size:12px;color:#2980b9">${t(o.status)}${o.status!='pending'?' ('+o.prepTime+' min)':''}</p>
-  ${o.status=='pending'||o.status=='preparing'?`<p style="font-size:11px;color:#718096;margin:6px 0 4px">${t('prep')}</p><div class="row">${[15,30,45].map(m=>`<button class="tm ${o.prepTime==m?'on':''}" onclick="TLB.patch(${o.id},{prepTime:${m}})">${m} min</button>`).join('')}</div>`:''}
-  ${o.status=='pending'?`<div class="row" style="margin-top:10px"><button class="b g" style="flex:2" onclick="st(${o.id},'preparing')">${t('acc')}</button><button class="b r" style="flex:1" onclick="st(${o.id},'rejected')">${t('rej')}</button></div>`:''}
+  ${o.status=='pending'||o.status=='preparing'?`<div class="xs mut" style="margin-bottom:6px">${t('prep')}</div><div class="seg">${[15,30,45].map(m=>`<button class="${o.prepTime==m?'on':''}" onclick="TLB.patch(${o.id},{prepTime:${m}})">${m} min</button>`).join('')}</div>`:''}
+  ${o.status=='pending'?`<div class="row" style="margin-top:12px;gap:10px"><button class="b g" style="flex:2;height:46px" onclick="st(${o.id},'preparing')">${t('acc')}</button><button class="b r" style="flex:1;height:46px" onclick="st(${o.id},'rejected')">${t('rej')}</button></div>`:''}
   ${o.status=='preparing'?`<button class="b s" onclick="st(${o.id},'ready')">${t('rdy')}</button>`:''}
-  ${o.status=='ready'?`<p style="margin-top:8px;font-size:12px">${o.driver?'🛵 '+esc(o.driverName):t('waitC')}</p>`:''}
-  ${o.status=='pickedup'?`<p style="margin-top:8px;font-size:12px;color:#27ae60">${t('withC')}</p>`:''}</div>`).join(''):`<div class="card">${t('noAct')}</div>`}`}
-function vMenu(){const m=TLB.getMenu(STORE),stx=TLB.myStores().find(x=>x.name==STORE)||{},mx=stx.max_discount_pct==null?30:+stx.max_discount_pct;
-  return `<div class="card"><b>${t('addD')}</b><div style="height:9px"></div><input type="text" id="nn" placeholder="${t('nm')}"><input type="number" id="np" placeholder="${t('pr')}"><input type="text" id="nsec" list="secs" maxlength="40" placeholder="${t('secPh')}"><input type="number" id="ndis" min="0" max="${mx}" step="1" value="0" placeholder="${t('itDis')}"><small style="display:block;margin:-4px 0 8px;color:#718096">${t('itDis')} (${t('itDisMax')} ${mx}%)</small>
-  <label style="display:block;margin-bottom:9px"><input type="checkbox" id="nh"> ${t('hit')}</label>
-  <label style="display:block;background:#edf2f7;border:1px dashed #cbd5e0;padding:10px;text-align:center;border-radius:8px;margin-bottom:9px;font-size:12px;font-weight:700">${t('photo')}<input type="file" accept="image/*" style="display:none" onchange="pick(event)"></label>
-  <img id="pv" class="thumb" style="display:none;margin-bottom:9px"><button class="b g" style="width:100%" onclick="addItem()">${t('addB')} ➕</button></div>
-  <datalist id="secs">${[...new Set(m.map(i=>i.section).filter(Boolean))].map(s=>`<option value="${esc(s)}">`).join('')}</datalist>
-  ${m.map(i=>`<div class="card row"><img class="thumb" src="${esc(i.image)}" alt=""><div style="flex:1"><b>${esc(i.name)}</b>${i.popular?' 🌟':''}<div style="color:#ff5a00;font-weight:700">${i.price} TJS</div><input type="text" id="sec_${i.id}" list="secs" maxlength="40" value="${esc(i.section||'')}" placeholder="${t('secL')}" style="margin:4px 0;padding:6px 8px;font-size:12px" onchange="setSec('${i.id}',this.value)"><div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#718096"><span>${t('itDis')}</span><input type="number" id="dis_${i.id}" min="0" max="${mx}" step="1" value="${+i.discount||0}" style="margin:0;padding:5px 8px;width:70px;font-size:12px" onchange="setDisc('${i.id}',this.value,${mx})"></div><div style="font-size:11px;font-weight:700;color:${i.available?'#27ae60':'#e74c3c'}">${i.available?t('avail'):t('stopped')}</div></div>
-  <div style="display:flex;flex-direction:column;gap:5px"><button class="b ${i.available?'o':'g'}" onclick="tog('${i.id}')">${i.available?t('stop'):t('on')}</button><button class="b r" onclick="del('${i.id}')">${t('del')}</button></div></div>`).join('')}`}
+  ${o.status=='ready'?`<div class="info">${o.driver?'🛵 '+esc(o.driverName):t('waitC')}</div>`:''}${o.status=='pickedup'?`<div class="info ok">${t('withC')}</div>`:''}</div>`;
+  return l.length?`${nw.length?`<h3>${t('newO')} · ${nw.length}</h3>${nw.map(card).join('')}`:''}${wk.length?`<h3>${t('inWork')} · ${wk.length}</h3>${wk.map(card).join('')}`:''}`:`<div class="card empty">${t('noAct')}</div>`}
+function vMenu(){const all=TLB.getMenu(STORE),q=mq.trim().toLowerCase(),m=q?all.filter(i=>i.name.toLowerCase().includes(q)):all;
+  const g={},ord=[];m.forEach(i=>{const k=i.section||'';if(!g[k]){g[k]=[];ord.push(k)}g[k].push(i)});
+  const row=i=>`<div class="mr" onclick="openSheet('${i.id}')"><div class="th">${i.image?`<img src="${esc(i.image)}" alt="">`:''}</div><div class="mt2"><div class="nm">${esc(i.name)}${i.popular?` <span style="color:#f5a300">${SVG(I.star,13)}</span>`:''}</div><div class="pr">${+i.discount>0?`<b>${Math.round(i.price*(100-i.discount))/100} TJS</b> <s>${i.price}</s> <span class="dc">−${+i.discount}%</span>`:`<b>${i.price} TJS</b>`}</div><div class="xs ${i.available?'ok':'bad'}">${i.available?t('avail'):t('soldOut')}</div></div>
+  <button class="sw ${i.available?'on':''}" onclick="event.stopPropagation();tog('${i.id}')" aria-label="${t('inStock')}"><i></i></button></div>`;
+  return `<div class="rg" style="gap:10px;margin-bottom:14px"><label class="sbx">${SVG(I.search,18)}<input type="search" id="mqs" placeholder="${t('searchM')}" value="${esc(mq)}" oninput="mq=this.value;render()"></label><button class="b" style="flex-shrink:0;display:flex;align-items:center;gap:6px;height:46px" onclick="openSheet()">${SVG(I.plus,18)} ${t('addNew')}</button></div>
+  ${m.length?ord.map(k=>`<div class="sec"><div class="sh">${k?esc(k):t('secNone')} <span class="xs mut">${g[k].length}</span></div><div class="card" style="padding:4px 14px">${g[k].map(row).join('')}</div></div>`).join(''):`<div class="card empty">${all.length?t('noRes')||'—':t('noItems')}</div>`}`}
+function sheet(){if(!SH)return '';const secs=[...new Set(TLB.getMenu(STORE).map(i=>i.section).filter(Boolean))],mx=MX();
+  return `<div class="ov" onclick="closeSheet()"><div class="md" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:12px"><h3 style="margin:0">${SH.id?t('editD'):t('addD')}</h3><button class="rb" onclick="closeSheet()" aria-label="${t('closeB')}">${SVG(I.x,18)}</button></div>
+  <label class="photo">${SH.image?`<img src="${esc(SH.image)}" alt="">`:`<span>${SVG(I.cam,26)}<br>${t('photoAdd')}</span>`}<input type="file" accept="image/*" style="display:none" onchange="shPick(event)"></label>
+  ${SH.image?`<div class="xs mut" style="text-align:center;margin:-4px 0 10px">${t('photoCh')}</div>`:''}
+  <label class="fl">${t('nm')}<input type="text" id="sn" maxlength="60" value="${esc(SH.name)}" oninput="shSet('name',this.value)"></label>
+  <div class="rg" style="gap:10px"><label class="fl" style="flex:1">${t('pr')}<input type="number" id="sp" min="0" step="0.5" value="${esc(SH.price)}" oninput="shSet('price',this.value)"></label><label class="fl" style="flex:1">${t('itDis')} (≤${mx})<input type="number" id="sdisc" min="0" max="${mx}" step="1" value="${esc(SH.disc)}" oninput="shSet('disc',this.value)"></label></div>
+  <label class="fl">${t('secL')}<input type="text" id="ssec" maxlength="40" value="${esc(SH.section)}" placeholder="${t('secPh')}" oninput="shSet('section',this.value)"></label>
+  ${secs.length?(SECL=secs,`<div class="chs">${secs.map((s,i)=>`<span class="ch" onclick="pickSec(${i})">${esc(s)}</span>`).join('')}</div>`):''}
+  <div class="row" style="padding:10px 0"><span class="b6">${t('hitL')}</span><button class="sw ${SH.pop?'on':''}" onclick="SH.pop=!SH.pop;render()" aria-label="${t('hitL')}"><i></i></button></div>
+  <button class="b s" onclick="saveSheet()">${t('saveB')}</button>${SH.id?`<button class="b r" style="width:100%;margin-top:10px;height:46px" onclick="delItem()">${t('delItem')}</button>`:''}</div></div>`}
 function vStats(){const D=864e5,sp={dD:D,dW:7*D,dM:30*D,dY:365*D}[per],p=past().filter(o=>Date.now()-o.doneAt<sp);
   const ok=p.filter(o=>o.status=='delivered'),no=p.length-ok.length,rev=ok.reduce((s,o)=>s+o.subtotal-o.discount,0),mx=Math.max(ok.length,no,1);
   return `<div class="row" style="margin-bottom:10px">${['dD','dW','dM','dY'].map(k=>`<button class="tm ${per==k?'on':''}" onclick="per='${k}';render()">${t(k)}</button>`).join('')}</div>
@@ -83,8 +121,9 @@ function vStore(){const s=TLB.myStores().find(x=>x.name==STORE);if(!s)return '';
 function render(){
   const stores=TLB.myStores().map(s=>s.name);if(!stores.includes(STORE))STORE=stores[0]||'';const open=TLB.isOpen(STORE),n=act().filter(o=>o.status=='pending').length;
   if(lastN>=0&&n>lastN)beep();lastN=n;
-  $('app').innerHTML=`<div class="top"><div><small>${t('sto')}</small><br><select onchange="setStore(this.value)">${stores.map(s=>`<option ${s==STORE?'selected':''} value="${esc(s)}">${esc(s)}</option>`).join('')}</select></div>
-  <button class="b ${open?'g':'r'}" onclick="TLB.setOpen(STORE,${!open})">${open?'🟢 '+t('open'):'🔴 '+t('shut')}</button></div>
-  <div class="tabs">${[['o','📥 '+t('mOrders')+(n?' ('+n+')':'')],['m','🍔 '+t('mMenu')],['s','📊 '+t('mStats')],['p','🏪 '+t('mSt')]].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')">${x[1]}</button>`).join('')}</div>`+({o:vOrders,m:vMenu,s:vStats,p:vStore}[tab])()}
-TLB.start('merchant',()=>{TLB.on(()=>{if((tab=='m'||tab=='p')&&document.activeElement&&/^(nn|np|nsec|ndis|sdesc|sdis|sec_.*|dis_.*)$/.test(document.activeElement.id))return;render()});render()});
+  $('app').innerHTML=`<div class="top"><div style="min-width:0"><small>${t('sto')}</small><select onchange="setStore(this.value)">${stores.map(s=>`<option ${s==STORE?'selected':''} value="${esc(s)}">${esc(s)}</option>`).join('')}</select></div>
+  <button class="swb ${open?'on':''}" onclick="TLB.setOpen(STORE,${!open})"><i></i><span>${open?t('open'):t('shut')}</span></button></div>
+  <div class="tabs">${[['o',t('mOrders')+(n?' · '+n:'')],['m',t('mMenu')],['s',t('mStats')],['p',t('mSt')]].map(x=>`<button class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')">${x[1]}</button>`).join('')}</div>`+({o:vOrders,m:vMenu,s:vStats,p:vStore}[tab])()+sheet();
+  if(document.body&&document.body.style)document.body.style.overflow=SH?'hidden':''}
+TLB.start('merchant',()=>{TLB.on(()=>{if(SH)return;if((tab=='m'||tab=='p')&&document.activeElement&&/^(mqs|sdesc|sdis)$/.test(document.activeElement.id))return;render()});render()});
 </script></body></html>

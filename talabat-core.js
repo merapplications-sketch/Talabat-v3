@@ -207,6 +207,12 @@
   }
   function badPromo() { toast(t('err_bad_promo'), true); return Promise.resolve({ error: 'bad_promo', toasted: true }); }
   function badBanner() { toast(t('err_bad_banner'), true); return Promise.resolve({ error: 'bad_banner', toasted: true }); }
+  function validItem(f) {
+    if (f.name != null && (String(f.name).trim().length < 1 || String(f.name).length > 80)) return false;
+    if (f.price != null && (!isFinite(+f.price) || +f.price < 0 || +f.price > 100000)) return false;
+    if (f.image != null && typeof f.image === 'string' && f.image.length > 700000) return false;
+    return true;
+  }
   function cleanPct(v) { var n = +v; return isFinite(n) && n > 0 && n <= 100 ? Math.round(n * 100) / 100 : 0; }
   function cleanSection(v) { v = String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, 40); return v || null; }
   function badStore() { toast(t('err_bad_value'), true); return Promise.resolve({ error: 'bad_value', toasted: true }); }
@@ -327,8 +333,8 @@
     deliver: function (id, cash, note) { return rpc('deliver_order', { p_id: id, p_cash: cash, p_note: note || null }); },
     chat: function (id, sender, text) { return sb.from('order_chat').insert({ order_id: id, sender_id: ME.id, body: String(text).slice(0, 200) }).then(doneQ); },
 
-    addItem: function (storeN, f) { var s = storeByName(storeN); return sb.from('menu_items').insert({ store_id: s.id, name: f.name, price: f.price, image_url: f.image || null, popular: !!f.popular, section: cleanSection(f.section), discount_pct: cleanPct(f.discount) }).then(done); },
-    updateItem: function (id, f) { f = Object.assign({}, f); if ('discount_pct' in f) { var dp = +f.discount_pct; if (!isFinite(dp) || dp < 0 || dp > 100) return badStore(); f.discount_pct = Math.round(dp * 100) / 100; } if ('section' in f) { if (String(f.section == null ? '' : f.section).trim().length > 40) return badStore(); f.section = cleanSection(f.section); } return sb.from('menu_items').update(f).eq('id', id).then(done); },
+    addItem: function (storeN, f) { var s = storeByName(storeN); if (!s || !validItem(f)) return badStore(); return sb.from('menu_items').insert({ store_id: s.id, name: f.name, price: f.price, image_url: f.image || null, popular: !!f.popular, section: cleanSection(f.section), discount_pct: cleanPct(f.discount) }).then(done); },
+    updateItem: function (id, f) { f = Object.assign({}, f); if (!validItem(f)) return badStore(); if ('image' in f) { f.image_url = f.image || null; delete f.image; } if ('discount_pct' in f) { var dp = +f.discount_pct; if (!isFinite(dp) || dp < 0 || dp > 100) return badStore(); f.discount_pct = Math.round(dp * 100) / 100; } if ('section' in f) { if (String(f.section == null ? '' : f.section).trim().length > 40) return badStore(); f.section = cleanSection(f.section); } return sb.from('menu_items').update(f).eq('id', id).then(done); },
     deleteItem: function (id) { return sb.from('menu_items').delete().eq('id', id).then(done); },
     approveItem: function (id) { return sb.from('menu_items').update({ approved: true }).eq('id', id).then(done); },
 

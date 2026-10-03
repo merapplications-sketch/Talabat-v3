@@ -31,8 +31,8 @@ h1{font-size:22px;line-height:1.2;font-weight:700}h2{font-size:17px;font-weight:
 /* home */
 .hd{padding:calc(14px + env(safe-area-inset-top,0px)) 16px 8px;background:var(--bg)}
 .loc{display:flex;align-items:center;gap:10px;margin-bottom:14px}.loc .pn{width:36px;height:36px;border-radius:50%;background:var(--tint);color:var(--o);display:flex;align-items:center;justify-content:center}.loc small{display:block;font-size:12px;color:var(--mut)}.loc b{font-size:14px}
-.cats{display:flex;gap:14px;overflow-x:auto;padding:18px 16px 4px;scrollbar-width:none}.cats::-webkit-scrollbar{display:none}
-.ct{flex-shrink:0;width:68px;text-align:center;font-size:12px;font-weight:600}.ct i{display:flex;align-items:center;justify-content:center;width:64px;height:64px;margin:0 auto 6px;border-radius:20px;background:var(--tint);font-style:normal;font-size:28px}.ct.on i{background:var(--o)}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 16px 0}
+.ct{background:#fff;border-radius:18px;padding:12px 2px 10px;text-align:center;font-size:12px;font-weight:600;box-shadow:var(--sh)}.ct i{display:block;font-style:normal;font-size:28px;margin-bottom:4px}
 .sh{display:flex;align-items:center;justify-content:space-between;padding:24px 16px 12px}.sh h2{font-size:18px}.sh button{color:var(--o);font-size:13px;font-weight:600}.shs{font-size:13px;color:var(--mut);padding:0 16px 10px;margin-top:-6px}
 .hs{display:flex;gap:14px;overflow-x:auto;padding:0 16px 6px;scrollbar-width:none}.hs::-webkit-scrollbar{display:none}
 .mini{flex-shrink:0;width:212px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh)}
@@ -59,15 +59,16 @@ h1{font-size:22px;line-height:1.2;font-weight:700}h2{font-size:17px;font-weight:
 .mh .ib{position:absolute;top:calc(12px + env(safe-area-inset-top,0px))}
 .mi{position:relative;margin:-34px 0 0;background:#fff;border-radius:26px 26px 0 0;padding:18px 16px 0}
 .mi h1{font-size:21px;word-break:break-word}.chp{display:inline-flex;align-items:center;gap:5px;background:#f3f3f6;border-radius:9px;padding:5px 10px;font-size:12px;font-weight:600;margin:10px 6px 0 0}.chp.g{background:var(--okbg);color:var(--ok)}.chp.r{background:var(--badbg);color:var(--bad)}.chp.o{background:var(--tint);color:var(--o)}
-.tabs2{display:flex;border-bottom:1px solid var(--line);margin:14px -16px 0}.tabs2 button{flex:1;padding:14px 0;font-weight:600;font-size:15px;color:var(--mut);border-bottom:3px solid transparent}.tabs2 button.on{color:var(--o);border-color:var(--o)}
-.mm{display:flex;background:#fff;min-height:60vh}.rail{width:84px;flex-shrink:0;background:#fafafb;border-right:1px solid var(--line);position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto;padding-top:6px}
-.rail div{padding:15px 8px;font-size:12px;font-weight:600;color:var(--mut);border-left:3px solid transparent;line-height:1.25;word-break:break-word}.rail div.on{color:var(--o);background:#fff;border-color:var(--o)}
-.mc{flex:1;min-width:0;padding:4px 14px 10px}.msec{scroll-margin-top:12px;padding-top:14px}.msec h3{font-size:16px;margin-bottom:4px}
-.il{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);position:relative}.il .im{position:relative;width:78px;height:78px;border-radius:14px;overflow:hidden;background:#f1f2f4;flex-shrink:0}.im img{width:100%;height:100%;object-fit:cover}
-.il .tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:6px;padding-right:2px}.il .nm{font-size:15px;font-weight:600;line-height:1.25}
-.px{font-size:15px;font-weight:700;color:var(--o)}.px s{font-weight:500;color:var(--mut);font-size:12px;margin-left:6px}.off{position:absolute;left:5px;top:5px;background:var(--o);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px}
-.addb{position:absolute;right:0;bottom:12px;width:30px;height:30px;border-radius:9px;background:var(--o);color:#fff;display:flex;align-items:center;justify-content:center}
-.qty{position:absolute;right:0;bottom:12px;display:flex;align-items:center;gap:8px}.qty button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--o);color:var(--o);display:flex;align-items:center;justify-content:center;background:#fff}.qty button.p{background:var(--o);color:#fff}.qty span{font-weight:700;min-width:14px;text-align:center}
+.mt{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;margin:14px -16px 0}.mt .tabs{display:flex;overflow-x:auto;scrollbar-width:none;flex:1}.mt .tabs::-webkit-scrollbar{display:none}
+.mt .tb{flex-shrink:0;padding:15px 14px;font-weight:600;font-size:14px;color:var(--mut);border-bottom:3px solid transparent;white-space:nowrap}.mt .tb.on{color:var(--ink);border-color:var(--ink)}.mt .hb{width:48px;height:48px;display:flex;align-items:center;justify-content:center}
+.mc{background:#fff;padding:0 16px 10px}.msec{scroll-margin-top:56px;padding-top:20px}.msec h3{font-size:19px;margin-bottom:10px}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:16px 12px}.ic .imb{position:relative;border-radius:18px;overflow:hidden;background:#f1f2f4;aspect-ratio:1/1}.imb img{width:100%;height:100%;object-fit:cover}
+.ic .nm{font-size:14px;font-weight:600;margin-top:8px;line-height:1.3}.ih{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}.ih::-webkit-scrollbar{display:none}.ih .ic{flex:0 0 150px}
+.il{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}.il .tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:6px}.il .nm{font-size:15px;font-weight:600}
+.il .im{position:relative;width:112px;height:112px;flex-shrink:0;border-radius:16px;overflow:hidden;background:#f1f2f4}.il .im img{width:100%;height:100%;object-fit:cover}
+.pls{position:absolute;right:8px;bottom:8px;display:flex;align-items:center;background:#fff;border-radius:999px;box-shadow:0 1px 8px #0003;height:34px}.pls button{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--o)}.pls span{font-weight:700;min-width:16px;text-align:center;font-size:14px}.pls.on{background:var(--o);color:#fff}.pls.on button{color:#fff}
+.px{font-size:15px;font-weight:700;color:var(--o)}.px s{font-weight:500;color:var(--mut);font-size:12px;margin-left:6px}.off{position:absolute;left:6px;top:6px;background:var(--o);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:7px;z-index:1}
+.ofs{display:flex;gap:10px;overflow-x:auto;padding:12px 16px 0;scrollbar-width:none;background:#fff;margin:0 -16px}.of2{flex-shrink:0;min-width:236px;background:#fff;border:1px dashed #d9d9de;border-radius:14px;padding:12px 14px}.of2 b{font-size:14px;display:block}.of2 span{font-size:12px;color:var(--mut)}
 .of{margin:12px 0 0;background:var(--tint);color:#a8340c;border-radius:14px;padding:11px 14px;font-size:13px;font-weight:600}
 /* cart */
 .ci{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.ci:last-child{border:0}.ci .im{position:relative;width:68px;height:68px;border-radius:14px;overflow:hidden;background:#f1f2f4;flex-shrink:0}
@@ -106,7 +107,7 @@ h1{font-size:22px;line-height:1.2;font-weight:700}h2{font-size:17px;font-weight:
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=14"></script>
+<script src="talabat-core.js?v=15"></script>
 <script>
 TLB.addDict({home:'Главная',orders:'Заказы',fav:'Избранное',promoTab:'Акции',me:'Профиль',deliverTo:'Адрес доставки',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',
 noMenu:'Меню скоро появится',closed:'Закрыто',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',apple:'Apple Pay',place:'Оформить заказ',
@@ -153,11 +154,11 @@ apple:'<path d="M12 7c1-2 3-2.500 3-2.500S15 7 12 7zM8 9c2-1.500 4 .500 4 .500S1
 const ico=(n,s,f)=>`<svg class="i" viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
 const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],IC={rest:'🍔',grocery:'🛒',pharmacy:'💊',beauty:'💄',flowers:'💐',gifts:'🎁',shops:'🛍️',sweets:'🍰'};
 let STORES=[],ME={name:'',phone:''};
-let S={promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,rtab:'menu',v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
+let S={promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
 const syncStores=()=>{STORES=TLB.stores().map(x=>({id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,disc:+x.discount_pct,cr:x.created_at||'',ffd:!!x.free_first_delivery,lg:x.logo_url||'',rt:+x.rating||0,rc:+x.rating_count||0}))};
 const menuOf=n=>TLB.allMenus(false)[n]||[];
 const go=(v,x)=>{Object.assign(S,{v},x||{});render();scrollTo(0,0)};
-const openStore=i=>go('menu',{store:STORES[i].n,back:S.v=='cat'?'cat':S.v=='fav'?'fav':S.v=='promo'?'promo':'home',msq:'',msearch:false,sheet:false,rtab:'menu'});
+const openStore=i=>go('menu',{store:STORES[i].n,back:S.v=='cat'?'cat':S.v=='fav'?'fav':S.v=='promo'?'promo':'home',msq:'',msearch:false,sheet:false});
 const openCat=c=>go('cat',{catKey:c,cq:'',srt:'',fo:false});
 const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
 const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p);
@@ -240,8 +241,8 @@ function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);
   const fresh=STORES.filter(isNew).sort((a,b)=>Date.parse(b.cr)-Date.parse(a.cr)).slice(0,8);
   const freeD=STORES.filter(s=>s.ft=='free'||s.ffd).slice(0,8),maxD=offers.length?offers[0].disc:0;
   const sec=(k,list,sub,all)=>list.length?`<div class="sh"><h2>${t(k)}</h2>${all?`<button onclick="${all}">${t('seeAll')}</button>`:''}</div>${sub||''}<div class="hs">${list.map(mini).join('')}</div>`:'';
-  return head+`${bn.length?`<div class="bns" data-k="top" onscroll="rotSync(this)">${bn.map(b=>`<div class="bn" style="flex-basis:${bn.length>1?'92%':'100%'}" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bn.length>1?`<div class="dots" data-dots="top">${bn.map((_,i)=>`<i class="${i==ROT.top?'on':''}"></i>`).join('')}</div>`:''}`:''}
-  <div class="cats">${CATS.map(c=>`<div class="ct" onclick="openCat('${c}')"><i>${IC[c]}</i>${t(c)}</div>`).join('')}</div>
+  return head+`<div class="cats">${CATS.map(c=>`<div class="ct" onclick="openCat('${c}')"><i>${IC[c]}</i>${t(c)}</div>`).join('')}</div>
+  ${bn.length?`<div class="bns" data-k="top" onscroll="rotSync(this)">${bn.map(b=>`<div class="bn" style="flex-basis:${bn.length>1?'92%':'100%'}" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bn.length>1?`<div class="dots" data-dots="top">${bn.map((_,i)=>`<i class="${i==ROT.top?'on':''}"></i>`).join('')}</div>`:''}`:''}
   ${sec('bestOffers',offers,maxD>0?`<div class="shs">${t('offersSub').replace('{n}',maxD)}</div>`:'',"openCat('*');S.srt='disc'")}
   ${sec('reorderS',again)}${sec('discoverS',fresh)}${sec('freeS',freeD,'',"openCat('*');S.srt='free'")}${sec('favs',favs,'',"go('fav')")}
   ${bb.length?`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,i)=>`<i class="${i==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''}`}
@@ -257,58 +258,59 @@ function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.al
   <div class="chips">${ch(S.srt=='rate',"S.srt=S.srt=='rate'?'':'rate'",'fRate')}${ch(S.srt=='disc',"S.srt=S.srt=='disc'?'':'disc'",'fDisc')}${ch(S.srt=='free',"S.srt=S.srt=='free'?'':'free'",'fFree')}${ch(S.fo,'S.fo=!S.fo','fOpen')}</div>
   <div class="pg">${list.length?list.map(({s,h})=>storeRow(s,h)).join(''):emptyV(t(q||S.fo||S.srt?'noRes':'noStores'),'')}</div>`}
 /* ---------- RESTAURANT ---------- */
-const ctl=i=>{const q=S.cartStore==S.store&&S.cart[i.id]||0;return q?`<div class="qty"><button aria-label="−" onclick="add('${i.id}',-1)">${ico(q==1?'trash':'minus',14)}</button><span>${q}</span><button class="p" aria-label="+" onclick="add('${i.id}',1)">${ico('plus',14)}</button></div>`:`<button class="addb" aria-label="${t('addMore')}" onclick="addFrom('${i.id}')">${ico('plus',18)}</button>`};
-const lRow=(i,sd)=>{const e=eff(i,sd);return `<div class="il"><div class="im">${i.image?`<img src="${esc(i.image)}" alt="" loading="lazy">`:''}${e?`<span class="off">−${e}%</span>`:''}</div><div class="tx"><div class="nm">${esc(i.name)}</div>${pxH(i,sd)}</div>${ctl(i)}</div>`};
+const ctlG=i=>{const q=S.cartStore==S.store&&S.cart[i.id]||0;return q?`<div class="pls on"><button aria-label="−" onclick="add('${i.id}',-1)">${ico(q==1?'trash':'minus',16)}</button><span>${q}</span><button aria-label="+" onclick="add('${i.id}',1)">${ico('plus',16)}</button></div>`:`<div class="pls"><button aria-label="${t('addMore')}" onclick="addFrom('${i.id}')">${ico('plus',18)}</button></div>`};
+const imgBox=(i,sd,cls)=>{const e=eff(i,sd);return `<div class="${cls}">${i.image?`<img src="${esc(i.image)}" alt="" loading="lazy">`:''}${e?`<span class="off">−${e}%</span>`:''}${ctlG(i)}</div>`};
+const gCard=(i,sd)=>`<div class="ic">${imgBox(i,sd,'imb')}<div class="nm">${esc(i.name)}</div>${pxH(i,sd)}</div>`;
+const lRow=(i,sd)=>`<div class="il"><div class="tx"><div class="nm">${esc(i.name)}</div>${pxH(i,sd)}</div>${imgBox(i,sd,'im')}</div>`;
 function menuSecs(M,sn){const secs=[];
   const seen=new Set(),again=[];TLB.orders().filter(o=>o.store==sn&&o.status=='delivered').forEach(o=>(o.items||[]).forEach(x=>{const it=M.find(m=>m.id==x.id);if(it&&!seen.has(it.id)){seen.add(it.id);again.push(it)}}));
-  if(again.length)secs.push({title:t('ordAgain'),items:again.slice(0,10)});
-  const pop=M.filter(i=>i.popular);if(pop.length)secs.push({title:t('topPicks'),items:pop});
+  if(again.length)secs.push({title:t('ordAgain'),kind:'h',items:again.slice(0,10)});
+  const pop=M.filter(i=>i.popular);if(pop.length)secs.push({title:t('topPicks'),kind:'g',items:pop});
   const g={},order=[];M.forEach(i=>{const k=i.section||'';if(!g[k]){g[k]=[];order.push(k)}g[k].push(i)});
-  order.forEach(k=>secs.push({title:k||t('mainMenu'),items:g[k]}));
+  order.forEach(k=>secs.push({title:k||t('mainMenu'),kind:'l',items:g[k]}));
   return secs.map((s,i)=>Object.assign(s,{id:'s_'+i}))}
-function jumpSec(id){S.sheet=false;const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
+function jumpSec(id){S.sheet=false;render();const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
 function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store),st=TLB.stores().find(x=>x.name==S.store)||{},sd=storeOf(S.store),q=S.msq.trim().toLowerCase(),sdp=sd.disc||0;
-  const offers=[];if(sd.disc>0)offers.push(t('offDisc').replace('{n}',sd.disc)+' · '+t('offDiscSub'));if(sd.ffd&&sd.ft!='free')offers.push(t('offFree')+' · '+t('offFreeSub'));
-  const secs=menuSecs(M,S.store),fav=st.id&&TLB.isFav(st.id);
-  const menuBody=q?(()=>{const f=M.filter(i=>i.name.toLowerCase().includes(q));return `<div class="mc" style="background:#fff">${f.length?f.map(i=>lRow(i,sdp)).join(''):emptyV(t('noItemsF'),'')}</div>`})()
-    :M.length?`<div class="mm"><div class="rail">${secs.map(s=>`<div data-s="${s.id}" onclick="jumpSec('${s.id}')">${esc(s.title)}</div>`).join('')}</div><div class="mc">${secs.map(s=>`<div class="msec" id="${s.id}"><h3>${esc(s.title)}</h3>${s.items.map(i=>lRow(i,sdp)).join('')}</div>`).join('')}</div></div>`:`<div style="background:#fff">${emptyV(t('noMenu'),'')}</div>`;
-  const about=`<div style="background:#fff;padding:16px;min-height:50vh">${st.description?`<p class="sm" style="margin-bottom:16px">${esc(st.description)}</p>`:''}
-    <div class="lr"><span class="ic">${ico('bike',22)}</span><span>${t('deliv')}</span><b>${delTxt(sd)}</b></div>${sd.rt>0?`<div class="lr"><span class="ic">${ico('star',22)}</span><span>${t('ratingSrc')}</span><b>${sd.rt.toFixed(1)}${sd.rc?` (${cnt(sd.rc)})`:''}</b></div>`:''}
-    ${offers.map(o=>`<div class="of">${esc(o)}</div>`).join('')}</div>`;
+  const offers=[];if(sd.disc>0)offers.push([t('offDisc').replace('{n}',sd.disc),t('offDiscSub')]);if(sd.ffd&&sd.ft!='free')offers.push([t('offFree'),t('offFreeSub')]);
+  const secs=menuSecs(M,S.store),tabs=secs.map(s=>`<div class="tb" data-s="${s.id}" onclick="jumpSec('${s.id}')">${esc(s.title)}</div>`).join(''),fav=st.id&&TLB.isFav(st.id);
+  const body=q?(()=>{const f=M.filter(i=>i.name.toLowerCase().includes(q));return `<div class="mc">${f.length?f.map(i=>lRow(i,sdp)).join(''):emptyV(t('noItemsF'),'')}</div>`})()
+    :M.length?`<div class="mc">${secs.map(s=>`<div class="msec" id="${s.id}"><h3>${esc(s.title)}</h3>${s.kind=='h'?`<div class="ih">${s.items.map(i=>gCard(i,sdp)).join('')}</div>`:s.kind=='g'?`<div class="ig">${s.items.map(i=>gCard(i,sdp)).join('')}</div>`:s.items.map(i=>lRow(i,sdp)).join('')}</div>`).join('')}</div>`:`<div class="mc">${emptyV(t('noMenu'),'')}</div>`;
   return `<div class="mh">${st.cover_url?`<img src="${esc(st.cover_url)}" alt="">`:''}
   <button class="ib" style="left:16px" onclick="go('${S.back||'home'}')" aria-label="${t('back')}">${ico('back')}</button>
-  <div style="position:absolute;right:16px;top:calc(12px + env(safe-area-inset-top,0px));display:flex;gap:10px"><button class="ib" style="position:static" aria-label="${t('searchMenu')}" onclick="S.rtab='menu';S.msearch=!S.msearch;if(!S.msearch)S.msq='';render()">${ico('search',19)}</button><button class="ib" style="position:static;color:${fav?'#f1511b':'#1c1c21'}" aria-label="${t('favs')}" onclick="TLB.toggleFav('${st.id}')">${ico('heart',19,fav)}</button></div></div>
-  <div class="mi"><h1>${esc(S.store)}</h1>
-  <div class="rg xs mut" style="margin-top:6px">${sd.rt>0?`<span class="rt" style="font-size:13px">${ico('star',14,1)}${sd.rt.toFixed(1)}${sd.rc?` <i>(${cnt(sd.rc)})</i>`:''}</span>`:''}<span>${st.category?t(st.category):''}</span></div>
+  <div style="position:absolute;right:16px;top:calc(12px + env(safe-area-inset-top,0px));display:flex;gap:10px"><button class="ib" style="position:static" aria-label="${t('searchMenu')}" onclick="S.msearch=!S.msearch;if(!S.msearch)S.msq='';render()">${ico('search',19)}</button><button class="ib" style="position:static;color:${fav?'#f1511b':'#1c1c21'}" aria-label="${t('favs')}" onclick="TLB.toggleFav('${st.id}')">${ico('heart',19,fav)}</button></div></div>
+  <div class="mi"><div class="rg" style="gap:14px"><div class="lg">${st.logo_url?`<img src="${esc(st.logo_url)}" alt="">`:esc(String(S.store||'?').charAt(0).toUpperCase())}</div><div style="min-width:0"><h1>${esc(S.store)}</h1><div class="rg xs mut" style="margin-top:4px;gap:8px">${sd.rt>0?`<span class="rt" style="font-size:13px">${ico('star',14,1)}${sd.rt.toFixed(1)}${sd.rc?` <i>(${cnt(sd.rc)})</i>`:''}</span>`:''}<span>${st.category?t(st.category):''}</span></div></div></div>
+  ${st.description?`<div class="sm mut" style="margin-top:10px">${esc(st.description)}</div>`:''}
   <div>${open?'':`<span class="chp r">${t('closed')}</span>`}<span class="chp">${ico('bike',14)} ${delTxt(sd)}</span>${sd.disc>0?`<span class="chp o">−${sd.disc}%</span>`:''}</div>
-  <div class="tabs2"><button class="${S.rtab=='menu'?'on':''}" onclick="S.rtab='menu';render()">${t('tabMenu')}</button><button class="${S.rtab=='about'?'on':''}" onclick="S.rtab='about';render()">${t('tabAbout')}</button></div></div>
-  ${S.rtab=='about'?about:`${S.msearch?`<div style="background:#fff;padding:12px 16px 0"><label class="sb">${ico('search',18)}<input type="text" id="mq" placeholder="${t('searchMenu')}" value="${esc(S.msq)}" oninput="S.msq=this.value;render()"></label></div>`:''}${menuBody}`}`}
-if(!window.__menuScroll){window.__menuScroll=1;window.addEventListener('scroll',()=>{if(S.v!='menu')return;const ss=[...document.querySelectorAll('.msec[id]')];if(!ss.length)return;let cur=ss[0].id;ss.forEach(s=>{if(s.getBoundingClientRect().top<=140)cur=s.id});document.querySelectorAll('.rail div').forEach(x=>x.classList.toggle('on',x.dataset.s==cur))},{passive:true})}
-function menuAfter(){const f=document.querySelector('.rail div');if(f&&!document.querySelector('.rail div.on'))f.classList.add('on')}
+  ${offers.length?`<div class="ofs">${offers.map(o=>`<div class="of2"><b>${esc(o[0])}</b><span>${esc(o[1])}</span></div>`).join('')}</div>`:''}
+  ${S.msearch?`<div style="padding-top:12px"><label class="sb">${ico('search',18)}<input type="text" id="mq" placeholder="${t('searchMenu')}" value="${esc(S.msq)}" oninput="S.msq=this.value;render()"></label></div>`:''}
+  ${q||!M.length?'':`<div class="mt"><button class="hb" onclick="S.sheet=true;render()" aria-label="${t('sections')}">${ico('menu',22)}</button><div class="tabs" onscroll="S.tabx=this.scrollLeft">${tabs}</div></div>`}</div>
+  ${body}
+  ${S.sheet?`<div class="sheet" onclick="S.sheet=false;render()"><div onclick="event.stopPropagation()"><h2 style="margin:16px 0 4px">${t('sections')}</h2>${secs.map(s=>`<div class="s2" onclick="jumpSec('${s.id}')">${esc(s.title)}</div>`).join('')}</div></div>`:''}`}
+if(!window.__menuScroll){window.__menuScroll=1;window.addEventListener('scroll',()=>{if(S.v!='menu')return;const ss=[...document.querySelectorAll('.msec[id]')];if(!ss.length)return;let cur=ss[0].id;ss.forEach(s=>{if(s.getBoundingClientRect().top<=96)cur=s.id});document.querySelectorAll('.mt .tb').forEach(x=>x.classList.toggle('on',x.dataset.s==cur))},{passive:true})}
+function menuAfter(){const tb=document.querySelector('.mt .tabs');if(tb)tb.scrollLeft=S.tabx||0;const f=document.querySelector('.mt .tb');if(f&&!document.querySelector('.mt .tb.on'))f.classList.add('on')}
 /* ---------- CART ---------- */
 function stepper(id,q){return `<div class="qty"><button aria-label="${q==1?t('removeI'):'−'}" onclick="${q==1?`delLine('${id}')`:`add('${id}',-1)`}">${ico(q==1?'trash':'minus',14)}</button><span>${q}</span><button class="p" aria-label="+" onclick="add('${id}',1)">${ico('plus',14)}</button></div>`}
-function vCart(){const m=menuOf(S.cartStore),c=calc(),ids=Object.keys(S.cart),mm=TLB.allMenus(true)[S.cartStore]||[],sd=sdOf(S.cartStore);
+function vCart(){const m=menuOf(S.cartStore),ids=Object.keys(S.cart),mm=TLB.allMenus(true)[S.cartStore]||[],sd=sdOf(S.cartStore);
   if(!ids.length)return topbar(t('cartT'),'',"go('home')")+emptyV(t('emptyCartT'),t('emptyCartS'));
-  const like=mm.filter(x=>!S.cart[x.id]).slice(0,10),saved=Math.round((c.d+c.p)*100)/100;
-  const promoBox=c.base<=0?`<div class="sm mut" style="margin-top:8px">${t('promoNoOffer')}</div>`:S.promo?`<div class="po"><span>${esc(S.promo.code)} · −${c.p} TJS</span><button class="btn t" onclick="removePromo()">${t('promoRm')}</button></div>`
-    :`<div class="pm"><input class="fld" type="text" id="pc" maxlength="20" autocapitalize="characters" autocomplete="off" placeholder="${t('promoPh')}" value="${esc(S.pcode)}" oninput="S.perr='';var e=document.getElementById('pe');if(e)e.remove()"><button class="btn" onclick="applyPromo()">${t('promoApply')}</button></div>${S.perr?`<div class="pe" id="pe">${esc(perrMsg())}</div>`:''}<div class="xs mut" style="margin-top:8px">${t('promoOffNote')}</div>`;
+  const like=mm.filter(x=>!S.cart[x.id]).slice(0,10);
   return topbar(t('cartT'),esc(S.cartStore),"goMore()",`<button class="ib" onclick="clearCart()" aria-label="${t('removeI')}">${ico('trash',19)}</button>`)+`<div class="pg" style="padding-bottom:0">
   <div class="card" style="padding:4px 16px">${ids.map(id=>{const i=m.find(x=>x.id==id)||{name:'?',price:0,image:'',discount:0},q=S.cart[id],e=eff(i,sd);return `<div class="ci"><div class="im">${i.image?`<img src="${esc(i.image)}" alt="">`:''}${e?`<span class="off">−${e}%</span>`:''}</div><div class="tx"><div class="nm">${esc(i.name)}</div><div class="xs mut">${esc(S.cartStore)}</div>${pxH(i,sd,q)}</div>${stepper(id,q)}</div>`}).join('')}</div>
   ${like.length?`<div class="band"><div class="sh"><h2>${t('youLike')}</h2></div><div class="hs">${like.map(i=>`<div class="lk"><div class="im">${i.image?`<img src="${esc(i.image)}" alt="" style="width:100%;height:100%;object-fit:cover">`:''}<button class="addb" aria-label="${t('addMore')}" onclick="add('${i.id}',1)">${ico('plus',18)}</button></div><div class="tt">${esc(i.name)}<div style="margin-top:2px">${pxH(i,sd)}</div></div></div>`).join('')}</div></div>`:''}
-  <div class="card"><h3 style="margin-bottom:10px">${t('noteT')}</h3><textarea class="fld" id="nt" maxlength="120" placeholder="${t('notePh')}" oninput="S.note=this.value">${esc(S.note)}</textarea></div>
-  <div class="card"><h3>${t('tip')}</h3><div class="tipr">${[0,3,5,10].map(v=>`<div class="tip ${S.tip==v?'on':''}" onclick="S.tip=${v};render()">${v?v+' TJS':t('none')}</div>`).join('')}</div></div>
-  <div class="card"><h3>${t('promoT')}</h3>${promoBox}</div>
-  ${saved>0?`<div class="sv">${t('saving')} ${saved} TJS</div>`:''}
-  <div class="card sum"><div class="row"><span>${t('sub')}</span><span>${c.sub} TJS</span></div>${c.d>0?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${c.d} TJS</span></div>`:''}${c.p>0?`<div class="row" style="color:var(--ok)"><span>${t('promoLine')} ${esc(S.promo.code)}</span><span>−${c.p} TJS</span></div>`:''}<div class="row"><span>${t('deliv')}${c.ff?` <span class="xs" style="color:var(--ok)">(${t('freeFirstL')})</span>`:''}</span><span>${c.fee} TJS</span></div>${S.tip?`<div class="row"><span>${t('tip')}</span><span>${S.tip} TJS</span></div>`:''}<div class="row tot"><span>${t('total')}</span><span>${c.total} TJS</span></div></div></div>
-  <div style="height:96px"></div><div class="fbar"><button class="btn big" onclick="go('pay')">${t('contPay')}</button></div>`}
-/* ---------- PAYMENT ---------- */
+  <div class="card"><h3 style="margin-bottom:10px">${t('noteT')}</h3><textarea class="fld" id="nt" maxlength="120" placeholder="${t('notePh')}" oninput="S.note=this.value">${esc(S.note)}</textarea></div></div>
+  <div style="height:96px"></div><div class="fbar"><button class="btn s" style="flex:0 0 auto" onclick="goMore()">${t('addMore')}</button><button class="btn" onclick="go('pay')">${t('contPay')}</button></div>`}
+/* ---------- PAYMENT (address, method, tip, promo, summary) ---------- */
 function vPay(){const c=calc();if(!Object.keys(S.cart).length)return vCart();
-  const M=[['apple','apple','payApple'],['card','card','payCard'],['cash','cash','payCash']];
-  return topbar(t('payT'),'',"goCart()")+`<div class="pg">
+  const M=[['apple','apple','payApple'],['card','card','payCard'],['cash','cash','payCash']],saved=Math.round((c.d+c.p)*100)/100;
+  const promoBox=c.base<=0?`<div class="sm mut" style="margin-top:8px">${t('promoNoOffer')}</div>`:S.promo?`<div class="po"><span>${esc(S.promo.code)} · −${c.p} TJS</span><button class="btn t" onclick="removePromo()">${t('promoRm')}</button></div>`
+    :`<div class="pm"><input class="fld" type="text" id="pc" maxlength="20" autocapitalize="characters" autocomplete="off" placeholder="${t('promoPh')}" value="${esc(S.pcode)}" oninput="S.perr='';var e=document.getElementById('pe');if(e)e.remove()"><button class="btn" onclick="applyPromo()">${t('promoApply')}</button></div>${S.perr?`<div class="pe" id="pe">${esc(perrMsg())}</div>`:''}<div class="xs mut" style="margin-top:8px">${t('promoOffNote')}</div>`;
+  return topbar(t('payT'),'',"go('cart')")+`<div class="pg">
   <div class="card"><div class="rg"><span class="or">${ico('pin',22)}</span><div><div class="xs mut">${t('addrL')}</div><div class="b6">Проспект Рудаки, д. 12, кв. 4</div></div></div></div>
   <h3 style="margin:6px 4px 10px">${t('pickMethod')}</h3>
   <div class="card" style="padding:2px 16px">${M.map(([k,ic,sb])=>`<div class="pay" onclick="S.pay='${k}';render()"><span class="ic">${ico(ic,22)}</span><div class="tx"><b>${t(k)}</b><span>${t(sb)}</span></div><span class="rad ${S.pay==k?'on':''}"></span></div>`).join('')}</div>
-  <div class="card sum"><h3 style="margin-bottom:6px">${t('summary')}</h3><div class="row"><span>${t('sub')}</span><span>${c.sub} TJS</span></div>${c.d+c.p>0?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${Math.round((c.d+c.p)*100)/100} TJS</span></div>`:''}<div class="row"><span>${t('deliv')}</span><span>${c.fee} TJS</span></div>${S.tip?`<div class="row"><span>${t('tip')}</span><span>${S.tip} TJS</span></div>`:''}<div class="row tot"><span>${t('total')}</span><span>${c.total} TJS</span></div></div></div>
+  <div class="card"><h3>${t('tip')}</h3><div class="tipr">${[0,3,5,10].map(v=>`<div class="tip ${S.tip==v?'on':''}" onclick="S.tip=${v};render()">${v?v+' TJS':t('none')}</div>`).join('')}</div></div>
+  <div class="card"><h3>${t('promoT')}</h3>${promoBox}</div>
+  ${saved>0?`<div class="sv">${t('saving')} ${saved} TJS</div>`:''}
+  <div class="card sum"><h3 style="margin-bottom:6px">${t('summary')}</h3><div class="row"><span>${t('sub')}</span><span>${c.sub} TJS</span></div>${c.d>0?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${c.d} TJS</span></div>`:''}${c.p>0?`<div class="row" style="color:var(--ok)"><span>${t('promoLine')} ${esc(S.promo.code)}</span><span>−${c.p} TJS</span></div>`:''}<div class="row"><span>${t('deliv')}${c.ff?` <span class="xs" style="color:var(--ok)">(${t('freeFirstL')})</span>`:''}</span><span>${c.fee} TJS</span></div>${S.tip?`<div class="row"><span>${t('tip')}</span><span>${S.tip} TJS</span></div>`:''}<div class="row tot"><span>${t('total')}</span><span>${c.total} TJS</span></div></div></div>
   <div style="height:96px"></div><div class="fbar"><button class="btn big" ${S.busy?'disabled':''} onclick="place()">${t('place')} · ${c.total} TJS</button></div>`}
 /* ---------- ORDER PLACED ---------- */
 const BOX=`<svg width="150" height="130" viewBox="0 0 150 130" aria-hidden="true"><path d="M30 58l45-22 45 22v40l-45 22-45-22z" fill="#f7a35c"/><path d="M30 58l45 22 45-22" fill="none" stroke="#d97a2b" stroke-width="3"/><path d="M75 80v40" stroke="#d97a2b" stroke-width="3"/><path d="M30 58l45-22 45 22-45 22z" fill="#ffc88a"/><circle cx="75" cy="30" r="22" fill="#1fa05a"/><path d="M65 30l8 8 14-16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="30" r="4" fill="#f1511b"/><circle cx="128" cy="44" r="3.5" fill="#2563eb"/><rect x="116" y="20" width="7" height="7" rx="2" fill="#f5a300" transform="rotate(20 120 24)"/></svg>`;

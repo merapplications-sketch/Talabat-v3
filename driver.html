@@ -6,7 +6,7 @@
 <title>Talabat — Driver</title>
 <style>:root{--o:#f1511b;--o2:#d94512;--tint:#fff0ea;--ink:#1c1c21;--mut:#8b8f98;--line:#eeeef1;--bg:#f6f6f8;--ok:#1fa05a;--okbg:#e6f6ed;--bad:#d92d20;--badbg:#fdeceb;--wbg:#fff0e5;--sh:0 2px 14px rgba(28,28,33,.06)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font:14px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+body{font:14px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 .hd{background:linear-gradient(135deg,#f1511b,#ff7a3d);color:#fff;padding:calc(22px + env(safe-area-inset-top,0px)) 16px 20px;border-radius:0 0 28px 28px;display:flex;justify-content:space-between;align-items:center}
 .av{width:46px;height:46px;border-radius:50%;background:#fff;color:var(--o);display:flex;align-items:center;justify-content:center;font-size:20px;margin-right:12px;font-weight:700}
 .pill{background:#ffffff2e;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
@@ -34,17 +34,36 @@ input[type=text],input[type=number]{width:100%;padding:12px 14px;margin-bottom:1
 .nav{position:fixed;bottom:0;left:0;right:0;background:#fff;box-shadow:0 -4px 20px rgba(28,28,33,.07);border-radius:22px 22px 0 0;display:flex;padding:6px 4px env(safe-area-inset-bottom,0px)}
 .nav div{flex:1;text-align:center;padding:8px 0;font-size:11px;font-weight:600;color:var(--mut);cursor:pointer}.nav .on{color:var(--o)}.nav span{display:block;font-size:20px}
 .bdg{background:var(--bad);color:#fff;border-radius:10px;font-size:10px;padding:1px 6px;font-weight:700}
+
+.steps{display:flex;justify-content:space-between;position:relative;margin:16px 4px 14px}.steps:before{content:"";position:absolute;left:16%;right:16%;top:12px;height:3px;background:#e4e5ea}
+.stp{position:relative;flex:1;text-align:center;font-size:11px;font-weight:600;color:var(--mut)}.stp i{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#dcdde3;color:#fff;margin:0 auto 6px;font-style:normal;font-size:12px;position:relative;z-index:1}
+.stp.done i{background:var(--ok)}.stp.cur i{background:var(--o)}.stp.done,.stp.cur{color:var(--ink)}
+.hero2{background:var(--tint);border-radius:18px;padding:14px}.hico{width:42px;height:42px;border-radius:14px;background:#fff;color:var(--o);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dest{font-weight:700;font-size:17px;line-height:1.25;word-break:break-word}
+.btnrow{display:flex;gap:10px;margin-top:12px}.btnrow .b{margin:0;flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px}
+.b.s{background:#fff;color:var(--o);box-shadow:inset 0 0 0 1.5px var(--o)}
+.earnchip{background:var(--okbg);color:var(--ok);font-weight:700;font-size:13px;padding:5px 12px;border-radius:999px}
+.paychip{border-radius:14px;padding:11px 14px;font-size:14px;font-weight:600;margin:12px 0}.paychip.cash{background:#fff7e0;color:#8a5b00}.paychip.paid{background:#e8effd;color:#1d4ed8}
+.cust{display:flex;align-items:center;gap:12px;margin-bottom:12px}.cust .av2{width:44px;height:44px;border-radius:50%;background:#f1f1f4;color:var(--ink);font-weight:700;display:flex;align-items:center;justify-content:center}
+.round{position:relative;width:44px;height:44px;border-radius:50%;background:#f1f1f4;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;border:0;text-decoration:none;flex-shrink:0;cursor:pointer}.round.o{background:var(--tint);color:var(--o)}
+.dotb{position:absolute;top:-2px;right:-2px;background:var(--bad);color:#fff;border-radius:10px;font-size:10px;min-width:17px;padding:1px 5px;font-weight:700}
+.actbar{position:fixed;left:0;right:0;bottom:calc(66px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(246,246,248,0),var(--bg) 30%);padding:18px 16px 10px;z-index:30}.actbar .b{margin:0;display:flex;align-items:center;justify-content:center;gap:8px;height:56px;font-size:16px;box-shadow:0 8px 22px rgba(0,0,0,.14)}
+.empty2{text-align:center;color:var(--mut);padding:28px 16px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.qrow{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}.qrow::-webkit-scrollbar{display:none}.qrow .chip{flex-shrink:0;margin:0;white-space:nowrap}
+.md .chat{max-height:34vh}
 </style></head><body><div id="app"></div>
 <script>window.onerror=function(m,s,l){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#e74c3c;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='ERR: '+m+' @'+String(s||'').split('/').pop()+':'+l;(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise: '+(e.reason&&e.reason.message||e.reason),'',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=14"></script>
+<script src="talabat-core.js?v=15"></script>
 <script>
 TLB.addDict({dOrders:'Заказы',dHist:'История',dMe:'Профиль',newO:'Новые заказы',offl:'Вы не в сети. Включите «На линии».',busy:'У вас есть активный заказ. Новые заказы скрыты до завершения.',noO:'Нет доступных заказов. Ожидание…',pick:'Забрать',drop:'Доставить',take:'Принять заказ 🚀',actO:'Активный заказ',call:'📞 Звонок',chatB:'💬 Чат',q1:'🚪 Я у дома',q2:'⏳ Задерживаюсь',q3:'📍 Где адрес?',q1t:'Я подъезжаю к дому 🚪',q2t:'Задерживаюсь в пути ⏳',q3t:'Не могу найти адрес 📍',q4:'🙏 Спасибо',q4t:'Спасибо! Постараюсь приехать как можно быстрее 🙏',q5:'🛵 Уже еду',q5t:'Я забрал ваш заказ и уже еду к вам 🛵',q6:'📞 Позвоню вам',q6t:'Пожалуйста, ответьте на звонок, я скоро буду у вас 📞',q7:'⏳ Заказ готовится',q7t:'Заказ ещё готовится в ресторане, скоро выезжаю к вам ⏳',noPh:'Нет номера клиента — напишите в чате',storeMap:'Магазин на карте',mapStore:'🗺 Карта ресторана',mapClient:'🗺 Карта: адрес клиента',promoT:'Промокод',map:'🗺️ Открыть карту',wait:'Ждите: заказ ещё готовится',gotIt:'Заказ забран из ресторана 📦',dlv:'Заказ доставлен ✅',st1:'1. Езжайте в ресторан',st2:'2. Доставьте заказ клиенту',bal:'Заработок',cnt:'Выполнено заказов',noH:'История пуста',trans:'Не удалось: проверьте статус заказа',
-inv:'Счёт',collect:'Получите с клиента',paidOnline:'Оплачено онлайн',subT:'Товары',discT:'Скидка',delT:'Доставка',tipT:'Чаевые',totT:'Итого',cashHand:'Наличные на руках',cashWarn:'⚠️ Наличных больше лимита. Сдайте деньги в офис.',blockedB:'Приём новых заказов остановлен администратором.',recvQ:'Получено от клиента (TJS)',diffN:'Причина, если сумма отличается',confirmB:'Подтвердить доставку',cancelB:'Отмена',msgPh:'Сообщение клиенту',sendB:'Отправить',lim:'Лимит',langL:'Язык',sendLoc:'📍 Место'},
+inv:'Счёт',collect:'Получите с клиента',paidOnline:'Оплачено онлайн',subT:'Товары',discT:'Скидка',delT:'Доставка',tipT:'Чаевые',totT:'Итого',cashHand:'Наличные на руках',cashWarn:'⚠️ Наличных больше лимита. Сдайте деньги в офис.',blockedB:'Приём новых заказов остановлен администратором.',recvQ:'Получено от клиента (TJS)',diffN:'Причина, если сумма отличается',confirmB:'Подтвердить доставку',cancelB:'Отмена',msgPh:'Сообщение клиенту',sendB:'Отправить',lim:'Лимит',langL:'Язык',sendLoc:'📍 Место',h1:'Езжайте в ресторан',h2:'Доставьте заказ клиенту',custT:'Клиент',navB:'Навигация',callRest:'Позвонить',orderInfo:'Состав заказа',itemsN:'блюд',chatT:'Чат',closeB:'Закрыть',stAcc:'Принят',stRest:'Ресторан',stCust:'Клиент',prepIn:'Готовится, ~{n} мин',readyNow:'Заказ готов — можно забирать',collectS:'Получить',paidS:'Оплачено онлайн',earnT:'Вам за заказ',hideInfo:'Скрыть',quickT:'Быстрые ответы'},
 {dOrders:'Orders',dHist:'History',dMe:'Profile',newO:'New orders',offl:'You are offline. Switch to “Online”.',busy:'You have an active order. New orders are hidden until it is finished.',noO:'No orders available. Waiting…',pick:'Pick up',drop:'Deliver',take:'Accept order 🚀',actO:'Active order',call:'📞 Call',chatB:'💬 Chat',q1:'🚪 I am at the door',q2:'⏳ Running late',q3:'📍 Where is the address?',q1t:'I am arriving at your door 🚪',q2t:'Running late ⏳',q3t:'I cannot find the address 📍',q4:'🙏 Thanks',q4t:'Thank you! I will try to get to you as fast as I can 🙏',q5:'🛵 On my way',q5t:'I picked up your order and I am on my way 🛵',q6:'📞 Will call you',q6t:'Please answer my call, I will be with you soon 📞',q7:'⏳ Still preparing',q7t:'The order is still being prepared, I will leave soon ⏳',noPh:'No customer phone — use the chat',storeMap:'Restaurant on map',mapStore:'🗺 Restaurant on map',mapClient:'🗺 Customer address on map',promoT:'Promo code',map:'🗺️ Open map',wait:'Wait: the order is still being prepared',gotIt:'Order picked up 📦',dlv:'Order delivered ✅',st1:'1. Go to the restaurant',st2:'2. Deliver to the customer',bal:'Earnings',cnt:'Orders completed',noH:'No history yet',trans:'Failed: check the order status',
-inv:'Invoice',collect:'Collect from customer',paidOnline:'Paid online',subT:'Items',discT:'Discount',delT:'Delivery',tipT:'Tip',totT:'Total',cashHand:'Cash on hand',cashWarn:'⚠️ Cash on hand is over the limit. Hand it over to the office.',blockedB:'New orders are paused by the admin.',recvQ:'Amount received from customer (TJS)',diffN:'Reason if the amount differs',confirmB:'Confirm delivery',cancelB:'Cancel',msgPh:'Message to customer',sendB:'Send',lim:'Limit',langL:'Language',sendLoc:'📍 Place'});
+inv:'Invoice',collect:'Collect from customer',paidOnline:'Paid online',subT:'Items',discT:'Discount',delT:'Delivery',tipT:'Tip',totT:'Total',cashHand:'Cash on hand',cashWarn:'⚠️ Cash on hand is over the limit. Hand it over to the office.',blockedB:'New orders are paused by the admin.',recvQ:'Amount received from customer (TJS)',diffN:'Reason if the amount differs',confirmB:'Confirm delivery',cancelB:'Cancel',msgPh:'Message to customer',sendB:'Send',lim:'Limit',langL:'Language',sendLoc:'📍 Place',h1:'Go to the restaurant',h2:'Deliver to the customer',custT:'Customer',navB:'Navigate',callRest:'Call',orderInfo:'Order details',itemsN:'items',chatT:'Chat',closeB:'Close',stAcc:'Accepted',stRest:'Restaurant',stCust:'Customer',prepIn:'Preparing, ~{n} min',readyNow:'Order is ready — pick it up',collectS:'Collect',paidS:'Paid online',earnT:'You earn',hideInfo:'Hide',quickT:'Quick replies'});
 const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
-let DRV=null,tab='o',online=true,chatOpen=false,lastN=-1,DV=null;
+const P={nav:'<path d="M3 11l18-8-8 18-2-8z"/>',phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/>',check:'<path d="M5 12l5 5 9-10"/>',pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',store:'<path d="M4 9l1-5h14l1 5"/><path d="M4 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 4 0"/><path d="M5 12v8h14v-8"/>',home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',down:'<path d="M6 9l6 6 6-6"/>',up:'<path d="M6 15l6-6 6 6"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',bike:'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9H8"/>',pkg:'<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>'};
+const ico=(n,s)=>`<svg viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;flex-shrink:0">${P[n]}</svg>`;
+let DRV=null,tab='o',online=true,chatOpen=false,invOpen=false,lastN=-1,DV=null;
 const mine=()=>TLB.orders(o=>o.driver==DRV.id&&['preparing','ready','pickedup'].includes(o.status))[0]||null;
 const done=()=>TLB.orders(o=>o.driver==DRV.id&&o.status=='delivered');
 const setTab=x=>{tab=x;render()};
@@ -77,42 +96,56 @@ function banner(){const m=TLB.me(),bal=TLB.myCash();let h='';
   if(m.blocked)h+=`<div class="warn">${t('blockedB')}</div>`;
   h+=bal>=m.cashLimit?`<div class="warn r">${t('cashWarn')} ${bal.toFixed(0)} / ${m.cashLimit} TJS</div>`:`<div class="info2">💵 ${t('cashHand')}: ${bal.toFixed(2)} TJS</div>`;
   return h}
-function vOrders(){const a=mine(),of=TLB.offers(),m=TLB.me();let h=banner()+`<h3>${t('newO')}</h3>`;
-  if(!online)h+=`<div class="card">${t('offl')}</div>`;
-  else if(a)h+=`<div class="card">${t('busy')}</div>`;
-  else if(m.blocked)h+='';
-  else if(!of.length)h+=`<div class="card">${t('noO')}</div>`;
-  else h+=of.map(o=>`<div class="card"><span class="badge">${esc(o.store)}</span><div class="row" style="margin-top:6px"><b>#${o.id}</b><b style="color:#27ae60">+${o.payout.toFixed(2)} TJS</b></div>
-  <div class="route">🏬 ${t('pick')}: <b>${esc(o.store)}</b><br>📍 ${t('drop')}: <b>${esc(o.address)}</b><br>${TLB.isCash(o)?'💵 '+t('collect')+': <b>'+o.total.toFixed(2)+' TJS</b>':'✅ '+t('paidOnline')}</div><button class="b" onclick="take(${o.id})">${t('take')}</button></div>`).join('');
-  if(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id);
-    h+=`<h3>${t('actO')}</h3><div class="card act"><span class="badge" style="background:#ff5a00;color:#fff">#${a.id}</span>
-    <div class="row" style="background:#edf2f7;border-radius:10px;padding:10px;margin:10px 0"><div><b>👤 ${esc(a.client.name)}</b><div style="font-size:11px;color:#718096">${esc(a.client.phone)}</div></div>
-    <div style="display:flex;gap:6px">${a.client.phone?`<a class="b" style="margin:0;padding:8px 10px;font-size:11px;width:auto;background:#27ae60" href="tel:${esc(a.client.phone)}">${t('call')}</a>`:`<small style="color:#e74c3c;align-self:center">${t('noPh')}</small>`}<button class="b m" style="margin:0;width:auto;padding:8px 10px;font-size:11px" onclick="chatOpen=!chatOpen;render()">${t('chatB')} ${un?`<span class="bdg">${un}</span>`:''}</button></div></div>
-    ${chatOpen?`<div><span class="chip" onclick="say(${a.id},t('q1t'))">${t('q1')}</span><span class="chip" onclick="say(${a.id},t('q2t'))">${t('q2')}</span><span class="chip" onclick="say(${a.id},t('q3t'))">${t('q3')}</span><span class="chip" onclick="say(${a.id},t('q4t'))">${t('q4')}</span><span class="chip" onclick="say(${a.id},t('q5t'))">${t('q5')}</span><span class="chip" onclick="say(${a.id},t('q6t'))">${t('q6')}</span><span class="chip" onclick="say(${a.id},t('q7t'))">${t('q7')}</span>
-    <div class="chat" id="ch">${a.chat.map(m=>`<div class="m ${m.s=='driver'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
-    <div class="row"><input type="text" id="ci" placeholder="${t('msgPh')}" style="margin:0"><button class="b s" style="margin:0;width:auto;padding:10px" onclick="sendLoc(${a.id})">${t('sendLoc')}</button><button class="b" style="margin:0;width:auto;padding:10px" onclick="sendChat(${a.id})">${t('sendB')}</button></div></div>`:''}
-    <div style="font-weight:bold;font-size:14px;margin:10px 0 4px">${esc(a.store)}${a.storePhone?` — <a href="tel:${esc(a.storePhone)}">${esc(a.storePhone)}</a>`:''}</div><div style="font-size:12px;color:#4a5568;margin-bottom:8px">📍 ${esc(a.address)}</div>
-    <div class="info">${ot?t('st2'):t('st1')}</div>${invoice(a)}
-    <a class="b m" target="_blank" href="${ot?map(a.address):(storeLL(a.store)?'https://www.google.com/maps/search/?api=1&query='+storeLL(a.store):map(a.store))}">${ot?t('mapClient'):t('mapStore')}</a>
-    ${ot?`<button class="b g" onclick="deliverClick(${a.id})">${t('dlv')}</button>`:rd?`<button class="b" onclick="step(${a.id},'pickedup')">${t('gotIt')}</button>`:`<button class="b d" disabled>${t('wait')}</button>`}</div>`}
+function stepBar(a){const ot=a.status=='pickedup',st=[[t('stAcc'),'done'],[t('stRest'),ot?'done':'cur'],[t('stCust'),ot?'cur':'']];
+  return `<div class="steps">${st.map((s,i)=>`<div class="stp ${s[1]}"><i>${s[1]=='done'?ico('check',13):i+1}</i><span>${s[0]}</span></div>`).join('')}</div>`}
+function itemsSummary(a){const n=a.items.reduce((s,i)=>s+i.qty,0);
+  return `<div class="card"><div class="row" onclick="invOpen=!invOpen;render()" style="cursor:pointer"><div><b>${t('orderInfo')}</b><div class="xs" style="color:var(--mut)">${n} ${t('itemsN')} · ${a.total.toFixed(2)} TJS</div></div><span style="color:var(--o)">${ico(invOpen?'up':'down',22)}</span></div>${invOpen?invoice(a):''}</div>`}
+function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id),cash=TLB.isCash(a);
+  const dest=ot?a.address:a.store,destIco=ot?'pin':'store',navHref=ot?map(a.address):(storeLL(a.store)?'https://www.google.com/maps/search/?api=1&query='+storeLL(a.store):map(a.store));
+  const sub=ot?'':(rd?t('readyNow'):t('prepIn').replace('{n}',a.prepTime||''));
+  return `<div class="card act"><div class="row"><span class="badge" style="background:var(--o);color:#fff">#${a.id}</span><span class="earnchip">${t('earnT')} ${a.payout.toFixed(2)} TJS</span></div>
+  ${stepBar(a)}
+  <div class="hero2"><div class="xs" style="color:var(--mut);font-weight:600">${ot?t('h2'):t('h1')}</div><div class="rg" style="gap:10px;margin-top:6px"><span class="hico">${ico(destIco,22)}</span><div style="min-width:0"><div class="dest">${esc(dest)}</div>${sub?`<div class="xs" style="color:${rd?'var(--ok)':'#9a5300'};font-weight:600;margin-top:2px">${sub}</div>`:''}</div></div>
+  <div class="btnrow"><a class="b" target="_blank" rel="noopener" href="${navHref}">${ico('nav',18)} ${t('navB')}</a>${!ot&&a.storePhone?`<a class="b s" href="tel:${esc(a.storePhone)}">${ico('phone',18)} ${t('callRest')}</a>`:''}</div></div>
+  <div class="paychip ${cash?'cash':'paid'}">${cash?`💵 ${t('collectS')}: <b>${a.total.toFixed(2)} TJS</b>`:`✅ ${t('paidS')} · ${esc(t(a.payment))}`}</div>
+  <div class="cust"><div class="av2">${esc(String(a.client.name||'?').charAt(0).toUpperCase())}</div><div style="flex:1;min-width:0"><div class="xs" style="color:var(--mut)">${t('custT')}</div><b>${esc(a.client.name)}</b></div>
+  ${a.client.phone?`<a class="round" href="tel:${esc(a.client.phone)}" aria-label="${t('call')}">${ico('phone',20)}</a>`:''}<button class="round o" onclick="chatOpen=true;render()" aria-label="${t('chatB')}">${ico('chat',20)}${un?`<span class="dotb">${un}</span>`:''}</button></div>
+  ${!a.client.phone?`<div class="xs" style="color:var(--bad);margin:-4px 0 10px">${t('noPh')}</div>`:''}
+  ${itemsSummary(a)}</div>`}
+function actionBar(a){const rd=a.status=='ready',ot=a.status=='pickedup';
+  return `<div class="actbar">${ot?`<button class="b g" onclick="deliverClick(${a.id})">${ico('check',20)} ${t('dlv')}</button>`:rd?`<button class="b" onclick="step(${a.id},'pickedup')">${ico('pkg',20)} ${t('gotIt')}</button>`:`<button class="b d" disabled>${t('wait')}</button>`}</div>`}
+function vOrders(){const a=mine(),of=TLB.offers(),m=TLB.me();let h=banner();
+  if(!a){h+=`<h3>${t('newO')}</h3>`;
+    if(!online)h+=`<div class="card empty2">${t('offl')}</div>`;
+    else if(m.blocked)h+='';
+    else if(!of.length)h+=`<div class="card empty2">${ico('bike',30)}<div>${t('noO')}</div></div>`;
+    else h+=of.map(o=>`<div class="card"><div class="row"><b style="font-size:17px">${esc(o.store)}</b><span class="earnchip">+${o.payout.toFixed(2)} TJS</span></div>
+    <div class="route"><div class="rg">${ico('store',18)}<span>${t('pick')}: <b>${esc(o.store)}</b></span></div><div class="rg" style="margin-top:6px">${ico('pin',18)}<span>${t('drop')}: <b>${esc(o.address)}</b></span></div></div>
+    <div class="paychip ${TLB.isCash(o)?'cash':'paid'}" style="margin:0 0 4px">${TLB.isCash(o)?`💵 ${t('collectS')}: <b>${o.total.toFixed(2)} TJS</b>`:`✅ ${t('paidS')}`}</div><button class="b" onclick="take(${o.id})">${t('take')}</button></div>`).join('');
+  }else h+=`<div class="xs" style="color:var(--mut);margin:0 4px 8px">${t('busy')}</div>`+activeCard(a);
   return h}
+function chatSheet(a){const un=TLB.unread(a.id),Q=[1,2,3,4,5,6,7];
+  return `<div class="ov" onclick="chatOpen=false;render()"><div class="md" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:10px"><h3 style="margin:0">${t('chatT')} · ${esc(a.client.name)}</h3><button class="round" onclick="chatOpen=false;render()" aria-label="${t('closeB')}">${ico('x',18)}</button></div>
+  <div class="qrow">${Q.map(n=>`<span class="chip" onclick="say(${a.id},t('q${n}t'))">${t('q'+n)}</span>`).join('')}</div>
+  <div class="chat" id="ch">${a.chat.map(m=>`<div class="m ${m.s=='driver'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
+  <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" placeholder="${t('msgPh')}" style="margin:0;flex:1"><button class="round" onclick="sendLoc(${a.id})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" style="background:var(--o);color:#fff" onclick="sendChat(${a.id})" aria-label="${t('sendB')}">${ico('nav',20)}</button></div></div></div>`}
 function vHist(){const l=done();return `<h3>${t('dHist')}</h3>${l.length?l.map(o=>`<div class="card"><div class="row"><b>#${o.id} (${esc(o.store)})</b><b style="color:#27ae60">${o.payout.toFixed(2)} TJS</b></div><p style="font-size:12px;color:#718096;margin-top:4px">🕒 ${new Date(o.doneAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} ${o.cashCollected!=null?` • 💵 ${o.cashCollected.toFixed(2)} TJS`:''}${o.cashNote?` • ${esc(o.cashNote)}`:''}</p></div>`).join(''):`<div class="card">${t('noH')}</div>`}`}
 function vMe(){const l=done(),sum=l.reduce((s,o)=>s+o.payout,0),m=TLB.me();
   return `<div class="earn"><small>${t('bal')}</small><b>${sum.toFixed(2)} TJS</b><div class="row"><div><b style="font-size:20px;margin:0">${l.length}</b><small>${t('cnt')}</small></div><div><b style="font-size:20px;margin:0">${TLB.myCash().toFixed(0)}</b><small>${t('cashHand')} / ${m.cashLimit}</small></div></div></div>
   <div class="card row"><b>${t('langL')}</b><div style="display:flex;gap:6px"><button class="b ${TLB.lang()=='ru'?'':'s'}" style="margin:0;width:auto;padding:8px 14px" onclick="TLB.setLang('ru')">RU</button><button class="b ${TLB.lang()=='en'?'':'s'}" style="margin:0;width:auto;padding:8px 14px" onclick="TLB.setLang('en')">EN</button></div></div>
-  <div class="card" style="text-align:center;background:#2d3748;color:#fff"><div style="font-size:38px">🛵</div><b>${esc(m.name)}</b><p style="font-size:11px;opacity:.8">#${DRV.id.slice(0,6)}</p></div>
+  <div class="card" style="text-align:center;background:#2d3748;color:#fff"><div style="color:#fff;display:flex;justify-content:center">${ico('bike',44)}</div><b>${esc(m.name)}</b><p style="font-size:11px;opacity:.8">#${DRV.id.slice(0,6)}</p></div>
   <button class="b r" onclick="TLB.logout()">${t('logout')}</button>`}
-function modal(){return DV?`<div class="ov"><div class="md"><h3>${t('recvQ')}</h3><input type="number" id="cashAmt" value="${esc(DV.amt)}" oninput="DV.amt=this.value"><input type="text" id="cashNote" placeholder="${t('diffN')}" value="${esc(DV.note)}" oninput="DV.note=this.value">
+function modal(){const a=mine();if(chatOpen&&a&&!DV)return chatSheet(a);return DV?`<div class="ov"><div class="md"><h3>${t('recvQ')}</h3><input type="number" id="cashAmt" value="${esc(DV.amt)}" oninput="DV.amt=this.value"><input type="text" id="cashNote" placeholder="${t('diffN')}" value="${esc(DV.note)}" oninput="DV.note=this.value">
   <button class="b g" onclick="confirmDeliver()">${t('confirmB')}</button><button class="b s" onclick="DV=null;render()">${t('cancelB')}</button></div></div>`:''}
 function render(){
   const of=TLB.offers().length;if(online&&!mine()&&lastN>=0&&of>lastN)TLB.beep();lastN=of;
   const a0=mine();if(chatOpen&&a0&&TLB.unread(a0.id))setTimeout(()=>TLB.markRead(a0.id),0);
   const un=TLB.totalUnread();
   const a=document.activeElement,kid=a&&['ci','cashAmt','cashNote'].includes(a.id)?a.id:null,keep=kid?a.value:null;
-  $('app').innerHTML=`<div class="hd"><div class="row"><div class="av">🚴‍♂️</div><div><b>${esc(DRV.name)}</b><div style="font-size:11px;opacity:.7">#${DRV.id.slice(0,6)}</div></div></div>
+  $('app').innerHTML=`<div class="hd"><div class="row"><div class="av">${esc(String(DRV.name||'?').charAt(0).toUpperCase())}</div><div><b>${esc(DRV.name)}</b><div style="font-size:11px;opacity:.7">#${DRV.id.slice(0,6)}</div></div></div>
   <div class="pill" onclick="flip()"><span class="dot ${online?'':'off'}"></span>${online?t('online'):t('offline')}</div></div>
-  <div class="pg">${{o:vOrders,h:vHist,m:vMe}[tab]()}</div>${modal()}
-  <div class="nav">${[['o','📦','dOrders'],['h','📜','dHist'],['m','👤','dMe']].map(x=>`<div class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')"><span>${x[1]}</span>${t(x[2])}${x[0]=='o'&&un?` <span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
+  <div class="pg">${{o:vOrders,h:vHist,m:vMe}[tab]()}</div>${tab=='o'&&mine()?actionBar(mine()):''}${modal()}
+  <div class="nav">${[['o','home','dOrders'],['h','receipt','dHist'],['m','user','dMe']].map(x=>`<div class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')"><span>${ico(x[1],24)}</span>${t(x[2])}${x[0]=='o'&&un?` <span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
   if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}
   const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight}
 TLB.start('driver',me=>{DRV=me;TLB.chrome(false);TLB.on(render);render()});
