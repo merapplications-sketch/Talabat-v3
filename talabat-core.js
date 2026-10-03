@@ -37,18 +37,18 @@
 
 
   Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', offline:'Нет подключения к интернету', loading:'Загрузка…',bootT:'Не удалось загрузить приложение',bootS:'Проверьте интернет и нажмите «Обновить». Если не помогает — выйдите и войдите снова.',bootReload:'Обновить',bootSignout:'Выйти и войти заново',applyT:'Стать курьером',applyS:'Укажите ваш номер телефона. Администратор рассмотрит заявку и откроет вам доступ.',applyB:'Подать заявку',notLinked:'Ваш аккаунт ещё не привязан к ресторану. Сообщите администратору ваш email — он привяжет аккаунт к вашему ресторану.',authPwHint2:'Минимум 8 символов. Придумайте новый пароль для Talabat — не используйте пароль от почты.',authPhoneL:'Телефон (+992…)', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
-    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_phone: 'Введите корректный номер, например +992901234567.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_address_required: 'Добавьте адрес доставки на карте.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
+    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_fee_changed: 'Стоимость доставки изменилась. Проверьте сумму и подтвердите заказ ещё раз.', err_too_far: 'Адрес слишком далеко от ресторана. Выберите другой адрес или ресторан поближе.', err_phone_required: 'Укажите номер телефона (+992…) в профиле.', err_bad_phone: 'Введите номер Таджикистана: +992 и 9 цифр.', err_address_required: 'Добавьте адрес доставки на карте.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
   Object.assign(I.en, { tagline: 'Food and grocery delivery', offline:'No internet connection', loading:'Loading…',bootT:'Could not load the app',bootS:'Check your internet and tap “Reload”. If it does not help, sign out and sign in again.',bootReload:'Reload',bootSignout:'Sign out and sign in again',applyT:'Become a courier',applyS:'Enter your phone number. The admin will review your request and open access for you.',applyB:'Apply',notLinked:'Your account is not linked to a restaurant yet. Send your email to the administrator — they will link the account to your restaurant.',authPwHint2:'At least 8 characters. Create a NEW password for Talabat — do not use your email password.',authPhoneL:'Phone (+992…)', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
-    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_phone: 'Enter a valid phone number, e.g. +992901234567.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_address_required: 'Add a delivery address on the map.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
+    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_fee_changed: 'The delivery fee has changed. Check the total and confirm the order again.', err_too_far: 'The address is too far from the restaurant. Choose another address or a closer restaurant.', err_phone_required: 'Add your phone number (+992…) in your profile.', err_bad_phone: 'Enter a Tajikistan number: +992 and 9 digits.', err_address_required: 'Add a delivery address on the map.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
   /* ---------- Extra dictionary ---------- */
   Object.assign(I.ru, { saved: 'Сохранено ✓', apple: 'Apple Pay', card: 'Карта Alif', cash: 'Наличными', openMap: 'Открыть на карте', locTitle: 'Отправить местоположение',
-    locHint: 'Передвиньте булавку или коснитесь карты, чтобы указать точное место.', locSend: 'Отправить это место', mapFail: 'Не удалось загрузить карту', chatClosed: 'Чат закрыт',
+    locHint:'Двигайте карту: метка в центре показывает точку доставки.',locDenied:'Доступ к геопозиции запрещён. Включите его для Safari в настройках iPhone.',locFail:'Не удалось определить местоположение. Выйдите на открытое место.',locNA:'Это устройство не поддерживает геолокацию.', locSend: 'Отправить это место', mapFail: 'Не удалось загрузить карту', chatClosed: 'Чат закрыт',
     err_blocked: 'Приём заказов остановлен администратором', err_cash_required: 'Укажите полученную сумму', err_note_required: 'Укажите причину, если сумма отличается' });
   Object.assign(I.en, { saved: 'Saved ✓', apple: 'Apple Pay', card: 'Alif card', cash: 'Cash', openMap: 'Open on map', locTitle: 'Send location',
-    locHint: 'Drag the pin or tap the map to set the exact place.', locSend: 'Send this location', mapFail: 'Could not load the map', chatClosed: 'Chat closed',
+    locHint:'Move the map: the pin in the centre marks the delivery point.',locDenied:'Location access is denied. Turn it on for Safari in iPhone Settings.',locFail:'Cannot get your location. Move to an open area.',locNA:'This device does not support location.', locSend: 'Send this location', mapFail: 'Could not load the map', chatClosed: 'Chat closed',
     err_blocked: 'New orders are paused by the admin', err_cash_required: 'Enter the amount received', err_note_required: 'Add a reason if the amount differs' });
 
   /* ---------- UI helpers: toast, sound, chrome, location ---------- */
@@ -62,6 +62,20 @@
   ['touchstart', 'click'].forEach(function (ev) { document.addEventListener(ev, unlock, { passive: true }); });
   function beep() {
     try { unlock(); [0, 0.35].forEach(function (d) { var o = AC.createOscillator(), g = AC.createGain(); o.frequency.value = 880; g.gain.setValueAtTime(0.2, AC.currentTime + d); g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + d + 0.28); o.connect(g); g.connect(AC.destination); o.start(AC.currentTime + d); o.stop(AC.currentTime + d + 0.3); }); } catch (e) { }
+  }
+  var ringT = null;
+  function audioOk() { return !!AC && AC.state === 'running'; }
+  function ringBeep() {
+    try { unlock(); [0, 0.22, 0.44].forEach(function (d, i) { var o = AC.createOscillator(), g = AC.createGain(); o.frequency.value = i === 1 ? 1175 : 988; g.gain.setValueAtTime(0.28, AC.currentTime + d); g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + d + 0.18); o.connect(g); g.connect(AC.destination); o.start(AC.currentTime + d); o.stop(AC.currentTime + d + 0.2); }); } catch (e) { }
+  }
+  function ring(on) {
+    if (on) { if (ringT) return; ringBeep(); ringT = setInterval(ringBeep, 2600); }
+    else if (ringT) { clearInterval(ringT); ringT = null; }
+  }
+  function unlockNow() {
+    unlock();
+    try { var b = AC.createBuffer(1, 1, 22050), src = AC.createBufferSource(); src.buffer = b; src.connect(AC.destination); src.start(0); } catch (e) { }
+    return audioOk();
   }
   var chromeOn = true;
   function applyChrome() { ['tlb-lang', 'tlb-out'].forEach(function (id) { var e = $(id); if (e) e.style.display = chromeOn ? '' : 'none'; }); }
@@ -81,29 +95,44 @@
     loadLeaflet(function () {
       var ov = document.createElement('div');
       ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:#fff;display:flex;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,sans-serif';
-      ov.innerHTML = '<div style="padding:14px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px"><span data-i18n="locTitle"></span><span id="tlb-lx" style="font-size:24px;cursor:pointer;padding:0 6px">✕</span></div><div id="tlb-map" style="flex:1;min-height:200px"></div><div style="padding:12px 14px 18px"><div data-i18n="locHint" style="font-size:12px;color:#718096;margin-bottom:10px"></div><button id="tlb-ls" data-i18n="locSend" ' + BT + '></button></div>';
+      var PIN = '<svg viewBox="0 0 34 44" width="34" height="44"><path d="M17 0C7.6 0 0 7.4 0 16.6 0 29 17 44 17 44s17-15 17-27.4C34 7.4 26.4 0 17 0z" fill="#f1511b"/><circle cx="17" cy="16.5" r="6.5" fill="#fff"/></svg>';
+      var ME_ICON = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f1511b" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>';
+      ov.innerHTML = '<div style="padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:17px"><span data-i18n="locTitle"></span><button id="tlb-lx" aria-label="close" style="width:38px;height:38px;border:0;border-radius:50%;background:#f1f1f4;font-size:18px;cursor:pointer;color:#1c1c21">\u2715</button></div>' +
+        '<div style="position:relative;flex:1;min-height:200px"><div id="tlb-map" style="position:absolute;top:0;left:0;right:0;bottom:0"></div>' +
+        '<div style="position:absolute;left:50%;top:50%;width:0;height:0;z-index:1000;pointer-events:none"><div id="tlb-pin" style="position:absolute;left:-17px;top:-44px;width:34px;height:44px;transition:transform .15s ease;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25))">' + PIN + '</div><div style="position:absolute;left:-6px;top:-3px;width:12px;height:5px;border-radius:50%;background:rgba(0,0,0,.25)"></div></div>' +
+        '<button id="tlb-me" aria-label="my location" style="position:absolute;right:14px;bottom:14px;z-index:1000;width:48px;height:48px;border:0;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25);cursor:pointer;display:flex;align-items:center;justify-content:center">' + ME_ICON + '</button></div>' +
+        '<div style="padding:12px 14px calc(16px + env(safe-area-inset-bottom,0px))"><div data-i18n="locHint" style="font-size:13px;color:#4b5563;margin-bottom:4px"></div><div id="tlb-co" style="font-size:12px;color:#8b8f98;min-height:16px"></div><div id="tlb-lm" role="alert" style="font-size:12px;font-weight:600;color:#d92d20;min-height:16px;margin-bottom:6px"></div><button id="tlb-ls" data-i18n="locSend" ' + BT + '></button></div>';
       document.body.appendChild(ov); applyI18n();
-      var st = (start && isFinite(+start[0]) && isFinite(+start[1])) ? [+start[0], +start[1]] : null;
-      var map = L.map('tlb-map').setView(st || [38.5598, 68.787], st ? 17 : 14);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
-      var mk = L.marker(map.getCenter(), { draggable: true, icon: L.divIcon({ html: '<div style="font-size:34px;line-height:34px">📍</div>', className: '', iconSize: [34, 34], iconAnchor: [17, 34] }) }).addTo(map);
-      map.on('click', function (e) { mk.setLatLng(e.latlng); });
-      setTimeout(function () { map.invalidateSize(); }, 150);
-      if (!st && navigator.geolocation) navigator.geolocation.getCurrentPosition(function (p) { var ll = [p.coords.latitude, p.coords.longitude]; map.setView(ll, 17); mk.setLatLng(ll); }, function () { }, { enableHighAccuracy: true, timeout: 10000 });
+      var st = (start && isFinite(+start[0]) && isFinite(+start[1]) && start[0] !== null && start[1] !== null) ? [+start[0], +start[1]] : null;
+      var map = L.map('tlb-map', { zoomControl: false }).setView(st || [38.5598, 68.787], st ? 17 : 14);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap' }).addTo(map);
+      var show = function () { var c = map.getCenter(); $('tlb-co').textContent = c.lat.toFixed(6) + ', ' + c.lng.toFixed(6); };
+      map.on('movestart', function () { var p = $('tlb-pin'); if (p) p.style.transform = 'translateY(-10px)'; });
+      map.on('move', show);
+      map.on('moveend', function () { var p = $('tlb-pin'); if (p) p.style.transform = ''; show(); });
+      setTimeout(function () { map.invalidateSize(); show(); }, 150);
+      function locate(silent) {
+        $('tlb-lm').textContent = '';
+        if (!navigator.geolocation) { if (!silent) $('tlb-lm').textContent = t('locNA'); return; }
+        navigator.geolocation.getCurrentPosition(function (p) { map.setView([p.coords.latitude, p.coords.longitude], 17); show(); },
+          function (e) { if (!silent) $('tlb-lm').textContent = (e && e.code === 1) ? t('locDenied') : t('locFail'); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 5000 });
+      }
+      if (!st) locate(true);
+      $('tlb-me').onclick = function () { locate(false); };
       function close() { map.remove(); ov.remove(); }
       $('tlb-lx').onclick = close;
-      $('tlb-ls').onclick = function () { var ll = mk.getLatLng(); close(); cb(ll.lat, ll.lng); };
+      $('tlb-ls').onclick = function () { var c = map.getCenter(); close(); cb(c.lat, c.lng); };
     });
   }
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [] };
+  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null };
   var seenChat = {}, lastStatus = {}, unread = {};
   var sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastTick = 0, fireT = null, errSent = 0;
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  var VERSION = 'v21';
+  var VERSION = 'v22';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -112,9 +141,9 @@
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
         items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
-        payment: o.payment || '', address: o.address, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
-        client: { name: o.customer_name || '', phone: o.customer_phone || '' }, customerId: o.customer_id,
+        client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
         createdAt: Date.parse(o.created_at), doneAt: o.done_at ? Date.parse(o.done_at) : null };
     });
@@ -142,7 +171,7 @@
        misc   = favorites, ratings, addresses, ...   (every 10-60 s)
        offers = courier offers (couriers only)       (realtime + 4 s)
      Nothing runs while the tab is hidden; failures back off (x2, up to x8); realtime events only reload the section they touch. */
-  var STORE_COLS = 'id,name,category,description,logo_url,cover_url,address,lat,lng,fee_type,fee_base,fee_per_km,fee_free_km,discount_pct,is_open,is_active,is_featured,created_at,phone,free_first_delivery,google_place_id,rating,rating_count,rating_updated_at';
+  var STORE_COLS = 'id,name,category,description,logo_url,cover_url,address,lat,lng,fee_type,fee_base,fee_per_km,fee_free_km,discount_pct,is_open,is_active,is_featured,created_at,phone,free_first_delivery,google_place_id,rating,rating_count,rating_updated_at,app_rating,app_rating_count';
   var LIMITS = { customer: 60, driver: 60, merchant: 200, admin: 300 };
   var EVERY = {
     customer: { orders: 25000, stat: 60000, misc: 40000 },
@@ -199,15 +228,18 @@
       return Promise.all([
         ids.length ? sb.from('order_items').select('*').in('order_id', ids) : Promise.resolve({ data: [] }),
         live.length ? sb.from('order_chat').select('*').in('order_id', live).order('created_at') : Promise.resolve({ data: [] }),
-        (ME.role === 'driver' || ME.role === 'admin') ? sb.rpc('cash_balances') : Promise.resolve({ data: [] })
+        (ME.role === 'driver' || ME.role === 'admin') ? sb.rpc('cash_balances') : Promise.resolve({ data: [] }),
+        ME.role === 'admin' ? Promise.resolve({ data: null }) : sb.rpc('active_contacts')
       ]).then(function (x) {
         if (x[0].error) throw x[0].error;
         var cash = {}; if (!x[2].error) (x[2].data || []).forEach(function (c) { cash[c.driver_id] = +c.balance; });
         // chat of orders opened on demand (admin detail) that are no longer "live" stays in memory
         var keepChat = DB.chat.filter(function (c) { return live.indexOf(c.order_id) < 0 && extraOrders[c.order_id]; });
         var chat = (x[1].error ? [] : (x[1].data || [])).concat(keepChat);
-        if (!changed('orders', [rows, x[0].data, chat, cash])) return false;
-        DB.orders = rows; DB.oitems = x[0].data || []; DB.chat = chat; DB.cash = cash;
+        var contacts = {}; if (x[3] && !x[3].error) (x[3].data || []).forEach(function (c) { contacts[c.order_id] = { customer_phone: c.customer_phone || '', driver_phone: c.driver_phone || '' }; });
+        if (ME.role === 'admin') contacts = DB.contacts;                       // the admin loads phones on demand (opened order, low ratings)
+        if (!changed('orders', [rows, x[0].data, chat, cash, contacts])) return false;
+        DB.orders = rows; DB.oitems = x[0].data || []; DB.chat = chat; DB.cash = cash; DB.contacts = contacts;
         return true;
       });
     });
@@ -221,16 +253,34 @@
       cust ? sb.from('addresses').select('*').order('created_at').limit(20) : Promise.resolve({ data: [] }),
       admin ? sb.from('promo_codes').select('*').order('created_at', { ascending: false }).limit(200) : Promise.resolve({ data: [] }),
       admin ? sb.from('profiles').select('*').eq('role', 'driver').limit(1000) : Promise.resolve({ data: [] }),
-      admin ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] })
+      admin ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
+      admin ? sb.from('app_settings').select('*') : Promise.resolve({ data: [] }),
+      ME.role === 'driver' ? sb.rpc('my_rating') : Promise.resolve({ data: null })
     ]).then(function (r) {
       if (r[0].error && r[1].error) throw r[0].error;
-      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data];
+      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data];
       if (!changed('misc', pack)) return false;
       if (pack[0]) ME = Object.assign(ME, pack[0]);
       DB.favs = (pack[1] || []).map(function (x) { return x.store_id; });
       DB.ratings = pack[2] || []; DB.addresses = pack[3] || []; DB.promos = pack[4] || []; DB.drivers = pack[5] || []; DB.offersAll = pack[6] || [];
+      var st = {}; (pack[7] || []).forEach(function (x) { st[x.key] = +x.value; }); DB.settings = st;
+      DB.myRating = pack[8] && pack[8].count != null ? { avg: pack[8].avg == null ? null : +pack[8].avg, count: +pack[8].count || 0 } : null;
       return true;
+    }).then(function (ch) {
+      if (ME.role !== 'admin') return ch;
+      var ids = DB.ratings.filter(function (r) { return !r.handled_at && ((r.store_stars != null && r.store_stars <= 2) || (r.driver_stars != null && r.driver_stars <= 2)); }).map(function (r) { return r.order_id; });
+      return fetchAdminContacts(ids).then(function (more) { return ch || more; });
     });
+  }
+  /* The admin may see every phone; they are loaded only for the orders that need them (opened order, low ratings). */
+  function fetchAdminContacts(ids) {
+    ids = ids.filter(function (id) { return !DB.contacts[id]; }).slice(0, 100);
+    if (!ids.length) return Promise.resolve(false);
+    return sb.rpc('contacts_for', { p_ids: ids }).then(function (r) {
+      if (r.error) return false;
+      (r.data || []).forEach(function (c) { DB.contacts[c.order_id] = { customer_phone: c.customer_phone || '', driver_phone: c.driver_phone || '' }; });
+      return true;
+    }, function () { return false; });
   }
   function loadOffers() {
     return sb.rpc('my_offers').then(function (r) {
@@ -317,7 +367,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
+    var ks = ['fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -335,7 +385,7 @@
   }
   function doneQ(r) { return done(r, true); }
   function storeByName(n) { return DB.stores.find(function (s) { return s.name === n; }); }
-  function cleanStore(f) { var c = Object.assign({}, f); if (typeof c.phone === 'string') c.phone = c.phone.replace(/[\s()-]/g, '') || null; return c; }
+  function cleanStore(f) { var c = Object.assign({}, f); if (typeof c.phone === 'string') c.phone = c.phone.trim() === '' ? null : (normPhone(c.phone) || c.phone.trim()); return c; }
   function validStore(f) {
     var n = function (k, lo, hi) { if (f[k] == null || f[k] === '') return true; var v = +f[k]; return isFinite(v) && v >= lo && v <= hi; };
     if (!(n('commission_pct', 0, 100) && n('discount_pct', 0, 100) && n('max_discount_pct', 0, 100) && n('fee_base', 0, 100000) && n('fee_per_km', 0, 100000) && n('lat', -90, 90) && n('lng', -180, 180) && n('rating', 0, 5) && n('rating_count', 0, 100000000))) return false;
@@ -343,7 +393,7 @@
     if ((f.lat == null) !== (f.lng == null) && ('lat' in f || 'lng' in f)) return false;
     if (f.name != null && (String(f.name).trim().length < 1 || String(f.name).length > 80)) return false;
     if (f.description != null && String(f.description).length > 500) return false;
-    if (f.phone != null && f.phone !== '' && !/^\+?[0-9]{7,15}$/.test(String(f.phone))) return false;
+    if (f.phone != null && f.phone !== '' && !normPhone(f.phone)) return false;
     return true;
   }
   function validBanner(f) {
@@ -374,6 +424,14 @@
     return true;
   }
   function cleanPct(v) { var n = +v; return isFinite(n) && n > 0 && n <= 100 ? Math.round(n * 100) / 100 : 0; }
+  /* Tajikistan numbers only: +992 and 9 digits. Accepts 9 digits, 992..., 0..., +992... Returns '+992XXXXXXXXX' or null. */
+  function normPhone(v) {
+    var d = String(v == null ? '' : v).replace(/\D/g, '');
+    if (/^992[0-9]{9}$/.test(d)) return '+' + d;
+    if (/^[0-9]{9}$/.test(d)) return '+992' + d;
+    if (/^0[0-9]{9}$/.test(d)) return '+992' + d.slice(1);
+    return null;
+  }
   function num(v) { if (v === null || v === undefined || v === '' || typeof v === 'boolean') return NaN; var n = +v; return isFinite(n) ? n : NaN; }
   function cleanAddr(f) {
     var one = function (v) { return String(v == null ? '' : v).replace(/\s+/g, ' ').trim(); };
@@ -451,7 +509,7 @@
     if (mode) authMode = mode;
     var su = authMode === 'up' && need !== 'admin';
     overlay(authTabs() +
-      (su ? '<input id="tlb-nm" type="text" maxlength="40" autocomplete="name" data-i18n-ph="authNameL" ' + IN + '>' : '') +
+      (su ? '<input id="tlb-nm" type="text" maxlength="40" autocomplete="name" data-i18n-ph="authNameL" ' + IN + '><input id="tlb-ph" type="tel" inputmode="tel" autocomplete="tel" maxlength="17" data-i18n-ph="authPhoneL" ' + IN + '>' : '') +
       '<input id="tlb-em" type="email" autocomplete="username" autocapitalize="off" placeholder="Email" ' + IN + '>' +
       '<div style="position:relative"><input id="tlb-pw" type="password" autocomplete="' + (su ? 'new-password' : 'current-password') + '" data-i18n-ph="password" ' + IN.replace('padding:0 14px', 'padding:0 48px 0 14px') + '><button id="tlb-eye" type="button" aria-label="show" style="position:absolute;right:6px;top:4px;width:40px;height:40px;border:0;background:none;font-size:18px;cursor:pointer;color:#8b8f98">👁</button></div>' +
       (su ? '<div data-i18n="authPwHint2" style="font-size:12px;color:#8b8f98;margin:-4px 0 8px;line-height:1.4"></div>' : '') +
@@ -464,14 +522,15 @@
     var busy = false;
     var go = function () {
       if (busy) return;
-      var email = $('tlb-em').value.trim().toLowerCase(), pw = $('tlb-pw').value, name = su ? $('tlb-nm').value.trim() : '';
+      var email = $('tlb-em').value.trim().toLowerCase(), pw = $('tlb-pw').value, name = su ? $('tlb-nm').value.trim() : '', phone = su ? normPhone($('tlb-ph').value) : null;
       show('');
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return show(t('authBadEmail'));
       if (su && name.length < 2) return show(t('authNameShort'));
+      if (su && !phone) return show(t('err_bad_phone'));
       if (su && pw.length < 8) return show(t('authPwShort'));
       if (!pw) return show(t('authPwShort'));
       busy = true; $('tlb-go').disabled = true; $('tlb-go').textContent = t('authWaitB');
-      var req = su ? sb.auth.signUp({ email: email, password: pw, options: { data: { name: name.slice(0, 40) } } }) : sb.auth.signInWithPassword({ email: email, password: pw });
+      var req = su ? sb.auth.signUp({ email: email, password: pw, options: { data: { name: name.slice(0, 40), phone: phone } } }) : sb.auth.signInWithPassword({ email: email, password: pw });
       req.then(function (r) {
         busy = false;
         if (r.error) { $('tlb-go').disabled = false; $('tlb-go').textContent = su ? t('signup') : t('login'); return show(authErr(r.error)); }
@@ -480,7 +539,7 @@
       }, function () { busy = false; $('tlb-go').disabled = false; $('tlb-go').textContent = su ? t('signup') : t('login'); show(t('err_generic')); });
     };
     $('tlb-go').onclick = go;
-    ['tlb-em', 'tlb-pw', 'tlb-nm'].forEach(function (id) { var e = $(id); if (e) e.onkeydown = function (ev) { if (ev.key === 'Enter') go(); }; });
+    ['tlb-em', 'tlb-pw', 'tlb-nm', 'tlb-ph'].forEach(function (id) { var e = $(id); if (e) e.onkeydown = function (ev) { if (ev.key === 'Enter') go(); }; });
   }
   function showApply() {
     overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0ea;color:#f1511b;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">🛵</div><b style="font-size:18px" data-i18n="applyT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="applyS"></p></div>' +
@@ -489,7 +548,7 @@
     $('tlb-lo').onclick = logout;
     $('tlb-go').onclick = function () {
       var p = $('tlb-ap').value.replace(/[\s()-]/g, '');
-      if (!/^\+?[0-9]{7,15}$/.test(p)) { $('tlb-er').textContent = t('err_bad_phone'); return; }
+      p = normPhone(p); if (!p) { $('tlb-er').textContent = t('err_bad_phone'); return; }
       $('tlb-go').disabled = true;
       sb.rpc('set_my_phone', { p_phone: p }).then(function (r) {
         if (r.error) { $('tlb-go').disabled = false; $('tlb-er').textContent = t('err_generic'); return; }
@@ -534,6 +593,7 @@
   /* ---------- API ---------- */
   window.TLB = {
     version: VERSION,
+    normPhone: normPhone,
     t: t, esc: esc, applyI18n: applyI18n, setLang: setLang, lang: function () { return lang; },
     addDict: function (ru, en) { Object.assign(I.ru, ru); Object.assign(I.en, en); },
     on: function (f) { subs.push(f); },
@@ -545,7 +605,7 @@
       sb.auth.getSession().then(function (x) { if (x.data.session) return enter(x.data.session.user); bootHide(); showLogin(); })
         .catch(function (e) { console.error(e); bootFail(e); });
     },
-    me: me, logout: logout, toast: toast, beep: beep, fmtMsg: fmtMsg, pickLocation: pickLocation,
+    me: me, logout: logout, toast: toast, beep: beep, ring: ring, audioReady: audioOk, unlockAudio: unlockNow, testSound: function () { unlockNow(); ringBeep(); }, fmtMsg: fmtMsg, pickLocation: pickLocation,
     chrome: function (on) { chromeOn = !!on; applyChrome(); },
     isCash: function (o) { return /^(cash|Cash|Наличн)/.test((o && o.payment) || ''); },
     unread: function (id) { return unread[id] || 0; },
@@ -580,7 +640,10 @@
     setDefaultAddress: function (id) { return sb.rpc('set_default_address', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
     quote: function (storeN, lat, lng) {
       var st = storeByName(storeN); if (!st || isNaN(num(lat)) || isNaN(num(lng))) return Promise.resolve({ error: 'bad_value' });
-      return sb.rpc('delivery_quote', { p_store: st.id, p_lat: num(lat), p_lng: num(lng) }).then(function (r) { if (r.error || !r.data || !isFinite(+r.data.fee)) return { error: r.error ? errKey(r.error) : 'generic' }; return { fee: +r.data.fee, km: r.data.km == null ? null : +r.data.km }; }, function () { return { error: 'generic' }; });
+      return sb.rpc('delivery_quote', { p_store: st.id, p_lat: num(lat), p_lng: num(lng) }).then(function (r) { if (r.error || !r.data || !isFinite(+r.data.fee)) return { error: r.error ? errKey(r.error) : 'generic' };
+        var d = r.data, n = function (v) { return v == null ? null : +v; };
+        return { fee: +d.fee, feeFull: n(d.fee_full), base: n(d.base), extra: n(d.extra) || 0, steps: n(d.steps) || 0, km: n(d.km), kmStraight: n(d.km_straight), freeKm: n(d.free_km), stepKm: n(d.step_km), stepPrice: n(d.step_price), maxKm: n(d.max_km), firstFree: !!d.first_free, feeType: d.fee_type };
+      }, function () { return { error: 'generic' }; });
     },
     getMenu: function (n) { return this.allMenus(false)[n] || []; },
     ping: function (online) { return sb.rpc('driver_ping', { p_online: !!online }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
@@ -646,6 +709,7 @@
     loadOrderExtra: function (id) {
       if (!ME || !sb || (extraLoaded[id] && Date.now() - extraLoaded[id] < 15000)) return Promise.resolve();
       extraLoaded[id] = Date.now(); extraOrders[id] = 1;
+      if (ME.role === 'admin') fetchAdminContacts([id]).then(function (c) { if (c) { ORD = shape(); fireSoon(); } });
       return Promise.all([sb.from('order_chat').select('*').eq('order_id', id).order('created_at'), sb.from('order_events').select('*').eq('order_id', id).order('at')]).then(function (r) {
         var seen = {}; DB.chat.forEach(function (c) { seen[c.id] = 1; });
         (r[0].error ? [] : (r[0].data || [])).forEach(function (c) { if (!seen[c.id]) { DB.chat.push(c); seen[c.id] = 1; } });
@@ -653,6 +717,10 @@
         ORD = shape(); fireSoon();
       }).catch(function (e) { console.error(e); });
     },
+    contactsOf: function (id) { return DB.contacts[id] || {}; },
+    settings: function () { return DB.settings; },
+    setSetting: function (key, value) { return rpc('set_setting', { p_key: key, p_value: +value }, true).then(function (r) { return r && r.error ? r : refresh(['misc']).then(function () { return { ok: true }; }); }); },
+    myRating: function () { return DB.myRating; },
     audit: function (limit) {
       return sb.from('audit_log').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
     },
@@ -683,7 +751,7 @@
       var items = linesOf(o.lines || o.cart, o.notes);
       if (!items) return Promise.resolve({ error: 'bad_value' });
       if (o.lat != null && (!(num(o.lat) >= -90 && num(o.lat) <= 90) || !(num(o.lng) >= -180 && num(o.lng) <= 180))) return Promise.resolve({ error: 'bad_value' });
-      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null })
+      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee) })
         .then(function (r) { return r.error ? r : { id: r.data }; });
     },
     checkPromo: function (storeN, cart, code) {
@@ -720,7 +788,7 @@
     updateMyStore: function (storeN, f) { var s = storeByName(storeN); if (!s) return Promise.resolve({ error: 'generic' }); return rpc('update_my_store', { p_store: s.id, p_description: f.description == null ? null : f.description, p_cover: f.cover || null, p_logo: f.logo || null }, true); },
     assignOwner: function (id, email) { return rpc('assign_owner', { p_store: id, p_email: email }, true); },
     setDriverStatus: function (id, st) { return sb.from('profiles').update({ driver_status: st }).eq('id', id).then(done); },
-    setMyPhone: function (p) { p = String(p || '').replace(/[\s()-]/g, ''); if (!/^\+?[0-9]{7,15}$/.test(p)) return Promise.resolve({ error: 'bad_phone' }); return rpc('set_my_phone', { p_phone: p }, true).then(function (r) { return r.error ? r : { ok: true, phone: p }; }); },
+    setMyPhone: function (p) { p = normPhone(p); if (!p) return Promise.resolve({ error: 'bad_phone' }); return rpc('set_my_phone', { p_phone: p }, true).then(function (r) { return r.error ? r : { ok: true, phone: p }; }); },
     setDriverBlocked: function (id, v) { return sb.from('profiles').update({ accept_blocked: !!v }).eq('id', id).then(done); },
     setDriverLimit: function (id, v) { v = +v; if (!isFinite(v) || v <= 0 || v > 1000000) return badStore(); return sb.from('profiles').update({ cash_limit: v }).eq('id', id).then(done); },
     settleCash: function (driverId) {

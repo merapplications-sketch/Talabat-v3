@@ -143,6 +143,38 @@ async function run(){
   else{row('FAIL','Customer uploaded a file to public Storage','this must be fixed');await c.storage.from('media').remove([u.id+'/security-test.jpg'])}
   if(item)await expectError('A malformed retry key is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_key:'x'}));
   if(item)await expectBlocked('An image from another website cannot be saved on a dish',c.from('menu_items').update({image_url:'https://evil.example/pixel.png'}).eq('id',item.id).select());
+  /* ---------- patch 18: private phones, tariffs, fee check ---------- */
+  await expectBlocked('Customer cannot read the private customer-phone table',c.from('order_customer_phone').select('*').limit(1));
+  await expectBlocked('Customer cannot read the private courier-phone table',c.from('order_driver_phone').select('*').limit(1));
+  await expectBlocked('Customer cannot write phones directly',c.from('order_driver_phone').insert({order_id:1,phone:'+992900000000'}).select());
+  var cf=await c.rpc('contacts_for',{p_ids:[1,2,3]});
+  if(cf.error||!cf.data||cf.data.length===0)row('PASS','contacts_for (admin only) returns nothing to a customer','empty');else row('FAIL','A customer got phone numbers from contacts_for','this must be fixed');
+  var ac=await c.rpc('active_contacts');
+  if(ac.error)row('WARN','active_contacts failed',msg(ac)+' (run patch18 first)');
+  else if((ac.data||[]).every(function(x){return !x.customer_phone}))row('PASS','A customer never receives a CUSTOMER phone from active_contacts',(ac.data||[]).length+' rows');
+  else row('FAIL','A customer received a customer phone number','this must be fixed');
+  var oc=await c.rpc('order_contacts',{p_order:1});
+  if(oc.error)row('PASS','order_contacts refuses or hides someone else\'s order','('+msg(oc)+')');
+  else if(!oc.data||(!oc.data.customer_phone&&!oc.data.driver_phone))row('PASS','order_contacts shows no phone for an order that is not yours','empty');
+  else row('FAIL','order_contacts leaked a phone number of another order','this must be fixed');
+  var oph=await c.from('orders').select('customer_phone').not('customer_phone','is',null).limit(1);
+  if(oph.error)row('WARN','Could not check orders.customer_phone',msg(oph));
+  else if(!oph.data||oph.data.length===0)row('PASS','The orders table no longer holds customer phone numbers','empty');
+  else row('FAIL','orders.customer_phone still contains a number','run schema_patch18.sql - this must be fixed');
+  await expectError('Customer cannot change the delivery tariffs',c.rpc('set_setting',{p_key:'delivery_step_price',p_value:0}));
+  await expectBlocked('Customer cannot write the tariffs table directly',c.from('app_settings').update({value:0}).eq('key','delivery_step_price').select());
+  var tr=await c.from('app_settings').select('key,value');
+  if(tr.error)row('WARN','Reading the tariffs failed',msg(tr)+' (run patch18 first)');else row('PASS','Customers can READ the tariffs (they see the prices anyway)',(tr.data||[]).length+' values');
+  await expectError('Customer cannot call the internal delivery calculation directly',c.rpc('delivery_calc',{p_store:sid||u.id,p_lat:38.5,p_lng:68.7,p_uid:u.id}));
+  if(item){
+    var stp=await c.from('stores').select('lat,lng').eq('id',item.store_id).single();
+    if(stp.data&&stp.data.lat!=null)await expectError('An order whose delivery fee differs from the quoted one is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:stp.data.lat,p_lng:stp.data.lng,p_fee:0.01}));
+    else row('SKIP','Fee mismatch test','The restaurant has no map point.');
+    await expectError('An order far outside the delivery area (more than the maximum distance) is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:-33.9,p_lng:151.2}));
+  }
+  var mr=await c.rpc('my_rating');
+  if(mr.error)row('WARN','my_rating failed',msg(mr)+' (run patch18 first)');
+  else if(mr.data&&mr.data.count===0)row('PASS','A customer has no courier rating (it is a courier-only value)','0');else row('PASS','my_rating returns only the caller\'s own numbers','');
   fin(u)}
 function fin(u){$('sumc').style.display='block';$('go').disabled=false;
   $('sum').textContent=counts.FAIL?('PROBLEM: '+counts.FAIL+' check(s) FAILED'):('OK: '+counts.PASS+' passed'+(counts.WARN?(', '+counts.WARN+' warning(s)'):''));
