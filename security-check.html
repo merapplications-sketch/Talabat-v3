@@ -175,6 +175,32 @@ async function run(){
   var mr=await c.rpc('my_rating');
   if(mr.error)row('WARN','my_rating failed',msg(mr)+' (run patch18 first)');
   else if(mr.data&&mr.data.count===0)row('PASS','A customer has no courier rating (it is a courier-only value)','0');else row('PASS','my_rating returns only the caller\'s own numbers','');
+  /* ---------- patch 19: support, restaurant requests, customers, suspension ---------- */
+  var tk=await c.from('support_tickets').select('customer_id');
+  if(tk.error)row('WARN','Reading support tickets failed',msg(tk)+' (run patch19 first)');
+  else if((tk.data||[]).every(function(x){return x.customer_id===u.id}))row('PASS','A customer sees only his own support tickets',(tk.data||[]).length+' rows');
+  else row('FAIL','A customer can read other people\'s support tickets','this must be fixed');
+  var tm=await c.from('ticket_messages').select('sender_id,from_staff').limit(50);
+  if(tm.error)row('WARN','Reading ticket messages failed',msg(tm));
+  else if((tm.data||[]).every(function(x){return x.from_staff||x.sender_id===u.id}))row('PASS','A customer sees only the messages of his own tickets',(tm.data||[]).length+' rows');
+  else row('FAIL','A customer can read messages of other people\'s tickets','this must be fixed');
+  await expectBlocked('Customer cannot write tickets directly',c.from('support_tickets').insert({customer_id:u.id,reason:'other',status:'resolved'}).select());
+  await expectBlocked('Customer cannot write ticket messages directly (e.g. pretend to be staff)',c.from('ticket_messages').insert({ticket_id:1,from_staff:true,sender_id:u.id,body:'fake staff'}).select());
+  await expectBlocked('Customer cannot change a ticket (status or refund) directly',c.from('support_tickets').update({status:'resolved',refund_amount:9999}).eq('customer_id',u.id).select());
+  await expectError('Customer cannot set a ticket status or refund (admin function)',c.rpc('ticket_set_status',{p_ticket:1,p_status:'resolved',p_note:'x',p_refund:100}));
+  await expectError('Customer cannot answer as staff',c.rpc('ticket_staff_reply',{p_ticket:1,p_body:'fake staff'}));
+  await expectError('A ticket for an order that is not yours is refused',c.rpc('create_ticket',{p_order:1,p_reason:'other',p_message:'security test message'}));
+  await expectError('A ticket with an invalid reason is refused',c.rpc('create_ticket',{p_order:null,p_reason:'hack',p_message:'security test message'}));
+  await expectError('A restaurant request by a customer (not a restaurant owner) is refused',c.rpc('request_store',{p_name:'Fake',p_category:'rest',p_phone:'+992900000000',p_address:'x',p_lat:38.5,p_lng:68.7,p_note:'x'}));
+  await expectError('Customer cannot approve a restaurant request',c.rpc('decide_store_request',{p_id:'00000000-0000-0000-0000-000000000000',p_approve:true,p_note:'x'}));
+  await expectBlocked('Customer cannot read restaurant requests',c.from('store_requests').select('*').limit(1));
+  var cl=await c.rpc('admin_customers',{p_q:null,p_limit:10,p_offset:0});
+  if(cl.error||!cl.data||cl.data.length===0)row('PASS','The customers list (admin only) returns nothing to a customer','empty');else row('FAIL','A customer can list other customers (names, emails, phones)','this must be fixed');
+  await expectError('Customer cannot suspend anyone',c.rpc('set_customer_ban',{p_id:u.id,p_banned:true,p_reason:'test'}));
+  await expectBlocked('Customer cannot lift or change his own suspension',c.from('profiles').update({banned_at:null,banned_reason:null}).eq('id',u.id).select());
+  await expectBlocked('Customer cannot save an invalid phone in his own profile',c.from('profiles').update({phone:'abc'}).eq('id',u.id).select());
+  await expectError('Customer cannot change the support phone shown to everybody',c.rpc('set_text_setting',{p_key:'support_phone',p_value:'+992900000000'}));
+  await expectBlocked('Customer cannot write the support texts table directly',c.from('app_texts').update({value:'+992900000000'}).eq('key','support_phone').select());
   fin(u)}
 function fin(u){$('sumc').style.display='block';$('go').disabled=false;
   $('sum').textContent=counts.FAIL?('PROBLEM: '+counts.FAIL+' check(s) FAILED'):('OK: '+counts.PASS+' passed'+(counts.WARN?(', '+counts.WARN+' warning(s)'):''));
