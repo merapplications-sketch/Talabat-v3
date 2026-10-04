@@ -127,12 +127,12 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] } };
+  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  var VERSION = 'v27';
+  var VERSION = 'v29';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -451,6 +451,7 @@
     if ((f.lat == null) !== (f.lng == null) && ('lat' in f || 'lng' in f)) return false;
     if (f.name != null && (String(f.name).trim().length < 1 || String(f.name).length > 80)) return false;
     if (f.description != null && String(f.description).length > 500) return false;
+    if (f.address != null && String(f.address).length > 200) return false;
     if (f.phone != null && f.phone !== '' && !normPhone(f.phone)) return false;
     return true;
   }
@@ -776,6 +777,24 @@
         DB.events = DB.events.filter(function (e) { return e.order_id !== id; }).concat(r[1].error ? [] : (r[1].data || []));
         ORD = shape(); fireSoon();
       }).catch(function (e) { console.error(e); });
+    },
+    /* ---------- About / Privacy pages (edited by the admin) ---------- */
+    pages: function () { return DB.pages; },
+    loadPages: function (force) {
+      var now = Date.now();
+      if (!force && extraLoaded.pages && now - extraLoaded.pages < 30000) return Promise.resolve(false);
+      extraLoaded.pages = now;
+      return sb.from('app_pages').select('slug,body_ru,body_en').then(function (r) {
+        if (r.error) return false;
+        var o = {}; (r.data || []).forEach(function (p) { o[p.slug] = { ru: p.body_ru || '', en: p.body_en || '' }; });
+        if (JSON.stringify(o) === JSON.stringify(DB.pages)) return false;
+        DB.pages = o; fireSoon(); return true;
+      }, function () { return false; });
+    },
+    setPage: function (slug, lang, body) {
+      var b = String(body == null ? '' : body);
+      if (['about', 'privacy'].indexOf(slug) < 0 || ['ru', 'en'].indexOf(lang) < 0 || b.length > 20000) return Promise.resolve({ error: 'bad_value' });
+      return rpc('set_page', { p_slug: slug, p_lang: lang, p_body: b }, true).then(function (r) { return r && r.error ? r : TLBref.loadPages(true).then(function () { return { ok: true }; }); });
     },
     refundRoom: function (ticketId) {
       return sb.rpc('ticket_refund_room', { p_ticket: ticketId }).then(function (r) {
