@@ -14,7 +14,7 @@ button{border:0;border-radius:999px;background:#f1511b;color:#fff;font:700 15px 
 .r b{display:block;font-size:14px}.r span{font-size:12px;color:#8b8f98;word-break:break-word}
 .sum{font-size:17px;font-weight:700;margin-bottom:6px}
 </style></head><body><div class="w">
-<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-28 · patch 21 checks · real-change tests</div>
+<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-29 · patch 22 · no leftover test orders</div>
 <p>Tries to do things a normal customer must NOT be able to do. Nothing here should succeed.
 Open the customer app in this browser, sign in with a <b>throwaway test account</b>, then come back to this page and tap the button.</p>
 <div class="card"><button id="go">Run the check</button></div>
@@ -106,7 +106,7 @@ async function run(){
   /* ---------- product options and rating follow-up ---------- */
   if(item){
     await expectBlocked('Customer cannot create option groups',c.from('item_option_groups').insert({item_id:item.id,name:'hack'}).select());
-    await expectError('Order with a fake option id is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:['00000000-0000-0000-0000-000000000000']}],p_tip:0,p_payment:'cash',p_address:'security test'}));
+    await placeCheck('Order with a fake option id is refused',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:['00000000-0000-0000-0000-000000000000']}],p_tip:0,p_payment:'cash',p_address:'security test'});
   }else row('SKIP','Option tests','No menu item is visible.');
   var og=await c.from('item_option_groups').select('id').limit(1),gid=og.data&&og.data[0]&&og.data[0].id;
   if(gid){
@@ -125,7 +125,7 @@ async function run(){
   else row('FAIL','Customer can read other people\'s addresses','this must be fixed');
   await expectBlocked('Customer cannot save an address for another user',c.from('addresses').insert({user_id:crypto.randomUUID(),label:'home',street:'security test',lat:38.5,lng:68.7}).select());
   await expectBlocked('An address with an impossible map point is refused',c.from('addresses').insert({user_id:u.id,label:'home',street:'security test',lat:123,lng:68.7}).select());
-  if(item)await expectError('An order WITHOUT an address / map point is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'',p_lat:null,p_lng:null}));
+  if(item)await placeCheck('An order WITHOUT an address / map point is refused',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'',p_lat:null,p_lng:null});
   /* ---------- patch 17: private columns, audit, error log, storage, safe retry ---------- */
   var cm=await c.from('stores').select('commission_pct').limit(1);
   if(cm.error)row('PASS','Restaurant commission is hidden from customers','refused ('+msg(cm)+')');
@@ -141,8 +141,15 @@ async function run(){
   var up=await c.storage.from('media').upload(u.id+'/security-test.jpg',new Blob([new Uint8Array([255,216,255,224])],{type:'image/jpeg'}),{contentType:'image/jpeg',upsert:true});
   if(up.error)row('PASS','Customer cannot upload files to Storage','refused ('+String(up.error.message).slice(0,80)+')');
   else{row('FAIL','Customer uploaded a file to public Storage','this must be fixed');await c.storage.from('media').remove([u.id+'/security-test.jpg'])}
-  if(item)await expectError('A malformed retry key is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_key:'x'}));
+  if(item)await placeCheck('A malformed retry key is refused',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_key:'x'});
   if(item)await expectBlocked('An image from another website cannot be saved on a dish',c.from('menu_items').update({image_url:'https://evil.example/pixel.png'}).eq('id',item.id).select());
+  /* order-creating attacks must never leave a real order behind: if the server wrongly ACCEPTS one, it is cancelled at once */
+  async function placeCheck(title,args){
+    var r=await c.rpc('place_order',args);
+    if(r.error){row('PASS',title,'refused ('+msg(r)+')');return}
+    if(typeof r.data==='number')await c.rpc('set_order_status',{p_id:r.data,p_to:'cancelled'});
+    row('FAIL',title,'IT WORKED (an order was created'+(typeof r.data==='number'?' and cancelled again: #'+r.data:'')+') - this must be fixed');
+  }
   /* ---------- patch 18: private phones, tariffs, fee check ---------- */
   await expectBlocked('Customer cannot read the private customer-phone table',c.from('order_customer_phone').select('*').limit(1));
   await expectBlocked('Customer cannot read the private courier-phone table',c.from('order_driver_phone').select('*').limit(1));
@@ -168,9 +175,9 @@ async function run(){
   await expectError('Customer cannot call the internal delivery calculation directly',c.rpc('delivery_calc',{p_store:sid||u.id,p_lat:38.5,p_lng:68.7,p_uid:u.id}));
   if(item){
     var stp=await c.from('stores').select('lat,lng').eq('id',item.store_id).single();
-    if(stp.data&&stp.data.lat!=null)await expectError('An order whose delivery fee differs from the quoted one is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:stp.data.lat,p_lng:stp.data.lng,p_fee:0.01}));
+    if(stp.data&&stp.data.lat!=null)await placeCheck('An order whose delivery fee differs from the quoted one is refused',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:stp.data.lat,p_lng:stp.data.lng,p_fee:0.01});
     else row('SKIP','Fee mismatch test','The restaurant has no map point.');
-    await expectError('An order far outside the delivery area (more than the maximum distance) is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:-33.9,p_lng:151.2}));
+    await placeCheck('An order far outside the delivery area (more than the maximum distance) is refused',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:-33.9,p_lng:151.2});
   }
   var mr=await c.rpc('my_rating');
   if(mr.error)row('WARN','my_rating failed',msg(mr)+' (run patch18 first)');
@@ -233,8 +240,8 @@ async function run(){
   if(wb.error||Number(wb.data||0)===0)row('PASS','A customer cannot read another user\'s wallet balance','0 / refused');else row('FAIL','A customer read another user\'s wallet balance','this must be fixed');
   var mb=await c.rpc('wallet_balance');
   if(mb.error)row('WARN','wallet_balance failed',msg(mb)+' (run patch21 first)');else row('PASS','A customer can read his OWN balance',String(mb.data));
-  if(item)await expectError('An order that asks to pay more from the wallet than the balance is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_wallet:999999}));
-  if(item)await expectError('A negative wallet amount is refused (it would add money)',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_wallet:-50}));
+  if(item)await placeCheck('An order that asks to pay more from the wallet than the balance is refused',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_wallet:999999});
+  if(item)await placeCheck('A negative wallet amount is refused (it would add money)',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_wallet:-50});
   var wo=await c.from('orders').select('wallet_used').gt('wallet_used',0).limit(5);
   if(wo.error)row('WARN','Could not check orders.wallet_used',msg(wo));else row('PASS','Wallet usage on orders is visible only to its owner (RLS)',(wo.data||[]).length+' rows of mine');
   fin(u)}
