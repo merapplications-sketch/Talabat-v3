@@ -14,7 +14,7 @@ button{border:0;border-radius:999px;background:#f1511b;color:#fff;font:700 15px 
 .r b{display:block;font-size:14px}.r span{font-size:12px;color:#8b8f98;word-break:break-word}
 .sum{font-size:17px;font-weight:700;margin-bottom:6px}
 </style></head><body><div class="w">
-<h1>Security self-check</h1>
+<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-28 · patch 21 checks · real-change tests</div>
 <p>Tries to do things a normal customer must NOT be able to do. Nothing here should succeed.
 Open the customer app in this browser, sign in with a <b>throwaway test account</b>, then come back to this page and tap the button.</p>
 <div class="card"><button id="go">Run the check</button></div>
@@ -197,7 +197,10 @@ async function run(){
   var cl=await c.rpc('admin_customers',{p_q:null,p_limit:10,p_offset:0});
   if(cl.error||!cl.data||cl.data.length===0)row('PASS','The customers list (admin only) returns nothing to a customer','empty');else row('FAIL','A customer can list other customers (names, emails, phones)','this must be fixed');
   await expectError('Customer cannot suspend anyone',c.rpc('set_customer_ban',{p_id:u.id,p_banned:true,p_reason:'test'}));
-  await expectBlocked('Customer cannot lift or change his own suspension',c.from('profiles').update({banned_at:null,banned_reason:null}).eq('id',u.id).select());
+  var bn=await c.from('profiles').update({banned_at:new Date().toISOString(),banned_reason:'security test'}).eq('id',u.id).select();
+  if(bn.error||!bn.data||bn.data.length===0)row('PASS','Customer cannot change his own suspension flag (setting it is refused)','refused ('+msg(bn)+')');
+  else{row('FAIL','A customer changed his own suspension flag (a suspended customer could lift it himself)','run schema_patch19.sql and schema_patch20.sql, then ask the admin to lift the suspension of this test account');
+    await c.from('profiles').update({banned_at:null,banned_reason:null}).eq('id',u.id)}
   await expectBlocked('Customer cannot save an invalid phone in his own profile',c.from('profiles').update({phone:'abc'}).eq('id',u.id).select());
   await expectError('Customer cannot change the support phone shown to everybody',c.rpc('set_text_setting',{p_key:'support_phone',p_value:'+992900000000'}));
   await expectBlocked('Customer cannot write the support texts table directly',c.from('app_texts').update({value:'+992900000000'}).eq('key','support_phone').select());
@@ -206,8 +209,16 @@ async function run(){
   if(oi.error||!oi.data||oi.data.length===0)row('PASS','store_owner_info (admin only) returns nothing to a customer','empty');else row('FAIL','A customer can see a restaurant owner\'s name and email','this must be fixed');
   await expectError('A general support ticket with an order-only reason (wrong order) is refused',c.rpc('create_ticket',{p_order:null,p_reason:'wrong_order',p_message:''}));
   await expectError('"Other" without a description is refused',c.rpc('create_ticket',{p_order:null,p_reason:'other',p_message:'abc'}));
-  await expectBlocked('A customer cannot reset the phone-change timer himself',c.from('profiles').update({phone_changed_at:null}).eq('id',u.id).select());
-  await expectBlocked('A customer cannot erase his own phone number (to dodge the change rules)',c.from('profiles').update({phone:null}).eq('id',u.id).select());
+  var pt=await c.from('profiles').update({phone_changed_at:'2000-01-01T00:00:00Z'}).eq('id',u.id).select();
+  if(pt.error||!pt.data||pt.data.length===0)row('PASS','A customer cannot reset the phone-change timer himself (writing it is refused)','refused ('+msg(pt)+')');
+  else{row('FAIL','A customer wrote his own phone-change timer (he could change his number as often as he wants)','run schema_patch20.sql - this must be fixed');
+    await c.from('profiles').update({phone_changed_at:null}).eq('id',u.id)}
+  var mp=await c.from('profiles').select('phone').eq('id',u.id).single();
+  if(!mp.data||!mp.data.phone)row('SKIP','Erasing the phone number','this test account has no phone number yet: enter one in the customer app, then run the check again');
+  else{var er=await c.from('profiles').update({phone:null}).eq('id',u.id).select();
+    if(er.error||!er.data||er.data.length===0)row('PASS','A customer cannot erase his own phone number (to dodge the change rules)','refused ('+msg(er)+')');
+    else{row('FAIL','A customer erased his own phone number (this lets him dodge the change rules)','run schema_patch20.sql - this must be fixed');
+      await c.from('profiles').update({phone:mp.data.phone}).eq('id',u.id)}}
   await expectError('Rejecting a ticket without a reason is refused (and a customer cannot do it at all)',c.rpc('ticket_set_status',{p_ticket:1,p_status:'rejected',p_note:'',p_refund:null}));
   /* ---------- patch 21: wallet ---------- */
   var wl=await c.from('wallet_entries').select('user_id');
