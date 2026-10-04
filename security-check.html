@@ -14,7 +14,7 @@ button{border:0;border-radius:999px;background:#f1511b;color:#fff;font:700 15px 
 .r b{display:block;font-size:14px}.r span{font-size:12px;color:#8b8f98;word-break:break-word}
 .sum{font-size:17px;font-weight:700;margin-bottom:6px}
 </style></head><body><div class="w">
-<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-29 · patch 22 · no leftover test orders</div>
+<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-30 · failed checks listed at the top · no leftover test orders</div>
 <p>Tries to do things a normal customer must NOT be able to do. Nothing here should succeed.
 Open the customer app in this browser, sign in with a <b>throwaway test account</b>, then come back to this page and tap the button.</p>
 <div class="card"><button id="go">Run the check</button></div>
@@ -24,8 +24,8 @@ Open the customer app in this browser, sign in with a <b>throwaway test account<
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 var URL_='https://dzydscryrnahnneydnry.supabase.co',KEY='sb_publishable_zQKbsSffub7O-f87vsXAaQ_GHFnSOQz';
-var $=function(i){return document.getElementById(i)},out=$('out'),counts={PASS:0,FAIL:0,WARN:0,SKIP:0};
-function row(st,title,detail){counts[st]++;var r=document.createElement('div');r.className='r';var t=document.createElement('div');t.className='t '+st;t.textContent=st;
+var $=function(i){return document.getElementById(i)},out=$('out'),counts={PASS:0,FAIL:0,WARN:0,SKIP:0},failList=[];
+function row(st,title,detail){counts[st]++;if(st==='FAIL')failList.push({title:title,detail:detail||''});var r=document.createElement('div');r.className='r';var t=document.createElement('div');t.className='t '+st;t.textContent=st;
   var b=document.createElement('div'),h=document.createElement('b'),s=document.createElement('span');h.textContent=title;s.textContent=detail||'';b.appendChild(h);b.appendChild(s);r.appendChild(t);r.appendChild(b);out.appendChild(r)}
 /* "blocked" = the server returned an error, or returned no rows */
 var blocked=function(r){return !!r.error||!r.data||(Array.isArray(r.data)&&r.data.length===0)};
@@ -33,7 +33,7 @@ var msg=function(r){return r.error?String(r.error.message||r.error.code||'error'
 async function expectBlocked(title,p){try{var r=await p;if(blocked(r))row('PASS',title,'blocked ('+msg(r)+')');else row('FAIL',title,'IT WORKED: '+msg(r)+' - this must be fixed')}catch(e){row('PASS',title,'blocked ('+String(e.message||e).slice(0,100)+')')}}
 async function expectError(title,p){try{var r=await p;if(r.error)row('PASS',title,'refused ('+msg(r)+')');else row('FAIL',title,'IT WORKED - this must be fixed')}catch(e){row('PASS',title,'refused ('+String(e.message||e).slice(0,100)+')')}}
 async function run(){
-  out.textContent='';counts={PASS:0,FAIL:0,WARN:0,SKIP:0};out.style.display='block';$('go').disabled=true;
+  out.textContent='';counts={PASS:0,FAIL:0,WARN:0,SKIP:0};failList=[];out.style.display='block';$('go').disabled=true;
   /* ---------- 1) not signed in (public key only) ---------- */
   var anon=supabase.createClient(URL_,KEY,{auth:{persistSession:false,autoRefreshToken:false,storageKey:'tlb-sec-anon'}});
   await expectBlocked('Public key cannot read stores',anon.from('stores').select('id').limit(1));
@@ -247,6 +247,9 @@ async function run(){
   fin(u)}
 function fin(u){$('sumc').style.display='block';$('go').disabled=false;
   $('sum').textContent=counts.FAIL?('PROBLEM: '+counts.FAIL+' check(s) FAILED'):('OK: '+counts.PASS+' passed'+(counts.WARN?(', '+counts.WARN+' warning(s)'):''));
+  var fl=$('fails');if(!fl){fl=document.createElement('div');fl.id='fails';$('sumc').appendChild(fl)}
+  while(fl.firstChild)fl.removeChild(fl.firstChild);
+  failList.forEach(function(f){var d=document.createElement('div');d.style.cssText='margin-top:10px;padding:10px 12px;border-radius:12px;background:#fdeceb;color:#b42318;font-size:14px;line-height:1.4';var b=document.createElement('b');b.textContent=f.title;var x=document.createElement('div');x.style.cssText='font-size:12px;margin-top:2px;opacity:.85';x.textContent=f.detail;d.appendChild(b);d.appendChild(x);fl.appendChild(d)});
   $('sum').style.color=counts.FAIL?'#d92d20':'#1fa05a';$('who').textContent=u?('Signed in as '+(u.email||u.id)):'Signed out';}
 $('go').onclick=function(){run().catch(function(e){row('FAIL','Check crashed',String(e&&e.message||e));fin(null)})};
 </script></body></html>
