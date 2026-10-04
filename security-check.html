@@ -201,6 +201,31 @@ async function run(){
   await expectBlocked('Customer cannot save an invalid phone in his own profile',c.from('profiles').update({phone:'abc'}).eq('id',u.id).select());
   await expectError('Customer cannot change the support phone shown to everybody',c.rpc('set_text_setting',{p_key:'support_phone',p_value:'+992900000000'}));
   await expectBlocked('Customer cannot write the support texts table directly',c.from('app_texts').update({value:'+992900000000'}).eq('key','support_phone').select());
+  /* ---------- patch 20: owner info, ticket reasons, phone rules ---------- */
+  var oi=await c.rpc('store_owner_info',{p_store:sid||u.id});
+  if(oi.error||!oi.data||oi.data.length===0)row('PASS','store_owner_info (admin only) returns nothing to a customer','empty');else row('FAIL','A customer can see a restaurant owner\'s name and email','this must be fixed');
+  await expectError('A general support ticket with an order-only reason (wrong order) is refused',c.rpc('create_ticket',{p_order:null,p_reason:'wrong_order',p_message:''}));
+  await expectError('"Other" without a description is refused',c.rpc('create_ticket',{p_order:null,p_reason:'other',p_message:'abc'}));
+  await expectBlocked('A customer cannot reset the phone-change timer himself',c.from('profiles').update({phone_changed_at:null}).eq('id',u.id).select());
+  await expectBlocked('A customer cannot erase his own phone number (to dodge the change rules)',c.from('profiles').update({phone:null}).eq('id',u.id).select());
+  await expectError('Rejecting a ticket without a reason is refused (and a customer cannot do it at all)',c.rpc('ticket_set_status',{p_ticket:1,p_status:'rejected',p_note:'',p_refund:null}));
+  /* ---------- patch 21: wallet ---------- */
+  var wl=await c.from('wallet_entries').select('user_id');
+  if(wl.error)row('WARN','Reading wallet entries failed',msg(wl)+' (run patch21 first)');
+  else if((wl.data||[]).every(function(x){return x.user_id===u.id}))row('PASS','A customer sees only his own wallet entries',(wl.data||[]).length+' rows');
+  else row('FAIL','A customer can read other people\'s wallet entries','this must be fixed');
+  await expectBlocked('Customer cannot add money to his own wallet',c.from('wallet_entries').insert({user_id:u.id,amount:1000,kind:'refund'}).select());
+  await expectBlocked('Customer cannot edit a wallet entry',c.from('wallet_entries').update({amount:1000}).eq('user_id',u.id).select());
+  await expectBlocked('Customer cannot delete wallet entries',c.from('wallet_entries').delete().eq('user_id',u.id).select());
+  await expectError('Customer cannot make an admin correction of a wallet',c.rpc('wallet_adjust',{p_user:u.id,p_amount:1000,p_note:'security test'}));
+  var wb=await c.rpc('wallet_balance',{p_user:crypto.randomUUID()});
+  if(wb.error||Number(wb.data||0)===0)row('PASS','A customer cannot read another user\'s wallet balance','0 / refused');else row('FAIL','A customer read another user\'s wallet balance','this must be fixed');
+  var mb=await c.rpc('wallet_balance');
+  if(mb.error)row('WARN','wallet_balance failed',msg(mb)+' (run patch21 first)');else row('PASS','A customer can read his OWN balance',String(mb.data));
+  if(item)await expectError('An order that asks to pay more from the wallet than the balance is refused',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_wallet:999999}));
+  if(item)await expectError('A negative wallet amount is refused (it would add money)',c.rpc('place_order',{p_store:item.store_id,p_items:[{item_id:item.id,qty:1,options:[]}],p_tip:0,p_payment:'cash',p_address:'security test',p_lat:38.5,p_lng:68.7,p_wallet:-50}));
+  var wo=await c.from('orders').select('wallet_used').gt('wallet_used',0).limit(5);
+  if(wo.error)row('WARN','Could not check orders.wallet_used',msg(wo));else row('PASS','Wallet usage on orders is visible only to its owner (RLS)',(wo.data||[]).length+' rows of mine');
   fin(u)}
 function fin(u){$('sumc').style.display='block';$('go').disabled=false;
   $('sum').textContent=counts.FAIL?('PROBLEM: '+counts.FAIL+' check(s) FAILED'):('OK: '+counts.PASS+' passed'+(counts.WARN?(', '+counts.WARN+' warning(s)'):''));

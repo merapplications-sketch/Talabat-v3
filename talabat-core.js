@@ -36,11 +36,11 @@
   });
 
 
-  Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', loadFail:'Не удалось загрузить данные',dbOldW:'База данных не обновлена: выполните последний SQL-патч в Supabase. Часть функций не работает.', offline:'Нет подключения к интернету', loading:'Загрузка…',bootT:'Не удалось загрузить приложение',bootS:'Проверьте интернет и нажмите «Обновить». Если не помогает — выйдите и войдите снова.',bootReload:'Обновить',bootSignout:'Выйти и войти заново',applyT:'Стать курьером',applyS:'Укажите ваш номер телефона. Администратор рассмотрит заявку и откроет вам доступ.',applyB:'Подать заявку',notLinked:'Ваш аккаунт ещё не привязан к ресторану. Сообщите администратору ваш email — он привяжет аккаунт к вашему ресторану.',authPwHint2:'Минимум 8 символов. Придумайте новый пароль для Talabat — не используйте пароль от почты.',authPhoneL:'Телефон (+992…)', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
-    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_account_blocked: 'Аккаунт приостановлен. Свяжитесь с поддержкой.', err_ticket_expired: 'Срок обращения по этому заказу (48 часов) истёк.', err_ticket_exists: 'По этому заказу уже есть открытое обращение.', err_ticket_closed: 'Обращение закрыто. Создайте новое, если проблема осталась.', err_not_found: 'Не найдено.',  err_fee_changed: 'Стоимость доставки изменилась. Проверьте сумму и подтвердите заказ ещё раз.', err_too_far: 'Адрес слишком далеко от ресторана. Выберите другой адрес или ресторан поближе.', err_phone_required: 'Укажите номер телефона (+992…) в профиле.', err_bad_phone: 'Введите номер Таджикистана: +992 и 9 цифр.', err_address_required: 'Добавьте адрес доставки на карте.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
+  Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', loadFail:'Не удалось загрузить данные',dbOldW:'База данных не обновлена: выполните последний SQL-патч в Supabase. Часть функций не работает.', offline:'Нет интернета — данные не обновляются', loading:'Загрузка…',bootT:'Не удалось загрузить приложение',bootS:'Проверьте интернет и нажмите «Обновить». Если не помогает — выйдите и войдите снова.',bootReload:'Обновить',bootSignout:'Выйти и войти заново',applyT:'Стать курьером',applyS:'Укажите ваш номер телефона. Администратор рассмотрит заявку и откроет вам доступ.',applyB:'Подать заявку',notLinked:'Ваш аккаунт ещё не привязан к ресторану. Сообщите администратору ваш email — он привяжет аккаунт к вашему ресторану.',authPwHint2:'Минимум 8 символов. Придумайте новый пароль для Talabat — не используйте пароль от почты.',authPhoneL:'Телефон (+992…)', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
+    pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_wallet_changed: 'Баланс кошелька изменился. Проверьте сумму и подтвердите заказ ещё раз.', err_insufficient_funds: 'Недостаточно средств в кошельке.', err_already_refunded: 'Возврат по этому обращению уже зачислен.', err_phone_locked: 'Номер нельзя менять, пока есть активный заказ.', err_phone_cooldown: 'Номер можно менять не чаще одного раза в сутки.', err_account_blocked: 'Аккаунт приостановлен. Свяжитесь с поддержкой.', err_ticket_expired: 'Срок обращения по этому заказу (48 часов) истёк.', err_ticket_exists: 'По этому заказу уже есть открытое обращение.', err_ticket_closed: 'Обращение закрыто. Создайте новое, если проблема осталась.', err_not_found: 'Не найдено.',  err_fee_changed: 'Стоимость доставки изменилась. Проверьте сумму и подтвердите заказ ещё раз.', err_too_far: 'Адрес слишком далеко от ресторана. Выберите другой адрес или ресторан поближе.', err_phone_required: 'Укажите номер телефона (+992…) в профиле.', err_bad_phone: 'Введите номер Таджикистана: +992 и 9 цифр.', err_address_required: 'Добавьте адрес доставки на карте.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
-  Object.assign(I.en, { tagline: 'Food and grocery delivery', loadFail:'Could not load the data',dbOldW:'The database is not up to date: run the latest SQL patch in Supabase. Some features do not work.', offline:'No internet connection', loading:'Loading…',bootT:'Could not load the app',bootS:'Check your internet and tap “Reload”. If it does not help, sign out and sign in again.',bootReload:'Reload',bootSignout:'Sign out and sign in again',applyT:'Become a courier',applyS:'Enter your phone number. The admin will review your request and open access for you.',applyB:'Apply',notLinked:'Your account is not linked to a restaurant yet. Send your email to the administrator — they will link the account to your restaurant.',authPwHint2:'At least 8 characters. Create a NEW password for Talabat — do not use your email password.',authPhoneL:'Phone (+992…)', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
-    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_account_blocked: 'Your account is suspended. Please contact support.', err_ticket_expired: 'The 48-hour window for this order has passed.', err_ticket_exists: 'There is already an open request for this order.', err_ticket_closed: 'This request is closed. Create a new one if the problem remains.', err_not_found: 'Not found.',  err_fee_changed: 'The delivery fee has changed. Check the total and confirm the order again.', err_too_far: 'The address is too far from the restaurant. Choose another address or a closer restaurant.', err_phone_required: 'Add your phone number (+992…) in your profile.', err_bad_phone: 'Enter a Tajikistan number: +992 and 9 digits.', err_address_required: 'Add a delivery address on the map.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
+  Object.assign(I.en, { tagline: 'Food and grocery delivery', loadFail:'Could not load the data',dbOldW:'The database is not up to date: run the latest SQL patch in Supabase. Some features do not work.', offline:'No internet — data is not updating', loading:'Loading…',bootT:'Could not load the app',bootS:'Check your internet and tap “Reload”. If it does not help, sign out and sign in again.',bootReload:'Reload',bootSignout:'Sign out and sign in again',applyT:'Become a courier',applyS:'Enter your phone number. The admin will review your request and open access for you.',applyB:'Apply',notLinked:'Your account is not linked to a restaurant yet. Send your email to the administrator — they will link the account to your restaurant.',authPwHint2:'At least 8 characters. Create a NEW password for Talabat — do not use your email password.',authPhoneL:'Phone (+992…)', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
+    pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_wallet_changed: 'The wallet balance has changed. Check the amount and confirm the order again.', err_insufficient_funds: 'Not enough funds in the wallet.', err_already_refunded: 'The refund for this request has already been credited.', err_phone_locked: 'You cannot change the number while you have an active order.', err_phone_cooldown: 'The number can be changed only once a day.', err_account_blocked: 'Your account is suspended. Please contact support.', err_ticket_expired: 'The 48-hour window for this order has passed.', err_ticket_exists: 'There is already an open request for this order.', err_ticket_closed: 'This request is closed. Create a new one if the problem remains.', err_not_found: 'Not found.',  err_fee_changed: 'The delivery fee has changed. Check the total and confirm the order again.', err_too_far: 'The address is too far from the restaurant. Choose another address or a closer restaurant.', err_phone_required: 'Add your phone number (+992…) in your profile.', err_bad_phone: 'Enter a Tajikistan number: +992 and 9 digits.', err_address_required: 'Add a delivery address on the map.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
   /* ---------- Extra dictionary ---------- */
@@ -127,12 +127,12 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {} };
+  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] } };
   var seenChat = {}, lastStatus = {}, unread = {};
-  var wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastTick = 0, fireT = null, errSent = 0;
+  var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  var VERSION = 'v23';
+  var VERSION = 'v25';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -141,7 +141,7 @@
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
         items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
-        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
@@ -277,10 +277,12 @@
       // a customer's tickets and the support phone are fetched only when he has a ticket or opened the support screen (keeps an idle customer cheap)
       (admin || (cust && (DB.tickets.length || wantTix))) ? sb.from('support_tickets').select('*').order('updated_at', { ascending: false }).limit(admin ? 200 : 30) : Promise.resolve({ data: cust ? DB.tickets : [] }),
       (admin || (cust && (DB.tickets.length || wantTix))) ? sb.from('app_texts').select('*') : Promise.resolve({ data: Object.keys(DB.texts).map(function (k) { return { key: k, value: DB.texts[k] }; }) }),
-      (admin || ME.role === 'merchant') ? sb.from('store_requests').select('*').order('created_at', { ascending: false }).limit(admin ? 100 : 20) : Promise.resolve({ data: [] })
+      (admin || ME.role === 'merchant') ? sb.from('store_requests').select('*').order('created_at', { ascending: false }).limit(admin ? 100 : 20) : Promise.resolve({ data: [] }),
+      // the balance is fetched once, then only after a wallet event (realtime), coming back to the app, or an order that used it: an idle customer costs nothing
+      cust ? (walletStale ? sb.rpc('wallet_balance') : Promise.resolve({ data: DB.wallet.balance })) : Promise.resolve({ data: null })
     ]).then(function (r) {
       if (r[0].error && r[1].error) throw r[0].error;
-      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data];
+      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data, r[12].error ? null : r[12].data];
       if (!changed('misc', pack)) return false;
       if (pack[0]) ME = Object.assign(ME, pack[0]);
       DB.favs = (pack[1] || []).map(function (x) { return x.store_id; });
@@ -288,6 +290,7 @@
       var st = {}; (pack[7] || []).forEach(function (x) { st[x.key] = +x.value; }); DB.settings = st;
       DB.myRating = pack[8] && pack[8].count != null ? { avg: pack[8].avg == null ? null : +pack[8].avg, count: +pack[8].count || 0 } : null;
       DB.tickets = pack[9] || []; DB.sreqs = pack[11] || [];
+      if (ME.role === 'customer') { DB.wallet.balance = pack[12] == null ? 0 : Math.round(+pack[12] * 100) / 100; if (!r[12].error) walletStale = false; }
       if (ME.role === 'customer' && !DB.tickets.length && !tixHold) wantTix = false;   // nothing to follow: stop fetching until he opens support
       var tx = {}; (pack[10] || []).forEach(function (x) { tx[x.key] = x.value || ''; }); DB.texts = tx;
       return true;
@@ -335,6 +338,7 @@
     var p = (name === 'orders' && ME.role === 'merchant' && !DB.stores.length) ? loadStat().then(go) : go();
     secRun[name] = p.then(function (ch) { secFail[name] = 0; if (!secFail.stat && !secFail.orders) unbanner('tlb-err'); return !!ch; }, function (e) {
       secFail[name] = (secFail[name] || 0) + 1; console.error(name, e); lastErr = String((e && e.message) || e);
+      if (/failed to fetch|networkerror|load failed|network request failed/i.test(lastErr)) checkNet();
       if ((name === 'stat' && !DB.stores.length) || ((name === 'stat' || name === 'orders') && secFail[name] >= 2)) banner('tlb-err', t('loadFail') + ' \u00b7 ' + lastErr.slice(0, 90), '#1c1c21', 86);
       return false;
     }).then(function (v) { secRun[name] = null; return v; });
@@ -357,15 +361,36 @@
     on('orders', 'orders'); on('order_chat', 'orders');
     if (ME.role === 'driver') on('order_offers', 'offers');
     if (ME.role === 'admin') { on('ratings', 'misc'); on('order_offers', 'misc'); on('support_tickets', 'misc'); on('ticket_messages', 'misc'); on('store_requests', 'misc'); }
-    if (ME.role === 'customer') { on('support_tickets', 'misc'); }
+    if (ME.role === 'customer') { on('support_tickets', 'misc'); ch.on('postgres_changes', { event: '*', schema: 'public', table: 'wallet_entries' }, function () { walletStale = true; kick('misc'); }); }
     if (ME.role === 'merchant') { on('store_requests', 'misc'); }
     ch.subscribe();
   }
+  /* The browser's "offline" event is unreliable (iOS fires it by mistake and sometimes never sends "online").
+     So an event only triggers a REAL check against the server; while we believe we are offline we keep checking every 10 s. */
+  function probeNet() {
+    if (typeof fetch !== 'function') return Promise.resolve(true);
+    var ctl = (typeof AbortController === 'function') ? new AbortController() : null, to = ctl ? setTimeout(function () { ctl.abort(); }, 6000) : null;
+    return fetch(SB_URL + '/rest/v1/', { method: 'HEAD', headers: { apikey: SB_KEY }, cache: 'no-store', signal: ctl ? ctl.signal : undefined })
+      .then(function () { if (to) clearTimeout(to); return true; }, function () { if (to) clearTimeout(to); return false; });
+  }
+  function setOffline(on) {
+    var b = $('tlb-off');
+    if (on) {
+      offlineNow = true;
+      if (!b) {
+        b = document.createElement('div'); b.id = 'tlb-off'; b.setAttribute('data-i18n', 'offline');
+        b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10002;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;text-align:center;padding:calc(6px + env(safe-area-inset-top,0px)) 8px 6px';
+        document.body.appendChild(b); applyI18n();
+      }
+    } else if (offlineNow || b) { offlineNow = false; if (b) b.remove(); refresh(); }
+  }
+  function checkNet() { return probeNet().then(function (ok) { setOffline(!ok); return ok; }); }
   function startScheduler() {
     var every = EVERY[ME.role] || EVERY.customer, now0 = Date.now();
     Object.keys(every).forEach(function (k) { secT0[k] = now0 - Math.floor(Math.random() * every[k] * 0.5); });   // spread the users in time
     setInterval(function () {
-      if (offlineNow || (typeof document !== 'undefined' && document.hidden)) return;
+      if (typeof document !== 'undefined' && document.hidden) return;
+      if (offlineNow) { if (Date.now() - lastProbe >= 10000) { lastProbe = Date.now(); checkNet(); } return; }
       var now = Date.now();
       Object.keys(every).forEach(function (sec) {
         if (sec === 'offers' && !ME.online) return;
@@ -374,14 +399,9 @@
         if (now - (secT0[sec] || 0) >= (empty ? 10000 : every[sec]) * mult) refresh(sec);
       });
     }, 1000);
-    document.addEventListener('visibilitychange', function () { if (!document.hidden) setTimeout(function () { refresh(); }, Math.floor(Math.random() * 1200)); });
-    window.addEventListener('online', function () { offlineNow = false; var b = $('tlb-off'); if (b) b.remove(); refresh(); });
-    window.addEventListener('offline', function () {
-      offlineNow = true; if ($('tlb-off')) return;
-      var b = document.createElement('div'); b.id = 'tlb-off'; b.setAttribute('data-i18n', 'offline');
-      b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10002;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;text-align:center;padding:calc(6px + env(safe-area-inset-top,0px)) 8px 6px';
-      document.body.appendChild(b); applyI18n();
-    });
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) { walletStale = true; setTimeout(function () { refresh(); }, Math.floor(Math.random() * 1200)); } });
+    window.addEventListener('online', function () { checkNet(); });
+    window.addEventListener('offline', function () { setTimeout(checkNet, 1500); });
   }
   /* Dispatch heartbeat: expires old offers and moves waiting orders to the next courier. Only when it can matter. */
   function maybeTick() {
@@ -405,7 +425,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
+    var ks = ['wallet_changed', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -757,6 +777,7 @@
         ORD = shape(); fireSoon();
       }).catch(function (e) { console.error(e); });
     },
+    ownerInfo: function (storeId) { return sb.rpc('store_owner_info', { p_store: storeId }).then(function (r) { return r.error || !r.data || !r.data.length ? null : r.data[0]; }, function () { return null; }); },
     contactsOf: function (id) { return DB.contacts[id] || {}; },
     settings: function () { return DB.settings; },
     setSetting: function (key, value) { return rpc('set_setting', { p_key: key, p_value: +value }, true).then(function (r) { return r && r.error ? r : refresh(['misc']).then(function () { return { ok: true }; }); }); },
@@ -780,7 +801,8 @@
     ticketSeen: function (id) { return sb.rpc('ticket_seen', { p_ticket: id }).then(function () { return refresh(['misc']); }, function () { }); },
     createTicket: function (orderId, reason, message) {
       var m = String(message || '').trim();
-      if (['not_delivered', 'wrong_order', 'missing_items', 'quality', 'late', 'courier', 'restaurant', 'payment', 'other'].indexOf(reason) < 0 || m.length < 5 || m.length > 500) return Promise.resolve({ error: 'bad_value' });
+      if (!m && reason !== 'other') m = String(t('rs_' + reason) || reason);      // no message typed: the first line of the conversation is the chosen reason
+      if (['not_delivered', 'wrong_order', 'missing_items', 'quality', 'late', 'courier', 'restaurant', 'payment', 'other'].indexOf(reason) < 0 || m.length < (reason === 'other' ? 5 : 1) || m.length > 500) return Promise.resolve({ error: 'bad_value' });
       return sb.rpc('create_ticket', { p_order: orderId == null ? null : orderId, p_reason: reason, p_message: m }).then(function (r) {
         if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
         return refresh(['misc']).then(function () { return { id: r.data }; });
@@ -806,6 +828,7 @@
     ticketSetStatus: function (id, status, note, refund) {
       var rf = refund === '' || refund == null ? null : num(refund);
       if (['open', 'in_progress', 'resolved', 'rejected'].indexOf(status) < 0 || (rf !== null && (isNaN(rf) || rf < 0))) return Promise.resolve({ error: 'bad_value' });
+      if (status === 'rejected' && String(note || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
       return sb.rpc('ticket_set_status', { p_ticket: id, p_status: status, p_note: String(note || '').slice(0, 300), p_refund: rf }).then(function (r) {
         if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
         return refresh(['misc']).then(function () { return { ok: true }; });
@@ -845,6 +868,30 @@
       if (banned && String(reason || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
       return rpc('set_customer_ban', { p_id: id, p_banned: !!banned, p_reason: String(reason || '').slice(0, 200) }, true);
     },
+    /* ---------- wallet ---------- */
+    wallet: function () { return DB.wallet; },
+    loadWallet: function (force) {
+      var now = Date.now(), k = 'wallet';
+      if (!force && extraLoaded[k] && now - extraLoaded[k] < 6000) return Promise.resolve(false);
+      extraLoaded[k] = now;
+      return Promise.all([sb.from('wallet_entries').select('*').eq('user_id', ME.id).order('created_at', { ascending: false }).limit(60), sb.rpc('wallet_balance')]).then(function (r) {
+        if (r[0].error) return false;
+        var key = JSON.stringify(r[0].data || []); var ch = JSON.stringify(DB.wallet.entries) !== key;
+        DB.wallet.entries = (r[0].data || []).map(function (e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }; });
+        if (!r[1].error && r[1].data != null) DB.wallet.balance = Math.round(+r[1].data * 100) / 100;
+        if (ch) fireSoon(); return ch;
+      }, function () { return false; });
+    },
+    walletOf: function (userId) {
+      return Promise.all([sb.rpc('wallet_balance', { p_user: userId }), sb.from('wallet_entries').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(30)]).then(function (r) {
+        return { balance: r[0].error ? 0 : Math.round(+r[0].data * 100) / 100, entries: r[1].error ? [] : (r[1].data || []).map(function (e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }; }) };
+      }, function () { return { balance: 0, entries: [] }; });
+    },
+    walletAdjust: function (userId, amount, note) {
+      var a = num(amount), n = String(note || '').trim();
+      if (isNaN(a) || a === 0 || Math.abs(a) > 100000 || n.length < 3 || n.length > 200) return Promise.resolve({ error: 'bad_value' });
+      return rpc('wallet_adjust', { p_user: userId, p_amount: Math.round(a * 100) / 100, p_note: n }, true);
+    },
     audit: function (limit) {
       return sb.from('audit_log').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
     },
@@ -874,8 +921,9 @@
       var s = storeByName(o.store); if (!s) return Promise.resolve({ error: 'store_unavailable' });
       var items = linesOf(o.lines || o.cart, o.notes);
       if (!items) return Promise.resolve({ error: 'bad_value' });
+      if (o.wallet != null && (isNaN(num(o.wallet)) || num(o.wallet) < 0 || num(o.wallet) > 1000000)) return Promise.resolve({ error: 'bad_value' });
       if (o.lat != null && (!(num(o.lat) >= -90 && num(o.lat) <= 90) || !(num(o.lng) >= -180 && num(o.lng) <= 180))) return Promise.resolve({ error: 'bad_value' });
-      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee) })
+      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100 })
         .then(function (r) { return r.error ? r : { id: r.data }; });
     },
     checkPromo: function (storeN, cart, code) {
