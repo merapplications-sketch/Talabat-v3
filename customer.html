@@ -169,7 +169,7 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=33"></script>
+<script src="talabat-core.js?v=34"></script>
 <script>
 TLB.addDict({home:'Главная',orders:'Заказы',fav:'Избранное',promoTab:'Акции',me:'Профиль',deliverTo:'Адрес доставки',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',
 noMenu:'Меню скоро появится',closed:'Закрыто',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',apple:'Apple Pay',place:'Оформить заказ',
@@ -217,7 +217,7 @@ apple:'<path d="M12 7c1-2 3-2.500 3-2.500S15 7 12 7zM8 9c2-1.500 4 .500 4 .500S1
 Object.assign(P,{x:'<path d="M6 6l12 12M18 6L6 18"/>',share:'<path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>',nav:'<path d="M3 11l18-8-8 18-2-8z"/>',store:'<path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v11H4z"/><path d="M9 20v-6h6v6"/>'});
 const ico=(n,s,f)=>`<svg class="i" viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
 const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],IC={rest:'🍔',grocery:'🛒',pharmacy:'💊',beauty:'💄',flowers:'💐',gifts:'🎁',shops:'🛍️',sweets:'🍰'};
-const PGV='customer-33';
+const PGV='customer-34';
 let STORES=[],ME={name:'',phone:''};
 let S={useWallet:true,tmp:null,useTmp:false,rep:null,tkid:null,tmsg:'',tseen:'',sheetAddr:false,hereBusy:false,quoteErr:null,ro:null,deepDone:false,af:null,addrId:null,addrBack:'home',quote:null,fresh:null,sh:null,promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
 const syncStores=()=>{STORES=TLB.stores().map(x=>({id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,disc:+x.discount_pct,cr:x.created_at||'',ffd:!!x.free_first_delivery,lg:x.logo_url||'',ad:x.address||'',ph:x.phone||'',la:x.lat==null?null:+x.lat,lo:x.lng==null?null:+x.lng,rt:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating:+x.rating)||0,rc:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating_count:+x.rating_count)||0}))};

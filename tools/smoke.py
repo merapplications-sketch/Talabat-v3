@@ -11,7 +11,7 @@ MOCK="""
    get:function(t,p){
     if(p==='then'){return function(ok,bad){var d=[];
        if(kind==='from'&&name==='profiles'&&single)d={id:user.id,email:user.email,role:role,name:'Test '+role,phone:'+992900000000',driver_status:'approved'};
-       else if(kind==='rpc'){d=null}
+       else if(kind==='rpc'){d=(name==='my_perms')?(window.__PERMS||null):null}
        return Promise.resolve(res(d)).then(ok,bad)}}
     if(p==='single'||p==='maybeSingle'){single=true;return function(){return c}}
     return function(){return c}
@@ -26,14 +26,14 @@ MOCK="""
    removeChannel:function(){},storage:{from:function(){return {upload:function(){return Promise.resolve({})},getPublicUrl:function(){return {data:{publicUrl:''}}}}}}};}};
 })();
 """
-pages=[('admin','admin'),('merchant','merchant'),('driver','driver'),('customer','customer')]
+pages=[('admin','admin',None),('merchant','merchant',None),('driver','driver',None),('customer','customer',None),('admin','customer',['support']),('admin','customer',['finance','content'])]
 with sync_playwright() as p:
     b=p.chromium.launch();bad=0
-    for name,role in pages:
+    for name,role,perms in pages:
         pg=b.new_page(viewport={'width':390,'height':800});errs=[]
         pg.on('pageerror',lambda e,errs=errs:errs.append(str(e)))
         pg.on('console',lambda m,errs=errs:errs.append('console:'+m.text) if m.type=='error' and 'Failed to load resource' not in m.text and 'net::' not in m.text else None)
-        pg.route('**/*',lambda r:(r.fulfill(status=200,content_type='application/javascript',body=MOCK.replace('window.__ROLE','"'+role+'"')) if 'supabase-js' in r.request.url else (r.abort() if r.request.url.startswith('http') else r.continue_())))
+        pg.route('**/*',lambda r:(r.fulfill(status=200,content_type='application/javascript',body=MOCK.replace('window.__ROLE','"'+role+'"').replace('window.__PERMS',json.dumps(perms))) if 'supabase-js' in r.request.url else (r.abort() if r.request.url.startswith('http') else r.continue_())))
         pg.goto('file://'+__import__('os').path.abspath(__import__('os').path.join(__import__('os').path.dirname(__file__),'..',name+'.html')));pg.wait_for_timeout(2500)
         import re
         seen=set()
@@ -50,7 +50,7 @@ with sync_playwright() as p:
             try:
                 pg.locator(sel).nth(i).click(timeout=1500);pg.wait_for_timeout(300);scan('tab%d'%i)
             except Exception as e: pass
-        print(name,'tabs',n,'suspicious',sorted(seen)[:12])
+        print(name,role,perms,'tabs',n,[x.strip() for x in pg.locator(sel).all_inner_texts()] if perms else '', 'suspicious',sorted(seen)[:12])
         txt=pg.evaluate("document.body.innerText.length")
         print(name,'textlen',txt,'errors',errs[:4]);bad+=len(errs)
         pg.screenshot(path='/tmp/smoke_%s.png'%name)
