@@ -140,7 +140,7 @@
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  var VERSION = 'v31';
+  var VERSION = 'v32';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -381,16 +381,18 @@
     return fetch(SB_URL + '/rest/v1/', { method: 'HEAD', headers: { apikey: SB_KEY }, cache: 'no-store', signal: ctl ? ctl.signal : undefined })
       .then(function () { if (to) clearTimeout(to); return true; }, function () { if (to) clearTimeout(to); return false; });
   }
+  (function () { var st = document.createElement('style'); st.textContent = '.tlb-offon .top{top:var(--offh,40px)!important}'; (document.head || document.documentElement).appendChild(st); })();
   function setOffline(on) {
     var b = $('tlb-off');
     if (on) {
       offlineNow = true;
       if (!b) {
-        b = document.createElement('div'); b.id = 'tlb-off'; b.setAttribute('data-i18n', 'offline');
-        b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10002;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;text-align:center;padding:calc(6px + env(safe-area-inset-top,0px)) 8px 6px';
-        document.body.appendChild(b); applyI18n();
+        b = document.createElement('div'); b.id = 'tlb-off'; b.setAttribute('data-i18n', 'offline'); b.setAttribute('role', 'alert');
+        /* in normal flow (not fixed): it takes its own strip above the page and pushes the header down, never covers it */
+        b.style.cssText = 'position:sticky;top:0;z-index:10002;background:#b42318;color:#fff;font:600 13px/1.35 -apple-system,sans-serif;text-align:center;padding:calc(8px + env(safe-area-inset-top,0px)) 12px 8px;word-break:break-word;box-sizing:border-box;width:100%';
+        document.body.insertBefore(b, document.body.firstChild); document.documentElement.classList.add('tlb-offon'); document.documentElement.style.setProperty('--offh', b.offsetHeight + 'px'); applyI18n();
       }
-    } else if (offlineNow || b) { offlineNow = false; if (b) b.remove(); refresh(); }
+    } else if (offlineNow || b) { offlineNow = false; if (b) b.remove(); document.documentElement.classList.remove('tlb-offon'); refresh(); }
   }
   function checkNet() { return probeNet().then(function (ok) { setOffline(!ok); return ok; }); }
   function startScheduler() {
