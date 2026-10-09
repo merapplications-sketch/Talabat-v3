@@ -24,9 +24,10 @@ FIX="""
  var addrs=[{id:'a1',user_id:U,label:'home',street:'пр. Рудаки',house:'100',entrance:'2',floor:'5',apartment:'45',details:'',note:'домофон не работает',lat:38.56,lng:68.78,is_default:true}];
  var profiles=[{id:U,email:user.email,role:role,name:'Муаммад ибни Абдуллоҳ аз Душанбе',phone:'+992900000000',driver_status:'approved',cash_limit:1000,created_at:iso(1000)},{id:'u2',email:'driver2@test.com',role:'driver',name:'Водитель',phone:'+992900000009',driver_status:'pending',created_at:iso(5)},{id:'u3',email:'c@test.com',role:'customer',name:'Клиент',phone:'+992900000008',created_at:iso(5)}];
  var T={stores:stores,menu_items:items,item_option_groups:groups,item_options:opts,orders:orders,order_items:oitems,banners:banners,addresses:addrs,brands:[{id:'b1',name:'Дар-ул-Хилоф',owner_id:U}],profiles:profiles,
-  promo_codes:[{id:'p1',code:'WELCOME10',kind:'percent',value:10,min_order:50,max_uses:100,active:true,created_at:iso(1)}],favorites:[{user_id:U,store_id:'s1'}],wallet_entries:[{id:'w1',user_id:U,amount:50,kind:'topup',note:'Пополнение',created_at:iso(5)}],
+  promo_codes:[{id:'p1',code:'WELCOME10',kind:'percent',value:10,min_order:50,max_uses:100,active:true,created_at:iso(1)}],favorites:[{user_id:U,store_id:'s1'}],wallet_entries:[{id:'w1',user_id:U,amount:50,kind:'refund',note:'Пополнение',created_at:iso(5)}],
   support_tickets:[{id:'t1',user_id:U,subject:'Не приехал заказ',reason:'late',order_id:'ord1',status:'open',created_at:iso(20),updated_at:iso(2)}],ticket_messages:[{id:'tm1',ticket_id:'t1',sender_id:U,body:'Здравствуйте, где мой заказ?',created_at:iso(20)}],
   order_chat:[],order_offers:[],ratings:[],store_requests:[{id:'r1',user_id:U,name:'Новая кофейня',category:'rest',phone:'+992900000005',address:'ул. 1',status:'pending',created_at:iso(3)}],audit_log:[],app_texts:[],app_settings:[],app_pages:[],order_events:[],client_errors:[],drivers:[]};
+ if(window.__EMPTY)Object.keys(T).forEach(function(k){if(k!=='profiles'&&!(role==='merchant'&&(k==='stores'||k==='brands')))T[k]=[]});
  function res(d){return {data:d,error:null}}
  function chain(kind,name){var single=false;
   var c=new Proxy(function(){},{get:function(t,p){
@@ -64,6 +65,8 @@ CHECK="""(mode)=>{
   if(getComputedStyle(e).pointerEvents=='none')return;if(e.parentElement===document.body&&!e.id&&!e.className&&getComputedStyle(e).position=='fixed')return;if(modal&&modal.contains(e))return;const fx=isFix(e);if(fx){const fr=fx.getBoundingClientRect(),bottom=fr.top>H*0.4;if(mode==='top'&&bottom)return;if(mode==='end'&&!bottom)return}out.push('COVERED «'+x.tx+'» by '+(e.id?'#'+e.id:(e.className&&e.className.baseVal===undefined?'.'+String(e.className).split(' ')[0]:e.tagName)))});
  const t=document.body.innerText;
  (t.match(/\\b[a-z]{1,6}[A-Z][A-Za-z]{1,12}\\b/g)||[]).forEach(w=>{if(!['iPhone','iOS','YouTube','TikTok','WhatsApp','PayPal'].includes(w))out.push('RAWKEY '+w)});
+ document.querySelectorAll('svg').forEach(v=>{const r=v.getBoundingClientRect();if(r.width>0&&!v.querySelector('path,circle,rect,line,polyline,polygon,ellipse,g'))out.push('EMPTY-ICON '+(v.parentElement.getAttribute('aria-label')||v.parentElement.className||v.parentElement.tagName))});
+ (t.match(/\\b(?!schema_)[a-z]{1,5}[A-Z]?_[a-z][a-z_]+\\b/g)||[]).forEach(w=>out.push('RAWKEY '+w));
  ['undefined','NaN','[object','null'].forEach(b=>{if(t.includes(b))out.push('BAD '+b)});
  if(document.scrollingElement.scrollWidth>W+1)out.push('PAGE-OVERFLOW '+document.scrollingElement.scrollWidth);
  return [...new Set(out)].slice(0,12)}"""
@@ -73,6 +76,13 @@ APPS={
    ("orders","go('orders')"),("track","go('track',{tid:'ord1'})"),("track2","go('track',{tid:'ord4'})"),("fav","go('fav')"),("promo","go('promo')"),("offer","go('offer',{oid:'s1'})"),("me","go('me')"),("settings","go('settings')"),("about","go('about')"),("privacy","go('privacy')"),("wallet","go('wallet')"),("support","go('support')"),("ticket","go('ticket',{tkid:'t1'})")],
  'merchant':[("orders","setTab('o')"),("menu","setTab('m')"),("stats","setTab('s')"),("profile","setTab('p')"),("item-new","setTab('m');openSheet()"),("item-edit","openSheet('i1')"),("req-sheet","SH=null;rqOpen()"),("req-list","RQ=null;RL=true;render()"),("branch-sheet","RL=false;brOpen('b1')")],
  'driver':[("home","document.querySelectorAll('.nav div')[0].click()"),("history","document.querySelectorAll('.nav div')[1].click()"),("profile","document.querySelectorAll('.nav div')[2].click()")],
+ 'admin':[("tab%d","")],
+}
+# every list with NO data: the screen must show a proper empty state (checked by the same rules + EMPTY-STATE: no visible text in the page body)
+EMPTY={
+ 'customer':[("home","S.v='home'"),("cat","go('cat',{catKey:'rest'})"),("cart","S.cart={};go('cart')"),("orders","go('orders')"),("fav","go('fav')"),("promo","go('promo')"),("wallet","go('wallet')"),("support","go('support')"),("addr","go('addr')"),("me","go('me')")],
+ 'merchant':[("orders","setTab('o')"),("menu","setTab('m')"),("stats","setTab('s')"),("profile","setTab('p')"),("req-list","RQ=null;RL=true;render()")],
+ 'driver':[("home","document.querySelectorAll('.nav div')[0].click()"),("history","document.querySelectorAll('.nav div')[1].click()")],
  'admin':[("tab%d","")],
 }
 def run():
@@ -101,6 +111,24 @@ def run():
                             if iss: bad+=1;rows.append((app,w,offline,name+('@end' if scroll else ''),iss));pg.screenshot(path='/tmp/qa_%s_%d_%s_%s%s.png'%(app,w,'off' if offline else 'on',name,'_end' if scroll else ''))
                     if errs: bad+=1;rows.append((app,w,offline,'JS',errs[:3]))
                     ctx.close()
+        if not os.environ.get('QA_NOEMPTY'):
+          for app,screens in EMPTY.items():
+            if os.environ.get('QA_APPS') and app not in os.environ['QA_APPS'].split(','): continue
+            for w in tuple(int(x) for x in os.environ.get('QA_W','360,390,430').split(',')):
+                ctx=b.new_context(viewport={'width':w,'height':780},device_scale_factor=1);pg=ctx.new_page();errs=[];pg.add_init_script("window.__EMPTY=1")
+                pg.on('pageerror',lambda e,errs=errs:errs.append(str(e)))
+                pg.route('**/*',lambda rt,rq,app=app:(rt.fulfill(status=200,content_type='application/javascript',body=FIX.replace('window.__ROLE','"'+app+'"')) if 'supabase-js' in rq.url else (rt.abort() if rq.url.startswith('http') else rt.continue_())))
+                pg.goto('file://'+root+'/'+app+'.html',wait_until='domcontentloaded');pg.wait_for_timeout(2200)
+                sc=screens
+                if app=='admin':
+                    n=pg.locator('.tabs button').count();sc=[("tab%d"%i,"document.querySelectorAll('.tabs button')[%d].click()"%i) for i in range(n)]
+                for name,js in sc:
+                    try: pg.evaluate("()=>{"+js+";if(typeof render==='function')try{render()}catch(e){}}");pg.wait_for_timeout(300)
+                    except Exception as e: rows.append((app,w,False,'EMPTY:'+name,['EVAL-ERR '+str(e)[:80]]));bad+=1;continue
+                    iss=pg.evaluate(CHECK,'top')
+                    if iss: bad+=1;rows.append((app,w,False,'EMPTY:'+name,iss));pg.screenshot(path='/tmp/qa_empty_%s_%d_%s.png'%(app,w,name))
+                if errs: bad+=1;rows.append((app,w,False,'EMPTY:JS',errs[:3]))
+                ctx.close()
     for r in rows: print(r[0],r[1],'OFF' if r[2] else 'on',r[3],'|',' ; '.join(r[4]))
     print('QA ISSUES',bad);return bad
 if __name__=='__main__': sys.exit(1 if run() else 0)

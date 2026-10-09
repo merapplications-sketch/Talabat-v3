@@ -1,4 +1,4 @@
-# Talabat v3 — hand-off for a new conversation (state at v42)
+# Talabat v3 — hand-off for a new conversation (state at v43)
 
 ## Who / how to work
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
@@ -11,8 +11,9 @@
 - Each app has its own auth storage key; wrong-app accounts get a "wrong app" screen with a link.
 
 ## Branch state
-- `main` = v41 (PR #11 `fix/driver-header-v40` merged by the owner).
-- Newest: `feature/cart-polish-v42` (v42, on top of main): https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/cart-polish-v42 — cart saved on the phone, unavailable dishes flagged, no duplicate orders (p_key), see CHANGES-v42.md. No SQL.
+- `main` = v42 (PR #12 cart polish merged by the owner).
+- Newest: `feature/dod-audit-v43` (v43, on top of main): https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/dod-audit-v43 — Definition-of-Done audit: compact call/map buttons, empty states, raw keys, see CHANGES-v43.md. No SQL.
+- The owner sent a mandatory "Definition of Done" protocol (v43): every batch = self-QA at 360/390/430 online+offline, one design system (buttons/cards/headers/empty states), compact modern call/map buttons, no raw keys/overlaps, batch delivery with a report table. Follow it.
 - v41 included: staff RBAC (patch 26), multi-branch restaurants (patch 27), overflow clip (v37), dish sheet scroll/validation fix (v38), driver header pill fix + full-width offline strip (v40), QA harness + fixes for branch sync button and hidden discount badge (v41).
 - `feature/rest-tabs-v39` is OBSOLETE (Info tab removed).
 
@@ -21,12 +22,12 @@
 - Security page: `security-check.html?v=41` — owner has NOT yet reported its result; ask for the summary line ("OK: n passed" / "PROBLEM").
 
 ## Test tools (python3 + playwright; run from repo root)
-- `tools/qa_all.py` (~6 min, run in background: every screen x 360/390/430 x online/offline; must print `QA ISSUES 0`; env QA_APPS=driver QA_W=390 narrows).
+- `tools/qa_all.py` (~6 min, run in background: every screen x 360/390/430 x online/offline; must print `QA ISSUES 0`; also runs an empty-data pass; env QA_APPS=driver QA_W=390 narrows, QA_NOEMPTY=1 skips the empty pass).
 - `tools/cart_check.py` (CART FAILS 0), `tools/smoke.py` (TOTAL ERR 0), `tools/hdr_check.py`, `tools/overflow2.py`, `tools/sheet_check.py`, `tools/branch_check.py`.
 - Limits: Chromium + mocked Supabase only; nothing verified on a real iPhone or the live DB.
 
 ## Open items waiting on the owner
-1. Merge the v42 PR. 2. Report security-check result. 3. Confirm admin@test.com has role admin in `profiles`. 4. Say in which app/page the "app wider than the iPhone screen" issue appears (v37 clips overflow defensively; cause unknown). 5. Real-device feedback on v41.
+1. Merge the v43 PR. 2. Report security-check result. 3. Confirm admin@test.com has role admin in `profiles`. 4. Say in which app/page the "app wider than the iPhone screen" issue appears (v37 clips overflow defensively; cause unknown). 5. Real-device feedback on v41.
 
 ## Approved backlog, in order (not started unless noted)
 1. Cart + checkout polish (customer) — DONE in v42 (owner may still list extra wishes).  2. Restaurant page tabs — ASK the owner what tabs he wants before building.  3. Loyalty/cashback/points, happy-hour promos.  4. Auto-cancel after 5 min (pg_cron), live driver GPS tracking, offline cache + sync.  5. Push notifications, batch delivery, heatmaps, partner requests, offers/ads.  6. OTP signup via WhatsApp/SMS (needs provider; no domain yet).  7. Before launch: delete weak test accounts, set Supabase Auth rate limits.
