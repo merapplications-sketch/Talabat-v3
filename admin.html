@@ -21,7 +21,7 @@ h3{font-size:16px;margin:14px 0 10px;color:var(--ink)}
 .b{border:0;border-radius:999px;padding:9px 16px;color:#fff;font-weight:600;font-size:13px;cursor:pointer;background:var(--o);text-decoration:none;display:inline-block}.b:active{background:var(--o2)}.b.r{background:var(--badbg);color:var(--bad)}.b.g{background:#f1f1f4;color:var(--ink)}.b.o{background:var(--tint);color:var(--o)}
 .s{font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px;background:#f1f1f4;color:var(--mut)}
 .s.pending{background:var(--wbg);color:#c2410c}.s.preparing,.s.ready{background:#e8effd;color:#1d4ed8}.s.pickedup{background:#f0e8fd;color:#6d28d9}.s.delivered,.s.approved{background:var(--okbg);color:var(--ok)}.s.rejected,.s.cancelled,.s.suspended{background:var(--badbg);color:var(--bad)}
-input,select,textarea{width:100%;padding:12px 14px;margin-bottom:10px;background:#f3f3f6;border:1.5px solid transparent;border-radius:14px;font-size:14px;color:var(--ink);outline:0}input:focus,select:focus,textarea:focus{border-color:var(--o);background:#fff}
+input,select,textarea{width:100%;padding:12px 14px;margin-bottom:10px;background:#f3f3f6;border:1.5px solid transparent;border-radius:14px;font-size:16px;color:var(--ink);outline:0}input:focus,select:focus,textarea:focus{border-color:var(--o);background:#fff}
 small{color:var(--mut)}
 .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .l{display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px}
@@ -68,13 +68,13 @@ small{color:var(--mut)}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=29"></script>
+<script src="talabat-core.js?v=30"></script>
 <script>
 TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
 aAdd:'Добавить магазин',aName:'Название',aDesc:'Описание',aCom:'Комиссия, %',aFeeT:'Тип доставки',aFix:'Фиксированная',aDist:'По расстоянию',aFree:'Бесплатная',aFeeB:'Базовая цена доставки',aKm:'Цена за км (после 3 км)',aDis:'Скидка магазина, %',aSave:'Создать магазин',aFill:'Введите название',
 aOn:'Активен',aOff:'Отключён',aSus:'Отключить',aAc:'Включить',aEditC:'Комиссия %',aOwn:'Владелец (email)',aOwnB:'Назначить владельца',aNoOwn:'нет владельца',aHasOwn:'владелец назначен',aPend:'Ожидают одобрения (аптеки)',aApp:'Одобрить',
 aNoD:'Курьеров нет',aDrvA:'Одобрить',aDrvS:'Заблокировать',aNote:'Вход по email. Заявки курьеров одобряются здесь.',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',aDel:'доставка',
-aBTitle:'Заголовок баннера',aBImg:'📷 Загрузить картинку',aBNone:'Без ссылки',aBAdd:'Добавить баннер',aRm:'Удалить',aBNo:'Баннеров нет',aBOrd:'Порядок показа (0 — первым, потом 1, 2…)',aBHint:'Размер картинки: вверху 1400×700, внизу 1500×500. Заголовок виден только если картинки нет.',aCover:'Обложка',aEdit:'Изменить',aImgB:'Картинка',aTitleB:'Название',
+aBTitle:'Заголовок баннера',aFeeReq:'Укажите стоимость доставки (0 или больше)',aBDates:'Дата окончания раньше даты начала',aBImg:'📷 Загрузить картинку',aBNone:'Без ссылки',aBAdd:'Добавить баннер',aRm:'Удалить',aBNo:'Баннеров нет',aBOrd:'Порядок показа (0 — первым, потом 1, 2…)',aBHint:'Размер картинки: вверху 1400×700, внизу 1500×500. Заголовок виден только если картинки нет.',aCover:'Обложка',aEdit:'Изменить',aImgB:'Картинка',aTitleB:'Название',
 aPh:'Телефон магазина',aBack:'Назад',aClient:'Клиент',aStoreL:'Магазин',aDrvL:'Курьер',aItemsL:'Состав заказа',aPayL:'Оплата',aTimeL:'Хронология',aChatL:'Переписка',aNoChat:'Переписки нет',aSub:'Товары',aDisc:'Скидка',aDelF:'Доставка',aTip:'Чаевые',aTot:'Итого',aCommL:'Комиссия',
 aCashGot:'Получено наличными',aCashNote:'Комментарий',aSettled:'Сдано в кассу',aNotSet:'Ещё не сдано',aMin:'мин',tL:'Журнал',aAudit:'Журнал действий',aErrT:'Ошибки приложений',aNoAudit:'Записей пока нет',aNoErr:'Ошибок нет — отлично',aWho:'Кто',aWhat:'Что изменилось',aMore:'Показать ещё',aIdle:'Сеанс завершён из-за бездействия (30 минут).',aTabAudit:'Действия',aTabErr:'Ошибки',aApp:'Приложение',aCtx:'Где',aSec:'с',aTotalT:'Общее время',
 aeP:'Заказ оформлен',aeA:'Ресторан принял',aeD:'Назначен курьер',aeR:'Готов к выдаче',aeU:'Курьер забрал',aeV:'Доставлен',aeX:'Отклонён рестораном',aeC:'Отменён клиентом',
@@ -83,7 +83,7 @@ aCashH:'Наличные на руках',aLimit:'Лимит',aOver:'⚠️ Пр
 aAdd:'Add store',aName:'Name',aDesc:'Description',aCom:'Commission, %',aFeeT:'Delivery type',aFix:'Fixed',aDist:'By distance',aFree:'Free',aFeeB:'Base delivery fee',aKm:'Price per km (after 3 km)',aDis:'Store discount, %',aSave:'Create store',aFill:'Enter a name',
 aOn:'Active',aOff:'Disabled',aSus:'Disable',aAc:'Enable',aEditC:'Commission %',aOwn:'Owner (email)',aOwnB:'Assign owner',aNoOwn:'no owner',aHasOwn:'owner assigned',aPend:'Waiting for approval (pharmacy)',aApp:'Approve',
 aNoD:'No couriers',aDrvA:'Approve',aDrvS:'Suspend',aNote:'Email login. Courier applications are approved here.',rest:'Restaurants',grocery:'Groceries',pharmacy:'Pharmacy',beauty:'Beauty',flowers:'Flowers',gifts:'Gifts',shops:'Shops',sweets:'Sweets',aDel:'delivery',
-aBTitle:'Banner title',aBImg:'📷 Upload image',aBNone:'No link',aBAdd:'Add banner',aRm:'Delete',aBNo:'No banners',aBOrd:'Display order (0 = first, then 1, 2…)',aBHint:'Image size: top 1400×700, bottom 1500×500. The title shows only when there is no image.',aCover:'Cover',aEdit:'Edit',aImgB:'Image',aTitleB:'Title',
+aBTitle:'Banner title',aFeeReq:'Enter the delivery fee (0 or more)',aBDates:'End date is before start date',aBImg:'📷 Upload image',aBNone:'No link',aBAdd:'Add banner',aRm:'Delete',aBNo:'No banners',aBOrd:'Display order (0 = first, then 1, 2…)',aBHint:'Image size: top 1400×700, bottom 1500×500. The title shows only when there is no image.',aCover:'Cover',aEdit:'Edit',aImgB:'Image',aTitleB:'Title',
 aPh:'Store phone',aBack:'Back',aClient:'Customer',aStoreL:'Store',aDrvL:'Courier',aItemsL:'Order items',aPayL:'Payment',aTimeL:'Timeline',aChatL:'Chat',aNoChat:'No messages',aSub:'Items',aDisc:'Discount',aDelF:'Delivery',aTip:'Tip',aTot:'Total',aCommL:'Commission',
 aCashGot:'Cash received',aCashNote:'Note',aSettled:'Handed to office',aNotSet:'Not handed over yet',aMin:'min',tL:'Log',aAudit:'Activity log',aErrT:'App errors',aNoAudit:'No entries yet',aNoErr:'No errors — great',aWho:'Who',aWhat:'What changed',aMore:'Show more',aIdle:'Signed out after 30 minutes of inactivity.',aTabAudit:'Actions',aTabErr:'Errors',aApp:'App',aCtx:'Where',aSec:'s',aTotalT:'Total time',
 aeP:'Order placed',aeA:'Restaurant accepted',aeD:'Courier assigned',aeR:'Ready for pickup',aeU:'Picked up by courier',aeV:'Delivered',aeX:'Rejected by restaurant',aeC:'Cancelled by customer',
@@ -100,7 +100,8 @@ const tel=p=>p?`<a href="tel:${esc(p)}" class="b" style="padding:6px 10px">📞 
 function resizeImg(fl,w,q,cb){TLB.uploadImage(fl,{maxW:w,q:q}).then(u=>{if(u)cb(u)})}
 function addStore(){if(!v('sn')){alert(t('aFill'));return}
   const ph=TLB.normPhone(v('sp'));if(!ph){alert(t('aPhReq'));return}
-  TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:ph,commission_pct:+v('sm')||0,fee_type:v('sf'),fee_base:+v('sb')||0,fee_per_km:+v('sk')||0,discount_pct:+v('sd')||0}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddS=false;render()}})}
+  const ft=v('sf'),fb=v('sb');if(ft!='free'&&(fb===''||!(+fb>=0))){alert(t('aFeeReq'));return}
+  TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:ph,commission_pct:v('sm')===''?10:+v('sm'),fee_type:ft,fee_base:ft=='free'?0:+fb,fee_per_km:+v('sk')||0,discount_pct:+v('sd')||0}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddS=false;render()}})}
 function pickB(e){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>{bimg=d;$('bp').src=d;$('bp').style.display='block'})}
 function linkLabel(v){if(!v||v=='none')return t('aBNone');const p=String(v).split(':');if(p[0]=='store'){const s=TLB.stores(true).find(x=>x.id==p[1]);return '🏪 '+(s?s.name:'?')}if(p[0]=='cat')return '📂 '+t(p[1]);return t('aBNone')}
 function pickLink(cb){const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;z-index:10000;background:#fff;display:flex;flex-direction:column;font:14px -apple-system,BlinkMacSystemFont,sans-serif';
@@ -117,12 +118,15 @@ function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').spli
   run(TLB.addBanner({title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';render()}}));bimg=''}
 const dIso=(v,end)=>v?v+(end?'T23:59:59+05:00':'T00:00:00+05:00'):null;
 const dShow=ts=>ts?new Date(ts).toLocaleDateString('sv-SE',{timeZone:'Asia/Dushanbe'}):'';
-function bannerPlace(id,v){run(TLB.updateBanner(id,{placement:v=='bottom'?'bottom':'top'}))}
-function bannerDate(id,k,v){run(TLB.updateBanner(id,{[k]:dIso(v,k=='ends_at')}))}
-function bannerImg(e,id){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>run(TLB.updateBanner(id,{image_url:d})))}
-function bannerTitle(id,cur){const x=prompt(t('aBTitle'),cur);if(x!==null&&x.trim())run(TLB.updateBanner(id,{title:x.trim().slice(0,80)}))}
-function bannerOrder(id,cur){const x=prompt(t('aBOrd'),cur);if(x!==null&&!isNaN(+x))run(TLB.updateBanner(id,{sort:+x}))}
-function bannerLink(id,val){const p=(val+':').split(':');run(TLB.updateBanner(id,{link_type:p[0]=='cat'?'category':p[0],link_value:p[1]||null}))}
+let BD=null;
+function openBE(id){const b=TLB.banners(true).find(x=>x.id==id);if(!b)return;BE=id;BD={title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active};render();scrollTo(0,0)}
+function bd(k,v){BD[k]=v}
+function bannerImg(e){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>{BD.image_url=d;render()})}
+function bannerLink(val){const p=(val+':').split(':');BD.link_type=p[0]=='cat'?'category':(p[0]=='none'?null:p[0]);BD.link_value=p[1]||null;render()}
+function bannerSave(){const title=String(BD.title||'').trim().slice(0,80);if(!title){alert(t('aFill'));return}
+  if(BD.from&&BD.to&&BD.from>BD.to){alert(t('aBDates'));return}
+  const sort=Number.isFinite(+BD.sort)?Math.trunc(+BD.sort):0;
+  run(TLB.updateBanner(BE,{title,image_url:BD.image_url,link_type:BD.link_type,link_value:BD.link_value,sort,placement:BD.placement=='bottom'?'bottom':'top',starts_at:dIso(BD.from,false),ends_at:dIso(BD.to,true),is_active:!!BD.is_active}).then(r=>{if(!(r&&r.error)){BE=null;BD=null;render()}}))}
 function openStoreEdit(id){const s=TLB.stores(true).find(x=>x.id==id);if(!s)return;E=id;
 ED={name:s.name||'',description:s.description||'',phone:s.phone||'',address:s.address||'',category:s.category,commission_pct:s.commission_pct,fee_type:s.fee_type,fee_base:s.fee_base,fee_per_km:s.fee_per_km,discount_pct:s.discount_pct||0,max_discount_pct:s.max_discount_pct==null?30:s.max_discount_pct,lat:s.lat==null?null:+s.lat,lng:s.lng==null?null:+s.lng,free_first_delivery:!!s.free_first_delivery,gpid:s.google_place_id||'',rating:s.rating==null?'':s.rating,rcount:s.rating_count==null?'':s.rating_count,cover:null,logo:null,owner:''};render();scrollTo(0,0)}
 function ed(k,v){ED[k]=v}
@@ -235,7 +239,7 @@ function vStores(){const all=TLB.stores(true),pend=TLB.pendingItems(),q=sq.trim(
   <select id="sc">${CATS.map(c=>`<option value="${c}">${t(c)}</option>`).join('')}</select>
   <input id="sm" type="number" placeholder="${t('aCom')}" value="10">
   <select id="sf"><option value="fixed">${t('aFix')}</option><option value="distance">${t('aDist')}</option><option value="free">${t('aFree')}</option></select>
-  <input id="sb" type="number" placeholder="${t('aFeeB')}" value="10"><input id="sd" type="number" placeholder="${t('aDis')}" value="0">
+  <input id="sb" type="number" inputmode="decimal" min="0" placeholder="${t('aFeeB')} *" value=""><input id="sd" type="number" inputmode="decimal" placeholder="${t('aDis')}" value="0">
   <button class="b" style="width:100%;padding:12px" onclick="addStore()">${t('aSave')}</button></div>`:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddS=true;render()">${t('aAddS')}</button>`}
 
 <div class="chips">${[['open','fOpenS',no],['closed','fClosedS',all.length-no],['all','fAllK',all.length]].map(([k,l,c])=>`<button class="chip ${sfl==k?'on':''}" onclick="sfl='${k}';render()">${t(l)} · ${c}</button>`).join('')}</div><input id="sq" placeholder="${t('searchS')}" value="${esc(sq)}" oninput="sq=this.value;render()">
@@ -268,19 +272,21 @@ function vBanners(){const bs=TLB.banners(true);
   return `${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;render()">${t('aAddB')}</button>`}
   ${bs.length?bs.map(b=>{const st=bState(b);
   return `<div class="card row" style="gap:10px"><div style="display:flex;gap:10px;align-items:center;min-width:0">${b.image_url?`<img src="${esc(b.image_url)}" style="width:64px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0" alt="">`:`<div style="width:64px;height:40px;border-radius:6px;background:#e2e8f0;flex-shrink:0"></div>`}<div style="min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.title)}</b><span class="s ${st[0]}">${st[1]}</span></div></div>
-  <button class="b" onclick="BE='${b.id}';render();scrollTo(0,0)">✏️ ${t('aEdit')}</button></div>`}).join(''):`<div class="card">${t('aBNo')}</div>`}`}
-function vBannerEdit(){const b=TLB.banners(true).find(x=>x.id==BE);if(!b){BE=null;return vBanners()}
-  const cur=b.link_type=='store'?'store:'+b.link_value:b.link_type=='category'?'cat:'+b.link_value:'none',st=bState(b);
-  return `<button class="b g" onclick="BE=null;render()">← ${t('aBack')}</button>
-  <div class="card" style="margin-top:12px"><div class="row"><b>✏️ ${t('aBEd')}: ${esc(b.title)} <small>#${b.sort}</small></b><span class="s ${st[0]}">${st[1]}</span></div>
-  ${b.image_url?`<img src="${esc(b.image_url)}" style="width:100%;max-height:140px;object-fit:cover;border-radius:8px;margin:8px 0" alt="">`:''}
-  <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink('${b.id}',v))">🔗 ${esc(linkLabel(cur))}</button>
-  <small>${t('aBPl')}</small><select onchange="bannerPlace('${b.id}',this.value)"><option value="top" ${(b.placement||'top')=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${b.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>
-  <small>${t('aBFrom')}</small><input type="date" value="${dShow(b.starts_at)}" onchange="bannerDate('${b.id}','starts_at',this.value)"><small>${t('aBTo')}</small><input type="date" value="${dShow(b.ends_at)}" onchange="bannerDate('${b.id}','ends_at',this.value)">
-  <div class="btns"><label class="b g" style="margin:0">📷 ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event,'${b.id}')"></label>
-  <button class="b o" onclick="bannerTitle('${b.id}',${JSON.stringify(b.title).replace(/"/g,'&quot;')})">✏️ ${t('aTitleB')}</button><button class="b o" onclick="bannerOrder('${b.id}',${b.sort})">#</button>
-  <button class="b ${b.is_active?'r':''}" onclick="run(TLB.updateBanner('${b.id}',{is_active:${!b.is_active}}))">${b.is_active?t('aSus'):t('aAc')}</button>
-  <button class="b g" onclick="if(confirm('?')){BE=null;run(TLB.deleteBanner('${b.id}'))}">${t('aRm')}</button></div></div>`}
+  <button class="b" onclick="openBE('${b.id}')">✏️ ${t('aEdit')}</button></div>`}).join(''):`<div class="card">${t('aBNo')}</div>`}`}
+function vBannerEdit(){const b=TLB.banners(true).find(x=>x.id==BE);if(!b||!BD){BE=null;return vBanners()}
+  const cur=BD.link_type=='store'?'store:'+BD.link_value:BD.link_type=='category'?'cat:'+BD.link_value:'none',st=bState(b);
+  return `<button class="b g" onclick="BE=null;BD=null;render()">← ${t('aBack')}</button>
+  <div class="card" style="margin-top:12px"><div class="row"><b>✏️ ${t('aBEd')}</b><span class="s ${st[0]}">${st[1]}</span></div>
+  ${BD.image_url?`<img src="${esc(BD.image_url)}" style="width:100%;max-height:140px;object-fit:cover;border-radius:8px;margin:8px 0" alt="">`:''}
+  <small>${t('aBTitle')}</small><input type="text" maxlength="80" value="${esc(BD.title)}" oninput="bd('title',this.value)">
+  <small>${t('aBOrd')}</small><input type="number" inputmode="numeric" value="${+BD.sort}" oninput="bd('sort',this.value)">
+  <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink(v))">🔗 ${esc(linkLabel(cur))}</button>
+  <small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>
+  <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" onchange="bd('from',this.value)"><small>${t('aBTo')}</small><input type="date" value="${esc(BD.to)}" onchange="bd('to',this.value)">
+  <div class="btns"><label class="b g" style="margin:0">📷 ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event)"></label>
+  <button class="b ${BD.is_active?'r':''}" onclick="BD.is_active=!BD.is_active;render()">${BD.is_active?t('aSus'):t('aAc')}</button>
+  <button class="b g" onclick="if(confirm('?')){const i=BE;BE=null;BD=null;run(TLB.deleteBanner(i))}">${t('aRm')}</button></div>
+  <button class="b" style="width:100%;padding:13px;margin-top:12px" onclick="bannerSave()">💾 ${t('aSave')}</button></div>`}
 function addPromo(){const code=v('pcode').toUpperCase(),kind=$('pkind').value,val=+v('pval'),mn=+v('pmin')||0,mx=v('pmax')===''?null:+v('pmax');
 TLB.addPromo({code,kind,value:val,min_order:mn,max_uses:mx,starts_at:dIso($('pfr').value,false),ends_at:dIso($('pto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddP=false;render()}})}
 function promoUsed(code){return TLB.orders().filter(o=>o.promoCode==code&&o.status!='rejected'&&o.status!='cancelled').length}
@@ -418,7 +424,7 @@ function srqCard(){const all=TLB.storeRequests(),pend=all.filter(q=>q.status=='p
   <div class="btns"><button class="b" onclick="srqDecide('${q.id}',true)">✓ ${t('xApprove')}</button><button class="b r" onclick="srqDecide('${q.id}',false)">${t('xReject')}</button></div></div>`};
   return `<div class="al amber"><div class="alh"><span>🏪 ${t('xSrqT')}</span><b>${pend.length}</b></div>${pend.length?pend.map(row).join(''):`<small>${t('xSrqNone')}</small>`}${done.length?`<div style="margin-top:8px">${done.map(q=>`<small style="display:block;margin-top:4px">${q.status=='approved'?'✅':'❌'} ${esc(q.name)}${q.admin_note?' — '+esc(q.admin_note):''}</small>`).join('')}</div>`:''}</div>`}
 async function srqDecide(id,ok){const r=await TLB.decideStoreRequest(id,ok,SRN[id]||'');if(r&&r.error){alert(t('err_'+r.error));return}delete SRN[id];if(ok)alert(t('xSrqOk'));render()}
-const stampH=()=>`<div class="xs" style="text-align:center;color:#8b8f98;margin:18px 0 6px">${t('verL')||'v'} ${esc(TLB.version||'')} · admin-29</div>`;
+const stampH=()=>`<div class="xs" style="text-align:center;color:#8b8f98;margin:18px 0 6px">${t('verL')||'v'} ${esc(TLB.version||'')} · admin-30</div>`;
 function pgVal(s,l){const k=s+'_'+l;if(PGE[k]!=null)return PGE[k];const p=TLB.pages()[s];return p?p[l]:''}
 function pgSet(s,l,v){PGE[s+'_'+l]=v}
 async function pgSave(){for(const s of ['about','privacy'])for(const l of ['ru','en']){const k=s+'_'+l;if(PGE[k]==null)continue;const r=await TLB.setPage(s,l,PGE[k]);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}}PGE={};alert(t('xTxOk'));render()}
@@ -435,7 +441,7 @@ function mapModal(){if(!MAPO)return '';return `<div class="ovl" style="align-ite
 function openMap(){MAPO=true;render();const pts=[];TLB.drivers().filter(x=>isLive(x)&&locFresh(x)).forEach(x=>pts.push({lat:x.lat,lng:x.lng,kind:'driver',busy:busyOf(x),label:x.name||x.id.slice(0,6)}));TLB.stores(true).filter(s=>s.is_active&&s.lat!=null).forEach(s=>pts.push({lat:s.lat,lng:s.lng,kind:'store',open:s.is_open,label:s.name}));TLB.mapView('adm-map',pts)}
 function alerts(){const ov=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000));if(!ov.length)return lowAlert()+noCourier();
 return lowAlert()+noCourier()+`<div class="al red"><div class="alh"><span>💵 ${t('aOver')}</span><b>${ov.length}</b></div>${ov.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000;return `<div class="row" style="margin-top:8px"><span>🛵 ${esc(x.name||x.id.slice(0,8))} <small>${bal.toFixed(2)} / ${lim} TJS</small></span>${x.accept_blocked?`<span class="s suspended">⛔ ${t('aBlocked')}</span>`:`<button class="b o" onclick="run(TLB.setDriverBlocked('${x.id}',true))">${t('aBlock')}</button>`}</div>`}).join('')}<button class="b g" style="margin-top:10px" onclick="tab='d';D=null;E=null;DE=null;render()">${t('tD')} →</button></div>`}
-function render(){
+function render0(){
   const ae=document.activeElement,kid=ae&&/^(dq|sq|resn|cuq|tka|tkn|tkr|cur|supph|suphrs|ownem|cuwa|cuwn|cuph|cuphr|pgt_\w+)$/.test(ae.id)?ae.id:null,keep=kid?ae.value:null;
   const all=TLB.orders(),del=all.filter(o=>o.status=='delivered'),act=all.filter(o=>['pending','preparing','ready','pickedup'].includes(o.status));
   const body=D&&tab=='o'?vDetail():tab=='s'&&E?vStoreEdit():tab=='d'&&DE?vDrvEdit():tab=='b'&&BE?vBannerEdit():({o:vOrders,s:vStores,d:vDrivers,b:vBanners,c:vPromos,r:vRatings,l:vLog,h:vSupportA,u:vCustomers,g:vTexts}[tab])()+stampH();
@@ -450,4 +456,9 @@ function render(){
 ['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{lastAct=Date.now()},{passive:true}));
 setInterval(()=>{if(Date.now()-lastAct>30*60*1000){alert(t('aIdle'));TLB.logout()}},60000);
 TLB.start('admin',()=>{TLB.on(()=>{if(MAPO||RES&&document.activeElement&&document.activeElement.id=='resn')return;const a=document.activeElement;if(a&&/^(INPUT|SELECT)$/.test(a.tagName)&&$('app').contains(a)&&!/^(dq|sq|resn|cuq|tka|tkn|tkr|cur|supph|suphrs|ownem|cuwa|cuwn|cuph|cuphr|pgt_\w+)$/.test(a.id))return;render()});render()});
+
+function render(){const a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
+  render0();
+  if(ok){let e=id?document.getElementById(id):null;if(!e||e===a){const n=[...document.querySelectorAll('input,textarea')];e=n[ix]}if(e&&e!==a){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
+  window.scrollTo(0,y)}
 </script></body></html>

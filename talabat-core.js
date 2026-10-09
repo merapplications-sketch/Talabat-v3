@@ -26,20 +26,28 @@
     [].forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function (el) { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
   }
+  var CHIP = 'background:#1f2937;color:#fff;font:700 11px sans-serif;padding:5px 11px;border-radius:12px;cursor:pointer;margin:4px 0';
+  function chromeBar() {
+    var w = document.getElementById('tlb-bar');
+    if (!w) { w = document.createElement('div'); w.id = 'tlb-bar'; w.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 10px;position:relative;z-index:50'; document.body.insertBefore(w, document.body.firstChild); }
+    return w;
+  }
   function setLang(l) { lang = l; try { localStorage.setItem(LK, l); } catch (e) {} applyI18n(); var b = document.getElementById('tlb-lang'); if (b) b.textContent = l === 'ru' ? 'RU | en' : 'ru | EN'; fire(); }
   document.addEventListener('DOMContentLoaded', function () {
     var b = document.createElement('div'); b.id = 'tlb-lang';
-    b.style.cssText = 'position:fixed;top:3px;left:50%;transform:translateX(-50%);z-index:9999;background:#000a;color:#fff;font:700 10px sans-serif;padding:3px 9px;border-radius:10px;cursor:pointer';
+    b.style.cssText = CHIP;
     b.textContent = lang === 'ru' ? 'RU | en' : 'ru | EN';
     b.onclick = function () { setLang(lang === 'ru' ? 'en' : 'ru'); };
-    document.body.appendChild(b); applyI18n();
+    chromeBar().appendChild(b); applyI18n();
   });
 
 
   Object.assign(I.ru, { tagline: 'Доставка еды и продуктов', loadFail:'Не удалось загрузить данные',dbOldW:'База данных не обновлена: выполните последний SQL-патч в Supabase. Часть функций не работает.', offline:'Нет интернета — данные не обновляются', loading:'Загрузка…',bootT:'Не удалось загрузить приложение',bootS:'Проверьте интернет и нажмите «Обновить». Если не помогает — выйдите и войдите снова.',bootReload:'Обновить',bootSignout:'Выйти и войти заново',applyT:'Стать курьером',applyS:'Укажите ваш номер телефона. Администратор рассмотрит заявку и откроет вам доступ.',applyB:'Подать заявку',notLinked:'Ваш аккаунт ещё не привязан к ресторану. Сообщите администратору ваш email — он привяжет аккаунт к вашему ресторану.',authPwHint2:'Минимум 8 символов. Придумайте новый пароль для Talabat — не используйте пароль от почты.',authPhoneL:'Телефон (+992…)', authNameL:'Ваше имя',authBadEmail:'Введите корректный email, например name@mail.com',authNameShort:'Введите имя (минимум 2 буквы)',authPwShort:'Пароль слишком короткий: минимум 8 символов',authPwHint:'Минимум 8 символов',authWrong:'Неверный email или пароль',authExists:'Этот email уже зарегистрирован. Перейдите на вкладку «Вход».',authRate:'Слишком много попыток или писем. Подождите несколько минут и попробуйте снова.',authUnconf:'Email не подтверждён. Откройте письмо от нас и нажмите на ссылку.',authNoSignup:'Регистрация сейчас отключена.',authSentT:'Проверьте почту',authSentS:'Мы отправили ссылку для подтверждения на адрес:',authResend:'Отправить письмо ещё раз',authResent:'Письмо отправлено. Проверьте и папку «Спам».',authBack:'Войти',authWait:'Подождите минуту перед повторной отправкой.',authWaitB:'Подождите…', login: 'Войти', signup: 'Регистрация', password: 'Пароль', logout: 'Выйти', wrongRole: 'Этот аккаунт не подходит для этого приложения. Выйдите и войдите другим аккаунтом.',
+    authLock: 'Слишком много попыток. Подождите {s} сек.',
     pendingApp: 'Ваш аккаунт ожидает одобрения администратора.', signupOk: 'Аккаунт создан. Если нужно, подтвердите почту и войдите.', err_generic: 'Ошибка. Попробуйте ещё раз.', err_bad_value: 'Проверьте значения: проценты 0–100, цены не меньше 0, телефон и координаты корректные.', err_discount_over_max: 'Скидка выше допустимого максимума.', err_bad_banner: 'Проверьте баннер: дата окончания должна быть позже даты начала.', err_promo_invalid: 'Промокод не найден или не действует.', err_refund_too_high: 'Сумма возврата больше суммы заказа (с учётом уже возвращённого по нему).', err_refund_needs_order: 'Возврат возможен только по обращению, связанному с заказом.', err_wallet_changed: 'Баланс кошелька изменился. Проверьте сумму и подтвердите заказ ещё раз.', err_insufficient_funds: 'Недостаточно средств в кошельке.', err_already_refunded: 'Возврат по этому обращению уже зачислен.', err_phone_locked: 'Номер нельзя менять, пока есть активный заказ.', err_phone_cooldown: 'Номер можно менять не чаще одного раза в 30 дней. Обратитесь в поддержку.', err_account_blocked: 'Аккаунт приостановлен. Свяжитесь с поддержкой.', err_ticket_expired: 'Срок обращения по этому заказу (48 часов) истёк.', err_ticket_exists: 'По этому заказу уже есть открытое обращение.', err_ticket_closed: 'Обращение закрыто. Создайте новое, если проблема осталась.', err_not_found: 'Не найдено.',  err_fee_changed: 'Стоимость доставки изменилась. Проверьте сумму и подтвердите заказ ещё раз.', err_too_far: 'Адрес слишком далеко от ресторана. Выберите другой адрес или ресторан поближе.', err_phone_required: 'Укажите номер телефона (+992…) в профиле.', err_bad_phone: 'Введите номер Таджикистана: +992 и 9 цифр.', err_address_required: 'Добавьте адрес доставки на карте.', err_bad_options: 'Выбор опций изменился или недоступен. Откройте блюдо и выберите заново.', err_no_offer: 'Это предложение уже недоступно.', err_busy: 'У вас уже есть активный заказ.', err_already_rated: 'Вы уже оценили этот заказ.', err_closed_now: 'Ресторан сейчас закрыт.', err_too_many_orders: 'У вас уже 5 незавершённых заказов. Дождитесь доставки.', err_rating_fail: 'Не удалось получить рейтинг из Google. Проверьте Place ID и настройку функции.', err_promo_offer: 'Промокод нельзя применить, пока у магазина действует своя скидка.', err_promo_min: 'Сумма заказа меньше минимальной для этого промокода.', err_promo_used: 'Вы уже использовали этот промокод.', err_promo_limit: 'Промокод больше недоступен.', err_too_many: 'Слишком много попыток. Попробуйте через 10 минут.', err_bad_promo: 'Проверьте промокод: код 3–20 символов (латиница, цифры), значение больше 0, процент не больше 100.',
     err_not_approved: 'Аккаунт курьера не одобрен', err_not_allowed: 'Недостаточно прав', err_store_unavailable: 'Магазин недоступен', err_auth: 'Войдите в аккаунт', err_user_not_found: 'Пользователь не найден' });
   Object.assign(I.en, { tagline: 'Food and grocery delivery', loadFail:'Could not load the data',dbOldW:'The database is not up to date: run the latest SQL patch in Supabase. Some features do not work.', offline:'No internet — data is not updating', loading:'Loading…',bootT:'Could not load the app',bootS:'Check your internet and tap “Reload”. If it does not help, sign out and sign in again.',bootReload:'Reload',bootSignout:'Sign out and sign in again',applyT:'Become a courier',applyS:'Enter your phone number. The admin will review your request and open access for you.',applyB:'Apply',notLinked:'Your account is not linked to a restaurant yet. Send your email to the administrator — they will link the account to your restaurant.',authPwHint2:'At least 8 characters. Create a NEW password for Talabat — do not use your email password.',authPhoneL:'Phone (+992…)', authNameL:'Your name',authBadEmail:'Enter a valid email, e.g. name@mail.com',authNameShort:'Enter your name (at least 2 letters)',authPwShort:'Password is too short: at least 8 characters',authPwHint:'At least 8 characters',authWrong:'Wrong email or password',authExists:'This email is already registered. Switch to the “Sign in” tab.',authRate:'Too many attempts or emails. Wait a few minutes and try again.',authUnconf:'Email not confirmed. Open our email and tap the link.',authNoSignup:'Sign-up is currently disabled.',authSentT:'Check your email',authSentS:'We sent a confirmation link to:',authResend:'Send the email again',authResent:'Email sent. Please check your Spam folder too.',authBack:'Sign in',authWait:'Wait a minute before sending again.',authWaitB:'Please wait…', login: 'Sign in', signup: 'Sign up', password: 'Password', logout: 'Sign out', wrongRole: 'This account does not fit this app. Sign out and use another account.',
+    authLock: 'Too many attempts. Wait {s} s.',
     pendingApp: 'Your account is waiting for admin approval.', signupOk: 'Account created. If needed, confirm your email and sign in.', err_generic: 'Something went wrong. Try again.', err_bad_value: 'Check the values: percentages 0–100, prices not negative, valid phone and coordinates.', err_discount_over_max: 'The discount is above the allowed maximum.', err_bad_banner: 'Check the banner: the end date must be after the start date.', err_promo_invalid: 'Promo code not found or not active.', err_refund_too_high: 'The refund is more than the order was worth (counting what was already refunded on it).', err_refund_needs_order: 'A refund is possible only on a request linked to an order.', err_wallet_changed: 'The wallet balance has changed. Check the amount and confirm the order again.', err_insufficient_funds: 'Not enough funds in the wallet.', err_already_refunded: 'The refund for this request has already been credited.', err_phone_locked: 'You cannot change the number while you have an active order.', err_phone_cooldown: 'The number can be changed only once every 30 days. Contact support.', err_account_blocked: 'Your account is suspended. Please contact support.', err_ticket_expired: 'The 48-hour window for this order has passed.', err_ticket_exists: 'There is already an open request for this order.', err_ticket_closed: 'This request is closed. Create a new one if the problem remains.', err_not_found: 'Not found.',  err_fee_changed: 'The delivery fee has changed. Check the total and confirm the order again.', err_too_far: 'The address is too far from the restaurant. Choose another address or a closer restaurant.', err_phone_required: 'Add your phone number (+992…) in your profile.', err_bad_phone: 'Enter a Tajikistan number: +992 and 9 digits.', err_address_required: 'Add a delivery address on the map.', err_bad_options: 'The selected options changed or are unavailable. Open the dish and choose again.', err_no_offer: 'This offer is no longer available.', err_busy: 'You already have an active order.', err_already_rated: 'You have already rated this order.', err_closed_now: 'The restaurant is closed right now.', err_too_many_orders: 'You already have 5 unfinished orders. Please wait for delivery.', err_rating_fail: 'Could not get the rating from Google. Check the Place ID and the function setup.', err_promo_offer: 'Promo codes cannot be used while the store has its own discount.', err_promo_min: 'The order is below the minimum for this promo code.', err_promo_used: 'You have already used this promo code.', err_promo_limit: 'This promo code is no longer available.', err_too_many: 'Too many attempts. Try again in 10 minutes.', err_bad_promo: 'Check the promo: code 3–20 characters (letters, digits), value above 0, percent up to 100.',
     err_not_approved: 'Courier account is not approved', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
@@ -132,7 +140,7 @@
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
-  var VERSION = 'v29';
+  var VERSION = 'v30';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -581,6 +589,7 @@
     var busy = false;
     var go = function () {
       if (busy) return;
+      var wait = authWait(); if (wait > 0) return show(t('authLock').replace('{s}', wait));
       var email = $('tlb-em').value.trim().toLowerCase(), pw = $('tlb-pw').value, name = su ? $('tlb-nm').value.trim() : '', phone = su ? normPhone($('tlb-ph').value) : null;
       show('');
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return show(t('authBadEmail'));
@@ -592,7 +601,7 @@
       var req = su ? sb.auth.signUp({ email: email, password: pw, options: { data: { name: name.slice(0, 40), phone: phone } } }) : sb.auth.signInWithPassword({ email: email, password: pw });
       req.then(function (r) {
         busy = false;
-        if (r.error) { $('tlb-go').disabled = false; $('tlb-go').textContent = su ? t('signup') : t('login'); return show(authErr(r.error)); }
+        if (r.error) { authFail(); $('tlb-go').disabled = false; $('tlb-go').textContent = su ? t('signup') : t('login'); return show(authErr(r.error)); }
         if (!r.data || !r.data.session) { return showSignupDone(email); }
         enter(r.data.user);
       }, function () { busy = false; $('tlb-go').disabled = false; $('tlb-go').textContent = su ? t('signup') : t('login'); show(t('err_generic')); });
@@ -600,6 +609,9 @@
     $('tlb-go').onclick = go;
     ['tlb-em', 'tlb-pw', 'tlb-nm', 'tlb-ph'].forEach(function (id) { var e = $(id); if (e) e.onkeydown = function (ev) { if (ev.key === 'Enter') go(); }; });
   }
+  var AF = { n: 0, until: 0, t0: 0 };
+  function authFail() { var now = Date.now(); if (now - AF.t0 > 600000) { AF.n = 0; AF.t0 = now; } AF.n++; if (AF.n >= 5) { AF.until = now + Math.min(300000, 30000 * Math.pow(2, AF.n - 5)); } }
+  function authWait() { return Math.max(0, Math.ceil((AF.until - Date.now()) / 1000)); }
   function showApply() {
     overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0ea;color:#f1511b;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">🛵</div><b style="font-size:18px" data-i18n="applyT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="applyS"></p></div>' +
       '<input id="tlb-ap" type="tel" autocomplete="tel" inputmode="tel" maxlength="16" placeholder="+992…" ' + IN + '><div id="tlb-er" role="alert" style="color:#d92d20;font-size:13px;font-weight:600;min-height:18px;margin-bottom:8px"></div>' +
@@ -625,8 +637,8 @@
   function logoutBtn() {
     if (!$('tlb-out')) {
       var b = document.createElement('div'); b.id = 'tlb-out'; b.setAttribute('data-i18n', 'logout'); b.textContent = t('logout');
-      b.style.cssText = 'position:fixed;top:3px;right:6px;z-index:9999;background:#000a;color:#fff;font:700 10px sans-serif;padding:3px 9px;border-radius:10px;cursor:pointer';
-      b.onclick = logout; document.body.appendChild(b);
+      b.style.cssText = CHIP + ';margin-left:auto';
+      b.onclick = logout; chromeBar().appendChild(b);
     }
     applyChrome();
   }
