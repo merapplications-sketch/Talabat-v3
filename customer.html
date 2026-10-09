@@ -50,6 +50,7 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 .sr .th{width:92px;height:92px;border-radius:16px;overflow:hidden;background:#eceef0;flex-shrink:0;position:relative}.sr .th img{width:100%;height:100%;object-fit:cover}
 .sr .tx{flex:1;min-width:0;padding-right:30px}.sr .tx b{font-size:14px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sr .tx p{font-size:12px;color:var(--mut);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sr .tx .mi-s{margin-top:10px}.sr .hrt{box-shadow:none;background:none;width:30px;height:30px;top:10px;right:10px}
+.sr .tx b.nm{display:flex;align-items:center}.nm .nt{min-width:0;overflow:hidden;text-overflow:ellipsis}.nm .dis{flex:none}
 .dis{display:inline-block;background:var(--o);color:#fff;font-size:11px;font-weight:700;border-radius:7px;padding:2px 7px;margin-left:6px}
 /* carousels */
 .bns{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:16px 16px 0;scrollbar-width:none}.bns::-webkit-scrollbar,.bbs::-webkit-scrollbar{display:none}
@@ -172,7 +173,7 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=40"></script>
+<script src="talabat-core.js?v=41"></script>
 <script>
 TLB.addDict({home:'Главная',orders:'Заказы',fav:'Избранное',promoTab:'Акции',me:'Профиль',deliverTo:'Адрес доставки',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',
 noMenu:'Меню скоро появится',closed:'Закрыто',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',apple:'Apple Pay',place:'Оформить заказ',
@@ -220,7 +221,7 @@ apple:'<path d="M12 7c1-2 3-2.500 3-2.500S15 7 12 7zM8 9c2-1.500 4 .500 4 .500S1
 Object.assign(P,{x:'<path d="M6 6l12 12M18 6L6 18"/>',share:'<path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>',nav:'<path d="M3 11l18-8-8 18-2-8z"/>',store:'<path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v11H4z"/><path d="M9 20v-6h6v6"/>'});
 const ico=(n,s,f)=>`<svg class="i" viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
 const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],IC={rest:'🍔',grocery:'🛒',pharmacy:'💊',beauty:'💄',flowers:'💐',gifts:'🎁',shops:'🛍️',sweets:'🍰'};
-const PGV='customer-40';
+const PGV='customer-41';
 let STORES=[],ALLS=[],ME={name:'',phone:''};
 let S={useWallet:true,tmp:null,useTmp:false,rep:null,tkid:null,tmsg:'',tseen:'',sheetAddr:false,hereBusy:false,quoteErr:null,ro:null,deepDone:false,af:null,addrId:null,addrBack:'home',quote:null,fresh:null,sh:null,promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
 const syncStores=()=>{ALLS=TLB.stores().map(x=>({bid:x.brand_id||'',bn:x.branch_name||'',id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,disc:+x.discount_pct,cr:x.created_at||'',ffd:!!x.free_first_delivery,lg:x.logo_url||'',ad:x.address||'',ph:x.phone||'',la:x.lat==null?null:+x.lat,lo:x.lng==null?null:+x.lng,rt:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating:+x.rating)||0,rc:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating_count:+x.rating_count)||0}));;
@@ -406,7 +407,7 @@ const isFavS=s=>TLB.isFav(s.id);
 const heart=s=>`<button class="hrt" aria-label="${t('favs')}" onclick="event.stopPropagation();TLB.toggleFav('${s.id}')" style="color:${isFavS(s)?'#f1511b':'#1c1c21'}">${ico('heart',18,isFavS(s))}</button>`;
 const isNew=s=>s.cr&&Date.now()-Date.parse(s.cr)<30*864e5;
 const mini=s=>`<div class="mini ${TLB.isOpen(s.n)?'':'closed'}" onclick="openStore(${STORES.indexOf(s)})"><div class="mi-i">${pic(s.i)}${TLB.isOpen(s.n)?'':`<span class="cl-tag">${t('closed')}</span>`}${heart(s)}${s.disc>0?`<span class="tg">−${s.disc}%</span>`:''}${isNew(s)?`<span class="tg n">${t('newTag')}</span>`:''}</div><div class="mi-t"><b>${esc(s.n)}</b><div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span></div></div></div>`;
-const storeRow=(s,h)=>`<div class="sr ${TLB.isOpen(s.n)?'':'closed'}" onclick="openStore(${STORES.indexOf(s)})"><div class="th">${pic(s.i)}</div><div class="tx"><b>${esc(s.n)}${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p style="color:var(--o);font-weight:600">${esc(h.name)} — ${h.price} TJS</p>`:''}<div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span>${TLB.isOpen(s.n)?'':`<span class="or">${t('closed')}</span>`}</div></div>${heart(s)}</div>`;
+const storeRow=(s,h)=>`<div class="sr ${TLB.isOpen(s.n)?'':'closed'}" onclick="openStore(${STORES.indexOf(s)})"><div class="th">${pic(s.i)}</div><div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p style="color:var(--o);font-weight:600">${esc(h.name)} — ${h.price} TJS</p>`:''}<div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span>${TLB.isOpen(s.n)?'':`<span class="or">${t('closed')}</span>`}</div></div>${heart(s)}</div>`;
 const matches=(M,q)=>STORES.map(s=>({s,h:q&&(M[s.n]||[]).find(i=>i.name.toLowerCase().includes(q))})).filter(({s,h})=>!q||s.n.toLowerCase().includes(q)||s.d.toLowerCase().includes(q)||h);
 const topbar=(ti,su,bk,right)=>`<div class="top"><button class="ib" onclick="${bk}" aria-label="${t('back')}">${ico('back')}</button><div class="tt"><b>${ti}</b>${su?`<span>${su}</span>`:''}</div>${right||''}</div>`;
 const emptyV=(a,b,btn)=>`<div class="empty"><b>${a}</b>${b}${btn?`<div style="margin-top:18px">${btn}</div>`:''}</div>`;
