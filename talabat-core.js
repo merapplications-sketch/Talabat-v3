@@ -651,14 +651,25 @@
       logoutBtn();
       if (need === 'driver' && ME.role === 'customer') { bootHide(); return showApply(); }
       if (need === 'merchant' && ME.role === 'customer') { bootHide(); return blocked('notLinked'); }
-      if (ME.role !== need) { bootHide(); return blocked('wrongRole'); }
-      if (need === 'driver' && ME.driver_status !== 'approved') { bootHide(); return blocked('pendingApp'); }
-      var o = $('tlb-ov'); if (o) o.remove();
-      return refresh().then(function () {
-        try { subscribeRealtime(); } catch (e) { console.error(e); }
-        startScheduler();
-        bootHide();
-        onReady(me());
+      MYPERMS = need === 'admin' && ME.role === 'admin' ? ALL_PERMS.slice() : [];
+      var gate = Promise.resolve(ME.role === need);
+      /* staff: a normal account that a super admin added in staff_members; the server decides what it may do (my_perms) */
+      if (need === 'admin' && ME.role !== 'admin') {
+        gate = sb.rpc('my_perms').then(function (r) {
+          var p = r && !r.error && Array.isArray(r.data) ? r.data.filter(function (x) { return ALL_PERMS.indexOf(x) >= 0; }) : [];
+          MYPERMS = p; return p.length > 0;
+        }, function () { return false; });
+      }
+      return gate.then(function (ok) {
+        if (!ok) { bootHide(); return blocked('wrongRole'); }
+        if (need === 'driver' && ME.driver_status !== 'approved') { bootHide(); return blocked('pendingApp'); }
+        var o = $('tlb-ov'); if (o) o.remove();
+        return refresh().then(function () {
+          try { subscribeRealtime(); } catch (e) { console.error(e); }
+          startScheduler();
+          bootHide();
+          onReady(me());
+        });
       });
     }).catch(function (e) { console.error(e); bootFail(e); });
   }
@@ -1003,6 +1014,17 @@
     },
     setMyDiscount: function (storeN, pct) { var s = storeByName(storeN), v = +pct; if (!s || !isFinite(v) || v < 0 || v > 100) return Promise.resolve({ error: 'bad_value' }); return rpc('set_my_discount', { p_store: String(s.id), p_pct: v }, true); },
     updateMyStore: function (storeN, f) { var s = storeByName(storeN); if (!s) return Promise.resolve({ error: 'generic' }); return rpc('update_my_store', { p_store: s.id, p_description: f.description == null ? null : f.description, p_cover: f.cover || null, p_logo: f.logo || null }, true); },
+    perms: function () { return MYPERMS.slice(); },
+    isSuper: function () { return !!ME && ME.role === 'admin'; },
+    can: function (p) { return MYPERMS.indexOf(p) >= 0; },
+    staffList: function () { return sb.rpc('staff_list').then(function (r) { return r.error ? { error: errKey(r.error), rows: [] } : { rows: r.data || [] }; }); },
+    staffSet: function (email, perms, active) {
+      email = String(email || '').trim().toLowerCase();
+      var ok = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) && email.length <= 120 && Array.isArray(perms) && perms.every(function (x) { return ALL_PERMS.indexOf(x) >= 0; }) && (perms.length > 0 || active === false);
+      if (!ok) return Promise.resolve({ error: 'bad_value' });
+      return rpc('staff_set', { p_email: email, p_perms: perms, p_active: active !== false }, true);
+    },
+    staffRemove: function (id) { if (!/^[0-9a-f-]{36}$/i.test(String(id))) return Promise.resolve({ error: 'bad_value' }); return rpc('staff_remove', { p_user: id }, true); },
     assignOwner: function (id, email) { return rpc('assign_owner', { p_store: id, p_email: email }, true); },
     setDriverStatus: function (id, st) { return sb.from('profiles').update({ driver_status: st }).eq('id', id).then(done); },
     setMyPhone: function (p) { p = normPhone(p); if (!p) return Promise.resolve({ error: 'bad_phone' }); return rpc('set_my_phone', { p_phone: p }, true).then(function (r) { return r.error ? r : { ok: true, phone: p }; }); },
