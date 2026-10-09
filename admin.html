@@ -69,7 +69,7 @@ small{color:var(--mut)}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=43"></script>
+<script src="talabat-core.js?v=44"></script>
 <script>
 TLB.addDict({aNoStores:'Магазины не найдены'},{aNoStores:'No stores found'});
 TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
@@ -477,7 +477,7 @@ function srqCard(){const all=TLB.storeRequests(),pend=all.filter(q=>q.status=='p
   <div class="btns"><button class="b" onclick="srqDecide('${q.id}',true)">✓ ${t('xApprove')}</button><button class="b r" onclick="srqDecide('${q.id}',false)">${t('xReject')}</button></div></div>`};
   return `<div class="al amber"><div class="alh"><span>🏪 ${t('xSrqT')}</span><b>${pend.length}</b></div>${pend.length?pend.map(row).join(''):`<small>${t('xSrqNone')}</small>`}${done.length?`<div style="margin-top:8px">${done.map(q=>`<small style="display:block;margin-top:4px">${q.status=='approved'?'✅':'❌'} ${esc(q.name)}${q.admin_note?' — '+esc(q.admin_note):''}</small>`).join('')}</div>`:''}</div>`}
 async function srqDecide(id,ok){const r=await TLB.decideStoreRequest(id,ok,SRN[id]||'');if(r&&r.error){alert(t('err_'+r.error));return}delete SRN[id];if(ok)alert(t('xSrqOk'));render()}
-const stampH=()=>`<div class="xs" style="text-align:center;color:#8b8f98;margin:18px 0 6px">${t('verL')||'v'} ${esc(TLB.version||'')} · admin-43</div>`;
+const stampH=()=>`<div class="xs" style="text-align:center;color:#8b8f98;margin:18px 0 6px">${t('verL')||'v'} ${esc(TLB.version||'')} · admin-44</div>`;
 function pgVal(s,l){const k=s+'_'+l;if(PGE[k]!=null)return PGE[k];const p=TLB.pages()[s];return p?p[l]:''}
 function pgSet(s,l,v){PGE[s+'_'+l]=v}
 async function pgSave(){for(const s of ['about','privacy'])for(const l of ['ru','en']){const k=s+'_'+l;if(PGE[k]==null)continue;const r=await TLB.setPage(s,l,PGE[k]);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}}PGE={};alert(t('xTxOk'));render()}
@@ -505,8 +505,8 @@ function render0(){if(!tabOk(tab)){const k=TABS.find(x=>tabOk(x[0]));if(k)tab=k[
   const tkBar=tkN0>0&&tab!='h'?`<button class="b" style="position:sticky;top:6px;z-index:30;width:100%;margin-bottom:10px;padding:12px;background:#d92d20;box-shadow:0 4px 14px #d92d2055" onclick="tab='h';TK.sel=null;D=null;E=null;DE=null;BE=null;render();scrollTo(0,0)">💬 ${t('aTkWait').replace('{n}',tkN0)}</button>`:'';
   const kp=(ic,v,l)=>`<div class="k"><i>${ic}</i><b>${v}</b><span>${l}</span></div>`;
   const tkN=TLB.adminTickets().filter(needsReply).length,srN=TLB.storeRequests().filter(q=>q.status=='pending').length,badge=x=>x=='d'&&ovN?`<em>${ovN}</em>`:x=='r'&&lowN?`<em>${lowN}</em>`:x=='h'&&tkN?`<em>${tkN}</em>`:x=='s'&&srN?`<em>${srN}</em>`:'';
-  $('app').innerHTML=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div><div class="tps">${t('aNote')} · ${esc(TLB.version||'')}</div></div></div>${livePills()}</div>
-  ${tkBar}${alerts()}<div class="grid">${kp('📦',all.length,t('aKOrd'))}${kp('💰',del.reduce((s,o)=>s+o.total,0)+' TJS',t('aKRev'))}${kp('%',del.reduce((s,o)=>s+o.commission,0).toFixed(1)+' TJS',t('aKCom'))}${kp('⏱',act.length,t('aKAct'))}</div>
+  $('app').innerHTML=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div></div></div>${livePills()}</div>
+  ${tkBar}${alerts()}${tab=='o'&&!D?`<div class="grid">${kp('📦',all.length,t('aKOrd'))}${kp('💰',del.reduce((s,o)=>s+o.total,0)+' TJS',t('aKRev'))}${kp('%',del.reduce((s,o)=>s+o.commission,0).toFixed(1)+' TJS',t('aKCom'))}${kp('⏱',act.length,t('aKAct'))}</div>`:''}
   <div class="tabs">${TABS.filter(x=>tabOk(x[0])).map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;E=null;DE=null;BE=null;pgN=50;TK.sel=null;CU.sel=null;if(tab=='l'){AUD=null;ERR=null}if(tab=='f')STF.list=null;if(tab=='u'&&!CU.loaded)cuLoad(true);if(tab=='g'){PGE={};TLB.loadPages(true)}render()">${t(x[1])}${badge(x[0])}</button>`).join('')}</div>`+body+assignModal()+mapModal()+resModal();
   if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}}
 ['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{lastAct=Date.now()},{passive:true}));
