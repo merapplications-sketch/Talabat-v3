@@ -711,6 +711,7 @@
       sb.auth.getSession().then(function (x) { if (x.data.session) return enter(x.data.session.user); bootHide(); showLogin(); })
         .catch(function (e) { console.error(e); bootFail(e); });
     },
+    reload: function () { return refresh(); },
     me: me, logout: logout, toast: toast, beep: beep, ring: ring, audioReady: audioOk, unlockAudio: unlockNow, testSound: function () { unlockNow(); ringBeep(); }, fmtMsg: fmtMsg, pickLocation: pickLocation,
     chrome: function (on) { chromeOn = !!on; applyChrome(); },
     isCash: function (o) { return /^(cash|Cash|Наличн)/.test((o && o.payment) || ''); },
@@ -999,7 +1000,7 @@
       if (!items) return Promise.resolve({ error: 'bad_value' });
       if (o.wallet != null && (isNaN(num(o.wallet)) || num(o.wallet) < 0 || num(o.wallet) > 1000000)) return Promise.resolve({ error: 'bad_value' });
       if (o.lat != null && (!(num(o.lat) >= -90 && num(o.lat) <= 90) || !(num(o.lng) >= -180 && num(o.lng) <= 180))) return Promise.resolve({ error: 'bad_value' });
-      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100 })
+      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_key: (o.key && /^[A-Za-z0-9_-]{8,64}$/.test(o.key)) ? o.key : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100 })
         .then(function (r) { return r.error ? r : { id: r.data }; });
     },
     checkPromo: function (storeN, cart, code) {
