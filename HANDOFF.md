@@ -1,4 +1,4 @@
-# Talabat v3 — hand-off for a new conversation (state at v44)
+# Talabat v3 — hand-off for a new conversation (state at v45)
 
 ## Who / how to work
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
@@ -11,16 +11,16 @@
 - Each app has its own auth storage key; wrong-app accounts get a "wrong app" screen with a link.
 
 ## Branch state
-- `main` = v43 (PR #13 DoD audit merged by the owner).
-- Newest: `feature/e2e-ux-v44` (v44, on top of main): https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/e2e-ux-v44 — end-to-end flow test, single-scroll restaurant page, merchant bottom nav, clean-up; see CHANGES-v44.md. No SQL.
+- `main` = v44 (PR #14 merged by the owner).
+- Newest: `fix/promo-ratelimit-v45` (v45): https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/promo-ratelimit-v45 — security fix, NEEDS `sql/schema_patch28.sql` run in Supabase; see CHANGES-v45.md.
 - OWNER DECISION: the restaurant page has NO tabs (no top/horizontal section tabs). One vertical scroll with section titles. Do not add tabs back.
 - The owner sent a mandatory "Definition of Done" protocol (v43): every batch = self-QA at 360/390/430 online+offline, one design system (buttons/cards/headers/empty states), compact modern call/map buttons, no raw keys/overlaps, batch delivery with a report table. Follow it.
 - v41 included: staff RBAC (patch 26), multi-branch restaurants (patch 27), overflow clip (v37), dish sheet scroll/validation fix (v38), driver header pill fix + full-width offline strip (v40), QA harness + fixes for branch sync button and hidden discount badge (v41).
 - `feature/rest-tabs-v39` is OBSOLETE (Info tab removed).
 
 ## SQL (run in Supabase SQL Editor, in order)
-- `sql/schema_patch26.sql` then `sql/schema_patch27.sql` (owner said he ran both). Tests on a local replica: `sql/test_patch27.sql` (67/67). Earlier patches 17-25 assumed applied.
-- Security page: `security-check.html?v=41` — owner has NOT yet reported its result; ask for the summary line ("OK: n passed" / "PROBLEM").
+- `sql/schema_patch26.sql` then `sql/schema_patch27.sql` (owner said he ran both), then `sql/schema_patch28.sql` (v45, promo guessing limit; wraps the existing check_promo as check_promo_base). `sql/test_patch28.sql` runs on an EMPTY local PostgreSQL (self-contained, 15/15). Tests on a local replica: `sql/test_patch27.sql` (67/67). Earlier patches 17-25 assumed applied.
+- Security page: owner reported (v44) one FAIL: promo guessing not rate-limited → fixed by patch 28; ask him to re-run `security-check.html?v=45` after running the patch (wait 10 min between runs: the test blocks its own account).
 
 ## Test tools (python3 + playwright; run from repo root)
 - `tools/qa_all.py` (~6 min, run in background: every screen x 360/390/430 x online/offline; must print `QA ISSUES 0`; also runs an empty-data pass; env QA_APPS=driver QA_W=390 narrows, QA_NOEMPTY=1 skips the empty pass).
