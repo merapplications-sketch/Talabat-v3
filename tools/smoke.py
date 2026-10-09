@@ -26,7 +26,7 @@ MOCK="""
    removeChannel:function(){},storage:{from:function(){return {upload:function(){return Promise.resolve({})},getPublicUrl:function(){return {data:{publicUrl:''}}}}}}};}};
 })();
 """
-pages=[('admin','admin',None),('merchant','merchant',None),('driver','driver',None),('customer','customer',None),('admin','customer',['support']),('admin','customer',['finance','content'])]
+pages=[('admin','admin',None),('merchant','merchant',None),('driver','driver',None),('customer','customer',None),('admin','customer',['support']),('admin','customer',['finance','content']),('customer','admin',None),('admin','merchant',None),('driver','admin',None)]
 with sync_playwright() as p:
     b=p.chromium.launch();bad=0
     for name,role,perms in pages:
@@ -50,6 +50,8 @@ with sync_playwright() as p:
             try:
                 pg.locator(sel).nth(i).click(timeout=1500);pg.wait_for_timeout(300);scan('tab%d'%i)
             except Exception as e: pass
+        link=pg.evaluate("(document.getElementById('tlb-go-app')||{}).href||''")
+        if link: print('   wrong-app screen ->',link.split('/')[-1],'|',pg.evaluate("document.getElementById('tlb-ov').innerText.replace(/\\n/g,' / ')")[:170])
         print(name,role,perms,'tabs',n,[x.strip() for x in pg.locator(sel).all_inner_texts()] if perms else '', 'suspicious',sorted(seen)[:12])
         txt=pg.evaluate("document.body.innerText.length")
         print(name,'textlen',txt,'errors',errs[:4]);bad+=len(errs)
