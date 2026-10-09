@@ -56,6 +56,8 @@
     err_not_approved: 'Courier account is not approved', err_name_taken: 'This name is already taken', err_no_template: 'Attach at least one restaurant to the brand first', err_not_allowed: 'Not allowed', err_store_unavailable: 'Store unavailable', err_auth: 'Please sign in', err_user_not_found: 'User not found' });
 
   /* ---------- Extra dictionary ---------- */
+  Object.assign(I.ru, { rs_not_delivered: 'Заказ не доставлен', rs_wrong_order: 'Привезли не тот заказ', rs_missing_items: 'Не хватает блюд', rs_quality: 'Качество еды', rs_late: 'Заказ сильно опоздал', rs_courier: 'Проблема с курьером', rs_restaurant: 'Проблема с рестораном', rs_payment: 'Оплата или возврат', rs_other: 'Другое' });
+  Object.assign(I.en, { rs_not_delivered: 'Order not delivered', rs_wrong_order: 'Wrong order delivered', rs_missing_items: 'Missing items', rs_quality: 'Food quality', rs_late: 'Order very late', rs_courier: 'Problem with the courier', rs_restaurant: 'Problem with the restaurant', rs_payment: 'Payment or refund', rs_other: 'Other' });
   Object.assign(I.ru, { saved: 'Сохранено ✓', apple: 'Apple Pay', card: 'Карта Alif', cash: 'Наличными', openMap: 'Открыть на карте', locTitle: 'Отправить местоположение',
     locHint:'Двигайте карту: метка в центре показывает точку доставки.',locDenied:'Доступ к геопозиции запрещён. Включите его для Safari в настройках iPhone.',locFail:'Не удалось определить местоположение. Выйдите на открытое место.',locNA:'Это устройство не поддерживает геолокацию.', locSend: 'Отправить это место', mapFail: 'Не удалось загрузить карту', chatClosed: 'Чат закрыт',
     err_blocked: 'Приём заказов остановлен администратором', err_cash_required: 'Укажите полученную сумму', err_note_required: 'Укажите причину, если сумма отличается' });
@@ -145,7 +147,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'v41';
+  var VERSION = 'v43';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
