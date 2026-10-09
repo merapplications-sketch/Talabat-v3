@@ -120,6 +120,7 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 .oshh{position:relative;height:170px;background:linear-gradient(135deg,#f1511b,#ff8a4c);border-radius:26px 26px 0 0;overflow:hidden}.oshh img{width:100%;height:100%;object-fit:cover}
 .og{padding:16px 0 6px;border-bottom:1px solid var(--line)}.og:last-child{border:0}.ogt{font-size:11px;color:var(--mut);font-weight:600}.ogt.rq{color:var(--o)}
 .oo{display:flex;align-items:center;gap:12px;padding:13px 0;font-size:13px}.oo.dis{opacity:.4}.chk{width:24px;height:24px;border-radius:7px;border:2px solid #cfd1d6;flex-shrink:0;display:flex;align-items:center;justify-content:center}.chk.on{background:var(--o);border-color:var(--o)}.chk.on:after{content:"✓";color:#fff;font-size:13px;font-weight:700}
+.shopen,.shopen body{overflow:hidden}.osh{overscroll-behavior:contain}.og.miss{background:#fff4f1;border-radius:12px;padding-left:10px;padding-right:10px;animation:mshake .35s}.btn.soft{background:#c9ccd3}@keyframes mshake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .oshf{position:sticky;bottom:0;background:#fff;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;align-items:center;box-shadow:0 -6px 20px #0000000d;margin-top:8px}.oshf .qty{height:46px}.oshf .qty button{height:46px;width:40px}
 .nt2{font-size:11px;color:var(--mut)}
 .card.rated{background:#fff}
@@ -171,7 +172,7 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=36"></script>
+<script src="talabat-core.js?v=38"></script>
 <script>
 TLB.addDict({home:'Главная',orders:'Заказы',fav:'Избранное',promoTab:'Акции',me:'Профиль',deliverTo:'Адрес доставки',rest:'Рестораны',grocery:'Продукты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Сладости',
 noMenu:'Меню скоро появится',closed:'Закрыто',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',apple:'Apple Pay',place:'Оформить заказ',
@@ -219,7 +220,7 @@ apple:'<path d="M12 7c1-2 3-2.500 3-2.500S15 7 12 7zM8 9c2-1.500 4 .500 4 .500S1
 Object.assign(P,{x:'<path d="M6 6l12 12M18 6L6 18"/>',share:'<path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>',nav:'<path d="M3 11l18-8-8 18-2-8z"/>',store:'<path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v11H4z"/><path d="M9 20v-6h6v6"/>'});
 const ico=(n,s,f)=>`<svg class="i" viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
 const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'],IC={rest:'🍔',grocery:'🛒',pharmacy:'💊',beauty:'💄',flowers:'💐',gifts:'🎁',shops:'🛍️',sweets:'🍰'};
-const PGV='customer-36';
+const PGV='customer-38';
 let STORES=[],ALLS=[],ME={name:'',phone:''};
 let S={useWallet:true,tmp:null,useTmp:false,rep:null,tkid:null,tmsg:'',tseen:'',sheetAddr:false,hereBusy:false,quoteErr:null,ro:null,deepDone:false,af:null,addrId:null,addrBack:'home',quote:null,fresh:null,sh:null,promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
 const syncStores=()=>{ALLS=TLB.stores().map(x=>({bid:x.brand_id||'',bn:x.branch_name||'',id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,disc:+x.discount_pct,cr:x.created_at||'',ffd:!!x.free_first_delivery,lg:x.logo_url||'',ad:x.address||'',ph:x.phone||'',la:x.lat==null?null:+x.lat,lo:x.lng==null?null:+x.lng,rt:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating:+x.rating)||0,rc:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating_count:+x.rating_count)||0}));;
@@ -347,19 +348,19 @@ function closedNow(n){return !TLB.isOpen(n)}
 function ensureStore(){if(Object.keys(S.cart).length&&S.cartStore!==S.store){if(!confirm(t('clear_cart')))return false;S.cart={};S.promo=null;S.perr='';S.pm=null}S.cartStore=S.store;return true}
 function addFrom(id){if(closedNow(S.store)){alert(t('closedMsg'));return}const it=menuOf(S.store).find(x=>x.id==id);if(it&&it.optsBlocked)return;if(it&&it.hasOpts){openItem(id);return}if(!ensureStore())return;add(id,1)}
 /* ---------- item sheet (choose size / drink / extras) ---------- */
-function openItem(id){const st=S.v=='cart'?S.cartStore:S.store;if(closedNow(st)){alert(t('closedMsg'));return}S.store=st;S.sh={id,sel:{},q:1};render()}
+function openItem(id){const st=S.v=='cart'?S.cartStore:S.store;if(closedNow(st)){alert(t('closedMsg'));return}S.store=st;S.sh={id,sel:{},q:1,keep:false};render();S.sh&&(S.sh.keep=true)}
 function shClose(){S.sh=null;render()}
-function shPick(gid,oid,max){const sel=S.sh.sel[gid]||(S.sh.sel[gid]=[]),p=sel.indexOf(oid);if(max==1)S.sh.sel[gid]=p>=0?[]:[oid];else{if(p>=0)sel.splice(p,1);else if(sel.length<max)sel.push(oid)}render()}
+function shPick(gid,oid,max){S.sh.miss='';const sel=S.sh.sel[gid]||(S.sh.sel[gid]=[]),p=sel.indexOf(oid);if(max==1)S.sh.sel[gid]=p>=0?[]:[oid];else{if(p>=0)sel.splice(p,1);else if(sel.length<max)sel.push(oid)}render()}
 function shQ(d){S.sh.q=Math.max(1,Math.min(50,S.sh.q+d));render()}
 const shOps=()=>Object.values(S.sh.sel).flat();
 const shOk=()=>{const gs=TLB.optionsOf(S.sh.id);return gs.every(g=>{const n=(S.sh.sel[g.id]||[]).length;return n<=g.max&&(!g.required||n>=1)})};
-function shAdd(){if(!S.sh||!shOk()){alert(t('needChoose'));return}if(closedNow(S.store)){alert(t('closedMsg'));return}if(!ensureStore())return;const key=lk(S.sh.id,shOps());S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.sh=null;afterCart()}
+function shAdd(){if(!S.sh)return;if(!shOk()){const g=TLB.optionsOf(S.sh.id).find(g=>{const n=(S.sh.sel[g.id]||[]).length;return n>g.max||(g.required&&n<1)});if(g){S.sh.miss=g.id;render();const e=$('og-'+g.id);if(e)e.scrollIntoView({block:'center',behavior:'smooth'})}return}if(closedNow(S.store)){alert(t('closedMsg'));return}if(!ensureStore())return;const key=lk(S.sh.id,shOps());S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.sh=null;afterCart()}
 function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S.sh.id);if(!it){S.sh=null;return ''}const gs=TLB.optionsOf(it.id),sd=sdOf(S.store),ops=shOps(),base=baseOf(it,ops),u=unit(it,sd,base),ok=shOk(),e=eff(it,sd);
   return `<div class="sheet" onclick="shClose()"><div class="osh" onclick="event.stopPropagation()">
   <div class="oshh">${it.image?`<img src="${esc(it.image)}" alt="">`:''}<button class="ib" style="position:absolute;right:12px;top:12px" aria-label="${t('back')}" onclick="shClose()">${ico('back',18)}</button></div>
   <div style="padding:16px 18px 0"><h2 style="font-size:18px">${esc(it.name)}</h2><div style="margin-top:4px">${pxH(it,sd,1,base)}</div></div>
-  <div style="padding:6px 18px">${gs.map(g=>{const sel=S.sh.sel[g.id]||[];return `<div class="og"><div class="row"><b>${esc(g.name)}</b><span class="ogt ${g.required?'rq':''}">${g.required?t('optReq'):''}${g.max>1?(g.required?' · ':'')+t('optUpTo').replace('{n}',g.max):(g.required?'':t('optPick'))}</span></div>${g.options.map(o=>{const on=sel.includes(o.id),dis=!on&&g.max>1&&sel.length>=g.max;return `<div class="oo ${dis?'dis':''}" onclick="${dis?'':`shPick('${g.id}','${o.id}',${g.max})`}"><span class="${g.max==1?'rad':'chk'} ${on?'on':''}"></span><span style="flex:1">${esc(o.name)}</span>${o.price>0?`<span class="xs mut">+${o.price} TJS</span>`:''}</div>`}).join('')}</div>`}).join('')}</div>
-  <div class="oshf"><div class="qty" style="box-shadow:none"><button aria-label="−" onclick="shQ(-1)">${ico('minus',14)}</button><span>${S.sh.q}</span><button aria-label="+" onclick="shQ(1)">${ico('plus',14)}</button></div><button class="btn" style="flex:1" ${ok?'':'disabled'} onclick="shAdd()">${ok?t('addToCart'):t('needChoose')} · ${Math.round(u*S.sh.q*100)/100} TJS</button></div></div></div>`}
+  <div style="padding:6px 18px">${gs.map(g=>{const sel=S.sh.sel[g.id]||[];return `<div class="og ${S.sh.miss==g.id?'miss':''}" id="og-${g.id}"><div class="row"><b>${esc(g.name)}</b><span class="ogt ${g.required?'rq':''}">${g.max>1?sel.length+'/'+g.max+' · ':''}${g.required?t('optReq'):''}${g.max>1?(g.required?' · ':'')+t('optUpTo').replace('{n}',g.max):(g.required?'':t('optPick'))}</span></div>${g.options.map(o=>{const on=sel.includes(o.id),dis=!on&&g.max>1&&sel.length>=g.max;return `<div class="oo ${dis?'dis':''}" onclick="${dis?'':`shPick('${g.id}','${o.id}',${g.max})`}"><span class="${g.max==1?'rad':'chk'} ${on?'on':''}"></span><span style="flex:1">${esc(o.name)}</span>${o.price>0?`<span class="xs mut">+${o.price} TJS</span>`:''}</div>`}).join('')}</div>`}).join('')}</div>
+  <div class="oshf"><div class="qty" style="box-shadow:none"><button aria-label="−" onclick="shQ(-1)">${ico('minus',14)}</button><span>${S.sh.q}</span><button aria-label="+" onclick="shQ(1)">${ico('plus',14)}</button></div><button class="btn ${ok?'':'soft'}" style="flex:1" onclick="shAdd()">${ok?t('addToCart'):t('needChoose')} · ${Math.round(u*S.sh.q*100)/100} TJS</button></div></div></div>`}
 const cartLines=()=>Object.keys(S.cart).map(k=>{const p=pk(k);return{item_id:p.id,qty:S.cart[k],options:p.ops}});
 async function applyPromo(){const code=(($('pc')||{}).value||'').trim();if(!code)return;S.pcode=code;const r=await TLB.checkPromo(S.cartStore,cartLines(),code);
   if(r.error){S.promo=null;S.perr=r.error;S.pm=r.error=='promo_min'?{min:r.min,have:r.have}:null}else{S.promo={code:code.toUpperCase(),d:r.discount};S.perr='';S.pm=null}render()}
@@ -666,7 +667,9 @@ function render(){
   const on=k=>S.v==k||(k=='home'&&['cat','menu'].includes(S.v))||(k=='orders'&&S.v=='track')||(k=='me'&&['support','settings','about','privacy'].includes(S.v))||(k=='promo'&&S.v=='offer');
   const navH=full?'':`<div class="nav">${nav.map(k=>`<div class="${on(k)?'on':''}" onclick="${k=='home'?"S.q='';":''}go('${k}')">${ico(ni[k],24)}${t(k=='promo'?'promoTab':k)}${k=='orders'&&un?`<span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
   const a=document.activeElement,kid=a&&['ci','sq','cq','ph','pc','mq','nt','rc','afs','afh','afe','aff','afa','afn','rpm','tkm','tmpn'].includes(a.id)?a.id:null,keep=kid?a.value:null;
+  const _o=document.querySelector('.osh'),_ost=_o?_o.scrollTop:0,_osw=!!_o;
   $('app').innerHTML=V+bar+navH+addrSheet()+roSheet()+repSheet();
+  const _n=document.querySelector('.osh');if(_n&&_osw&&S.sh&&S.sh.keep)_n.scrollTop=_ost;document.documentElement.classList.toggle('shopen',!!S.sh);
   if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();e.setSelectionRange(keep.length,keep.length)}
   const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();menuAfter();
   if(document.body&&document.body.style)document.body.style.paddingBottom=full?'0px':bar?'calc(150px + env(safe-area-inset-bottom,0px))':'calc(84px + env(safe-area-inset-bottom,0px))'}

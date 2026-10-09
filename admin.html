@@ -69,7 +69,7 @@ small{color:var(--mut)}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=36"></script>
+<script src="talabat-core.js?v=38"></script>
 <script>
 TLB.addDict({aT:'Панель администратора',aOrd:'Заказов',aRev:'Оборот (доставлено)',aComm:'Комиссия платформы',aAct:'В работе',aAll:'Все',aNo:'Заказов нет',aItems:'позиций',tO:'Заказы',tS:'Магазины',tD:'Курьеры',tB:'Баннеры',
 aAdd:'Добавить магазин',aName:'Название',aDesc:'Описание',aCom:'Комиссия, %',aFeeT:'Тип доставки',aFix:'Фиксированная',aDist:'По расстоянию',aFree:'Бесплатная',aFeeB:'Базовая цена доставки',aKm:'Цена за км (после 3 км)',aDis:'Скидка магазина, %',aSave:'Создать магазин',aFill:'Введите название',
@@ -470,7 +470,7 @@ function srqCard(){const all=TLB.storeRequests(),pend=all.filter(q=>q.status=='p
   <div class="btns"><button class="b" onclick="srqDecide('${q.id}',true)">✓ ${t('xApprove')}</button><button class="b r" onclick="srqDecide('${q.id}',false)">${t('xReject')}</button></div></div>`};
   return `<div class="al amber"><div class="alh"><span>🏪 ${t('xSrqT')}</span><b>${pend.length}</b></div>${pend.length?pend.map(row).join(''):`<small>${t('xSrqNone')}</small>`}${done.length?`<div style="margin-top:8px">${done.map(q=>`<small style="display:block;margin-top:4px">${q.status=='approved'?'✅':'❌'} ${esc(q.name)}${q.admin_note?' — '+esc(q.admin_note):''}</small>`).join('')}</div>`:''}</div>`}
 async function srqDecide(id,ok){const r=await TLB.decideStoreRequest(id,ok,SRN[id]||'');if(r&&r.error){alert(t('err_'+r.error));return}delete SRN[id];if(ok)alert(t('xSrqOk'));render()}
-const stampH=()=>`<div class="xs" style="text-align:center;color:#8b8f98;margin:18px 0 6px">${t('verL')||'v'} ${esc(TLB.version||'')} · admin-36</div>`;
+const stampH=()=>`<div class="xs" style="text-align:center;color:#8b8f98;margin:18px 0 6px">${t('verL')||'v'} ${esc(TLB.version||'')} · admin-38</div>`;
 function pgVal(s,l){const k=s+'_'+l;if(PGE[k]!=null)return PGE[k];const p=TLB.pages()[s];return p?p[l]:''}
 function pgSet(s,l,v){PGE[s+'_'+l]=v}
 async function pgSave(){for(const s of ['about','privacy'])for(const l of ['ru','en']){const k=s+'_'+l;if(PGE[k]==null)continue;const r=await TLB.setPage(s,l,PGE[k]);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}}PGE={};alert(t('xTxOk'));render()}
