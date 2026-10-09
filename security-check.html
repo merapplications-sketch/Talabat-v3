@@ -14,14 +14,14 @@ button{border:0;border-radius:999px;background:#f1511b;color:#fff;font:700 15px 
 .r b{display:block;font-size:14px}.r span{font-size:12px;color:#8b8f98;word-break:break-word}
 .sum{font-size:17px;font-weight:700;margin-bottom:6px}
 </style></head><body><div class="w">
-<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-32 · patch 25 checks · failed checks listed at the top</div>
+<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-33 · patch 26 checks · failed checks listed at the top</div>
 <p>Tries to do things a normal customer must NOT be able to do. Nothing here should succeed.
 Open the customer app in this browser, sign in with a <b>throwaway test account</b>, then come back to this page and tap the button.</p>
 <div class="card"><button id="go">Run the check</button></div>
 <div class="card" id="sumc" style="display:none"><div class="sum" id="sum"></div><div id="who" style="font-size:12px;color:#8b8f98"></div></div>
 <div class="card" id="out" style="display:none"></div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script>
 var URL_='https://dzydscryrnahnneydnry.supabase.co',KEY='sb_publishable_zQKbsSffub7O-f87vsXAaQ_GHFnSOQz';
 var $=function(i){return document.getElementById(i)},out=$('out'),counts={PASS:0,FAIL:0,WARN:0,SKIP:0},failList=[];
@@ -254,6 +254,16 @@ async function run(){
   await expectBlocked('A customer cannot edit the About / Privacy text directly',c.from('app_pages').update({body_ru:'hacked'}).eq('slug','about').select());
   await expectBlocked('A customer cannot add a page',c.from('app_pages').insert({slug:'about',body_ru:'x'}).select());
   await expectError('A customer cannot change the page text through the admin function',c.rpc('set_page',{p_slug:'about',p_lang:'ru',p_body:'hacked'}));
+  /* ---------- patch 26: staff roles ---------- */
+  var mp=await c.rpc('my_perms');
+  if(mp.error)row('WARN','my_perms is missing',msg(mp)+' (run patch26 first)');else if(mp.data===null||(Array.isArray(mp.data)&&mp.data.length===0))row('PASS','A normal customer has NO staff permissions','none');else row('FAIL','A normal customer shows staff permissions','this must be fixed: '+JSON.stringify(mp.data));
+  await expectError('A customer cannot add staff',c.rpc('staff_set',{p_email:'x@example.com',p_perms:['orders'],p_active:true}));
+  await expectError('A customer cannot remove staff',c.rpc('staff_remove',{p_user:u.id}));
+  await expectBlocked('A customer cannot write the staff table',c.from('staff_members').insert({user_id:u.id,perms:['orders','support','finance','stores','content']}).select());
+  var sl=await c.rpc('staff_list');
+  if(sl.error||!sl.data||sl.data.length===0)row('PASS','staff_list (admin only) returns nothing to a customer','empty');else row('FAIL','A customer can read the staff list','this must be fixed');
+  var hp=await c.rpc('has_perm',{p:'support'});
+  if(hp.error||hp.data===false||hp.data===null)row('PASS','has_perm is false for a customer','false');else row('FAIL','has_perm says a customer has the support permission','this must be fixed');
   fin(u)}
 function fin(u){$('sumc').style.display='block';$('go').disabled=false;
   $('sum').textContent=counts.FAIL?('PROBLEM: '+counts.FAIL+' check(s) FAILED'):('OK: '+counts.PASS+' passed'+(counts.WARN?(', '+counts.WARN+' warning(s)'):''));
