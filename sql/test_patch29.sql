@@ -61,6 +61,8 @@ insert into menu_items values ('10000000-0000-0000-0000-000000000001', '50000000
 \i sql/schema_patch29.sql
 \i sql/schema_patch29.sql
 \i sql/schema_patch30.sql
+\i sql/schema_patch31.sql
+\i sql/schema_patch31.sql
 
 -- ---------- helpers ----------
 create table res(n serial, ok boolean, label text, got text);
@@ -145,10 +147,10 @@ select chk('Sun 01:30 with Night switched off: 0%', happy_hour_pct('50000000-000
 -- 8) order during a happy hour: every dish gets the best %, the extra is paid by the platform
 insert into happy_hours(title, start_time, end_time, discount_pct) values ('Now', '00:00', '23:59:59', 25);
 select po(:B, :K, :PL) as o3 \gset
-select chk('happy hour order: discount 2 (restaurant) + 28 extra (platform), total 100',
-  (select discount = 2 and hh_discount = 28 and hh_pct = 25 and total = 100 from orders where id = :'o3'::bigint),
+select chk('happy hour order: discount 30 (of it 28 from the happy hour), total 100',
+  (select discount = 30 and hh_discount = 28 and hh_pct = 25 and total = 100 from orders where id = :'o3'::bigint),
   (select format('disc %s hh %s pct %s total %s', discount, hh_discount, hh_pct, total) from orders where id = :'o3'::bigint));
-select chk('restaurant commission unchanged during the happy hour', (select commission = 11.8 from orders where id = :'o3'::bigint));
+select chk('restaurant pays the happy hour: commission on 90 TJS = 9.00', (select commission = 9.0 from orders where id = :'o3'::bigint), (select commission::text from orders where id = :'o3'::bigint));
 select chk('promo code refused during a happy hour (and not counted as a guess)',
   q(:B, $$select check_promo('GOOD', '50000000-0000-0000-0000-000000000001', '[]')->>'error'$$) = 'promo_offer'
   and (select count(*) from promo_guess where user_id = 'c0000000-0000-0000-0000-000000000002' and bad) = 0);
