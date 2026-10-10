@@ -12,9 +12,11 @@
   /* ---------- i18n RU / EN ---------- */
   var I = {
     ru: { pending: 'Ожидание подтверждения', preparing: 'Готовится', ready: 'Готов к выдаче курьеру', pickedup: 'Курьер в пути', delivered: 'Доставлено', rejected: 'Отклонён рестораном', cancelled: 'Отменён',
+      err_photo_upload: 'Не удалось загрузить фото. Проверьте интернет и попробуйте ещё раз.', err_photo_required: 'Сфотографируйте заказ у двери — без фото доставку не закрыть', err_note_required: 'Добавьте пояснение', cr_out_of_stock: 'Нет блюда в наличии', cr_too_busy: 'Ресторан перегружен', cr_closing: 'Ресторан закрывается', cr_other: 'Другая причина',
       err_closed: 'Ресторан сейчас закрыт', err_unavailable: 'Товар недоступен', err_points_changed: 'Баланс баллов изменился. Проверьте сумму и оформите снова.', err_points_min: 'Недостаточно баллов для списания', err_points_min_order: 'Баллы можно списать, когда сумма блюд не меньше минимальной', err_bad_gift: 'Укажите имя и телефон получателя (+992 и 9 цифр)', err_bad_time: 'Выберите время от 45 минут до 3 дней вперёд', err_bad_group: 'Групповой заказ недоступен (закрыт или оформлен)', err_group_closed: 'Групповой заказ уже закрыт для добавления', err_too_early: 'Запланированный заказ можно начать готовить за час до времени', err_empty: 'Корзина пуста', err_bad_transition: 'Действие недоступно', err_taken: 'Заказ уже взят другим курьером',
       confirm_cancel: 'Отменить заказ?', clear_cart: 'В корзине товары другого магазина. Очистить корзину?', accept: 'Принять', reject: 'Отклонить', add: 'Добавить', cart: 'Корзина', pay: 'Оплатить заказ', online: 'На линии', offline: 'Не в сети' },
     en: { pending: 'Waiting for confirmation', preparing: 'Preparing', ready: 'Ready for courier pickup', pickedup: 'Courier on the way', delivered: 'Delivered', rejected: 'Rejected by restaurant', cancelled: 'Cancelled',
+      err_photo_upload: 'Could not upload the photo. Check the internet and try again.', err_photo_required: 'Take a photo of the order at the door — the delivery cannot be closed without it', err_note_required: 'Add an explanation', cr_out_of_stock: 'A dish is out of stock', cr_too_busy: 'The restaurant is too busy', cr_closing: 'The restaurant is closing', cr_other: 'Other reason',
       err_closed: 'The restaurant is closed right now', err_unavailable: 'Item unavailable', err_points_changed: 'Your points balance changed. Check the amount and place the order again.', err_points_min: 'Not enough points to use', err_points_min_order: 'Points can be used when the dishes reach the minimum order', err_bad_gift: 'Enter the recipient\'s name and phone (+992 and 9 digits)', err_bad_time: 'Choose a time from 45 minutes to 3 days ahead', err_bad_group: 'The group order is not available (closed or placed)', err_group_closed: 'The group order is closed for new dishes', err_too_early: 'A scheduled order can be started one hour before its time', err_empty: 'Cart is empty', err_bad_transition: 'Action not allowed', err_taken: 'Order already taken by another courier',
       confirm_cancel: 'Cancel this order?', clear_cart: 'Your cart has items from another store. Clear it?', accept: 'Accept', reject: 'Reject', add: 'Add', cart: 'Cart', pay: 'Pay for order', online: 'Online', offline: 'Offline' }
   };
@@ -158,7 +160,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'v51';
+  var VERSION = 'v52';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -167,7 +169,7 @@
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
         items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
-        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, arrivedStoreAt: o.arrived_store_at ? Date.parse(o.arrived_store_at) : null, arrivedCustAt: o.arrived_cust_at ? Date.parse(o.arrived_cust_at) : null, deliveryPhoto: o.delivery_photo || null, cancelReason: o.cancel_reason || null, cancelNote: o.cancel_note || '', cancelledBy: o.cancelled_by || null, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
@@ -477,7 +479,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -1098,7 +1100,37 @@
     setStatus: function (id, to) { return rpc('set_order_status', { p_id: id, p_to: to }); },
     patch: function (id, f) { return rpc('set_prep_time', { p_id: id, p_min: f.prepTime }, true); },
     driverAccept: function (id) { return rpc('driver_accept', { p_id: id }).then(function (r) { return r.error ? r : (r.data === true ? { ok: true } : { error: 'taken' }); }); },
-    deliver: function (id, cash, note) { return rpc('deliver_order', { p_id: id, p_cash: cash, p_note: note || null }); },
+    deliver: function (id, cash, note, photo) { var a = { p_id: id, p_cash: cash, p_note: note || null }; if (photo) a.p_photo = photo; return rpc('deliver_order', a); },
+    /* batch 2 (patch 34): courier arrival steps, photo proof (private bucket), restaurant cancel with a reason */
+    driverArrived: function (id, where) { if (where !== 'store' && where !== 'customer') return Promise.resolve({ error: 'bad_value' }); return rpc('driver_arrived', { p_id: id, p_where: where }); },
+    rejectOrder: function (id, reason, note) { if (['out_of_stock', 'too_busy', 'closing', 'other'].indexOf(reason) < 0) return Promise.resolve({ error: 'bad_value' }); return rpc('reject_order', { p_id: id, p_reason: reason, p_note: note ? String(note).slice(0, 200) : null }); },
+    uploadProof: function (file, orderId) {
+      return new Promise(function (resolve) {
+        if (!file || !/^image\//.test(file.type || '') || file.size > 25 * 1024 * 1024) return resolve({ error: 'bad_value' });
+        var fr = new FileReader(); fr.onerror = function () { resolve({ error: 'generic' }); };
+        fr.onload = function () {
+          var im = new Image(); im.onerror = function () { resolve({ error: 'bad_value' }); };
+          im.onload = function () {
+            var k = Math.min(1, 1000 / Math.max(im.width, im.height)), c = document.createElement('canvas');
+            c.width = Math.max(1, Math.round(im.width * k)); c.height = Math.max(1, Math.round(im.height * k)); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+            var preview = c.toDataURL('image/jpeg', 0.6);
+            if (!c.toBlob || !sb || !sb.storage || !ME) return resolve({ error: 'generic' });
+            c.toBlob(function (blob) {
+              if (!blob) return resolve({ error: 'generic' });
+              var id = ((window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2, 12))).replace(/[^A-Za-z0-9_-]/g, '');
+              var path = ME.id + '/' + orderId + '/' + id + '.jpg';
+              sb.storage.from('proofs').upload(path, blob, { contentType: 'image/jpeg', upsert: false }).then(function (r) {
+                resolve(r.error ? { error: 'photo_upload' } : { path: path, preview: preview });
+              }, function () { resolve({ error: 'photo_upload' }); });
+            }, 'image/jpeg', 0.72);
+          };
+          im.src = fr.result;
+        };
+        fr.readAsDataURL(file);
+      });
+    },
+    proofUrl: function (path) { if (!path || !sb || !sb.storage) return Promise.resolve(null); return sb.storage.from('proofs').createSignedUrl(path, 3600).then(function (r) { return r && r.data ? r.data.signedUrl : null; }, function () { return null; }); },
+    leaflet: function (cb) { loadLeaflet(cb); },
     chat: function (id, sender, text) { return sb.from('order_chat').insert({ order_id: id, sender_id: ME.id, body: String(text).slice(0, 200) }).then(doneQ); },
 
     addItem: function (storeN, f) { var s = storeByName(storeN); if (!s || !validItem(f)) return badStore(); return sb.from('menu_items').insert({ store_id: s.id, name: f.name, price: f.price, image_url: f.image || null, popular: !!f.popular, section: cleanSection(f.section), discount_pct: cleanPct(f.discount) }).then(done); },

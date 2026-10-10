@@ -25,6 +25,11 @@ U={'customer':'c0000000-0000-4000-8000-000000000001','merchant':'c0000000-0000-4
 uu=lambda n:'00000000-0000-4000-8000-%012d'%n
 def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
 fails=[];log=[]
+def swipe(pg):
+    k=pg.locator('#swk');k.wait_for(timeout=3000);b=k.bounding_box();w=pg.locator('#swp').bounding_box()
+    pg.mouse.move(b['x']+b['width']/2,b['y']+b['height']/2);pg.mouse.down()
+    for i in range(1,11): pg.mouse.move(b['x']+b['width']/2+(w['width']-b['width'])*i/10,b['y']+b['height']/2)
+    pg.mouse.up();pg.wait_for_timeout(700)
 def ok(c,m):
     print(('PASS ' if c else 'FAIL ')+m,flush=True)
     if not c: fails.append(m)
@@ -142,7 +147,20 @@ class DB:
     def rpc_deliver_order(s,uid,a):
         o=s.order(a['p_id'])
         if not o or o['driver_id']!=uid or o['status']!='pickedup': raise Exception('bad_transition')
-        o['status']='delivered';o['done_at']=now();o['cash_collected']=a.get('p_cash');return None
+        if o.get('leave_at_door') and not a.get('p_photo'): raise Exception('photo_required')
+        o['status']='delivered';o['done_at']=now();o['cash_collected']=a.get('p_cash');o['delivery_photo']=a.get('p_photo');return None
+    def rpc_driver_arrived(s,uid,a):        # patch 34
+        o=s.order(a['p_id'])
+        if not o or o['driver_id']!=uid: raise Exception('not_allowed')
+        if a['p_where']=='store' and o['status'] in ('preparing','ready'): o['arrived_store_at']=o.get('arrived_store_at') or now()
+        elif a['p_where']=='customer' and o['status']=='pickedup': o['arrived_cust_at']=o.get('arrived_cust_at') or now()
+        else: raise Exception('bad_transition')
+        return None
+    def rpc_reject_order(s,uid,a):          # patch 34
+        o=s.order(a['p_id'])
+        if not o or o['status'] not in ('pending','preparing'): raise Exception('bad_transition')
+        if a['p_reason'] not in ('out_of_stock','too_busy','closing','other'): raise Exception('bad_value')
+        o['status']='rejected';o['done_at']=now();o['cancel_reason']=a['p_reason'];o['cancel_note']=a.get('p_note');o['cancelled_by']='store';return None
     def rpc_active_contacts(s,uid,a):
         out=[]
         for o in s.T['orders']:
@@ -229,6 +247,10 @@ with sync_playwright() as p:
     d.locator('[onclick^="take("]').first.click();d.wait_for_timeout(500);sync('driver')
     ok(db.order(oid)['driver_id']==U['driver'],'courier accepted the order')
     look('driver','8-active-pickup')
+    ok(d.evaluate("()=>document.body.classList.contains('mapmode')&&!!document.querySelector('.sht')"),'courier: full-screen map + bottom sheet')
+    swipe(d);ok(db.order(oid).get('arrived_store_at'),'courier: swipe 1 "На месте в ресторане"')
+    sync('driver');ok(d.evaluate("()=>!!document.querySelector('.swp.off')"),'swipe 2 is locked until the restaurant presses ready')
+    sync('merchant');ok(m.evaluate("()=>document.body.innerText.includes('Курьер в ресторане')"),'restaurant sees the courier is there')
     # 2nd courier must not get it any more
     d2=open_app('driver2','driver');sync('driver2');d2.locator('button',has_text=re.compile('смену')).first.click() if d2.locator('button',has_text=re.compile('смену')).count() else None;sync('driver2')
     ok(d2.evaluate("()=>document.querySelectorAll('[onclick^=\"take(\"]').length")==0,'a 2nd courier does not see a taken order')
@@ -236,10 +258,13 @@ with sync_playwright() as p:
     ok(m.evaluate("(i)=>document.body.innerText.includes('Фаррух')",oid),'restaurant sees the courier name')
     click('merchant','[onclick="st(%s,\'ready\')"]'%oid);ok(status(oid)=='ready','restaurant: ready for pickup')
     sync('driver');look('driver','10-ready')
-    click('driver','[onclick="step(%s,\'pickedup\')"]'%oid);ok(status(oid)=='pickedup','courier: picked up')
+    swipe(d);ok(status(oid)=='pickedup','courier: swipe 2 "Заказ забран" (allowed only after ready)')
     sync('customer');look('customer','11-track-onway')
+    sync('driver');swipe(d);ok(db.order(oid).get('arrived_cust_at'),'courier: swipe 3 "На месте у клиента"')
+    ok(any('на месте' in (m.get('body') or '').lower() for m in db.T.get('order_chat',[])),'the customer gets "I am here" in the chat')
+    sync('customer');ok(c.evaluate("()=>document.body.innerText.includes('Курьер на месте')"),'customer sees "the courier is here"')
     sync('driver');look('driver','12-deliver')
-    click('driver','[onclick="deliverClick(%s)"]'%oid);d.wait_for_timeout(300);look('driver','13-cash-dialog')
+    swipe(d);d.wait_for_timeout(300);look('driver','13-cash-dialog')
     if d.locator('[onclick="confirmDeliver()"]').count(): d.locator('[onclick="confirmDeliver()"]').first.click();d.wait_for_timeout(600)
     ok(status(oid)=='delivered','courier: delivered (cash %s TJS)'%db.order(oid).get('cash_collected'))
     sync('driver');look('driver','14-after-delivery')
@@ -265,8 +290,14 @@ with sync_playwright() as p:
     c.evaluate("()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={};openN(s.n);const it=menuOf(s.n).find(i=>!i.hasOpts&&i.available);addFrom(it.id);goCart()}")
     click('customer','Перейти к оплате');c.evaluate("()=>{S.pay='cash';render()}");click('customer','Оформить заказ')
     o3=max(o['id'] for o in db.T['orders']);sync('merchant')
-    m.evaluate("()=>{window.confirm=()=>true;window.prompt=()=>'нет продуктов'}");click('merchant','[onclick="st(%s,\'rejected\')"]'%o3);ok(status(o3)=='rejected','restaurant rejected an order')
-    sync('customer');c.evaluate("(i)=>go('track',{tid:i})",o3);look('customer','20-rejected')
+    c.evaluate("()=>go('home')")
+    click('merchant','[onclick="rjOpen(%s)"]'%o3);look('merchant','20a-reject-reasons')
+    click('merchant','Нет блюда в наличии');m.locator('#rjn').fill('закончился плов');click('merchant','[onclick="rjSend()"]')
+    ok(status(o3)=='rejected' and db.order(o3).get('cancel_reason')=='out_of_stock','restaurant cancelled with the reason "out of stock"')
+    sync('customer');ok(c.evaluate("()=>S.cxn!=null&&document.body.innerText.includes('отменён')"),'customer gets an instant notice on the home page')
+    look('customer','20b-cancel-notice')
+    c.evaluate("(i)=>{S.cxn=null;go('track',{tid:i})}",o3);look('customer','20-rejected')
+    ok(c.evaluate("()=>document.body.innerText.includes('простите')&&document.body.innerText.includes('закончился плов')"),'customer sees the reason with an apology')
     sync('merchant');look('merchant','21-after')
     for r,e in ERR.items(): ok(not e,'%s: no JS errors %s'%(r,e[:2]))
     print('calls:',', '.join(sorted(set('%s:%s'%(r,n) for r,n,_ in db.calls if n not in ('wallet_balance','store_private','my_perms','cash_balances','active_contacts','report_client_error','driver_ping','dispatch_tick','my_rating')))))
