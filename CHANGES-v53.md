@@ -35,3 +35,13 @@ results, notifications, all categories); flow_check, cart_check, smoke, overflow
   (delivery time on the photo) → best offers → recommended (picture tiles with price and +) → "Больше возможностей с
   Талабот" (one wide card) → DineOut (restaurants with atmosphere; "до X% на меню" only from a real discount) → nav.
 - Bottom navigation captions: Home, Orders, Wallet, Offers, Profile (as in the example).
+
+# v55 — compact home (owner file of 10 Oct 23:00)
+- Category tiles 76 × 76 (icon 46), 6 px to the caption, 14 px between rows; captions follow the Profile language again
+  (RU: Рестораны, Супермаркеты, Аптеки / Красота, Цветы и подарки, Кондитерские); bottom nav captions too.
+- Main banner 3:2, radius 20, smaller type; tighter section spacing.
+- DineOut = section: title, banner ("до X% на меню" = the biggest real discount), then cards of open restaurants with a
+  real discount (photo, −X% badge, heart, rating, area from the address + km); hidden when no restaurant has a discount.
+- The admin's bottom banners are back, after DineOut.
+- Database: no change. The 6 home categories map to the existing ones (Flowers & Gifts = flowers + gifts); nothing
+  deleted. The 4 unused new keys (electronics, household, auto, pets) were removed from the app list. "shops" has no tile.
