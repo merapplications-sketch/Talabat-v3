@@ -1,4 +1,4 @@
-# Talabat v3 — hand-off for a new conversation (state at v51)
+# Talabat v3 — hand-off for a new conversation (state at v52)
 
 ## Who / how to work
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
@@ -12,7 +12,8 @@
 
 ## Branch state
 - `main` = v45 (PR #15 merged). Owner was told to run patch 28.
-- Newest: `feature/batch1b-v51` (v51, stacked on v50): batch 1-b = free-delivery threshold per restaurant (default 0), scheduled orders, group/office order; NEEDS sql/schema_patch33.sql (also grants the store columns of patches 27/32/33 — they were not readable). https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch1b-v51
+- Newest: `feature/batch2-v52` (v52, stacked on v51): batch 2 = courier map + bottom sheet + 4 swipe steps, photo proof (private bucket), cash breakdown, cancel alarm; restaurant cancel reasons + customer apology/suggestions. NEEDS sql/schema_patch34.sql. https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch2-v52
+- Before: `feature/batch1b-v51` (v51, stacked on v50): batch 1-b = free-delivery threshold per restaurant (default 0), scheduled orders, group/office order; NEEDS sql/schema_patch33.sql (also grants the store columns of patches 27/32/33 — they were not readable). https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch1b-v51
 - Before: `feature/batch1-v50` (v50): owner spec of 10 Oct 18:00, batch 1 (home, vouchers, wishes); NEEDS sql/schema_patch32.sql. https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch1-v50
 - Owner answers 10 Oct 18:43: points paid by the redeeming restaurant (a); abandoned cart = in-app now, push later; free delivery threshold per restaurant default 0 (restaurant + admin set it); batch 1-b done in v51.
 - DECIDED 19:21: earn 10 pts/TJS, 1000 pts = 1 TJS (1%), paid by the redeeming restaurant; earn rate per restaurant (admin), point value global (patch 33). Still open: confirm patch 27 was run.
@@ -41,7 +42,14 @@
 ## Open items waiting on the owner
 1. Merge the v44 PR. 2. Report security-check result. 3. (done: admin role confirmed) 4. (done: owner no longer sees the iPhone width issue) 5. Real-device feedback on v41.
 
-## New owner ideas (10 Oct 19:43) — NOT started, waiting for his answers (order + details)
+## Owner answers 10 Oct 19:58 (roadmap: batch 2 DONE v52 -> batch 3 onboarding -> batch 4 below)
+- Batch 4: order streak bonus + rating reward, values set by the admin (e.g. 500 points); these GENERAL rewards are paid by the PLATFORM, not the restaurant (needs: when reward points are spent, that part of points_value is platform-paid — today all redeemed points are charged to the restaurant).
+- Gift points: CANCELLED by the owner.
+- Printing: one-click receipt print 58 mm and 80 mm (most restaurants use Android).
+- Out-of-stock cancel: suggest similar restaurants/dishes — DONE in v52.
+- Combo/family deals banner at the top of the menu at peak hours; defaults lunch 12:00–15:00, dinner 18:30–21:30 Dushanbe, fully editable by the admin.
+
+## New owner ideas (10 Oct 19:43) — original list
 - Loyalty: order streak badge ("3rd order this week, order again for +50 points") ; gift 1000 points to a friend from the wallet.
 - Merchant: auto-print receipt on accept (Bluetooth thermal printer) ; ready-made cancel reasons (out of stock, too busy) -> customer sees reason + apology.
 - Marketing: combo / family deals banner at the top of the menu during lunch/dinner peaks.
