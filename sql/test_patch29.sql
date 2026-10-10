@@ -60,6 +60,7 @@ insert into menu_items values ('10000000-0000-0000-0000-000000000001', '50000000
 \i sql/schema_patch28.sql
 \i sql/schema_patch29.sql
 \i sql/schema_patch29.sql
+\i sql/schema_patch30.sql
 
 -- ---------- helpers ----------
 create table res(n serial, ok boolean, label text, got text);
