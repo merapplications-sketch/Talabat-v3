@@ -41,5 +41,11 @@
 ## Open items waiting on the owner
 1. Merge the v44 PR. 2. Report security-check result. 3. (done: admin role confirmed) 4. (done: owner no longer sees the iPhone width issue) 5. Real-device feedback on v41.
 
+## New owner ideas (10 Oct 19:43) — NOT started, waiting for his answers (order + details)
+- Loyalty: order streak badge ("3rd order this week, order again for +50 points") ; gift 1000 points to a friend from the wallet.
+- Merchant: auto-print receipt on accept (Bluetooth thermal printer) ; ready-made cancel reasons (out of stock, too busy) -> customer sees reason + apology.
+- Marketing: combo / family deals banner at the top of the menu during lunch/dinner peaks.
+- Issues raised to him: +50 points = 0.05 TJS (too small to motivate) and bonus points are redeemed at a restaurant that did not grant them; gift points need anti-fraud limits; browser auto-print works only on Android Chrome + BLE ESC/POS printers (need printer model / device), iPhone = print dialog only; combos need a "combo" mark on dishes.
+
 ## Approved backlog, in order (not started unless noted)
 1. Cart + checkout polish (customer) — DONE in v42 (owner may still list extra wishes).  2. Restaurant page tabs — DECIDED: no tabs, single scroll (done in v44).  3. Loyalty/cashback/points, happy-hour promos — DONE in v46 (owner decisions: 10 pts/TJS, cashback to wallet, happy hour scheduled by admin, expiry, minimum; defaults 1000 pts = 1 TJS, min 1000, 90 days, cashback 0% — ask owner to confirm the value/defaults).  4. Auto-cancel after 5 min (pg_cron), live driver GPS tracking, offline cache + sync.  5. Push notifications, batch delivery, heatmaps, partner requests, offers/ads.  6. OTP signup via WhatsApp/SMS (needs provider; no domain yet).  7. Before launch: delete weak test accounts, set Supabase Auth rate limits.
