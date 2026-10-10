@@ -1,4 +1,4 @@
-# Talabat v3 — hand-off for a new conversation (state at v49)
+# Talabat v3 — hand-off for a new conversation (state at v50)
 
 ## Who / how to work
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
@@ -12,7 +12,10 @@
 
 ## Branch state
 - `main` = v45 (PR #15 merged). Owner was told to run patch 28.
-- Newest: `fix/points-restaurant-v49` (v49): points discount paid by the restaurant (display/settlement only, no SQL). https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/points-restaurant-v49
+- Newest: `feature/batch1-v50` (v50): owner spec of 10 Oct 18:00, batch 1 (home, vouchers, wishes); NEEDS sql/schema_patch32.sql. https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch1-v50
+- OPEN owner questions (asked 10 Oct ~18:00): (1) who pays points: redeeming restaurant (now) or platform fund settled between restaurants; (2) abandoned-cart PUSH needs push infra (in-app reminder done); (3) free-delivery threshold per restaurant + default; (4) scheduled + corporate orders as batch 1-b.
+- NEXT: batch 2 (courier: full-screen map + bottom sheet, 4 swipe steps incl. arrived-at-restaurant/customer, photo proof for leave-at-door, cancel alert, distance-based fee on the map), batch 3 (merchant onboarding: landing page, home banner, 3-field form with rate limit -> admin, honest profit calculator).
+- Previous: `fix/points-restaurant-v49` (v49, merged): points discount paid by the restaurant (display/settlement only, no SQL). https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/points-restaurant-v49
 - Previous: `fix/hh-restaurant-v48` (v48, merged; owner ran patch 31): patch 31 (restaurant pays happy hour) + security page dish fix. https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/hh-restaurant-v48
 - Previous: `fix/promo-limit-v47` (v47, merged; owner ran patch 30): patch 30 = robust promo guard (owner still saw the promo FAIL after v46). https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/promo-limit-v47
 - Previous: `feature/loyalty-v46` (v46, merged): https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/loyalty-v46 — points, cashback, happy hour; NEEDS `sql/schema_patch29.sql`; see CHANGES-v46.md.
@@ -24,7 +27,7 @@
 
 ## SQL (run in Supabase SQL Editor, in order)
 - `sql/schema_patch26.sql` then `sql/schema_patch27.sql` (owner said he ran both), then `sql/schema_patch28.sql` (v45, promo guessing limit; wraps the existing check_promo as check_promo_base), then `sql/schema_patch29.sql` (v46 loyalty; replaces place_order with a 12-arg version adding p_points, adds happy_hours/loyalty tables, trigger trg_orders_loyalty). `sql/test_patch29.sql` 40/40 on empty PostgreSQL; `tools/loyalty_parity.py` compares app vs SQL bills (needs that local DB). Then `sql/schema_patch30.sql` (v47: replaces patch 28's guard; counts every non-success answer; `sql/test_patch30.sql` 20/20). Owner confirmed admin@test.com has role admin. Then `sql/schema_patch31.sql` (v48: happy hour paid by the restaurant; orders.discount includes it, hh_discount = its part).
-- Owner decisions: cashback off until he enables it; happy hour paid by restaurant; iPhone width issue gone; FINAL loyalty: earn 10/TJS, 1000 pts = 1 TJS, min 1000, expiry on, cashback off; points + happy hour are the restaurant's cost; commission NOT reduced by points (it is computed before points).
+- Owner decisions: cashback off until he enables it; happy hour paid by restaurant; iPhone width issue gone; SUPERSEDED (v50: 1000 pts = 10 TJS, whole vouchers, min order 30, +10 rating, restaurant cashback). Old: earn 10/TJS, 1000 pts = 1 TJS, min 1000, expiry on, cashback off; points + happy hour are the restaurant's cost; commission NOT reduced by points (it is computed before points).
 - Security check SC-48: OK 126 passed, 2 WARN: brands/brand_stats missing => patch 27 NOT applied in the live DB (owner thought he ran it). Asked him to run sql/schema_patch27.sql. `sql/test_patch28.sql` runs on an EMPTY local PostgreSQL (self-contained, 15/15). Tests on a local replica: `sql/test_patch27.sql` (67/67). Earlier patches 17-25 assumed applied.
 - Security page: owner reported (v44) one FAIL: promo guessing not rate-limited → fixed by patch 28; ask him to re-run `security-check.html?v=45` after running the patch (wait 10 min between runs: the test blocks its own account).
 

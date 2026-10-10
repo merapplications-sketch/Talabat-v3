@@ -60,6 +60,16 @@ with sync_playwright() as p:
     ok(r['v2']=='track' and r['tid']==777 and r['okey'] is None and r['cart']==0 and r['left'] is None,'success: tracking page, cart + saved cart cleared')
     r=pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={['11111111-1111-4111-8111-111111111111']:1};S.cartStore=s.n;go('pay');await quoteNow();await place();return {k:window.__rpcs[2].p_key,k1:window.__rpcs[0].p_key}}""")
     ok(r['k'] and r['k']!=r['k1'],'next order gets a new key')
+    # 3b) v50: order wishes reach the server; points switch is OFF by default
+    r=pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={['11111111-1111-4111-8111-111111111111']:1};S.cartStore=s.n;S.door=true;S.subst='replace';S.gift={name:'Мадина',phone:'+992901112233'};go('pay');await quoteNow();
+      const off=!S.usePts;await place();const a=window.__rpcs[window.__rpcs.length-1];return {off,ex:a.p_extra,pts:a.p_points,reset:!S.gift&&!S.door&&S.subst=='call'}}""")
+    ok(r['off'] and r['pts'] is None,'points switch is OFF by default, no points sent')
+    ok(r['ex']=={'door':True,'subst':'replace','gift':{'name':'Мадина','phone':'+992901112233'}},'order wishes sent: '+json.dumps(r['ex'],ensure_ascii=False))
+    ok(r['reset'],'wishes cleared after the order')
+    n0=pg.evaluate("()=>window.__rpcs.length");dlg.clear()
+    pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={['11111111-1111-4111-8111-111111111111']:1};S.cartStore=s.n;S.gift={name:'М',phone:'123'};go('pay');await quoteNow();await place()}""")
+    ok(pg.evaluate("()=>window.__rpcs.length")==n0 and dlg,'gift without a valid phone: clear message, nothing sent')
+    pg.evaluate("()=>{S.gift=null}")
     # 4) busy label
     t=pg.evaluate("()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={i2:1};S.cartStore=s.n;S.busy=true;go('pay');const t=document.querySelector('.fbar .btn').textContent;S.busy=false;render();return t}")
     ok('…' in t,'placing state shows "sending…": '+t)

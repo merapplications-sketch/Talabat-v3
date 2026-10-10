@@ -12,10 +12,10 @@
   /* ---------- i18n RU / EN ---------- */
   var I = {
     ru: { pending: 'Ожидание подтверждения', preparing: 'Готовится', ready: 'Готов к выдаче курьеру', pickedup: 'Курьер в пути', delivered: 'Доставлено', rejected: 'Отклонён рестораном', cancelled: 'Отменён',
-      err_closed: 'Ресторан сейчас закрыт', err_unavailable: 'Товар недоступен', err_points_changed: 'Баланс баллов изменился. Проверьте сумму и оформите снова.', err_points_min: 'Недостаточно баллов для списания', err_empty: 'Корзина пуста', err_bad_transition: 'Действие недоступно', err_taken: 'Заказ уже взят другим курьером',
+      err_closed: 'Ресторан сейчас закрыт', err_unavailable: 'Товар недоступен', err_points_changed: 'Баланс баллов изменился. Проверьте сумму и оформите снова.', err_points_min: 'Недостаточно баллов для списания', err_points_min_order: 'Баллы можно списать, когда сумма блюд не меньше минимальной', err_bad_gift: 'Укажите имя и телефон получателя (+992 и 9 цифр)', err_empty: 'Корзина пуста', err_bad_transition: 'Действие недоступно', err_taken: 'Заказ уже взят другим курьером',
       confirm_cancel: 'Отменить заказ?', clear_cart: 'В корзине товары другого магазина. Очистить корзину?', accept: 'Принять', reject: 'Отклонить', add: 'Добавить', cart: 'Корзина', pay: 'Оплатить заказ', online: 'На линии', offline: 'Не в сети' },
     en: { pending: 'Waiting for confirmation', preparing: 'Preparing', ready: 'Ready for courier pickup', pickedup: 'Courier on the way', delivered: 'Delivered', rejected: 'Rejected by restaurant', cancelled: 'Cancelled',
-      err_closed: 'The restaurant is closed right now', err_unavailable: 'Item unavailable', err_points_changed: 'Your points balance changed. Check the amount and place the order again.', err_points_min: 'Not enough points to use', err_empty: 'Cart is empty', err_bad_transition: 'Action not allowed', err_taken: 'Order already taken by another courier',
+      err_closed: 'The restaurant is closed right now', err_unavailable: 'Item unavailable', err_points_changed: 'Your points balance changed. Check the amount and place the order again.', err_points_min: 'Not enough points to use', err_points_min_order: 'Points can be used when the dishes reach the minimum order', err_bad_gift: 'Enter the recipient\'s name and phone (+992 and 9 digits)', err_empty: 'Cart is empty', err_bad_transition: 'Action not allowed', err_taken: 'Order already taken by another courier',
       confirm_cancel: 'Cancel this order?', clear_cart: 'Your cart has items from another store. Clear it?', accept: 'Accept', reject: 'Reject', add: 'Add', cart: 'Cart', pay: 'Pay for order', online: 'Online', offline: 'Offline' }
   };
   var lang = 'ru';
@@ -141,7 +141,7 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [] };
+  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   /* happy-hour windows running at a moment (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
@@ -157,7 +157,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'v48';
+  var VERSION = 'v50';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -166,7 +166,7 @@
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
         items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
-        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, hhDiscount: +o.hh_discount || 0, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
@@ -279,7 +279,9 @@
         ids.length ? sb.from('order_items').select('*').in('order_id', ids) : Promise.resolve({ data: [] }),
         live.length ? sb.from('order_chat').select('*').in('order_id', live).order('created_at') : Promise.resolve({ data: [] }),
         (ME.role === 'driver' || ME.role === 'admin') ? sb.rpc('cash_balances') : Promise.resolve({ data: [] }),
-        ME.role === 'admin' ? Promise.resolve({ data: null }) : sb.rpc('active_contacts')
+        ME.role === 'admin' ? Promise.resolve({ data: null }) : sb.rpc('active_contacts'),
+        // gift recipients (patch 32): readable only by the customer, the courier of the order and staff
+        (ME.role !== 'merchant' && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] })
       ]).then(function (x) {
         if (x[0].error) throw x[0].error;
         var cash = {}; if (!x[2].error) (x[2].data || []).forEach(function (c) { cash[c.driver_id] = +c.balance; });
@@ -288,7 +290,9 @@
         var chat = (x[1].error ? [] : (x[1].data || [])).concat(keepChat);
         var contacts = {}; if (x[3] && !x[3].error) (x[3].data || []).forEach(function (c) { contacts[c.order_id] = { customer_phone: c.customer_phone || '', driver_phone: c.driver_phone || '' }; });
         if (ME.role === 'admin') contacts = DB.contacts;                       // the admin loads phones on demand (opened order, low ratings)
-        if (!changed('orders', [rows, x[0].data, chat, cash, contacts])) return false;
+        var rcp = {}; if (x[4] && !x[4].error) (x[4].data || []).forEach(function (g) { rcp[g.order_id] = { name: g.name, phone: g.phone }; });
+        if (!changed('orders', [rows, x[0].data, chat, cash, contacts, rcp])) return false;
+        DB.recipients = rcp;
         DB.orders = rows; DB.oitems = x[0].data || []; DB.chat = chat; DB.cash = cash; DB.contacts = contacts;
         return true;
       });
@@ -314,17 +318,19 @@
       cust ? (walletStale ? sb.rpc('wallet_balance') : Promise.resolve({ data: DB.wallet.balance })) : Promise.resolve({ data: null }),
       // happy hours change prices, every app shows them; the customer also gets his points (patch 29; empty before it is run)
       sb.from('happy_hours').select('*').order('start_time').limit(100),
-      cust ? sb.rpc('loyalty_summary') : Promise.resolve({ data: null })
+      cust ? sb.rpc('loyalty_summary') : Promise.resolve({ data: null }),
+      cust ? sb.rpc('best_dishes', { p_store: null, p_limit: 30 }) : Promise.resolve({ data: [] }),
+      cust ? sb.rpc('store_speed') : Promise.resolve({ data: [] })
     ]).then(function (r) {
       if (r[0].error && r[1].error) throw r[0].error;
-      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data, r[12].error ? null : r[12].data, r[13].error ? [] : r[13].data, r[14].error ? null : r[14].data];
+      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data, r[12].error ? null : r[12].data, r[13].error ? [] : r[13].data, r[14].error ? null : r[14].data, r[15].error ? [] : r[15].data, r[16].error ? [] : r[16].data];
       if (!changed('misc', pack)) return false;
       if (pack[0]) ME = Object.assign(ME, pack[0]);
       DB.favs = (pack[1] || []).map(function (x) { return x.store_id; });
       DB.ratings = pack[2] || []; DB.addresses = pack[3] || []; DB.promos = pack[4] || []; DB.drivers = pack[5] || []; DB.offersAll = pack[6] || [];
       var st = {}; (pack[7] || []).forEach(function (x) { st[x.key] = +x.value; }); DB.settings = st;
       DB.myRating = pack[8] && pack[8].count != null ? { avg: pack[8].avg == null ? null : +pack[8].avg, count: +pack[8].count || 0 } : null;
-      DB.tickets = pack[9] || []; DB.sreqs = pack[11] || []; DB.hh = pack[13] || []; DB.loyalty = pack[14] || null;
+      DB.tickets = pack[9] || []; DB.sreqs = pack[11] || []; DB.hh = pack[13] || []; DB.loyalty = pack[14] || null; DB.best = pack[15] || []; var sp = {}; (pack[16] || []).forEach(function (x) { sp[x.store_id] = { min: +x.avg_min, n: +x.n }; }); DB.speed = sp;
       if (ME.role === 'customer') { DB.wallet.balance = pack[12] == null ? 0 : Math.round(+pack[12] * 100) / 100; if (!r[12].error) walletStale = false; }
       if (ME.role === 'customer' && !DB.tickets.length && !tixHold) wantTix = false;   // nothing to follow: stop fetching until he opens support
       var tx = {}; (pack[10] || []).forEach(function (x) { tx[x.key] = x.value || ''; }); DB.texts = tx;
@@ -464,7 +470,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -974,16 +980,28 @@
       }, function () { return false; });
     },
     happyHours: function () { return DB.hh; },
+    /* best-selling dishes of the last 30 days [{item_id, store_id, cnt}] and real preparation speed per store {min, n} (patch 32) */
+    bestDishes: function () { return DB.best; },
+    speed: function (storeId) { return DB.speed[storeId] || null; },
+    isExpress: function (storeId) { var s = DB.speed[storeId]; return !!(s && s.n >= 3 && s.min <= 15); },
+    setMyCashback: function (storeN, pct) { var s = storeByName(storeN); if (!s) return badStore(); return rpc('set_my_cashback', { p_store: s.id, p_pct: +pct }, true); },
+    setStoreLoyalty: function (storeId, minOrder, cashback) { return rpc('set_store_loyalty', { p_store: storeId, p_min_order: minOrder === '' || minOrder == null ? null : +minOrder, p_cashback: cashback === '' || cashback == null ? null : +cashback }, true); },
     /* best happy-hour % for a store now (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
     hhPct: function (storeId, at) {
       var best = 0; hhOnNow(at).forEach(function (h) { if ((!h.store_id || h.store_id === storeId) && +h.discount_pct > best) best = +h.discount_pct; }); return best;
     },
     hhActive: function (at) { return hhOnNow(at); },
-    /* when the current happy hour of a store ends (ms), for "until 15:00" */
-    hhEnd: function (storeId) {
-      var now = Date.now(), t = now; if (!this.hhPct(storeId, t)) return null;
-      for (var i = 0; i < 48 * 4; i++) { t += 15 * 60000; if (!this.hhPct(storeId, t)) { var e = new Date(t); e.setMinutes(Math.floor(e.getMinutes() / 15) * 15, 0, 0); return e.getTime(); } }
-      return null;
+    /* when the current happy hour of a store ends (ms): the latest end among the windows running now (Dushanbe = UTC+5) */
+    hhEnd: function (storeId, at) {
+      var now = at || Date.now(), best = null;
+      hhOnNow(now).forEach(function (h) {
+        if (h.store_id && h.store_id !== storeId) return;
+        var p = String(h.end_time || '0:0').split(':'), d = new Date(now + 5 * 3600000);
+        var end = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), +p[0] || 0, +p[1] || 0, +p[2] || 0) - 5 * 3600000;
+        if (end <= now) end += 86400000;                                   // ends tomorrow (window past midnight)
+        if (best == null || end > best) best = end;
+      });
+      return best;
     },
     saveHH: function (f) {
       var days = (f.days || []).map(Number).filter(function (d) { return d >= 1 && d <= 7; }), pct = Math.floor(+f.pct), title = String(f.title || '').trim();
@@ -1047,7 +1065,7 @@
       if (!items) return Promise.resolve({ error: 'bad_value' });
       if (o.wallet != null && (isNaN(num(o.wallet)) || num(o.wallet) < 0 || num(o.wallet) > 1000000)) return Promise.resolve({ error: 'bad_value' });
       if (o.lat != null && (!(num(o.lat) >= -90 && num(o.lat) <= 90) || !(num(o.lng) >= -180 && num(o.lng) <= 180))) return Promise.resolve({ error: 'bad_value' });
-      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_key: (o.key && /^[A-Za-z0-9_-]{8,64}$/.test(o.key)) ? o.key : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100, p_points: (o.points > 0 && o.points <= 100000000) ? Math.floor(o.points) : null })
+      return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_key: (o.key && /^[A-Za-z0-9_-]{8,64}$/.test(o.key)) ? o.key : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100, p_points: (o.points > 0 && o.points <= 100000000) ? Math.floor(o.points) : null, p_extra: o.extra || null })
         .then(function (r) { return r.error ? r : { id: r.data }; });
     },
     checkPromo: function (storeN, cart, code) {
