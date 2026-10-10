@@ -18,6 +18,7 @@ def sql(q,soft=False):
     return r.stdout.strip()
 FIX=open(os.path.join(here,'qa_all.py')).read().split('FIX="""')[1].split('"""')[0].replace('window.__ROLE','"customer"')
 STORE='50000000-0000-0000-0000-000000000001';CUST='c0000000-0000-0000-0000-000000000002'
+FD=os.environ.get('FD','1')=='1'   # v51: free delivery above the restaurant threshold (needs patch 33 in the test database)
 random.seed(46);N=int(os.environ.get('N','250'))
 PRICES=[12.5,7.3,33.33,18.9,45,9.99,27.75,3.4]
 ids=['20000000-0000-0000-0000-%012d'%i for i in range(len(PRICES))]
@@ -32,9 +33,9 @@ with sync_playwright() as p:
         sd=random.choice([0,0,10,15]);hh=random.choice([0,0,20,25,40]);disc=[random.choice([0,0,0,5,10,30]) for _ in PRICES]
         cart={ids[i]:random.randint(1,4) for i in random.sample(range(len(PRICES)),random.randint(1,5))}
         bal=random.choice([0,500,999,1000,1234,2999,20000,150000,10**6]);rate=random.choice([100,1000,7,333]);mn=random.choice([0,1000]);vp=random.choice([1000,500,1]);mo=random.choice([0,30,80])
-        use=random.random()<0.8;tip=random.choice([0,3,5,10])
+        use=random.random()<0.8;tip=random.choice([0,3,5,10]);fdm=random.choice([0,0,50,100,150.5])
         # database state
-        sql("update stores set discount_pct=%d where id='%s';update menu_items set discount_pct=v.d from (values %s) v(i,d) where id=v.i::uuid;delete from happy_hours;%s"
+        sql(("update stores set free_delivery_min=%s where id='%s';"%(fdm,STORE) if FD else '')+"update stores set discount_pct=%d where id='%s';update menu_items set discount_pct=v.d from (values %s) v(i,d) where id=v.i::uuid;delete from happy_hours;%s"
             %(sd,STORE,','.join("('%s',%d)"%(ids[i],disc[i]) for i in range(len(PRICES))),
               "insert into happy_hours(title,start_time,end_time,discount_pct) values ('t','00:00','23:59:59',%d);"%hh if hh else ''))
         sql("update app_settings set value=%d where key='loyalty_points_per_tjs';update app_settings set value=%d where key='loyalty_min_redeem';update app_settings set value=%d where key='loyalty_voucher_points';update app_settings set value=%d where key='loyalty_min_order';delete from loyalty_lots where user_id='%s';%s"
@@ -42,17 +43,17 @@ with sync_playwright() as p:
         # the app's view of the same state
         c=pg.evaluate("""(a)=>{const items=a.ids.map((id,i)=>({id,name:'D'+i,price:a.prices[i],discount:a.disc[i],available:true,approved:true,image:'',hasOpts:false,optsBlocked:false}));
           TLB.allMenus=()=>({K:items});TLB.optionsOf=()=>[];TLB.isOpen=()=>true;TLB.loyalty=()=>({balance:a.bal,points_per_tjs:a.rate,min_redeem:a.mn,earn_per_tjs:10,cashback_pct:0,voucher_points:a.vp,min_order:a.mo});
-          ALLS=[{id:'k',n:'K',fee:10,rd:a.sd,hh:a.hh,disc:Math.max(a.sd,a.hh),ffd:false,ft:'fixed',pmo:null,cb:null}];
+          ALLS=[{id:'k',n:'K',fee:10,fdm:a.fdm,rd:a.sd,hh:a.hh,disc:Math.max(a.sd,a.hh),ffd:false,ft:'fixed',pmo:null,cb:null}];
           S.cartStore='K';S.cart=a.cart;S.quote=null;S.promo=null;S.useWallet=false;S.usePts=a.use;S.tip=a.tip;
-          const c=calc();return {sub:c.sub,d:c.d,h:c.h,pts:c.pts,pv:c.pv,total:c.total}}""",
-          {'ids':ids,'prices':PRICES,'disc':disc,'bal':bal,'rate':rate,'mn':mn,'vp':vp,'mo':mo,'sd':sd,'hh':hh,'cart':cart,'use':use,'tip':tip})
+          const c=calc();return {sub:c.sub,d:c.d,h:c.h,pts:c.pts,pv:c.pv,total:c.total,fee:c.fee}}""",
+          {'ids':ids,'prices':PRICES,'disc':disc,'bal':bal,'rate':rate,'mn':mn,'vp':vp,'mo':mo,'sd':sd,'hh':hh,'cart':cart,'use':use,'tip':tip,'fdm':fdm if FD else 0})
         items=json.dumps([{'item_id':k,'qty':q} for k,q in cart.items()])
-        r=sql("select set_config('request.jwt.claim.sub','%s',false);select place_order('%s'::uuid,'%s'::jsonb,%d,'cash','Rudaki 1',38.5,68.7,null,null,10,null,%s)"
-              %(CUST,STORE,items,tip,c['pts'] or 'null'),soft=True).split('\n')[-1]
+        r=sql("select set_config('request.jwt.claim.sub','%s',false);select place_order('%s'::uuid,'%s'::jsonb,%d,'cash','Rudaki 1',38.5,68.7,null,null,%s,null,%s)"
+              %(CUST,STORE,items,tip,c['fee'],c['pts'] or 'null'),soft=True).split('\n')[-1]
         if not r.isdigit():
             bad+=1;print('FAIL #%d server refused: %s | app %s | sd %s hh %s bal %s rate %s min %s'%(n,r,c,sd,hh,bal,rate,mn));continue
-        row=sql("select subtotal,discount,hh_discount,points_used,points_value,total from orders where id=%s"%r).split('|')
-        srv=dict(zip(['sub','d','h','pts','pv','total'],[float(x) for x in row]))
+        row=sql("select subtotal,discount,hh_discount,points_used,points_value,total,delivery_fee from orders where id=%s"%r).split('|')
+        srv=dict(zip(['sub','d','h','pts','pv','total','fee'],[float(x) for x in row]))
         srv['d']=round(srv['d']-srv['h'],2)                              # v48: orders.discount includes the happy hour (restaurant pays it)
         diff={k:(c[k],srv[k]) for k in srv if abs(float(c[k])-srv[k])>0.004}
         if diff: bad+=1;print('FAIL #%d %s | sd %s hh %s disc %s cart %s bal %s rate %s'%(n,diff,sd,hh,disc,cart,bal,rate))
