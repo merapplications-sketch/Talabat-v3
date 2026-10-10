@@ -25,3 +25,13 @@ No SQL. Branch stacked on `feature/batch2-v52`. Only `customer.html` (+ `assets/
 ## Tests
 qa_all customer 0 issues at 360/390/430 online/offline incl. the empty-data pass and new screens (filters, filtered
 results, notifications, all categories); flow_check, cart_check, smoke, overflow, header checks pass.
+
+# v54 — home reworked to the owner's second reference (10 Oct 22:41)
+- 6 categories, 3 + 3: Restaurants, Groceries, Pharmacy / Beauty, Flowers & Gifts, Sweets (captions in English as in
+  his example; 96 px cream tiles). Flowers & Gifts = one combined 3D icon (bouquet + gift) and opens both store categories.
+- Removed from the home: extra categories and "all categories", groceries/flowers cards, supermarkets, "Всё для дома",
+  pharmacies, flowers rail, brands, special occasions, admin bottom banners, Dushanbe banner, section icons.
+- Order: header → categories → main banner → your last orders (all, horizontal, "Заказать снова") → popular nearby
+  (delivery time on the photo) → best offers → recommended (picture tiles with price and +) → "Больше возможностей с
+  Талабот" (one wide card) → DineOut (restaurants with atmosphere; "до X% на меню" only from a real discount) → nav.
+- Bottom navigation captions: Home, Orders, Wallet, Offers, Profile (as in the example).
