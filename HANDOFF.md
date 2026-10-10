@@ -1,4 +1,4 @@
-# Talabat v3 — hand-off for a new conversation (state at v45)
+# Talabat v3 — hand-off for a new conversation (state at v46)
 
 ## Who / how to work
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
@@ -11,15 +11,16 @@
 - Each app has its own auth storage key; wrong-app accounts get a "wrong app" screen with a link.
 
 ## Branch state
-- `main` = v44 (PR #14 merged by the owner).
-- Newest: `fix/promo-ratelimit-v45` (v45): https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/promo-ratelimit-v45 — security fix, NEEDS `sql/schema_patch28.sql` run in Supabase; see CHANGES-v45.md.
+- `main` = v45 (PR #15 merged). Owner was told to run patch 28.
+- Newest: `feature/loyalty-v46` (v46): https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/loyalty-v46 — points, cashback, happy hour; NEEDS `sql/schema_patch29.sql`; see CHANGES-v46.md.
+- ALWAYS attach every SQL file to the message with SendUserFile (the owner asked: he cannot find files in the repo by himself).
 - OWNER DECISION: the restaurant page has NO tabs (no top/horizontal section tabs). One vertical scroll with section titles. Do not add tabs back.
 - The owner sent a mandatory "Definition of Done" protocol (v43): every batch = self-QA at 360/390/430 online+offline, one design system (buttons/cards/headers/empty states), compact modern call/map buttons, no raw keys/overlaps, batch delivery with a report table. Follow it.
 - v41 included: staff RBAC (patch 26), multi-branch restaurants (patch 27), overflow clip (v37), dish sheet scroll/validation fix (v38), driver header pill fix + full-width offline strip (v40), QA harness + fixes for branch sync button and hidden discount badge (v41).
 - `feature/rest-tabs-v39` is OBSOLETE (Info tab removed).
 
 ## SQL (run in Supabase SQL Editor, in order)
-- `sql/schema_patch26.sql` then `sql/schema_patch27.sql` (owner said he ran both), then `sql/schema_patch28.sql` (v45, promo guessing limit; wraps the existing check_promo as check_promo_base). `sql/test_patch28.sql` runs on an EMPTY local PostgreSQL (self-contained, 15/15). Tests on a local replica: `sql/test_patch27.sql` (67/67). Earlier patches 17-25 assumed applied.
+- `sql/schema_patch26.sql` then `sql/schema_patch27.sql` (owner said he ran both), then `sql/schema_patch28.sql` (v45, promo guessing limit; wraps the existing check_promo as check_promo_base), then `sql/schema_patch29.sql` (v46 loyalty; replaces place_order with a 12-arg version adding p_points, adds happy_hours/loyalty tables, trigger trg_orders_loyalty). `sql/test_patch29.sql` 40/40 on empty PostgreSQL; `tools/loyalty_parity.py` compares app vs SQL bills (needs that local DB). `sql/test_patch28.sql` runs on an EMPTY local PostgreSQL (self-contained, 15/15). Tests on a local replica: `sql/test_patch27.sql` (67/67). Earlier patches 17-25 assumed applied.
 - Security page: owner reported (v44) one FAIL: promo guessing not rate-limited → fixed by patch 28; ask him to re-run `security-check.html?v=45` after running the patch (wait 10 min between runs: the test blocks its own account).
 
 ## Test tools (python3 + playwright; run from repo root)
@@ -31,4 +32,4 @@
 1. Merge the v44 PR. 2. Report security-check result. 3. Confirm admin@test.com has role admin in `profiles`. 4. Say in which app/page the "app wider than the iPhone screen" issue appears (v37 clips overflow defensively; cause unknown). 5. Real-device feedback on v41.
 
 ## Approved backlog, in order (not started unless noted)
-1. Cart + checkout polish (customer) — DONE in v42 (owner may still list extra wishes).  2. Restaurant page tabs — DECIDED: no tabs, single scroll (done in v44).  3. Loyalty/cashback/points, happy-hour promos.  4. Auto-cancel after 5 min (pg_cron), live driver GPS tracking, offline cache + sync.  5. Push notifications, batch delivery, heatmaps, partner requests, offers/ads.  6. OTP signup via WhatsApp/SMS (needs provider; no domain yet).  7. Before launch: delete weak test accounts, set Supabase Auth rate limits.
+1. Cart + checkout polish (customer) — DONE in v42 (owner may still list extra wishes).  2. Restaurant page tabs — DECIDED: no tabs, single scroll (done in v44).  3. Loyalty/cashback/points, happy-hour promos — DONE in v46 (owner decisions: 10 pts/TJS, cashback to wallet, happy hour scheduled by admin, expiry, minimum; defaults 1000 pts = 1 TJS, min 1000, 90 days, cashback 0% — ask owner to confirm the value/defaults).  4. Auto-cancel after 5 min (pg_cron), live driver GPS tracking, offline cache + sync.  5. Push notifications, batch delivery, heatmaps, partner requests, offers/ads.  6. OTP signup via WhatsApp/SMS (needs provider; no domain yet).  7. Before launch: delete weak test accounts, set Supabase Auth rate limits.
