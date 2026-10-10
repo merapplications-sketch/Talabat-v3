@@ -83,6 +83,13 @@ async function run(){
   if(sid&&item){var seen=false;for(var i=0;i<13&&!seen;i++){var q=await c.rpc('check_promo',{p_code:'ZZ'+Math.random().toString(36).slice(2,8).toUpperCase(),p_store:item.store_id,p_items:[{item_id:item.id,qty:1}]});if(q.error&&/too_many/i.test(q.error.message||''))seen=true}
     row(seen?'PASS':'FAIL','Promo code guessing is rate-limited',seen?'blocked after about 10 wrong codes (wait 10 minutes before testing promos again)':'13 wrong codes were not blocked')}
   else row('SKIP','Promo rate-limit test','Needs at least one visible menu item.');
+  /* loyalty (patch 29): points, happy hours and their settings cannot be changed by a customer */
+  var lp=await c.from('loyalty_lots').insert({user_id:u.id,points:100000,points_left:100000,expires_at:new Date(Date.now()+864e5).toISOString(),kind:'earn'}).select();
+  row(lp.error||!lp.data||!lp.data.length?'PASS':'FAIL','Customer cannot give himself loyalty points',lp.error?'blocked':'points were added — must be fixed');
+  var hw=await c.from('happy_hours').insert({title:'x',start_time:'00:00',end_time:'23:00',discount_pct:90}).select();
+  row(hw.error||!hw.data||!hw.data.length?'PASS':'FAIL','Customer cannot create a happy hour',hw.error?'blocked':'created — must be fixed');
+  var ss=await c.rpc('set_setting',{p_key:'cashback_pct',p_value:50});
+  row(ss.error?'PASS':'FAIL','Customer cannot change cashback / points settings',ss.error?'blocked':'changed — must be fixed');
   var bp=await c.rpc('check_promo_base',{p_code:'ZZTEST',p_store:sid||null,p_items:[]});
   row(bp.error?'PASS':'FAIL','The promo limit cannot be bypassed (check_promo_base is closed)',bp.error?'blocked':'a customer can call it directly');
   /* ---------- dispatch, location and ratings ---------- */
