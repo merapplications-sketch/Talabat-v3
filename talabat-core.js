@@ -12,10 +12,10 @@
   /* ---------- i18n RU / EN ---------- */
   var I = {
     ru: { pending: 'Ожидание подтверждения', preparing: 'Готовится', ready: 'Готов к выдаче курьеру', pickedup: 'Курьер в пути', delivered: 'Доставлено', rejected: 'Отклонён рестораном', cancelled: 'Отменён',
-      err_closed: 'Ресторан сейчас закрыт', err_unavailable: 'Товар недоступен', err_points_changed: 'Баланс баллов изменился. Проверьте сумму и оформите снова.', err_points_min: 'Недостаточно баллов для списания', err_points_min_order: 'Баллы можно списать, когда сумма блюд не меньше минимальной', err_bad_gift: 'Укажите имя и телефон получателя (+992 и 9 цифр)', err_empty: 'Корзина пуста', err_bad_transition: 'Действие недоступно', err_taken: 'Заказ уже взят другим курьером',
+      err_closed: 'Ресторан сейчас закрыт', err_unavailable: 'Товар недоступен', err_points_changed: 'Баланс баллов изменился. Проверьте сумму и оформите снова.', err_points_min: 'Недостаточно баллов для списания', err_points_min_order: 'Баллы можно списать, когда сумма блюд не меньше минимальной', err_bad_gift: 'Укажите имя и телефон получателя (+992 и 9 цифр)', err_bad_time: 'Выберите время от 45 минут до 3 дней вперёд', err_bad_group: 'Групповой заказ недоступен (закрыт или оформлен)', err_group_closed: 'Групповой заказ уже закрыт для добавления', err_too_early: 'Запланированный заказ можно начать готовить за час до времени', err_empty: 'Корзина пуста', err_bad_transition: 'Действие недоступно', err_taken: 'Заказ уже взят другим курьером',
       confirm_cancel: 'Отменить заказ?', clear_cart: 'В корзине товары другого магазина. Очистить корзину?', accept: 'Принять', reject: 'Отклонить', add: 'Добавить', cart: 'Корзина', pay: 'Оплатить заказ', online: 'На линии', offline: 'Не в сети' },
     en: { pending: 'Waiting for confirmation', preparing: 'Preparing', ready: 'Ready for courier pickup', pickedup: 'Courier on the way', delivered: 'Delivered', rejected: 'Rejected by restaurant', cancelled: 'Cancelled',
-      err_closed: 'The restaurant is closed right now', err_unavailable: 'Item unavailable', err_points_changed: 'Your points balance changed. Check the amount and place the order again.', err_points_min: 'Not enough points to use', err_points_min_order: 'Points can be used when the dishes reach the minimum order', err_bad_gift: 'Enter the recipient\'s name and phone (+992 and 9 digits)', err_empty: 'Cart is empty', err_bad_transition: 'Action not allowed', err_taken: 'Order already taken by another courier',
+      err_closed: 'The restaurant is closed right now', err_unavailable: 'Item unavailable', err_points_changed: 'Your points balance changed. Check the amount and place the order again.', err_points_min: 'Not enough points to use', err_points_min_order: 'Points can be used when the dishes reach the minimum order', err_bad_gift: 'Enter the recipient\'s name and phone (+992 and 9 digits)', err_bad_time: 'Choose a time from 45 minutes to 3 days ahead', err_bad_group: 'The group order is not available (closed or placed)', err_group_closed: 'The group order is closed for new dishes', err_too_early: 'A scheduled order can be started one hour before its time', err_empty: 'Cart is empty', err_bad_transition: 'Action not allowed', err_taken: 'Order already taken by another courier',
       confirm_cancel: 'Cancel this order?', clear_cart: 'Your cart has items from another store. Clear it?', accept: 'Accept', reject: 'Reject', add: 'Add', cart: 'Cart', pay: 'Pay for order', online: 'Online', offline: 'Offline' }
   };
   var lang = 'ru';
@@ -154,10 +154,11 @@
       return a < b ? (days.indexOf(dow) >= 0 && mins >= a && mins < b) : ((days.indexOf(dow) >= 0 && mins >= a) || (days.indexOf(prev) >= 0 && mins < b));
     });
   }
+  function grp(r) { if (r.error) return { error: errKey(r.error) }; if (!r.data) return { error: 'bad_group' }; return { group: r.data }; }
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'v50';
+  var VERSION = 'v51';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -166,7 +167,7 @@
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
         items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
-        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
@@ -228,9 +229,9 @@
   function loadStat() {
     return Promise.all([
       storesQuery(STORE_COLS).then(function (res) {
-        if (res.error && (res.error.code === '42703' || /does not exist/i.test(String(res.error.message || '')))) {
+        if (res.error && (res.error.code === '42703' || res.error.code === '42501' || /does not exist|permission denied/i.test(String(res.error.message || '')))) {
           return storesQuery(STORE_COLS_V35).then(function (r2) {
-            if (r2.error && (r2.error.code === '42703' || /does not exist/i.test(String(r2.error.message || '')))) { dbOld = true; return storesQuery(STORE_COLS_BASE); }
+            if (r2.error && (r2.error.code === '42703' || r2.error.code === '42501' || /does not exist|permission denied/i.test(String(r2.error.message || '')))) { dbOld = true; return storesQuery(STORE_COLS_BASE); }
             return r2;
           });
         }
@@ -241,12 +242,18 @@
       sb.from('item_option_groups').select('*').order('sort').order('created_at').limit(5000),
       sb.from('item_options').select('*').order('sort').order('name').limit(20000),
       (ME.role === 'admin' || ME.role === 'merchant') ? sb.rpc('store_private') : Promise.resolve({ data: [] }),
-      sb.from('brands').select('id,name,owner_id').order('name').limit(500).then(function (x) { return x; }, function () { return { data: [] }; })
+      sb.from('brands').select('id,name,owner_id').order('name').limit(500).then(function (x) { return x; }, function () { return { data: [] }; }),
+      // restaurant rules added by later patches (32: points minimum + cashback, 33: free delivery from); an older database just lacks them
+      sb.from('stores').select('id,points_min_order,cashback_pct,free_delivery_min,earn_per_tjs').limit(1000).then(function (x) {
+        if (!x.error) return x;
+        return sb.from('stores').select('id,points_min_order,cashback_pct').limit(1000).then(function (y) { return y.error ? { data: [] } : y; }, function () { return { data: [] }; });
+      }, function () { return { data: [] }; })
     ]).then(function (r) {
       if (r[0].error || r[1].error) throw (r[0].error || r[1].error);
       if (dbOld && (ME.role === 'admin' || ME.role === 'merchant')) banner('tlb-old', t('dbOldW'), '#c2410c', 150);
       var priv = {}; (r[5].error ? [] : (r[5].data || [])).forEach(function (p) { priv[p.id] = p; });
-      var stores = (r[0].data || []).map(function (x) { var p = priv[x.id]; return p ? Object.assign({}, x, { owner_id: p.owner_id, commission_pct: p.commission_pct, max_discount_pct: p.max_discount_pct }) : x; });
+      var rules = {}; ((r[7] && r[7].data) || []).forEach(function (x) { rules[x.id] = x; });
+      var stores = (r[0].data || []).map(function (x) { var p = priv[x.id], q = rules[x.id]; if (q) x = Object.assign({}, x, { points_min_order: q.points_min_order, cashback_pct: q.cashback_pct, free_delivery_min: q.free_delivery_min == null ? 0 : q.free_delivery_min, earn_per_tjs: q.earn_per_tjs == null ? null : q.earn_per_tjs }); return p ? Object.assign({}, x, { owner_id: p.owner_id, commission_pct: p.commission_pct, max_discount_pct: p.max_discount_pct }) : x; });
       var pack = [stores, r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[6] && !r[6].error ? (r[6].data || []) : []];
       if (!changed('stat', pack)) return false;
       DB.stores = pack[0] || []; DB.items = pack[1] || []; DB.banners = pack[2] || []; DB.groups = pack[3] || []; DB.options = pack[4] || []; DB.brands = pack[5] || [];
@@ -470,7 +477,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -985,6 +992,15 @@
     speed: function (storeId) { return DB.speed[storeId] || null; },
     isExpress: function (storeId) { var s = DB.speed[storeId]; return !!(s && s.n >= 3 && s.min <= 15); },
     setMyCashback: function (storeN, pct) { var s = storeByName(storeN); if (!s) return badStore(); return rpc('set_my_cashback', { p_store: s.id, p_pct: +pct }, true); },
+    setMyFreeDelivery: function (storeN, min) { var s = storeByName(storeN); if (!s) return badStore(); return rpc('set_my_free_delivery', { p_store: s.id, p_min: +min || 0 }, true); },
+    setStoreEarn: function (storeId, v) { var e = String(v == null ? '' : v).trim() === '' ? null : +v; if (e !== null && (!isFinite(e) || e < 0 || e > 1000 || e !== Math.floor(e))) return Promise.resolve({ error: 'bad_value' }); return rpc('set_store_earn', { p_store: storeId, p_earn: e }, true); },
+    setStoreFreeDelivery: function (storeId, min) { return rpc('set_store_free_delivery', { p_store: storeId, p_min: +min || 0 }, true); },
+    /* group (office) orders (patch 33): everything goes through the group_* functions; they answer the whole group */
+    groupCreate: function (storeN) { var s = storeByName(storeN); if (!s) return Promise.resolve({ error: 'store_unavailable' }); return sb.rpc('group_create', { p_store: s.id }).then(grp); },
+    groupGet: function (id) { if (!UUID.test(String(id))) return Promise.resolve({ error: 'bad_group' }); return sb.rpc('group_get', { p_id: id }).then(grp); },
+    groupAdd: function (id, itemId, qty, opts, note) { return sb.rpc('group_add', { p_id: id, p_item: itemId, p_qty: Math.max(1, Math.min(20, Math.floor(+qty || 1))), p_options: opts || [], p_note: note ? String(note).slice(0, 120) : null }).then(grp); },
+    groupRemove: function (line) { return sb.rpc('group_remove', { p_line: +line }).then(grp); },
+    groupSet: function (id, status) { return sb.rpc('group_set', { p_id: id, p_status: status }).then(grp); },
     setStoreLoyalty: function (storeId, minOrder, cashback) { return rpc('set_store_loyalty', { p_store: storeId, p_min_order: minOrder === '' || minOrder == null ? null : +minOrder, p_cashback: cashback === '' || cashback == null ? null : +cashback }, true); },
     /* best happy-hour % for a store now (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
     hhPct: function (storeId, at) {

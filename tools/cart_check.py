@@ -70,6 +70,23 @@ with sync_playwright() as p:
     pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={['11111111-1111-4111-8111-111111111111']:1};S.cartStore=s.n;S.gift={name:'М',phone:'123'};go('pay');await quoteNow();await place()}""")
     ok(pg.evaluate("()=>window.__rpcs.length")==n0 and dlg,'gift without a valid phone: clear message, nothing sent')
     pg.evaluate("()=>{S.gift=null}")
+    # 3c) v51: scheduled time, free delivery above the restaurant threshold, group order
+    r=pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={['11111111-1111-4111-8111-111111111111']:1};S.cartStore=s.n;go('pay');await quoteNow();
+      whenSet(true);const at=S.at;await place();const a=window.__rpcs[window.__rpcs.length-1];return {at,sent:a.p_extra.at,fee:a.p_fee,reset:S.at===null}}""")
+    ok(r['sent'] and abs(pg.evaluate("(x)=>Date.parse(x)",r['sent'])-r['at'])<1000 and r['reset'],'scheduled time sent (first slot ≥ 45 min) and cleared after the order')
+    ok(r['fee']==12,'below the free-delivery threshold the normal fee is sent: %s'%r['fee'])
+    n0=pg.evaluate("()=>window.__rpcs.length");dlg.clear()
+    pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={['11111111-1111-4111-8111-111111111111']:1};S.cartStore=s.n;go('pay');await quoteNow();S.at=Date.now()+20*60000;await place()}""")
+    ok(pg.evaluate("()=>window.__rpcs.length")==n0 and dlg and pg.evaluate("()=>S.at")is None,'a time that became too close is refused before sending')
+    r=pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={['11111111-1111-4111-8111-111111111111']:8};S.cartStore=s.n;go('pay');await quoteNow();const c=calc();await place();const a=window.__rpcs[window.__rpcs.length-1];return {fw:c.fw,fee:c.fee,sent:a.p_fee,row:true}}""")
+    ok(r['fw']==12 and r['fee']==0 and r['sent']==0,'dishes ≥ threshold (150): delivery is free and 0 is sent: %s'%r)
+    r=pg.evaluate("""async()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={i2:1};S.cartStore=s.n;const P='11111111-1111-4111-8111-111111111111';S.gid=window.__GRP.id;S.grp=Object.assign({},window.__GRP,{status:'closed',items:[{id:1,user_name:'Зарина',mine:true,item_id:P,qty:2,options:[]},{id:2,user_name:'Бахромджон',mine:false,item_id:P,qty:1,options:[],note:'без лука'}]});go('group');await grpCheckout();
+      const k=Object.keys(S.cart).sort(),v=S.v,keep=S.gKeep&&Object.keys(S.gKeep.cart);await quoteNow();await place();const a=window.__rpcs[window.__rpcs.length-1];
+      return {v,k,keep,grp:a.p_extra.group,notes:a.p_items.map(x=>x.note||''),after:{gid:S.gid,cart:Object.keys(S.cart),v:S.v}}}""")
+    ok(r['v']=='pay' and r['k']==['11111111-1111-4111-8111-111111111111'] and pg.evaluate("()=>1"),'group checkout: same dish from two people = one line: %s'%r['k'])
+    ok(r['grp']==pg.evaluate("()=>window.__GRP.id"),'the order is sent as the group order')
+    ok(r['notes']==['Зарина ×2; Бахромджон ×1 (без лука)'],'each line keeps who ordered it: %s'%r['notes'])
+    ok(r['after']['gid'] is None and r['after']['cart']==['i2'] and r['after']['v']=='track','after the group order: own cart is back, group closed on this phone')
     # 4) busy label
     t=pg.evaluate("()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={i2:1};S.cartStore=s.n;S.busy=true;go('pay');const t=document.querySelector('.fbar .btn').textContent;S.busy=false;render();return t}")
     ok('…' in t,'placing state shows "sending…": '+t)

@@ -1,4 +1,4 @@
-# Talabat v3 — hand-off for a new conversation (state at v50)
+# Talabat v3 — hand-off for a new conversation (state at v51)
 
 ## Who / how to work
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
@@ -12,8 +12,10 @@
 
 ## Branch state
 - `main` = v45 (PR #15 merged). Owner was told to run patch 28.
-- Newest: `feature/batch1-v50` (v50): owner spec of 10 Oct 18:00, batch 1 (home, vouchers, wishes); NEEDS sql/schema_patch32.sql. https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch1-v50
-- OPEN owner questions (asked 10 Oct ~18:00): (1) who pays points: redeeming restaurant (now) or platform fund settled between restaurants; (2) abandoned-cart PUSH needs push infra (in-app reminder done); (3) free-delivery threshold per restaurant + default; (4) scheduled + corporate orders as batch 1-b.
+- Newest: `feature/batch1b-v51` (v51, stacked on v50): batch 1-b = free-delivery threshold per restaurant (default 0), scheduled orders, group/office order; NEEDS sql/schema_patch33.sql (also grants the store columns of patches 27/32/33 — they were not readable). https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch1b-v51
+- Before: `feature/batch1-v50` (v50): owner spec of 10 Oct 18:00, batch 1 (home, vouchers, wishes); NEEDS sql/schema_patch32.sql. https://github.com/merapplications-sketch/Talabat-v3/pull/new/feature/batch1-v50
+- Owner answers 10 Oct 18:43: points paid by the redeeming restaurant (a); abandoned cart = in-app now, push later; free delivery threshold per restaurant default 0 (restaurant + admin set it); batch 1-b done in v51.
+- DECIDED 19:21: earn 10 pts/TJS, 1000 pts = 1 TJS (1%), paid by the redeeming restaurant; earn rate per restaurant (admin), point value global (patch 33). Still open: confirm patch 27 was run.
 - NEXT: batch 2 (courier: full-screen map + bottom sheet, 4 swipe steps incl. arrived-at-restaurant/customer, photo proof for leave-at-door, cancel alert, distance-based fee on the map), batch 3 (merchant onboarding: landing page, home banner, 3-field form with rate limit -> admin, honest profit calculator).
 - Previous: `fix/points-restaurant-v49` (v49, merged): points discount paid by the restaurant (display/settlement only, no SQL). https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/points-restaurant-v49
 - Previous: `fix/hh-restaurant-v48` (v48, merged; owner ran patch 31): patch 31 (restaurant pays happy hour) + security page dish fix. https://github.com/merapplications-sketch/Talabat-v3/pull/new/fix/hh-restaurant-v48
