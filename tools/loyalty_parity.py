@@ -53,6 +53,7 @@ with sync_playwright() as p:
             bad+=1;print('FAIL #%d server refused: %s | app %s | sd %s hh %s bal %s rate %s min %s'%(n,r,c,sd,hh,bal,rate,mn));continue
         row=sql("select subtotal,discount,hh_discount,points_used,points_value,total from orders where id=%s"%r).split('|')
         srv=dict(zip(['sub','d','h','pts','pv','total'],[float(x) for x in row]))
+        srv['d']=round(srv['d']-srv['h'],2)                              # v48: orders.discount includes the happy hour (restaurant pays it)
         diff={k:(c[k],srv[k]) for k in srv if abs(float(c[k])-srv[k])>0.004}
         if diff: bad+=1;print('FAIL #%d %s | sd %s hh %s disc %s cart %s bal %s rate %s'%(n,diff,sd,hh,disc,cart,bal,rate))
         sql("update orders set status='cancelled', created_at=now()-interval '2 hours' where id=%s"%r)   # points come back; keep the 20-per-hour guard out of the way

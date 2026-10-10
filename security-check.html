@@ -14,7 +14,7 @@ button{border:0;border-radius:999px;background:#f1511b;color:#fff;font:700 15px 
 .r b{display:block;font-size:14px}.r span{font-size:12px;color:#8b8f98;word-break:break-word}
 .sum{font-size:17px;font-weight:700;margin-bottom:6px}
 </style></head><body><div class="w">
-<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-47 · patch 30 checks · failed checks listed at the top</div>
+<h1>Security self-check</h1><div id="build" style="display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700">Build SC-48 · patch 31 checks · failed checks listed at the top</div>
 <p>Tries to do things a normal customer must NOT be able to do. Nothing here should succeed.
 Open the customer app in this browser, sign in with a <b>throwaway test account</b>, then come back to this page and tap the button.</p>
 <div class="card"><button id="go">Run the check</button></div>
@@ -49,7 +49,10 @@ async function run(){
   var prof=await c.from('profiles').select('role').eq('id',u.id).single();
   if(!prof.data||prof.data.role!=='customer'){row('SKIP','This account is not a plain customer','Role: '+(prof.data&&prof.data.role)+'. Use a normal customer account for this check.');fin(u);return}
   var st=await c.from('stores').select('id').limit(1),sid=st.data&&st.data[0]&&st.data[0].id;
-  var it=await c.from('menu_items').select('id,store_id').limit(1),item=it.data&&it.data[0];
+  /* a dish that can really be ordered: open restaurant, no required options (otherwise the promo check stops at "bad_options" before it even looks at the code) */
+  var it=await c.from('menu_items').select('id,store_id').limit(200),ogs=await c.from('item_option_groups').select('item_id,required').limit(1000),ops=await c.from('stores').select('id,is_open').limit(500);
+  var needOpt={};((ogs&&ogs.data)||[]).forEach(function(g){if(g.required)needOpt[g.item_id]=1});var openS={};((ops&&ops.data)||[]).forEach(function(x){if(x.is_open)openS[x.id]=1});
+  var item=((it&&it.data)||[]).find(function(x){return !needOpt[x.id]&&openS[x.store_id]})||((it&&it.data)||[]).find(function(x){return !needOpt[x.id]})||null;
   await expectBlocked('Customer cannot read promo codes',c.from('promo_codes').select('*'));
   await expectBlocked('Customer cannot insert a banner',c.from('banners').insert({title:'x'}).select());
   if(sid){
@@ -85,7 +88,7 @@ async function run(){
   else row('PASS','Promo guard (patch 30) is installed','version '+gv.data);
   if(sid&&item){var seen=false,last='';for(var i=0;i<13&&!seen;i++){var q=await c.rpc('check_promo',{p_code:'ZZ'+Math.random().toString(36).slice(2,8).toUpperCase(),p_store:item.store_id,p_items:[{item_id:item.id,qty:1}]});last=q.error?('error: '+(q.error.message||'')):JSON.stringify(q.data);if(q.error&&/too_many/i.test(q.error.message||''))seen=true}
     row(seen?'PASS':'FAIL','Promo code guessing is rate-limited',seen?'blocked after about 10 wrong codes (wait 10 minutes before testing promos again)':'13 wrong codes were not blocked · last answer: '+String(last).slice(0,120))}
-  else row('SKIP','Promo rate-limit test','Needs at least one visible menu item.');
+  else row('SKIP','Promo rate-limit test','Needs one visible dish without required options.');
   /* loyalty (patch 29): points, happy hours and their settings cannot be changed by a customer */
   var lp=await c.from('loyalty_lots').insert({user_id:u.id,points:100000,points_left:100000,expires_at:new Date(Date.now()+864e5).toISOString(),kind:'earn'}).select();
   row(lp.error||!lp.data||!lp.data.length?'PASS':'FAIL','Customer cannot give himself loyalty points',lp.error?'blocked':'points were added — must be fixed');
