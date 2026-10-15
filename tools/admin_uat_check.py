@@ -84,8 +84,8 @@ with sync_playwright() as p:
     # ---- 4. settlement
     E("()=>{D='ord6';render()}");fb=E("()=>[...document.querySelectorAll('.fr')].map(e=>e.innerText.replace(/\\n/g,' | '))")
     j=' / '.join(fb)
-    ok('Не проверено' in j and 'Apple Pay' in j,'Apple Pay is not shown as collected')
-    ok('Не выполнялся через приложение' in j,'card refund: no data, nothing invented')
+    ok('Сбор и возврат не подтверждены — платёжный шлюз не подключён' in j and 'Apple Pay' in j,'Apple Pay: collection and refund not verified, gateway not connected')
+    ok(j.count('платёжный шлюз не подключён')==2,'refund row says the same, nothing invented')
     ok('10.00 TJS — не выплачиваются' in j and '22.00 TJS — расчётная, не учитывается' in j,'tip and commission of a rejected order are marked as not counted')
     E("()=>{D='ord5';render()}");j=' / '.join(E("()=>[...document.querySelectorAll('.fr')].map(e=>e.innerText.replace(/\\n/g,' | '))"))
     ok('Возвращено в кошелёк клиента | 20.00 TJS' in j and 'Баллы возвращены клиенту' in j,'cancelled order: wallet and points returns shown from their records')
@@ -112,7 +112,7 @@ with sync_playwright() as p:
     ok(hi==4,'unhandled 4–5 star ratings are "Не обработано", not "needs attention" (%d)'%hi)
     # ---- 10. summary caption
     E("()=>{tab='o';D=null;render()}");cap=E("()=>document.querySelector('.kcap').innerText")
-    ok('7 последним загруженным' in cap and 'доставленных' in cap,'summary says what it counts: '+cap[:70])
+    ok('не более 300' in cap and '(сейчас 7)' in cap and 'не итог за всё время' in cap and re.search(r'период \d\d\.\d\d\.\d{4}.* — \d\d\.\d\d\.\d{4}',cap),'summary: "не более 300", real period, not all-time: '+cap[:90])
     ok(re.search(r'\d+\.\d\d TJS',E("()=>document.querySelector('.grid').innerText")) is not None,'money shown with 2 decimals')
     ok(not pg.errs,'no JS errors '+str(pg.errs[:2]))
     # ---- 6. forms fit the screen (no horizontal scroll), RU and EN
