@@ -24,6 +24,10 @@ with sync_playwright() as p:
     E("()=>{tab='b';render();openBE('bn1')}");n0=E("()=>window.__pvBlocked.length")
     E("()=>[...document.querySelectorAll('button')].find(b=>(b.getAttribute('onclick')||'')=='bannerSave()').click()");pg.wait_for_timeout(500)
     ok(E("()=>window.__pvBlocked.length")>n0 and 'запись отключена' in E("()=>document.body.innerText"),'clicking "save banner" is refused with a visible notice')
+    # preview-only button "another staff member saved": typed value stays, notice appears, no write leaves
+    E("()=>{BE=null;BD=null;tab='y';HE=null;render()}");pg.fill('#ly_loyalty_min_order','17');E("()=>document.activeElement.blur()");n0=E("()=>window.__pvBlocked.length")
+    pg.click('#pv-sim');pg.wait_for_timeout(3000)
+    ok(pg.input_value('#ly_loyalty_min_order')=='17' and E("()=>!!document.querySelector('.confn[data-for=\"ly_loyalty_min_order\"]')") and E("()=>window.__pvBlocked.length")==n0,'"simulate another save" button: typed 17 kept, notice shown, nothing written')
     ext=[u for u in reqs if u.startswith('http')]
     ok(not [u for u in ext if 'supabase' in u],'no request to Supabase (%d external requests: %s)'%(len(ext),sorted(set(u.split('/')[2] for u in ext))))
     ok(not errs,'no JS errors '+str(errs[:2]))

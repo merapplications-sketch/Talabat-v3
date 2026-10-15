@@ -67,6 +67,7 @@ small{color:var(--mut)}
 .alb2{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.alb2 .b{padding:10px 14px}
 .tph{display:block}
 .osr{display:flex;align-items:center;gap:8px;background:#fff;border-radius:14px;padding:0 6px 0 12px;margin-bottom:8px;box-shadow:var(--sh,0 2px 10px rgba(0,0,0,.05));color:#8b8f98}.osr input{flex:1;min-width:0;margin:0;background:none;padding:12px 0;border:0}.osr input:focus{background:none}.osx{flex-shrink:0;width:36px;height:36px;border:0;border-radius:10px;background:#f1f1f4;color:#555;font-size:14px;cursor:pointer}.osn{font-size:12px;color:#8b8f98;margin:-2px 2px 10px}
+.confn{background:#fff7e6;border:1px solid #f5c26b;color:#7a4b00;border-radius:12px;padding:9px 11px;font-size:12.5px;line-height:1.45;margin:-4px 0 10px;overflow-wrap:anywhere}.confn .b{display:block;width:100%;margin:8px 0 0;padding:9px}.confi{border-color:#f59e0b!important;background:#fffaf0!important}
 .kcap{font-size:11.5px;line-height:1.45;color:#8b8f98;margin:-4px 2px 12px}
 .fr{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:6px 0;border-top:1px solid #f0f0f3;font-size:13px}.fr:first-of-type{border-top:0}.fr span{color:#6b7280;flex-shrink:0;max-width:45%}.fr b{font-weight:600;text-align:end;overflow-wrap:anywhere}.fr.fo b{color:#1fa05a}.fr.fw b{color:#b45309}.fr.fm b{color:#6b7280;font-weight:500}
 .subl{margin:-2px 0 6px 10px;padding:4px 0 2px 10px;border-left:2px solid #f1d6c8}.subl .l{margin-bottom:3px}
@@ -78,6 +79,7 @@ input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;displa
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="talabat-core.js?v=56"></script>
 <script>
+TLB.addDict({uConf:'На сервере сохранено другое значение: «{v}». Ваше несохранённое значение оставлено.',uConfTake:'Взять значение с сервера',uConfObj:'После открытия эта запись изменена на сервере (другим сотрудником или в другой вкладке):',uConfObj2:'Ваши несохранённые изменения не тронуты. «Сохранить» запишет ваши значения поверх.',uConfReload:'Открыть версию с сервера (ваши изменения пропадут)',uConfSure:'Ваши несохранённые изменения пропадут. Продолжить?',uConfGone:'Эта запись удалена на сервере.',uConfGone2:'Сохранить её больше нельзя. Ваши значения видны ниже, чтобы их можно было переписать.',uConfAct:'Активен',uConfImg:'Картинка',uConfNew:'другая'},{uConf:'A different value was saved on the server: “{v}”. Your unsaved value was kept.',uConfTake:'Use the server value',uConfObj:'This record was changed on the server after you opened it (by another staff member or another tab):',uConfObj2:'Your unsaved changes are untouched. “Save” will write your values over it.',uConfReload:'Open the server version (your changes will be lost)',uConfSure:'Your unsaved changes will be lost. Continue?',uConfGone:'This record was deleted on the server.',uConfGone2:'It can no longer be saved. Your values stay visible below so you can copy them.',uConfAct:'Active',uConfImg:'Picture',uConfNew:'changed'});
 TLB.addDict({uOq:'№ заказа, имя или телефон клиента',uOqClr:'Очистить поиск',uOqBusy:'Ищем во всех заказах…',uOqAll:'Найдено во всех заказах: {n}',uOqLoc:'Поиск только среди загруженных заказов ({n}): выполните sql/schema_patch35.sql, чтобы искать во всех.',uOqDeny:'Нет прав на поиск заказов.',uOqErr:'Поиск во всех заказах не удался — показаны совпадения среди загруженных.',aeUnk:'Событие',uBSave:'Сохранить изменения баннера',uKCap:'Только последние загруженные заказы — не более 300 (сейчас {n}), все статусы; данные за период {d} — {e}. Это не итог за всё время. Выручка — сумма «Итого» {k} доставленных заказов из них (товары после скидок, промокода и баллов + доставка + чаевые). Комиссия — сумма комиссии этих доставленных заказов.',uFinT:'Оплата и расчёты',uFinM:'Способ оплаты',uFinGot:'Получение денег',uFinCashOk:'Наличные получены курьером',uFinCashNo:'Не зафиксировано: заказ не доставлен',uFinCashWait:'Курьер получит при доставке',uFinOnl:'Сбор и возврат не подтверждены — платёжный шлюз не подключён',uFinWal:'Оплачено из кошелька',uFinWalUse:'Списано из кошелька',uFinWalBack:'Возвращено в кошелёк клиента',uFinWalNo:'Статус возврата не подтверждён',uFinWalPayNo:'Оплата из кошелька не подтверждена: записи списания нет',uFinPts:'Списано баллов',uFinPtsBack:'Баллы возвращены клиенту',uFinPtsNo:'Статус возврата не подтверждён',uFinCard:'Возврат',uFinCardNo:'Сбор и возврат не подтверждены — платёжный шлюз не подключён',uFinTip:'Чаевые',uFinTipOk:'входят в выплату курьеру за заказ',uFinTipNo:'не входят в выплаты приложения: заказ не доставлен',uFinTipWait:'войдут в выплату курьеру после доставки',uFinCom:'Комиссия',uFinComOk:'учитывается: заказ доставлен',uFinComNo:'расчётная, не учитывается: в итогах и выплатах приложения считаются только доставленные заказы',uFinComWait:'расчётная, будет учтена после доставки',uDelCust:'Доставка (оплачивает клиент)',uDelRest:'Доставку оплачивает ресторан',uRNot:'Не обработано'},{uOq:'Order no., customer name or phone',uOqClr:'Clear search',uOqBusy:'Searching all orders…',uOqAll:'Found in all orders: {n}',uOqLoc:'Searching only the loaded orders ({n}): run sql/schema_patch35.sql to search all of them.',uOqDeny:'You have no permission to search orders.',uOqErr:'Searching all orders failed — showing matches among the loaded ones.',aeUnk:'Event',uBSave:'Save banner changes',uKCap:'Only the latest loaded orders — at most 300 (now {n}), all statuses; data for {d} — {e}. Not an all-time total. Revenue = sum of the “Total” of {k} delivered orders among them (items after discounts, promo code and points + delivery + tip). Commission = sum of the commission of those delivered orders.',uFinT:'Payment and settlement',uFinM:'Payment method',uFinGot:'Money received',uFinCashOk:'Cash received by the courier',uFinCashNo:'Not recorded: the order was not delivered',uFinCashWait:'The courier will collect it on delivery',uFinOnl:'Collection and refund not verified — no payment gateway is connected',uFinWal:'Paid from the wallet',uFinWalUse:'Taken from the wallet',uFinWalBack:'Returned to the customer’s wallet',uFinWalNo:'Refund status not verified',uFinWalPayNo:'Wallet payment not verified: no debit record',uFinPts:'Points used',uFinPtsBack:'Points returned to the customer',uFinPtsNo:'Refund status not verified',uFinCard:'Refund',uFinCardNo:'Collection and refund not verified — no payment gateway is connected',uFinTip:'Tip',uFinTipOk:'part of the courier’s pay for the order',uFinTipNo:'not part of the app payouts: the order was not delivered',uFinTipWait:'will be part of the courier’s pay after delivery',uFinCom:'Commission',uFinComOk:'counted: the order was delivered',uFinComNo:'estimate only, not counted: app totals and payouts count delivered orders only',uFinComWait:'estimate, counted after delivery',uDelCust:'Delivery (paid by the customer)',uDelRest:'Delivery paid by the restaurant',uRNot:'Not handled'});
 TLB.addDict({zRj:'Причина отмены',zAtS:'Курьер в ресторане',zAtC:'Курьер у клиента',zPh:'Фото у двери',zPhO:'Открыть фото'},{zRj:'Cancel reason',zAtS:'Courier at the restaurant',zAtC:'Courier at the customer',zPh:'Photo at the door',zPhO:'Open the photo'});
 TLB.addDict({yEarnS:'Баллов за 1 TJS',yFd:'Беспл. доставка от, TJS',ySched:'Доставка к',yGrp:'групповой заказ',yFw:'Доставка бесплатно (за счёт ресторана)'},{yEarnS:'Points per 1 TJS',yFd:'Free delivery from, TJS',ySched:'Delivery at',yGrp:'group order',yFw:'Free delivery (paid by the restaurant)'});
@@ -142,7 +144,12 @@ function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').spli
 const dIso=(v,end)=>v?v+(end?'T23:59:59+05:00':'T00:00:00+05:00'):null;
 const dShow=ts=>ts?new Date(ts).toLocaleDateString('sv-SE',{timeZone:'Asia/Dushanbe'}):'';
 let BD=null,lastTk=-1;
-function openBE(id){const b=TLB.banners(true).find(x=>x.id==id);if(!b)return;BE=id;BD={title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active};render();scrollTo(0,0)}
+const bdOf=b=>({title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active});
+let BD0=null;
+function openBE(id){const b=TLB.banners(true).find(x=>x.id==id);if(!b)return;BE=id;BD=bdOf(b);BD0=bdOf(b);render();window.scrollTo(0,0)}
+/* someone else saved this banner / happy hour while it is open here: the admin's unsaved edits stay, a notice says what changed on the server */
+function srvDiff(now,was,lab){return Object.keys(lab).filter(k=>JSON.stringify(now[k])!==JSON.stringify(was[k])).map(k=>lab[k][0]+': '+lab[k][1](now[k]))}
+function confCard(lines,gone,reload){return `<div class="confn" style="margin:10px 0">⚠ <b>${gone?t('uConfGone'):t('uConfObj')}</b>${lines.length?`<br>${lines.map(esc).join('<br>')}`:''}<br>${t(gone?'uConfGone2':'uConfObj2')}${reload?`<button type="button" class="b g" onclick="${reload}">${t('uConfReload')}</button>`:''}</div>`}
 function bd(k,v){BD[k]=v}
 function bannerImg(e){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>{BD.image_url=d;render()})}
 function bannerLink(val){const p=(val+':').split(':');BD.link_type=p[0]=='cat'?'category':(p[0]=='none'?null:p[0]);BD.link_value=p[1]||null;render()}
@@ -151,7 +158,7 @@ function bannerSave(){const title=String(BD.title||'').trim().slice(0,80);if(!ti
   const sort=Number.isFinite(+BD.sort)?Math.trunc(+BD.sort):0;
   run(TLB.updateBanner(BE,{title,image_url:BD.image_url,link_type:BD.link_type,link_value:BD.link_value,sort,placement:BD.placement=='bottom'?'bottom':'top',starts_at:dIso(BD.from,false),ends_at:dIso(BD.to,true),is_active:!!BD.is_active}).then(r=>{if(!(r&&r.error)){BE=null;BD=null;render()}}))}
 function openStoreEdit(id){const s=TLB.stores(true).find(x=>x.id==id);if(!s)return;E=id;
-ED={name:s.name||'',description:s.description||'',phone:s.phone||'',address:s.address||'',category:s.category,commission_pct:s.commission_pct,fee_type:s.fee_type,fee_base:s.fee_base,fee_per_km:s.fee_per_km,discount_pct:s.discount_pct||0,max_discount_pct:s.max_discount_pct==null?30:s.max_discount_pct,lat:s.lat==null?null:+s.lat,lng:s.lng==null?null:+s.lng,free_first_delivery:!!s.free_first_delivery,gpid:s.google_place_id||'',rating:s.rating==null?'':s.rating,rcount:s.rating_count==null?'':s.rating_count,cover:null,logo:null,owner:''};render();scrollTo(0,0)}
+ED={name:s.name||'',description:s.description||'',phone:s.phone||'',address:s.address||'',category:s.category,commission_pct:s.commission_pct,fee_type:s.fee_type,fee_base:s.fee_base,fee_per_km:s.fee_per_km,discount_pct:s.discount_pct||0,max_discount_pct:s.max_discount_pct==null?30:s.max_discount_pct,lat:s.lat==null?null:+s.lat,lng:s.lng==null?null:+s.lng,free_first_delivery:!!s.free_first_delivery,gpid:s.google_place_id||'',rating:s.rating==null?'':s.rating,rcount:s.rating_count==null?'':s.rating_count,cover:null,logo:null,owner:''};render();window.scrollTo(0,0)}
 function ed(k,v){ED[k]=v}
 function edLogo(e){const fl=e.target.files[0];if(fl)resizeImg(fl,240,.85,d=>{ED.logo=d;render()})}
 function edCover(e){const fl=e.target.files[0];if(fl)resizeImg(fl,640,.7,d=>{ED.cover=d;render()})}
@@ -172,7 +179,7 @@ async function edOwner(){const e=String(ED.owner||'').trim();if(!/^[^@\s]+@[^@\s
   const cur=OWN.row;if(cur&&cur.email&&cur.email.toLowerCase()!==e.toLowerCase()&&!confirm(t('aOwnConfirm').replace('{old}',cur.email).replace('{new}',e)))return;
   const r=await TLB.assignOwner(E,e);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}
   ED.owner='';OWN={sid:null,row:undefined};render()}
-function openDrvEdit(id){const x=TLB.drivers().find(y=>y.id==id);if(!x)return;DE=id;DD={limit:+x.cash_limit||1000};render();scrollTo(0,0)}
+function openDrvEdit(id){const x=TLB.drivers().find(y=>y.id==id);if(!x)return;DE=id;DD={limit:+x.cash_limit||1000};render();window.scrollTo(0,0)}
 function dd(k,v){DD[k]=v}
 function saveLimit(){const v=+DD.limit;if(!isFinite(v)||v<=0){alert(t('err_bad_value'));return}run(TLB.setDriverLimit(DE,v))}
 function settle(id,bal){if(confirm(t('aSettleQ')+' '+bal.toFixed(2)+' TJS?'))run(TLB.settleCash(id))}
@@ -282,7 +289,7 @@ function drvAct(x){const all=TLB.orders(o=>o.driver==x.id),dn=all.filter(o=>o.st
   <div class="l" style="margin-top:8px"><span>${t('aDrvToday')}</span><b>${td.length} · ${earn(td)} TJS</b></div>
   <div class="l"><span>${t('aDrvAll')}</span><b>${dn.length} · ${earn(dn)} TJS</b></div>
   <div class="l"><span>${t('aSeenL')}</span><b>${x.last_seen?ago(x.last_seen):'—'}</b></div></div>
-  <div class="card"><b>${t('aDrvHist')}</b>${rows.length?rows.map(o=>`<div class="alr" style="cursor:pointer" onclick="DE=null;tab='o';D=${+o.id};render();scrollTo(0,0)"><span class="alt"><b>#${+o.id} · ${esc(o.store)}</b><small style="display:block">${fmt(o.createdAt)}</small></span><span style="text-align:right"><span class="s ${o.status}">${t(o.status)}</span><small style="display:block;margin-top:4px">${o.total} TJS</small></span></div>`).join(''):`<small style="display:block;margin-top:8px">${t('aDrvNoOrd')}</small>`}</div>`}
+  <div class="card"><b>${t('aDrvHist')}</b>${rows.length?rows.map(o=>`<div class="alr" style="cursor:pointer" onclick="DE=null;tab='o';D=${esc(JSON.stringify(o.id))};render();window.scrollTo(0,0)"><span class="alt"><b>#${+o.id} · ${esc(o.store)}</b><small style="display:block">${fmt(o.createdAt)}</small></span><span style="text-align:right"><span class="s ${o.status}">${t(o.status)}</span><small style="display:block;margin-top:4px">${o.total} TJS</small></span></div>`).join(''):`<small style="display:block;margin-top:8px">${t('aDrvNoOrd')}</small>`}</div>`}
 const TARK=[['delivery_free_km','aTarFree','0.5'],['delivery_step_km','aTarStep','0.1'],['delivery_step_price','aTarPrice','0.5'],['delivery_max_km','aTarMax','1'],['delivery_road_factor','aTarFac','0.05']];
 function tarOpen(){TAR=Object.assign({},TLB.settings());render()}
 function tarSet(k,v){TAR[k]=v}
@@ -334,10 +341,13 @@ function vBanners(){const bs=TLB.banners(true);
   ${bs.length?bs.map(b=>{const st=bState(b);
   return `<div class="card row" style="gap:10px"><div style="display:flex;gap:10px;align-items:center;min-width:0">${b.image_url?`<img src="${esc(b.image_url)}" style="width:64px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0" alt="">`:`<div style="width:64px;height:40px;border-radius:6px;background:#e2e8f0;flex-shrink:0"></div>`}<div style="min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.title)}</b><span class="s ${st[0]}">${st[1]}</span></div></div>
   <button class="b" onclick="openBE('${b.id}')">✏️ ${t('aEdit')}</button></div>`}).join(''):emptyA(t('aBNo'))}`}
-function vBannerEdit(){const b=TLB.banners(true).find(x=>x.id==BE);if(!b||!BD){BE=null;return vBanners()}
-  const cur=BD.link_type=='store'?'store:'+BD.link_value:BD.link_type=='category'?'cat:'+BD.link_value:'none',st=bState(b);
+function vBannerEdit(){if(!BD){BE=null;return vBanners()}const b0=TLB.banners(true).find(x=>x.id==BE),gone=!b0,b=b0||{is_active:BD.is_active,starts_at:null,ends_at:null};
+  const cur=BD.link_type=='store'?'store:'+BD.link_value:BD.link_type=='category'?'cat:'+BD.link_value:'none',st=gone?['rejected','—']:bState(b);
+  const now=b0?bdOf(b0):null,yes=v=>v?'✓':'✗',same=v=>v==null||v===''?'—':String(v);
+  const dif=now&&BD0?srvDiff(now,BD0,{title:[t('aBTitle'),same],sort:[t('aBOrd'),same],placement:[t('aBPl'),v=>v=='bottom'?t('aBBot'):t('aBTop')],from:[t('aBFrom'),same],to:[t('aBTo'),same],is_active:[t('uConfAct'),yes],image_url:[t('uConfImg'),()=>t('uConfNew')],link_type:['🔗',()=>linkLabel(now.link_type=='store'?'store:'+now.link_value:now.link_type=='category'?'cat:'+now.link_value:'none')],link_value:['🔗',()=>linkLabel(now.link_type=='store'?'store:'+now.link_value:now.link_type=='category'?'cat:'+now.link_value:'none')]}).filter((x,i,a)=>a.indexOf(x)==i):[];
+  const warn=gone?confCard([],true,''):dif.length?confCard(dif,false,`if(confirm('${t('uConfSure')}'))openBE('${esc(String(BE))}')`):'';
   return `<button class="b g" onclick="BE=null;BD=null;render()">← ${t('aBack')}</button>
-  <div class="card" style="margin-top:12px"><div class="row"><b>✏️ ${t('aBEd')}</b><span class="s ${st[0]}">${st[1]}</span></div>
+  ${warn}<div class="card" style="margin-top:12px"><div class="row"><b>✏️ ${t('aBEd')}</b><span class="s ${st[0]}">${st[1]}</span></div>
   ${BD.image_url?`<img src="${esc(BD.image_url)}" style="width:100%;max-height:140px;object-fit:cover;border-radius:8px;margin:8px 0" alt="">`:''}
   <small>${t('aBTitle')}</small><input type="text" maxlength="80" value="${esc(BD.title)}" oninput="bd('title',this.value)">
   <small>${t('aBOrd')}</small><input type="number" inputmode="numeric" value="${+BD.sort}" oninput="bd('sort',this.value)">
@@ -347,7 +357,7 @@ function vBannerEdit(){const b=TLB.banners(true).find(x=>x.id==BE);if(!b||!BD){B
   <div class="btns"><label class="b g" style="margin:0">📷 ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event)"></label>
   <button class="b ${BD.is_active?'r':''}" onclick="BD.is_active=!BD.is_active;render()">${BD.is_active?t('aSus'):t('aAc')}</button>
   <button class="b g" onclick="if(confirm('?')){const i=BE;BE=null;BD=null;run(TLB.deleteBanner(i))}">${t('aRm')}</button></div>
-  <button class="b" style="width:100%;padding:13px;margin-top:12px" onclick="bannerSave()">💾 ${t('uBSave')}</button></div>`}
+  ${gone?'':`<button class="b" style="width:100%;padding:13px;margin-top:12px" onclick="bannerSave()">💾 ${t('uBSave')}</button>`}</div>`}
 
 const TABP={o:['orders','support'],s:['stores'],d:['orders','finance'],u:['support'],h:['support'],g:['content'],r:['support'],b:['content'],c:['content'],y:null,l:null,f:null};
 const tabOk=k=>TLB.isSuper()||(Array.isArray(TABP[k])&&TABP[k].some(p=>TLB.can(p)));
@@ -382,7 +392,8 @@ function promoUsed(code){return TLB.orders().filter(o=>o.promoCode==code&&o.stat
 const LYK=[['loyalty_earn_per_tjs','yEarn','1'],['loyalty_points_per_tjs','yRate','1'],['loyalty_voucher_points','yVch','100'],['loyalty_min_redeem','yMin','1'],['loyalty_min_order','yMinO','1'],['loyalty_expiry_days','yExp','1'],['loyalty_rate_reward','yRew','1'],['cashback_pct','yCb','0.5']];
 const DAYS=[1,2,3,4,5,6,7];let HE=null;
 async function lySave(){for(const [k] of LYK){const e=$('ly_'+k);if(!e)continue;const v=+e.value;if(v===+TLB.settings()[k])continue;const r=await TLB.setSetting(k,v);if(r&&r.error){alert(t('err_'+r.error)+' — '+t(LYK.find(x=>x[0]==k)[1]));return}}render()}
-function heOpen(id){const h=id?TLB.happyHours().find(x=>x.id==id):null;HE=h?{id:h.id,title:h.title,store:h.store_id||'',days:(h.days||[]).map(Number),start:String(h.start_time).slice(0,5),end:String(h.end_time).slice(0,5),pct:h.discount_pct,active:h.active}:{title:'',store:'',days:[1,2,3,4,5,6,7],start:'14:00',end:'17:00',pct:20,active:true};render()}
+const heOf=h=>({id:h.id,title:h.title,store:h.store_id||'',days:(h.days||[]).map(Number),start:String(h.start_time).slice(0,5),end:String(h.end_time).slice(0,5),pct:h.discount_pct,active:h.active});let HE0=null;
+function heOpen(id){const h=id?TLB.happyHours().find(x=>x.id==id):null;HE=h?heOf(h):{title:'',store:'',days:[1,2,3,4,5,6,7],start:'14:00',end:'17:00',pct:20,active:true};HE0=h?heOf(h):null;render()}
 async function heSave(){const r=await TLB.saveHH(HE);if(r&&r.error){alert(t('yHeNeed'));return}HE=null;render()}
 async function heDel(id){if(!confirm(t('yHeDelQ')))return;await TLB.deleteHH(id);render()}
 const dayN=d=>t('yD'+d),hhDays=a=>{a=(a||[]).map(Number).sort();return a.length==7?t('yEvery'):a.join(',')=='1,2,3,4,5'?t('yWork'):a.join(',')=='6,7'?t('yWeekend'):a.map(dayN).join(' ')};
@@ -396,7 +407,9 @@ function vLoyalty(){const st=TLB.settings(),ready=st.loyalty_points_per_tjs!=nul
   ${LYK.map(([k,l,stp])=>`<small class="lb">${t(l)}</small><input id="ly_${k}" type="number" min="0" step="${stp}" value="${esc(st[k])}">`).join('')}
   <div class="info3">${t('yExample2').replace('{a}',ex).replace('{p}',pts).replace('{vp}',vp).replace('{v}',val).replace('{m}',+st.loyalty_min_order||0)}</div>${storeLoy(st)}
   <button class="b" style="width:100%;padding:12px;margin-top:10px" onclick="lySave()">${t('ySave')}</button></div>`;
-  const editor=HE?`<div class="card"><div class="row"><b>${HE.id?t('yHeEdit'):t('yHeAdd')}</b><button class="b g" onclick="HE=null;render()">${t('aClose')}</button></div><div style="height:8px"></div>
+  const hNow=HE&&HE.id?hs.find(x=>x.id==HE.id):null,hGone=!!(HE&&HE.id&&!hNow),same=v=>v==null||v===''?'—':String(v);
+  const hDif=hNow&&HE0?srvDiff(heOf(hNow),HE0,{title:[t('yHeTitle'),same],store:[t('yHeStore'),v=>v?((stores.find(x=>x.id==v)||{}).name||'?'):t('yHeAll')],days:[t('yHeDays'),hhDays],start:[t('yHeFrom'),same],end:[t('yHeTo'),same],pct:[t('yHePct'),same],active:[t('yHeOn'),v=>v?'✓':'✗']}):[];
+  const editor=HE?`${hGone?confCard([],true,''):hDif.length?confCard(hDif,false,`if(confirm('${t('uConfSure')}'))heOpen(${+HE.id})`):''}<div class="card"><div class="row"><b>${HE.id?t('yHeEdit'):t('yHeAdd')}</b><button class="b g" onclick="HE=null;render()">${t('aClose')}</button></div><div style="height:8px"></div>
   <small class="lb">${t('yHeTitle')}</small><input id="he_t" maxlength="60" value="${esc(HE.title)}" oninput="HE.title=this.value">
   <small class="lb">${t('yHeStore')}</small><select onchange="HE.store=this.value"><option value="">${t('yHeAll')}</option>${stores.map(x=>`<option value="${esc(x.id)}" ${HE.store==x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select>
   <small class="lb">${t('yHeDays')}</small><div class="dys">${DAYS.map(d=>`<label class="dy ${HE.days.includes(d)?'on':''}"><input type="checkbox" ${HE.days.includes(d)?'checked':''} onchange="HE.days=this.checked?[...HE.days,${d}]:HE.days.filter(x=>x!=${d});render()">${dayN(d)}</label>`).join('')}</div>
@@ -405,7 +418,7 @@ function vLoyalty(){const st=TLB.settings(),ready=st.loyalty_points_per_tjs!=nul
   <small class="lb">${t('yHePct')}</small><input type="number" min="1" max="90" value="${esc(HE.pct)}" oninput="HE.pct=this.value">
   <label class="row" style="justify-content:flex-start;gap:8px;margin:4px 0 12px"><input type="checkbox" style="width:auto;margin:0" ${HE.active?'checked':''} onchange="HE.active=this.checked">${t('yHeOn')}</label>
   <small style="display:block;margin-bottom:10px;line-height:1.45">${t('yHeWho')}</small>
-  <button class="b" style="width:100%;padding:12px" onclick="heSave()">${t('ySave')}</button></div>`:'';
+  ${hGone?'':`<button class="b" style="width:100%;padding:12px" onclick="heSave()">${t('ySave')}</button>`}</div>`:'';
   const list=hs.length?hs.map(h=>{const sn=h.store_id?((stores.find(x=>x.id==h.store_id)||{}).name||'—'):t('yHeAll');return `<div class="card"><div class="row"><b>${esc(h.title)} · −${+h.discount_pct}%</b>${on.has(h.id)?`<span class="s approved">${t('yNow')}</span>`:h.active?'':`<span class="s">${t('yOff')}</span>`}</div>
     <small style="display:block;margin-top:4px">${hhDays(h.days)} · ${String(h.start_time).slice(0,5)}–${String(h.end_time).slice(0,5)} · ${esc(sn)}</small>
     <div class="btns" style="margin-top:10px"><button class="b g" onclick="TLB.setHHActive(${+h.id},${!h.active}).then(render)">${h.active?t('yPause'):t('yResume')}</button><button class="b" onclick="heOpen(${+h.id})">✏️ ${t('aEdit')}</button><button class="b r" onclick="heDel(${+h.id})">${t('aDel2')}</button></div></div>`}).join(''):emptyA(t('yHeNone'));
@@ -435,7 +448,7 @@ const drvAvg=id=>avg(TLB.ratings().filter(r=>r.driver_id==id),'driver_stars');
 const stAvg=id=>avg(TLB.ratings().filter(r=>r.store_id==id),'store_stars');
 const starsTxt=n=>'★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n));
 const drvState=x=>!isLive(x)?'off':busyOf(x)?'busy':'free';
-function goLive(k){D=null;E=null;DE=null;BE=null;if(k=='d'){tab='d';dfl='on';dq=''}else{tab='s';sfl='all';sq=''}render();scrollTo(0,0)}
+function goLive(k){D=null;E=null;DE=null;BE=null;if(k=='d'){tab='d';dfl='on';dq=''}else{tab='s';sfl='all';sq=''}render();window.scrollTo(0,0)}
 function livePills(){const ds=TLB.drivers().filter(x=>x.driver_status=='approved'),on=ds.filter(isLive),busy=on.filter(busyOf).length,ss=TLB.stores(true).filter(s=>s.is_active),op=ss.filter(s=>s.is_open);
   const setup=TLB.drivers().length>0&&!TLB.drivers().some(x=>'online' in x);
   return `<div class="pills"><button class="lp" onclick="goLive('d')" title="${on.length-busy} ${t('aFree')} · ${busy} ${t('aBusyN')}"><span class="ld ${on.length?'on':''}"></span><b>${on.length}</b><span class="lo">/${ds.length}</span><span class="lt">${t('aCourL')} ${t('aOnLine')}</span></button><button class="lp" onclick="goLive('s')"><span class="ld ${op.length?'on':''}"></span><b>${op.length}</b><span class="lo">/${ss.length}</span><span class="lt">${t('aStoreL2')} ${t('aOpenL')}</span></button></div>${setup?`<div class="setupw">⚠️ ${t('aSetupW')}</div>`:''}`}
@@ -451,7 +464,7 @@ function ratingBlock(r,compact){const o=TLB.order(r.order_id),st=TLB.stores(true
   ${cp.tags.length?`<div class="tg2">${cp.tags.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}${cp.text?`<div class="qt">“${esc(cp.text)}”</div>`:(cp.tags.length?'':`<div class="qt mutq">${t('aNoCmt')}</div>`)}
   ${o?`<div class="rcust"><span>👤 ${esc(o.client.name||'—')}</span>${o.client.phone?tel(o.client.phone,t('aCall')):''}</div>`:''}
   ${compact?'':`<div class="rst ${r.handled_at?'ok':needR(r)?'warnr':'neu'}">${r.handled_at?`✅ ${t('aHandled')} · ${fmt(Date.parse(r.handled_at))}${r.handled_note?` — ${esc(r.handled_note)}`:''}`:needR(r)?`⚠️ ${t('aNeeds')}`:`○ ${t('uRNot')}`}</div>`}
-  <div class="btns">${r.handled_at?`<button class="b g" onclick="run(TLB.reopenRating(${r.order_id}))">${t('aReopen')}</button>`:`<button class="b" onclick="RES={o:${r.order_id},n:''};render()">✓ ${t('aResolve')}</button>`}${o?`<button class="b g" onclick="D=${r.order_id};tab='o';render();scrollTo(0,0)">${t('aOpenO')} #${r.order_id}</button>`:''}</div></div>`}
+  <div class="btns">${r.handled_at?`<button class="b g" onclick="run(TLB.reopenRating(${r.order_id}))">${t('aReopen')}</button>`:`<button class="b" onclick="RES={o:${r.order_id},n:''};render()">✓ ${t('aResolve')}</button>`}${o?`<button class="b g" onclick="D=${esc(JSON.stringify(r.order_id))};tab='o';render();window.scrollTo(0,0)">${t('aOpenO')} #${r.order_id}</button>`:''}</div></div>`}
 function resModal(){if(!RES)return '';return `<div class="ovl" onclick="RES=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:10px"><b>${t('aResolveT')} · #${RES.o}</b><button class="b g" onclick="RES=null;render()">${t('aClose2')}</button></div><div class="alhelp" style="margin-bottom:10px">${t('aResHelp')}</div><small>${t('aResNote')}</small><input id="resn" maxlength="300" value="${esc(RES.n)}" oninput="RES.n=this.value" style="margin-top:6px"><button class="b" style="width:100%;padding:12px" onclick="saveRes()">${t('aResSave')}</button></div></div>`}
 async function saveRes(){const r=await TLB.resolveRating(RES.o,RES.n);if(r&&r.error){alert(t('err_'+r.error));return}RES=null;render()}
 function vRatings(){const R=TLB.ratings(),need=R.filter(needR),hand=R.filter(r=>r.handled_at),sa=avg(R,'store_stars'),da=avg(R,'driver_stars');
@@ -463,7 +476,7 @@ function vRatings(){const R=TLB.ratings(),need=R.filter(needR),hand=R.filter(r=>
 function lowAlert(){const l=TLB.lowRatings(2);if(!l.length)return '';
   return `<div class="al red"><div class="alh"><span>⭐ ${t('aLowRate')}</span><b>${l.length}</b></div><div class="alhelp">${t('aLowHelp')}</div>${l.slice(0,5).map(r=>{const o=TLB.order(r.order_id),dv=TLB.drivers().find(x=>x.id==r.driver_id),cp=cmtParts(r.comment),dl=r.driver_stars!=null&&r.driver_stars<=2;
   return `<div class="alr2"><div class="alr2h"><b>#${r.order_id}</b><span class="alwho">${dl?'🛵 '+t('aWhoC')+(dv?' · '+esc(dv.name||''):''):'🏪 '+t('aWhoS')}</span>${starsRow(dl?r.driver_stars:r.store_stars)}</div>${cp.tags.length||cp.text?`<div class="alsm">${cp.tags.length?esc(cp.tags.join(' · '))+(cp.text?' — ':''):''}${esc(cp.text).slice(0,120)}</div>`:''}${o?`<div class="alsm">👤 ${esc(o.client.name||'—')}${o.client.phone?' · '+esc(o.client.phone):''}</div>`:''}
-  <div class="alb2">${o&&o.client.phone?tel(o.client.phone,t('aCall')):''}<button class="b g" onclick="tab='r';rfl='need';render();scrollTo(0,0)">${t('aOpenO')}</button><button class="b o" onclick="RES={o:${r.order_id},n:''};render()">✓ ${t('aResolve')}</button></div></div>`}).join('')}${l.length>5?`<button class="b g" style="margin-top:8px" onclick="tab='r';rfl='need';render();scrollTo(0,0)">+${l.length-5} →</button>`:''}</div>`}
+  <div class="alb2">${o&&o.client.phone?tel(o.client.phone,t('aCall')):''}<button class="b g" onclick="tab='r';rfl='need';render();window.scrollTo(0,0)">${t('aOpenO')}</button><button class="b o" onclick="RES={o:${r.order_id},n:''};render()">✓ ${t('aResolve')}</button></div></div>`}).join('')}${l.length>5?`<button class="b g" style="margin-top:8px" onclick="tab='r';rfl='need';render();window.scrollTo(0,0)">+${l.length-5} →</button>`:''}</div>`}
 function loadLog(){TLB.audit(100).then(r=>{AUD=r;render()});TLB.clientErrors(100).then(r=>{ERR=r;render()})}
 let logTab='a';
 function vLog(){if(AUD===null||ERR===null){loadLog();return `<div class="card empty">…</div>`}
@@ -488,7 +501,7 @@ function vTicketA(){const k=TLB.adminTickets().find(x=>x.id==TK.sel);if(!k){TK.s
   return `<button class="b g" onclick="TK.sel=null;render()">← ${t('aBack')}</button>
   <div class="card" style="margin-top:12px"><div class="row"><b>${t('rs_'+k.reason)}</b>${tkChipA(k.status)}</div>
   <div class="row" style="margin-top:8px"><span>${t('xCust')}: <b>${esc(p.name||'—')}</b></span>${p.phone?tel(p.phone):''}</div>
-  ${k.order_id?`<div class="row" style="margin-top:8px"><span>${t('xOrderL')} #${k.order_id}${o?' · '+esc(o.store)+' · '+o.total+' TJS':''}</span>${o?`<button class="b g" onclick="TK.sel=null;tab='o';D=${k.order_id};render();scrollTo(0,0)">${t('aOpenO')}</button>`:''}</div>`:''}
+  ${k.order_id?`<div class="row" style="margin-top:8px"><span>${t('xOrderL')} #${k.order_id}${o?' · '+esc(o.store)+' · '+o.total+' TJS':''}</span>${o?`<button class="b g" onclick="TK.sel=null;tab='o';D=${esc(JSON.stringify(k.order_id))};render();window.scrollTo(0,0)">${t('aOpenO')}</button>`:''}</div>`:''}
   ${k.refund_amount>0?`<div class="warn" style="background:#e6f6ed;color:#1fa05a;margin-top:10px">${t('xRefundL')}: <b>${k.refund_amount} TJS</b></div>`:''}${k.admin_note?`<div class="qt" style="margin-top:10px">${esc(k.admin_note)}</div>`:''}</div>
   <div class="card"><div style="display:flex;flex-direction:column;gap:8px">${ms.length?ms.map(m=>`<div style="align-self:${m.from_staff?'flex-end':'flex-start'};max-width:88%;background:${m.from_staff?'#fff3ee':'#f1f1f4'};border-radius:14px;padding:9px 12px;font-size:14px;word-break:break-word"><small style="display:block;opacity:.7">${m.from_staff?'Staff':esc(p.name||t('xCust'))} · ${fmt(Date.parse(m.created_at))}</small>${esc(m.body)}</div>`).join(''):'<small>…</small>'}</div></div>
   ${closed?`<div class="card"><div class="row"><b>${t('xClosedT')}</b><button class="b g" onclick="tkStatus('open')">${t('xReopen')}</button></div></div>`
@@ -512,7 +525,7 @@ async function tkStatus(st){if(st=='rejected'&&String(TK.note||'').trim().length
 /* ---------- CUSTOMERS ---------- */
 async function cuLoad(reset){if(CU.busy)return;CU.busy=true;if(reset){CU.rows=[];CU.off=0;CU.end=false}render();const r=await TLB.customers(CU.q,CU.off);CU.busy=false;if(r.error)alert(t('err_'+r.error));else{CU.rows=CU.rows.concat(r.rows);CU.off+=r.rows.length;CU.end=r.rows.length<30}CU.loaded=true;render()}
 async function cuPhone(){const r=await TLB.setCustomerPhone(CU.sel,CU.ph,CU.phr);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}const row=CU.rows.find(x=>x.id==CU.sel);if(row&&r.phone)row.phone=r.phone;CU.ph='';CU.phr='';alert(t('xPhOk'));render()}
-function cuOpen(id){CU.ph='';CU.phr='';CU.sel=id;CU.orders=null;CU.wal=null;CU.wa='';CU.wn='';CU.reason='';render();scrollTo(0,0);TLB.customerOrders(id).then(o=>{CU.orders=o;render()});TLB.walletOf(id).then(w=>{if(CU.sel==id){CU.wal=w;render()}})}
+function cuOpen(id){CU.ph='';CU.phr='';CU.sel=id;CU.orders=null;CU.wal=null;CU.wa='';CU.wn='';CU.reason='';render();window.scrollTo(0,0);TLB.customerOrders(id).then(o=>{CU.orders=o;render()});TLB.walletOf(id).then(w=>{if(CU.sel==id){CU.wal=w;render()}})}
 async function cuWal(){const r=await TLB.walletAdjust(CU.sel,CU.wa,CU.wn);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}CU.wa='';CU.wn='';const id=CU.sel;TLB.walletOf(id).then(w=>{if(CU.sel==id){CU.wal=w;render()}})}
 async function cuBan(b){if(b&&!confirm(t('xBanQ')))return;const r=await TLB.setBan(CU.sel,b,CU.reason);if(r&&r.error){alert(t('err_'+r.error));return}const row=CU.rows.find(x=>x.id==CU.sel);if(row){row.banned_at=b?new Date().toISOString():null;row.banned_reason=b?CU.reason:null}CU.reason='';render()}
 const money=n=>(+n||0).toFixed(2);
@@ -529,7 +542,7 @@ function vCustomers(){if(!CU.loaded&&!CU.busy){cuLoad(true);return `<div class="
     <div class="card"><div class="row"><b>${t('xWalT')}</b><b style="font-size:20px">${CU.wal?CU.wal.balance:'…'} TJS</b></div>
     <small style="display:block;margin:10px 0 4px">${t('xWalAdj')}</small><input id="cuwa" type="number" step="0.5" placeholder="${t('xWalAmt')}" value="${esc(CU.wa)}" oninput="CU.wa=this.value"><input id="cuwn" maxlength="200" placeholder="${t('xWalNote')}" value="${esc(CU.wn)}" oninput="CU.wn=this.value"><button class="b" style="width:100%;padding:12px" onclick="cuWal()">${t('xWalDo')}</button>
     ${CU.wal&&CU.wal.entries.length?`<small style="display:block;margin:12px 0 4px;font-weight:700">${t('xWalHist')}</small>${CU.wal.entries.slice(0,8).map(e=>`<div class="row" style="padding:6px 0;border-top:1px solid #eeeef1"><span style="min-width:0"><small style="display:block">${t('wk_'+e.kind)}${e.orderId?' #'+e.orderId:''}${e.ticketId&&!e.orderId?' · #'+e.ticketId:''}</small>${e.note?`<small style="color:#8b8f98">${esc(e.note)}</small>`:''}<small style="display:block;color:#8b8f98">${fmt(e.at)}</small></span><b style="color:${e.amount>0?'#1fa05a':'#d92d20'}">${e.amount>0?'+':'\u2212'}${Math.abs(e.amount)}</b></div>`).join('')}`:(CU.wal?`<small style="display:block;margin-top:10px;color:#8b8f98">${t('xWalNone')}</small>`:'')}</div>
-    <h3 style="margin:14px 4px 8px">${t('xCuHist')}</h3>${CU.orders===null?'<div class="card empty">…</div>':CU.orders.length?CU.orders.map(o=>`<div class="card" style="cursor:pointer;padding:12px 14px" onclick="tab='o';D=${o.id};render();scrollTo(0,0)"><div class="row"><b>#${o.id} · ${esc(o.store)}</b><span class="s ${o.status=='delivered'?'approved':['rejected','cancelled'].includes(o.status)?'suspended':'pending'}">${t(o.status)}</span></div><div class="row" style="margin-top:4px"><small>${fmt(o.createdAt)}</small><b>${money(o.total)} TJS</b></div></div>`).join(''):emptyA(t('xNoHist'))}`}}
+    <h3 style="margin:14px 4px 8px">${t('xCuHist')}</h3>${CU.orders===null?'<div class="card empty">…</div>':CU.orders.length?CU.orders.map(o=>`<div class="card" style="cursor:pointer;padding:12px 14px" onclick="tab='o';D=${esc(JSON.stringify(o.id))};render();window.scrollTo(0,0)"><div class="row"><b>#${o.id} · ${esc(o.store)}</b><span class="s ${o.status=='delivered'?'approved':['rejected','cancelled'].includes(o.status)?'suspended':'pending'}">${t(o.status)}</span></div><div class="row" style="margin-top:4px"><small>${fmt(o.createdAt)}</small><b>${money(o.total)} TJS</b></div></div>`).join(''):emptyA(t('xNoHist'))}`}}
   return `<div class="row" style="gap:8px;margin-bottom:12px"><input id="cuq" placeholder="${t('xCuSearch')}" value="${esc(CU.q)}" oninput="CU.q=this.value" onkeydown="if(event.key=='Enter')cuLoad(true)" style="margin:0;flex:1"><button class="b" style="flex-shrink:0" onclick="cuLoad(true)">${t('xFind')}</button></div>
   ${CU.rows.length?CU.rows.map(x=>`<div class="card" style="cursor:pointer;${x.banned_at?'border-left:5px solid #ef4444':''}" onclick="cuOpen('${x.id}')"><div class="row"><b>${esc(x.name||'—')}</b>${x.banned_at?`<span class="s suspended">${t('xBanned')}</span>`:`<small>${x.orders_count} ${t('xCuOrders').toLowerCase()} · ${money(x.total_spent)} TJS</small>`}</div><div class="row" style="margin-top:4px"><small>${esc(x.phone||'—')}</small><small>${fmt(Date.parse(x.created_at))}</small></div></div>`).join(''):(CU.busy?'<div class="card empty">…</div>':emptyA(t('xCuNone')))}
   ${CU.rows.length&&!CU.end?`<button class="b g" style="width:100%;margin:6px 0 14px;padding:12px" onclick="cuLoad(false)">${t('xMore')}</button>`:''}`}
@@ -571,43 +584,58 @@ function render0(){if(!tabOk(tab)){const k=TABS.find(x=>tabOk(x[0]));if(k)tab=k[
   const ovN=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000)).length,lowN=TLB.lowRatings(2).length,needN=TLB.ratings().filter(needR).length;
   if(lastLow>=0&&lowN>lastLow){try{TLB.beep()}catch(e){}}lastLow=lowN;
   const tkN0=TLB.adminTickets().filter(needsReply).length;if(lastTk>=0&&tkN0>lastTk){try{TLB.beep()}catch(e){}}lastTk=tkN0;
-  const tkBar=tkN0>0&&tab!='h'?`<button class="b" style="position:sticky;top:6px;z-index:30;width:100%;margin-bottom:10px;padding:12px;background:#d92d20;box-shadow:0 4px 14px #d92d2055" onclick="tab='h';TK.sel=null;D=null;E=null;DE=null;BE=null;render();scrollTo(0,0)">💬 ${t('aTkWait').replace('{n}',tkN0)}</button>`:'';
+  const tkBar=tkN0>0&&tab!='h'?`<button class="b" style="position:sticky;top:6px;z-index:30;width:100%;margin-bottom:10px;padding:12px;background:#d92d20;box-shadow:0 4px 14px #d92d2055" onclick="tab='h';TK.sel=null;D=null;E=null;DE=null;BE=null;render();window.scrollTo(0,0)">💬 ${t('aTkWait').replace('{n}',tkN0)}</button>`:'';
   const kp=(ic,v,l)=>`<div class="k"><i>${ic}</i><b>${v}</b><span>${l}</span></div>`;
   const tkN=TLB.adminTickets().filter(needsReply).length,srN=TLB.storeRequests().filter(q=>q.status=='pending').length,badge=x=>x=='d'&&ovN?`<em>${ovN}</em>`:x=='r'&&needN?`<em>${needN}</em>`:x=='h'&&tkN?`<em>${tkN}</em>`:x=='s'&&srN?`<em>${srN}</em>`:'';
-  $('app').innerHTML=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div></div></div>${livePills()}</div>
+  const H=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div></div></div>${livePills()}</div>
   ${tkBar}${alerts()}${tab=='o'&&!D?`<div class="grid">${kp('📦',all.length,t('aKOrd'))}${kp('💰',del.reduce((s,o)=>s+o.total,0).toFixed(2)+' TJS',t('aKRev'))}${kp('%',del.reduce((s,o)=>s+o.commission,0).toFixed(2)+' TJS',t('aKCom'))}${kp('⏱',act.length,t('aKAct'))}</div><div class="kcap">${t('uKCap').replace('{n}',all.length).replace('{k}',del.length).replace('{d}',all.length?kDay(Math.min(...all.map(o=>o.createdAt))):'—').replace('{e}',all.length?kDay(Math.max(...all.map(o=>o.createdAt))):'—')}</div>`:''}
   <div class="tabs">${TABS.filter(x=>tabOk(x[0])).map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';D=null;E=null;DE=null;BE=null;pgN=50;TK.sel=null;CU.sel=null;if(tab=='l'){AUD=null;ERR=null}if(tab=='f')STF.list=null;if(tab=='u'&&!CU.loaded)cuLoad(true);if(tab=='g'){PGE={};TLB.loadPages(true)}render()">${t(x[1])}${badge(x[0])}</button>`).join('')}</div>`+body+assignModal()+mapModal()+resModal();
-  if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}}
+  if(AUTO&&H===LASTH)return 'same';LASTH=H;$('app').innerHTML=H;
+  if(kid&&$(kid)){const e=$(kid);e.value=keep;try{e.focus({preventScroll:true})}catch(_){}try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}}
 ['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{lastAct=Date.now()},{passive:true}));
 setInterval(()=>{if(Date.now()-lastAct>30*60*1000){alert(t('aIdle'));TLB.logout()}},60000);
-/* automatic redraws (realtime, polling every 10 s): they never wipe what the admin is typing and never move the page.
-   - a field being edited (date/time picker open, keyboard up) postpones the redraw;
-   - the redraw waits until the finger has been still for 1.2 s (touch, scroll, picker closing);
-   - values typed in forms that keep no state of their own (promo, new banner, store, loyalty settings...) are put back after the redraw,
-     unless the saved value behind that field changed meanwhile. */
-let AUTO_T=null,lastTouch=0;
-['touchstart','touchmove','scroll','wheel','focusout','input','change'].forEach(ev=>document.addEventListener(ev,()=>{lastTouch=Date.now()},{passive:true,capture:true}));
+/* automatic redraws (realtime events, polling every 10 s) never wipe what the admin is typing and never move the page:
+   1. an automatic redraw that would show the same screen does not touch the page at all;
+   2. it waits while a field is in use (keyboard, date/time picker) and until touch, scroll, rotation and keyboard have been still for 1.2 s;
+   3. every redraw (automatic or not) puts back what was typed in forms that keep no state of their own (promo, new banner, store, loyalty...);
+      if the saved value behind a field changed meanwhile (someone else saved), the typed value stays and a notice shows the server value;
+   4. after an automatic redraw the scroll position is held for half a second against late moves of the browser. */
+let AUTO_T=null,AUTO=false,LASTH='',lastTouch=0,userAt=0,CONF={};
+['touchstart','touchmove','scroll','wheel','focusout','focusin','input','change','keydown'].forEach(ev=>document.addEventListener(ev,()=>{lastTouch=Date.now()},{passive:true,capture:true}));
+['touchstart','touchmove','wheel','keydown','pointerdown'].forEach(ev=>document.addEventListener(ev,()=>{userAt=Date.now()},{passive:true,capture:true}));
+['resize','orientationchange'].forEach(ev=>window.addEventListener(ev,()=>{lastTouch=Date.now()+300},{passive:true}));
+if(window.visualViewport){['resize','scroll'].forEach(ev=>visualViewport.addEventListener(ev,()=>{lastTouch=Date.now()},{passive:true}))}
 const KEEPF=/^(oq|dq|sq|resn|cuq|tka|tkn|tkr|cur|supph|suphrs|ownem|cuwa|cuwn|cuph|cuphr|pgt_\w+)$/;
 function selDef(e){const o=[...e.options].find(x=>x.defaultSelected)||e.options[0];return o?o.value:''}
-function formKeep(){const m={},ap=$('app');if(!ap)return m;ap.querySelectorAll('input[id],select[id],textarea[id]').forEach(e=>{if(e.type=='file')return;
-  if(e.type=='checkbox'||e.type=='radio'){if(e.checked!==e.defaultChecked)m[e.id]={c:e.checked,d:e.defaultChecked}}
-  else if(e.tagName=='SELECT'){const d=selDef(e);if(e.value!==d)m[e.id]={v:e.value,d}}
-  else if(e.value!==e.defaultValue)m[e.id]={v:e.value,d:e.defaultValue}});return m}
-function formBack(m){for(const id in m){const e=document.getElementById(id),k=m[id];if(!e)continue;
-  if('c' in k){if(e.defaultChecked===k.d)e.checked=k.c}else if(e.tagName=='SELECT'){if(selDef(e)===k.d)e.value=k.v}else if(e.defaultValue===k.d)e.value=k.v}}
+const isChk=e=>e.type=='checkbox'||e.type=='radio';
+const defOf=e=>isChk(e)?e.defaultChecked:e.tagName=='SELECT'?selDef(e):e.defaultValue,valOf=e=>isChk(e)?e.checked:e.value;
+/* only fields without a handler: fields with oninput/onchange keep their value in memory themselves. Nothing is carried to another screen/record. */
+const ctxKey=()=>[tab,D,E,DE,BE,TK.sel,CU.sel,showAddP,showAddB,showAddS].join('|');
+function formKeep(){const m={},ap=$('app');if(!ap)return m;ap.querySelectorAll('input[id],select[id],textarea[id]').forEach(e=>{if(e.type=='file'||e.hasAttribute('oninput')||e.hasAttribute('onchange'))return;const v=valOf(e),d=defOf(e);if(v!==d)m[e.id]={v,d}});return m}
+function setVal(e,v){if(isChk(e))e.checked=v;else e.value=v}
+function confNote(e){const sv=isChk(e)?(e.defaultChecked?'✓':'✗'):e.tagName=='SELECT'?(([...e.options].find(o=>o.defaultSelected)||e.options[0]||{}).text||''):e.defaultValue;
+  const n=document.createElement('div');n.className='confn';n.dataset.for=e.id;n.innerHTML='⚠ '+esc(t('uConf').replace('{v}',sv===''?'—':sv))+`<button type="button" class="b g" onclick="confTake('${e.id}')">${t('uConfTake')}</button>`;
+  e.classList.add('confi');(e.closest('label.slf')||e).insertAdjacentElement('afterend',n)}
+function confTake(id){const e=$(id);delete CONF[id];if(!e)return;setVal(e,defOf(e));e.classList.remove('confi');document.querySelectorAll('.confn[data-for="'+id+'"]').forEach(n=>n.remove())}
+function formBack(m){for(const id in CONF)if(!m[id])delete CONF[id];
+  for(const id in m){const e=document.getElementById(id),k=m[id];if(!e||e.type=='file'){delete CONF[id];continue}const nd=defOf(e);
+    if(nd===k.d)setVal(e,k.v);else if(k.v!==nd){setVal(e,k.v);CONF[id]=1}else delete CONF[id];
+    if(CONF[id]&&!document.querySelector('.confn[data-for="'+id+'"]'))confNote(e)}}
+let SG=null;
+function scrollHold(y){const t0=Date.now();clearTimeout(SG);let n=0;const chk=()=>{if(userAt>t0)return;const mx=document.documentElement.scrollHeight-innerHeight;if(Math.abs(window.scrollY-y)>2&&mx>=y-2)window.scrollTo(0,y);if(++n<4)SG=setTimeout(chk,[0,100,250,500][n])};requestAnimationFrame(chk)}
 function autoR(){clearTimeout(AUTO_T);AUTO_T=null;
   if(MAPO||RES&&document.activeElement&&document.activeElement.id=='resn')return;
   const a=document.activeElement;if(a&&/^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName)&&$('app').contains(a)&&!KEEPF.test(a.id)){AUTO_T=setTimeout(autoR,1500);return}
   const w=1200-(Date.now()-lastTouch);if(w>0){AUTO_T=setTimeout(autoR,w+50);return}
-  const keep=formKeep();render();formBack(keep)}
+  const y=window.scrollY;AUTO=true;let r;try{r=render()}finally{AUTO=false}if(r!=='same')scrollHold(y)}
 TLB.start('admin',()=>{TLB.on(autoR);render()});
 
 /* 2. the horizontal tab bar and filter chips keep their position after a redraw, and the chosen one stays visible */
 const HSX={};
 function hsKeep(){document.querySelectorAll('.tabs,.chips').forEach((e,i)=>{HSX[(e.classList.contains('tabs')?'tabs':tab+'|'+i)]=e.scrollLeft})}
 function hsBack(){document.querySelectorAll('.tabs,.chips').forEach((e,i)=>{const k=e.classList.contains('tabs')?'tabs':tab+'|'+i;if(HSX[k]!=null)e.scrollLeft=HSX[k];const on=e.querySelector('.on');if(!on)return;const l=on.offsetLeft-e.offsetLeft,r=l+on.offsetWidth;if(l<e.scrollLeft+4)e.scrollLeft=Math.max(0,l-16);else if(r>e.scrollLeft+e.clientWidth-4)e.scrollLeft=r-e.clientWidth+16})}
-function render(){hsKeep();const a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
-  render0();
+function render(){hsKeep();const keep=formKeep(),cx=ctxKey(),a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
+  if(render0()==='same')return 'same';
   if(ok){let e=id?document.getElementById(id):null;if(!e||e===a){const n=[...document.querySelectorAll('input,textarea')];e=n[ix]}if(e&&e!==a){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
-  hsBack();window.scrollTo(0,y)}
+  if(ctxKey()===cx)formBack(keep);else CONF={};hsBack();if(Math.abs(window.scrollY-y)>1)window.scrollTo(0,y)}
 </script></body></html>

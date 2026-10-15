@@ -31,3 +31,20 @@ other staff/customer/anon refused, read-only); qa_all 0 issues; flow, cart, cour
 
 Banner editor and happy hours already kept their values (state in memory); they now also store date/time on `input`.
 Tests: `tools/form_keep_check.py <preview_dir>` — real pipeline 4 cycles (promo values + scroll kept), 6 forms × 5 forced automatic redraws at 390×844 and 360×780 (values + scroll kept), picture kept, server change wins, redraw postponed while the date field is open / while touching. Before the fix the same scenario lost the values.
+
+## v56e — one combined batch: forms, scroll, rotation, server edits (owner round 15 Oct 17:48)
+
+Owner iPhone results on v56d: promo, banner edit, happy hours, points settings kept values; remaining: on the points settings
+the page jumped to the top after rotating back to portrait (counters 49–51).
+
+| Cause | Where | Fix |
+|---|---|---|
+| Automatic redraws were not held back during rotation / keyboard (only touch & scroll were watched). While iOS rotates and restores the page it can report a wrong scroll position for a moment; a redraw in that moment wrote that position back → jump. Not reproducible in Chromium (same scenario keeps the position before and after the fix) | admin.html (shared) | Redraw waits 1.2–1.5 s after `resize`, `orientationchange`, keyboard (`visualViewport`) and touch; an automatic redraw that would show the same screen does not touch the page at all; after an automatic redraw the position is held 0.5 s against late browser moves; `scrollTo` only when the position really changed; the kept-focus field is focused without scrolling |
+| Values typed in forms without own state were restored only after automatic redraws; any click that redraws the same screen (e.g. «Добавить» happy hour while points settings were typed, language switch) still wiped them | admin.html | Restored on every redraw of the same screen; never carried to another screen/record (closing a form, opening another record starts clean); fields that already keep their value in memory are left alone |
+| v56d showed the server value when someone else saved meanwhile → the admin's typing was replaced silently | admin.html | The typed value stays; an orange notice under the field shows the server value with «Взять значение с сервера». Banner and happy-hour editors: notice listing what changed on the server + «Открыть версию с сервера» (asks first); if the record was deleted, the editor stays with the typed values, a notice, and no save button |
+| Inline `onclick="…;scrollTo(0,0)"` (11 places: open order from ratings/tickets/customers/couriers, ticket bar) scrolled the button, not the page — the order opened at the old scroll position | admin.html | `window.scrollTo(0,0)` |
+| Same buttons wrote the order id unquoted (`D=${id}`): fine for numeric ids, broke with the preview's text ids | admin.html | id written as JSON (numbers stay numbers) |
+
+Decisions for the owner (not implemented): see the report — block or confirm «Сохранить» when the server version changed (today: last save wins, as before).
+Preview: every 10 s a demo courier goes on/offline, so every screen is really rebuilt (worst case); strip counts refreshes.
+Tests: tools/form_keep_check.py (RU/EN, 390/844 portrait+landscape, 360, 430; 7 forms; real polling; rotation; conflicts; postpone rules; no carry-over).
