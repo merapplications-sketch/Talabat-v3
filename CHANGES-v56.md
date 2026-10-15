@@ -20,3 +20,14 @@ Tests: `tools/admin_uat_check.py` 0 fails (search, permission/missing-function m
 math, settlement, invoice, chat, banner label, rating counters, caption, forms at 360/390/430 RU/EN); `sql/test_patch35.sql`
 16/16 (old orders, name, phone in any format, literal %/_, status filter, newest first, limit, admin/support allowed,
 other staff/customer/anon refused, read-only); qa_all 0 issues; flow, cart, courier, smoke, header, overflow checks pass.
+
+## v56d — forms wiped by automatic refresh (owner report 15 Oct, iPhone Safari, red PREVIEW)
+
+| Cause found | Where | Fix |
+|---|---|---|
+| Every data event (realtime + polling every 10 s) rebuilt the whole screen. The redraw was skipped only while a field had focus; on iPhone the date picker closes = focus leaves, so the next refresh rebuilt the form. The promo form, the new-banner form, the new-store form and the loyalty settings keep their values only inside the input boxes → wiped. The page also jumped when the redraw came during the scroll / keyboard-closing animation | **shared app code** (admin.html), same in production on any busy day | Automatic redraw postponed while a field is open and until the finger has been still 1.2 s; values typed in forms are put back after an automatic redraw (unless the saved value behind the field changed meanwhile — then the saved value is shown); the new-banner picture preview is redrawn from memory; date/time fields of the banner editor and happy hours also store on `input` |
+| The admin asked again every 10 s for profiles it can not find (a ticket/request whose person is missing) and reported "changed" each time → a redraw every 10 s even with no new data | **shared app code** (talabat-core.js) | Missing profiles remembered as unknown; "changed" only when a profile was really received |
+| The demo tickets used `user_id` instead of `customer_id` → triggered the point above every 10 s | preview demo data only | Demo data fixed; the preview now simulates a data change every 10 s on purpose and counts the refreshes in the red strip, so the fix can be seen on the phone |
+
+Banner editor and happy hours already kept their values (state in memory); they now also store date/time on `input`.
+Tests: `tools/form_keep_check.py <preview_dir>` — real pipeline 4 cycles (promo values + scroll kept), 6 forms × 5 forced automatic redraws at 390×844 and 360×780 (values + scroll kept), picture kept, server change wins, redraw postponed while the date field is open / while touching. Before the fix the same scenario lost the values.

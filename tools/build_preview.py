@@ -10,7 +10,7 @@ import os,sys,re
 root=os.path.abspath(os.path.join(os.path.dirname(__file__),'..'))
 out=sys.argv[1];app=(sys.argv[2] if len(sys.argv)>2 else 'admin')
 os.makedirs(out,exist_ok=True)
-FIX=open(os.path.join(root,'tools','qa_all.py')).read().split('FIX="""')[1].split('"""')[0].replace('window.__ROLE','"%s"'%app)
+FIX=open(os.path.join(root,'tools','qa_all.py')).read().split('FIX="""')[1].split('"""')[0].replace('window.__ROLE','"%s"'%app).replace('var T={','var T=window.__pvTables={',1)
 READ_RPC=['my_perms','store_private','cash_balances','admin_customers','staff_list','contacts_for','admin_search_orders','brand_stats','brand_route',
   'wallet_balance','loyalty_summary','best_dishes','store_speed','delivery_quote','my_offers','my_rating','active_contacts','order_contacts','group_get',
   'happy_hour_pct','promo_guard_version','courier_steps_version','is_admin','owner_info','wallet_room']
@@ -37,7 +37,12 @@ GUARD=r"""
   return c};
  /* nothing may reach the real servers */
  var f0=window.fetch;window.fetch=function(u,o){if(/supabase\.co/.test(String(u)))return Promise.resolve(new Response('',{status:200}));return f0.apply(this,arguments)};
- document.addEventListener('DOMContentLoaded',function(){var b=document.createElement('div');b.style.cssText='position:sticky;top:0;z-index:99999;background:#b42318;color:#fff;font:700 12px -apple-system,sans-serif;padding:7px 10px;text-align:center';b.textContent='ПРЕВЬЮ · тестовые данные · запись отключена — PREVIEW · demo data · writing disabled';document.body.insertBefore(b,document.body.firstChild)});
+ /* like a busy real day: the demo data "changes" every 10 s, so the screen goes through the same automatic refresh as production
+    (an invisible settings row ticks; the strip counts the refreshes the app really received) */
+ window.__pvTick=0;
+ setInterval(function(){var T=window.__pvTables;if(!T||document.hidden)return;window.__pvTick++;T.app_settings=(T.app_settings||[]).filter(function(x){return x.key!=='pv_tick'}).concat([{key:'pv_tick',value:String(window.__pvTick)}])},10000);
+ document.addEventListener('DOMContentLoaded',function(){var b=document.createElement('div');b.id='pv-strip';b.style.cssText='position:sticky;top:0;z-index:99999;background:#b42318;color:#fff;font:700 12px -apple-system,sans-serif;padding:7px 10px;text-align:center';b.innerHTML='ПРЕВЬЮ · тестовые данные · запись отключена — PREVIEW · demo data · writing disabled<br><span id="pv-cyc" style="font-weight:600;opacity:.9">автообновление каждые 10 с · циклов: 0</span>';document.body.insertBefore(b,document.body.firstChild);
+   var n=0,hook=function(){if(window.TLB&&TLB.on){TLB.on(function(){n++;var e=document.getElementById('pv-cyc');if(e)e.textContent='автообновление каждые 10 с · циклов: '+n})}else setTimeout(hook,300)};hook()});
 })();
 """%(repr(READ_RPC))
 open(os.path.join(out,'preview-client.js'),'w').write(FIX+GUARD)
