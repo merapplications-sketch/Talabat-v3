@@ -30,8 +30,9 @@ def vals(pg,fields): return [pg.locator(s).first.input_value() for s,_ in fields
 def blur(E): E("()=>document.activeElement&&document.activeElement.blur()")
 def settle(E):  # the redraw waits for 1.2 s of calm after touch/scroll/rotation: make it immediate for forced checks
     E("()=>{lastTouch=0;userAt=0}")
-def watch(E): E("()=>{window.__rb=0;window.__mo&&__mo.disconnect();window.__mo=new MutationObserver(m=>{if(m.some(x=>x.target.id=='app'))__rb++});__mo.observe($('app'),{childList:true})}")
-def rb(E): return E("()=>window.__rb")
+def watch(E): E("()=>{window.__n0=RINFO.n;window.__full=0;window.__mo&&__mo.disconnect();window.__mo=new MutationObserver(m=>{if(m.some(x=>x.target.id=='app'&&[...x.removedNodes].some(n=>n.nodeType==1&&n.classList&&n.classList.contains('top'))))__full++});__mo.observe($('app'),{childList:true})}")
+def rb(E): return E("()=>RINFO.n-window.__n0")      # redraws that really ran (patched or rebuilt)
+def full(E): return E("()=>window.__full")          # whole page thrown away and rebuilt
 def scroll_to(E,y): E("y=>{const m=document.documentElement.scrollHeight-innerHeight;scrollTo(0,Math.min(y,m))}",y);return E("()=>scrollY")
 def real_refresh(pg,E,js):  # change the demo data, then the app's own refresh path (visibilitychange -> refresh -> TLB.on -> autoR)
     E("()=>{const T=window.__pvTables;"+js+"}");E("()=>document.dispatchEvent(new Event('visibilitychange'))");pg.wait_for_timeout(2900)
@@ -64,6 +65,10 @@ with sync_playwright() as p:
     # 2a. an automatic redraw that changes nothing on screen does not touch the page
     E("()=>{tab='c';showAddP=true;render()}");pg.fill('#pcode','SAME1');blur(E);watch(E);E("()=>{lastTouch=0;userAt=0;autoR()}")
     ok(rb(E)==0 and pg.input_value('#pcode')=='SAME1','2a: refresh with nothing new on this screen = page not rebuilt at all')
+    # 2a'. a real data change on the same screen patches the page: the form fields are the SAME elements (nothing rebuilt)
+    E("()=>{document.getElementById('pcode').__mark=1}");watch(E)
+    E("()=>{const T=window.__pvTables;const c=T.profiles.find(x=>x.id=='pv-courier');c.online=!c.online;c.last_seen=new Date().toISOString();document.dispatchEvent(new Event('visibilitychange'))}");pg.wait_for_timeout(2900)
+    ok(rb(E)>=1 and full(E)==0 and E("()=>document.getElementById('pcode').__mark===1") and pg.input_value('#pcode')=='SAME1','2a: real data change: page patched in place (%d redraw, %d full rebuilds), same input element, value kept'%(rb(E),full(E)))
     # 2b. postponed while a field is in use / finger on screen / rotation / keyboard
     pg.focus('#pfr');watch(E);E("()=>{lastTouch=0;LASTH='';autoR()}")
     ok(rb(E)==0,'2b: no rebuild while the date field is open (picker)');blur(E);pg.wait_for_timeout(1800)
@@ -87,10 +92,17 @@ with sync_playwright() as p:
     ok(pg.input_value('#pcode')=='LANG1' and pg.input_value('#pfr')=='2026-10-25','2e: switching RU/EN keeps typed values');E("()=>TLB.setLang('ru')");pg.wait_for_timeout(1800)
     E("()=>{showAddP=false;render()}")
     # 2f. "open order" buttons now really go to the top (inline scrollTo used to scroll the button)
-    E("()=>{tab='r';rfl='all';render()}");scroll_to(E,600)
-    btn=E("()=>{const b=[...document.querySelectorAll('#app button')].find(x=>(x.getAttribute('onclick')||'').startsWith('D=')&&(x.getAttribute('onclick')||'').includes('window.scrollTo(0,0)'));if(!b)return null;b.click();return true}")
+    E("()=>{tab='r';rfl='all';render()}");y2f=scroll_to(E,600)
+    btn=E("()=>{const b=[...document.querySelectorAll('#app [onclick^=\"openFrom(\"]')].pop();if(!b)return null;b.click();return true}")
     pg.wait_for_timeout(200);ok(btn and E("()=>scrollY")==0 and E("()=>!!D"),'2f: opening an order from the ratings list shows it from the top')
-    E("()=>{D=null;tab='y';render()}")
+    pg.locator('#app button[onclick="ordBack()"]').first.click();pg.wait_for_timeout(200)
+    ok(E("()=>tab")=='r' and E("()=>rfl")=='all' and E("()=>!D") and abs(E("()=>scrollY")-y2f)<=2,'2f: «Назад» returns to the ratings list, same filter and position (%s)'%E("()=>scrollY"))
+    # same from a support ticket
+    E("()=>{tab='h';TK.sel=TLB.adminTickets()[0].id;render()}");y0=scroll_to(E,200)
+    ok(E("()=>{const b=document.querySelector('#app [onclick^=\"openFrom(\"]');if(!b)return false;b.click();return !!D}"),'2f: order opened from a support ticket')
+    pg.locator('#app button[onclick="ordBack()"]').first.click();pg.wait_for_timeout(200)
+    ok(E("()=>tab")=='h' and E("()=>TK.sel")==E("()=>TLB.adminTickets()[0].id"),'2f: «Назад» returns to the same support ticket')
+    E("()=>{D=null;TK.sel=null;tab='y';render()}")
     # ======== 3. someone else saves on the server meanwhile: nothing typed is lost silently ========
     pg.fill('#ly_cashback_pct','9');blur(E)
     real_refresh(pg,E,"T.app_settings.find(x=>x.key=='cashback_pct').value='2'")
@@ -114,7 +126,36 @@ with sync_playwright() as p:
     real_refresh(pg,E,"T.happy_hours[0].discount_pct=44")
     ok(pg.input_value('#app input[min=\"1\"][max=\"90\"]')=='33' and '44' in E("()=>{const n=document.querySelector('#app .confn');return n?n.innerText:''}"),'3d: happy hour: my 33 % stays, notice shows the server 44')
     E("()=>{HE=null;render()}")
-    ok(not errs,'2-3 no JS errors '+str(errs[:2]));pg.close()
+    # ======== 5. Texts tab: never stuck on «…» ========
+    E("()=>{tab='g';PGE={};render();TLB.loadPages(true)}");pg.wait_for_timeout(1900)
+    ok(E("()=>document.querySelectorAll('#app textarea[id^=pgt_]').length")==4,'5: Texts tab shows the 4 editors (about/privacy × ru/en)')
+    E("()=>{window.__pvTables.app_pages=[];TLB.loadPages(true)}");pg.wait_for_timeout(1900)
+    t5=E("()=>$('app').innerText")
+    ok('нет записей' in t5 and 'Повторить' in t5 and '…' not in E("()=>[...document.querySelectorAll('#app .card')].map(c=>c.innerText).join('|')"),'5: no rows in the table → clear message + retry, not «…»')
+    E("()=>{window.__pvTables.app_pages=[{slug:'about',body_ru:'a',body_en:'b'},{slug:'privacy',body_ru:'c',body_en:'d'}];tab='y';render()}")
+    ok(not errs,'2-3 no JS errors '+str(errs[:2]))
+    # ======== 6. the page is loaded again (iPhone frees memory in the background) ========
+    E("()=>{tab='c';showAddP=true;render()}");fill(pg,FORMS[0][2]);blur(E);y6=scroll_to(E,240);pg.wait_for_timeout(600)
+    pg.reload();pg.wait_for_timeout(3000)
+    ok(E("()=>tab")=='c' and E("()=>showAddP") and vals(pg,FORMS[0][2])==[v for _,v in FORMS[0][2]],'6: after a reload the promo form is back with every typed value %s'%vals(pg,FORMS[0][2]))
+    ok(abs(E("()=>scrollY")-y6)<=2,'6: after a reload the page is at the same place (%s -> %s)'%(y6,E("()=>scrollY")))
+    E("()=>{showAddP=false;tab='y';HE=null;render()}");pg.fill('#ly_loyalty_min_order','17');blur(E);pg.wait_for_timeout(600);pg.reload();pg.wait_for_timeout(3000)
+    ok(E("()=>tab")=='y' and pg.input_value('#ly_loyalty_min_order')=='17','6: after a reload the typed points setting 17 is back (not 30)')
+    E("()=>{const s=JSON.parse(sessionStorage.getItem('tlb-ui-admin'));s.act=Date.now()-31*60*1000;sessionStorage.setItem('tlb-ui-admin',JSON.stringify(s));window.TLB_SIGNING_OUT=true}");pg.reload();pg.wait_for_timeout(3000)
+    ok(E("()=>tab")=='o' and E("()=>UIR&&UIR.skipped")=='older than 30 min' and E("()=>JSON.stringify(JSON.parse(sessionStorage.getItem('tlb-ui-admin')||'{}').f||{})")=='{}','6: older than the 30-minute inactivity limit → nothing restored, kept data deleted')
+    E("()=>{tab='y';render()}");pg.fill('#ly_loyalty_min_order','18');blur(E);pg.wait_for_timeout(600)
+    E("()=>{window.alert=()=>{};TLB.logout()}");pg.wait_for_timeout(3000)
+    ok(E("()=>tab")=='o' and E("()=>document.getElementById('ly_loyalty_min_order')") is None,'6: after sign-out nothing is restored')
+    E("()=>{tab='u';CU.ph='+992900000000';render()}");pg.wait_for_timeout(700)
+    ok('992900000000' not in (E("()=>sessionStorage.getItem('tlb-ui-admin')") or ''),'6: customer search/phone fields are never kept')
+    E("()=>{CU.ph='';tab='y';render()}")
+    # ======== 7. preview diagnostic log ========
+    E("()=>{tab='c';showAddP=true;render()}");pg.fill('#pcode','SECRET17');blur(E);pg.wait_for_timeout(600);E("()=>{showAddP=false;tab='o';render()}");pg.wait_for_timeout(1300);E("()=>window.scrollTo(0,0)");scroll_to(E,900);pg.wait_for_timeout(300)
+    pg.click('#pv-strip button:has-text(\"سجل التشخيص\")');pg.wait_for_timeout(200);lg=E("()=>document.querySelector('#pv-dp textarea').value")
+    ok('PAGE LOAD · type reload' in lg and 'JUMP' in lg and 'app scrollTo' in lg,'7: diagnostic log records reloads, jumps and who moved the page')
+    ok(not any(x in lg for x in ['Муаммад','+99290','SECRET17','SALE10','Рудаки']),'7: diagnostic log holds no names, phones, addresses or typed values')
+    E("()=>document.getElementById('pv-dp').remove()")
+    ok(not errs,'5-7 no JS errors '+str(errs[:2]));pg.close()
     if not quick:
         # ======== 4. real polling (every 10 s, demo courier on/offline) — no help from the test ========
         pg,errs=new_page(b,(390,844),'ru');E=pg.evaluate

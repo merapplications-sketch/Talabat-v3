@@ -143,6 +143,7 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
+  var pagesSt = 'loading', pagesErr = '';
   var DB = { stores: [], items: [], orders: [], oitems: [], xorders: [], xitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
@@ -594,7 +595,7 @@
     $('tlb-rl').onclick = function () { location.reload(); };
     $('tlb-rs2').onclick = function () { try { localStorage.removeItem('tlb-auth-' + need); } catch (e) { } location.reload(); };
   }
-  function logout() { sb.auth.signOut().then(function () { location.reload(); }); }
+  function logout() { window.TLB_SIGNING_OUT = true; try { sessionStorage.removeItem('tlb-ui-' + need); } catch (e) { } sb.auth.signOut().then(function () { location.reload(); }); }
   var authMode = 'in', resendAt = 0;
   function authErr(e) {
     var m = String((e && e.message) || '').toLowerCase(), c = String((e && (e.code || e.error_code)) || '');
@@ -877,17 +878,22 @@
     },
     /* ---------- About / Privacy pages (edited by the admin) ---------- */
     pages: function () { return DB.pages; },
+    /* 'loading' until the first answer; 'ok'; 'empty' = the table has no rows (set_page can only update existing rows); 'error' */
+    pagesState: function () { return pagesSt; },
     loadPages: function (force) {
       var now = Date.now();
       if (!force && extraLoaded.pages && now - extraLoaded.pages < 30000) return Promise.resolve(false);
       extraLoaded.pages = now;
+      var st0 = pagesSt;
       return sb.from('app_pages').select('slug,body_ru,body_en').then(function (r) {
-        if (r.error) return false;
+        if (r.error) { pagesSt = 'error'; pagesErr = String(r.error.message || r.error.code || ''); if (st0 !== 'error') fireSoon(); return false; }
         var o = {}; (r.data || []).forEach(function (p) { o[p.slug] = { ru: p.body_ru || '', en: p.body_en || '' }; });
-        if (JSON.stringify(o) === JSON.stringify(DB.pages)) return false;
+        pagesSt = Object.keys(o).length ? 'ok' : 'empty';
+        if (JSON.stringify(o) === JSON.stringify(DB.pages) && st0 === pagesSt) return false;
         DB.pages = o; fireSoon(); return true;
-      }, function () { return false; });
+      }, function (e) { pagesSt = 'error'; pagesErr = String((e && e.message) || e || ''); fireSoon(); return false; });
     },
+    pagesError: function () { return pagesErr; },
     setPage: function (slug, lang, body) {
       var b = String(body == null ? '' : body);
       if (['about', 'privacy'].indexOf(slug) < 0 || ['ru', 'en'].indexOf(lang) < 0 || b.length > 20000) return Promise.resolve({ error: 'bad_value' });

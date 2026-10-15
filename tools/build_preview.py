@@ -54,7 +54,52 @@ GUARD=r"""
    var n=0,hook=function(){if(window.TLB&&TLB.on){TLB.on(function(){n++;var e=document.getElementById('pv-cyc');if(e)e.textContent='автообновлений: '+n})}else setTimeout(hook,300)};hook()});
 })();
 """%(repr(READ_RPC))
-open(os.path.join(out,'preview-client.js'),'w').write(FIX+GUARD)
+DIAG=r"""
+(function(){
+ /* ---------- PREVIEW-ONLY diagnostic log: page jumps, reloads, coming back from the background.
+    Kept in this browser (localStorage, last 300 lines). No names, phones, typed values, tokens or addresses are recorded. ---------- */
+ var DK='pv-diag',HK='pv-hid',EK='pv-end',lastIn=0,lastRs=0,lastY=window.scrollY||0,lastRsLog=0;
+ function rd(){try{return JSON.parse(localStorage.getItem(DK)||'[]')}catch(e){return []}}
+ function ctx(){var vv=window.visualViewport,o=(screen.orientation&&screen.orientation.type)||(window.orientation!=null?'deg'+window.orientation:'');
+   return innerWidth+'x'+innerHeight+(vv?' vv'+Math.round(vv.width)+'x'+Math.round(vv.height)+' z'+(Math.round(vv.scale*100)/100)+' t'+Math.round(vv.offsetTop):'')+' y'+Math.round(window.scrollY)+'/'+Math.max(0,Math.round(document.documentElement.scrollHeight-innerHeight))+' '+o}
+ function log(ev,info){try{var a=rd();a.push(new Date().toTimeString().slice(0,8)+' '+ev+(info?' · '+info:'')+' · '+ctx());while(a.length>300)a.shift();localStorage.setItem(DK,JSON.stringify(a))}catch(e){}}
+ window.__pvLog=log;
+ function rinfo(){try{if(typeof RINFO!=='undefined'&&RINFO.t)return 'last redraw '+(Date.now()-RINFO.t)+'ms ago '+(RINFO.auto?'auto':'by tap')+' '+RINFO.mode}catch(e){}return 'no redraw yet'}
+ function act(){var a=document.activeElement;return a&&a!==document.body?'focus '+a.tagName.toLowerCase()+(a.id?'#'+a.id:'')+(a.type?'['+a.type+']':''):'no focus'}
+ /* how did this page start? */
+ try{var nv=performance.getEntriesByType('navigation')[0],hid=+localStorage.getItem(HK)||0,end=localStorage.getItem(EK)||'none';
+   log('PAGE LOAD','type '+(nv?nv.type:'?')+(document.wasDiscarded?' discarded':'')+(hid?' · was in background '+Math.round((Date.now()-hid)/1000)+'s':'')+' · previous page ended: '+end);localStorage.removeItem(EK)}catch(e){}
+ window.addEventListener('pageshow',function(e){log('pageshow',e.persisted?'from back-forward cache (no reload)':'')});
+ window.addEventListener('pagehide',function(e){var w=window.TLB_SIGNING_OUT?'sign-out':(e.persisted?'pagehide (kept in cache)':'pagehide');try{localStorage.setItem(EK,w+' at '+new Date().toTimeString().slice(0,8))}catch(_){}log('pagehide',w)});
+ document.addEventListener('visibilitychange',function(){if(document.hidden){try{localStorage.setItem(HK,String(Date.now()))}catch(e){}log('went to background')}else{var h=0;try{h=+localStorage.getItem(HK)||0;localStorage.removeItem(HK)}catch(e){}log('came back',h?'away '+Math.round((Date.now()-h)/1000)+'s, page NOT reloaded':'')}});
+ ['touchstart','touchmove','touchend','wheel','keydown','pointerdown'].forEach(function(ev){document.addEventListener(ev,function(){lastIn=Date.now()},{passive:true,capture:true})});
+ function rs(kind){lastRs=Date.now();if(Date.now()-lastRsLog>400){lastRsLog=Date.now();log(kind)}}
+ window.addEventListener('resize',function(){rs('resize')});window.addEventListener('orientationchange',function(){rs('rotation')});
+ if(window.visualViewport)visualViewport.addEventListener('resize',function(){rs('visual viewport resize (keyboard/zoom)')});
+ /* a jump = the page moved more than 150 px in one step with no finger/key in the last 1 s */
+ window.addEventListener('scroll',function(){var y=window.scrollY,d=y-lastY;if(Math.abs(d)>150&&Date.now()-lastIn>1000)log('JUMP '+Math.round(lastY)+' -> '+Math.round(y),rinfo()+' · last resize '+(lastRs?Date.now()-lastRs+'ms ago':'never')+' · '+act());lastY=y},{passive:true});
+ /* who asked the page to move */
+ var st=window.scrollTo;window.scrollTo=function(x,y){var to=typeof x==='object'&&x?x.top:y;if(to!=null&&Math.abs(to-window.scrollY)>80){var who='';try{who=(new Error().stack||'').split('\n').slice(2,5).map(function(l){var m=l.match(/at (\S+)|^(\w+)@/);return m?(m[1]||m[2]):''}).filter(Boolean).join('<')}catch(e){}log('app scrollTo '+Math.round(window.scrollY)+' -> '+Math.round(to),(who||'?')+' · '+rinfo())}return st.apply(window,arguments)};
+ var al=window.alert;window.alert=function(m){log('alert',/бездейств|inactivity/i.test(String(m))?'INACTIVITY SIGN-OUT (30 min rule)':String(m).slice(0,60));return al.apply(window,arguments)};
+ window.addEventListener('error',function(e){log('JS error',String(e.message||'').slice(0,100))});
+ var tries=0,w=function(){tries++;try{if(typeof UIR!=='undefined'&&UIR){log('screen restore after load',JSON.stringify(UIR));return}}catch(e){}if(tries<40)setTimeout(w,250)};setTimeout(w,500);
+ /* panel */
+ function panel(){var p=document.getElementById('pv-dp');if(p){p.remove();return}p=document.createElement('div');p.id='pv-dp';p.dir='ltr';
+   p.style.cssText='position:fixed;left:8px;right:8px;top:8px;bottom:8px;z-index:100001;background:#fff;border-radius:14px;box-shadow:0 10px 40px #0007;display:flex;flex-direction:column;padding:10px;font:12px -apple-system,sans-serif';
+   var ua=navigator.userAgent,os=(ua.match(/OS (\d+[_\d]*)/)||[])[1],sv=(ua.match(/Version\/([\d.]+)/)||[])[1],cr=(ua.match(/(CriOS|Chrome)\/([\d.]+)/)||[])[2];
+   var head='Talabot admin PREVIEW · '+(window.TLB&&TLB.version||'')+' · '+(/iPhone|iPad/.test(ua)?'iOS '+String(os||'?').replace(/_/g,'.'):'')+(sv?' Safari '+sv:'')+(cr?' Chrome '+cr:'')+' · now: '+ctx();
+   var ta=document.createElement('textarea');ta.readOnly=true;ta.style.cssText='flex:1;width:100%;box-sizing:border-box;font:11px/1.4 ui-monospace,Menlo,monospace;border:1px solid #ddd;border-radius:8px;padding:6px';ta.value=head+'\n'+rd().join('\n');
+   var row=document.createElement('div');row.style.cssText='display:flex;gap:6px;margin-top:8px';
+   function bt(t,f){var x=document.createElement('button');x.type='button';x.textContent=t;x.style.cssText='flex:1;border:0;border-radius:10px;padding:10px;font:700 13px -apple-system,sans-serif;background:#f1f1f4';x.onclick=f;row.appendChild(x);return x}
+   var cp=bt('نسخ السجل',function(){var v=ta.value;function ok(){cp.textContent='✓ تم النسخ'}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(ok,function(){ta.select();try{document.execCommand('copy');ok()}catch(e){}});else{ta.select();try{document.execCommand('copy');ok()}catch(e){}}});
+   cp.style.background='#b42318';cp.style.color='#fff';
+   bt('مسح السجل',function(){try{localStorage.removeItem(DK)}catch(e){}ta.value=head+'\n'});bt('إغلاق',function(){p.remove()});
+   p.appendChild(ta);p.appendChild(row);document.body.appendChild(p)}
+ document.addEventListener('DOMContentLoaded',function(){var s=document.getElementById('pv-strip');if(!s)return;var x=document.createElement('button');x.type='button';x.textContent='سجل التشخيص';
+   x.style.cssText='margin:3px 0 0 4px;border:0;border-radius:999px;padding:3px 9px;background:#fff;color:#b42318;font:700 11px -apple-system,sans-serif';x.onclick=panel;s.appendChild(x)});
+})();
+"""
+open(os.path.join(out,'preview-client.js'),'w').write(FIX+GUARD+DIAG)
 s=open(os.path.join(root,app+'.html')).read()
 s2=re.sub(r'<script src="https://cdn\.jsdelivr\.net/npm/@supabase/supabase-js@[^"]+"></script>','<script src="preview-client.js"></script>',s)
 assert s2!=s,'supabase script tag not found'

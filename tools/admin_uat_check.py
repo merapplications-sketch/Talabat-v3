@@ -24,6 +24,8 @@ with sync_playwright() as p:
     ids=lambda:E("()=>[...document.querySelectorAll('[onclick^=\"openOrd(\"]')].map(e=>e.querySelector('b').textContent)")
     # ---- 0. the sample orders themselves follow the production formula (test data check, not a change of the formula)
     bad=E("()=>TLB.orders().filter(o=>{const it=o.items.reduce((s,i)=>s+i.qty*i.price,0),tot=Math.max(5,o.subtotal-o.discount-o.promoDiscount-o.pointsValue+o.delivery+o.tip);return Math.abs(it-o.subtotal)>0.004||Math.abs(tot-o.total)>0.004||(o.payment=='wallet'&&Math.abs(o.walletUsed-o.total)>0.004)}).map(o=>o.id)")
+    badc=E("()=>TLB.orders().map(o=>[o.id,o.subtotal,o.discount,o.hhDiscount||0,o.commissionPct,o.commission]).filter(x=>Math.abs(Math.round((x[1]-x[2]-x[3])*x[4])/100-x[5])>0.004)")
+    ok(badc==[],'sample commission = (items − store discount − happy hour) × commission %% as in place_order (ord4: 440 × 10%% = 44) %s'%badc)
     ok(bad==[],'sample orders are consistent: lines = items, total = items − discount − promo − points + delivery + tip, wallet payment = wallet used %s'%bad)
     # ---- 1. search
     ok(E("()=>!!document.getElementById('oq')&&document.getElementById('oq').getBoundingClientRect().top<document.querySelector('.chips').getBoundingClientRect().top"),'search box above the status filters')
