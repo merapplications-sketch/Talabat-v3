@@ -121,7 +121,7 @@
       document.body.appendChild(ov); applyI18n();
       var st = (start && isFinite(+start[0]) && isFinite(+start[1]) && start[0] !== null && start[1] !== null) ? [+start[0], +start[1]] : null;
       var map = L.map('tlb-map', { zoomControl: false }).setView(st || [38.5598, 68.787], st ? 17 : 14);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap' }).addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
       var show = function () { var c = map.getCenter(); $('tlb-co').textContent = c.lat.toFixed(6) + ', ' + c.lng.toFixed(6); };
       map.on('movestart', function () { var p = $('tlb-pin'); if (p) p.style.transform = 'translateY(-10px)'; });
       map.on('move', show);
@@ -811,6 +811,20 @@
         });
       }, function () { return { error: 'generic' }; });
     },
+    /* staff: bring orders that are not among the loaded newest ones (opened from a customer card, a rating, a ticket, a search) */
+    fetchOrders: function (ids) {
+      ids = (ids || []).filter(function (id) { return id != null && !ORD.some(function (o) { return o.id == id; }); });
+      if (!ids.length || !sb) return Promise.resolve(true);
+      return Promise.all([sb.from('orders').select('*').in('id', ids), sb.from('order_items').select('*').in('order_id', ids)]).then(function (x) {
+        if (x[0].error) return false;
+        var got = (x[0].data || []).filter(function (o) { return ids.some(function (id) { return o.id == id; }); });
+        if (!got.length) return false;
+        var gid = got.map(function (o) { return o.id; });
+        DB.xorders = got.concat(DB.xorders.filter(function (o) { return gid.indexOf(o.id) < 0; })).slice(0, 300);
+        if (!x[1].error) DB.xitems = (x[1].data || []).filter(function (i) { return gid.indexOf(i.order_id) >= 0; }).concat(DB.xitems.filter(function (i) { return gid.indexOf(i.order_id) < 0; }));
+        return (ME && ME.role === 'admin' ? fetchAdminContacts(gid) : Promise.resolve()).then(function () { ORD = shape(); fireSoon(); return true; });
+      }, function () { return false; });
+    },
     offers: function () {
       return DB.myOffers.map(function (f) {
         var o = ORD.filter(function (x) { return x.id === f.order_id; })[0]; if (!o) return null;
@@ -993,10 +1007,13 @@
     customers: function (q, offset) {
       return sb.rpc('admin_customers', { p_q: String(q || '').trim().slice(0, 60) || null, p_limit: 30, p_offset: Math.max(0, Math.floor(+offset || 0)) }).then(function (r) { return r.error ? { error: errKey(r.error), rows: [] } : { rows: r.data || [] }; }, function () { return { error: 'generic', rows: [] }; });
     },
-    customerOrders: function (id) {
-      return sb.from('orders').select('id,store_id,status,total,created_at').eq('customer_id', id).order('created_at', { ascending: false }).limit(50).then(function (r) {
-        return (r.data || []).map(function (o) { return { id: o.id, store: storeName(o.store_id), status: o.status, total: +o.total, createdAt: Date.parse(o.created_at) }; });
-      }, function () { return []; });
+    /* one account's orders (by customer id, newest first), 50 at a time; .total = how many this account has in all (null if unknown) */
+    customerOrders: function (id, from) {
+      from = Math.max(0, Math.floor(+from || 0));
+      return sb.from('orders').select('id,store_id,status,total,created_at', { count: 'exact' }).eq('customer_id', id).order('created_at', { ascending: false }).order('id', { ascending: false }).range(from, from + 49).then(function (r) {
+        var a = (r.data || []).map(function (o) { return { id: o.id, store: storeName(o.store_id), status: o.status, total: +o.total, createdAt: Date.parse(o.created_at) }; });
+        a.total = typeof r.count === 'number' ? r.count : null; a.failed = !!r.error; return a;
+      }, function () { var a = []; a.total = null; a.failed = true; return a; });
     },
     setBan: function (id, banned, reason) {
       if (banned && String(reason || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
@@ -1088,7 +1105,7 @@
       loadLeaflet(function () {
         var box = $(elId); if (!box) return;
         var map = L.map(elId).setView(center || [38.5598, 68.787], 12);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
         var group = [];
         (points || []).forEach(function (p) {
           if (!isFinite(+p.lat) || !isFinite(+p.lng)) return;

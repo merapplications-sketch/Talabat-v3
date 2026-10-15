@@ -155,7 +155,30 @@ with sync_playwright() as p:
     ok('PAGE LOAD · type reload' in lg and 'JUMP' in lg and 'app scrollTo' in lg,'7: diagnostic log records reloads, jumps and who moved the page')
     ok(not any(x in lg for x in ['Муаммад','+99290','SECRET17','SALE10','Рудаки']),'7: diagnostic log holds no names, phones, addresses or typed values')
     E("()=>document.getElementById('pv-dp').remove()")
-    ok(not errs,'5-7 no JS errors '+str(errs[:2]));pg.close()
+    # ======== 8. customer card: whole history in pages of 50, and «Назад» from an order returns to the card ========
+    E("()=>{const T=window.__pvTables;for(let i=0;i<60;i++)T.orders.push({id:'cx'+i,store_id:'s1',customer_id:'u3',driver_id:null,status:'delivered',subtotal:100,discount:0,promo_discount:0,delivery_fee:10,tip:0,total:110,commission:10,commission_pct:10,payment:'cash',customer_name:'Клиент',created_at:new Date(Date.now()-(400+i)*86400000).toISOString(),done_at:null,wallet_used:0})}")
+    E("()=>{tab='u';CU.q='Клиент';render();cuLoad(true)}");pg.wait_for_timeout(800);E("()=>cuOpen('u3')");pg.wait_for_timeout(1000)
+    ok(E("()=>CU.orders.length")==50 and 'показано 50 из 60' in E("()=>$('app').innerText"),'8: customer card says «показано 50 из 60» (orders of THIS account id)')
+    ok(E("()=>CU.orders.every(o=>String(o.id).startsWith('cx'))"),'8: only orders with this customer id are listed')
+    E("()=>{const b=[...document.querySelectorAll('#app button')].find(x=>x.getAttribute('onclick')=='cuMore()');b.scrollIntoView({block:'center'})}");y8=E("()=>scrollY")
+    E("()=>[...document.querySelectorAll('#app button')].find(x=>x.getAttribute('onclick')=='cuMore()').click()");pg.wait_for_timeout(800)
+    ok(E("()=>CU.orders.length")==60 and 'показано 60 из 60' in E("()=>$('app').innerText") and not E("()=>[...document.querySelectorAll('#app button')].some(x=>x.getAttribute('onclick')=='cuMore()')"),'8: «Показать ещё» loads the other 10, then the button disappears')
+    ok(abs(E("()=>scrollY")-y8)<=2,'8: the page stays where it was while loading more (%s -> %s)'%(y8,E("()=>scrollY")))
+    E("()=>{const c=[...document.querySelectorAll('#app [onclick^=\"openFrom(\"]')].find(x=>x.getAttribute('onclick').includes('cx55'));c.scrollIntoView({block:'center'})}");y8=E("()=>scrollY")
+    E("()=>[...document.querySelectorAll('#app [onclick^=\"openFrom(\"]')].find(x=>x.getAttribute('onclick').includes('cx55')).click()");pg.wait_for_timeout(300)
+    pg.wait_for_timeout(400);st8=E("()=>[tab,D,CU.sel,CU.orders&&CU.orders.length,!!TLB.order('cx55'),$('app').innerText.includes('#cx55')]")
+    ok(st8[0]=='o' and st8[1]=='cx55' and st8[4] and st8[5],'8: an old order (cx55, not among the loaded ones) is fetched and opens from the customer card %s'%st8)
+    pg.locator('#app button[onclick="ordBack()"]').first.click();pg.wait_for_timeout(300)
+    ok(E("()=>tab")=='u' and E("()=>CU.sel")=='u3' and E("()=>CU.q")=='Клиент' and E("()=>CU.orders.length")==60 and abs(E("()=>scrollY")-y8)<=2,'8: «Назад» returns to the same customer, same search, all 60 orders, same place (%s)'%E("()=>scrollY"))
+    E("()=>openFrom('nope404')");pg.wait_for_timeout(700)
+    ok('nope404 не найден' in E("()=>$('app').innerText"),'8: an order that does not exist says so (no silent jump to the orders list)')
+    pg.locator('#app button[onclick="ordBack()"]').first.click();pg.wait_for_timeout(300)
+    ok(E("()=>tab")=='u' and E("()=>CU.sel")=='u3','8: and «Назад» still returns to the customer')
+    # ======== 9. delivery type label in the store form ========
+    E("()=>{CU.sel=null;tab='s';E=null;showAddS=true;render()}")
+    ok(E("()=>document.querySelector('#sf option[value=free]').textContent")=='Бесплатная' and 'свободны' in E("()=>document.querySelector('.lp').title"),'9: store form: delivery type «free» reads «Бесплатная»; «свободны» stays only for free couriers')
+    E("()=>{showAddS=false;render()}")
+    ok(not errs,'5-9 no JS errors '+str(errs[:2]));pg.close()
     if not quick:
         # ======== 4. real polling (every 10 s, demo courier on/offline) — no help from the test ========
         pg,errs=new_page(b,(390,844),'ru');E=pg.evaluate

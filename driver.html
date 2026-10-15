@@ -215,7 +215,7 @@ function sheetH(a){return `<div class="sht ${SHF?'full':''}"><div class="shh"><b
   <div class="shb">${activeCard(a)}</div><div class="shf">${swipeH(a)}</div></div>`}
 /* the map stays outside the re-drawn page: only its markers change */
 function mapUpd(a,force){const box=$('dmap');if(!a||!box)return;if(!window.L){if(!DM){DM=1;TLB.leaflet&&TLB.leaflet(()=>{DM=null;render()})}return}
-  if(!DM||DM===1){DM=L.map(box,{zoomControl:false,attributionControl:true});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'\u00a9 OpenStreetMap'}).addTo(DM);DM.__l=L.layerGroup().addTo(DM);DM.setView([38.5598,68.787],13)}
+  if(!DM||DM===1){DM=L.map(box,{zoomControl:false,attributionControl:true});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'\u00a9 OpenStreetMap',referrerPolicy:'strict-origin-when-cross-origin'}).addTo(DM);DM.__l=L.layerGroup().addTo(DM);DM.setView([38.5598,68.787],13)}
   const sp=storePt(a.store),cp=a.lat!=null&&isFinite(+a.lat)?[+a.lat,+a.lng]:null,me=GEO.lat!=null?[GEO.lat,GEO.lng]:null,ot=a.status=='pickedup';
   const key=[a.id,stepOf(a),sp,cp].join('|');const ic=(c,h,cls)=>L.divIcon({className:'',html:`<div class="dmk ${cls||''}" style="background:${c}">${h||''}</div>`,iconSize:[30,30],iconAnchor:[15,15]});
   DM.__l.clearLayers();if(sp)L.marker(sp,{icon:ic(ot?'#9aa0aa':'#f1511b',ico('store',15))}).addTo(DM.__l);if(cp)L.marker(cp,{icon:ic(ot?'#1fa05a':'#9aa0aa',ico('home',15))}).addTo(DM.__l);

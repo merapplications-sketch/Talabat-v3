@@ -61,3 +61,17 @@ Tests: tools/form_keep_check.py (RU/EN, 390/844 portrait+landscape, 360, 430; 7 
 | 6 | Pages look different | Compared every tab + order details + forms, main (v55) vs branch, same data, same clock, 390 px RU: every difference comes from an approved fix (tab strip keeps the chosen tab in view #2; search box #1; caption + 2 decimals #10; delivery block #5; «Оплата и расчёты» replaces «Оплата» and holds the commission line #4; event names/durations #3; chat lines #7; date/time fields 48 px high and, on iPhone, without the native grey style #6) + version stamp. Preview-only: red strip, demo data, language follows the browser on first open (Chrome in English → EN) | — | No redesign. Side-by-side images in the preview (compare/) |
 
 Commission, discounts, points, cashback, permissions: unchanged. No production data written.
+
+## v56g — v56f review + UAT findings on production v52 (16 Oct)
+
+Reference note: on `main`, admin.html and talabat-core.js were last changed in v52 (commit e5fff87); v53–v55 changed only the
+customer app. So for the admin panel "main" = the v52 the owner tested; the v56f comparison (main vs branch) is the v52 comparison.
+
+| # | Note | Status | Finding / fix |
+|---|---|---|---|
+| 2 | Customers → Парвиз → #9103 → «Назад» goes to the general orders list (v52) | proven in v52 code; fixed in v56f (openFrom/ordBack), now tested for this path | Same fix, no duplicate. Test: customer card → old order → «Назад» = same customer, same search text, same loaded history, same scroll position |
+| 3 | Map background: tiles «403 Access blocked» | cause proven in code + OSM policy; fixed, not verified on the phone | All pages have `<meta name="referrer" content="no-referrer">`; OSM refuses tile requests without a Referer. Tile layers (admin courier map, location picker used by customer/merchant/admin, driver courier map) now send only the site origin (`referrerPolicy: strict-origin-when-cross-origin`). Nothing else changed; the provider's block is not bypassed. Before/after test: Referer None → origin |
+| 4 | Парвиз card shows 50 orders, ends at #9029, no «more» | limit proven in code; identity of the 72 same-name orders not proven (needs real data) | History = orders with the account's customer_id, newest 50, nothing more and no notice. Now 50 at a time with «Показать ещё», header «показано N из M» (M = exact count for this account id), page does not move. If M = 72 the extra orders belong to the same account; if M = 50 the others are other accounts with the same name |
+| 5 | Store form delivery type shows «свободны» | proven | Two texts used the same key `aFree`: «Бесплатная» (fee type free = no delivery fee) and «свободны» (free couriers, later one won). Couriers' text renamed; the form reads «Бесплатная». Value, logic and price unchanged |
+| 6 | Visual reference v52 vs v55 | clarified | See reference note above |
+| 2b | (found while testing 2) An order that is not among the newest 300 loaded (old order from a customer card, a rating, a ticket) opened the general orders list instead of the order | proven in code (v52 and v56f) | `vDetail` silently dropped an unknown order. Now the order is fetched (`TLB.fetchOrders`, staff read permissions unchanged) and shown; if it does not exist / no access: a message + «Назад» |
