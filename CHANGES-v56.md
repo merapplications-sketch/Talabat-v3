@@ -75,3 +75,11 @@ customer app. So for the admin panel "main" = the v52 the owner tested; the v56f
 | 5 | Store form delivery type shows «свободны» | proven | Two texts used the same key `aFree`: «Бесплатная» (fee type free = no delivery fee) and «свободны» (free couriers, later one won). Couriers' text renamed; the form reads «Бесплатная». Value, logic and price unchanged |
 | 6 | Visual reference v52 vs v55 | clarified | See reference note above |
 | 2b | (found while testing 2) An order that is not among the newest 300 loaded (old order from a customer card, a rating, a ticket) opened the general orders list instead of the order | proven in code (v52 and v56f) | `vDetail` silently dropped an unknown order. Now the order is fetched (`TLB.fetchOrders`, staff read permissions unchanged) and shown; if it does not exist / no access: a message + «Назад» |
+
+## v56h — Chrome review of v56g (16 Oct)
+
+| # | Note | Scope | Fix |
+|---|---|---|---|
+| 1 | Support ticket: «Something went wrong», `ReferenceError: t1 is not defined` | Preview data: demo ticket id is text (`t1`); production ids are numbers (bigint), where `TK.sel=${k.id}` works. Same pattern in 7 handlers (ticket card, assign courier ×2, rating resolve ×2, reopen rating, rating order) | Ids written as JSON in those handlers (numbers stay numbers, text is quoted). New tests use real taps instead of setting state by script (that is why the earlier test missed it) |
+| 2 | Preview strip covers the map's Close button | Preview only | Strip is now below the app's full-screen windows (z-index 800 < 900) |
+| 3 | No demo customer with long history | Preview only | Demo customer «Демо-клиент · 62 заказа» with 62 old orders that, like production, are NOT in the panel's loaded orders (only paged / by-id reads see them) |

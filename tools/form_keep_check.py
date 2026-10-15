@@ -178,7 +178,35 @@ with sync_playwright() as p:
     E("()=>{CU.sel=null;tab='s';E=null;showAddS=true;render()}")
     ok(E("()=>document.querySelector('#sf option[value=free]').textContent")=='Бесплатная' and 'свободны' in E("()=>document.querySelector('.lp').title"),'9: store form: delivery type «free» reads «Бесплатная»; «свободны» stays only for free couriers')
     E("()=>{showAddS=false;render()}")
-    ok(not errs,'5-9 no JS errors '+str(errs[:2]));pg.close()
+    # ======== 10. real taps (not script shortcuts) on the paths the Chrome review used ========
+    errs.clear();E("()=>{BACKO=null;D=null;tab='h';TK.sel=null;render();window.scrollTo(0,0)}");pg.wait_for_timeout(300)
+    pg.locator('#app .card[onclick^="TK.sel="]').first.click();pg.wait_for_timeout(500)
+    ok(not errs and E("()=>TK.sel")!=None,'10: tapping a support ticket opens it (no "t1 is not defined") %s'%errs[:1])
+    pg.locator('#app [onclick^="openFrom("]').first.click();pg.wait_for_timeout(500)
+    ok(E("()=>tab")=='o' and E("()=>!!D"),'10: from the ticket, «Открыть заказ» opens the order')
+    pg.locator('#app button[onclick="ordBack()"]').first.click();pg.wait_for_timeout(400)
+    ok(E("()=>tab")=='h' and E("()=>TK.sel")!=None and not errs,'10: «Назад» returns to the same ticket')
+    E("()=>{TK.sel=null;tab='r';rfl='all';render()}");pg.wait_for_timeout(300)
+    for sel,lbl in [('#app button[onclick^="RES={o:"]','rating «resolve»'),('#app button[onclick^="ASG="]','assign courier')]:
+        n=pg.locator(sel).count()
+        if n: pg.locator(sel).first.click();pg.wait_for_timeout(300)
+        ok(not errs,'10: tapping %s works (%d buttons) %s'%(lbl,n,errs[:1]));E("()=>{RES=null;ASG=null;render()}")
+    # the courier map: its Close button is not under the preview strip
+    E("()=>{tab='d';render()}");pg.wait_for_timeout(200);E("()=>openMap()");pg.wait_for_timeout(600)
+    pg.locator('.ovl button[onclick="MAPO=false;render()"]').click(timeout=3000);pg.wait_for_timeout(300)
+    ok(not E("()=>MAPO"),'10: the map closes with a normal tap on «Закрыть»')
+    # the demo customer with 62 old orders, by taps only
+    E("()=>{tab='u';CU.q='';render();cuLoad(true)}");pg.wait_for_timeout(900)
+    pg.locator('#app .card',has_text='Демо-клиент').first.click();pg.wait_for_timeout(1200)
+    ok('показано 50 из 62' in E("()=>$('app').innerText"),'10: demo customer card: «показано 50 из 62»')
+    pg.locator('#app button[onclick="cuMore()"]').click();pg.wait_for_timeout(900)
+    ok('показано 62 из 62' in E("()=>$('app').innerText"),'10: «Показать ещё» → 62 of 62')
+    old=pg.locator('#app [onclick^="openFrom("]').last;old.scroll_into_view_if_needed();y10=E("()=>scrollY");old.click();pg.wait_for_timeout(1200)
+    ok(E("()=>tab")=='o' and E("()=>!!TLB.order(D)") and 'Демо-блюдо' in E("()=>$('app').innerText"),'10: the oldest order (not among the loaded ones) opens with its items')
+    pg.locator('#app button[onclick="ordBack()"]').first.click();pg.wait_for_timeout(500)
+    ok(E("()=>tab")=='u' and 'показано 62 из 62' in E("()=>$('app').innerText") and abs(E("()=>scrollY")-y10)<=2,'10: «Назад» → same customer, 62 orders, same place')
+    ok(E("()=>TLB.orders().every(o=>!String(o.id).startsWith('h9'))"),'10: the old sample orders stay out of the main orders list (like production: newest 300 only)')
+    ok(not errs,'5-10 no JS errors '+str(errs[:2]));pg.close()
     if not quick:
         # ======== 4. real polling (every 10 s, demo courier on/offline) — no help from the test ========
         pg,errs=new_page(b,(390,844),'ru');E=pg.evaluate
