@@ -1,4 +1,8 @@
-# Talabat v3 — hand-off for a new conversation (state at v52)
+# Talabat v3 — hand-off for a new conversation (state at v56)
+
+## Latest (15 Oct): UAT batch 1 on `fix/uat1-v56` (not merged, not deployed) — see CHANGES-v56.md; optional sql/schema_patch35.sql (read-only admin search).
+Open decisions from it: red low-rating alert threshold (≤2★) vs "needs attention" (≤3★); separate "not reviewed" vs "needs action" states; real payment/refund data (no payment gateway exists).
+Main = v55 (owner merged PRs up to #25). Pending earlier: designer brief document (asked 11 Oct, not delivered).
 
 ## Who / how to work
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
