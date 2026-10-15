@@ -22,6 +22,9 @@ with sync_playwright() as p:
         pg.goto('file://'+root+'/admin.html',wait_until='domcontentloaded');pg.wait_for_timeout(2300);pg.evaluate("()=>TLB.setLang('ru')");pg.wait_for_timeout(200);return pg
     pg=page(390);E=pg.evaluate
     ids=lambda:E("()=>[...document.querySelectorAll('[onclick^=\"openOrd(\"]')].map(e=>e.querySelector('b').textContent)")
+    # ---- 0. the sample orders themselves follow the production formula (test data check, not a change of the formula)
+    bad=E("()=>TLB.orders().filter(o=>{const it=o.items.reduce((s,i)=>s+i.qty*i.price,0),tot=Math.max(5,o.subtotal-o.discount-o.promoDiscount-o.pointsValue+o.delivery+o.tip);return Math.abs(it-o.subtotal)>0.004||Math.abs(tot-o.total)>0.004||(o.payment=='wallet'&&Math.abs(o.walletUsed-o.total)>0.004)}).map(o=>o.id)")
+    ok(bad==[],'sample orders are consistent: lines = items, total = items − discount − promo − points + delivery + tip, wallet payment = wallet used %s'%bad)
     # ---- 1. search
     ok(E("()=>!!document.getElementById('oq')&&document.getElementById('oq').getBoundingClientRect().top<document.querySelector('.chips').getBoundingClientRect().top"),'search box above the status filters')
     E("()=>{window.__srch=['ord5']}");pg.fill('#oq','Мадина');pg.wait_for_timeout(700)
@@ -86,11 +89,11 @@ with sync_playwright() as p:
     j=' / '.join(fb)
     ok('Сбор и возврат не подтверждены — платёжный шлюз не подключён' in j and 'Apple Pay' in j,'Apple Pay: collection and refund not verified, gateway not connected')
     ok(j.count('платёжный шлюз не подключён')==2,'refund row says the same, nothing invented')
-    ok('10.00 TJS — не выплачиваются' in j and '22.00 TJS — расчётная, не учитывается' in j,'tip and commission of a rejected order are marked as not counted')
+    ok('10.00 TJS — не входят в выплаты приложения' in j and '22.00 TJS — расчётная, не учитывается' in j,'tip and commission of a rejected order are marked as not counted')
     E("()=>{D='ord5';render()}");j=' / '.join(E("()=>[...document.querySelectorAll('.fr')].map(e=>e.innerText.replace(/\\n/g,' | '))"))
     ok('Возвращено в кошелёк клиента | 20.00 TJS' in j and 'Баллы возвращены клиенту' in j,'cancelled order: wallet and points returns shown from their records')
     E("()=>{const o=TLB.order('ord5');o.walletReturnedAt=null;render()}");j=' / '.join(E("()=>[...document.querySelectorAll('.fr')].map(e=>e.innerText.replace(/\\n/g,' | '))"))
-    ok('Возвращено в кошелёк клиента | записи нет' in j,'no return record → "записи нет", not a success')
+    ok('Возвращено в кошелёк клиента | Статус возврата не подтверждён' in j,'no return record → "Статус возврата не подтверждён", not a success and not a failure')
     E("()=>{D='ord4';render()}");j=' / '.join(E("()=>[...document.querySelectorAll('.fr')].map(e=>e.innerText.replace(/\\n/g,' | '))"))
     ok('учитывается: заказ доставлен' in j,'delivered order: commission counted')
     # ---- 7. chat
