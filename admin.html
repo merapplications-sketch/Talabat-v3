@@ -325,7 +325,7 @@ function bState(b){const n=Date.now();if(!b.is_active)return['suspended',t('aBOf
 function vBanners(){const bs=TLB.banners(true);
   const addF=`<div class="card"><div class="row"><b>${t('aBAdd')}</b><button class="b g" onclick="showAddB=false;render()">${t('aClose')}</button></div><div style="height:8px"></div><input id="bt" placeholder="${t('aBTitle')}">
   <small style="display:block;margin-bottom:6px">${t('aBHint')}</small><label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
-  <img id="bp" style="display:none;width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" alt="">
+  <img id="bp" ${bimg?`src="${bimg}"`:''} style="display:${bimg?'block':'none'};width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" alt="">
   <button id="blb" class="b g" style="width:100%;margin-bottom:8px;padding:11px;text-align:left" onclick="pickLink(v=>{BL=v;$('blb').textContent='🔗 '+linkLabel(v)})">🔗 ${esc(linkLabel(BL))}</button>
   <small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>
   <small>${t('aBFrom')}</small><input id="bfr" type="date"><small>${t('aBTo')}</small><input id="bto" type="date">
@@ -343,7 +343,7 @@ function vBannerEdit(){const b=TLB.banners(true).find(x=>x.id==BE);if(!b||!BD){B
   <small>${t('aBOrd')}</small><input type="number" inputmode="numeric" value="${+BD.sort}" oninput="bd('sort',this.value)">
   <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink(v))">🔗 ${esc(linkLabel(cur))}</button>
   <small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>
-  <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" onchange="bd('from',this.value)"><small>${t('aBTo')}</small><input type="date" value="${esc(BD.to)}" onchange="bd('to',this.value)">
+  <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)"><small>${t('aBTo')}</small><input type="date" value="${esc(BD.to)}" oninput="bd('to',this.value)" onchange="bd('to',this.value)">
   <div class="btns"><label class="b g" style="margin:0">📷 ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event)"></label>
   <button class="b ${BD.is_active?'r':''}" onclick="BD.is_active=!BD.is_active;render()">${BD.is_active?t('aSus'):t('aAc')}</button>
   <button class="b g" onclick="if(confirm('?')){const i=BE;BE=null;BD=null;run(TLB.deleteBanner(i))}">${t('aRm')}</button></div>
@@ -400,7 +400,7 @@ function vLoyalty(){const st=TLB.settings(),ready=st.loyalty_points_per_tjs!=nul
   <small class="lb">${t('yHeTitle')}</small><input id="he_t" maxlength="60" value="${esc(HE.title)}" oninput="HE.title=this.value">
   <small class="lb">${t('yHeStore')}</small><select onchange="HE.store=this.value"><option value="">${t('yHeAll')}</option>${stores.map(x=>`<option value="${esc(x.id)}" ${HE.store==x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select>
   <small class="lb">${t('yHeDays')}</small><div class="dys">${DAYS.map(d=>`<label class="dy ${HE.days.includes(d)?'on':''}"><input type="checkbox" ${HE.days.includes(d)?'checked':''} onchange="HE.days=this.checked?[...HE.days,${d}]:HE.days.filter(x=>x!=${d});render()">${dayN(d)}</label>`).join('')}</div>
-  <div class="row" style="gap:10px;align-items:flex-start"><div style="flex:1;min-width:0"><small class="lb">${t('yHeFrom')}</small><input type="time" value="${esc(HE.start)}" onchange="HE.start=this.value"></div><div style="flex:1;min-width:0"><small class="lb">${t('yHeTo')}</small><input type="time" value="${esc(HE.end)}" onchange="HE.end=this.value"></div></div>
+  <div class="row" style="gap:10px;align-items:flex-start"><div style="flex:1;min-width:0"><small class="lb">${t('yHeFrom')}</small><input type="time" value="${esc(HE.start)}" oninput="HE.start=this.value" onchange="HE.start=this.value"></div><div style="flex:1;min-width:0"><small class="lb">${t('yHeTo')}</small><input type="time" value="${esc(HE.end)}" oninput="HE.end=this.value" onchange="HE.end=this.value"></div></div>
   <small style="display:block;margin:-4px 0 8px;color:#8b8f98">${t('yHeNight')}</small>
   <small class="lb">${t('yHePct')}</small><input type="number" min="1" max="90" value="${esc(HE.pct)}" oninput="HE.pct=this.value">
   <label class="row" style="justify-content:flex-start;gap:8px;margin:4px 0 12px"><input type="checkbox" style="width:auto;margin:0" ${HE.active?'checked':''} onchange="HE.active=this.checked">${t('yHeOn')}</label>
@@ -580,7 +580,27 @@ function render0(){if(!tabOk(tab)){const k=TABS.find(x=>tabOk(x[0]));if(k)tab=k[
   if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}}
 ['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{lastAct=Date.now()},{passive:true}));
 setInterval(()=>{if(Date.now()-lastAct>30*60*1000){alert(t('aIdle'));TLB.logout()}},60000);
-TLB.start('admin',()=>{TLB.on(()=>{if(MAPO||RES&&document.activeElement&&document.activeElement.id=='resn')return;const a=document.activeElement;if(a&&/^(INPUT|SELECT)$/.test(a.tagName)&&$('app').contains(a)&&!/^(oq|dq|sq|resn|cuq|tka|tkn|tkr|cur|supph|suphrs|ownem|cuwa|cuwn|cuph|cuphr|pgt_\w+)$/.test(a.id))return;render()});render()});
+/* automatic redraws (realtime, polling every 10 s): they never wipe what the admin is typing and never move the page.
+   - a field being edited (date/time picker open, keyboard up) postpones the redraw;
+   - the redraw waits until the finger has been still for 1.2 s (touch, scroll, picker closing);
+   - values typed in forms that keep no state of their own (promo, new banner, store, loyalty settings...) are put back after the redraw,
+     unless the saved value behind that field changed meanwhile. */
+let AUTO_T=null,lastTouch=0;
+['touchstart','touchmove','scroll','wheel','focusout','input','change'].forEach(ev=>document.addEventListener(ev,()=>{lastTouch=Date.now()},{passive:true,capture:true}));
+const KEEPF=/^(oq|dq|sq|resn|cuq|tka|tkn|tkr|cur|supph|suphrs|ownem|cuwa|cuwn|cuph|cuphr|pgt_\w+)$/;
+function selDef(e){const o=[...e.options].find(x=>x.defaultSelected)||e.options[0];return o?o.value:''}
+function formKeep(){const m={},ap=$('app');if(!ap)return m;ap.querySelectorAll('input[id],select[id],textarea[id]').forEach(e=>{if(e.type=='file')return;
+  if(e.type=='checkbox'||e.type=='radio'){if(e.checked!==e.defaultChecked)m[e.id]={c:e.checked,d:e.defaultChecked}}
+  else if(e.tagName=='SELECT'){const d=selDef(e);if(e.value!==d)m[e.id]={v:e.value,d}}
+  else if(e.value!==e.defaultValue)m[e.id]={v:e.value,d:e.defaultValue}});return m}
+function formBack(m){for(const id in m){const e=document.getElementById(id),k=m[id];if(!e)continue;
+  if('c' in k){if(e.defaultChecked===k.d)e.checked=k.c}else if(e.tagName=='SELECT'){if(selDef(e)===k.d)e.value=k.v}else if(e.defaultValue===k.d)e.value=k.v}}
+function autoR(){clearTimeout(AUTO_T);AUTO_T=null;
+  if(MAPO||RES&&document.activeElement&&document.activeElement.id=='resn')return;
+  const a=document.activeElement;if(a&&/^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName)&&$('app').contains(a)&&!KEEPF.test(a.id)){AUTO_T=setTimeout(autoR,1500);return}
+  const w=1200-(Date.now()-lastTouch);if(w>0){AUTO_T=setTimeout(autoR,w+50);return}
+  const keep=formKeep();render();formBack(keep)}
+TLB.start('admin',()=>{TLB.on(autoR);render()});
 
 /* 2. the horizontal tab bar and filter chips keep their position after a redraw, and the chosen one stays visible */
 const HSX={};

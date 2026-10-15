@@ -350,9 +350,11 @@
       return true;
     }).then(function (ch) {
       if (ME.role !== 'admin') return ch;
-      var need = {}; DB.tickets.forEach(function (t) { if (!DB.people[t.customer_id]) need[t.customer_id] = 1; }); DB.sreqs.forEach(function (q) { if (!DB.people[q.user_id]) need[q.user_id] = 1; });
+      var need = {}; DB.tickets.forEach(function (t) { if (t.customer_id && !DB.people[t.customer_id]) need[t.customer_id] = 1; }); DB.sreqs.forEach(function (q) { if (q.user_id && !DB.people[q.user_id]) need[q.user_id] = 1; });
       var pids = Object.keys(need).slice(0, 100);
-      if (pids.length) return sb.from('profiles').select('id,name,phone').in('id', pids).then(function (pr) { (pr.data || []).forEach(function (p) { DB.people[p.id] = { name: p.name || '', phone: p.phone || '' }; }); return true; }, function () { return ch; }).then(function (more) { return afterAdminMisc(ch || more); });
+      if (pids.length) return sb.from('profiles').select('id,name,phone').in('id', pids).then(function (pr) { if (pr.error) return ch; (pr.data || []).forEach(function (p) { DB.people[p.id] = { name: p.name || '', phone: p.phone || '' }; });
+        // a profile that is not readable (deleted, hidden) is remembered as unknown: otherwise it was asked again and the screen redrawn every 10 s
+        pids.forEach(function (id) { if (!DB.people[id]) DB.people[id] = { name: '', phone: '' }; }); return !!(pr.data || []).length; }, function () { return ch; }).then(function (more) { return afterAdminMisc(ch || more); });
       return afterAdminMisc(ch);
     });
   }
