@@ -5,6 +5,7 @@ Open decisions from it: red low-rating alert threshold (≤2★) vs "needs atten
 Main = v55 (owner merged PRs up to #25). Pending earlier: designer brief document (asked 11 Oct, not delivered).
 
 ## Who / how to work
+- OWNER RULE (15 Oct): reply in the chat itself, and ALWAYS write instructions/steps for him in Arabic (also on preview pages). App UI texts stay RU/EN.
 - Owner: Arabic speaker (Dushanbe), apps in Russian/English, currency TJS. Explain in SIMPLE Arabic, one clear message at the end of each batch: what changed, how it was tested, links, exact steps for the owner.
 - Role: Full-Stack & Security Lead. Do NOT invent pages/features that were not requested (the "Info" tab was removed for this reason). Work the approved backlog in order. Never hand over anything before `python3 tools/qa_all.py` reports 0 issues (plus smoke/hdr/overflow/sheet/branch checks).
 - Never edit main directly: feature branch -> owner merges via GitHub PR link. Commit trailers: `Co-Authored-By: Claude <noreply@anthropic.com>` + session link.
