@@ -24,5 +24,18 @@ no prices / points / cashback / commission / permission rules changed. Live defi
   store page show points / cashback as «≈» with «Ориентировочно: начисляются при доставке по ставке заведения на тот момент».
 - UAT011: not changed (returned points get a new lot now + 90 days, live). Owner decision pending.
 
-Checks (Chromium): tools/uat3_check.py 52/52; merchant_stats_check 0 fails; qa_all customer + merchant; smoke (core changed) 0 errors;
+Checks (Chromium, v59): tools/uat3_check.py 52/52; merchant_stats_check 0 fails; qa_all customer + merchant; smoke (core changed) 0 errors;
 flow_check 0 fails; ui_rules 0 fails.
+
+## v59b — review fixes (same branch)
+- UAT008: the celebration is decided only on a CONSISTENT snapshot (core `pointsSnapshot`: ledger → balance → ledger, read again
+  while a movement was written in between, max 3 rounds). The rows newer than the last seen row form one batch; balance before =
+  balance − batch sum; celebrate only if the batch crosses a voucher step AND its own new earn / reward points lift it over.
+  Nothing carries over between batches (the reviewer's case: earn +200 / spend −200, then return +200 → no celebration).
+  An inconsistent read decides nothing and keeps the mark. The old balance mark (`tlb-lb-`) is no longer used.
+- UAT009: a read that takes over 15 s is abandoned (core `pointsAbandon`: its late reply is ignored) and retried once; then only
+  a new event reads again (no polling). Tested with a simulated clock.
+- UAT012: the block is titled «По записям системы»; support refunds are looked up in the wallet operations loaded on the phone
+  (latest 60). When they may not reach back to the order, or were not loaded, the block says so (not a full statement).
+  Core `loadWallet` returns null on error and records when it loaded.
+Checks (Chromium, affected only): uat3_check 71/71; qa_all customer; smoke (core changed); flow_check; ui_rules.

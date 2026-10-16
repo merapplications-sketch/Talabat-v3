@@ -1134,6 +1134,31 @@
         var ch = JSON.stringify(nu) !== JSON.stringify(DB.pts); DB.pts = nu; if (ch) fire(); return ch;
       }, function () { return null; });
     },
+    /* UAT008 / 009: the points history and the points balance read as ONE consistent pair: ledger → balance → ledger again; when both
+       ledger reads end at the same newest row, no movement was written in between, so the balance belongs to exactly those rows.
+       Otherwise read again (at most 3 rounds). Each call is numbered: a reply that arrives after a newer call (or after pointsAbandon)
+       is ignored. Resolves {rows, balance, consistent} or null (failed / superseded). */
+    pointsSnapshot: function () {
+      var n = ++ptsSeq, lg = function () { return sb.from('loyalty_ledger').select('*').eq('user_id', ME.id).order('id', { ascending: false }).limit(60); };
+      var top = function (r) { return r.data && r.data.length ? +r.data[0].id : 0; };
+      function round(k) {
+        var a; return lg().then(function (r1) { if (r1.error) throw r1.error; a = r1; return sb.rpc('loyalty_summary'); }).then(function (rs) {
+          if (rs.error) throw rs.error; return lg().then(function (r2) {
+            if (r2.error) throw r2.error;
+            if (top(a) !== top(r2) && k < 2) return round(k + 1);
+            return { rows: r2.data || [], sum: rs.data, consistent: top(a) === top(r2) };
+          });
+        });
+      }
+      return round(0).then(function (x) {
+        if (n !== ptsSeq) return null;
+        var nu = x.rows.map(function (e) { return { id: e.id, points: +e.points, kind: e.kind, orderId: e.order_id, at: Date.parse(e.created_at) }; });
+        var ch = JSON.stringify(nu) !== JSON.stringify(DB.pts) || JSON.stringify(x.sum) !== JSON.stringify(DB.loyalty);
+        DB.pts = nu; if (x.sum) DB.loyalty = x.sum; if (ch) fire();
+        return { rows: nu, balance: x.sum ? +x.sum.balance || 0 : null, consistent: x.consistent && !!x.sum };
+      }, function () { return null; });
+    },
+    pointsAbandon: function () { ptsSeq++; },
     happyHours: function () { return DB.hh; },
     /* best-selling dishes of the last 30 days [{item_id, store_id, cnt}] and real preparation speed per store {min, n} (patch 32) */
     bestDishes: function () { return DB.best; },
@@ -1181,12 +1206,12 @@
       if (!force && extraLoaded[k] && now - extraLoaded[k] < 6000) return Promise.resolve(false);
       extraLoaded[k] = now;
       return Promise.all([sb.from('wallet_entries').select('*').eq('user_id', ME.id).order('created_at', { ascending: false }).limit(60), sb.rpc('wallet_balance')]).then(function (r) {
-        if (r[0].error) return false;
+        if (r[0].error) return null;   // null = not loaded (error); true / false = loaded, changed or not
         var key = JSON.stringify(r[0].data || []); var ch = JSON.stringify(DB.wallet.entries) !== key;
         DB.wallet.entries = (r[0].data || []).map(function (e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }; });
         if (!r[1].error && r[1].data != null) DB.wallet.balance = Math.round(+r[1].data * 100) / 100;
-        if (ch) fireSoon(); return ch;
-      }, function () { return false; });
+        DB.wallet.loadedAt = Date.now(); if (ch) fireSoon(); return ch;
+      }, function () { return null; });
     },
     walletOf: function (userId) {
       return Promise.all([sb.rpc('wallet_balance', { p_user: userId }), sb.from('wallet_entries').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(30)]).then(function (r) {

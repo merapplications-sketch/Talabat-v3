@@ -13,70 +13,99 @@ def page(b,d,app,w=390):
     pg.route('**/*',lambda rt,rq:(rt.abort() if rq.url.startswith('http') else rt.continue_()))
     pg.on('dialog',lambda dg:dg.accept())
     pg.goto('file://'+d+'/'+app+'.html');pg.wait_for_timeout(2500);pg.evaluate("()=>TLB.setLang('ru')");pg.wait_for_timeout(300);return pg,errs
-# points stand-ins: LOY = summary, PTS = ledger rows (newest first), loadPoints = a promise the test answers (__q), counted (__calls)
-STUB="""()=>{window.__realLoad=TLB.loadPoints;window.LOY={balance:900,voucher_points:1000,points_per_tjs:100,earn_per_tjs:10,min_redeem:1000,min_order:30,expiry_days:90,cashback_pct:0,rate_reward:10};
-  window.PTS=[];TLB.loyalty=()=>LOY;TLB.points=()=>PTS;window.__q=[];window.__calls=0;
-  TLB.loadPoints=()=>{window.__calls++;return new Promise((res,rej)=>__q.push({res,rej}))};
+# points stand-ins: LOY = summary; the snapshot (history + balance read together) is a promise the test answers (__q), counted (__calls)
+STUB="""()=>{window.__realSnap=TLB.pointsSnapshot;window.__realAb=TLB.pointsAbandon;window.LOY={balance:900,voucher_points:1000,points_per_tjs:100,earn_per_tjs:10,min_redeem:1000,min_order:30,expiry_days:90,cashback_pct:0,rate_reward:10};
+  window.PTS=[];window.__ab=0;TLB.loyalty=()=>LOY;TLB.points=()=>PTS;window.__q=[];window.__calls=0;
+  TLB.pointsSnapshot=()=>{window.__calls++;return new Promise((res,rej)=>__q.push({res,rej}))};TLB.pointsAbandon=()=>{window.__ab++};
   Object.keys(localStorage).filter(k=>/^tlb-l[bm]-/.test(k)).forEach(k=>localStorage.removeItem(k));
-  Object.assign(PL,{busy:0,again:0,bal:null,sig:null,gain:0,gainAt:0,failAt:0});go('wallet')}"""
+  Object.assign(PL,{busy:0,again:0,bal:null,sig:null,failAt:0,retry:0});go('wallet')}"""
 CF="()=>document.querySelectorAll('.cfw').length"
-def ans(E,v='true'):E("()=>{const x=__q.shift();x&&x.res(%s)}"%v)
+def snap(E,bal,cons='true',idx=0):
+    # answer the oldest pending read with the current PTS rows and the given balance
+    E("()=>{LOY.balance=%s;const x=__q.shift();x&&x.res({rows:PTS.slice(),balance:%s,consistent:%s})}"%(bal,bal,cons))
+def rows(E,js):E("()=>{PTS=[%s].concat(PTS)}"%js)
+def ev(E,name):E("()=>{PL.sig='%s';ptsWatch()}"%name)
+def clr(E):E("()=>document.querySelectorAll('.cfw').forEach(x=>x.remove())")
 with sync_playwright() as p:
     b=p.chromium.launch()
     # ================= UAT009 / UAT008: customer points =================
     pg,errs=page(b,CU,'customer');E=pg.evaluate
     E(STUB);E("()=>ptsWatch()");pg.wait_for_timeout(100)
-    ok(E("()=>__calls")==1,'009: first look → one history load')
-    E("()=>{PL.sig='changed-1';ptsWatch();PL.sig='changed-2';ptsWatch();LOY.balance=901;ptsWatch()}")
-    ok(E("()=>__calls")==1,'009: three events during the load → still ONE request in flight')
-    E("()=>{PTS=[{id:5,kind:'earn',points:300,orderId:'ord4',at:Date.now()},{id:4,kind:'spend',points:-1000,orderId:'ord3',at:Date.now()}]}");ans(E);pg.wait_for_timeout(150)
-    ok(E("()=>__calls")==2,'009: events during the load → exactly ONE more load after it (%d)'%E("()=>__calls"))
-    ans(E,'false');pg.wait_for_timeout(150);E("()=>render()");pg.wait_for_timeout(150)
-    ok(E("()=>__calls")==2,'009: no further load when nothing changed (%d)'%E("()=>__calls"))
-    ok(E(CF)==0 and E("()=>localStorage.getItem(uidK('tlb-lm-'))")=='5','008: first read sets the mark (last id 5), no celebration for old rows')
+    ok(E("()=>__calls")==1,'009: first look → one read (history + balance)')
+    E("()=>{PL.sig='e1';ptsWatch();PL.sig='e2';ptsWatch();LOY.balance=901;ptsWatch()}")
+    ok(E("()=>__calls")==1,'009: three events during the read → still ONE read in flight')
+    rows(E,"{id:5,kind:'earn',points:300,orderId:'ord4'},{id:4,kind:'spend',points:-1000,orderId:'ord3'}");snap(E,900);pg.wait_for_timeout(150)
+    ok(E("()=>__calls")==2,'009: events during the read → exactly ONE more read after it (%d)'%E("()=>__calls"))
+    snap(E,900);pg.wait_for_timeout(150);E("()=>render()");pg.wait_for_timeout(150)
+    ok(E("()=>__calls")==2,'009: no further read when nothing changed (%d)'%E("()=>__calls"))
+    ok(E(CF)==0 and E("()=>localStorage.getItem(uidK('tlb-lm-'))")=='5','008: first read sets the mark (last row 5), no celebration for old rows')
     ok(E("()=>document.querySelectorAll('.card .dr').length")>=2,'009: history shown in the wallet')
-    pg.wait_for_timeout(3000);ok(E("()=>__calls")==2,'009: no timer — idle 3 s, no load')
-    # same balance, two movements (spend + return): the order event still reloads the history
-    E("()=>{PTS=[{id:7,kind:'return',points:1000,orderId:'ord5',at:Date.now()},{id:6,kind:'spend',points:-1000,orderId:'ord5',at:Date.now()}].concat(PTS);window.__pvTables.orders.find(o=>o.id=='ord0').status='cancelled'}")
-    E("()=>TLB.reload()");pg.wait_for_timeout(900)
-    ok(E("()=>__calls")==3,'009: an order status event reloads the history even with the SAME balance (%d)'%E("()=>__calls"))
-    ans(E);pg.wait_for_timeout(200)
-    ok(E("()=>document.body.innerText.includes(t('pk_return'))"),'009: the return row appears without a page reload')
-    # return that crosses a voucher step: no celebration
-    E("()=>{LOY.balance=1901;PTS=[{id:8,kind:'return',points:1000,orderId:'ord6',at:Date.now()}].concat(PTS);PL.sig='ev-ret';ptsWatch()}");pg.wait_for_timeout(100);ans(E);pg.wait_for_timeout(300);E("()=>render()");pg.wait_for_timeout(200)
-    ok(E(CF)==0 and E("()=>localStorage.getItem(uidK('tlb-lb-'))")=='1901','008: returned points cross 1000 → NO celebration (mark moved to 1901)')
-    # new earn that crosses a step → one celebration
-    E("()=>{LOY.balance=2050;PTS=[{id:9,kind:'earn',points:149,orderId:'ord4',at:Date.now()}].concat(PTS);PL.sig='ev-earn';ptsWatch()}");pg.wait_for_timeout(100);ans(E);pg.wait_for_timeout(300)
-    ok(E(CF)==1,'008: a NEW earn crossing 2000 → one celebration')
-    E("()=>document.querySelectorAll('.cfw').forEach(x=>x.remove())")
-    # the page is opened again: memory reset, marks kept on the device → nothing repeats
-    E("()=>{Object.assign(PL,{busy:0,again:0,bal:null,sig:null,gain:0});ptsWatch()}");pg.wait_for_timeout(100);ans(E);pg.wait_for_timeout(300);E("()=>render()");pg.wait_for_timeout(200)
-    ok(E(CF)==0,'008: reopening / reloading the history does not repeat the celebration')
-    # reward (rating bonus) crossing a step → celebrates (not dropped by an earn-only rule)
-    E("()=>{LOY.balance=2995;PTS=[{id:10,kind:'return',points:945,orderId:'ord2',at:Date.now()}].concat(PTS);PL.sig='ev-r0';ptsWatch()}");pg.wait_for_timeout(100);ans(E);pg.wait_for_timeout(300)
-    E("()=>{LOY.balance=3005;PTS=[{id:11,kind:'reward',points:10,orderId:'ord4',at:Date.now()}].concat(PTS);PL.sig='ev-rw';ptsWatch()}");pg.wait_for_timeout(100);ans(E);pg.wait_for_timeout(300)
-    ok(E(CF)==1,'008: a NEW rating reward crossing 3000 → celebration')
-    E("()=>document.querySelectorAll('.cfw').forEach(x=>x.remove())")
-    # the balance arrives BEFORE the history: the history is read again first, then the celebration
-    E("()=>{PTS=[{id:12,kind:'earn',points:1000,orderId:'ord4',at:Date.now()}].concat(PTS);LOY.balance=4005;render()}");pg.wait_for_timeout(200)
-    ok(E("()=>__calls")>=1 and E(CF)==0,'008/009: a new balance without its history → history read first, no early decision')
-    ans(E);pg.wait_for_timeout(300)
-    ok(E(CF)==1,'008: after the history arrives → the earn crossing 4000 celebrates once')
-    E("()=>document.querySelectorAll('.cfw').forEach(x=>x.remove())");E("()=>render()");pg.wait_for_timeout(200);ok(E(CF)==0,'008: a redraw does not repeat it')
-    # failure: no stuck state, the next event loads again
-    c0=E("()=>__calls");E("()=>{PL.sig='ev-f';ptsWatch()}");pg.wait_for_timeout(100);ans(E,'null');pg.wait_for_timeout(200)
-    ok(E("()=>PL.busy")==0 and E("()=>PL.failAt")>0,'009: a failed load frees the loader')
-    E("()=>{PL.sig='ev-f2';ptsWatch()}");pg.wait_for_timeout(100);ok(E("()=>__calls")==c0+2,'009: the next event loads again after a failure');ans(E,'false')
-    # per user: marks are kept per account
-    ok(E("()=>uidK('tlb-lm-')").endswith(E("()=>(TLB.me()||{}).id")) ,'008: the marks are stored per user id')
-    # the rating triggers a history load
-    E("()=>{const o=window.__pvTables.orders.find(o=>o.id=='ord4');TLB.rateOrder=()=>Promise.resolve({});rt0('ord4').s=5}");c0=E("()=>__calls")
-    E("()=>sendRate('ord4')");pg.wait_for_timeout(300);ok(E("()=>__calls")>c0,'009: a saved rating reloads the history');ans(E,'false')
-    # core: a reply older than the newest call is ignored
-    E("()=>{TLB.loadPoints=__realLoad}")
-    r=E("async()=>{const a=TLB.loadPoints(),b=TLB.loadPoints();return [await a,await b]}")
-    ok(r[0] is None and r[1] in (True,False),'009 core: of two overlapping loads the older reply is ignored %s'%r)
+    pg.wait_for_timeout(3000);ok(E("()=>__calls")==2,'009: no timer — idle 3 s, no read')
+    # reviewer case: earn +200 and spend −200 together (balance stays 900), then a return +200 alone (1100)
+    rows(E,"{id:7,kind:'spend',points:-200,orderId:'ord1'},{id:6,kind:'earn',points:200,orderId:'ord4'}");ev(E,'r1');snap(E,900);pg.wait_for_timeout(250)
+    ok(E(CF)==0,'008 (review case): earn +200 and spend −200 in one batch, balance 900 → no celebration')
+    rows(E,"{id:8,kind:'return',points:200,orderId:'ord1'}");ev(E,'r2');snap(E,1100);pg.wait_for_timeout(250)
+    ok(E(CF)==0,'008 (review case): a later return +200 → 1100 → NO celebration (the earlier gain does not carry over)')
+    # same balance, spend + return in one batch: the order event still re-reads
+    c0=E("()=>__calls");rows(E,"{id:10,kind:'return',points:1000,orderId:'ord5'},{id:9,kind:'spend',points:-1000,orderId:'ord5'}")
+    E("()=>{window.__pvTables.orders.find(o=>o.id=='ord0').status='cancelled'}");E("()=>TLB.reload()");pg.wait_for_timeout(900)
+    ok(E("()=>__calls")==c0+1,'009: an order status event re-reads the history even with the SAME balance');snap(E,1100);pg.wait_for_timeout(200)
+    ok(E("()=>document.body.innerText.includes(t('pk_return'))") and E(CF)==0,'009: the return row appears without a page reload, no celebration')
+    # return lifting over a step while a small earn is in the same batch: the earn does not take the credit
+    rows(E,"{id:12,kind:'earn',points:10,orderId:'ord4'},{id:11,kind:'return',points:900,orderId:'ord2'}");ev(E,'r3');snap(E,2010);pg.wait_for_timeout(250)
+    ok(E(CF)==0,'008: return lifts 1100 → 2000, a small earn (+10) in the same batch → no celebration')
+    # a new earn that itself crosses a step → one celebration
+    rows(E,"{id:13,kind:'earn',points:1000,orderId:'ord4'}");ev(E,'r4');snap(E,3010);pg.wait_for_timeout(250)
+    ok(E(CF)==1,'008: a NEW earn crossing 3000 → one celebration');clr(E)
+    E("()=>{Object.assign(PL,{busy:0,again:0,bal:null,sig:null,retry:0});ptsWatch()}");pg.wait_for_timeout(100);snap(E,3010);pg.wait_for_timeout(250);E("()=>render()");pg.wait_for_timeout(150)
+    ok(E(CF)==0,'008: reopening / re-reading does not repeat the celebration')
+    # rating reward crossing a step → celebrates (not dropped by an earn-only rule)
+    rows(E,"{id:14,kind:'spend',points:-15,orderId:'ord3'}");ev(E,'r5');snap(E,2995);pg.wait_for_timeout(200)
+    rows(E,"{id:15,kind:'reward',points:10,orderId:'ord4'}");ev(E,'r6');snap(E,3005);pg.wait_for_timeout(250)
+    ok(E(CF)==1,'008: a NEW rating reward crossing 3000 → celebration');clr(E)
+    # history and balance out of step (a write between the reads): nothing decided, mark kept; the next consistent read decides once
+    rows(E,"{id:16,kind:'earn',points:1000,orderId:'ord4'}");ev(E,'r7');snap(E,3005,'false');pg.wait_for_timeout(250)
+    ok(E(CF)==0 and E("()=>localStorage.getItem(uidK('tlb-lm-'))")=='15','008: history newer than its balance (not consistent) → no decision, mark stays 15')
+    E("()=>{LOY.balance=4005;ptsWatch()}");pg.wait_for_timeout(100)
+    ok(E("()=>__calls")>c0+5,'009: the new balance (arriving first through the summary) triggers a read');snap(E,4005);pg.wait_for_timeout(250)
+    ok(E(CF)==1 and E("()=>localStorage.getItem(uidK('tlb-lm-'))")=='16','008: the consistent read celebrates the earn crossing 4000 once');clr(E)
+    E("()=>render()");pg.wait_for_timeout(150);ok(E(CF)==0,'008: a redraw does not repeat it')
+    # failure: the loader is freed; the next event reads again
+    c0=E("()=>__calls");ev(E,'f1');snap_fail="()=>{const x=__q.shift();x&&x.res(null)}";E(snap_fail);pg.wait_for_timeout(200)
+    ok(E("()=>PL.busy")==0 and E("()=>PL.failAt")>0,'009: a failed read frees the loader')
+    ev(E,'f2');pg.wait_for_timeout(100);ok(E("()=>__calls")==c0+2,'009: the next event reads again after a failure');snap(E,4005)
+    ok(E("()=>uidK('tlb-lm-')").endswith(E("()=>(TLB.me()||{}).id")),'008: the mark is stored per user id')
+    E("()=>{TLB.rateOrder=()=>Promise.resolve({});rt0('ord4').s=5}");c0=E("()=>__calls")
+    E("()=>sendRate('ord4')");pg.wait_for_timeout(300);ok(E("()=>__calls")>c0,'009: a saved rating re-reads the history');snap(E,4005)
     ok(not errs,'customer points: no JS errors %s'%errs[:1]);pg.close()
+    # ================= UAT009: 15 s limit with a simulated clock =================
+    pg,errs=page(b,CU,'customer');E=pg.evaluate;pg.clock.install();E(STUB)
+    E("()=>{localStorage.setItem(uidK('tlb-lm-'),'20');ptsWatch()}");pg.clock.run_for(100)
+    ok(E("()=>__calls")==1 and E("()=>PL.busy")==1,'009 timeout: a read is in flight')
+    pg.clock.run_for(15100)
+    ok(E("()=>__ab")==1 and E("()=>__calls")==2,'009 timeout: after 15 s the read is abandoned and retried ONCE (abandon %d, reads %d)'%(E("()=>__ab"),E("()=>__calls")))
+    E("()=>{PTS=[{id:21,kind:'earn',points:1000,orderId:'ord4'}];const x=__q.shift();x.res({rows:PTS.slice(),balance:1900,consistent:true})}");pg.clock.run_for(100)
+    ok(E(CF)==0 and E("()=>localStorage.getItem(uidK('tlb-lm-'))")=='20','009 timeout: the LATE reply of the abandoned read is ignored (no celebration, mark unchanged)')
+    pg.clock.run_for(15100)
+    ok(E("()=>__ab")==2 and E("()=>__calls")==2 and E("()=>PL.busy")==0,'009 timeout: the retry also times out → no further automatic read (no polling)')
+    pg.clock.run_for(60000);ok(E("()=>__calls")==2,'009 timeout: 60 s later still no automatic read')
+    ev(E,'t1');pg.clock.run_for(100);ok(E("()=>__calls")==3,'009 timeout: the next event reads again')
+    E("()=>{const x=__q.pop();x.res({rows:PTS.slice(),balance:1900,consistent:true})}");pg.clock.run_for(100)   # the newest read (the retry's reply never came)
+    ok(E(CF)==1 and E("()=>localStorage.getItem(uidK('tlb-lm-'))")=='21','009 timeout: the fresh read is applied (the earn crossing 1000 celebrates once)')
+    ok(not errs,'customer timeout: no JS errors %s'%errs[:1]);pg.close()
+    # ================= core: consistent snapshot =================
+    pg,errs=page(b,CU,'customer');E=pg.evaluate
+    r=E("async()=>{const x=await TLB.pointsSnapshot();return x&&{c:x.consistent,b:x.balance,n:x.rows.length}}")
+    ok(r and r['c'] is True and r['b']==2850,'009 core: history + balance read as a consistent pair %s'%r)
+    r=E("""async()=>{const T=window.__pvTables,base=T.loyalty_ledger,u=base[0].user_id;let n=0;
+      Object.defineProperty(T,'loyalty_ledger',{configurable:true,get(){n++;if(n==2)base.unshift({id:999,user_id:u,points:50,kind:'earn',order_id:'ord4',created_at:new Date().toISOString()});return base.slice()}});
+      const x=await TLB.pointsSnapshot();return {c:x&&x.consistent,reads:n,top:x&&x.rows[0].id}}""")
+    ok(r['c'] is True and r['reads']>=4 and r['top']==999,'009 core: a write between the reads → read again until both reads agree %s'%r)
+    r=E("async()=>{const a=TLB.pointsSnapshot(),b=TLB.pointsSnapshot();return [await a===null,(await b)!==null]}")
+    ok(r==[True,True],'009 core: of two overlapping reads the older reply is ignored')
+    r=E("async()=>{const a=TLB.pointsSnapshot();TLB.pointsAbandon();return await a}")
+    ok(r is None,'009 core: an abandoned read is ignored when its reply comes')
+    ok(not errs,'core snapshot: no JS errors %s'%errs[:1]);pg.close()
     # ================= UAT012: customer receipt of a cancelled order =================
     pg,errs=page(b,CU,'customer');E=pg.evaluate
     def setord(js):E("()=>{const o=window.__pvTables.orders.find(o=>o.id=='ord5');Object.assign(o,%s)}"%js);E("()=>TLB.reload()");pg.wait_for_timeout(900);E("()=>{go('track',{tid:'ord5'})}");pg.wait_for_timeout(400)
@@ -97,6 +126,14 @@ with sync_playwright() as p:
     E("()=>{S.walL=0;TLB.loadWallet(true)}");pg.wait_for_timeout(800);E("()=>render()");pg.wait_for_timeout(200)
     st=pg.inner_text('#stl') if pg.locator('#stl').count() else ''
     ok('Возврат по обращению #t7' in st and '+20 TJS' in st and 'автоматически' not in st.split('Возврат по обращению')[1],'012: a support refund is its own line, apart from the automatic return')
+    ok(pg.locator('#stlcov').count()==0,'012 coverage: all wallet operations since the order are loaded → no limit note')
+    E("()=>{const T=window.__pvTables.wallet_entries,u=T[0].user_id,n=Date.now();for(let i=0;i<70;i++)T.push({id:'wx'+i,user_id:u,amount:1,kind:'adjust',order_id:null,note:'x',created_at:new Date(n+1000+i).toISOString()})}")
+    E("()=>{S.walL=null}");setord("{}");pg.wait_for_timeout(800);E("()=>render()");pg.wait_for_timeout(200)
+    cv=pg.inner_text('#stlcov') if pg.locator('#stlcov').count() else ''
+    ok('последних 60' in cv and 'не полный расчёт' in cv,'012 coverage: the support refund may be older than the latest 60 operations → the limit is stated «%s»'%cv[:60])
+    ok('По записям системы' in pg.inner_text('#stl') and 'Итог по заказу' not in pg.inner_text('#stl'),'012: the block is titled «По записям системы» (not a full settlement)')
+    E("()=>{TLB.wallet=()=>({balance:0,entries:[]});render()}");pg.wait_for_timeout(200)
+    ok('не загружены' in (pg.inner_text('#stlcov') if pg.locator('#stlcov').count() else ''),'012 coverage: wallet operations not loaded → «not checked here»')
     setord("{status:'rejected',cancel_reason:'too_busy',wallet_used:50,wallet_returned_at:new Date().toISOString(),payment:'cash',total:275}")
     ok(not E("()=>document.body.innerText.includes(t('cxBack'))"),'012: the rejected-order card no longer claims «already returned» without the record')
     E("()=>{const o=window.__pvTables.orders.find(o=>o.id=='ord4');o.cash_collected=135}");E("()=>TLB.reload()");pg.wait_for_timeout(900);E("()=>{go('track',{tid:'ord4'})}");pg.wait_for_timeout(400)

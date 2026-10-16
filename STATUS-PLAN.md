@@ -77,8 +77,8 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   | Item | Status | Evidence | Remaining |
   |---|---|---|---|
   | UAT009 points history with the balance | implemented | uat3_check (Chromium) | iPhone check |
-  | UAT008 celebration only for new earn / reward | implemented | uat3_check | iPhone check |
-  | UAT012 recorded returns / collection (customer + restaurant) | implemented | uat3_check | iPhone check |
+  | UAT008 celebration only for new earn / reward | implemented, fixed in v59b (consistent snapshot, per-batch) | uat3_check | iPhone check |
+  | UAT012 recorded returns / collection (customer + restaurant) | PARTIAL: support refunds only from the latest 60 wallet operations (limit stated on screen) | uat3_check | iPhone check; full refund lookup per order |
   | UAT013 rejected / cancelled as statuses only | implemented | uat3_check | responsibility data = separate item |
   | UAT014 «Чистыми к получению» + breakdown | implemented (formula unchanged) | uat3_check, merchant_stats_check | — |
   | UAT015 rate from the settings + estimate wording | implemented | uat3_check | — |

@@ -780,37 +780,41 @@ function whenCard(){const a=S.at?slotsAll():[];if(S.at&&!a.includes(S.at))S.at=a
   ${S.at?`<div class="chips wdays" style="padding:10px 0 0">${days.map(k=>`<button class="chip ${k==cur?'on':''}" onclick="whenDay(${k})">${dayLbl(a.find(x=>dayKey(x)==k))}</button>`).join('')}</div>
   <select class="fld" id="wsel" style="margin-top:10px" onchange="S.at=+this.value;render()" aria-label="${t('whenLater')}">${a.filter(x=>dayKey(x)==cur).map(x=>`<option value="${x}" ${x==S.at?'selected':''}>${fmtHM(x)}</option>`).join('')}</select>
   <div class="xs mut" style="margin-top:8px;line-height:1.45">${t('whenHint')}</div>`:''}</div>`}
-TLB.addDict({stlT:'Итог по заказу',stlSum:'Сумма заказа',stlWal:'Возвращено в кошелёк (автоматически при отмене)',stlWalU:'Возврат {n} TJS в кошелёк не подтверждён',stlPts:'Баллы возвращены (автоматически при отмене)',stlPtsU:'Возврат {n} баллов не подтверждён',stlCash:'Получено наличными',stlCashN:'Наличные {n} TJS: получение не записано',stlCard:'Карта {n} TJS: данных о списании нет',stlRef:'Возврат по обращению',
+TLB.addDict({stlT:'По записям системы',stlCovPart:'Возвраты по обращениям ищутся в последних 60 операциях кошелька; более ранние здесь не видны — это не полный расчёт по заказу.',stlCovNone:'Операции кошелька не загружены: возвраты по обращениям здесь не проверены.',stlSum:'Сумма заказа',stlWal:'Возвращено в кошелёк (автоматически при отмене)',stlWalU:'Возврат {n} TJS в кошелёк не подтверждён',stlPts:'Баллы возвращены (автоматически при отмене)',stlPtsU:'Возврат {n} баллов не подтверждён',stlCash:'Получено наличными',stlCashN:'Наличные {n} TJS: получение не записано',stlCard:'Карта {n} TJS: данных о списании нет',stlRef:'Возврат по обращению',
   ptsR1:'Обычно {n} баллов за 1 TJS — в некоторых заведениях своя ставка',ptsEarn:'≈ {n} баллов',cbEarn:'кэшбэк ≈ {n} TJS',ptsEarnRule:'Сейчас здесь {n} баллов за 1 TJS',ernNote:'Ориентировочно: баллы и кэшбэк начисляются при доставке по ставке заведения на тот момент.'},
- {stlT:'Order settlement',stlSum:'Order amount',stlWal:'Returned to the wallet (automatically on cancel)',stlWalU:'Return of {n} TJS to the wallet not confirmed',stlPts:'Points returned (automatically on cancel)',stlPtsU:'Return of {n} points not confirmed',stlCash:'Cash collected',stlCashN:'Cash {n} TJS: no collection recorded',stlCard:'Card {n} TJS: no charge data',stlRef:'Refund for a request',
+ {stlT:'As recorded',stlCovPart:'Support refunds are looked up in the latest 60 wallet operations; older ones are not visible here — this is not a full order statement.',stlCovNone:'Wallet operations not loaded: support refunds were not checked here.',stlSum:'Order amount',stlWal:'Returned to the wallet (automatically on cancel)',stlWalU:'Return of {n} TJS to the wallet not confirmed',stlPts:'Points returned (automatically on cancel)',stlPtsU:'Return of {n} points not confirmed',stlCash:'Cash collected',stlCashN:'Cash {n} TJS: no collection recorded',stlCard:'Card {n} TJS: no charge data',stlRef:'Refund for a request',
   ptsR1:'Usually {n} points per 1 TJS — some places have their own rate',ptsEarn:'≈ {n} points',cbEarn:'cashback ≈ {n} TJS',ptsEarnRule:'Here now: {n} points per 1 TJS',ernNote:'Estimate: points and cashback are credited on delivery at the place’s rate at that time.'});
 /* ---------- points history refresh (UAT009) + new-voucher celebration (UAT008) ----------
-   The history is reloaded on the events that create ledger rows: a new order or a status change of my orders (spend / earn / return),
-   my rating (reward), and a points balance that differs from the one seen when the history was last read. Never on a timer.
-   One load at a time; an event during a load = exactly one more load after it; the core ignores a reply older than the newest call.
-   Celebration: only NEW 'earn' / 'reward' rows (ledger id above the last id already seen, kept per user on this device) that make the
-   balance cross a voucher step. The first read only sets the marks; 'return' / 'spend' never celebrate; reloading never repeats it. */
-const PL={busy:0,again:0,t:null,bal:null,sig:null,gain:0,gainAt:0,failAt:0};
+   The history is re-read on the events that create ledger rows: a new order or a status change of my orders (spend / earn / return),
+   my rating (reward), and a points balance that differs from the last consistent read. Never on a timer.
+   One read at a time; events during a read → exactly one more read after it. A read that takes over 15 s is abandoned (its late reply
+   is ignored) and retried ONCE; after that only a new event reads again.
+   Celebration (decided only on a consistent snapshot = history + balance read together, see TLB.pointsSnapshot):
+   the rows newer than the last row already seen (per user, on this device) form one batch; balance before the batch = balance − the
+   batch's sum. A voucher step is celebrated only if the balance AFTER the batch is above a step that the balance before it was not,
+   AND the batch's own new earn / reward points are what lifts it over (balance − those gains is still below the step). Nothing carries
+   over to a later batch, so an earlier gain can never be paired with a later return. The first read only sets the mark. */
+const PL={busy:0,again:0,t:null,bal:null,sig:null,failAt:0,retry:0};
 const uidK=p=>p+((TLB.me&&TLB.me()||{}).id||'x');
 const lsG=k=>{try{return localStorage.getItem(k)}catch(e){return null}},lsS=(k,v)=>{try{localStorage.setItem(k,String(v))}catch(e){}};
-function ptsReload(){if(!TLB.loadPoints)return;if(PL.busy){PL.again=1;return}PL.busy=1;const L=TLB.loyalty&&TLB.loyalty(),b0=L?+L.balance||0:null;let done=0;
-  const fin=r=>{if(done)return;done=1;clearTimeout(PL.t);PL.busy=0;if(r===true||r===false){PL.bal=b0;ptsSeen()}else PL.failAt=Date.now();
-    if(PL.again){PL.again=0;ptsReload()}else if(['home','wallet','track'].includes(S.v))milestone()};
-  PL.t=setTimeout(()=>fin(null),15000);   /* a reply that never comes does not block later loads */
-  Promise.resolve(TLB.loadPoints()).then(fin,()=>fin(null))}
-function ptsSeen(){const l=(TLB.points&&TLB.points())||[],mx=l.reduce((m,e)=>Math.max(m,+e.id||0),0),k=uidK('tlb-lm-'),m=lsG(k);
+function ptsReload(){if(!TLB.pointsSnapshot)return;if(PL.busy){PL.again=1;return}PL.busy=1;let done=0;
+  const fin=x=>{if(done)return;done=1;clearTimeout(PL.t);PL.busy=0;
+    if(x==='timeout'){if(TLB.pointsAbandon)TLB.pointsAbandon();PL.failAt=Date.now();if(!PL.retry&&!PL.again){PL.retry=1;ptsReload();return}}
+    else if(x&&x.rows){PL.retry=0;PL.bal=x.balance;if(x.consistent)ptsBatch(x)}else PL.failAt=Date.now();
+    if(PL.again){PL.again=0;PL.retry=0;ptsReload()}};
+  PL.t=setTimeout(()=>fin('timeout'),15000);
+  Promise.resolve(TLB.pointsSnapshot()).then(fin,()=>fin(null))}
+function ptsBatch(x){const L=TLB.loyalty&&TLB.loyalty(),st=L?+L.voucher_points||0:0,l=x.rows||[],k=uidK('tlb-lm-'),m=lsG(k),mx=l.reduce((a,e)=>Math.max(a,+e.id||0),0);
   if(m==null){lsS(k,mx);return}   /* first read on this device: old rows are history, not news */
-  const g=l.filter(e=>+e.id>+m&&(e.kind=='earn'||e.kind=='reward')&&e.points>0).reduce((s,e)=>s+e.points,0);
-  if(g>0){PL.gain+=g;PL.gainAt=Date.now()}if(mx>+m)lsS(k,mx)}
-function ptsWatch(){if(!TLB.loadPoints||!TLB.orders)return;const sig=TLB.orders().map(o=>o.id+':'+o.status).join(','),L=TLB.loyalty&&TLB.loyalty();
-  if(sig!==PL.sig){PL.sig=sig;ptsReload();return}
+  const nw=l.filter(e=>+e.id>+m);if(!nw.length)return;lsS(k,Math.max(mx,+m));
+  const full=l.length<60||l.some(e=>+e.id<=+m);if(!full||!(st>0)||x.balance==null)return;   /* more new rows than read: no guess */
+  const b=x.balance,sum=nw.reduce((a,e)=>a+e.points,0),gain=nw.filter(e=>(e.kind=='earn'||e.kind=='reward')&&e.points>0).reduce((a,e)=>a+e.points,0),pre=b-sum;
+  if(gain>0&&Math.floor(b/st)>Math.floor(pre/st)&&Math.floor(b/st)>Math.floor((b-gain)/st))celebrate(L,st)}
+function ptsWatch(){if(!TLB.pointsSnapshot||!TLB.orders)return;const sig=TLB.orders().map(o=>o.id+':'+o.status).join(','),L=TLB.loyalty&&TLB.loyalty();
+  if(sig!==PL.sig){PL.sig=sig;PL.retry=0;ptsReload();return}
   if(L&&(+L.balance||0)!==PL.bal&&!PL.busy&&Date.now()-PL.failAt>30000)ptsReload()}
-function milestone(){const L=TLB.loyalty&&TLB.loyalty();if(!L||!(+L.voucher_points>0)||PL.busy)return;const b=+L.balance||0;
-  if(b!==PL.bal){ptsWatch();return}   /* the history was read for another balance: read it again first */
-  if(PL.gain&&Date.now()-PL.gainAt>120000)PL.gain=0;
-  const k=uidK('tlb-lb-'),st=+L.voucher_points,last=lsG(k);if(last==null){lsS(k,b);PL.gain=0;return}if(+last===b)return;
-  const g=PL.gain;PL.gain=0;lsS(k,b);
-  if(!(g>0)||Math.floor(b/st)<=Math.floor(+last/st)||Math.floor(b/st)<=Math.floor((b-g)/st))return;
+function milestone(){ptsWatch()}
+function celebrate(L,st){
   const val=Math.round(st/(+L.points_per_tjs)*100)/100,cs=['#ff5a00','#ffb020','#1fa05a','#3b82f6','#e11d48','#a855f7'],d=document.createElement('div');d.className='cfw';
   d.innerHTML=(matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches?'':Array.from({length:60},(_,i)=>`<i style="left:${Math.random()*100}%;background:${cs[i%6]};animation-delay:${(Math.random()*0.6).toFixed(2)}s;transform:rotate(${Math.random()*360|0}deg)"></i>`).join(''))+`<div class="cfm" role="dialog"><div style="font-size:40px">🎉</div><b>${t('cfT')}</b><div class="sm" style="margin-top:6px">${t('cfS').replace('{v}',val)}</div><button class="btn" style="margin-top:14px;width:100%">${t('cfOk')}</button></div>`;
   d.onclick=()=>d.remove();document.body.appendChild(d)}
@@ -938,7 +942,7 @@ function tagTxt(r){const f=(L,pre)=>L.map(i=>t(pre+i));return f(rt0(r).ts,'tgS')
 async function sendRate(id){const r=rt0(id),o=TLB.order(id);if(!r.s&&!r.d){alert(t('rateNeed'));return}
   const tags=[];if(r.s&&r.s<=3)rt0(id).ts.forEach(i=>tags.push(t('tgS'+i)));if(r.s&&r.s>=4)rt0(id).ts.forEach(i=>tags.push(t('tgS'+i)));if(o&&o.driver&&r.d)rt0(id).td.forEach(i=>tags.push(t('tgD'+i)));
   const cm=(tags.length?'['+tags.join(' | ')+'] ':'')+r.c.trim();
-  const res=await TLB.rateOrder(id,r.s||null,o&&o.driver?(r.d||null):null,cm.slice(0,300));if(res&&res.error){alert(t('err_'+res.error));return}ptsReload();const L=TLB.loyalty&&TLB.loyalty();if(L&&+L.rate_reward>0&&TLB.toast)TLB.toast(t('rateGot').replace('{n}',+L.rate_reward));render()}
+  const res=await TLB.rateOrder(id,r.s||null,o&&o.driver?(r.d||null):null,cm.slice(0,300));if(res&&res.error){alert(t('err_'+res.error));return}PL.retry=0;ptsReload();const L=TLB.loyalty&&TLB.loyalty();if(L&&+L.rate_reward>0&&TLB.toast)TLB.toast(t('rateGot').replace('{n}',+L.rate_reward));render()}
 const STL=['','st1','st2','st3','st4','st5'];
 function starBlock(id,k,val,title,sub,bad,good){const tg=(val&&val<=3)?bad:(val>=4?good:[]),sel=k=='s'?rt0(id).ts:rt0(id).td,pre=k=='s'?'tgS':'tgD';
   return `<div class="rb"><div class="rbh"><span class="rbi">${k=='s'?ico('home',20):ico('bike',20)}</span><div style="min-width:0"><div class="b7">${title}</div><div class="xs mut" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sub}</div></div></div>
@@ -965,15 +969,19 @@ function settleCard(o){const dead=o.status=='rejected'||o.status=='cancelled',W=
     if(+o.pointsUsed>0)R.push(o.pointsReturnedAt?row(t('stlPts'),'+'+fmtN(o.pointsUsed),'var(--ok)'):row(t('stlPtsU').replace('{n}',fmtN(o.pointsUsed)),'?','var(--bad)'));
     const rest=r2(o.total-(+o.walletUsed||0));
     if(rest>0.004)R.push(isCash(o.payment)?(o.cashCollected!=null?row(t('stlCash'),r2(o.cashCollected)+' TJS'):row(t('stlCashN').replace('{n}',rest),'—')):row(t('stlCard').replace('{n}',rest),'—'))}
-  ((W&&W.entries)||[]).filter(e=>e.orderId==o.id&&e.kind=='refund').forEach(e=>R.push(row(t('stlRef')+(e.ticketId?' #'+e.ticketId:''),(e.amount>0?'+':'\u2212')+Math.abs(e.amount)+' TJS','var(--ok)')));
-  return R.length?`<div class="card sum" id="stl"><h3 style="margin-bottom:6px">${t('stlT')}</h3>${R.join('')}</div>`:''}
+  const ent=(W&&W.entries)||[],rf=ent.filter(e=>e.orderId==o.id&&e.kind=='refund');
+  rf.forEach(e=>R.push(row(t('stlRef')+(e.ticketId?' #'+e.ticketId:''),(e.amount>0?'+':'\u2212')+Math.abs(e.amount)+' TJS','var(--ok)')));
+  /* support refunds are looked up in the wallet operations loaded on this phone (the latest 60): say how far that look goes */
+  const cov=!(W&&W.loadedAt)?'none':(ent.length<60||ent.some(e=>e.at<=o.createdAt))?'full':'part';
+  const note=(dead||rf.length)&&cov!='full'?`<div class="xs mut" id="stlcov" style="margin-top:8px;line-height:1.45">${t(cov=='none'?'stlCovNone':'stlCovPart')}</div>`:'';
+  return R.length||note?`<div class="card sum" id="stl"><h3 style="margin-bottom:6px">${t('stlT')}</h3>${R.join('')}${note}</div>`:''}
 function receipt(o,done){const lines=(o.items||[]).map(i=>`<div class="li"><span>${i.qty}× ${esc(i.name)}${(i.opts&&i.opts.length)?`<div class="nt2">${esc(i.opts.map(x=>x.n).join(', '))}</div>`:''}${i.note?`<div class="nt">${esc(i.note)}</div>`:''}</span><span class="b6">${Math.round(i.qty*i.price*100)/100} TJS</span></div>`).join('');
   return `<div class="card"><div class="dn"><span class="ok ${done?'':'bad'}">${ico(done?'check':'trash',22)}</span><div style="flex:1;min-width:0"><b style="font-size:15px">${t(done?'trk_delivered':'trk_'+o.status)}</b><div class="xs mut" style="margin-top:2px">${fmtD(o.doneAt||o.createdAt)}</div></div><span class="pill ${o.status}">${t('trk_'+o.status)}</span></div></div>
   <div class="card rcp"><h3 style="margin-bottom:6px">${t('recT')}</h3>${lines||'<div class="sm mut">—</div>'}</div>
   <div class="card sum"><div class="row"><span>${t('sub')}</span><span>${o.subtotal} TJS</span></div>${o.discount-o.hhDiscount>0.004?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${Math.round((o.discount-o.hhDiscount)*100)/100} TJS</span></div>`:''}${o.hhDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('hhLine')}${o.hhPct?' −'+o.hhPct+'%':''}</span><span>−${o.hhDiscount} TJS</span></div>`:''}${o.promoDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('promoLine')} ${esc(o.promoCode)}</span><span>−${o.promoDiscount} TJS</span></div>`:''}${o.pointsValue>0?`<div class="row" style="color:var(--ok)"><span>${t('ptsLine')} (${fmtN(o.pointsUsed)})</span><span>−${o.pointsValue} TJS</span></div>`:''}${o.feeWaived>0?`<div class="row"><span>${t('deliv')}</span><span><s class="mut" style="font-weight:500">${o.feeWaived}</s> 0 TJS</span></div>`:o.deliveryExtra>0&&o.delivery>0?`<div class="row"><span>${t('delivBase2')}</span><span>${o.deliveryBase} TJS</span></div><div class="row"><span>${t('delivFar')}${o.deliveryKm?`<span class="xs mut" style="display:block;font-weight:500">${t('delivKm').replace('{km}',o.deliveryKm)}</span>`:''}</span><span>${o.deliveryExtra} TJS</span></div>`:`<div class="row"><span>${t('deliv')}</span><span>${o.delivery} TJS</span></div>`}${o.tip>0?`<div class="row"><span>${t('tip')}</span><span>${o.tip} TJS</span></div>`:''}<div class="row"><span>${t('payM')}</span><span class="b6">${esc(t(o.payment))}</span></div><div class="row tot"><span>${t(done?'total':'stlSum')}</span><span>${o.total} TJS</span></div>${o.walletUsed>0?`<div class="row" style="color:var(--ok)"><span>${t('walLine')}</span><span>\u2212${o.walletUsed} TJS</span></div>`:''}${o.pointsEarned>0||o.cashback>0?`<div class="ern">${ico('star',14,1)}<span>${[o.pointsEarned>0?t('ptsGot').replace('{n}',fmtN(o.pointsEarned)):'',o.cashback>0?t('cbGot').replace('{n}',o.cashback):''].filter(Boolean).join(' · ')}</span></div>`:''}</div>`+settleCard(o)}
 function vTrack(){const o=TLB.order(S.tid);if(!o)return vOrders();const banner=S.fresh==o.id&&o.status=='pending'?`<div class="placed" onclick="S.fresh=null;render()"><span>${ico('check',20)}</span><b>${t('placedBanner')}</b></div>`:'';
   const dead=o.status=='rejected'||o.status=='cancelled',done=o.status=='delivered';
-  if((done||dead)&&!S.walL){S.walL=1;TLB.loadWallet()}
+  if((done||dead)&&S.walL!==o.id){S.walL=o.id;TLB.loadWallet(true)}
   if(done||dead)return topbar(`${t('orderN')} #${o.id}`,esc(o.store),"go('orders')")+`<div class="pg">${cxCard(o)}${done?rateCard(o):''}${done&&o.deliveryPhoto?proofCard(o):''}${receipt(o,done)}<button class="btn big" onclick="reorder(${o.id})">${t('reorder')}</button>${reportBtn(o)}</div>`;
   const n={pending:0,preparing:1,ready:1,pickedup:2}[o.status],live=['preparing','ready','pickedup'].includes(o.status),steps=['stp1','stp2','stp3','stp4'];
   return topbar(`${t('orderN')} #${o.id}`,esc(o.store),"S.fresh=null;go('orders')")+`<div class="pg">${banner}${o.scheduledFor?`<div class="okb sch" style="margin:0 0 12px">${ico('clock',18)}<b>${t('schedAt').replace('{t}',fmtWhen(o.scheduledFor))}</b></div>`:''}${o.status=='pickedup'&&o.arrivedCustAt?`<div class="okb sch" style="margin:0 0 12px">${ico('bike',18)}<b>${t('courAtYou')}</b></div>`:['preparing','ready'].includes(o.status)&&o.arrivedStoreAt&&o.driver?`<div class="okb sch" style="margin:0 0 12px;background:#eef2ff;color:#3730a3">${ico('bike',18)}<b>${t('courAtRest')}</b></div>`:''}
