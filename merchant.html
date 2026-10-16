@@ -250,6 +250,8 @@ function rqSheet(){if(!RQ)return '';const q=RQ,s1=q.step!=2;
 function rlSheet(){if(!RL)return '';const l=TLB.myStoreRequests();
   return `<div class="ov" onclick="RL=false;render()"><div class="md" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:10px"><b style="font-size:16px">${t('pfReqs')}</b><button class="rb" onclick="RL=false;render()" aria-label="${t('closeB')}">${SVG(I.x,18)}</button></div>
   ${l.length?l.map(q=>`<div class="gp" style="padding:10px 12px"><div class="row"><b>${esc(q.name)}</b><span class="rqs ${q.status}">${t('rq_'+q.status)}</span></div><div class="xs mut" style="margin-top:2px">${t('rqC_'+q.category)} · ${esc(q.phone)} · ${ddmm(Date.parse(q.created_at))}</div>${q.address?`<div class="xs" style="margin-top:4px">${esc(q.address)}</div>`:''}${q.admin_note?`<div class="nt3" style="margin-top:6px"><b>${t('pfReqD')}:</b> ${esc(q.admin_note)}</div>`:''}${q.status=='approved'?`<div class="xs mut" style="margin-top:6px">${t('rqApprovedS')}</div>`:''}</div>`).join(''):emptyM(t('pfNoReq'),'store')}</div></div>`}
+/* same screen (tab, store, open sheet) = the page is patched, not rebuilt: typed text, focus and the scroll stay */
+let MCX=null;const mCtx=()=>[tab,STORE,!!SH,OD,!!RQ,!!RL,!!RJ,typeof BR!=='undefined'&&!!BR].join('|');
 function render0(){
   const stores=TLB.myStores().map(s=>s.name);if(!stores.includes(STORE))STORE=stores[0]||'';
   if(!stores.length){const f=TLB.loadFailed();$('app').innerHTML=`<div class="card" style="margin-top:90px;text-align:center;padding:26px 18px"><b style="font-size:15px">${f?t('loadFail'):t('mNoStoreT')}</b><p class="xs mut" style="margin:8px 0 14px;line-height:1.5">${f?t('mLoadS'):t('mNoStoreS')}</p><button class="b" onclick="location.reload()">${t('mReload')}</button><button class="b g" style="margin-left:8px" onclick="TLB.logout()">${t('logout')}</button></div>`;return}const open=TLB.isOpen(STORE),n=act().filter(o=>o.status=='pending').length;
@@ -257,7 +259,7 @@ function render0(){
   const H=`<h1 class="mtt">${t({o:'mOrders',m:'mMenu',s:'mStats',p:'mSt'}[tab])}</h1><div class="top"><div style="min-width:0"><small>${t('sto')}</small><select onchange="setStore(this.value)">${stores.map(s=>`<option ${s==STORE?'selected':''} value="${esc(s)}">${esc(s)}</option>`).join('')}</select></div>
   <button class="swb ${open?'on':''}" onclick="TLB.setOpen(STORE,${!open})"><i></i><span>${open?t('open'):t('shut')}</span></button></div>
 `+({o:vOrders,m:vMenu,s:vStats,p:vStore}[tab])()+`<div class="nav">${[['o','doc','mOrders'],['m','tag','mMenu'],['s','chart','mStats'],['p','store','mSt']].map(x=>`<div class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')" role="button"><span>${ic(x[1],24)}</span>${t(x[2])}${x[0]=='o'&&n?`<em class="bdg">${n}</em>`:''}</div>`).join('')}</div>`+sheet()+odSheet()+rqSheet()+rlSheet()+brSheet()+rjSheet();
-  $('app').innerHTML=H;
+  const ap=$('app'),cx=mCtx();if(MCX===cx&&ap.firstChild)TLB.morph(ap,H);else ap.innerHTML=H;MCX=cx;
   if(document.body&&document.body.style)document.body.style.overflow=(SH||OD!=null||RQ||RL||RJ)?'hidden':''}
 TLB.staffUI('merchant');
 TLB.start('merchant',()=>{TLB.chrome(false);TLB.on(()=>{if(SH||RQ||RJ)return;if((tab=='m'||tab=='p')&&document.activeElement&&/^(mqs|sdesc|sdis|rqn|rqp|rqa|rqt)$/.test(document.activeElement.id))return;render()});render()});
@@ -265,5 +267,5 @@ TLB.start('merchant',()=>{TLB.chrome(false);TLB.on(()=>{if(SH||RQ||RJ)return;if(
 function render(){const a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
   render0();
   if(ok){let e=id?document.getElementById(id):null;if(!e||e===a){const n=[...document.querySelectorAll('input,textarea')];e=n[ix]}if(e&&e!==a){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
-  window.scrollTo(0,y)}
+  if(Math.abs(window.scrollY-y)>1)window.scrollTo(0,y)}
 </script></body></html>
