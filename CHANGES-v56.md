@@ -120,3 +120,8 @@ No orders, balances or history changed. Test: tools/merchant_stats_check.py.
 - v56l subtracted the happy-hour discount twice (orders.discount already contains it): reverted.
 - Order details sheet: commission and % as recorded on the order («—» if none) instead of the store's current %.
 Tests: tools/merchant_ids_check.py (real taps), tools/merchant_stats_check.py (A–D + order sheet).
+
+## v56n — admin menu strip steady when switching sections (16 Oct)
+Orders has the indicator cards above the strip (+369 px), other sections do not; with the same page offset the strip landed elsewhere.
+On a phone the strip is now kept at its place on the screen after a section tap (one scroll, no timer); moves only if the page cannot
+scroll that far. Test: tools/tab_nav_check.py (before 6 fails, after 0).

@@ -606,7 +606,7 @@ function render0(){if(!tabOk(tab)){const k=TABS.find(x=>tabOk(x[0]));if(k)tab=k[
   const tkN=TLB.adminTickets().filter(needsReply).length,srN=TLB.storeRequests().filter(q=>q.status=='pending').length,badge=x=>x=='d'&&ovN?`<em>${ovN}</em>`:x=='r'&&needN?`<em>${needN}</em>`:x=='h'&&tkN?`<em>${tkN}</em>`:x=='s'&&srN?`<em>${srN}</em>`:'';
   const H=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div></div></div>${livePills()}</div>
   ${tkBar}${alerts()}${tab=='o'&&!D?`<div class="grid">${kp('box',all.length,t('aKOrd'))}${kp('cash',del.reduce((s,o)=>s+o.total,0).toFixed(2)+' TJS',t('aKRev'))}${kp('percent',del.reduce((s,o)=>s+o.commission,0).toFixed(2)+' TJS',t('aKCom'))}${kp('clock',act.length,t('aKAct'))}</div><div class="kcap">${t('uKCap').replace('{n}',all.length).replace('{k}',del.length).replace('{d}',all.length?kDay(Math.min(...all.map(o=>o.createdAt))):'—').replace('{e}',all.length?kDay(Math.max(...all.map(o=>o.createdAt))):'—')}</div>`:''}
-  <nav class="side" aria-label="${t('aT')}"><div class="sbrand"><i>${ic('bag',20)}</i><div>TALABOT<small>${t('aT')}</small></div></div><div class="tabs">${TABS.filter(x=>tabOk(x[0])).map(x=>`<button class="${tab==x[0]?'on':''}" onclick="BACKO=null;tab='${x[0]}';D=null;E=null;DE=null;BE=null;pgN=50;TK.sel=null;CU.sel=null;if(tab=='l'){AUD=null;ERR=null}if(tab=='f')STF.list=null;if(tab=='u'&&!CU.loaded)cuLoad(true);if(tab=='g'){PGE={};TLB.loadPages(true)}render()">${ic(TI[x[0]],18)}<span>${t(x[1])}</span>${badge(x[0])}</button>`).join('')}</div></nav>`+body+assignModal()+mapModal()+resModal();
+  <nav class="side" aria-label="${t('aT')}"><div class="sbrand"><i>${ic('bag',20)}</i><div>TALABOT<small>${t('aT')}</small></div></div><div class="tabs">${TABS.filter(x=>tabOk(x[0])).map(x=>`<button class="${tab==x[0]?'on':''}" onclick="const _t=tabTop();BACKO=null;tab='${x[0]}';D=null;E=null;DE=null;BE=null;pgN=50;TK.sel=null;CU.sel=null;if(tab=='l'){AUD=null;ERR=null}if(tab=='f')STF.list=null;if(tab=='u'&&!CU.loaded)cuLoad(true);if(tab=='g'){PGE={};TLB.loadPages(true)}render();tabKeep(_t)">${ic(TI[x[0]],18)}<span>${t(x[1])}</span>${badge(x[0])}</button>`).join('')}</div></nav>`+body+assignModal()+mapModal()+resModal();
   if(AUTO&&H===LASTH)return 'same';LASTH=H;paint(H);
   if(kid&&$(kid)){const e=$(kid);e.value=keep;try{e.focus({preventScroll:true})}catch(_){}try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}}
 ['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{lastAct=Date.now()},{passive:true}));
@@ -677,6 +677,13 @@ let PCX=null,RINFO={t:0,auto:false,mode:'',n:0};
 function paint(H){const ap=$('app');RINFO={t:Date.now(),auto:AUTO,mode:'',n:RINFO.n+1};
   if(PCX!==null&&ctxKey()===PCX&&ap.firstChild){ap.querySelectorAll('.confn').forEach(n=>n.remove());TLB.morph(ap,H);RINFO.mode='patch'}
   else{ap.innerHTML=H;RINFO.mode='full'}}
+
+/* Switching section on a phone: the part above the menu strip is not the same height in every section (the Orders section has the
+   indicator cards and their caption), so with the same page offset the strip used to land elsewhere. The strip is kept at the same
+   place on the screen (once, right after the tap; if the strip was scrolled away it comes to the top), and the section starts under it.
+   Wide screens: the menu is a fixed side menu, nothing to keep. */
+function tabTop(){const s=document.querySelector('.tabs');if(!s||getComputedStyle(s.closest('.side')||s).position=='fixed')return null;return s.getBoundingClientRect().top}
+function tabKeep(t0){if(t0==null)return;const s=document.querySelector('.tabs');if(!s)return;const want=Math.min(Math.max(t0,8),innerHeight-80),y=window.scrollY+s.getBoundingClientRect().top-want;window.scrollTo(0,Math.max(0,Math.round(y)))}
 
 /* 2. the horizontal tab bar and filter chips keep their position after a redraw, and the chosen one stays visible */
 const HSX={};

@@ -75,3 +75,16 @@ Restaurant search evidence kept from the follow-up above (not re-run). Safari ju
   → 400 / 346.
 - The order details sheet also used the store's current %: it now shows the commission and % recorded on the order («—» if none).
 - Not changed (out of this batch): the customer (10) and courier (5) apps have the same unquoted-id pattern; production ids are numeric.
+
+## v56n — admin menu strip moved when switching sections (16 Oct)
+`tools/tab_nav_check.py <admin_preview>` — phone 390, RU+EN, real taps Orders→Stores→Couriers→Customers→Orders ×3, page sometimes
+scrolled before the tap, a real data change every 4 s (automatic refreshes during the taps). Measured: strip top before / right after
+/ 1.8 s after, gap strip→section, page sideways offset.
+- Cause (proven by measurement): the part above the strip is not the same height in every section (Orders has the indicator cards +
+  caption, +369 px); the page offset stayed the same, so the strip landed elsewhere: v56m RU Stores→Orders 333 → 702 although the
+  page could be scrolled to keep it (needed 369, max 1299). No late jump (1.8 s later identical) and no sideways page scroll
+  (scrollX 0, scrollWidth = width) in v56m either; the only sideways motion is the strip itself showing the chosen tab.
+- Fix: on a section tap the strip is kept at the same place on the screen (one scroll right after the tap; if it was scrolled away
+  it comes to the top). It moves only when the page cannot be scrolled that far (e.g. Customers still loading = short page, or
+  the top of the page). Wide screens (fixed side menu): unchanged. After: 0 fails; before: 6.
+- Separate from the Safari rotation jump, which stays open.
