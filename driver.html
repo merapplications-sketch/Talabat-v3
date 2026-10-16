@@ -97,6 +97,7 @@ body.mapmode{background:#e8edf2;padding-bottom:0}body.mapmode .hd{position:relat
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="talabat-core.js?v=56"></script>
 <script>
+TLB.addDict({dlvBusy:'Подтверждаем доставку…',chatFail:'Сообщение не отправлено. Текст сохранён — отправьте ещё раз.'},{dlvBusy:'Confirming the delivery…',chatFail:'Message not sent. The text is kept — send it again.'});
 TLB.addDict({dSched:'Доставить к',sw1:'На месте в ресторане',sw2:'Заказ забран',sw3:'На месте у клиента',sw4:'Заказ доставлен',swWait:'Ждите: ресторан ещё готовит',swHint:'Проведите вправо',stepN4:'Шаг {n} из 4',st4_1:'Езжайте в ресторан',st4_2:'Заберите заказ',st4_3:'Езжайте к клиенту',st4_4:'Передайте заказ клиенту',atRestOk:'Вы в ресторане',atCustMsg:'Я на месте, пожалуйста, выходите 🚪',toTarget:'до цели {n} км',restToCust:'{n} км до клиента',feeFor:'За доставку',cashOrder:'Сумма заказа',cashPts:'Оплачено баллами',cashWal:'Из кошелька',cashGet:'Возьмите наличными',paidAll:'Оплачено онлайн — деньги не брать',photoT:'Фото у двери',photoS:'Клиент просил оставить заказ у двери. Сфотографируйте его — без фото доставку не закрыть.',photoB:'Сделать фото',photoRe:'Переснять',photoUp:'Загружаем фото…',cxlT:'Заказ #{n} отменён',cxlS:'Не забирайте заказ. Если он уже у вас — верните его в ресторан.',cxlBy:'Причина',cxlOk:'Понятно',recenter:'Показать маршрут',expand:'Подробнее'},
 {dSched:'Deliver at',sw1:'At the restaurant',sw2:'Order picked up',sw3:'At the customer',sw4:'Order delivered',swWait:'Wait: the restaurant is still cooking',swHint:'Swipe right',stepN4:'Step {n} of 4',st4_1:'Go to the restaurant',st4_2:'Pick up the order',st4_3:'Go to the customer',st4_4:'Hand the order to the customer',atRestOk:'You are at the restaurant',atCustMsg:'I am here, please come out 🚪',toTarget:'{n} km to go',restToCust:'{n} km to the customer',feeFor:'Delivery',cashOrder:'Order amount',cashPts:'Paid with points',cashWal:'From the wallet',cashGet:'Take in cash',paidAll:'Paid online — take no money',photoT:'Photo at the door',photoS:'The customer asked to leave the order at the door. Take a photo — the delivery cannot be closed without it.',photoB:'Take a photo',photoRe:'Retake',photoUp:'Uploading the photo…',cxlT:'Order #{n} was cancelled',cxlS:'Do not pick it up. If you already have it, take it back to the restaurant.',cxlBy:'Reason',cxlOk:'OK',recenter:'Show the route',expand:'Details'});
 TLB.addDict({dGift:'Подарок — получатель',dGiftCall:'Позвонить получателю',dDoor:'Клиент просит оставить у двери (сфотографируйте заказ)',dsub_replace:'Если нет блюда — ресторан заменит похожим',dsub_remove:'Если нет блюда — его уберут, остальное везти',noHS:'Здесь появятся доставленные вами заказы и заработок по ним',ctNav:'Маршрут',ctCall:'Позвонить клиенту',ctCallR:'Позвонить в ресторан',ctChat:'Чат с клиентом',prepOn:'Готовится'},{dGift:'Gift — recipient',dGiftCall:'Call the recipient',dDoor:'The customer asks to leave it at the door (take a photo)',dsub_replace:'If a dish is missing — the restaurant replaces it',dsub_remove:'If a dish is missing — it is removed, deliver the rest',noHS:'Orders you deliver and what you earned will appear here',ctNav:'Directions',ctCall:'Call the customer',ctCallR:'Call the restaurant',ctChat:'Chat with the customer',prepOn:'Preparing'});
@@ -107,7 +108,7 @@ inv:'Invoice',collect:'Collect from customer',paidOnline:'Paid online',subT:'Ite
 const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
 const P={nav:'<path d="M3 11l18-8-8 18-2-8z"/>',phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/>',check:'<path d="M5 12l5 5 9-10"/>',pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',store:'<path d="M4 9l1-5h14l1 5"/><path d="M4 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 4 0"/><path d="M5 12v8h14v-8"/>',home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',down:'<path d="M6 9l6 6 6-6"/>',up:'<path d="M6 15l6-6 6 6"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',bike:'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9H8"/>',pkg:'<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'};
 const ico=(n,s)=>`<svg viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;flex-shrink:0">${P[n]}</svg>`;
-let DRV=null,tab='o',online=false,SUM=null,chatOpen=false,invOpen=false,lastN=-1,DV=null,ftm=null,phErr='',SHF=false,SWB=0,LASTACT=null,CXL=null,DM=null,DMK='';
+let DLV={},CD={},CS={},CE={},DRV=null,tab='o',online=false,SUM=null,chatOpen=false,invOpen=false,lastN=-1,DV=null,ftm=null,phErr='',SHF=false,SWB=0,LASTACT=null,CXL=null,DM=null,DMK='';
 const mine=()=>TLB.orders(o=>o.driver==DRV.id&&['preparing','ready','pickedup'].includes(o.status))[0]||null;
 const done=()=>TLB.orders(o=>o.driver==DRV.id&&o.status=='delivered');
 const setTab=x=>{tab=x;render()};
@@ -133,24 +134,33 @@ function phoneGate(){return `<div class="pg"><div class="card" style="text-align
 async function decline(id){const r=await TLB.decline(id);if(r&&r.error)alert(t('err_'+r.error))}
 async function take(id){const r=await TLB.driverAccept(id);if(r.error)alert(t('err_'+r.error))}
 async function step(id,s){const r=await TLB.setStatus(id,s);if(r.error)alert(t('trans'))}
-function say(id,txt){chatOpen=true;TLB.chat(id,'driver',txt)}
-function sendChat(id){const e=$('ci'),v=e.value.trim();if(!v)return;e.value='';TLB.chat(id,'driver',v)}
-function sendLoc(id){TLB.pickLocation((la,ln)=>TLB.chat(id,'driver','LOC:'+la.toFixed(6)+','+ln.toFixed(6)))}
+/* UAT003: the typed message is kept per order (CD) until the server confirms it; one send at a time per order (CS);
+   a late answer never clears a newer text or another order's text. Kept in memory only. */
+async function chatSend(id,v,typed){if(CS[id])return;CS[id]=v;CE[id]=false;render();let r;
+  try{r=await TLB.chat(id,'driver',v)}catch(x){r={error:'generic'}}
+  delete CS[id];if(r&&!r.error){if(typed&&String(CD[id]||'').trim()===v)CD[id]=''}else CE[id]=true;render()}
+function say(id,txt){chatOpen=true;chatSend(id,txt,false)}
+function sendChat(id){const e=$('ci');if(e)CD[id]=e.value;const v=String(CD[id]||'').trim();if(!v)return;chatSend(id,v,true)}
+function sendLoc(id){TLB.pickLocation((la,ln)=>chatSend(id,'LOC:'+la.toFixed(6)+','+ln.toFixed(6),false))}
 /* the last step: a photo when the customer asked to leave it at the door, the cash amount when he pays cash */
-function deliverClick(id){const o=TLB.order(id);if(!o)return;const cash=TLB.isCash(o);
+/* UAT004: one delivery confirmation at a time per order, on every path (modal and direct). A screen guard only: it does not
+   prove the server refuses a second confirmation. */
+function deliverClick(id){if(DLV[id])return;const o=TLB.order(id);if(!o)return;const cash=TLB.isCash(o);
   if(cash||o.leaveAtDoor){DV={id,cash,photo:!!o.leaveAtDoor,total:due(o),amt:String(due(o)),note:'',ph:null,up:false};render()}
   else finish(id,null,null,null)}
-async function finish(id,cash,note,photo){const r=await TLB.deliver(id,cash,note,photo);if(r.error){alert(t('err_'+r.error));return false}return true}
+async function finish(id,cash,note,photo){if(DLV[id])return false;DLV[id]=1;render();let r;
+  try{r=await TLB.deliver(id,cash,note,photo)}catch(e){r={error:'generic'}}finally{delete DLV[id];render()}
+  if(!r||r.error){alert(t('err_'+((r&&r.error)||'generic')));return false}return true}
 async function takePhoto(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f||!DV)return;DV.up=true;render();
   const r=await TLB.uploadProof(f,DV.id);if(!DV)return;DV.up=false;if(r.error){alert(t('err_'+r.error));render();return}DV.ph=r;render()}
-async function confirmDeliver(){if(!DV||DV.up)return;if(DV.photo&&!DV.ph){TLB.toast(t('err_photo_required'),true);return}
+async function confirmDeliver(){if(!DV||DV.up||DLV[DV.id])return;if(DV.photo&&!DV.ph){TLB.toast(t('err_photo_required'),true);return}
   let amt=null;if(DV.cash){amt=parseFloat(DV.amt);
     if(!(amt>=0)){TLB.toast(t('err_cash_required'),true);return}
     if(Math.abs(amt-DV.total)>0.004&&!DV.note.trim()){TLB.toast(t('err_note_required'),true);return}}
   if(await finish(DV.id,amt,DV.cash?DV.note:null,DV.ph?DV.ph.path:null)){DV=null;render()}}
 /* the 4 steps of a delivery, each confirmed with a swipe */
 const stepOf=a=>a.status=='pickedup'?(a.arrivedCustAt?4:3):(a.arrivedStoreAt?2:1);
-async function swDo(){const a=mine();if(!a||SWB)return;const n=stepOf(a);if(n==2&&a.status!='ready')return;SWB=1;render();let r=null;
+async function swDo(){const a=mine();if(!a||SWB||DLV[a.id])return;const n=stepOf(a);if(n==2&&a.status!='ready')return;SWB=1;render();let r=null;
   try{if(n==1)r=await TLB.driverArrived(a.id,'store');
     else if(n==2)r=await TLB.setStatus(a.id,'pickedup');
     else if(n==3){r=await TLB.driverArrived(a.id,'customer');if(r&&!r.error)TLB.chat(a.id,'driver',t('atCustMsg'))}
@@ -165,6 +175,7 @@ function bindSwipe(){const w=$('swp'),k=$('swk');if(!w||!k||w.classList.contains
   k.addEventListener('keydown',e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();swDo()}})}
 function swipeH(a){const n=stepOf(a),wait=n==2&&a.status!='ready';
   if(wait)return `<div class="swp off" id="swp" role="status"><div class="swt">⏳ ${t('swWait')}</div></div>`;
+  const dl=a&&DLV[a.id];if(dl)return `<div class="swp g busy off" id="swp" role="status" aria-busy="true"><div class="swt">⏳ ${t('dlvBusy')}</div></div>`;
   return `<div class="swp ${n==4?'g':''} ${SWB?'busy':''}" id="swp"><button class="swk" id="swk" aria-label="${t('sw'+n)} · ${t('swHint')}">${ico(n==4?'check':'nav',22)}</button><div class="swt"><span>${t('sw'+n)}</span> ››</div></div>`}
 const storeLL=n=>{const st=TLB.stores(true).find(x=>x.name==n);return st&&st.lat!=null&&st.lng!=null&&isFinite(+st.lat)&&isFinite(+st.lng)?(+st.lat)+','+(+st.lng):null};
 const map=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q+' Душанбе')}`;
@@ -246,9 +257,9 @@ function vOrders(){const a=mine(),of=TLB.offers().filter(o=>o.offer.left>0),m=TL
   return h}
 function chatSheet(a){const un=TLB.unread(a.id),Q=[1,2,3,4,5,6,7];
   return `<div class="ov" onclick="chatOpen=false;render()"><div class="md" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:10px"><h3 style="margin:0">${t('chatT')} · ${esc(a.client.name)}</h3><button class="round" onclick="chatOpen=false;render()" aria-label="${t('closeB')}">${ico('x',18)}</button></div>
-  <div class="qrow">${Q.map(n=>`<span class="chip" onclick="say(${a.id},t('q${n}t'))">${t('q'+n)}</span>`).join('')}</div>
+  <div class="qrow">${Q.map(n=>`<span class="chip" onclick="say(${esc(JSON.stringify(a.id))},t('q${n}t'))">${t('q'+n)}</span>`).join('')}</div>
   <div class="chat" id="ch">${a.chat.map(m=>`<div class="m ${m.s=='driver'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
-  <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" placeholder="${t('msgPh')}" style="margin:0;flex:1"><button class="round" onclick="sendLoc(${a.id})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" style="background:var(--o);color:#fff" onclick="sendChat(${a.id})" aria-label="${t('sendB')}">${ico('nav',20)}</button></div></div></div>`}
+  <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" placeholder="${t('msgPh')}" style="margin:0;flex:1" value="${esc(CD[a.id]||'')}" oninput="CD[${esc(JSON.stringify(a.id))}]=this.value;CE[${esc(JSON.stringify(a.id))}]=false"><button class="round" onclick="sendLoc(${esc(JSON.stringify(a.id))})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" id="cisend" style="background:var(--o);color:#fff" ${CS[a.id]?'disabled aria-busy="true"':''} onclick="sendChat(${esc(JSON.stringify(a.id))})" aria-label="${t('sendB')}">${CS[a.id]?'…':ico('nav',20)}</button></div>${CE[a.id]?`<div class="xs" id="cierr" role="alert" style="color:var(--bad);font-weight:600;margin-top:8px">${t('chatFail')}</div>`:''}</div></div>`}
 /* one empty-state component: icon + title + hint */
 const emptyD=(a,b,ic)=>`<div class="emp"><span class="eic">${ico(ic||'receipt',26)}</span><b>${a}</b>${b||''}</div>`;
 function vHist(){const l=done();return `<h3>${t('dHist')}</h3>${l.length?l.map(o=>`<div class="card"><div class="row"><b>#${o.id} (${esc(o.store)})</b><b style="color:#27ae60">${o.payout.toFixed(2)} TJS</b></div><p style="font-size:11px;color:#718096;margin-top:4px">🕒 ${new Date(o.doneAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} ${o.cashCollected!=null?` • 💵 ${o.cashCollected.toFixed(2)} TJS`:''}${o.cashNote?` • ${esc(o.cashNote)}`:''}</p></div>`).join(''):emptyD(t('noH'),t('noHS'),'receipt')}`}
@@ -261,7 +272,7 @@ function modal(){if(CXL)return cxlSheet();const a=mine();if(chatOpen&&a&&!DV)ret
   return `<div class="ov"><div class="md" style="max-height:88vh;overflow:auto">${DV.photo?`<h3>📷 ${t('photoT')}</h3><p class="xs mut" style="margin:-6px 0 10px;line-height:1.45">${t('photoS')}</p>${DV.ph?`<div class="php"><img src="${DV.ph.preview}" alt="${t('photoT')}"></div>`:''}
   <label class="phb">${DV.up?t('photoUp'):`${ico('cam',18)} ${DV.ph?t('photoRe'):t('photoB')}`}<input type="file" accept="image/*" capture="environment" style="display:none" onchange="takePhoto(this)" ${DV.up?'disabled':''}></label>`:''}
   ${DV.cash?`${o?cashBox(o):''}<h3>${t('recvQ')}</h3><input type="number" id="cashAmt" inputmode="decimal" value="${esc(DV.amt)}" oninput="DV.amt=this.value"><input type="text" id="cashNote" placeholder="${t('diffN')}" value="${esc(DV.note)}" oninput="DV.note=this.value">`:''}
-  <button class="b g" ${DV.up||(DV.photo&&!DV.ph)?'disabled style="opacity:.5"':''} onclick="confirmDeliver()">${t('confirmB')}</button><button class="b s" onclick="DV=null;render()">${t('cancelB')}</button></div></div>`}
+  <button class="b g" id="dvok" ${DV.up||(DV.photo&&!DV.ph)||DLV[DV.id]?'disabled style="opacity:.5"':''} ${DLV[DV.id]?'aria-busy="true"':''} onclick="confirmDeliver()">${DLV[DV.id]?t('dlvBusy'):t('confirmB')}</button><button class="b s" onclick="DV=null;render()">${t('cancelB')}</button></div></div>`}
 function nbarH(ofl){const f=ofl.find(o=>o.offer.mode=='single')||ofl[0],single=f.offer.mode=='single';
   return `<div class="nbar" onclick="setTab('o');scrollTo(0,0)"><span>\uD83D\uDD14 ${t('newOrderT')} \u00b7 ${esc(f.store)}</span><span>+${f.payout.toFixed(2)}${single?' \u00b7 '+Math.ceil(f.offer.left)+t('secS'):' \u00b7 '+t('nbFree')}</span></div>`}
 function render0(){
@@ -278,7 +289,7 @@ function render0(){
   ${ringing&&tab!='o'?nbarH(ofl):''}
   ${tab=='o'&&mine()?sheetH(mine()):`<div class="pg">${{o:vOrders,h:vHist,m:vMe}[tab]()}</div>`}${modal()}
   <div class="nav">${[['o','home','dOrders'],['h','receipt','dHist'],['m','user','dMe']].map(x=>`<div class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')"><span>${ico(x[1],24)}</span>${t(x[2])}${x[0]=='o'&&un?` <span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
-  if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}
+  if(kid&&$(kid)){const e=$(kid);if(kid!=='ci')e.value=keep;e.focus();try{e.setSelectionRange(e.value.length,e.value.length)}catch(x){}}   /* chat text comes from the per-order draft */
   const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;
   const act=tab=='o'&&mine();document.body.classList.toggle('mapmode',!!act);if(act){bindSwipe();mapUpd(act);if(online)keepAwake()}}
 TLB.start('driver',me=>{DRV=me;TLB.chrome(false);TLB.on(render);render();ping();

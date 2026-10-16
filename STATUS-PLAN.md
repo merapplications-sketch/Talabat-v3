@@ -59,3 +59,17 @@ Pending decisions without a batch: keeping drafts after inactivity sign-out (Pen
 Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its content is not in the project.
 
 **Source not found in the project files:** the ordering of batches 3/4 versus backlogs 4–7 after UAT 1 is not written anywhere — to be confirmed by the owner.
+
+## Status log — 17 Oct
+- v57e (onboarding, `feature/partner-onboarding-v57` @ 5e9449c): «Local preparation complete per the recorded checks, awaiting
+  review and approval of activation». Not tested on the live database. Linking OFF. Note: an annotated git tag
+  `v57e-local-prep` for this was created locally but GitHub refused the push (HTTP 403); no new tag, no retry, no wider rights.
+- v58 (UAT2 batch 1, `fix/uat2-v58`, base 5e9449c → depends on v57 and v56 approvals): see CHANGES-v58.md.
+  | Item | Status | Evidence | Remaining |
+  |---|---|---|---|
+  | UAT002 cancel waits for the server | implemented | uat2_check (Chromium) | iPhone check |
+  | UAT003 chat drafts per order | implemented | uat2_check | iPhone check |
+  | UAT004 one delivery confirmation at a time | implemented (screen guard) | uat2_check | server idempotency not proven |
+  | Hold 2 s order confirmation + 2-step keyboard path | implemented | uat2_check | iPhone / VoiceOver check |
+  | UAT008/009/011/012/013/014/015 (batch 2) | NOT started — the tracking file defining them was not received | — | the tracking file; live read `sql/verify_batch2_readonly.sql` |
+- Other open notes are NOT closed by this batch (Safari jumps, stability batch, onboarding activation, earlier backlog).
