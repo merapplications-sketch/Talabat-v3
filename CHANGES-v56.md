@@ -125,3 +125,11 @@ Tests: tools/merchant_ids_check.py (real taps), tools/merchant_stats_check.py (A
 Orders has the indicator cards above the strip (+369 px), other sections do not; with the same page offset the strip landed elsewhere.
 On a phone the strip is now kept at its place on the screen after a section tap (one scroll, no timer); moves only if the page cannot
 scroll that far. Test: tools/tab_nav_check.py (before 6 fails, after 0).
+
+## v56o — admin menu strip: Support and Customers (owner iPhone round on v56n)
+| Cause | Fix |
+|---|---|
+| The support bar above the content was hidden only in «Поддержка» → the strip moved up 50 px | the bar is shown on every tab (same button, same action) |
+| «Клиенты» is short while loading → the page could not keep the strip in place | the page keeps enough height until the next section tap (no timer, no scroll lock) |
+| The strip could stay half under the sticky support bar | it is placed just under the bar |
+Orders on iPhone and the Safari rotation/background/reload cases: open, see `STATUS-PLAN.md`. Test: `tools/tab_nav_check.py` (v56n 6 fails → 0).

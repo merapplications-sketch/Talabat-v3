@@ -88,3 +88,11 @@ scrolled before the tap, a real data change every 4 s (automatic refreshes durin
   it comes to the top). It moves only when the page cannot be scrolled that far (e.g. Customers still loading = short page, or
   the top of the page). Wide screens (fixed side menu): unchanged. After: 0 fails; before: 6.
 - Separate from the Safari rotation jump, which stays open.
+
+## v56o — iPhone round on v56n: Orders and Support still jumped (16 Oct)
+`tools/tab_nav_check.py` extended: Support in the sequence, page-top Stores→Support→Stores, strip not under the sticky support bar,
+taps on the visible part of the button (a covered/hidden strip is scrolled into view first, as a finger would). v56n: 6 fails, v56o: 0.
+- Support (proven): the support bar was hidden only on Support → everything below moved up 50 px (333→283). Bar now on every tab.
+- Couriers→Customers (proven): Customers is short while loading → the page could not be scrolled far enough (153→333). The page now
+  keeps enough height until the next section tap (min-height on the content; no timer, no scroll lock).
+- Orders on iPhone: not reproduced; candidates in `STATUS-PLAN.md` §1. Safari cases A–D: `STATUS-PLAN.md` §2 (all open).

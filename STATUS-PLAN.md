@@ -1,0 +1,47 @@
+# Status and batch plan — reference for the next rounds (16 Oct 2026)
+
+Branch `fix/uat1-v56` (not merged, not deployed). Production = main (admin unchanged since v52).
+Test details: `QA-UAT1.md`. Changes: `CHANGES-v56.md`. Owner rules and history: `HANDOFF.md`.
+Status words: **proven** = cause shown by code/measurement · **fixed, not verified** = needs the owner's iPhone · **open** = cause not proven.
+
+## 1. Current stability batch (v56o)
+
+| Item | Status | Evidence |
+|---|---|---|
+| Support tab moved the strip | proven, fixed (v56o), not verified on iPhone | the support bar (~50 px) was hidden only on Support → strip 333→283 at the page top; now the bar shows on every tab: 333→333 (`tools/tab_nav_check.py`, before 6 fails / after 0) |
+| Couriers→Customers moved the strip | proven, fixed (v56o) | Customers is short while loading, the page could not be scrolled far enough (153→333). Now the page keeps enough height until the next section tap (no timer, no scroll lock) |
+| Strip partly under the sticky support bar | fixed (v56o) | the strip comes just under the bar instead of staying covered |
+| Orders tab still jumps on iPhone | open | not reproduced in Chromium (strip kept at the same place, no late move after 1.8 s). Candidates, not proven: (a) the intended one-step page scroll that compensates the Orders indicator cards (+369 px) is seen as a jump; (b) the strip scrolling sideways to show the chosen tab. Safari is not available here |
+| Safari jumps (rotation / background / reload) | open — see §2 | no guess fix added |
+
+## 2. Safari — cases kept separate (owner logs, iPhone; none reproduced here)
+
+| Case | What the log shows | Status |
+|---|---|---|
+| A. Rotation to landscape | 403 → 635 at the moment of resize (0 ms), no app scrollTo | open; landscape layout is shorter/longer, the browser keeps a different anchor — not proven |
+| B. Back to portrait | 396 → 0 and 302 → 0 (the second with `text-size-adjust:100%` and a constant probe font → text enlargement ruled out for it); last redraw 3–4 s earlier; no app scrollTo | open; the app is not the mover by the log, the absence of app scrollTo alone does not prove the cause |
+| C. 190 s in background | not reloaded, position kept | no defect seen |
+| D. Reload after 16 s in background (15:13:56) | a new PAGE LOAD; the app reloads only on a tap or sign-out, neither logged | open; probably the browser discarded the page (not proven) |
+| Environment | screenshots show «◀ Claude»: the preview was opened inside the Claude iOS app's browser, not Safari itself | may matter for A/B/D; a check in Safari proper would separate it |
+
+## 3. Future batches (order to be reviewed by the owner before starting)
+
+| Batch | Original requests (source) | Done + evidence | Remaining | Decision / access needed |
+|---|---|---|---|---|
+| UAT 1 (admin) + stability | owner UAT 15–16 Oct (chat; `CHANGES-v56.md`) | 10 UAT items + v56d–v56o, tests in `QA-UAT1.md` | owner iPhone check of v56o; merge | owner approval to merge `fix/uat1-v56`; production deploy |
+| patch35 (search all orders) | UAT item 1 (`CHANGES-v56.md`) | `sql/schema_patch35.sql`, `sql/test_patch35.sql` 16/16 on local PostgreSQL; panel falls back to loaded 300 orders with a note | apply in Supabase | owner runs it (not applied anywhere) |
+| Rating states | UAT item 9; `HANDOFF.md` line 4 | one rule «Требуют внимания» = unhandled 1–3★ (tile, filter, badge, card) | red alert ≤2★ vs attention ≤3★; separate «not reviewed» vs «needs action» states | owner decision on thresholds/states |
+| Payment, collection, refund | UAT item 4; `HANDOFF.md` line 4 | admin card shows cash from courier record, online = «не проверено», refund «нет данных», wallet/points from records | real online payment status, collection reconciliation, card refunds | a payment provider/gateway + access (none exists) |
+| Batch 3 — restaurant onboarding | `HANDOFF.md` (NEXT, 10 Oct): landing page, home banner, 3-field form with rate limit → admin, honest profit calculator | only the in-app store request exists (merchant app `TLB.requestStore`, `store_requests` patch 19); no landing page, banner, short form or calculator | all four parts | content/texts of the landing page; calculator inputs (commission, fees) |
+| Batch 4 | `HANDOFF.md` «Owner answers 10 Oct 19:58» | out-of-stock suggestions DONE v52 | streak bonus + rating reward paid by the platform (points accounting change); receipt print 58/80 mm; combo/family banner at peaks (12:00–15:00, 18:30–21:30, admin-editable) | values of rewards; printer model/devices; «combo» mark on dishes |
+| Backlog 4 | `HANDOFF.md` approved backlog | — | auto-cancel after 5 min (pg_cron), live courier GPS, offline cache + sync | pg_cron on the Supabase plan |
+| Backlog 5 | same | — | push, batch delivery, heatmaps, partner requests, offers/ads | push needs PWA + VAPID + server function |
+| Backlog 6 | same; `SCALING-AND-SECURITY.md` §D | — | OTP sign-up via SMS/WhatsApp | SMS provider for Tajikistan; domain |
+| Backlog 7 / launch | same; `SCALING-AND-SECURITY.md` §A | — | delete test accounts, Auth rate limits, Supabase dashboard checklist, k6 load test, SRI hashes, server-side dish search | owner dashboard access |
+| Small follow-ups | `QA-UAT1.md` | — | customer (10) and courier (5) handlers with unquoted ids (fine for numeric production ids); customer history 50 + «more» in admin done, other 300/200 loaded-order limits remain | none (technical) |
+
+Pending decisions without a batch: keeping drafts after inactivity sign-out (Pending, unchanged); what wins when saving over a server edit; contracted map provider when traffic grows; owner confirmations: patch 27 applied (SC-48 showed it missing), security-check re-run after patch 28. Gift points: CANCELLED by the owner.
+
+Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its content is not in the project.
+
+**Source not found in the project files:** the ordering of batches 3/4 versus backlogs 4–7 after UAT 1 is not written anywhere — to be confirmed by the owner.

@@ -601,7 +601,7 @@ function render0(){if(!tabOk(tab)){const k=TABS.find(x=>tabOk(x[0]));if(k)tab=k[
   const ovN=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000)).length,lowN=TLB.lowRatings(2).length,needN=TLB.ratings().filter(needR).length;
   if(lastLow>=0&&lowN>lastLow){try{TLB.beep()}catch(e){}}lastLow=lowN;
   const tkN0=TLB.adminTickets().filter(needsReply).length;if(lastTk>=0&&tkN0>lastTk){try{TLB.beep()}catch(e){}}lastTk=tkN0;
-  const tkBar=tkN0>0&&tab!='h'?`<button class="b" style="position:sticky;top:6px;z-index:30;width:100%;margin-bottom:10px;padding:12px;background:#d92d20;box-shadow:0 4px 14px #d92d2055" onclick="tab='h';TK.sel=null;D=null;E=null;DE=null;BE=null;render();window.scrollTo(0,0)">${ic('chat')} ${t('aTkWait').replace('{n}',tkN0)}</button>`:'';
+  const tkBar=tkN0>0?`<button class="b" style="position:sticky;top:6px;z-index:30;width:100%;margin-bottom:10px;padding:12px;background:#d92d20;box-shadow:0 4px 14px #d92d2055" onclick="tab='h';TK.sel=null;D=null;E=null;DE=null;BE=null;render();window.scrollTo(0,0)">${ic('chat')} ${t('aTkWait').replace('{n}',tkN0)}</button>`:'';
   const kp=(n,v,l)=>`<div class="k"><i>${ic(n,18)}</i><b>${v}</b><span>${l}</span></div>`;
   const tkN=TLB.adminTickets().filter(needsReply).length,srN=TLB.storeRequests().filter(q=>q.status=='pending').length,badge=x=>x=='d'&&ovN?`<em>${ovN}</em>`:x=='r'&&needN?`<em>${needN}</em>`:x=='h'&&tkN?`<em>${tkN}</em>`:x=='s'&&srN?`<em>${srN}</em>`:'';
   const H=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div></div></div>${livePills()}</div>
@@ -683,7 +683,9 @@ function paint(H){const ap=$('app');RINFO={t:Date.now(),auto:AUTO,mode:'',n:RINF
    place on the screen (once, right after the tap; if the strip was scrolled away it comes to the top), and the section starts under it.
    Wide screens: the menu is a fixed side menu, nothing to keep. */
 function tabTop(){const s=document.querySelector('.tabs');if(!s||getComputedStyle(s.closest('.side')||s).position=='fixed')return null;return s.getBoundingClientRect().top}
-function tabKeep(t0){if(t0==null)return;const s=document.querySelector('.tabs');if(!s)return;const want=Math.min(Math.max(t0,8),innerHeight-80),y=window.scrollY+s.getBoundingClientRect().top-want;window.scrollTo(0,Math.max(0,Math.round(y)))}
+function tabKeep(t0){if(t0==null)return;const s=document.querySelector('.tabs');if(!s)return;const ap=$('app');ap.style.minHeight='';const bar=[...document.querySelectorAll('#app>button')].find(b=>getComputedStyle(b).position=='sticky'),bb=bar?Math.round((parseFloat(getComputedStyle(bar).top)||0)+bar.offsetHeight):0,want=Math.min(t0>=bb?t0:bb+8,innerHeight-80),y=Math.round(window.scrollY+s.getBoundingClientRect().top-want);
+  /* a section that is still loading can be shorter than the screen needs: the page keeps enough height (until the next section tap) instead of dropping the strip */
+  if(y>0&&y+innerHeight>document.documentElement.scrollHeight)ap.style.minHeight=Math.ceil(y+innerHeight-(window.scrollY+ap.getBoundingClientRect().top))+'px';window.scrollTo(0,Math.max(0,y))}
 
 /* 2. the horizontal tab bar and filter chips keep their position after a redraw, and the chosen one stays visible */
 const HSX={};
