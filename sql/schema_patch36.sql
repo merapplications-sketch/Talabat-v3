@@ -166,6 +166,18 @@ end $$;
 revoke all on function lead_link(uuid, uuid) from public, anon;
 grant execute on function lead_link(uuid, uuid) to authenticated;
 
+-- ---------- 6b. audit of website-request decisions (live DB has audit_changes + audit_log; store_requests had no audit trigger) ----------
+-- Only rows of kind 'lead' (the WHEN clause): branch requests keep exactly their current behaviour. Logged: who (auth.uid()),
+-- status, linked store and the staff note. Inserts by the Edge Function and retention deletes are not logged (the attempts table
+-- and the retention rule cover them). Skipped with a NOTICE if audit_changes() does not exist.
+do $$
+begin
+  if to_regproc('public.audit_changes') is null then raise notice 'patch36: audit_changes() not found, lead audit trigger not created'; return; end if;
+  execute 'drop trigger if exists trg_audit_store_leads on store_requests';
+  execute 'create trigger trg_audit_store_leads after update on store_requests for each row when (old.kind = ''lead'')
+           execute function audit_changes(''id'', ''status'', ''store_id'', ''admin_note'')';
+end $$;
+
 -- ---------- 7. retention (run by a schedule, e.g. pg_cron, once a day — not set up by this patch) ----------
 create or replace function lead_cleanup() returns int language plpgsql security definer set search_path = public as $$
 declare a int; b int;

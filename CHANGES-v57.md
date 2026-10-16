@@ -52,3 +52,10 @@ Preview unchanged (the page did not change; the server is simulated there).
   recorded as a PROPOSAL, not changed. Static rules: no invalid `font:… inherit`, no zoom-blocking viewport, no inline field size < 16 px.
 - Tests (affected only): ui_rules_check 0 fails (1 known proposal); partner_check 88/0; qa_all customer, merchant, driver at 360/390
   QA ISSUES 0. Chromium only: the iPhone zoom is not closed without a check on the phone.
+
+## v57e — patch 36 matched with the live database (read 17 Oct)
+- Live read: banners link check simple (none/store/category) → handled; store_requests = patch 19/26; no audit trigger on
+  store_requests → patch 36 adds `trg_audit_store_leads` (UPDATE of kind 'lead' only; status, store_id, note; uses the live
+  audit_changes); rollback drops it. assign_owner unchanged; its changes are audited by the live stores/profiles triggers.
+- `sql/test_patch36_prodshape.sql` 27/27: live shape rebuilt; apply / lead flow / assign_owner separately / rollback / apply again;
+  the 2 approved branch requests and their policy identical throughout; rollback restores the exact catalog shape.

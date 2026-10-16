@@ -33,6 +33,7 @@ begin
   delete from store_requests where kind = 'lead';
 end $$;
 
+drop trigger if exists trg_audit_store_leads on store_requests;
 drop function if exists lead_submit(text, text, text, text, text);
 drop function if exists lead_set_status(uuid, text, text);
 drop function if exists lead_link(uuid, uuid);

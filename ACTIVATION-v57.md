@@ -16,16 +16,16 @@ approve it. Limits and retention in `lead_settings` are PROPOSED. Real sending a
 7. Approval of the proposed limits / retention.
 
 **B. Stop only CONVERTING a request into a store** (receiving works without these)
-1. `assign_owner`: its source is not in the project. Read it (query A1–A3), then decide. Finding it is NOT enough to switch
-   linking on; it must be checked that:
-   - only the admin can run it (security definer + admin check; anon / signed-in callers refused);
-   - what it does to the account: sets `profiles.role = 'merchant'`? (a customer account may then lose the customer app —
-     the apps admit one role per account) / refuses accounts with orders? / needs the person registered first;
-   - what happens to a previous owner of that store and to the owner's other stores;
-   - whether it writes the audit log.
-   Only after the owner accepts these effects: `link_enabled = 1` and `LEAD_LINK = true`.
-2. Until then the admin creates the store and assigns the owner as today (Stores → «Добавить магазин», owner by e-mail); the
-   request stays «связались» / is closed with a reason.
+- Read on 17 Oct (live, `sql/verify_patch36_single.sql`): `assign_owner` — anon cannot execute; signed-in accounts can call it but it
+  refuses everyone except the admin (`is_admin()` inside); finds the account by e-mail (case-insensitive); customer → merchant only;
+  sets `stores.owner_id`; no store-existence check; the previous owner is replaced (only the admin panel asks first) and keeps
+  the merchant role. Its changes ARE audited by the live triggers `trg_audit_stores` (owner_id) and `trg_audit_profiles` (role);
+  `app.bypass` only skips `guard_profile`, not the audit. (Correction of the 17 Oct note «no audit»: none inside the function,
+  but audited by triggers.)
+- Linking a request (`lead_link`) and assigning an owner (`assign_owner`) are separate operations; neither calls the other
+  (proven locally on the live shape: linking changes only the request; assign_owner changes only stores + profiles).
+- Remaining: the owner's decision to switch linking on (`link_enabled = 1`, `LEAD_LINK = true`) and what «converted» means in
+  practice (recommended: assign the owner first in «Магазины», then link). `assign_owner` itself is not changed.
 
 **C. Stop only the BANNER** (the page still works by its direct link)
 - If patch 36 prints `banners NOT changed`, the banner check has an unknown structure (query B) — decide on the new rule.
@@ -63,3 +63,13 @@ approve it. Limits and retention in `lead_settings` are PROPOSED. Real sending a
 | iPhone zoomed into the calculator fields: `font:16px inherit` is invalid CSS, the rule was dropped, fields were 13.3 px (<16 px → iOS zooms) | yes: valid font rules; zoom by the user still allowed | `tools/partner_check.py`: before 13.33 px, after 16 px in every field; not yet checked on the iPhone |
 | No read-only queries / rollback / ops test | yes: `sql/verify_patch36_readonly.sql`, `sql/rollback_patch36.sql`, `tools/patch36_ops_check.py` | 0 fails locally |
 | Converting a request does not pre-fill the «new store» form | not done (convenience, not required) | — |
+
+## 5. Match with the live database (read 17 Oct) — v57e
+| Live fact | Patch 36 / rollback |
+|---|---|
+| `banners_link_type_check` = `link_type IN ('none','store','category')` (no NULL part) | simple form recognised: re-created with the same name + 'partner'; the other 5 banner constraints (2 NOT VALID) and the audit / image triggers untouched; rollback restores the exact definition |
+| `store_requests` = patch 19/26 exactly (constraint names, NOT NULL owner/location, 2 indexes, read policy only, realtime on), 2 approved branch requests | apply keeps both rows identical (+ kind 'branch'), policy, indexes and realtime unchanged; rollback restores the catalog shape exactly |
+| no trigger on `store_requests` (no audit of request decisions) | v57e adds `trg_audit_store_leads` (live `audit_changes`): UPDATEs of kind 'lead' only — status, store_id, staff note, who. Branch requests: unchanged behaviour |
+| `audit_changes`, `guard_profile`, `is_admin`, `has_perm`, `norm_phone`, roles as expected; patch 36 names absent | no change needed |
+Test: `psql -q -f sql/test_patch36_prodshape.sql` 27/27 (live definitions copied from the read). Also re-run: test_patch36 53/53,
+patch36_ops_check 0, lead_race_check 0.
