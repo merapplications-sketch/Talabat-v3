@@ -10,6 +10,35 @@ import os,sys,re
 root=os.path.abspath(os.path.join(os.path.dirname(__file__),'..'))
 out=sys.argv[1];app=(sys.argv[2] if len(sys.argv)>2 else 'admin')
 os.makedirs(out,exist_ok=True)
+if app=='partner':
+    # the public partner page: no Supabase client at all. The server (Edge Function) is answered locally with the reply chosen
+    # in the red strip; the "not a robot" box is a stand-in. Nothing is sent anywhere.
+    PV=r"""<script>
+(function(){
+ var Q=new URLSearchParams(location.search);window.__pvPartner={reply:Q.get('reply')||'ok',sent:[]};
+ if(Q.get('off')!=='1')window.__pvCfg={fn:'preview://partner-lead',siteKey:'preview-site-key'};
+ window.turnstile={_n:0,render:function(el,o){var id=++this._n,b=document.createElement('label');b.id='pv-ts';b.style.cssText='display:flex;align-items:center;gap:10px;border:1px dashed #b42318;border-radius:10px;padding:12px;font:600 14px -apple-system,sans-serif;color:#b42318';
+   b.innerHTML='<input type="checkbox" id="pv-ts-cb" style="width:22px;height:22px"> Демо-проверка «я не робот» (в рабочей версии — Cloudflare Turnstile)';el.appendChild(b);
+   b.querySelector('input').onchange=function(){if(this.checked)o.callback('pv-token-'+id+'-'+Date.now())};this._o=o;this._el=b;return id},
+   reset:function(){if(this._el){var c=this._el.querySelector('input');if(c)c.checked=false}},remove:function(){if(this._el)this._el.remove();this._el=null}};
+ var f0=window.fetch;window.fetch=function(u,o){if(String(u).indexOf('preview://')===0){var P=window.__pvPartner,b={};try{b=JSON.parse(o.body)}catch(e){}
+   P.sent.push({hasToken:!!b.token,category:b.category});
+   return new Promise(function(ok,bad){setTimeout(function(){if(P.reply==='network')return bad(new TypeError('network'));
+     var st={ok:200,busy:429,verify_failed:403,bad_phone:400,bad_value:400,unavailable:503}[P.reply]||503;ok(new Response(JSON.stringify({result:P.reply}),{status:st}))},700)})}
+   return Promise.reject(new TypeError('preview: no network'))};
+ document.addEventListener('DOMContentLoaded',function(){var s=document.createElement('div');s.id='pv-strip';s.style.cssText='background:#b42318;color:#fff;font:700 12px/1.4 -apple-system,sans-serif;padding:6px 10px;text-align:center';
+   var opts=[['ok','заявка принята'],['busy','слишком много заявок'],['verify_failed','проверка не пройдена'],['unavailable','сервер недоступен'],['network','нет сети'],['bad_phone','номер отклонён сервером']];
+   s.innerHTML='ПРОСМОТР · ничего не отправляется · ответ сервера: <select id="pv-reply" style="font:inherit;color:#000;border-radius:6px">'+opts.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===window.__pvPartner.reply?' selected':'')+'>'+x[1]+'</option>'}).join('')+'</select> · <a style="color:#fff" href="?off=1">без настроек</a> · <a style="color:#fff" href="?">с настройками</a>';
+   document.body.insertBefore(s,document.body.firstChild);s.querySelector('#pv-reply').onchange=function(){window.__pvPartner.reply=this.value}});
+})();
+</script>"""
+    s=open(os.path.join(root,'partner.html')).read()
+    s2=s.replace("const CFG={fn:'',siteKey:''};","const CFG=window.__pvCfg||{fn:'',siteKey:''};")
+    assert s2!=s
+    s2=s2.replace("<script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location}catch(e){}}</script>",PV)
+    s2=s2.replace('<title>','<title>PREVIEW · ',1).replace('href="merchant.html"','href="../merchant/merchant.html"')
+    open(os.path.join(out,'partner.html'),'w').write(s2)
+    print('preview built in',out);sys.exit(0)
 FIX=open(os.path.join(root,'tools','qa_all.py')).read().split('FIX="""')[1].split('"""')[0].replace('window.__ROLE','"%s"'%app).replace('var T={','var T=window.__pvTables={',1)
 READ_RPC=['my_perms','store_private','cash_balances','admin_customers','staff_list','contacts_for','admin_search_orders','brand_stats','brand_route',
   'wallet_balance','loyalty_summary','best_dishes','store_speed','delivery_quote','my_offers','my_rating','active_contacts','order_contacts','group_get',
@@ -48,6 +77,15 @@ GUARD=r"""
    for(var i=1;i<=62;i++){var id='h'+(1000-i),sub=80+i,dt=new Date(n-(20+i*6)*D).toISOString(),s0=st[i%%6];
      T.orders.push({_hist:true,id:id,store_id:'s1',customer_id:C,driver_id:null,status:s0,subtotal:sub,discount:0,promo_discount:0,delivery_fee:10,driver_payout:10,tip:0,total:sub+10,commission:Math.round(sub*10)/100,commission_pct:10,payment:i%%2?'cash':'apple',address:'ул. Демо 1',lat:38.56,lng:68.78,customer_name:'Демо-клиент · 62 заказа',created_at:dt,done_at:s0==='delivered'?dt:null,wallet_used:0,fee_waived:0});
      T.order_items.push({_hist:true,id:'hi'+i,order_id:id,item_id:'i1',name:'Демо-блюдо',price:sub,qty:1,note:'',options:[]})}})();
+ /* preview sample (v57): requests from the public partner page, one per state. Invented names, demo phones. */
+ (function(){var T=window.__pvTables;if(!T||!T.store_requests||!/admin/.test(location.pathname))return;var H=3600000,n=Date.now(),iso=function(h){return new Date(n-h*H).toISOString()};
+   T.store_requests.push({id:'pv-ld1',kind:'lead',status:'new',name:'Демо-кафе «Чинор»',category:'rest',phone:'+992900000101',created_at:iso(1)},
+     {id:'pv-ld2',kind:'lead',status:'contacted',name:'Демо-пекарня',category:'sweets',phone:'+992900000102',admin_note:'Перезвонить в понедельник',created_at:iso(26)},
+     {id:'pv-ld3',kind:'lead',status:'converted',name:'Демо-аптека',category:'pharmacy',phone:'+992900000103',store_id:'s1',created_at:iso(80),decided_at:iso(30)},
+     {id:'pv-ld4',kind:'lead',status:'rejected',name:'Демо-магазин',category:'shops',phone:'+992900000104',admin_note:'Вне зоны доставки',created_at:iso(90),decided_at:iso(40)})})();
+ (function(){var T=window.__pvTables;if(!T||!T.banners||!/customer/.test(location.pathname))return;
+   var svg='<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400"><rect width="1200" height="400" fill="#1c1c21"/><rect x="0" y="0" width="14" height="400" fill="#f1511b"/><text x="70" y="170" font-family="Arial" font-size="64" font-weight="700" fill="#fff">Ваше заведение в TALABOT</text><text x="70" y="250" font-family="Arial" font-size="38" fill="#f6b59b">Заявка на подключение</text></svg>';
+   T.banners.push({id:'pv-bnp',title:'Подключите своё заведение',image_url:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),placement:'bottom',link_type:'partner',link_value:null,active:true,is_active:true,sort:9,created_at:new Date().toISOString()})})();
  setInterval(function(){var T=window.__pvTables;if(!T||document.hidden)return;window.__pvTick++;T.app_settings=(T.app_settings||[]).filter(function(x){return x.key!=='pv_tick'}).concat([{key:'pv_tick',value:String(window.__pvTick)}]);
    /* a demo courier goes online / offline: the counters at the top change, so every screen is really rebuilt */
    var c=(T.profiles||[]).filter(function(x){return x.id==='pv-courier'})[0];if(!c){c={id:'pv-courier',email:'pv@test.com',role:'driver',name:'Демо-курьер',phone:'+992900000077',driver_status:'approved',cash_limit:1000,created_at:new Date().toISOString()};T.profiles.push(c)}

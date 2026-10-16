@@ -42,6 +42,10 @@ async function run(){
   await expectBlocked('Public key cannot read profiles',anon.from('profiles').select('id').limit(1));
   await expectBlocked('Public key cannot read orders',anon.from('orders').select('id').limit(1));
   await expectError('Public key cannot place an order',anon.rpc('place_order',{p_store:'00000000-0000-0000-0000-000000000000',p_items:[{item_id:'00000000-0000-0000-0000-000000000000',qty:1}]}));
+  /* patch 36: website requests only through the Edge Function (Turnstile); the database itself refuses everyone else */
+  var lk='0'.repeat(64);
+  await expectError('Public key cannot send a website request around the check',anon.rpc('lead_submit',{p_name:'Security test',p_category:'rest',p_phone:'+992900000000',p_phone_key:lk}));
+  await expectBlocked('Public key cannot read restaurant requests',anon.from('store_requests').select('id').limit(1));
   /* ---------- 2) signed in as a normal customer ---------- */
   var c=supabase.createClient(URL_,KEY,{auth:{storageKey:'tlb-auth-customer'}});
   var u=(await c.auth.getUser()).data.user;
@@ -59,6 +63,8 @@ async function run(){
     await expectBlocked('Customer cannot change a store commission',c.from('stores').update({commission_pct:0}).eq('id',sid).select());
     await expectBlocked('Customer cannot rename a store',c.from('stores').update({name:'hacked'}).eq('id',sid).select());
     await expectError('Customer cannot set a store discount',c.rpc('set_my_discount',{p_store:sid,p_pct:5}));
+    await expectError('Customer cannot send a website request around the check',c.rpc('lead_submit',{p_name:'Security test',p_category:'rest',p_phone:'+992900000000',p_phone_key:'0'.repeat(64)}));
+    await expectError('Customer cannot change a website request',c.rpc('lead_set_status',{p_id:'00000000-0000-0000-0000-000000000000',p_status:'contacted'}));
     await expectError('Customer cannot assign a store owner',c.rpc('assign_owner',{p_store:sid,p_email:'nobody@example.com'}));
   }else row('SKIP','Store tests','No store is visible to this account.');
   if(item)await expectBlocked('Customer cannot approve a menu item',c.from('menu_items').update({approved:true}).eq('id',item.id).select());

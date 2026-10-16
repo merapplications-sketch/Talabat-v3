@@ -486,7 +486,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -1094,6 +1094,15 @@
         if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
         sigs = {}; return refresh().then(function () { return { ok: true, store: r.data }; });
       }, function () { return { error: 'generic' }; });
+    },
+    /* restaurant requests from the public partner page (patch 36): status by 'stores' staff, link to a store by the admin */
+    leadDecide: function (id, action, arg) {
+      var p = action === 'link' ? sb.rpc('lead_link', { p_id: id, p_store: arg }) :
+        (action === 'contacted' || action === 'rejected') ? sb.rpc('lead_set_status', { p_id: id, p_status: action, p_note: String(arg || '').trim().slice(0, 300) }) : null;
+      if (!p) return Promise.resolve({ error: 'bad_value' });
+      if (action === 'rejected' && String(arg || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
+      return p.then(function (r) { if (r.error) { console.error(r.error); return { error: errKey(r.error) }; } return refresh(['misc']).then(function () { return { ok: true }; }); },
+        function () { return { error: 'generic' }; });
     },
     /* ---------- customers (admin) ---------- */
     customers: function (q, offset) {

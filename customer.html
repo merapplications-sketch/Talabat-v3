@@ -516,7 +516,8 @@ function sendChat(){const e=$('ci'),v=e.value.trim();if(!v)return;e.value='';TLB
 function sendLoc(){TLB.pickLocation((la,ln)=>TLB.chat(S.tid,'client','LOC:'+la.toFixed(6)+','+ln.toFixed(6)))}
 function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
   if(b.link_type=='store'){const o=ALLS.find(x=>x.id==b.link_value);if(o)openN(o.n)}
-  else if(b.link_type=='category'){S.q='';openCat(b.link_value)}}
+  else if(b.link_type=='category'){S.q='';openCat(b.link_value)}
+  else if(b.link_type=='partner')location.href='partner.html'}
 /* ---------- auto-rotating ads (3 s) ---------- */
 const ROT={top:0,bottom:0};
 const rotStep=el=>el.children.length>1?el.children[1].offsetLeft-el.children[0].offsetLeft:el.clientWidth;

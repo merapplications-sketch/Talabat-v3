@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin">
+<meta name="theme-color" content="#f1511b">
+<script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location}catch(e){}}</script>
+<title>TALABOT — для ресторанов</title>
+<style>
+:root{--o:#f1511b;--o2:#d94512;--tint:#fff0ea;--ink:#1c1c21;--mut:#6b6f78;--line:#e6e6ea;--bg:#f6f6f8;--ok:#1fa05a;--okbg:#e6f6ed;--bad:#d92d20;--badbg:#fdeceb;--sh:0 2px 14px rgba(28,28,33,.06)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font:15px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+main{max-width:640px;margin:0 auto;padding:16px 16px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.brand{font-weight:800;font-size:18px;letter-spacing:.5px;color:var(--o)}
+.lang{display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;font:600 13px inherit;font-family:inherit;padding:6px 12px;border-radius:999px;color:var(--mut);min-height:32px}
+.lang button.on{background:var(--o);color:#fff}
+h1{font-size:24px;line-height:1.25;margin:6px 0 8px}
+h2{font-size:18px;margin:0 0 10px}
+p{margin:0 0 10px}.mut{color:var(--mut)}.xs{font-size:13px}
+.card{background:#fff;border-radius:18px;box-shadow:var(--sh);padding:16px;margin-top:14px}
+ul.f{list-style:none;margin:6px 0 0}ul.f li{padding:6px 0 6px 22px;position:relative}ul.f li:before{content:"";position:absolute;left:4px;top:13px;width:8px;height:8px;border-radius:50%;background:var(--o)}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
+label small{font-weight:400;color:var(--mut)}
+input,select{width:100%;min-width:0;font:16px inherit;font-family:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--o);outline-offset:0;border-color:var(--o)}
+input[aria-invalid=true]{border-color:var(--bad);background:var(--badbg)}
+.err{color:var(--bad);font-size:13px;margin-top:4px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;align-items:end}.g2>div{min-width:0}
+@media (max-width:380px){.g2{grid-template-columns:1fr}}
+.b{display:block;width:100%;border:0;border-radius:14px;background:var(--o);color:#fff;font:700 16px inherit;font-family:inherit;padding:14px;margin-top:16px;min-height:48px}
+.b:disabled{background:#c9c9cf}.b.sec{background:#fff;color:var(--o);border:1px solid var(--o)}
+.msg{border-radius:12px;padding:12px 14px;margin-top:14px;font-weight:600}
+.msg.ok{background:var(--okbg);color:#14653a}.msg.bad{background:var(--badbg);color:#9b1c13}.msg.info{background:var(--tint);color:#8a3a12}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.ts{margin-top:14px;min-height:65px}
+table.r{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+table.r td{padding:7px 0;border-top:1px solid var(--line);vertical-align:top}table.r td+td{text-align:right;white-space:nowrap;padding-left:10px}
+table.r tr.tot td{font-weight:800;font-size:16px;border-top:2px solid var(--ink)}
+.na{color:var(--mut);font-weight:400}
+.note{font-size:13px;color:var(--mut);margin-top:10px}
+a{color:var(--o2)}
+</style></head>
+<body><main id="app"></main>
+<script>
+/* ---------- settings: filled at setup (see supabase/functions/partner-lead/README.md). Empty = the form is switched off. ---------- */
+const CFG={fn:'',siteKey:''};
+/* fn: https://<project>.supabase.co/functions/v1/partner-lead   siteKey: the Turnstile SITE key (public). The secret never comes here. */
+
+const CATS=['rest','grocery','pharmacy','beauty','flowers','gifts','shops','sweets'];
+const T={
+ru:{title:'Подключите своё заведение к TALABOT',lead:'TALABOT — сервис заказа и доставки в Душанбе. Клиенты заказывают в приложении, курьеры сервиса доставляют заказы.',
+ getT:'Что получает заведение',get1:'приложение для приёма заказов и указания времени приготовления',get2:'управление меню и филиалами',get3:'статистика по заказам',
+ termsT:'Условия',terms:'Комиссия сервиса — по договорённости. Условия подключения обсуждаются по телефону.',
+ calcT:'Калькулятор',calcSub:'Оценка за месяц по вашим цифрам. Это не гарантия дохода или прибыли.',
+ avg:'Средняя сумма заказа',cnt:'Заказов в месяц',com:'Комиссия сервиса, %',comH:'по договорённости — введите обсуждаемую ставку',
+ opt:'Необязательно — пустое поле не учитывается, 0 учитывается как ноль',disc:'Ваши скидки, % от цены меню',pts:'Баллы и кэшбэк за ваш счёт, %',
+ fdN:'Заказов с бесплатной доставкой за ваш счёт',fdFee:'Стоимость доставки за такой заказ',cogs:'Себестоимость блюд, % от цены меню',pack:'Упаковка на заказ',other:'Другие расходы в месяц',
+ rS:'Продажи по ценам меню',rD:'Ваши скидки',rC:'Комиссия сервиса',rP:'Баллы и кэшбэк',rF:'Бесплатная доставка за ваш счёт',
+ rN:'Выручка после удержаний сервиса, до налогов',rCogs:'Себестоимость блюд',rPack:'Упаковка',rOther:'Другие расходы',
+ rProfit:'Оценка прибыли после введённых затрат, до налогов',rNoProfit:'Чтобы увидеть оценку прибыли, введите себестоимость блюд.',
+ na:'не учтено',needReq:'Заполните сумму заказа, число заказов и комиссию.',
+ excl:'Не учтены: налоги; доставка, которую оплачивает клиент, и чаевые (это не доход заведения); комиссии за оплату картой; любые расходы, которые вы не ввели.',
+ note2:'Фактические расчёты ведутся по каждому заказу с его суммами.',
+ eRange:'Значение вне допустимого диапазона',eInt:'Введите целое число',eFdMax:'Не больше числа заказов в месяц',eFdBoth:'Заполните оба поля бесплатной доставки или оставьте оба пустыми',
+ formT:'Заявка на подключение',name:'Название заведения',phone:'Телефон',phoneH:'+992 и 9 цифр',cat:'Категория',send:'Отправить заявку',sending:'Отправляем…',
+ under:'Мы позвоним по этому номеру. Номер используется только для связи по заявке.',
+ ok:'Заявка получена. Если она новая, мы свяжемся с вами по этому номеру.',again:'Отправить другую заявку',
+ bad_phone:'Проверьте номер: +992 и 9 цифр.',bad_value:'Проверьте название (2–80 символов) и категорию.',
+ verify_failed:'Проверка не пройдена. Пройдите проверку ещё раз и отправьте снова.',needCheck:'Пройдите проверку «я не робот».',
+ busy:'Сейчас слишком много заявок. Попробуйте позже.',unavailable:'Не удалось отправить заявку. Данные сохранены — попробуйте ещё раз.',retry:'Повторить',
+ off:'Приём заявок временно недоступен. Позвоните нам или попробуйте позже.',checkFail:'Проверка «я не робот» не загрузилась. Обновите страницу.',
+ haveAcc:'Уже работаете с TALABOT?',openApp:'Открыть приложение заведения',cur:'TJS',
+ c_rest:'Ресторан / кафе',c_grocery:'Продукты',c_pharmacy:'Аптека',c_beauty:'Красота',c_flowers:'Цветы',c_gifts:'Подарки',c_shops:'Магазин',c_sweets:'Сладости'},
+en:{title:'Connect your business to TALABOT',lead:'TALABOT is an ordering and delivery service in Dushanbe. Customers order in the app; the service\'s couriers deliver.',
+ getT:'What the business gets',get1:'an app to accept orders and set preparation time',get2:'menu and branch management',get3:'order statistics',
+ termsT:'Terms',terms:'The service commission is by agreement. Terms are discussed by phone.',
+ calcT:'Calculator',calcSub:'A monthly estimate from your own numbers. Not a guarantee of income or profit.',
+ avg:'Average order amount',cnt:'Orders per month',com:'Service commission, %',comH:'by agreement — enter the rate being discussed',
+ opt:'Optional — an empty field is not included, 0 is included as zero',disc:'Your discounts, % of menu prices',pts:'Points and cashback you pay, %',
+ fdN:'Orders with free delivery you pay for',fdFee:'Delivery cost per such order',cogs:'Food cost, % of menu prices',pack:'Packaging per order',other:'Other monthly costs',
+ rS:'Sales at menu prices',rD:'Your discounts',rC:'Service commission',rP:'Points and cashback',rF:'Free delivery you pay for',
+ rN:'Revenue after the service deductions, before taxes',rCogs:'Food cost',rPack:'Packaging',rOther:'Other costs',
+ rProfit:'Estimated profit after the costs you entered, before taxes',rNoProfit:'Enter the food cost to see a profit estimate.',
+ na:'not included',needReq:'Fill in the order amount, the number of orders and the commission.',
+ excl:'Not included: taxes; delivery paid by the customer and tips (not the business\'s income); card payment fees; any cost you did not enter.',
+ note2:'Real settlements are calculated per order with its own amounts.',
+ eRange:'Value out of the allowed range',eInt:'Enter a whole number',eFdMax:'Not more than the orders per month',eFdBoth:'Fill in both free-delivery fields or leave both empty',
+ formT:'Request to join',name:'Business name',phone:'Phone',phoneH:'+992 and 9 digits',cat:'Category',send:'Send request',sending:'Sending…',
+ under:'We will call this number. It is used only to contact you about this request.',
+ ok:'Request received. If it is new, we will contact you at this number.',again:'Send another request',
+ bad_phone:'Check the number: +992 and 9 digits.',bad_value:'Check the name (2–80 characters) and the category.',
+ verify_failed:'The check failed. Complete the check again and send again.',needCheck:'Complete the "I am not a robot" check.',
+ busy:'Too many requests right now. Please try later.',unavailable:'The request could not be sent. Your data is kept — please try again.',retry:'Retry',
+ off:'Requests are temporarily unavailable. Call us or try later.',checkFail:'The "I am not a robot" check did not load. Reload the page.',
+ haveAcc:'Already working with TALABOT?',openApp:'Open the business app',cur:'TJS',
+ c_rest:'Restaurant / cafe',c_grocery:'Groceries',c_pharmacy:'Pharmacy',c_beauty:'Beauty',c_flowers:'Flowers',c_gifts:'Gifts',c_shops:'Shop',c_sweets:'Sweets'}};
+let L='ru';try{const s=localStorage.getItem('tlb_lang');if(s=='en'||s=='ru')L=s}catch(e){}
+const t=k=>T[L][k]||k;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id);
+function normPhone(v){const d=String(v==null?'':v).replace(/\D/g,'');if(/^992[0-9]{9}$/.test(d))return '+'+d;if(/^[0-9]{9}$/.test(d))return '+992'+d;if(/^0[0-9]{9}$/.test(d))return '+992'+d.slice(1);return null}
+
+/* ---------- state (kept in memory; a redraw never loses typed values) ---------- */
+const C={avg:'',cnt:'',com:'',disc:'',pts:'',fdN:'',fdFee:'',cogs:'',pack:'',other:''};
+const F={name:'',phone:'',category:'rest',website:'',state:'idle',err:'',fieldErr:''};
+let TOK='',TSW=null,TSREADY=false,TSFAIL=false;
+const configured=()=>!!(CFG.fn&&CFG.siteKey);
+
+/* ---------- calculator ---------- */
+const LIM={avg:[1,10000],cnt:[0,100000,1],com:[0,100],disc:[0,100],pts:[0,100],fdN:[0,100000,1],fdFee:[0,500],cogs:[0,100],pack:[0,1000],other:[0,10000000]};
+function val(k){const s=String(C[k]).trim().replace(',','.');if(s==='')return {empty:true};const n=Number(s);const l=LIM[k];
+  if(!isFinite(n))return {err:t('eRange')};if(l[2]&&!Number.isInteger(n))return {err:t('eInt')};if(n<l[0]||n>l[1])return {err:t('eRange')+' ('+l[0]+'–'+l[1]+')'};return {v:n}}
+function calc(){const V={},E={};Object.keys(C).forEach(k=>{const r=val(k);if(r.err)E[k]=r.err;else V[k]=r.empty?null:r.v});
+  if(V.fdN!=null&&V.cnt!=null&&V.fdN>V.cnt)E.fdN=t('eFdMax');
+  if((V.fdN==null)!==(V.fdFee==null)&&!E.fdN&&!E.fdFee)E[V.fdN==null?'fdN':'fdFee']=t('eFdBoth');
+  if(Object.keys(E).length)return {E};
+  if(V.avg==null||V.cnt==null||V.com==null)return {E,need:true};
+  const S=V.avg*V.cnt,D=V.disc==null?null:S*V.disc/100,B=S-(D||0),Cm=B*V.com/100,P=V.pts==null?null:B*V.pts/100,Fd=V.fdN==null?null:V.fdN*V.fdFee;
+  const N=B-Cm-(P||0)-(Fd||0);
+  let Cg=null,Pk=null,Ot=null,Pr=null;
+  if(V.cogs!=null){Cg=S*V.cogs/100;Pk=V.pack==null?null:V.pack*V.cnt;Ot=V.other==null?null:V.other;Pr=N-Cg-(Pk||0)-(Ot||0)}
+  return {E,S,D,Cm,com:V.com,P,Fd,N,Cg,Pk,Ot,Pr,V}}
+const money=n=>(Math.round(n*100)/100).toLocaleString(L=='ru'?'ru-RU':'en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' '+t('cur');
+function calcOut(){const r=calc();if(r.need||Object.keys(r.E).length)return `<p class="note" id="calc-need">${Object.keys(r.E).length?'':t('needReq')}</p>`;
+  const row=(l,v,neg)=>`<tr><td>${l}</td><td>${v==null?`<span class="na">${t('na')}</span>`:(neg?'−':'')+money(v)}</td></tr>`;
+  return `<table class="r" id="calc-res">${row(t('rS'),r.S)}${row(t('rD'),r.D,1)}${row(t('rC')+' ('+r.com+'%)',r.Cm,1)}${row(t('rP'),r.P,1)}${row(t('rF'),r.Fd,1)}
+   <tr class="tot"><td>${t('rN')}</td><td id="calc-n">${money(r.N)}</td></tr>
+   ${r.Pr==null?'':`${row(t('rCogs'),r.Cg,1)}${row(t('rPack'),r.Pk,1)}${row(t('rOther'),r.Ot,1)}<tr class="tot"><td>${t('rProfit')}</td><td id="calc-p">${money(r.Pr)}</td></tr>`}</table>
+   ${r.Pr==null?`<p class="note">${t('rNoProfit')}</p>`:''}<p class="note">${t('excl')}</p><p class="note">${t('note2')}</p>`}
+function inp(k,lab,hint,mode){const r=val(k),e=r.err||(calc().E||{})[k];return `<div><label for="c-${k}">${lab}${hint?` <small>${hint}</small>`:''}</label>
+  <input id="c-${k}" inputmode="${mode||'decimal'}" autocomplete="off" value="${esc(C[k])}" oninput="C['${k}']=this.value;upd()" aria-invalid="${!!e}"${e?` aria-describedby="e-${k}"`:''}><div class="err" id="e-${k}">${e?esc(e):''}</div></div>`}
+function upd(){/* patch only the result and the error lines; the field being typed in is never rebuilt */
+  const r=calc();Object.keys(C).forEach(k=>{const el=$('c-'+k),er=$('e-'+k);const e=(val(k).err)||r.E[k]||'';if(el)el.setAttribute('aria-invalid',!!e);if(er)er.textContent=e});
+  const o=$('calc-out');if(o)o.innerHTML=calcOut()}
+
+/* ---------- form ---------- */
+function formFields(){
+  if(!configured())return `<div class="msg info" id="f-off">${t('off')}</div>`;
+  if(F.state=='ok')return `<div class="msg ok" id="f-ok" role="status">${t('ok')}</div><button class="b sec" id="f-again" onclick="F.state='idle';F.name='';F.phone='';drawForm()">${t('again')}</button>`;
+  const busy=F.state=='sending';
+  return `<label for="f-name">${t('name')}</label><input id="f-name" maxlength="80" autocomplete="organization" value="${esc(F.name)}" oninput="F.name=this.value" ${busy?'disabled':''}>
+  <label for="f-phone">${t('phone')} <small>${t('phoneH')}</small></label><input id="f-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="+992 ___ __ __ __" value="${esc(F.phone)}" oninput="F.phone=this.value" aria-invalid="${F.fieldErr=='phone'}" ${busy?'disabled':''}>
+  ${F.fieldErr=='phone'?`<div class="err" id="f-phone-err">${t('bad_phone')}</div>`:''}
+  <label for="f-cat">${t('cat')}</label><select id="f-cat" onchange="F.category=this.value" ${busy?'disabled':''}>${CATS.map(c=>`<option value="${c}"${F.category==c?' selected':''}>${t('c_'+c)}</option>`).join('')}</select>
+  <div class="hp" aria-hidden="true"><label for="f-web">Website</label><input id="f-web" tabindex="-1" autocomplete="off" value="${esc(F.website)}" oninput="F.website=this.value"></div>`}
+function formTail(){
+  if(!configured()||F.state=='ok')return '';
+  const busy=F.state=='sending';
+  return `${F.err?`<div class="msg bad" id="f-err" role="alert">${t(F.err)}</div>`:''}
+  <button class="b" id="f-send" onclick="send()" ${busy||TSFAIL?'disabled':''}>${busy?t('sending'):(F.err=='unavailable'?t('retry'):t('send'))}</button>
+  <p class="note">${t('under')}</p>`}
+/* only the form parts are redrawn; the "not a robot" box stays in place (its frame would reload if rebuilt) */
+function drawForm(){const a=$('form-fields'),b=$('form-tail'),c=$('ts-box');if(!a)return;a.innerHTML=formFields();b.innerHTML=formTail();
+  if(c)c.style.display=configured()&&F.state!='ok'?'':'none'}
+async function send(){
+  if(F.state=='sending'||!configured())return;
+  F.err='';F.fieldErr='';
+  if(String(F.name).replace(/\s+/g,' ').trim().length<2){F.err='bad_value';drawForm();return}
+  if(!normPhone(F.phone)){F.fieldErr='phone';drawForm();return}
+  if(!TOK){F.err=TSFAIL?'checkFail':'needCheck';drawForm();return}
+  F.state='sending';drawForm();
+  let res='unavailable';
+  try{const r=await fetch(CFG.fn,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:F.name,category:F.category,phone:F.phone,token:TOK,website:F.website})});
+    const j=await r.json().catch(()=>null);res=j&&j.result?j.result:'unavailable';if(res=='ok'&&!r.ok)res='unavailable'}catch(e){res='unavailable'}
+  TOK='';try{if(window.turnstile&&TSW!=null)turnstile.reset(TSW)}catch(e){}   /* a token is single-use: a fresh check for any next send */
+  if(res=='ok'){F.state='ok'}else{F.state='idle';if(res=='bad_phone')F.fieldErr='phone';else F.err=['bad_value','verify_failed','busy'].includes(res)?res:'unavailable'}
+  drawForm()}
+function tsMount(){const box=$('ts-box');if(!box||!window.turnstile||!TSREADY)return;
+  if(box.childElementCount)return;
+  try{TSW=turnstile.render(box,{sitekey:CFG.siteKey,action:'partner_lead',language:L,callback:x=>{TOK=x;if(F.err=='needCheck'){F.err='';drawForm()}},'expired-callback':()=>{TOK=''},'error-callback':()=>{TOK='';TSFAIL=true;F.err='checkFail';drawForm()}})}catch(e){TSFAIL=true}}
+window.tsReady=function(){TSREADY=true;tsMount()};
+
+/* ---------- page ---------- */
+function draw(){
+  document.documentElement.lang=L;document.title='TALABOT — '+(L=='ru'?'для заведений':'for businesses');
+  $('app').innerHTML=`<div class="top"><span class="brand">TALABOT</span><div class="lang" role="group" aria-label="Language"><button class="${L=='ru'?'on':''}" onclick="setL('ru')">RU</button><button class="${L=='en'?'on':''}" onclick="setL('en')">EN</button></div></div>
+  <h1>${t('title')}</h1><p>${t('lead')}</p>
+  <div class="card"><h2>${t('getT')}</h2><ul class="f"><li>${t('get1')}</li><li>${t('get2')}</li><li>${t('get3')}</li></ul></div>
+  <div class="card"><h2>${t('termsT')}</h2><p>${t('terms')}</p></div>
+  <div class="card" id="calc"><h2>${t('calcT')}</h2><p class="mut xs">${t('calcSub')}</p>
+   <div class="g2">${inp('avg',t('avg'),t('cur'))}${inp('cnt',t('cnt'),'','numeric')}</div>${inp('com',t('com'),t('comH'))}
+   <p class="note" style="margin-top:14px">${t('opt')}</p>
+   <div class="g2">${inp('disc',t('disc'))}${inp('pts',t('pts'))}${inp('fdN',t('fdN'),'','numeric')}${inp('fdFee',t('fdFee'),t('cur'))}${inp('cogs',t('cogs'))}${inp('pack',t('pack'),t('cur'))}</div>${inp('other',t('other'),t('cur'))}
+   <div id="calc-out">${calcOut()}</div></div>
+  <div class="card" id="form"><h2>${t('formT')}</h2><div id="form-fields"></div><div class="ts" id="ts-box"></div><div id="form-tail"></div></div>
+  <p class="xs mut" style="margin-top:18px;text-align:center">${t('haveAcc')} <a href="merchant.html">${t('openApp')}</a></p>`;
+  drawForm();tsMount()}
+function setL(l){L=l;try{localStorage.setItem('tlb_lang',l)}catch(e){}
+  if(TSW!=null&&window.turnstile){try{turnstile.remove(TSW)}catch(e){}TSW=null;TOK=''}draw()}
+draw();
+if(configured()&&window.turnstile){tsReady()}
+else if(configured()){const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=tsReady';s.async=true;s.defer=true;
+  s.onerror=()=>{TSFAIL=true;F.err='checkFail';drawForm()};document.head.appendChild(s)}
+</script></body></html>
