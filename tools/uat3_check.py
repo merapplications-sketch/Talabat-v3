@@ -108,6 +108,7 @@ with sync_playwright() as p:
     ok(not errs,'core snapshot: no JS errors %s'%errs[:1]);pg.close()
     # ================= UAT012: customer receipt of a cancelled order =================
     pg,errs=page(b,CU,'customer');E=pg.evaluate
+    E("()=>{window.__owReal=id=>Promise.resolve(window.__pvTables.wallet_entries.filter(e=>e.order_id==id).map(e=>({id:e.id,amount:+e.amount,kind:e.kind,orderId:e.order_id,ticketId:e.ticket_id,at:Date.parse(e.created_at)})));TLB.orderWallet=window.__owReal}")
     def setord(js):E("()=>{const o=window.__pvTables.orders.find(o=>o.id=='ord5');Object.assign(o,%s)}"%js);E("()=>TLB.reload()");pg.wait_for_timeout(900);E("()=>{go('track',{tid:'ord5'})}");pg.wait_for_timeout(400)
     setord("{status:'cancelled',subtotal:265,discount:0,delivery_fee:10,tip:0,total:275,payment:'cash',wallet_used:124.38,points_used:1000,points_value:10,wallet_returned_at:new Date().toISOString(),points_returned_at:new Date().toISOString(),cash_collected:null}")
     st=pg.inner_text('#stl') if pg.locator('#stl').count() else ''
@@ -123,17 +124,17 @@ with sync_playwright() as p:
     st=pg.inner_text('#stl') if pg.locator('#stl').count() else ''
     ok('не подтверждён' not in st and 'Карта 275 TJS' in st and 'данных о списании нет' in st,'012: nothing from wallet / points → no «not confirmed»; card: «no charge data»')
     E("()=>{window.__pvTables.wallet_entries.push({id:'w9',user_id:window.__pvTables.wallet_entries[0].user_id,amount:20,kind:'refund',order_id:'ord5',ticket_id:'t7',note:null,created_at:new Date().toISOString()})}")
-    E("()=>{S.walL=0;TLB.loadWallet(true)}");pg.wait_for_timeout(800);E("()=>render()");pg.wait_for_timeout(200)
+    E("()=>{S.owl=null;render()}");pg.wait_for_timeout(500)
     st=pg.inner_text('#stl') if pg.locator('#stl').count() else ''
     ok('Возврат по обращению #t7' in st and '+20 TJS' in st and 'автоматически' not in st.split('Возврат по обращению')[1],'012: a support refund is its own line, apart from the automatic return')
-    ok(pg.locator('#stlcov').count()==0,'012 coverage: all wallet operations since the order are loaded → no limit note')
     E("()=>{const T=window.__pvTables.wallet_entries,u=T[0].user_id,n=Date.now();for(let i=0;i<70;i++)T.push({id:'wx'+i,user_id:u,amount:1,kind:'adjust',order_id:null,note:'x',created_at:new Date(n+1000+i).toISOString()})}")
-    E("()=>{S.walL=null}");setord("{}");pg.wait_for_timeout(800);E("()=>render()");pg.wait_for_timeout(200)
-    cv=pg.inner_text('#stlcov') if pg.locator('#stlcov').count() else ''
-    ok('последних 60' in cv and 'не полный расчёт' in cv,'012 coverage: the support refund may be older than the latest 60 operations → the limit is stated «%s»'%cv[:60])
+    E("()=>{S.owl=null}");setord("{}");pg.wait_for_timeout(600)
+    st=pg.inner_text('#stl') if pg.locator('#stl').count() else ''
+    ok('#t7' in st and pg.locator('#stlcov').count()==0,'012 (patch 37 package): 70 newer wallet operations → the refund of THIS order is still shown, no limit note')
     ok('По записям системы' in pg.inner_text('#stl') and 'Итог по заказу' not in pg.inner_text('#stl'),'012: the block is titled «По записям системы» (not a full settlement)')
-    E("()=>{TLB.wallet=()=>({balance:0,entries:[]});render()}");pg.wait_for_timeout(200)
-    ok('не загружены' in (pg.inner_text('#stlcov') if pg.locator('#stlcov').count() else ''),'012 coverage: wallet operations not loaded → «not checked here»')
+    E("()=>{TLB.orderWallet=()=>Promise.resolve(null);S.owl=null;render()}");pg.wait_for_timeout(400)
+    ok('не проверены' in (pg.inner_text('#stlcov') if pg.locator('#stlcov').count() else ''),'012: the per-order read failed → «support refunds not checked here»')
+    E("()=>{TLB.orderWallet=window.__owReal;S.owl=null}")
     setord("{status:'rejected',cancel_reason:'too_busy',wallet_used:50,wallet_returned_at:new Date().toISOString(),payment:'cash',total:275}")
     ok(not E("()=>document.body.innerText.includes(t('cxBack'))"),'012: the rejected-order card no longer claims «already returned» without the record')
     E("()=>{const o=window.__pvTables.orders.find(o=>o.id=='ord4');o.cash_collected=135}");E("()=>TLB.reload()");pg.wait_for_timeout(900);E("()=>{go('track',{tid:'ord4'})}");pg.wait_for_timeout(400)

@@ -150,7 +150,8 @@ function deliverClick(id){if(DLV[id])return;const o=TLB.order(id);if(!o)return;c
   else finish(id,null,null,null)}
 async function finish(id,cash,note,photo){if(DLV[id])return false;DLV[id]=1;render();let r;
   try{r=await TLB.deliver(id,cash,note,photo)}catch(e){r={error:'generic'}}finally{delete DLV[id];render()}
-  if(!r||r.error){alert(t('err_'+((r&&r.error)||'generic')));return false}return true}
+  if(!r||r.error){if(r&&r.error=='photo_missing'&&DV&&DV.id==id)DV.ph=null;   /* patch 37: the server did not find the file → take / upload it again */
+    alert(t('err_'+((r&&r.error)||'generic')));render();return false}return true}
 async function takePhoto(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f||!DV)return;DV.up=true;render();
   const r=await TLB.uploadProof(f,DV.id);if(!DV)return;DV.up=false;if(r.error){alert(t('err_'+r.error));render();return}DV.ph=r;render()}
 async function confirmDeliver(){if(!DV||DV.up||DLV[DV.id])return;if(DV.photo&&!DV.ph){TLB.toast(t('err_photo_required'),true);return}

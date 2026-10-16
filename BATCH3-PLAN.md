@@ -35,3 +35,40 @@ Tests: local PostgreSQL (functions, locks with two sessions, storage stand-in) +
 2. Points part (points_value): excluded from money refunds, or returned as points by the ticket?
 3. Cash: partial receipts with a running balance (recommended) — and what to do with an amount above the due: refuse (recommended)?
 4. After the live read: should passing the cash limit block new offers automatically and lift after settlement, or stay manual?
+
+## Prepared package (17 Oct, local only — NOT applied, nothing published or merged)
+Live read 17 Oct used as the base (`verify_batch3_readonly`): dispatch_next / eligible_couriers do NOT use the cash limit (only the
+manual accept_blocked), deliver_order checks the path format only, ticket_set_status / ticket_refund_room cap = total − refunds,
+settle_driver_cash settles all without lock or record; the proofs bucket is private (1 MB, image/jpeg), no update / delete policy
+on proofs; the owner of deliver_order (postgres) can read storage.objects.
+
+Files: `sql/schema_patch37.sql`, `sql/rollback_patch37.sql` (exact live definitions; keeps the receipts table),
+`sql/test_patch37.sql` (isolated stand-in data, 53 checks), `tools/patch37_race.py` (two real sessions, live vs patch),
+`tools/patch37_ui_check.py`; app changes in talabat-core.js, customer.html, admin.html, driver.html.
+
+1. Proof: `proof_exists()` (internal) — bucket proofs, exact path, uploaded by this courier, finished upload (size 1 B–1 MB),
+   image/jpeg, current (not archived / delete marker). deliver_order raises `photo_missing`; everything else unchanged.
+   Courier app: the message, and the photo must be taken again.
+2. Refunds: `order_refund_cap()` used by both functions. Proven paid = wallet spent and not returned (wallet ledger) + recorded
+   cash of a delivered order (at most its cash part). Card / Apple Pay without capture data, unrecorded cash and points = not paid.
+   Room = proven paid − earlier support refunds; 0 while the order is in progress (`order_not_finished`), because a refund
+   and the automatic return of a later cancel would otherwise pay the wallet part twice. ticket_set_status locks the ticket,
+   then the order (the cancel / return trigger updates the same row). One refund per ticket kept. No compensation path created.
+   Admin: the maximum with its breakdown. Customer receipt: refunds of THIS order read from the server (no 60 limit).
+3. Cash: `cash_settlements` (immutable, RLS: finance or the courier himself; written only by the function), `receive_driver_cash`
+   (finance; any amount > 0 and ≤ owed; lock on the courier; idempotent per form key; records amount, receiver, time,
+   reference, note, owed before, remaining). `settle_driver_cash` keeps its signature for old screens (one receipt of all owed).
+   `cash_balances` = owed. The limit is not involved. Admin: amount / reference / note + history.
+
+### Allocation of a partial receipt to orders — FOR REVIEW (no choice made)
+- A (prepared in the SQL): running balance. Owed = recorded cash − receipts; orders are not marked. Simple, exact for money;
+  the per-order line «принято / не принято» in the admin order card no longer changes for new receipts (to be replaced after the decision).
+- B: oldest orders first. A receipt closes whole orders in date order; the order it stops in keeps a partial amount
+  (needs a column for it). Per-order status stays meaningful; more code.
+- C: whole orders only. The admin picks orders; the amount must equal their sum. No partial amounts (conflicts with «any positive amount»).
+
+### Blocking decisions only
+1. Allocation model A / B / C (above).
+2. Refunds only after the order ends (`order_not_finished`) — part of the rule that prevents paying the wallet part twice.
+
+Activation order when approved: SQL patch 37 first, then the app files (the old admin «receive all» keeps working meanwhile).
