@@ -18,6 +18,14 @@ def page(b,d,app,vw,lang):
     return pg,errs
 def common(pg,tag):
     E=pg.evaluate
+    # the preview strip scrolls away with the page: it never sits on top of a title
+    st=E("()=>{const s=document.getElementById('pv-strip');if(!s)return null;return [getComputedStyle(s).position,Math.round(s.getBoundingClientRect().bottom),Math.round($('app').getBoundingClientRect().top)]}")
+    ok(st is None or (st[0] not in ('sticky','fixed') and st[2]>=st[1]-1),tag+' preview strip does not cover the page %s'%st)
+    # buttons / labels whose text does not fit (cut)
+    cut=E("()=>[...document.querySelectorAll('#app button,#app .b,#app .chip,#app .tabs button,#app .s')].filter(b=>b.offsetParent&&getComputedStyle(b).whiteSpace!='normal'&&b.scrollWidth>b.clientWidth+2&&getComputedStyle(b).textOverflow!='ellipsis'&&!b.closest('.tabs,.chips,.row[style*=overflow]')).map(b=>b.innerText.slice(0,30))")
+    ok(not cut,tag+' no cut button text %s'%cut[:3])
+    nav=E("()=>{const n=document.querySelector('.nav');if(!n||getComputedStyle(n).position!='fixed'||n.getBoundingClientRect().top<50)return null;return [Math.round(n.getBoundingClientRect().height),parseFloat(getComputedStyle(document.body).paddingBottom)]}")
+    ok(nav is None or nav[1]>=nav[0]-1,tag+' bottom menu does not hide the end of the page %s'%nav)
     ok(E("()=>document.documentElement.scrollWidth<=innerWidth+1"),tag+' no sideways page scroll (%s/%s)'%(E("()=>document.documentElement.scrollWidth"),E("()=>innerWidth")))
     bad=E("()=>[...document.querySelectorAll('#app button,#app [role=button]')].filter(b=>b.offsetParent&&!b.innerText.trim()&&!b.getAttribute('aria-label')).map(b=>(b.getAttribute('onclick')||'').slice(0,40))")
     ok(not bad,tag+' icon-only buttons have a name %s'%bad[:3])

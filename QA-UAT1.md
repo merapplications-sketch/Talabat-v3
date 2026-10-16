@@ -1,0 +1,40 @@
+# UAT batch 1 — test log (branch fix/uat1-v56)
+
+Kept here so the details are not re-explained in every report. Chromium (Playwright) unless written otherwise.
+**Safari / iPhone cannot be run in this environment**; nothing below is evidence for Safari.
+
+## How to run
+| Test | Command | What it covers |
+|---|---|---|
+| Admin UAT fixes | `python3 tools/admin_uat_check.py` | the 10 UAT items, sample consistency (totals, commission formula), forms at 360/390/430 RU/EN |
+| Forms / refresh / back / reload | `python3 tools/form_keep_check.py <admin_preview> [--quick]` | 7 forms × redraws RU/EN, portrait/landscape; real polling; rotation; conflicts with server edits; Texts states; reload restore (within 30 min, not after sign-out); back to origin (rating, ticket, customer, courier); customer history paging; real taps on ticket / rating / assign / map close; diagnostic log has no personal data |
+| Staff look | `python3 tools/staff_ui_check.py <admin_preview> <merchant_preview>` | every menu entry by real tap (admin 12, restaurant 4), side menu ≥1024px, no sideways scroll, preview strip never over the page, no cut button text, bottom menu does not hide content, icon-only buttons named, no emoji in controls/headings, restaurant page patched on real refresh (search text + same field) |
+| Preview safety | `python3 tools/preview_check.py <admin_preview>` | every write refused, 0 Supabase requests |
+| Map tiles | `python3 tools/map_tile_check.py <admin_preview> <leaflet_dist>` | OSM tiles carry the site origin only; pages still send no Referer |
+| Other apps | `qa_all, flow_check, cart_check, courier_check, smoke, hdr_check, overflow, overflow2, sheet_check, branch_check` | customer, restaurant, courier screens and flows (shared core file) |
+| SQL | `sql/test_patch35.sql` on local PostgreSQL | admin_search_orders (patch 35 is NOT applied anywhere) |
+
+Previews are built with `python3 tools/build_preview.py <dir> admin|merchant` (demo data, writes refused, no Supabase).
+
+## Analytics numbers vs source (demo data)
+- Admin tiles: orders 7 = loaded orders; revenue 415.00 = «Итого» of the 1 delivered order (ord4); commission 44.00 = ord4 commission
+  = (440 items − 0 store discount − 0 happy hour) × 10 % (place_order formula).
+- Restaurant «Аналитика» (day): done 1 (ord4), revenue 440 = items − store discount; «После комиссии» 374 = 440 − 44 (10 %) − 22
+  (free delivery paid by the restaurant, fee_waived); declined 2 = ord5 cancelled + ord6 rejected.
+  Note (not changed): this screen takes the store's CURRENT commission % for every order, not the % stored on the order.
+- Earlier demo-data errors (fixed in test data, not in the app): fixed commission 10 for every sample; text ids (`t1`, `ord4`) that
+  production never has; no About/Privacy rows.
+
+## Look (v56i → v56j)
+- v56i changed the phone layout (white header, card borders/radii, button and field sizes, KPI order, tab icons, restaurant title row).
+  The owner did not approve it: v56j restores the v56h layout, sizes and spacing on phones/tablets and keeps only the shared icon family;
+  the dark side menu stays for screens ≥1024px.
+- Preview strip: no longer sticky (it covered page titles while scrolling); the counter/buttons are at the top of the page.
+- Restaurant: the store selector takes the full width on phones (name readable); the logo was cut by the cover's clipping (layout bug
+  present before v56h, independent of data) — fixed. An empty grey cover with a picture icon = the demo store has no photos (data, not layout).
+
+## Safari evidence so far (owner, iPhone)
+- Jumps at the moment of rotation (resize 0 ms), last redraw 3–4 s earlier, no app scrollTo → not moved by the app.
+- Probable cause (not proven): iOS text enlargement in landscape → page re-flow. `-webkit-text-size-adjust:100%` added (admin, restaurant).
+- The preview log line `TRACE` after a rotation shows text size, page height, top anchor, app scrollTo and redraws — needed from the iPhone.
+- Return after 190 s in the background: page not reloaded, position kept. Draft kept on Safari: not yet confirmed.

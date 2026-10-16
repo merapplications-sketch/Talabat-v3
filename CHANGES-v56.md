@@ -102,3 +102,9 @@ Look (separate commit), admin + restaurant only — customer and courier apps un
 - page header = section name; indicator cards icon + label + value (no growth figures);
 - restaurant app: same-screen redraws now patch the page (`TLB.morph`, the admin's method moved to the core) instead of rebuilding it.
 No functions, data, rules, permissions or session policy changed.
+
+## v56j — look restored to v56h on phones, icons kept (16 Oct)
+Owner: v56i look not approved. Phones/tablets: v56h layout, sizes and spacing restored (orange headers, cards, buttons, fields, KPI
+order, tab strip without icons, no restaurant title row); kept: shared icons instead of emoji, named icon buttons, side menu ≥1024px,
+patched redraws. Preview strip no longer sticky (covered titles). Restaurant: store selector full width on phones; logo no longer cut
+by the cover clipping (pre-existing layout bug). Details and test log: QA-UAT1.md.
