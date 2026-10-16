@@ -15,3 +15,23 @@ Base for implementation: `fix/uat2-v58` (v58 under review). Mapped against the c
 Blocking decision (economic, only one): UAT011 — expiry of returned points (original vs new period) and points that expire
 while an order is open. No extension is made without it.
 Order of work after approval: 009 + 008 (same data), 014, 015, 012, 013, 011 (after the decision and the live read).
+
+## Live read (owner's result of verify_batch2_readonly, 17 Oct) — what it confirms
+The live definitions used by these items match sql/ in the repository: place_order, reject_order, set_order_status, trg_loyalty,
+trg_rating_reward, trg_wallet_return (patch 21), loyalty_spend / loyalty_balance / loyalty_summary / loyalty_setting. 8 settings as expected.
+Realtime: orders, ratings, wallet_entries — NOT loyalty_ledger.
+- 008: earn row only at delivered (trg_loyalty); reward row only on the first rating of an order (ratings insert, once per order). Plan unchanged.
+- 009: no ledger realtime → refresh the history on my order status events (already subscribed), after my rating, after placing. No DB change, no polling.
+- 011: confirmed policy, not a display bug: a return creates a NEW lot `now() + 90 days`; points that expired during the order come back with
+  a fresh 90 days too. Behaviour unchanged until the owner decides.
+- 012: the wallet return entry (= full wallet_used) and wallet_returned_at are written in the same trigger/transaction; same for the points
+  return ledger row (= points_used) and points_returned_at → the order markers are the recorded proof; without a marker «возврат не подтверждён».
+  cash_collected is written only by deliver_order on delivery → for a cancelled / rejected order it is always empty → «нет записи о получении
+  наличных». Commission stays recorded on a cancelled order (not reset) → the restaurant sheet must not show it as due (stats already count delivered only).
+  Support refunds are separate wallet entries of kind 'refund' (shown as such if present).
+- 013: 'rejected' = store via reject_order (code + cancelled_by='store'), store via set_order_status from pending (no code), or admin / staff
+  (no cancelled_by). 'cancelled' = customer (only while pending) or admin / staff — the store can never set it. cancelled_by is filled only by
+  reject_order. Status display only, no responsibility.
+- 015: points are earned at DELIVERY (not in place_order): (dishes − discounts − promo − points value) × store earn_per_tjs, or the global 10
+  when the store has none; delivery and tip earn nothing. The rate is read at delivery time, so the pay page can only show an estimate
+  («ориентировочно»). Information for the owner, no change.
