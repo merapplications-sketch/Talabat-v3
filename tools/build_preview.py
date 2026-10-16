@@ -85,7 +85,8 @@ DIAG=r"""
     page height (layout reflow), text size (iOS text inflation), the anchor element at the top of the screen, app scrollTo calls, redraws.
     Only numbers and element positions are recorded (no text, no values). */
  var calm=null,tr=null,appMoves=0;
- function sz(){var e=document.querySelector('#app .card small')||document.body;try{return parseFloat(getComputedStyle(e).fontSize)}catch(x){return 0}}
+ var PR=null;function sz(){try{if(!PR){PR=document.createElement('span');PR.setAttribute('aria-hidden','true');PR.textContent='Проверка размера текста 0123456789';PR.style.cssText='position:absolute;left:-9999px;top:0;font-size:13px;white-space:nowrap;visibility:hidden';document.body.appendChild(PR)}
+   return Math.round(parseFloat(getComputedStyle(PR).fontSize)*100)/100+'/'+Math.round(PR.getBoundingClientRect().width)}catch(x){return '?'}}
  function anchor(){try{var el=document.elementFromPoint(Math.round(innerWidth/2),90),p=[],n=el;while(n&&n.id!=='app'&&n.parentElement&&p.length<8){p.unshift([].indexOf.call(n.parentElement.children,n));n=n.parentElement}return n&&n.id==='app'?{p:p.join('.'),top:Math.round(el.getBoundingClientRect().top)}:null}catch(x){return null}}
  function byPath(pp){try{var n=document.getElementById('app');pp.split('.').forEach(function(i){n=n&&n.children[+i]});return n}catch(x){return null}}
  function snap(){return {t:Date.now(),y:Math.round(scrollY),h:Math.round(document.documentElement.scrollHeight),w:innerWidth,vh:innerHeight,fs:sz(),a:anchor(),rn:(typeof RINFO!=='undefined'&&RINFO?RINFO.n:0)}}
@@ -93,14 +94,14 @@ DIAG=r"""
  function trace(kind){if(tr)return;var b=calm||snap(),m0=appMoves,fr=[],t0=Date.now();tr=1;
    (function step(){var s=snap();fr.push(s);if(Date.now()-t0<1500)return requestAnimationFrame(step);tr=null;
      var e=fr[fr.length-1],mx0=b.h-b.vh,mx1=e.h-e.vh,ya=null;if(b.a){var el=byPath(b.a.p);if(el)ya=Math.round(el.getBoundingClientRect().top)}
-     var why=[];if(Math.abs(e.fs-b.fs)>0.4)why.push('text size '+b.fs+'→'+e.fs+'px (iOS text inflation)');
+     var why=[];if(e.fs!==b.fs)why.push('probe text size/width changed '+b.fs+' → '+e.fs+' (text rendered at another size)');
      if(Math.abs(e.h-b.h)>40)why.push('page height '+b.h+'→'+e.h+' (layout reflow)');
      if(appMoves>m0)why.push('the APP called scrollTo '+(appMoves-m0)+'×');
      if(e.rn>b.rn)why.push('app redraw ×'+(e.rn-b.rn));
      if(e.y===0&&b.y>50&&mx1>50)why.push('browser put the page at the top although it could scroll');
      if(b.y>mx1+2)why.push('old position beyond the new end of page (clamp)');
      var yp=fr.map(function(f){return f.y}),ch=[];yp.forEach(function(v,i){if(i&&v!==yp[i-1])ch.push(Math.round((fr[i].t-t0))+'ms:'+v)});
-     log('TRACE '+kind,'before y'+b.y+' h'+b.h+' '+b.w+'x'+b.vh+' font'+b.fs+' | after y'+e.y+' h'+e.h+' '+e.w+'x'+e.vh+' font'+e.fs+' | anchor '+(b.a?('top '+b.a.top+'→'+(ya==null?'gone':ya)):'none')+' | y changes '+(ch.slice(0,6).join(' ')||'none')+' | '+(why.join('; ')||'no cause seen'))})()}
+     log('TRACE '+kind,'before y'+b.y+' h'+b.h+' '+b.w+'x'+b.vh+' text '+b.fs+' | after y'+e.y+' h'+e.h+' '+e.w+'x'+e.vh+' text '+e.fs+' | anchor '+(b.a?('top '+b.a.top+'→'+(ya==null?'gone':ya)):'none')+' | y changes '+(ch.slice(0,6).join(' ')||'none')+' | '+(why.join('; ')||'no cause seen'))})()}
  window.addEventListener('resize',function(){rs('resize')});window.addEventListener('orientationchange',function(){rs('rotation')});
  if(window.visualViewport)visualViewport.addEventListener('resize',function(){rs('visual viewport resize (keyboard/zoom)')});
  /* a jump = the page moved more than 150 px in one step with no finger/key in the last 1 s */

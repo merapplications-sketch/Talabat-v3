@@ -38,3 +38,21 @@ Previews are built with `python3 tools/build_preview.py <dir> admin|merchant` (d
 - Probable cause (not proven): iOS text enlargement in landscape → page re-flow. `-webkit-text-size-adjust:100%` added (admin, restaurant).
 - The preview log line `TRACE` after a rotation shows text size, page height, top anchor, app scrollTo and redraws — needed from the iPhone.
 - Return after 190 s in the background: page not reloaded, position kept. Draft kept on Safari: not yet confirmed.
+
+## Follow-up 16 Oct 15:54
+- Jump 302→0 at 15:12:23 happened WITH `text-size-adjust:100%` already in place → text enlargement does not explain it. Open.
+  Code paths that can move the page without a tap all go through `window.scrollTo` (render keep-position, scrollHold after a full
+  rebuild, reload restore) and are logged as «app scrollTo» when the move is >80 px. No other scroll API is used in admin
+  (no scrollIntoView, no body overflow toggling, no autofocus; focus() only in the link picker after a tap).
+- TRACE wording fixed: the old line measured the first `.card small` on screen (a different element after a redraw) and called any
+  change "iOS text inflation". Now: a fixed hidden probe, computed size + rendered width, neutral wording, no browser name.
+- 15:13:56 load after 16 s in background: the app reloads itself only on a tap (error banner / boot retry) or on sign-out
+  (logged as «sign-out» / «INACTIVITY SIGN-OUT»). Cause of that reload not proven (the browser, by elimination); the screen/draft
+  restore after a reload exists since v56f (sessionStorage, ≤30 min); whether it ran on Safari is shown by «screen restore after load».
+- Restaurant «Аналитика» vs recorded commission (tools: scratch script, demo data changed in the preview only):
+  A as is: 1 / 440 / 374 (= recorded). B order recorded at 8 % (35.20), store now 10 %: screen still 374, recorded gives 382.80.
+  C plus happy-hour discount 40 (recorded commission 32.00): screen still 440 / 374, recorded gives 400 / 346.
+  → the screen uses the store's CURRENT % and ignores the happy-hour discount; it differs from the commission stored at order time
+  whenever the % changed or a happy hour applied. Not changed (needs owner decision).
+- Restaurant search across real polling: before «автообновлений: 2» 15:56:47 «плов», after «автообновлений: 4» 15:57:10 «плов»,
+  same input element, no focus taken; only the demo server data changed (no forced redraw).
