@@ -146,7 +146,7 @@
   var pagesSt = 'loading', pagesErr = '';
   var DB = { stores: [], items: [], orders: [], oitems: [], xorders: [], xitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
-  var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
+  var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, ptsSeq = 0, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   /* happy-hour windows running at a moment (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
   function hhOnNow(at) {
     var d = new Date((at || Date.now()) + 5 * 3600000), dow = d.getUTCDay() || 7, prev = dow === 1 ? 7 : dow - 1, mins = d.getUTCHours() * 60 + d.getUTCMinutes() + d.getUTCSeconds() / 60;
@@ -1125,12 +1125,14 @@
     /* loyalty (patch 29): summary {balance, next_exp_at, next_exp_pts, earn_per_tjs, points_per_tjs, min_redeem, expiry_days, cashback_pct} */
     loyalty: function () { return DB.loyalty; },
     points: function () { return DB.pts; },
+    /* each call is numbered: a reply that arrives after a newer call was started is ignored (never overwrites newer data) */
     loadPoints: function () {
+      var n = ++ptsSeq;
       return sb.from('loyalty_ledger').select('*').eq('user_id', ME.id).order('created_at', { ascending: false }).limit(60).then(function (r) {
-        if (r.error) return false;
+        if (n !== ptsSeq || r.error) return null;   // null = not applied (failed or superseded); true / false = applied, changed or not
         var nu = (r.data || []).map(function (e) { return { id: e.id, points: +e.points, kind: e.kind, orderId: e.order_id, at: Date.parse(e.created_at) }; });
         var ch = JSON.stringify(nu) !== JSON.stringify(DB.pts); DB.pts = nu; if (ch) fire(); return ch;
-      }, function () { return false; });
+      }, function () { return null; });
     },
     happyHours: function () { return DB.hh; },
     /* best-selling dishes of the last 30 days [{item_id, store_id, cnt}] and real preparation speed per store {min, n} (patch 32) */

@@ -71,5 +71,17 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   | UAT003 chat drafts per order | implemented | uat2_check | iPhone check |
   | UAT004 one delivery confirmation at a time | implemented (screen guard) | uat2_check | server idempotency not proven |
   | Hold 2 s order confirmation + 2-step keyboard path | implemented | uat2_check | iPhone / VoiceOver check |
-  | UAT008/009/011/012/013/014/015 (batch 2) | NOT started — the tracking file defining them was not received | — | the tracking file; live read `sql/verify_batch2_readonly.sql` |
+  | UAT008/009/011/012/013/014/015 (batch 2) | moved to v59 (below) | — | — |
 - Other open notes are NOT closed by this batch (Safari jumps, stability batch, onboarding activation, earlier backlog).
+- v59 (UAT2 batch 2, `fix/uat3-v59`, base `fix/uat2-v58` @ 1e105c6 → depends on v58 / v57 / v56): see CHANGES-v59.md and BATCH2-PLAN.md.
+  | Item | Status | Evidence | Remaining |
+  |---|---|---|---|
+  | UAT009 points history with the balance | implemented | uat3_check (Chromium) | iPhone check |
+  | UAT008 celebration only for new earn / reward | implemented | uat3_check | iPhone check |
+  | UAT012 recorded returns / collection (customer + restaurant) | implemented | uat3_check | iPhone check |
+  | UAT013 rejected / cancelled as statuses only | implemented | uat3_check | responsibility data = separate item |
+  | UAT014 «Чистыми к получению» + breakdown | implemented (formula unchanged) | uat3_check, merchant_stats_check | — |
+  | UAT015 rate from the settings + estimate wording | implemented | uat3_check | — |
+  | UAT011 expiry of returned points | NOT changed (live: new lot now + 90 days) | live read 17 Oct | owner decision |
+  Logged for later batches (not in v59): UAT005 photo existence in storage; ticket_refund_room cap (refund only, executor function not read);
+  driver cash settlement (concurrency, receiver / reference, partial amounts); cancellation responsibility apart from cancelled_by.
