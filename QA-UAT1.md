@@ -63,3 +63,15 @@ Previews are built with `python3 tools/build_preview.py <dir> admin|merchant` (d
 Today's store % is no longer used. A 1/440/374 · B (8 % recorded) 382.80 · C (+happy hour 40) 400/346 · D (no recorded commission)
 «—» + note. If more than the 200 loaded orders fall in the period, a note says the data is incomplete (from which date).
 Restaurant search evidence kept from the follow-up above (not re-run). Safari jump and the 16-s reload: still open.
+
+## v56m — restaurant order ids, order sheet commission, happy-hour correction (16 Oct)
+- Bug (owner, real taps): Аналитика → История → #ord4 → `ReferenceError: ord4 is not defined`. Cause: 6 restaurant handlers wrote the order
+  id unquoted (`OD=${o.id}`, `st(…)`, `rjOpen(…)` ×2, `TLB.patch(…)`): fine for numeric production ids, broken for the preview's text ids.
+  Now written as JSON. Test `tools/merchant_ids_check.py <merchant_preview>`: every history row by real tap → details → close (same list,
+  same place), reject sheet, prep-time chip, accept/ready; 390 px and 1366 px. Before the fix the first row failed with the same error.
+- Correction of v56l: `orders.discount` already CONTAINS the happy-hour part (place_order: discount = store discount + happy hour;
+  hh_discount = that part). v56l subtracted hh_discount a second time; reverted (revenue = items − discount). The v56l test case C used
+  hh_discount without the matching discount, which production never stores. Corrected case C: discount 40 incl. hh 40, commission 32
+  → 400 / 346.
+- The order details sheet also used the store's current %: it now shows the commission and % recorded on the order («—» if none).
+- Not changed (out of this batch): the customer (10) and courier (5) apps have the same unquoted-id pattern; production ids are numeric.

@@ -114,3 +114,9 @@ Report fix, not a rule change: revenue = items − store discount − happy-hour
 − points − cashback − free delivery paid by the restaurant, all as recorded on each order. The store's current % is no longer used for
 past orders. Order without a recorded commission → «—» and a note (no guess); more than the 200 loaded orders in the period → note.
 No orders, balances or history changed. Test: tools/merchant_stats_check.py.
+
+## v56m — restaurant order ids; order sheet commission; v56l happy-hour correction (16 Oct)
+- 6 restaurant handlers wrote order ids unquoted (history row, accept/ready, reject ×2, prep time): JSON now (numbers stay numbers).
+- v56l subtracted the happy-hour discount twice (orders.discount already contains it): reverted.
+- Order details sheet: commission and % as recorded on the order («—» if none) instead of the store's current %.
+Tests: tools/merchant_ids_check.py (real taps), tools/merchant_stats_check.py (A–D + order sheet).
