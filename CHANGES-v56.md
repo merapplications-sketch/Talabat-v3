@@ -108,3 +108,9 @@ Owner: v56i look not approved. Phones/tablets: v56h layout, sizes and spacing re
 order, tab strip without icons, no restaurant title row); kept: shared icons instead of emoji, named icon buttons, side menu ≥1024px,
 patched redraws. Preview strip no longer sticky (covered titles). Restaurant: store selector full width on phones; logo no longer cut
 by the cover clipping (pre-existing layout bug). Details and test log: QA-UAT1.md.
+
+## v56l — restaurant «Аналитика» from recorded per-order values (16 Oct)
+Report fix, not a rule change: revenue = items − store discount − happy-hour discount; «После комиссии» = revenue − recorded commission
+− points − cashback − free delivery paid by the restaurant, all as recorded on each order. The store's current % is no longer used for
+past orders. Order without a recorded commission → «—» and a note (no guess); more than the 200 loaded orders in the period → note.
+No orders, balances or history changed. Test: tools/merchant_stats_check.py.

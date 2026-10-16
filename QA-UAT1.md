@@ -56,3 +56,10 @@ Previews are built with `python3 tools/build_preview.py <dir> admin|merchant` (d
   whenever the % changed or a happy hour applied. Not changed (needs owner decision).
 - Restaurant search across real polling: before «автообновлений: 2» 15:56:47 «плов», after «автообновлений: 4» 15:57:10 «плов»,
   same input element, no focus taken; only the demo server data changed (no forced redraw).
+
+## v56l — restaurant analytics from recorded values (16 Oct)
+`tools/merchant_stats_check.py <merchant_preview>`: revenue = items − store discount − happy-hour discount (recorded on the order);
+«После комиссии» = revenue − recorded commission − points − cashback − free delivery paid by the restaurant (all recorded per order).
+Today's store % is no longer used. A 1/440/374 · B (8 % recorded) 382.80 · C (+happy hour 40) 400/346 · D (no recorded commission)
+«—» + note. If more than the 200 loaded orders fall in the period, a note says the data is incomplete (from which date).
+Restaurant search evidence kept from the follow-up above (not re-run). Safari jump and the 16-s reload: still open.
