@@ -2,7 +2,7 @@
 -- ONE read-only SELECT (one result, CSV) for preparing batch 2 (UAT008/009/011/012/013/014/015). NOT RUN ANYWHERE.
 -- Why: the live definitions of place_order, reject_order, set_order_status and the loyalty / wallet functions may differ
 -- from sql/ in the repository. Returns only definitions, constraints, settings and column types — no customer data,
--- no keys or secrets. Columns: section | item | detail
+-- no keys, secrets or service settings (app_settings: 8 named loyalty / cashback keys only). Columns: section | item | detail
 -- =============================================================================================
 with
 trg as (  -- triggers on the money / points tables
@@ -30,7 +30,12 @@ select '3 constraint', c.conrelid::regclass::text || '.' || c.conname, pg_get_co
  where c.contype in ('c', 'u') and c.conrelid in (select oid from pg_class where relname in ('loyalty_lots', 'loyalty_ledger', 'wallet_entries')
                                                     and relnamespace = 'public'::regnamespace)
 union all
-select '4 setting', s.key, s.value::text from app_settings s
+select '4 setting', s.key, s.value::text from app_settings s           -- only the loyalty / cashback keys used by these items
+ where s.key in ('loyalty_points_per_tjs', 'loyalty_earn_per_tjs', 'loyalty_expiry_days', 'loyalty_min_redeem', 'loyalty_min_order',
+                 'loyalty_voucher_points', 'loyalty_rate_reward', 'cashback_pct')
+union all
+select '6 realtime', pt.pubname, pt.tablename from pg_publication_tables pt   -- which of these tables send live events
+ where pt.schemaname = 'public' and pt.tablename in ('orders', 'wallet_entries', 'loyalty_ledger', 'loyalty_lots', 'ratings')
 union all
 select '5 column', c.table_name || '.' || c.column_name, c.data_type || coalesce(' default ' || c.column_default, '')
   from information_schema.columns c
