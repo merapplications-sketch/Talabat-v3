@@ -80,13 +80,33 @@ DIAG=r"""
  window.addEventListener('pagehide',function(e){var w=window.TLB_SIGNING_OUT?'sign-out':(e.persisted?'pagehide (kept in cache)':'pagehide');try{localStorage.setItem(EK,w+' at '+new Date().toTimeString().slice(0,8))}catch(_){}log('pagehide',w)});
  document.addEventListener('visibilitychange',function(){if(document.hidden){try{localStorage.setItem(HK,String(Date.now()))}catch(e){}log('went to background')}else{var h=0;try{h=+localStorage.getItem(HK)||0;localStorage.removeItem(HK)}catch(e){}log('came back',h?'away '+Math.round((Date.now()-h)/1000)+'s, page NOT reloaded':'')}});
  ['touchstart','touchmove','touchend','wheel','keydown','pointerdown'].forEach(function(ev){document.addEventListener(ev,function(){lastIn=Date.now()},{passive:true,capture:true})});
- function rs(kind){lastRs=Date.now();if(Date.now()-lastRsLog>400){lastRsLog=Date.now();log(kind)}}
+ function rs(kind){lastRs=Date.now();if(Date.now()-lastRsLog>400){lastRsLog=Date.now();log(kind)}trace(kind)}
+ /* ROTATION / RESIZE TRACE: what moved the page? Samples every frame for 1.5 s after a resize and compares with the last calm state:
+    page height (layout reflow), text size (iOS text inflation), the anchor element at the top of the screen, app scrollTo calls, redraws.
+    Only numbers and element positions are recorded (no text, no values). */
+ var calm=null,tr=null,appMoves=0;
+ function sz(){var e=document.querySelector('#app .card small')||document.body;try{return parseFloat(getComputedStyle(e).fontSize)}catch(x){return 0}}
+ function anchor(){try{var el=document.elementFromPoint(Math.round(innerWidth/2),90),p=[],n=el;while(n&&n.id!=='app'&&n.parentElement&&p.length<8){p.unshift([].indexOf.call(n.parentElement.children,n));n=n.parentElement}return n&&n.id==='app'?{p:p.join('.'),top:Math.round(el.getBoundingClientRect().top)}:null}catch(x){return null}}
+ function byPath(pp){try{var n=document.getElementById('app');pp.split('.').forEach(function(i){n=n&&n.children[+i]});return n}catch(x){return null}}
+ function snap(){return {t:Date.now(),y:Math.round(scrollY),h:Math.round(document.documentElement.scrollHeight),w:innerWidth,vh:innerHeight,fs:sz(),a:anchor(),rn:(typeof RINFO!=='undefined'&&RINFO?RINFO.n:0)}}
+ setInterval(function(){if(!tr&&Date.now()-lastRs>1500&&Date.now()-lastIn>300)calm=snap()},300);
+ function trace(kind){if(tr)return;var b=calm||snap(),m0=appMoves,fr=[],t0=Date.now();tr=1;
+   (function step(){var s=snap();fr.push(s);if(Date.now()-t0<1500)return requestAnimationFrame(step);tr=null;
+     var e=fr[fr.length-1],mx0=b.h-b.vh,mx1=e.h-e.vh,ya=null;if(b.a){var el=byPath(b.a.p);if(el)ya=Math.round(el.getBoundingClientRect().top)}
+     var why=[];if(Math.abs(e.fs-b.fs)>0.4)why.push('text size '+b.fs+'→'+e.fs+'px (iOS text inflation)');
+     if(Math.abs(e.h-b.h)>40)why.push('page height '+b.h+'→'+e.h+' (layout reflow)');
+     if(appMoves>m0)why.push('the APP called scrollTo '+(appMoves-m0)+'×');
+     if(e.rn>b.rn)why.push('app redraw ×'+(e.rn-b.rn));
+     if(e.y===0&&b.y>50&&mx1>50)why.push('browser put the page at the top although it could scroll');
+     if(b.y>mx1+2)why.push('old position beyond the new end of page (clamp)');
+     var yp=fr.map(function(f){return f.y}),ch=[];yp.forEach(function(v,i){if(i&&v!==yp[i-1])ch.push(Math.round((fr[i].t-t0))+'ms:'+v)});
+     log('TRACE '+kind,'before y'+b.y+' h'+b.h+' '+b.w+'x'+b.vh+' font'+b.fs+' | after y'+e.y+' h'+e.h+' '+e.w+'x'+e.vh+' font'+e.fs+' | anchor '+(b.a?('top '+b.a.top+'→'+(ya==null?'gone':ya)):'none')+' | y changes '+(ch.slice(0,6).join(' ')||'none')+' | '+(why.join('; ')||'no cause seen'))})()}
  window.addEventListener('resize',function(){rs('resize')});window.addEventListener('orientationchange',function(){rs('rotation')});
  if(window.visualViewport)visualViewport.addEventListener('resize',function(){rs('visual viewport resize (keyboard/zoom)')});
  /* a jump = the page moved more than 150 px in one step with no finger/key in the last 1 s */
  window.addEventListener('scroll',function(){var y=window.scrollY,d=y-lastY;if(Math.abs(d)>150&&Date.now()-lastIn>1000)log('JUMP '+Math.round(lastY)+' -> '+Math.round(y),rinfo()+' · last resize '+(lastRs?Date.now()-lastRs+'ms ago':'never')+' · '+act());lastY=y},{passive:true});
  /* who asked the page to move */
- var st=window.scrollTo;window.scrollTo=function(x,y){var to=typeof x==='object'&&x?x.top:y;if(to!=null&&Math.abs(to-window.scrollY)>80){var who='';try{who=(new Error().stack||'').split('\n').slice(2,5).map(function(l){var m=l.match(/at (\S+)|^(\w+)@/);return m?(m[1]||m[2]):''}).filter(Boolean).join('<')}catch(e){}log('app scrollTo '+Math.round(window.scrollY)+' -> '+Math.round(to),(who||'?')+' · '+rinfo())}return st.apply(window,arguments)};
+ var st=window.scrollTo;window.scrollTo=function(x,y){var to=typeof x==='object'&&x?x.top:y;if(to!=null&&Math.abs(to-window.scrollY)>80){appMoves++;var who='';try{who=(new Error().stack||'').split('\n').slice(2,5).map(function(l){var m=l.match(/at (\S+)|^(\w+)@/);return m?(m[1]||m[2]):''}).filter(Boolean).join('<')}catch(e){}log('app scrollTo '+Math.round(window.scrollY)+' -> '+Math.round(to),(who||'?')+' · '+rinfo())}return st.apply(window,arguments)};
  var al=window.alert;window.alert=function(m){log('alert',/бездейств|inactivity/i.test(String(m))?'INACTIVITY SIGN-OUT (30 min rule)':String(m).slice(0,60));return al.apply(window,arguments)};
  window.addEventListener('error',function(e){log('JS error',String(e.message||'').slice(0,100))});
  var tries=0,w=function(){tries++;try{if(typeof UIR!=='undefined'&&UIR){log('screen restore after load',JSON.stringify(UIR));return}}catch(e){}if(tries<40)setTimeout(w,250)};setTimeout(w,500);
