@@ -6,85 +6,7 @@
 \set QUIET on
 \set ON_ERROR_STOP on
 \pset tuples_only on
-drop schema if exists auth cascade; drop schema if exists storage cascade; drop schema public cascade; create schema public;
-do $$ begin create role anon; exception when duplicate_object then null; end $$;
-do $$ begin create role authenticated; exception when duplicate_object then null; end $$;
-grant usage on schema public to anon, authenticated;
-create schema auth; grant usage on schema auth to anon, authenticated;
-create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
-create type order_status as enum ('pending', 'preparing', 'ready', 'pickedup', 'delivered', 'rejected', 'cancelled');
-create type user_role as enum ('customer', 'merchant', 'driver', 'admin');
-create table profiles (id uuid primary key, role user_role default 'customer', name text, phone text, driver_status text, accept_blocked boolean default false,
-  cash_limit numeric default 1000, online boolean default false);
-create table staff_members (user_id uuid, active boolean, perms text[]);
-create or replace function has_perm(p text) returns boolean language sql stable security definer set search_path = public as $$
-  select auth.uid() is not null and (exists(select 1 from profiles where id = auth.uid() and role = 'admin')
-    or exists(select 1 from staff_members s where s.user_id = auth.uid() and s.active and p = any(s.perms))) $$;
-create or replace function is_admin() returns boolean language sql stable security definer set search_path = public as $$
-  select exists(select 1 from profiles where id = auth.uid() and role = 'admin') $$;
-create table orders (id bigint generated always as identity primary key, customer_id uuid, driver_id uuid, status order_status default 'pending',
-  payment text, total numeric default 0, wallet_used numeric default 0, wallet_returned_at timestamptz, cash_collected numeric, cash_note text,
-  cash_settled_at timestamptz, delivery_photo text, leave_at_door boolean default false, done_at timestamptz, arrived_cust_at timestamptz,
-  created_at timestamptz default now());
-create table support_tickets (id bigint generated always as identity primary key, customer_id uuid, order_id bigint references orders(id) on delete set null,
-  reason text default 'other', status text default 'open', admin_note text, refund_amount numeric check (refund_amount is null or (refund_amount >= 0 and refund_amount <= 100000)),
-  handled_by uuid, closed_at timestamptz, created_at timestamptz default now(), updated_at timestamptz default now(), last_staff_at timestamptz,
-  last_customer_at timestamptz default now(), customer_seen_at timestamptz);
-create unique index tickets_one_open_per_order on support_tickets (order_id) where order_id is not null and status in ('open', 'in_progress');
-create table wallet_entries (id bigint generated always as identity primary key, user_id uuid not null, amount numeric(12,2) not null check (amount <> 0),
-  kind text not null check (kind in ('refund', 'spend', 'return', 'adjust', 'cashback')), order_id bigint references orders(id) on delete set null,
-  ticket_id bigint references support_tickets(id) on delete set null, note text, created_by uuid, created_at timestamptz not null default now());
-create unique index wallet_one_refund_per_ticket on wallet_entries (ticket_id) where kind = 'refund';
-create unique index wallet_one_return_per_order on wallet_entries (order_id) where kind = 'return';
-create unique index wallet_one_spend_per_order on wallet_entries (order_id) where kind = 'spend';
-create function trg_wallet_immutable() returns trigger language plpgsql as $$ begin raise exception 'ledger_immutable'; end $$;
-create trigger trg_wallet_no_update before update on wallet_entries for each row execute function trg_wallet_immutable();
--- live automatic wallet return on cancel / reject
-create function trg_wallet_return() returns trigger language plpgsql security definer set search_path = public as $$
-begin
-  if new.status in ('rejected', 'cancelled') and old.status not in ('rejected', 'cancelled')
-     and coalesce(new.wallet_used, 0) > 0 and new.wallet_returned_at is null then
-    insert into wallet_entries(user_id, amount, kind, order_id) values (new.customer_id, new.wallet_used, 'return', new.id)
-    on conflict (order_id) where kind = 'return' do nothing;
-    new.wallet_returned_at := now();
-  end if;
-  return new;
-end $$;
-create trigger trg_orders_wallet_return before update of status on orders for each row execute function trg_wallet_return();
--- storage stand-in with the live columns that matter
-create schema storage;
-create table storage.buckets (id text primary key, public boolean, file_size_limit bigint, allowed_mime_types text[]);
-create table storage.objects (id uuid primary key default gen_random_uuid(), bucket_id text, name text, owner uuid, owner_id text, metadata jsonb,
-  archived_at timestamptz, is_delete_marker boolean default false, created_at timestamptz default now());
-insert into storage.buckets values ('proofs', false, 1048576, array['image/jpeg']);
-
-create temp table res (n serial, label text, ok boolean, got text);
-create or replace function pg_temp.chk(l text, ok boolean, got text default null) returns void language sql as $$ insert into res(label, ok, got) values (l, coalesce(ok, false), got) $$;
--- run a query as a user and return its single text value (or the error message)
-create or replace function pg_temp.val(u uuid, q text) returns text language plpgsql as $$
-declare r text;
-begin perform set_config('request.jwt.claim.sub', coalesce(u::text, ''), true); execute q into r; return r;
-exception when others then return 'ERR ' || sqlerrm; end $$;
--- run a statement as a user, return the error code / message or 'ok'
-create or replace function pg_temp.as_user(u uuid, q text) returns text language plpgsql as $$
-begin perform set_config('request.jwt.claim.sub', coalesce(u::text, ''), true); execute q; return 'ok';
-exception when others then return sqlerrm; end $$;
-
--- people
-insert into profiles(id, role, name) values
- ('a0000000-0000-0000-0000-00000000000a', 'admin', 'A'), ('c0000000-0000-0000-0000-00000000000c', 'customer', 'C'),
- ('d0000000-0000-0000-0000-00000000000d', 'driver', 'D'), ('d0000000-0000-0000-0000-0000000000d2', 'driver', 'D2'),
- ('f0000000-0000-0000-0000-00000000000f', 'customer', 'F'), ('50000000-0000-0000-0000-000000000005', 'customer', 'S');
-insert into staff_members values ('f0000000-0000-0000-0000-00000000000f', true, array['finance']), ('50000000-0000-0000-0000-000000000005', true, array['support']);
-\set A '''a0000000-0000-0000-0000-00000000000a'''
-\set C '''c0000000-0000-0000-0000-00000000000c'''
-\set D '''d0000000-0000-0000-0000-00000000000d'''
-\set D2 '''d0000000-0000-0000-0000-0000000000d2'''
-\set F '''f0000000-0000-0000-0000-00000000000f'''
-\set SUP '''50000000-0000-0000-0000-000000000005'''
-
--- ================= BEFORE: the live functions (from the rollback file) =================
-\i sql/rollback_patch37.sql
+\i sql/test_patch37_setup.sql
 -- #1 cancelled order like 9104: 275 total, 124.38 wallet (spent, then returned automatically), cash not collected
 insert into orders(customer_id, status, payment, total, wallet_used) values (:C, 'pending', 'cash', 275, 124.38);
 insert into wallet_entries(user_id, amount, kind, order_id) values (:C, -124.38, 'spend', 1);
@@ -102,6 +24,11 @@ update support_tickets set status = 'open', refund_amount = null where id = 1;
 \i sql/schema_patch37.sql
 select pg_temp.chk('patch applies; new objects present', to_regprocedure('receive_driver_cash(uuid,numeric,text,text,text)') is not null
   and to_regclass('public.cash_settlements') is not null and to_regprocedure('order_refund_cap(bigint)') is not null, null);
+\i sql/rollback_patch37.sql
+select pg_temp.chk('full rollback with NO receipts: live functions back, every patch-37 object removed',
+  to_regclass('public.cash_settlements') is null and to_regprocedure('receive_driver_cash(uuid,numeric,text,text,text)') is null
+  and to_regprocedure('proof_exists(text,uuid)') is null and pg_temp.val(:SUP, 'select room::text from ticket_refund_room(1)') = '275', null);
+\i sql/schema_patch37.sql
 
 -- ---------- refunds ----------
 select pg_temp.chk('cap #1 (cancelled, wallet returned, cash not collected): proven paid 0 → room 0',
@@ -202,14 +129,69 @@ select pg_temp.chk('order in progress: room 0, refund → order_not_finished', (
   and pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''x'', 10)', currval('support_tickets_id_seq'))) like '%order_not_finished%', null);
 update orders set status = 'cancelled' where id = currval('orders_id_seq');
 select pg_temp.chk('… after the cancel its wallet part came back automatically → room still 0', (select room = 0 and paid_wallet = 0 from order_refund_cap(currval('orders_id_seq'))), null);
--- ---------- rollback, then patch again ----------
+-- ---------- sequences: refund + cancel in both orders (totals given back to the customer) ----------
+-- helper: everything given back to the customer for an order (automatic returns + support refunds)
+create or replace function pg_temp.back(o bigint) returns numeric language sql as $$ select coalesce(sum(amount), 0) from wallet_entries where order_id = o and kind in ('return', 'refund') $$;
+create or replace function pg_temp.mk(st text, wal numeric, cash numeric) returns bigint language plpgsql as $$
+declare v bigint;
+begin
+  insert into orders(customer_id, driver_id, status, payment, total, wallet_used, cash_collected)
+  values ('c0000000-0000-0000-0000-00000000000c', 'd0000000-0000-0000-0000-0000000000d2', st::order_status, 'cash', 200, wal, cash) returning id into v;
+  if wal > 0 then insert into wallet_entries(user_id, amount, kind, order_id) values ('c0000000-0000-0000-0000-00000000000c', -wal, 'spend', v); end if;
+  insert into support_tickets(customer_id, order_id, status) values ('c0000000-0000-0000-0000-00000000000c', v, 'in_progress');
+  return v;
+end $$;
+create temp table sq (k text primary key, o bigint, t bigint);
+-- SA: delivered (wallet 50 + recorded cash 150 = paid 200) → support refund 200 → the admin turns it into «cancelled»
+insert into sq select 'A', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');
+select pg_temp.chk('SA step 1: support refund 200 (= proven paid) → ok', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 200)', (select t from sq where k = 'A'))) = 'ok', null);
+select pg_temp.chk('SA courier owes 150 before the cancel', driver_cash_due(:D2) = 150, driver_cash_due(:D2)::text);
+select pg_temp.chk('SA step 2: the admin can still cancel a delivered order (live set_order_status, unchanged)', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'A'))) = 'ok', null);
+select pg_temp.chk('SA GAP (needs a decision): given back 250 for 200 paid — the automatic return adds the wallet 50 again', pg_temp.back((select o from sq where k = 'A')) = 250, pg_temp.back((select o from sq where k = 'A'))::text);
+select pg_temp.chk('SA GAP (needs a decision): the collected 150 drops out of what the courier owes', driver_cash_due(:D2) = 0, driver_cash_due(:D2)::text);
+-- SB: cancelled BEFORE delivery (wallet 40, cash never collected) → then a support refund
+insert into sq select 'B', pg_temp.mk('pickedup', 40, null), currval('support_tickets_id_seq');
+select pg_temp.chk('SB step 1: cancelled before delivery → wallet 40 back automatically', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'B'))) = 'ok', null);
+select pg_temp.chk('SB step 2: refund after the cancel → refund_too_high (room 0)', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 10)', (select t from sq where k = 'B'))) like '%refund_too_high%', null);
+select pg_temp.chk('SB total: 40 back for 40 paid', pg_temp.back((select o from sq where k = 'B')) = 40, null);
+-- SC: delivered (wallet 50 + cash 150) → the admin cancels FIRST → then a support refund
+insert into sq select 'C', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');
+select pg_temp.chk('SC step 1: admin cancels a delivered order → wallet 50 back automatically', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'C'))) = 'ok', null);
+select pg_temp.chk('SC step 2: refund of the cash part → refund_too_high (recorded cash of a non-delivered order is not counted)', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 150)', (select t from sq where k = 'C'))) like '%refund_too_high%', null);
+select pg_temp.chk('SC GAP (needs a decision): 50 back for 200 paid; the 150 cash is neither refundable nor owed by the courier', pg_temp.back((select o from sq where k = 'C')) = 50 and driver_cash_due(:D2) = 0, null);
+-- the minimal option for review: a delivered order cannot be turned into cancelled / rejected
+\i sql/option_no_cancel_after_delivery.sql
+insert into sq select 'A2', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');
+select pg_temp.chk('OPTION SA: refund 200 → ok', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 200)', (select t from sq where k = 'A2'))) = 'ok', null);
+select pg_temp.chk('OPTION SA: the admin cancel of the delivered order → bad_transition', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'A2'))) like '%bad_transition%', null);
+select pg_temp.chk('OPTION SA total: 200 back for 200 paid; the courier still owes the 150', pg_temp.back((select o from sq where k = 'A2')) = 200 and driver_cash_due(:D2) = 150, null);
+insert into sq select 'B2', pg_temp.mk('pickedup', 40, null), currval('support_tickets_id_seq');
+select pg_temp.chk('OPTION: cancelling BEFORE delivery still works (40 back)', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'B2'))) = 'ok' and true, null);
+select pg_temp.chk('OPTION: … and gives back 40', pg_temp.back((select o from sq where k = 'B2')) = 40, null);
+select pg_temp.chk('OPTION: the admin can still reject a NOT delivered order', pg_temp.as_user(:A, format('select set_order_status(%s, ''rejected'')', pg_temp.mk('preparing', 0, null))) = 'ok', null);
+\i sql/rollback_option_no_cancel_after_delivery.sql
+select pg_temp.chk('option rollback: the admin can cancel a delivered order again (live)', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', pg_temp.mk('delivered', 0, 10))) = 'ok', null);
+
+-- ---------- rollback with receipts recorded ----------
+-- the full rollback must refuse BEFORE any change (run with ON_ERROR_STOP off, like a careless run)
+\set ON_ERROR_STOP off
 \i sql/rollback_patch37.sql
-select pg_temp.chk('rollback restores the live functions (old room on #1 = 275 again) and keeps the receipts',
-  pg_temp.val(:SUP, 'select room::text from ticket_refund_room(1)') = '275'
-  and to_regprocedure('receive_driver_cash(uuid,numeric,text,text,text)') is null and (select count(*) = 2 from cash_settlements), null);
+\set ON_ERROR_STOP on
+select pg_temp.chk('full rollback with receipts → refused, NOTHING changed (patch functions and receipts intact)',
+  to_regprocedure('receive_driver_cash(uuid,numeric,text,text,text)') is not null and to_regprocedure('proof_exists(text,uuid)') is not null
+  and (select count(*) = 2 from cash_settlements) and pg_temp.val(:SUP, 'select room::text from ticket_refund_room(1)') = '0.00', null);
+select pg_temp.chk('… D still owes 0 (receipts still count)', driver_cash_due(:D) = 0 and pg_temp.val(:F, 'select count(*)::text from cash_balances() where driver_id = ''d0000000-0000-0000-0000-00000000000d'' and balance <> 0') = '0', null);
+\i sql/rollback_patch37_keep_cash.sql
+select pg_temp.chk('partial rollback: refunds and proof back to the live definitions (room on #1 = 275, no proof check)',
+  pg_temp.val(:SUP, 'select room::text from ticket_refund_room(1)') = '275' and to_regprocedure('proof_exists(text,uuid)') is null and to_regprocedure('order_refund_cap(bigint)') is null, null);
+select pg_temp.chk('partial rollback: received cash is NOT shown as owed again (D owes 0 in cash_balances)',
+  pg_temp.val(:F, 'select coalesce(sum(balance), 0)::text from cash_balances() where driver_id = ''d0000000-0000-0000-0000-00000000000d''') in ('0', '0.00'), null);
+select pg_temp.chk('partial rollback: receipts kept and still accepted (cash part active)', (select count(*) = 2 from cash_settlements)
+  and to_regprocedure('receive_driver_cash(uuid,numeric,text,text,text)') is not null, null);
 \i sql/schema_patch37.sql
 \i sql/schema_patch37.sql
-select pg_temp.chk('patch is repeatable (applied twice after the rollback); D owes 0, receipts kept', driver_cash_due(:D) = 0 and (select count(*) = 2 from cash_settlements), null);
+select pg_temp.chk('patch is repeatable (applied twice after the partial rollback); D owes 0, receipts kept', driver_cash_due(:D) = 0 and (select count(*) = 2 from cash_settlements)
+  and pg_temp.val(:SUP, 'select room::text from ticket_refund_room(1)') = '0.00', null);
 
 \pset tuples_only off
 select n, case when ok then 'PASS' else 'FAIL' end as r, label, left(coalesce(got, ''), 90) as got from res order by n;

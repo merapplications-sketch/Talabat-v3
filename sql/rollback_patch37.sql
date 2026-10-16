@@ -1,10 +1,16 @@
 -- =============================================================================================
--- ROLLBACK of patch 37: restores the five functions EXACTLY as read live on 17 Oct (verify_batch3_readonly) and removes the new
--- helpers. The receipts table cash_settlements is KEPT (records of money received must not be lost); it is no longer used.
--- NOTE: after a rollback, amounts already received through patch 37 are not reflected by the old cash_balances (which only
--- knows orders marked settled): finance must mark those orders by hand or re-apply patch 37. Not run anywhere.
+-- FULL ROLLBACK of patch 37: restores the five functions EXACTLY as read live on 17 Oct (verify_batch3_readonly) and removes
+-- everything patch 37 added. Allowed ONLY while no cash receipt has been recorded (guard below, checked before any change).
+-- Not run anywhere.
 -- =============================================================================================
 begin;
+-- SAFETY GUARD (before any change): courier cash receipts recorded by patch 37 would show as owed AGAIN under the old
+-- cash_balances (it only knows orders marked settled). If any exist, this file stops here and changes nothing; use
+-- sql/rollback_patch37_keep_cash.sql instead (restores the proof and refund parts, keeps the cash receipts and their accounting).
+do $$ declare n bigint := 0; begin
+  if to_regclass('public.cash_settlements') is not null then execute 'select count(*) from public.cash_settlements' into n; end if;
+  if n > 0 then raise exception 'rollback_unsafe: % cash receipt(s) recorded by patch 37 - use rollback_patch37_keep_cash.sql', n; end if;
+end $$;
 drop function if exists receive_driver_cash(uuid, numeric, text, text, text);
 drop function if exists driver_cash_due(uuid);
 drop function if exists ticket_refund_room(bigint);
@@ -35,7 +41,6 @@ begin
     arrived_cust_at = coalesce(arrived_cust_at, now())
   where id = p_id;
 end $function$;
-
 -- live definition, read 17 Oct (owner postgres)
 CREATE OR REPLACE FUNCTION public.ticket_set_status(p_ticket bigint, p_status text, p_note text DEFAULT NULL::text, p_refund numeric DEFAULT NULL::numeric)
  RETURNS void
@@ -73,7 +78,6 @@ begin
     values (v_t.customer_id, v_ref, 'refund', p_ticket, v_t.order_id, left(coalesce(p_note, ''), 200), auth.uid());
   end if;
 end $function$;
-
 -- live definition, read 17 Oct (owner postgres)
 CREATE OR REPLACE FUNCTION public.ticket_refund_room(p_ticket bigint)
  RETURNS TABLE(order_total numeric, refunded numeric, room numeric)
@@ -89,7 +93,6 @@ AS $function$
     left join lateral (select sum(x.amount) as sum_refunded from wallet_entries x where x.order_id = o.id and x.kind = 'refund') w on true
    where t.id = p_ticket and has_perm('support')
 $function$;
-
 -- live definition, read 17 Oct (owner postgres)
 CREATE OR REPLACE FUNCTION public.cash_balances()
  RETURNS TABLE(driver_id uuid, balance numeric)
@@ -103,7 +106,6 @@ AS $function$
      and o.driver_id is not null and (has_perm('finance') or o.driver_id = auth.uid())
    group by o.driver_id
 $function$;
-
 -- live definition, read 17 Oct (owner postgres)
 CREATE OR REPLACE FUNCTION public.settle_driver_cash(p_driver uuid)
  RETURNS numeric
@@ -125,4 +127,5 @@ grant execute on function ticket_refund_room(bigint) to authenticated;
 drop function if exists order_refund_cap(bigint);
 drop function if exists proof_exists(text, uuid);
 drop index if exists wallet_order_idx;
+drop table if exists cash_settlements;   -- empty here (guard)
 commit;

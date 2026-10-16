@@ -42,8 +42,9 @@ manual accept_blocked), deliver_order checks the path format only, ticket_set_st
 settle_driver_cash settles all without lock or record; the proofs bucket is private (1 MB, image/jpeg), no update / delete policy
 on proofs; the owner of deliver_order (postgres) can read storage.objects.
 
-Files: `sql/schema_patch37.sql`, `sql/rollback_patch37.sql` (exact live definitions; keeps the receipts table),
-`sql/test_patch37.sql` (isolated stand-in data, 53 checks), `tools/patch37_race.py` (two real sessions, live vs patch),
+Files: `sql/schema_patch37.sql`; rollbacks (see «Rollback» below); `sql/test_patch37_setup.sql` + `sql/test_patch37.sql`
+(isolated stand-in data); `tools/patch37_race.py` (two real sessions on a LOCAL test database: first on a local copy of the live
+definitions read on 17 Oct, then with patch 37 — not experiments on production);
 `tools/patch37_ui_check.py`; app changes in talabat-core.js, customer.html, admin.html, driver.html.
 
 1. Proof: `proof_exists()` (internal) — bucket proofs, exact path, uploaded by this courier, finished upload (size 1 B–1 MB),
@@ -72,3 +73,35 @@ Files: `sql/schema_patch37.sql`, `sql/rollback_patch37.sql` (exact live definiti
 2. Refunds only after the order ends (`order_not_finished`) — part of the rule that prevents paying the wallet part twice.
 
 Activation order when approved: SQL patch 37 first, then the app files (the old admin «receive all» keeps working meanwhile).
+
+## Review v60b (17 Oct, local only)
+### Rollback
+- `sql/rollback_patch37.sql` (full): checks FIRST, before any change, whether cash receipts exist; if yes it stops with
+  `rollback_unsafe` and nothing changes (also when run without ON_ERROR_STOP: the transaction is aborted). Without receipts it
+  restores the five live definitions exactly and removes every patch-37 object.
+- `sql/rollback_patch37_keep_cash.sql` (partial, when receipts exist): restores deliver_order, ticket_set_status and
+  ticket_refund_room exactly as live and removes the proof / refund helpers; the cash part stays, so money received keeps counting
+  and is never shown as owed again. No order is marked by hand.
+### Refund + status change sequences (totals given back to the customer, test_patch37 «S…»)
+- SA delivered (wallet 50 + recorded cash 150) → support refund 200 → admin sets «cancelled» (allowed by the live
+  set_order_status): 250 given back for 200 paid (the automatic return adds the wallet 50 again) and the collected 150 drops out
+  of what the courier owes. GAP — not closed by patch 37.
+- SB cancelled before delivery (wallet 40) → refund: refused; 40 back for 40 paid. Correct.
+- SC delivered → admin cancels first → refund of the cash part: refused; 50 back for 200 paid and the 150 is neither refundable
+  nor owed by the courier. GAP.
+- `order_not_finished` alone does not cover SA / SC (the order IS finished when refunded).
+- Minimal handling, prepared for review only (NOT in patch 37): `sql/option_no_cancel_after_delivery.sql` — a delivered order
+  can no longer be turned into cancelled / rejected (the only change is the admin line of set_order_status; its rollback restores
+  the live definition). With it: SA → the cancel is refused, 200 back for 200 paid, the courier still owes 150; cancelling before
+  delivery and rejecting non-delivered orders still work. It changes the allowed status transitions → owner decision.
+  Alternative (also a decision, not prepared): change the return rule (return = wallet used − support refunds already made) and
+  count recorded cash even after a cancel — more rules touched.
+### Model A display
+- Admin order card: a delivered cash order is shown «in the courier balance — money received is counted on the courier balance,
+  not per order»; never «not handed over» just because cash_settled_at is empty. Orders marked by the old full settlement keep
+  their mark, labelled «before balance accounting». Model A stays FOR REVIEW (B / C above).
+
+### Blocking decisions (all still open)
+1. Allocation model A / B / C.
+2. Refunds only after the order ends (`order_not_finished`).
+3. Delivered → cancelled / rejected: forbid it (option file), or change the return rule — or leave the SA / SC gaps.

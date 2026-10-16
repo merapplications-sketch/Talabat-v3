@@ -43,6 +43,10 @@ with sync_playwright() as p:
     ok(E("()=>__rc.length")==3 and E("()=>__rc[2][4]")!=k1,'admin: after a success a NEW form gets a new key')
     h=E("()=>{TK.sel='x';TK.room={id:'x',total:275,refunded:0,room:0,paidWallet:0,paidCash:0,unproven:150.62};return refundBox({id:'x',order_id:'ord5'})}")
     ok('Максимум к возврату: 0 TJS' in h and 'без подтверждённой оплаты 150.62' in h,'admin: refund box shows the maximum 0 with its breakdown (confirmed wallet + cash, unconfirmed 150.62)')
+    h=E("()=>finBox(Object.assign({},TLB.order('ord4'),{status:'delivered',payment:'cash',walletUsed:0,cashCollected:150,cashNote:'',cashSettled:false}))")
+    ok('В долге курьера' in h and 'Ещё не сдано' not in h,'admin (model A): a delivered cash order is shown «in the courier balance», never «not handed over» just because the old mark is empty')
+    h=E("()=>finBox(Object.assign({},TLB.order('ord4'),{status:'delivered',payment:'cash',walletUsed:0,cashCollected:200,cashNote:'',cashSettled:true}))")
+    ok('до учёта по балансу' in h,'admin (model A): an order marked by the OLD full settlement keeps its mark, labelled as such')
     ok(not errs,'admin: no JS errors %s'%errs[:1]);pg.close()
     # ---------- courier: photo not found on the server ----------
     pg,errs,dl=page(b,DR,'driver');E=pg.evaluate
