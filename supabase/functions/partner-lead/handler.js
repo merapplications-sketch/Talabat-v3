@@ -1,13 +1,49 @@
 /* partner-lead — server side of the public partner page (partner.html). NOT DEPLOYED.
-   1. only POST from the allowed site origins, small JSON body
+   1. only POST from the allowed site origins, JSON body read up to 4096 BYTES (reading stops past the limit)
    2. Cloudflare Turnstile token checked HERE with the secret key (single use, action, hostname)
-   3. phone normalized; phone and client address turned into keyed hashes (HMAC-SHA256, secret LEAD_HASH_KEY)
+   3. phone normalized; phone and client address (from the ONE header set in CLIENT_IP_HEADER, see clientAddr) turned into keyed
+      hashes (HMAC-SHA256, secret LEAD_HASH_KEY)
    4. lead_submit() called with the service role (the database refuses it from anon / signed-in users)
    Missing settings or a failed check = refused; never a success the server did not confirm.
    Logs: only the result code (no name, phone, token, address or key).
    Plain JS (runs in Deno and in Node 22 for the tests). */
 const CATS = ['rest', 'grocery', 'pharmacy', 'beauty', 'flowers', 'gifts', 'shops', 'sweets'];
-const NEED = ['TURNSTILE_SECRET_KEY', 'LEAD_HASH_KEY', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'PARTNER_ORIGINS'];
+const NEED = ['TURNSTILE_SECRET_KEY', 'LEAD_HASH_KEY', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'PARTNER_ORIGINS', 'CLIENT_IP_HEADER'];
+const MAX_BODY = 4096;   // bytes
+
+/* Reads the body as BYTES and stops as soon as the limit is passed (the rest is not read; Content-Length is not trusted).
+   Returns the text, or null when the body is too large or unreadable. */
+export async function readLimited(req, max) {
+  const cl = req.headers.get('content-length');
+  if (cl !== null && (!/^[0-9]+$/.test(cl) || +cl > max)) return null;      // early refusal only; never the sole check
+  if (!req.body) return '';
+  const reader = req.body.getReader(), parts = [];
+  let total = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      total += value.byteLength;
+      if (total > max) { try { await reader.cancel('too large'); } catch (e) { /* ignore */ } return null; }
+      parts.push(value);
+    }
+  } catch (e) { return null; }
+  const all = new Uint8Array(total); let o = 0;
+  for (const p of parts) { all.set(p, o); o += p.byteLength; }
+  try { return new TextDecoder('utf-8', { fatal: true }).decode(all); } catch (e) { return null; }
+}
+
+/* The client address used for the per-client limit comes ONLY from the header named in CLIENT_IP_HEADER, read at the
+   position CLIENT_IP_POSITION ('first' | 'last', for comma lists). Which header the Supabase gateway sets and the client
+   cannot forge is NOT verified (a public report shows x-forwarded-for keeps a forged first value). Until it is verified on
+   the target project, CLIENT_IP_HEADER is left unset and the function refuses to run (activation condition). */
+export function clientAddr(req, env) {
+  const h = String(env.CLIENT_IP_HEADER || '').toLowerCase().trim();
+  const v = req.headers.get(h) || '';
+  const list = v.split(',').map((x) => x.trim()).filter(Boolean);
+  const ip = String(env.CLIENT_IP_POSITION || 'first').toLowerCase() === 'last' ? list[list.length - 1] : list[0];
+  return ip && /^[0-9a-fA-F:.]{3,45}$/.test(ip) ? ip : 'unknown';
+}
 
 export function normPhone(v) {
   const d = String(v == null ? '' : v).replace(/\D/g, '');
@@ -45,8 +81,8 @@ export function makeHandler(env, deps) {
 
     let body;
     try {
-      const raw = await req.text();
-      if (raw.length > 4096) return out(400, 'bad_value');
+      const raw = await readLimited(req, MAX_BODY);
+      if (raw === null) return out(413, 'bad_value');
       body = JSON.parse(raw);
     } catch (e) { return out(400, 'bad_value'); }
     if (!body || typeof body !== 'object') return out(400, 'bad_value');
@@ -56,7 +92,7 @@ export function makeHandler(env, deps) {
     if (body.website) return out(403, 'verify_failed');            // hidden field filled = not a person; refused like a failed check
     if (!token || token.length > 2048) return out(403, 'verify_failed');
 
-    const ip = (req.headers.get('cf-connecting-ip') || (req.headers.get('x-forwarded-for') || '').split(',')[0] || req.headers.get('x-real-ip') || '').trim() || 'unknown';
+    const ip = clientAddr(req, env);
     let v;
     try {
       const r = await doFetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST',

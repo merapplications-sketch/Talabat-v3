@@ -180,20 +180,33 @@ revoke all on function lead_cleanup() from public, anon, authenticated;
 do $$ begin grant execute on function lead_cleanup() to service_role; exception when undefined_object then null; end $$;
 
 -- ---------- 8. banners: link to the partner page ----------
--- If the live database has a check on banners.link_type (not in the project files), it is replaced by one that also
--- allows 'partner' (and the values the admin panel writes today: none / store / category). If a banner uses a link type this patch does not know, the patch stops (nothing is changed).
+-- The live check on banners.link_type is NOT in the project files. It is changed ONLY when it is exactly one check of the simple
+-- form «link_type IS NULL OR link_type IN (…)» or «link_type IN (…)»: the same constraint (same name, same conditions, same
+-- values) is re-created with 'partner' added to its list. Any other structure (several checks, other columns or conditions)
+-- → banners are NOT touched, a WARNING says so, and the rest of the patch still applies. Then send the result of:
+--   select conname, pg_get_constraintdef(oid) from pg_constraint where conrelid = 'banners'::regclass;
 do $$
-declare r record; v_bad int;
+declare n int; v_name text; v_def text; v_new text;
+  re1 text := '^CHECK \(\(\(link_type IS NULL\) OR \(link_type = ANY \(ARRAY\[''[a-z_]+''::text(, ''[a-z_]+''::text)*\]\)\)\)\)$';
+  re2 text := '^CHECK \(\(link_type = ANY \(ARRAY\[''[a-z_]+''::text(, ''[a-z_]+''::text)*\]\)\)\)$';
 begin
-  if to_regclass('public.banners') is null then return; end if;
-  for r in select conname, pg_get_constraintdef(oid) d from pg_constraint
-            where conrelid = 'public.banners'::regclass and contype = 'c' and pg_get_constraintdef(oid) ilike '%link_type%' loop
-    if r.d ilike '%partner%' then continue; end if;
-    select count(*) into v_bad from banners where link_type is not null and link_type not in ('none', 'store', 'category', 'partner');
-    if v_bad > 0 then raise exception 'patch36: banners use link types not known to this patch (%), nothing changed', v_bad; end if;
-    execute format('alter table banners drop constraint %I', r.conname);
-    alter table banners add constraint banners_link_type_check check (link_type is null or link_type in ('none', 'store', 'category', 'partner'));
-  end loop;
+  if to_regclass('public.banners') is null then raise warning 'patch36: table banners not found, banners not changed'; return; end if;
+  select count(*) into n from pg_constraint where conrelid = 'public.banners'::regclass and contype = 'c' and pg_get_constraintdef(oid) ~* 'link_type';
+  if n = 0 then raise notice 'patch36: banners.link_type has no check, the partner link needs no change'; return; end if;
+  if n > 1 then
+    raise warning 'patch36: banners NOT changed: % checks mention link_type. Send: select conname, pg_get_constraintdef(oid) from pg_constraint where conrelid = ''banners''::regclass;', n;
+    return;
+  end if;
+  select conname, pg_get_constraintdef(oid) into v_name, v_def from pg_constraint
+   where conrelid = 'public.banners'::regclass and contype = 'c' and pg_get_constraintdef(oid) ~* 'link_type';
+  if v_def ~ '''partner''::text' then return; end if;
+  if v_def !~ re1 and v_def !~ re2 then
+    raise warning 'patch36: banners NOT changed: the link_type check has a structure this patch does not know: %. Send: select conname, pg_get_constraintdef(oid) from pg_constraint where conrelid = ''banners''::regclass;', v_def;
+    return;
+  end if;
+  v_new := regexp_replace(v_def, '\]\)', ', ''partner''::text])');   -- these two forms hold exactly one list
+  execute format('alter table banners drop constraint %I', v_name);
+  execute format('alter table banners add constraint %I %s', v_name, substr(v_new, 1));
 end $$;
 
 commit;

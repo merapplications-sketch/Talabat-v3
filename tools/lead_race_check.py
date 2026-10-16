@@ -11,7 +11,9 @@ def psql(sql):
     return subprocess.run(['psql','-d',DB,'-At','-c',sql],capture_output=True,text=True).stdout.strip()
 k=lambda t:hashlib.md5(t.encode()).hexdigest()+hashlib.md5((t+'#').encode()).hexdigest()
 r=subprocess.run(['psql','-d',DB,'-q','-f','sql/test_patch36.sql'],capture_output=True,text=True,cwd=root).stdout
-ok('PATCH36 50/50' in r,'base test database built (%s)'%r.strip().splitlines()[-2:-1])
+import re as _re
+m=_re.search(r'PATCH36 (\d+)/(\d+)',r)
+ok(bool(m) and m.group(1)==m.group(2),'base test database built (%s)'%r.strip().splitlines()[-2:-1])
 def race(n,calls):
     ps=[subprocess.Popen(['psql','-d',DB,'-At','-c',"set role service_role; select lead_submit('%s','rest','%s','%s',%s)"%(nm,ph,k(ph),("'%s'"%k('ip:'+cl)) if cl else 'null')],
         stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True) for nm,ph,cl in calls]

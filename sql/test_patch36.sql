@@ -199,6 +199,20 @@ select chk('a lead cannot get a branch status', q('service_role', null, $$insert
 select q('service_role', null, $$insert into banners(title, link_type) values ('p','partner') returning link_type$$) as r \gset
 select chk('banners: partner link allowed, old link types still valid', :'r' = 'partner' and (select count(*) from banners) = 5, :'r');
 select chk('banners: unknown link type still refused', q('service_role', null, $$insert into banners(title, link_type) values ('p','url') returning link_type$$) like 'ERR:%');
+select chk('banners: the same constraint kept (same name), original values kept, partner added',
+  (select string_agg(conname || ' ' || pg_get_constraintdef(oid), ' | ') from pg_constraint where conrelid = 'banners'::regclass and contype = 'c')
+  = 'banners_link_type_ck CHECK (((link_type IS NULL) OR (link_type = ANY (ARRAY[''none''::text, ''store''::text, ''category''::text, ''partner''::text]))))',
+  (select string_agg(pg_get_constraintdef(oid), ' | ') from pg_constraint where conrelid = 'banners'::regclass and contype = 'c'));
+-- a constraint with another structure (here: link type and link value must be set together) is left alone
+delete from banners where link_type in ('partner', 'none');
+alter table banners drop constraint banners_link_type_ck;
+alter table banners add constraint banners_link_ck check ((link_type is null) = (link_value is null) and (link_type is null or link_type in ('store', 'category')));
+\i sql/schema_patch36.sql
+select chk('banners: unknown (compound) check → banners NOT changed, the compound conditions still in force',
+  (select pg_get_constraintdef(oid) from pg_constraint where conname = 'banners_link_ck') = 'CHECK ((((link_type IS NULL) = (link_value IS NULL)) AND ((link_type IS NULL) OR (link_type = ANY (ARRAY[''store''::text, ''category''::text])))))'
+  and q('service_role', null, $$insert into banners(title, link_type, link_value) values ('p','partner','x') returning link_type$$) like 'ERR:%'
+  and q('service_role', null, $$insert into banners(title, link_type) values ('p','store') returning link_type$$) like 'ERR:%');
+select chk('… while the rest of the patch still applied (lead functions present)', to_regproc('lead_submit') is not null);
 -- ---------- retention ----------
 update lead_attempts set at = now() - interval '40 days' where id = (select min(id) from lead_attempts);
 update store_requests set decided_at = now() - interval '100 days' where kind = 'lead' and status = 'rejected';

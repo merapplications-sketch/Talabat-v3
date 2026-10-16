@@ -27,3 +27,11 @@ verified; the phone limit and the site brake are secondary. iPhone / Safari issu
 - `python3 tools/lead_admin_check.py <preview>/admin <preview>/customer` → 0 fails (card, badge, actions, link off, staff view, banner opens the page)
 - Re-run because shared / admin / customer files changed: smoke (4 apps) TOTAL ERR 0 · staff_ui 500/0 · admin_uat 0 · form_keep --quick 194/0 · preview_check 0 · qa_all customer QA ISSUES 0
 - Not re-run (not affected): courier, restaurant analytics / ids, tab navigation, map tiles, diagnostics.
+
+## v57b — review notes (16 Oct 22:07)
+| Note | Change | Test |
+|---|---|---|
+| body size checked after reading it all | the body is read as bytes from the stream and reading stops (stream cancelled) as soon as 4096 bytes are passed; Content-Length only allows an early refusal, never trusted alone; invalid UTF-8 refused | `node tools/partner_fn_check.mjs`: endless body without Content-Length (stops after ≤ 6 KB of 1 MB), lying Content-Length, 2 100 Cyrillic letters (< 4096 characters, > 4096 bytes), exactly 4096 / 4097 bytes, bad UTF-8 |
+| patch 36 dropped every link_type check | the check is changed only when it is exactly one check of the simple list form; it is re-created with the same name, same conditions and values + 'partner'. Anything else: banners untouched, WARNING with the read query, rest of the patch applies | `sql/test_patch36.sql` 53/53: name and original values kept; compound check left exactly as it was and still enforced |
+| client address order of headers was not proof | the address is read ONLY from the header named in `CLIENT_IP_HEADER` (position first/last); not set = the function refuses (activation condition); no fallback chain | `partner_fn_check`: missing setting → 503; only the configured header is read; forged x-forwarded-for first vs last; absent header → one shared bucket |
+Preview unchanged (the page did not change; the server is simulated there).
