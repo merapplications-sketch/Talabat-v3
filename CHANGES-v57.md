@@ -44,3 +44,11 @@ Preview unchanged (the page did not change; the server is simulated there).
   (before: none — also branch requests). `lead_admin_check` (staff case: before 0 requests, after 4). smoke TOTAL ERR 0.
 - sql/verify_patch36_readonly.sql (read-only), sql/rollback_patch36.sql (two levels), tools/patch36_ops_check.py 0 fails.
 - ACTIVATION-v57.md (blockers split: receiving / converting / banner; ordered steps with check + undo). HOME-MAP.md.
+
+## v57d — shared UI rules for repeated elements (16 Oct 23:18). Reference: `UI-RULES.md`
+- Fields under 16 px found by the new `tools/ui_rules_check.py` (live on every qa_all screen + partner page, 390 px, and static):
+  customer home search 14→16 px, restaurant reject note 14→16 px, courier apply phone 14→16 px (inline). Partner page fields now
+  use the same field rule as the apps (+ disabled state). Restaurant header store selector (12 px pill, approved v56h header)
+  recorded as a PROPOSAL, not changed. Static rules: no invalid `font:… inherit`, no zoom-blocking viewport, no inline field size < 16 px.
+- Tests (affected only): ui_rules_check 0 fails (1 known proposal); partner_check 88/0; qa_all customer, merchant, driver at 360/390
+  QA ISSUES 0. Chromium only: the iPhone zoom is not closed without a check on the phone.

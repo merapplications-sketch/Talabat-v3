@@ -24,9 +24,11 @@ p{margin:0 0 10px}.mut{color:var(--mut)}.xs{font-size:13px}
 ul.f{list-style:none;margin:6px 0 0}ul.f li{padding:6px 0 6px 22px;position:relative}ul.f li:before{content:"";position:absolute;left:4px;top:13px;width:8px;height:8px;border-radius:50%;background:var(--o)}
 label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
 label small{font-weight:400;color:var(--mut)}
-input,select{width:100%;min-width:0;font-family:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
-input:focus,select:focus{outline:2px solid var(--o);outline-offset:0;border-color:var(--o)}
+input,select{width:100%;min-width:0;font-family:inherit;font-size:16px;padding:12px 14px;border:1.5px solid transparent;border-radius:14px;background:#f3f3f6;color:var(--ink);outline:0}
+input:focus,select:focus{border-color:var(--o);background:#fff}
+input:disabled,select:disabled{opacity:.6}
 input[aria-invalid=true]{border-color:var(--bad);background:var(--badbg)}
+input[aria-invalid=true]:focus{background:#fff}
 .err{color:var(--bad);font-size:13px;margin-top:4px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;align-items:end}.g2>div{min-width:0}
 @media (max-width:380px){.g2{grid-template-columns:1fr}}
