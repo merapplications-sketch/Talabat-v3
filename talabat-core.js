@@ -327,7 +327,7 @@
       // a customer's tickets and the support phone are fetched only when he has a ticket or opened the support screen (keeps an idle customer cheap)
       (admin || (cust && (DB.tickets.length || wantTix))) ? sb.from('support_tickets').select('*').order('updated_at', { ascending: false }).limit(admin ? 200 : 30) : Promise.resolve({ data: cust ? DB.tickets : [] }),
       (admin || (cust && (DB.tickets.length || wantTix))) ? sb.from('app_texts').select('*') : Promise.resolve({ data: Object.keys(DB.texts).map(function (k) { return { key: k, value: DB.texts[k] }; }) }),
-      (admin || ME.role === 'merchant') ? sb.from('store_requests').select('*').order('created_at', { ascending: false }).limit(admin ? 100 : 20) : Promise.resolve({ data: [] }),
+      (admin || ME.role === 'merchant' || MYPERMS.indexOf('stores') >= 0) ? sb.from('store_requests').select('*').order('created_at', { ascending: false }).limit(ME.role === 'merchant' ? 20 : 100) : Promise.resolve({ data: [] }),
       // the balance is fetched once, then only after a wallet event (realtime), coming back to the app, or an order that used it: an idle customer costs nothing
       cust ? (walletStale ? sb.rpc('wallet_balance') : Promise.resolve({ data: DB.wallet.balance })) : Promise.resolve({ data: null }),
       // happy hours change prices, every app shows them; the customer also gets his points (patch 29; empty before it is run)
@@ -420,7 +420,7 @@
     if (ME.role === 'driver') on('order_offers', 'offers');
     if (ME.role === 'admin') { on('ratings', 'misc'); on('order_offers', 'misc'); on('support_tickets', 'misc'); on('ticket_messages', 'misc'); on('store_requests', 'misc'); }
     if (ME.role === 'customer') { on('support_tickets', 'misc'); ch.on('postgres_changes', { event: '*', schema: 'public', table: 'wallet_entries' }, function () { walletStale = true; kick('misc'); }); }
-    if (ME.role === 'merchant') { on('store_requests', 'misc'); }
+    if (ME.role === 'merchant' || (ME.role !== 'admin' && MYPERMS.indexOf('stores') >= 0)) { on('store_requests', 'misc'); }   /* staff with 'stores': restaurant / website requests */
     ch.subscribe();
   }
   /* The browser's "offline" event is unreliable (iOS fires it by mistake and sometimes never sends "online").

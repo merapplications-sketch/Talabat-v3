@@ -28,7 +28,7 @@ if app=='partner':
    return Promise.reject(new TypeError('preview: no network'))};
  document.addEventListener('DOMContentLoaded',function(){var s=document.createElement('div');s.id='pv-strip';s.style.cssText='background:#b42318;color:#fff;font:700 12px/1.4 -apple-system,sans-serif;padding:6px 10px;text-align:center';
    var opts=[['ok','заявка принята'],['busy','слишком много заявок'],['verify_failed','проверка не пройдена'],['unavailable','сервер недоступен'],['network','нет сети'],['bad_phone','номер отклонён сервером']];
-   s.innerHTML='ПРОСМОТР · ничего не отправляется · ответ сервера: <select id="pv-reply" style="font:inherit;color:#000;border-radius:6px">'+opts.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===window.__pvPartner.reply?' selected':'')+'>'+x[1]+'</option>'}).join('')+'</select> · <a style="color:#fff" href="?off=1">без настроек</a> · <a style="color:#fff" href="?">с настройками</a>';
+   s.innerHTML='ПРОСМОТР · ничего не отправляется · ответ сервера: <select id="pv-reply" style="font-size:16px;color:#000;border-radius:6px;max-width:100%">'+opts.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===window.__pvPartner.reply?' selected':'')+'>'+x[1]+'</option>'}).join('')+'</select> · <a style="color:#fff" href="?off=1">без настроек</a> · <a style="color:#fff" href="?">с настройками</a>';
    document.body.insertBefore(s,document.body.firstChild);s.querySelector('#pv-reply').onchange=function(){window.__pvPartner.reply=this.value}});
 })();
 </script>"""

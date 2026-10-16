@@ -35,3 +35,12 @@ verified; the phone limit and the site brake are secondary. iPhone / Safari issu
 | patch 36 dropped every link_type check | the check is changed only when it is exactly one check of the simple list form; it is re-created with the same name, same conditions and values + 'partner'. Anything else: banners untouched, WARNING with the read query, rest of the patch applies | `sql/test_patch36.sql` 53/53: name and original values kept; compound check left exactly as it was and still enforced |
 | client address order of headers was not proof | the address is read ONLY from the header named in `CLIENT_IP_HEADER` (position first/last); not set = the function refuses (activation condition); no fallback chain | `partner_fn_check`: missing setting → 503; only the configured header is read; forged x-forwarded-for first vs last; absent header → one shared bucket |
 Preview unchanged (the page did not change; the server is simulated there).
+
+## v57c — iPhone calculator zoom, staff access to requests, activation prepared (16 Oct 23:05)
+- partner.html: 3 CSS rules `font:<size> inherit` were invalid (a font shorthand cannot contain `inherit`) and were dropped: fields
+  showed 13.3 px, iPhone zooms into fields under 16 px. Now valid (16 px fields, buttons as designed). Viewport unchanged
+  (user zoom allowed). Preview strip selector 16 px too. `partner_check` 88/0 (before the fix: 13.33 px). Not checked on an iPhone.
+- talabat-core.js: staff accounts with the «stores» permission (role not admin) now load and receive store requests
+  (before: none — also branch requests). `lead_admin_check` (staff case: before 0 requests, after 4). smoke TOTAL ERR 0.
+- sql/verify_patch36_readonly.sql (read-only), sql/rollback_patch36.sql (two levels), tools/patch36_ops_check.py 0 fails.
+- ACTIVATION-v57.md (blockers split: receiving / converting / banner; ordered steps with check + undo). HOME-MAP.md.

@@ -35,6 +35,19 @@ with sync_playwright() as p:
         E("()=>{TLB.isSuper=()=>false;render()}");pg.wait_for_timeout(300)
         ok(pg.locator('#lead-card').count()==1 and pg.locator('#lead-card button:has-text("%s")'%('Привязать' if lang=='ru' else 'Link')).count()==0,tag+' stores staff: card and status buttons, no link control')
         ok(not errs,tag+' no JS errors %s'%errs[:1]);pg.close()
+    # a STAFF account (not admin) with only the 'stores' permission: the requests must be loaded for it too (v57c fix)
+    import tempfile,shutil,os
+    T=tempfile.mkdtemp();shutil.copytree(A,T+'/a');pc=open(T+'/a/preview-client.js').read()
+    assert 'var role="admin"' in pc and 'my_perms:null' in pc
+    open(T+'/a/preview-client.js','w').write(pc.replace('var role="admin"','var role="customer"',1).replace('my_perms:null',"my_perms:['stores']",1))
+    pg=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True);errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
+    pg.route('**/*',lambda rt,rq:(rt.abort() if rq.url.startswith('http') else rt.continue_()))
+    pg.goto('file://'+T+'/a/admin.html');pg.wait_for_timeout(2500);E=pg.evaluate;E("()=>TLB.setLang('ru')");pg.wait_for_timeout(400)
+    ok(E("()=>TLB.isSuper()")==False and E("()=>TLB.can('stores')")==True,'staff account: not admin, has «stores»')
+    ok(E("()=>TLB.storeRequests().filter(q=>q.kind=='lead').length")==4,'staff with «stores»: the website requests are loaded (%d)'%E("()=>TLB.storeRequests().length"))
+    pg.locator('.tabs button[onclick*="tab=\'s\'"]').click();pg.wait_for_timeout(500)
+    ok(pg.locator('#lead-card .card').count()==2 and pg.locator('#lead-card button:has-text("Привязать")').count()==0,'staff: card with the 2 open requests, status buttons, no link control')
+    ok(not errs,'staff: no JS errors %s'%errs[:1]);pg.close();shutil.rmtree(T)
     # customer: the partner banner at the bottom of the home screen opens the partner page
     pg=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True);errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
     pg.route('**/*',lambda rt,rq:(rt.abort() if rq.url.startswith('http') else rt.continue_()))
