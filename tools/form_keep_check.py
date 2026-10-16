@@ -4,7 +4,7 @@ so every screen is really rebuilt, as on a busy day).
   python3 tools/form_keep_check.py <preview_dir> [--quick]      (--quick skips the two slow real-time parts, ~90 s)
 Real data refreshes are made by changing the demo tables and firing the app's own "page visible again" refresh,
 or by waiting for the 10 s polling. Chromium with a phone viewport and touch; NOT Safari/WebKit."""
-import os,sys,time
+import os,sys,time,re
 from playwright.sync_api import sync_playwright
 d=os.path.abspath(sys.argv[1]);quick='--quick' in sys.argv;fails=[];npass=0
 def ok(c,m):
@@ -152,7 +152,7 @@ with sync_playwright() as p:
     # ======== 7. preview diagnostic log ========
     E("()=>{tab='c';showAddP=true;render()}");pg.fill('#pcode','SECRET17');blur(E);pg.wait_for_timeout(600);E("()=>{showAddP=false;tab='o';render()}");pg.wait_for_timeout(1300);E("()=>window.scrollTo(0,0)");scroll_to(E,900);pg.wait_for_timeout(300)
     pg.click('#pv-strip button:has-text(\"سجل التشخيص\")');pg.wait_for_timeout(200);lg=E("()=>document.querySelector('#pv-dp textarea').value")
-    ok('PAGE LOAD · type reload' in lg and 'JUMP' in lg and 'app scrollTo' in lg,'7: diagnostic log records reloads, jumps and who moved the page')
+    ok(re.search(r'PAGE LOAD · build \S+( \+local changes)? · type reload',lg) is not None and 'JUMP' in lg and 'app scrollTo' in lg,'7: diagnostic log records reloads, jumps and who moved the page')
     ok(not any(x in lg for x in ['Муаммад','+99290','SECRET17','SALE10','Рудаки']),'7: diagnostic log holds no names, phones, addresses or typed values')
     E("()=>document.getElementById('pv-dp').remove()")
     # ======== 8. customer card: whole history in pages of 50, and «Назад» from an order returns to the card ========

@@ -65,6 +65,7 @@ DIAG=r"""
 (function(){
  /* ---------- PREVIEW-ONLY diagnostic log: page jumps, reloads, coming back from the background.
     Kept in this browser (localStorage, last 300 lines). No names, phones, typed values, tokens or addresses are recorded. ---------- */
+ var PVB='@@BUILD@@';
  var DK='pv-diag',HK='pv-hid',EK='pv-end',lastIn=0,lastRs=0,lastY=window.scrollY||0,lastRsLog=0;
  function rd(){try{return JSON.parse(localStorage.getItem(DK)||'[]')}catch(e){return []}}
  function ctx(){var vv=window.visualViewport,o=(screen.orientation&&screen.orientation.type)||(window.orientation!=null?'deg'+window.orientation:'');
@@ -75,7 +76,7 @@ DIAG=r"""
  function act(){var a=document.activeElement;return a&&a!==document.body?'focus '+a.tagName.toLowerCase()+(a.id?'#'+a.id:'')+(a.type?'['+a.type+']':''):'no focus'}
  /* how did this page start? */
  try{var nv=performance.getEntriesByType('navigation')[0],hid=+localStorage.getItem(HK)||0,end=localStorage.getItem(EK)||'none';
-   log('PAGE LOAD','type '+(nv?nv.type:'?')+(document.wasDiscarded?' discarded':'')+(hid?' · was in background '+Math.round((Date.now()-hid)/1000)+'s':'')+' · previous page ended: '+end);localStorage.removeItem(EK)}catch(e){}
+   log('PAGE LOAD','build '+PVB+' · type '+(nv?nv.type:'?')+(document.wasDiscarded?' discarded':'')+(hid?' · was in background '+Math.round((Date.now()-hid)/1000)+'s':'')+' · previous page ended: '+end);localStorage.removeItem(EK)}catch(e){}
  window.addEventListener('pageshow',function(e){log('pageshow',e.persisted?'from back-forward cache (no reload)':'')});
  window.addEventListener('pagehide',function(e){var w=window.TLB_SIGNING_OUT?'sign-out':(e.persisted?'pagehide (kept in cache)':'pagehide');try{localStorage.setItem(EK,w+' at '+new Date().toTimeString().slice(0,8))}catch(_){}log('pagehide',w)});
  document.addEventListener('visibilitychange',function(){if(document.hidden){try{localStorage.setItem(HK,String(Date.now()))}catch(e){}log('went to background')}else{var h=0;try{h=+localStorage.getItem(HK)||0;localStorage.removeItem(HK)}catch(e){}log('came back',h?'away '+Math.round((Date.now()-h)/1000)+'s, page NOT reloaded':'')}});
@@ -91,23 +92,43 @@ DIAG=r"""
  function byPath(pp){try{var n=document.getElementById('app');pp.split('.').forEach(function(i){n=n&&n.children[+i]});return n}catch(x){return null}}
  function snap(){return {t:Date.now(),y:Math.round(scrollY),h:Math.round(document.documentElement.scrollHeight),w:innerWidth,vh:innerHeight,fs:sz(),a:anchor(),rn:(typeof RINFO!=='undefined'&&RINFO?RINFO.n:0)}}
  setInterval(function(){if(!tr&&Date.now()-lastRs>1500&&Date.now()-lastIn>300)calm=snap()},300);
- function trace(kind){if(tr)return;var b=calm||snap(),m0=appMoves,fr=[],t0=Date.now();tr=1;
+ function trace(kind){if(tr)return;var b=calm||snap(),m0=appMoves,fr=[],t0=Date.now(),tin=lastIn;tr=1;
    (function step(){var s=snap();fr.push(s);if(Date.now()-t0<1500)return requestAnimationFrame(step);tr=null;
      var e=fr[fr.length-1],mx0=b.h-b.vh,mx1=e.h-e.vh,ya=null;if(b.a){var el=byPath(b.a.p);if(el)ya=Math.round(el.getBoundingClientRect().top)}
      var why=[];if(e.fs!==b.fs)why.push('probe text size/width changed '+b.fs+' → '+e.fs+' (text rendered at another size)');
      if(Math.abs(e.h-b.h)>40)why.push('page height '+b.h+'→'+e.h+' (layout reflow)');
      if(appMoves>m0)why.push('the APP called scrollTo '+(appMoves-m0)+'×');
      if(e.rn>b.rn)why.push('app redraw ×'+(e.rn-b.rn));
-     if(e.y===0&&b.y>50&&mx1>50)why.push('browser put the page at the top although it could scroll');
+     if(e.y===0&&b.y>50&&mx1>50)why.push('page reached the top with no app scrollTo although it could stay (mover not identified)');
      if(b.y>mx1+2)why.push('old position beyond the new end of page (clamp)');
      var yp=fr.map(function(f){return f.y}),ch=[];yp.forEach(function(v,i){if(i&&v!==yp[i-1])ch.push(Math.round((fr[i].t-t0))+'ms:'+v)});
-     log('TRACE '+kind,'before y'+b.y+' h'+b.h+' '+b.w+'x'+b.vh+' text '+b.fs+' | after y'+e.y+' h'+e.h+' '+e.w+'x'+e.vh+' text '+e.fs+' | anchor '+(b.a?('top '+b.a.top+'→'+(ya==null?'gone':ya)):'none')+' | y changes '+(ch.slice(0,6).join(' ')||'none')+' | '+(why.join('; ')||'no cause seen'))})()}
+     log('TRACE '+kind,'before y'+b.y+' h'+b.h+' '+b.w+'x'+b.vh+' text '+b.fs+' | after y'+e.y+' h'+e.h+' '+e.w+'x'+e.vh+' text '+e.fs+' | anchor '+(b.a?('top '+b.a.top+'→'+(ya==null?'gone':ya)):'none')+' | y changes '+(ch.slice(0,6).join(' ')||'none')+' | '+(why.join('; ')||'no cause seen')+' | '+(tin?'touch '+(t0-tin)+'ms before':'no touch before')+(lastIn>t0?', touch during the 1.5 s':', no touch during the 1.5 s'))})()}
  window.addEventListener('resize',function(){rs('resize')});window.addEventListener('orientationchange',function(){rs('rotation')});
  if(window.visualViewport)visualViewport.addEventListener('resize',function(){rs('visual viewport resize (keyboard/zoom)')});
  /* a jump = the page moved more than 150 px in one step with no finger/key in the last 1 s */
- window.addEventListener('scroll',function(){var y=window.scrollY,d=y-lastY;if(Math.abs(d)>150&&Date.now()-lastIn>1000)log('JUMP '+Math.round(lastY)+' -> '+Math.round(y),rinfo()+' · last resize '+(lastRs?Date.now()-lastRs+'ms ago':'never')+' · '+act());lastY=y},{passive:true});
+ window.addEventListener('scroll',function(){var y=window.scrollY,d=y-lastY;if(Math.abs(d)>150&&Date.now()-lastIn>1000)log('JUMP '+Math.round(lastY)+' -> '+Math.round(y),rinfo()+' · last resize '+(lastRs?Date.now()-lastRs+'ms ago':'never')+' · '+act()+' · '+touch());lastY=y},{passive:true});
+ /* caller names from a stack: Chrome has an "Error" first line and "at f (url)" frames, Safari has no first line and "f@url"
+    frames. Frames are kept in order, the first one (this wrapper) is dropped; anonymous frames show as "?" so nothing is skipped. */
+ function callers(st){try{var fr=String(st||'').split('\n').filter(function(l){return /^\s*at |@/.test(l)}).map(function(l){var m=l.match(/^\s*at (?:async )?([^\s(]+) \(/)||l.match(/^\s*([^@\s]*)@/);return m&&m[1]?m[1].replace(/^HTMLButtonElement\./,''):'?'});fr=fr.slice(1).map(function(n){return n.replace(/^window\./,'')}).filter(function(n,i,a){return !i||n!==a[i-1]});return fr.slice(0,3).join('<')}catch(e){return '?'}}
+ window.__pvCallers=callers;
+ function touch(){return lastIn?'last touch '+(Date.now()-lastIn)+'ms ago':'no touch yet'}
+ /* SECTION TAP (admin menu strip): from / to section code, strip place, page offset before the tap, after the redraw, after the
+    strip keep step, strip sideways offset, page height, extra height kept for a short section, then the page offset per frame for 0.8 s */
+ var NV=null;
+ function navHook(){if(typeof window.tabTop!=='function'||typeof window.tabKeep!=='function'){if(document.readyState!=='complete'||!navHook.n||navHook.n<40){navHook.n=(navHook.n||0)+1;setTimeout(navHook,250)}return}
+   var tt=window.tabTop,tk=window.tabKeep,strip=function(){return document.querySelector('.tabs')};
+   window.tabTop=function(){var s=strip();NV={from:typeof tab!=='undefined'?tab:'?',y0:Math.round(scrollY),h0:document.documentElement.scrollHeight,sl0:s?Math.round(s.scrollLeft):null,t:Date.now()};return tt.apply(this,arguments)};
+   window.tabKeep=function(t0){var n=NV;NV=null;var s=strip(),y1=Math.round(scrollY),r=tk.apply(this,arguments);
+     if(!n)return r;s=strip();var ap=document.getElementById('app'),y2=Math.round(scrollY),st=s?Math.round(s.getBoundingClientRect().top):null,fr=[],t1=Date.now();
+     var base=(typeof tab!=='undefined'?n.from+'→'+tab:'?')+' · strip '+(t0==null?'fixed side menu':Math.round(t0)+'→'+st)+' · y before '+n.y0+' / after redraw '+y1+' / after keep '+y2+
+       ' · strip sideways '+n.sl0+'→'+(s?Math.round(s.scrollLeft):null)+' · page h '+n.h0+'→'+document.documentElement.scrollHeight+(ap&&ap.style.minHeight?' · short section kept tall '+ap.style.minHeight:'');
+     (function f(){fr.push([Date.now()-t1,Math.round(scrollY),s?Math.round(s.getBoundingClientRect().top):null,s?Math.round(s.scrollLeft):null]);if(Date.now()-t1<800)return requestAnimationFrame(f);
+       var ch=[];fr.forEach(function(v,i){if(i&&(v[1]!==fr[i-1][1]||v[2]!==fr[i-1][2]))ch.push(v[0]+'ms:y'+v[1]+'/strip'+v[2])});
+       log('SECTION TAP',base+' · 0.8 s after: '+(ch.slice(0,6).join(' ')||'no move')+' · '+touch())})();
+     return r}}
+ setTimeout(navHook,300);
  /* who asked the page to move */
- var st=window.scrollTo;window.scrollTo=function(x,y){var to=typeof x==='object'&&x?x.top:y;if(to!=null&&Math.abs(to-window.scrollY)>80){appMoves++;var who='';try{who=(new Error().stack||'').split('\n').slice(2,5).map(function(l){var m=l.match(/at (\S+)|^(\w+)@/);return m?(m[1]||m[2]):''}).filter(Boolean).join('<')}catch(e){}log('app scrollTo '+Math.round(window.scrollY)+' -> '+Math.round(to),(who||'?')+' · '+rinfo())}return st.apply(window,arguments)};
+ var st=window.scrollTo;window.scrollTo=function(x,y){var to=typeof x==='object'&&x?x.top:y;if(to!=null&&Math.abs(to-window.scrollY)>80){appMoves++;var who='';try{who=callers(new Error().stack)}catch(e){}log('app scrollTo '+Math.round(window.scrollY)+' -> '+Math.round(to),(who||'?')+' · '+rinfo()+' · '+touch())}return st.apply(window,arguments)};
  var al=window.alert;window.alert=function(m){log('alert',/бездейств|inactivity/i.test(String(m))?'INACTIVITY SIGN-OUT (30 min rule)':String(m).slice(0,60));return al.apply(window,arguments)};
  window.addEventListener('error',function(e){log('JS error',String(e.message||'').slice(0,100))});
  var tries=0,w=function(){tries++;try{if(typeof UIR!=='undefined'&&UIR){log('screen restore after load',JSON.stringify(UIR));return}}catch(e){}if(tries<40)setTimeout(w,250)};setTimeout(w,500);
@@ -115,7 +136,7 @@ DIAG=r"""
  function panel(){var p=document.getElementById('pv-dp');if(p){p.remove();return}p=document.createElement('div');p.id='pv-dp';p.dir='ltr';
    p.style.cssText='position:fixed;left:8px;right:8px;top:8px;bottom:8px;z-index:100001;background:#fff;border-radius:14px;box-shadow:0 10px 40px #0007;display:flex;flex-direction:column;padding:10px;font:12px -apple-system,sans-serif';
    var ua=navigator.userAgent,os=(ua.match(/OS (\d+[_\d]*)/)||[])[1],sv=(ua.match(/Version\/([\d.]+)/)||[])[1],cr=(ua.match(/(CriOS|Chrome)\/([\d.]+)/)||[])[2];
-   var head='Talabot admin PREVIEW · '+(window.TLB&&TLB.version||'')+' · '+(/iPhone|iPad/.test(ua)?'iOS '+String(os||'?').replace(/_/g,'.'):'')+(sv?' Safari '+sv:'')+(cr?' Chrome '+cr:'')+' · now: '+ctx();
+   var head='Talabot admin PREVIEW · '+(window.TLB&&TLB.version||'')+' · build '+PVB+' · '+(/iPhone|iPad/.test(ua)?'iOS '+String(os||'?').replace(/_/g,'.'):'')+(sv?' Safari '+sv:'')+(cr?' Chrome '+cr:'')+' · now: '+ctx();
    var ta=document.createElement('textarea');ta.readOnly=true;ta.style.cssText='flex:1;width:100%;box-sizing:border-box;font:11px/1.4 ui-monospace,Menlo,monospace;border:1px solid #ddd;border-radius:8px;padding:6px';ta.value=head+'\n'+rd().join('\n');
    var row=document.createElement('div');row.style.cssText='display:flex;gap:6px;margin-top:8px';
    function bt(t,f){var x=document.createElement('button');x.type='button';x.textContent=t;x.style.cssText='flex:1;border:0;border-radius:10px;padding:10px;font:700 13px -apple-system,sans-serif;background:#f1f1f4';x.onclick=f;row.appendChild(x);return x}
@@ -127,7 +148,14 @@ DIAG=r"""
    x.style.cssText='margin:3px 0 0 4px;border:0;border-radius:999px;padding:3px 9px;background:#fff;color:#b42318;font:700 11px -apple-system,sans-serif';x.onclick=panel;s.appendChild(x)});
 })();
 """
-open(os.path.join(out,'preview-client.js'),'w').write(FIX+GUARD+DIAG)
+import subprocess
+def _build_id():
+    try:
+        h=subprocess.run(['git','rev-parse','--short=8','HEAD'],capture_output=True,text=True,cwd=os.path.dirname(os.path.abspath(__file__))).stdout.strip()
+        d=subprocess.run(['git','status','--porcelain','--','admin.html','merchant.html','talabat-core.js','tools/build_preview.py'],capture_output=True,text=True,cwd=os.path.dirname(os.path.abspath(__file__))).stdout.strip()
+        return (h or '?')+(' +local changes' if d else '')
+    except Exception: return '?'
+open(os.path.join(out,'preview-client.js'),'w').write(FIX+GUARD+DIAG.replace('@@BUILD@@',_build_id()))
 s=open(os.path.join(root,app+'.html')).read()
 s2=re.sub(r'<script src="https://cdn\.jsdelivr\.net/npm/@supabase/supabase-js@[^"]+"></script>','<script src="preview-client.js"></script>',s)
 assert s2!=s,'supabase script tag not found'

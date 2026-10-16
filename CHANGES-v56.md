@@ -133,3 +133,7 @@ scroll that far. Test: tools/tab_nav_check.py (before 6 fails, after 0).
 | «Клиенты» is short while loading → the page could not keep the strip in place | the page keeps enough height until the next section tap (no timer, no scroll lock) |
 | The strip could stay half under the sticky support bar | it is placed just under the bar |
 Orders on iPhone and the Safari rotation/background/reload cases: open, see `STATUS-PLAN.md`. Test: `tools/tab_nav_check.py` (v56n 6 fails → 0).
+
+## v56p — preview diagnostics only (app files unchanged)
+Caller names correct on Safari; «SECTION TAP» line per menu tap; touch time on scroll/jump/trace lines; build id in the log; neutral
+TRACE wording. No look, calculation, session or navigation change. Leaving Orders still moves the strip (geometry, owner decision).

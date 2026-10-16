@@ -8,11 +8,25 @@ Status words: **proven** = cause shown by code/measurement · **fixed, not verif
 
 | Item | Status | Evidence |
 |---|---|---|
-| Support tab moved the strip | proven, fixed (v56o), not verified on iPhone | the support bar (~50 px) was hidden only on Support → strip 333→283 at the page top; now the bar shows on every tab: 333→333 (`tools/tab_nav_check.py`, before 6 fails / after 0) |
-| Couriers→Customers moved the strip | proven, fixed (v56o) | Customers is short while loading, the page could not be scrolled far enough (153→333). Now the page keeps enough height until the next section tap (no timer, no scroll lock) |
+| Support tab moved the strip | proven, fixed (v56o); iPhone round 19:05–19:06 does not show a Support tap (no section names in that log) — not closed | the support bar (~50 px) was hidden only on Support → strip 333→283 at the page top; now the bar shows on every tab: 333→333 (`tools/tab_nav_check.py`, before 6 fails / after 0) |
+| Couriers→Customers moved the strip | proven in Chromium, fixed (v56o); not closed on iPhone (§1b) | Customers is short while loading, the page could not be scrolled far enough (153→333). Now the page keeps enough height until the next section tap (no timer, no scroll lock) |
 | Strip partly under the sticky support bar | fixed (v56o) | the strip comes just under the bar instead of staying covered |
-| Orders tab still jumps on iPhone | open | not reproduced in Chromium (strip kept at the same place, no late move after 1.8 s). Candidates, not proven: (a) the intended one-step page scroll that compensates the Orders indicator cards (+369 px) is seen as a jump; (b) the strip scrolling sideways to show the chosen tab. Safari is not available here |
+| Leaving Orders moves the strip | proven (geometry), NOT fixed — needs a look decision | Orders has the indicator cards + caption (369 px) above the strip, other sections do not. When Orders is scrolled less than 369 px the other section cannot be scrolled to keep the strip: it moves up by (369 − offset): from the top of Orders 679→310, iPhone 19:06:01 at offset 329 → about 40 px (Chromium 430×815: 350→310), plus the header comes back. Same app scroll is named `tabKeep` (§1b). Options: (a) accept; (b) cards below the strip in Orders; (c) the same block above the strip in every section — (b)/(c) change the look |
 | Safari jumps (rotation / background / reload) | open — see §2 | no guess fix added |
+
+### 1b. iPhone round 16 Oct 19:05:47–19:06:50 (owner: «first time when I tapped Stores»)
+The log has no build id, so it cannot prove which preview ran; taken as v56o (89b229e) per the owner. Sections are inferred from the
+page length only (max offset 1292 ≈ Orders, 875 ≈ Stores, 559 ≈ Couriers, Chromium 430×815: 1305 / 858 / 550) — inference, not record.
+**Diagnostic error found (proven):** the caller name skipped one frame on Safari (Safari stacks have no "Error" first line), so
+«onclick» = really `tabKeep` (or `render`) called by the tap, «cuLoad<onclick» = really `render` called by `cuLoad`. Fixed in v56p.
+
+| Time | Log | Reading (measured in Chromium unless said) | Status |
+|---|---|---|---|
+| 19:06:01 | app scrollTo 329→0, 6 ms after the tap redraw | Orders → Stores; strip keep step: the strip cannot stay (needs −40), page to the top, strip 350→310; then Safari bar resize 815→775 | proven cause = Orders cards (row above); acceptability = owner decision |
+| 19:06:29 | 219→583 | → Orders: page scrolled by the cards' height so the strip stays | intended; visually unverified |
+| 19:06:33 | 583→219 | Orders → Couriers: back by the same height, strip stays | intended; visually unverified |
+| 19:06:39 | 0→219 by `render` inside `cuLoad`, page length 0 at that moment | Couriers → Customers: the loading screen is shorter than the screen, the page is clamped to 0 inside the same tap; v56o then keeps the page tall and restores 219 (Chromium: frame before 219, next frame 219, no frame at 0). On iPhone only this one call was logged, the later calm state is y219 | whether a frame at 0 was shown on Safari: not shown by the log → SECTION TAP line in v56p |
+| 19:06:50 | y219→0, page 1074 unchanged, screen 815→775, no app scrollTo, no redraw | the offset fell over several frames (105, 95, 84… px) as the Safari bars came back — a gradual motion, not a one-step jump. Possible: finger fling / tap on the status bar / browser; none proven (touches were not logged) | open; v56p logs touch time with every TRACE / JUMP |
 
 ## 2. Safari — cases kept separate (owner logs, iPhone; none reproduced here)
 

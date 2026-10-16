@@ -96,3 +96,13 @@ taps on the visible part of the button (a covered/hidden strip is scrolled into 
 - Couriers→Customers (proven): Customers is short while loading → the page could not be scrolled far enough (153→333). The page now
   keeps enough height until the next section tap (min-height on the content; no timer, no scroll lock).
 - Orders on iPhone: not reproduced; candidates in `STATUS-PLAN.md` §1. Safari cases A–D: `STATUS-PLAN.md` §2 (all open).
+
+## v56p — iPhone round 19:05:47–19:06:50 on v56o (diagnostics only, app code unchanged)
+Reading of each line: `STATUS-PLAN.md` §1b. Proven: (1) Safari stacks have no "Error" first line → the log's caller skipped one frame
+(«onclick» = `tabKeep`/`render`, «cuLoad<onclick» = `render`); (2) leaving Orders while it is scrolled < 369 px cannot keep the strip
+(cards above it only in Orders) — geometry, look decision. Not proven: 19:06:50 top move (gradual, no app scroll, no redraw).
+v56p log additions (no personal data): build id in the header and PAGE LOAD; «SECTION TAP» per section tap (from→to code, strip place,
+offset before / after redraw / after keep, strip sideways offset, page height, extra height for a short section, moves in the next 0.8 s,
+last touch); touch time on app scrollTo / JUMP / TRACE; TRACE wording «page reached the top with no app scrollTo … (mover not
+identified)» instead of «browser put the page at the top». Test `tools/diag_check.py` (Chrome + Safari stack formats, one line per tap,
+every field, no names/phones). Re-run: tab_nav_check, form_keep_check --quick, preview_check.
