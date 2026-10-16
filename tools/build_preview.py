@@ -43,7 +43,7 @@ GUARD=r"""
  (function(){var T=window.__pvTables;if(T&&T.profiles)T.profiles.push({id:'pv-courier',email:'pv@test.com',role:'driver',name:'Демо-курьер',phone:'+992900000077',driver_status:'approved',cash_limit:1000,online:false,last_seen:null,created_at:new Date().toISOString()})})();
  /* preview sample for the customer card: one demo customer with 62 OLD orders (beyond the newest ones the panel loads),
     so «показано 50 из 62», «Показать ещё», opening an old order and «Назад» can be tried by hand. Invented data only. */
- (function(){var T=window.__pvTables;if(!T||!T.profiles)return;var C='pv-cust62',D=86400000,n=Date.now(),st=['delivered','delivered','delivered','cancelled','delivered','rejected'];
+ (function(){var T=window.__pvTables;if(!T||!T.profiles||!/admin/.test(location.pathname))return;var C='pv-cust62',D=86400000,n=Date.now(),st=['delivered','delivered','delivered','cancelled','delivered','rejected'];
    T.profiles.push({id:C,email:'demo62@test.com',role:'customer',name:'Демо-клиент · 62 заказа',phone:'+992900000062',created_at:new Date(n-500*D).toISOString()});
    for(var i=1;i<=62;i++){var id='h'+(1000-i),sub=80+i,dt=new Date(n-(20+i*6)*D).toISOString(),s0=st[i%%6];
      T.orders.push({_hist:true,id:id,store_id:'s1',customer_id:C,driver_id:null,status:s0,subtotal:sub,discount:0,promo_discount:0,delivery_fee:10,driver_payout:10,tip:0,total:sub+10,commission:Math.round(sub*10)/100,commission_pct:10,payment:i%%2?'cash':'apple',address:'ул. Демо 1',lat:38.56,lng:68.78,customer_name:'Демо-клиент · 62 заказа',created_at:dt,done_at:s0==='delivered'?dt:null,wallet_used:0,fee_waived:0});

@@ -733,8 +733,133 @@
   }
 
   /* ---------- API ---------- */
+  /* ===================== staff UI (admin panel + restaurant app only; the customer and courier apps never call these) =====================
+     One icon family: 24×24 outline, stroke 2, round caps — the same drawing style the restaurant app already used. */
+  var ICONS = {
+    plus: '<path d="M12 5v14M5 12h14"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>', check: '<path d="M5 12l5 5L20 7"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>', chev: '<path d="M9 6l6 6-6 6"/>', back: '<path d="M15 6l-6 6 6 6"/>',
+    doc: '<path d="M14 3v4a1 1 0 0 0 1 1h4M5 3h9l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2zM9 13h6M9 17h6"/>',
+    store: '<path d="M3 9l1-5h16l1 5M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M5 12v8h14v-8"/>',
+    bike: '<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9H8"/>',
+    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 13.6A6.5 6.5 0 0 1 21.5 20"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    help: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l4 4M14.4 14.4l4 4M18.4 5.6l-4 4M9.6 14.4l-4 4"/>',
+    text: '<path d="M5 5h14M12 5v14M9 19h6"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+    image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+    tag: '<path d="M3 12V4h8l9 9-8 8zM7.5 8.5h.01"/>', award: '<circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/>',
+    log: '<path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4M12 7v5l3 2"/>', shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+    box: '<path d="M21 8l-9-5-9 5 9 5zM3 8v8l9 5 9-5V8M12 13v8"/>', cash: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>',
+    percent: '<path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>', clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>', home: '<path d="M3 11l9-7 9 7M5 10v10h14V10"/>',
+    door: '<path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01"/>',
+    gift: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8S10.5 3 8 3a2.5 2.5 0 0 0 0 5M12 8s1.5-5 4-5a2.5 2.5 0 0 1 0 5"/>',
+    receipt: '<path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2zM9 8h6M9 12h6M9 16h3"/>', chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+    edit: '<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>', save: '<path d="M5 3h11l3 3v15H5zM8 3v5h7M8 21v-7h8v7"/>',
+    link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+    refresh: '<path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/>', folder: '<path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>',
+    alert: '<path d="M12 4L2 20h20zM12 10v4M12 17h.01"/>', ban: '<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+    clip: '<path d="M9 3h6v3H9zM7 4.5H5V21h14V4.5h-2M9 11h6M9 15h4"/>', cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/>', building: '<path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M15 9h4a1 1 0 0 1 1 1v11M3 21h18M8 8h3M8 12h3M8 16h3"/>',
+    cam: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>', phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+    chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', out: '<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>', globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>', map: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>', bag: '<path d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"/>',
+    dot: '<circle cx="12" cy="12" r="3"/>'
+  };
+  function icon(n, s, label) {
+    var z = s || 16;
+    return '<svg class="tic" viewBox="0 0 24 24" width="' + z + '" height="' + z + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+      (label ? 'role="img" aria-label="' + String(label).replace(/"/g, '&quot;') + '"' : 'aria-hidden="true"') + '>' + (ICONS[n] || ICONS.dot) + '</svg>';
+  }
+  /* shared look of the staff apps: light page, white cards with a thin border, orange only for the active item and the main action,
+     dark side menu on wide screens (the same menu entries; phones keep their compact menu) */
+  var STAFF_CSS = [
+    ':root{--o:#f1511b;--o2:#d94512;--tint:#fff1ea;--ink:#151b2b;--mut:#6b7385;--line:#e8ebf0;--bg:#f5f6f8;--ok:#16a34a;--okbg:#e8f7ee;--bad:#d92d20;--badbg:#fdeceb;--wbg:#fff4e5;--sh:0 1px 2px rgba(16,24,40,.05);--r:16px;--rs:12px}',
+    'body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,sans-serif}',
+    '.tic{display:inline-block;vertical-align:-3px;flex-shrink:0}',
+    '.card,.k,.rc,.lv{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}',
+    '.card>b:first-child .tic,.card>.row>b .tic,h3 .tic,.sh .tic{color:var(--o);margin-right:6px}',
+    '.b{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--rs);min-height:40px;padding:9px 14px;font-weight:600;font-size:13px;line-height:1.2;border:1px solid transparent;text-align:center}',
+    '.b.g{background:#fff;color:var(--ink);border-color:var(--line)}.b.g:active{background:#f3f4f6}',
+    '.b.r{background:#fff;color:var(--bad);border-color:#f5c2bd}.b.o{background:var(--tint);color:var(--o);border-color:#ffd9c7}',
+    '.b:disabled{opacity:.5;cursor:not-allowed}.b:focus-visible,.chip:focus-visible,.tabs button:focus-visible,input:focus-visible{outline:2px solid var(--o);outline-offset:2px}',
+    'input,select,textarea{background:#fff!important;border:1px solid var(--line)!important;border-radius:var(--rs)!important;min-height:44px}input:focus,select:focus,textarea:focus{border-color:var(--o)!important;box-shadow:0 0 0 3px #f1511b22}',
+    'input[type=checkbox],input[type=radio]{min-height:0}',
+    '.chip,.tm{border-radius:10px;background:#fff;border:1px solid var(--line);color:#4b5263}.chip.on,.tm.on{background:var(--o);border-color:var(--o);color:#fff}',
+    '.s,.pl,.rqs{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:999px}',
+    /* page header */
+    '.top{background:none!important;color:var(--ink)!important;box-shadow:none!important;border-radius:0;padding:4px 2px 2px!important;margin-bottom:12px}',
+    '.top .tpt{font-size:24px;font-weight:700;letter-spacing:-.2px;color:var(--ink)}.top .tps{font-size:12.5px;color:var(--mut);margin:0 0 2px}',
+    '.mtt{font-size:24px;font-weight:700;letter-spacing:-.2px;margin:2px 2px 8px;color:var(--ink)}',
+    '.swb{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important}.swb i{background:#c9ccd3!important;opacity:1!important}.swb.on i{background:var(--ok)!important}',
+    '.tkbar{background:#fff5f4!important;color:var(--bad)!important;border:1px solid #f5c2bd!important;box-shadow:var(--sh)!important;min-height:44px}',
+    '.top small{color:var(--mut)!important}.top select{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important;font-weight:600}',
+    '.pills{margin-top:10px}.lp{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important;backdrop-filter:none!important;border-radius:10px!important;padding:7px 12px!important}',
+    '.lp .ld{background:#c9ccd3}.lp .ld.on{background:var(--ok);box-shadow:0 0 0 3px #16a34a22}.setupw{background:var(--wbg)!important;color:#9a5300;border-radius:12px}',
+    '.osr{border:1px solid var(--line);box-shadow:var(--sh)!important;border-radius:var(--rs)!important}.osr input{border:0!important;box-shadow:none!important;min-height:0;background:none!important}',
+    '.sbx input,.sbx input:focus{border:0!important;box-shadow:none!important;background:none!important}',
+    '.amt{white-space:nowrap;color:var(--o);font-weight:700}',
+    /* indicators */
+    '.k{padding:14px 16px}.k i{width:40px;height:40px;border-radius:12px;background:var(--tint);color:var(--o)}.k b{font-size:22px;font-weight:700;color:var(--ink)}.k span{color:var(--mut)}',
+    '.grid>.k:has(>i){display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center}.grid>.k>i{grid-row:span 2;margin:0}.grid>.k>b{font-size:20px;line-height:1.2;overflow-wrap:anywhere}',
+    '@media(max-width:420px){.grid>.k>b{font-size:17px}.grid>.k>i{width:34px;height:34px;border-radius:10px}.grid>.k{padding:12px}}',
+    /* alerts keep their meaning colours */
+    '.al{border-radius:var(--r);border:1px solid;border-left-width:4px}.al.red{background:#fff7f6;border-color:#f8c9c4;border-left-color:var(--bad)}.al.amber{background:#fffaf2;border-color:#f8dfb8;border-left-color:#f59e0b}',
+    '.alh .tic{margin-right:6px}',
+    /* compact menu on phones (admin: horizontal strip) */
+    '.tabs button{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:10px;color:#4b5263;padding:9px 13px}.tabs .on{background:var(--o);border-color:var(--o);color:#fff}',
+    '.sbrand{display:none}',
+    /* restaurant app bottom menu */
+    '.nav{border-radius:0!important;border-top:1px solid var(--line);box-shadow:0 -1px 0 rgba(16,24,40,.02)!important}.nav .on{color:var(--o)}',
+    '#tlb-bar>div{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line);font-weight:600!important}',
+    /* wide screens: dark side menu */
+    '@media(min-width:1024px){',
+    ' body.st-admin{padding-left:272px!important}body.st-merchant{padding-left:256px!important;padding-bottom:30px!important}',
+    ' .side{position:fixed;top:0;bottom:0;left:0;width:248px;background:#16171b;color:#c9ccd3;padding:20px 12px;overflow-y:auto;z-index:700}',
+    ' .sbrand{display:flex;align-items:center;gap:10px;padding:2px 8px 18px;color:#fff;font-weight:800;font-size:19px;letter-spacing:.3px}.sbrand i{width:36px;height:36px;border-radius:11px;background:var(--o);display:flex;align-items:center;justify-content:center;font-style:normal}.sbrand small{display:block;font-size:11.5px;font-weight:600;color:#8d929c;letter-spacing:0}',
+    ' .side .tabs{flex-direction:column;gap:4px;overflow:visible;margin:0}',
+    ' .side .tabs button{flex:none;width:100%;justify-content:flex-start;background:transparent;border:0;color:#c9ccd3;padding:11px 12px;font-size:14px;font-weight:500;border-radius:12px}',
+    ' .side .tabs button:hover{background:#ffffff0f}.side .tabs .on{background:var(--o);color:#fff;font-weight:600}.side .tabs button em{margin-left:auto}',
+    ' .nav{top:0;bottom:0!important;right:auto!important;width:232px;flex-direction:column;justify-content:flex-start;gap:4px;background:#16171b!important;border:0;padding:84px 12px 20px!important;z-index:700}',
+    ' .nav::before{content:"TALABOT";position:absolute;left:22px;top:26px;color:#fff;font-weight:800;font-size:19px;letter-spacing:.3px}',
+    ' .nav div{flex:none!important;display:flex!important;align-items:center;gap:12px;text-align:left!important;padding:11px 12px!important;border-radius:12px;color:#c9ccd3!important;font-size:14px!important;font-weight:500!important}',
+    ' .nav div span{display:inline-flex!important}.nav .on{background:var(--o);color:#fff!important}.nav div em{position:static!important;margin-left:auto}',
+    '}'
+  ].join('\n');
+  function staffUI(role) {
+    try { document.body.classList.add('st-' + role); } catch (e) { }
+    if (document.getElementById('tlb-staff')) return;
+    var st = document.createElement('style'); st.id = 'tlb-staff'; st.textContent = STAFF_CSS; document.head.appendChild(st);
+  }
+  /* Redraw of the same screen: patch the live page to match new HTML instead of rebuilding it (nodes that did not change are left alone:
+     focus, an open picker, typed values, horizontal strips and the page height stay). Fields bound to app state (oninput/onchange)
+     take the new value unless the user is in them. */
+  function isChk(e) { return e.type === 'checkbox' || e.type === 'radio'; }
+  function bound(e) { return e.hasAttribute('oninput') || e.hasAttribute('onchange'); }
+  function morphKids(a, b) {
+    var an = [].slice.call(a.childNodes), bn = [].slice.call(b.childNodes), i, x, y;
+    for (i = 0; i < bn.length; i++) {
+      x = an[i]; y = bn[i];
+      if (!x) { a.appendChild(y); continue; }
+      if (x.nodeType !== y.nodeType || x.nodeName !== y.nodeName || (x.nodeType === 1 && ((x.id || '') !== (y.id || '') || (x.getAttribute('type') || '') !== (y.getAttribute('type') || '')))) { a.replaceChild(y, x); continue; }
+      if (x.nodeType !== 1) { if (x.nodeValue !== y.nodeValue) x.nodeValue = y.nodeValue; continue; }
+      morphEl(x, y);
+    }
+    for (i = an.length - 1; i >= bn.length; i--) if (an[i].parentNode === a) a.removeChild(an[i]);
+  }
+  function morphEl(x, y) {
+    var k, at = [].slice.call(x.attributes);
+    for (k = 0; k < at.length; k++) if (!y.hasAttribute(at[k].name)) x.removeAttribute(at[k].name);
+    for (k = 0; k < y.attributes.length; k++) if (x.getAttribute(y.attributes[k].name) !== y.attributes[k].value) x.setAttribute(y.attributes[k].name, y.attributes[k].value);
+    var tg = x.nodeName, live = x === document.activeElement;
+    if (tg === 'INPUT') { if (bound(x) && !live) { if (isChk(x)) { if (x.checked !== y.checked) x.checked = y.checked; } else if (x.type !== 'file' && x.value !== y.value) x.value = y.value; } return; }
+    morphKids(x, y);
+    if ((tg === 'TEXTAREA' || tg === 'SELECT') && bound(x) && !live && x.value !== y.value) x.value = y.value;
+  }
+  function morph(el, html) { var tp = document.createElement('template'); tp.innerHTML = html; morphKids(el, tp.content); }
+
   var TLBref = null;
   window.TLB = {
+    icon: icon, staffUI: staffUI, morph: morph,
     version: VERSION,
     loadFailed: function () { return !!secFail.stat; },
     normPhone: normPhone,

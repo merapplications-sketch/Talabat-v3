@@ -83,3 +83,22 @@ customer app. So for the admin panel "main" = the v52 the owner tested; the v56f
 | 1 | Support ticket: «Something went wrong», `ReferenceError: t1 is not defined` | Preview data: demo ticket id is text (`t1`); production ids are numbers (bigint), where `TK.sel=${k.id}` works. Same pattern in 7 handlers (ticket card, assign courier ×2, rating resolve ×2, reopen rating, rating order) | Ids written as JSON in those handlers (numbers stay numbers, text is quoted). New tests use real taps instead of setting state by script (that is why the earlier test missed it) |
 | 2 | Preview strip covers the map's Close button | Preview only | Strip is now below the app's full-screen windows (z-index 800 < 900) |
 | 3 | No demo customer with long history | Preview only | Demo customer «Демо-клиент · 62 заказа» with 62 old orders that, like production, are NOT in the panel's loaded orders (only paged / by-id reads see them) |
+
+## v56i — staff look (admin + restaurant) and Safari rotation analysis (16 Oct)
+
+Safari (separate commit): the owner's log shows both jumps at the moment of the resize ("last resize 0 ms"), the last redraw 3–4 s
+earlier and no app scrollTo → the app did not move the page. Neither admin nor restaurant pages set `text-size-adjust`: iOS enlarges
+text in landscape and re-flows the whole page on each rotation (probable cause, not proven). Added `html{-webkit-text-size-adjust:100%}`
+to admin/merchant only, and a preview TRACE (1.5 s of frames after each rotation: page height, text size, top anchor, app scrollTo,
+redraws) to tell app move / layout reflow / browser reset apart. No scroll lock, no timers.
+
+Look (separate commit), admin + restaurant only — customer and courier apps untouched:
+- one icon family (24px outline, stroke 2 — the restaurant app's existing style) in talabat-core (`TLB.icon`); emoji in buttons,
+  headings and fixed labels replaced; same function = same icon; icon-only buttons have aria-labels;
+- shared stylesheet (`TLB.staffUI(role)`): light page, white cards with thin border, orange for the active item / main action, neutral
+  secondary, red-outlined danger, 44px fields, semantic status colours kept;
+- wide screens (≥1024px): dark side menu (admin: the same 12 entries with badges; restaurant: its 4 entries); phones keep the compact
+  menus (admin horizontal strip, restaurant bottom bar);
+- page header = section name; indicator cards icon + label + value (no growth figures);
+- restaurant app: same-screen redraws now patch the page (`TLB.morph`, the admin's method moved to the core) instead of rebuilding it.
+No functions, data, rules, permissions or session policy changed.
