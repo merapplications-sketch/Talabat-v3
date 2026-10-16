@@ -1,0 +1,19 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>معاينة v59b — الدفعة 2 بعد المراجعة</title>
+<style>body{font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0;padding:20px 16px;background:#f6f4f2;color:#1d1b1a}main{max-width:640px;margin:auto}.ro{display:inline-block;background:#b42318;color:#fff;font-weight:700;font-size:13px;padding:3px 10px;border-radius:6px}a.btn{display:block;text-align:center;background:#c2410c;color:#fff;font-weight:700;text-decoration:none;padding:14px;border-radius:14px;margin:14px 0}code{direction:ltr;unicode-bidi:embed;background:#fff;border:1px solid #e3dcd6;padding:1px 6px;border-radius:5px;font-size:14px}li{margin:6px 0}</style></head>
+<body><main>
+<span class="ro">معاينة فقط · بيانات تجريبية · الكتابة مرفوضة</span>
+<h1 style="font-size:22px">TALABOT — v59b: النقاط والتسوية وحالات الإلغاء وصافي المطعم</h1>
+<p>فرع <code>fix/uat3-v59</code>، commit <code>c6c859342c07d1b0f298433c9fa25f577f3127e3</code>. لا قاعدة حقيقية: البيانات تجريبية، والطلب <code>ord5</code> عيّنة ملغاة مثل 9104.</p>
+<a class="btn" href="customer/customer.html">تطبيق العميل</a>
+<a class="btn" style="background:#475467" href="merchant/merchant.html">تطبيق المطعم</a>
+<p><b>ما يُفحص:</b></p>
+<ol>
+<li><b>العميل ← «Заказы» ← الطلب الملغى ord5:</b> كتلة «По записям системы»: أُرجع 124.38 إلى المحفظة، وأُرجعت 1000 نقطة، والنقد 150.62 «получение не записано».</li>
+<li><b>العميل ← «Кошелёк»:</b> نص المعدل «Обычно 10 баллов… своя ставка»، وسجل النقاط فيه الخصم والإرجاع للطلب ord5.</li>
+<li><b>العميل ← سلة ← الدفع:</b> النقاط والكاش باك بعلامة «≈» مع ملاحظة «Ориентировочно… при доставке».</li>
+<li><b>المطعم ← «Аналитика» ← «Год»:</b> «Отклонено» و«Отменено» منفصلان، و«Чистыми к получению» مع سطور الخصم.</li>
+<li><b>المطعم ← الطلب الملغى في السجل:</b> العمولة «не начисляется — заказ не выполнен»، ودون مبلغ صافٍ.</li>
+</ol>
+<p>الاحتفال وتحديث السجل عند الأحداث يحتاجان أحداثاً حية، فلا يظهران في المعاينة. دليلهما في أداة الفحص.</p>
+</main></body></html>
