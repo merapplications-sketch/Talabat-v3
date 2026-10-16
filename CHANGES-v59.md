@@ -16,12 +16,13 @@ no prices / points / cashback / commission / permission rules changed. Live defi
   order) are their own line. The rejected-order card no longer says «already returned». Total label «Сумма заказа».
   Restaurant order sheet of a cancelled / rejected order: commission «не начисляется — заказ не выполнен», no deductions, no net.
 - UAT013 (restaurant): «Отклонено» and «Отменено» counted and labelled separately by status, with the note that these are statuses,
-  not a rating of the restaurant. Reason = the recorded code only, else «причина не указана» (free text never used as the reason).
+  not a rating of the restaurant; history pills use neutral «Отклонено» / «Отменено» (the shared label «Отклонён рестораном» names an
+  executor the status alone does not prove). Reason = the recorded code only, else «причина не указана» (free text never used as the reason).
 - UAT014 (restaurant): «После комиссии» → «Чистыми к получению» / «Net payable to you», with the breakdown revenue − commission −
   customer points − cashback − delivery paid by you = net. Same formula (merchant_stats_check unchanged).
 - UAT015 (customer): wallet «Обычно {n} баллов за 1 TJS — в некоторых заведениях своя ставка» ({n} from the setting); pay page and
   store page show points / cashback as «≈» with «Ориентировочно: начисляются при доставке по ставке заведения на тот момент».
 - UAT011: not changed (returned points get a new lot now + 90 days, live). Owner decision pending.
 
-Checks (Chromium): tools/uat3_check.py 51/51; merchant_stats_check 0 fails; qa_all customer + merchant; smoke (core changed) 0 errors;
+Checks (Chromium): tools/uat3_check.py 52/52; merchant_stats_check 0 fails; qa_all customer + merchant; smoke (core changed) 0 errors;
 flow_check 0 fails; ui_rules 0 fails.

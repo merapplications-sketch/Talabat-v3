@@ -125,6 +125,7 @@ with sync_playwright() as p:
     E("()=>{tab='s';per='dY';render()}");pg.wait_for_timeout(400)
     bt=pg.inner_text('body')
     ok('Отклонено (2)' in bt and 'Отменено (1)' in bt,'013: «Отклонено (2)» and «Отменено (1)» counted separately by status')
+    ok('рестораном' not in bt and 'Отклонён' not in bt,'013: history pills are neutral («Отклонено», not «rejected by the restaurant»)')
     ok(pg.locator('#stnote').count()==1 and 'не оценка ресторана' in pg.inner_text('#stnote'),'013: note — statuses, not a rating of the restaurant')
     ok('После комиссии' not in bt and 'Чистыми к получению' in bt,'014: «После комиссии» replaced by «Чистыми к получению»')
     br=pg.inner_text('#stbr') if pg.locator('#stbr').count() else ''
