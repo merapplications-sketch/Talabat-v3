@@ -1,0 +1,1 @@
+Read-only preview of v63b (design v06.1 visual fit), design/customer-v06 @ b82fe0e6058121b2bd6e057e0939fbf25cbc168a. Demo data only; writes refused. customer.html?photos=1 = harmless test photos on the preview demo rows only.
