@@ -1,0 +1,20 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>معاينة v60c — الدفع والتسويات</title>
+<style>body{font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0;padding:20px 16px;background:#f6f4f2;color:#1d1b1a}main{max-width:640px;margin:auto}.ro{display:inline-block;background:#b42318;color:#fff;font-weight:700;font-size:13px;padding:3px 10px;border-radius:6px}a.btn{display:block;text-align:center;background:#c2410c;color:#fff;font-weight:700;text-decoration:none;padding:14px;border-radius:14px;margin:12px 0}code{direction:ltr;unicode-bidi:embed;background:#fff;border:1px solid #e3dcd6;padding:1px 6px;border-radius:5px;font-size:14px}li{margin:6px 0}</style></head>
+<body><main>
+<span class="ro">معاينة فقط · بيانات تجريبية · الكتابة مرفوضة · لا قبض إلكتروني</span>
+<h1 style="font-size:22px">TALABOT — v60c: اتفاق الدفع لكل متجر والسجلات المالية المنفصلة</h1>
+<p>فرع <code>prep/batch3-v60</code>، commit <code>8e1083060671e5ff5bc36fb85171bd1a6fd32348</code>. الأرقام في بطاقات المال عيّنة من مثال الاختبار المحلي، وليست بيانات حقيقية.</p>
+<a class="btn" href="customer/customer.html">العميل</a>
+<a class="btn" style="background:#475467" href="admin/admin.html">الإدارة</a>
+<a class="btn" style="background:#0f766e" href="driver/driver.html">المندوب</a>
+<a class="btn" style="background:#7c3aed" href="merchant/merchant.html">المطعم</a>
+<p><b>ما يُفحص:</b></p>
+<ol>
+<li><b>العميل:</b> اختر الفرع الثاني (s2، «· Сино») ← السلة ← الدفع: «Наличными» فقط مع تنبيه «Только наличные».</li>
+<li><b>الإدارة ← المتاجر ← متجر:</b> بطاقة «Оплата и расчёты» (الاتفاق)، وبطاقة «Расчёты с заведением» (الأرصدة، والسجل، والدفع).</li>
+<li><b>الإدارة ← المندوبون ← مندوب:</b> «Деньги курьера» (النقد والأجر منفصلان، واستلام وصرف، والسجل مع المستلم). والقديم منفصل.</li>
+<li><b>المندوب:</b> طلب ord2 (المتجر يُدفع من المندوب): بطاقة «Оплата заведению». والملف ← «Мои деньги».</li>
+<li><b>المطعم:</b> نافذة الطلب ← «Оплата от курьера» (تأكيد / لم يُستلم). الإحصاءات ← «Расчёты с платформой».</li>
+</ol>
+</main></body></html>
