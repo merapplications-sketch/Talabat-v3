@@ -103,8 +103,10 @@ insert into wallet_entries(user_id, amount, kind, order_id) values (:C, -30, 'sp
 insert into support_tickets(customer_id, order_id) select :C, currval('orders_id_seq');
 select pg_temp.chk('#9 patch 37 alone: refund 30 on an order in progress → accepted (room = wallet 30)', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''x'', 30)', currval('support_tickets_id_seq'))) = 'ok', null);
 update orders set status = 'cancelled' where id = currval('orders_id_seq');
-select pg_temp.chk('#9 GAP without the proposal: the later cancel returns the wallet 30 again → 60 back for 30 paid',
-  (select sum(amount) = 60 from wallet_entries where order_id = currval('orders_id_seq') and kind in ('return', 'refund')), null);
+select pg_temp.chk('#9 v61 (no proposal needed): the later cancel returns nothing more → 30 back for 30 paid (was 60)',
+  (select sum(amount) = 30 from wallet_entries where order_id = currval('orders_id_seq') and kind in ('return', 'refund'))
+  and not exists(select 1 from wallet_entries where order_id = currval('orders_id_seq') and kind = 'return'), null);
+select pg_temp.chk('#9 … the order is marked as processed (a later status change does not try again)', (select wallet_returned_at is not null from orders where id = currval('orders_id_seq')), null);
 \i sql/option_refund_after_finish.sql
 insert into orders(customer_id, status, payment, total, wallet_used) values (:C, 'preparing', 'cash', 90, 30);
 insert into wallet_entries(user_id, amount, kind, order_id) values (:C, -30, 'spend', currval('orders_id_seq'));
@@ -132,7 +134,20 @@ create temp table sq (k text primary key, o bigint, t bigint);
 insert into sq select 'A', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');
 select pg_temp.chk('SA step 1: support refund 200 (= proven paid) → ok', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 200)', (select t from sq where k = 'A'))) = 'ok', null);
 select pg_temp.chk('SA step 2: the admin can still cancel a delivered order (live set_order_status, unchanged)', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'A'))) = 'ok', null);
-select pg_temp.chk('SA GAP (needs a decision): given back 250 for 200 paid — the automatic return adds the wallet 50 again', pg_temp.back((select o from sq where k = 'A')) = 250, pg_temp.back((select o from sq where k = 'A'))::text);
+select pg_temp.chk('SA v61: 200 back for 200 paid — the automatic return gives nothing more after the full refund (was 250)', pg_temp.back((select o from sq where k = 'A')) = 200, pg_temp.back((select o from sq where k = 'A'))::text);
+select pg_temp.chk('SA retry: cancelled → delivered → cancelled again gives nothing more (still 200)', pg_temp.as_user(:A, format('select set_order_status(%s, ''delivered'')', (select o from sq where k = 'A'))) = 'ok'
+  and pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'A'))) = 'ok', null);
+select pg_temp.chk('SA retry: … total stays 200', pg_temp.back((select o from sq where k = 'A')) = 200, null);
+-- SA partial: refund 120 of 200, then cancel → the automatic return gives the wallet 50 (still ≤ 80 left)
+insert into sq select 'A3', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');
+select pg_temp.chk('SA partial: refund 120 → ok', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 120)', (select t from sq where k = 'A3'))) = 'ok', null);
+select pg_temp.chk('SA partial: cancel → ok', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'A3'))) = 'ok', null);
+select pg_temp.chk('SA partial: wallet 50 back (80 still refundable) → 170 back, 30 left', pg_temp.back((select o from sq where k = 'A3')) = 170 and (select room = 30 from order_refund_cap((select o from sq where k = 'A3'))), pg_temp.back((select o from sq where k = 'A3'))::text);
+-- SA capped: refund 180 of 200, then cancel → only 20 of the wallet 50 comes back
+insert into sq select 'A4', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');
+select pg_temp.chk('SA capped: refund 180, then cancel → the return is cut to 20 → 200 back', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 180)', (select t from sq where k = 'A4'))) = 'ok'
+  and pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'A4'))) = 'ok', null);
+select pg_temp.chk('SA capped: … 200 back', pg_temp.back((select o from sq where k = 'A4')) = 200 and (select amount = 20 from wallet_entries where order_id = (select o from sq where k = 'A4') and kind = 'return'), pg_temp.back((select o from sq where k = 'A4'))::text);
 select pg_temp.chk('SA: the collected 150 stays recorded on the order (patch 38 counts it whatever the status)', (select cash_collected = 150 from orders where id = (select o from sq where k = 'A')), null);
 -- SB: cancelled BEFORE delivery (wallet 40, cash never collected) → then a support refund
 insert into sq select 'B', pg_temp.mk('pickedup', 40, null), currval('support_tickets_id_seq');
@@ -142,8 +157,12 @@ select pg_temp.chk('SB total: 40 back for 40 paid', pg_temp.back((select o from 
 -- SC: delivered (wallet 50 + cash 150) → the admin cancels FIRST → then a support refund
 insert into sq select 'C', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');
 select pg_temp.chk('SC step 1: admin cancels a delivered order → wallet 50 back automatically', pg_temp.as_user(:A, format('select set_order_status(%s, ''cancelled'')', (select o from sq where k = 'C'))) = 'ok', null);
-select pg_temp.chk('SC step 2: refund of the cash part → refund_too_high (recorded cash of a non-delivered order is not counted)', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 150)', (select t from sq where k = 'C'))) like '%refund_too_high%', null);
-select pg_temp.chk('SC GAP (needs a decision): 50 back for 200 paid; the 150 collected in cash is not refundable after the status change', pg_temp.back((select o from sq where k = 'C')) = 50, null);
+select pg_temp.chk('SC step 2: refund 151 → refund_too_high (only 150 left)', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 151)', (select t from sq where k = 'C'))) like '%refund_too_high%', null);
+select pg_temp.chk('SC step 2: refund of the collected cash 150 → ok (collected cash stays a fact after the status change)', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 150)', (select t from sq where k = 'C'))) = 'ok', null);
+select pg_temp.chk('SC v61: 200 back for 200 paid (was 50); room 0 afterwards', pg_temp.back((select o from sq where k = 'C')) = 200 and (select room = 0 from order_refund_cap((select o from sq where k = 'C'))), null);
+insert into support_tickets(customer_id, order_id) select :C, (select o from sq where k = 'C');
+select pg_temp.chk('SC retry: a second ticket on the same order → refund_too_high', pg_temp.as_user(:SUP, format('select ticket_set_status(%s, ''resolved'', ''r'', 1)', currval('support_tickets_id_seq'))) like '%refund_too_high%', null);
+select pg_temp.chk('points are not money: order_refund_cap never counts points', position('point' in pg_get_functiondef('order_refund_cap(bigint)'::regprocedure)) = 0, null);
 -- the minimal option for review: a delivered order cannot be turned into cancelled / rejected
 \i sql/option_no_cancel_after_delivery.sql
 insert into sq select 'A2', pg_temp.mk('delivered', 50, 150), currval('support_tickets_id_seq');

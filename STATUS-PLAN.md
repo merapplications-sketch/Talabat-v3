@@ -93,3 +93,25 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   payment across the two paths, keys bound to the request). Open decisions: BATCH3-PLAN.md («v60d»). Other notes unchanged.
 - v60e (prepared, NOT applied): disputed courier payments are never collectable from the courier; shared courier lock.
   Package v60 FROZEN pending the grouped economic decisions (BATCH3-PLAN.md). No new feature round. Other notes unchanged.
+- v61 (trial batch, `fix/trial-v61` from v60e, local, NOT applied): courier accounting per the owner's operation (pay the
+  place 100, collect 120, keep 20 → 0 / 0; rule kept per order; store confirmation optional; disputed held apart; commission
+  owed by the place, collection not invented), refund sequences SA / SC fixed (automatic wallet return capped, collected cash
+  kept whatever the status), four-app integration check. Details: CHANGES-v61.md; activation / rollback for review: ACTIVATION-v61.md.
+  | Item | Status | Evidence | Remaining |
+  |---|---|---|---|
+  | Courier pays the place: owner's example 0 / 0 | implemented | test_patch38, trial_v61_integration (local) | server activation; live check on a first real order |
+  | Platform settles (reviewed separately) | unchanged model: all cash handed over, pay paid by the platform | test_patch38, integration | decision 7 below |
+  | SA / SC refund sequences | fixed (no proposal adopted) | test_patch37, patch37_race (local) | server activation |
+  | Points apart from money | kept (own ledger) | test_patch37 | — |
+  | Screens (admin / courier / restaurant; customer receipt values) | implemented, customer design unchanged | patch38_ui_check, uat3_check, qa_all (Chromium) | iPhone check |
+  **Customer design:** arrives later; it must be applied on top of `fix/trial-v61` (latest corrected version), keeping its fixes and functions.
+  **Open decisions (each once, numbers from the local test; recommendation in brackets):**
+  1. Commission on «courier pays» orders: the place owes 10 per 100 order (shown as `cp_owed_by_store`). How is it paid? [periodic statement from the store position, paid by the place by bank / cash, recorded later as its own record type]
+  2. Disputed payment: courier records 100, place says «not received» → 100 held apart. Who resolves? [finance, from the receipt photo; resolution = a new recorded payment, the disputed one stays as history]
+  3. Courier paid the place 100, then the order was cancelled before delivery → 100 «open», owed by nobody automatically. [the place returns 100 to the courier when it keeps the food / cancels; otherwise finance decides per case]
+  4. Cancel after delivery (allowed today): wallet 30 + cash 90, courier paid 100 → customer gets 120 back, courier still owed 30, the place keeps 100 and the order leaves the revenue / commission totals → the platform carries 120 + 30. [decide who carries post-delivery refunds; the «no cancel after delivery» option exists separately, not adopted]
+  5. Orders with no settlement method (90 in the test) are payable by neither path. [set a method for every trial store before the start]
+  6. Start date of the new accounting (once, by finance). [00:00 Dushanbe of the first trial day, after the old cash is settled with the old button and the reconciliation CSV is reviewed]
+  7. «Platform settles»: courier hands over 120 and receives his 20 later (not netted). [keep for the trial; revisit only if couriers ask to keep the fee]
+  8. «Card» orders on «courier pays» stores: no payment provider exists, so the platform would owe the courier 120 (bill + pay) while capturing nothing. [turn online payment OFF for these stores during the trial — a store setting, no code]
+  Not closed by v61: Safari notes, stability batch, onboarding activation, UAT011, iPhone checks of v57c–v59b and v61.

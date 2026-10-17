@@ -37,8 +37,13 @@ insert into profiles(id, role, name, phone) values ('f0000000-0000-0000-0000-000
   ('70000000-0000-0000-0000-000000000007', 'customer', 'Stores Tahmina', '+992900000021'), ('e0000000-0000-0000-0000-00000000000e', 'merchant', 'Owner Muso', '+992900000022');
 insert into staff_members values ('f0000000-0000-0000-0000-00000000000f', true, array['finance']), ('70000000-0000-0000-0000-000000000007', true, array['stores']);
 update stores set owner_id = 'e0000000-0000-0000-0000-00000000000e' where name = 'Kebab';
+-- v61: the owner's worked example (17 Oct) — delivery 20 (the courier's pay 20); test_patch34 above ran with its own 10
+create or replace function delivery_calc(p_store uuid, p_lat float8, p_lng float8, p_user uuid) returns jsonb language sql as $$ select '{"fee":20,"fee_full":20,"base":20,"extra":0,"km":2}'::jsonb $$;
 -- live functions first (from the rollback files), then the patches
 \i sql/rollback_patch37.sql
+-- v61: the live automatic wallet return on cancel / reject (trigger read 17 Oct; its function comes from the rollback file above)
+drop trigger if exists trg_orders_wallet_return on orders;
+create trigger trg_orders_wallet_return before update of status on orders for each row execute function trg_wallet_return();
 \i sql/rollback_patch38.sql
 \i sql/schema_patch37.sql
 \i sql/schema_patch38.sql
@@ -63,7 +68,7 @@ begin
   insert into profiles(id, role, name, phone) values (cu, 'customer', 'Test customer', '+99290' || lpad(currval('cseq38')::text, 7, '0'));
   insert into wallet_entries(user_id, amount, kind) values (cu, 500, 'adjust');
   perform set_config('request.jwt.claim.sub', cu::text, true);
-  begin r := place_order(s, jsonb_build_array(jsonb_build_object('item_id', it, 'qty', n)), 0, pay, 'Rudaki 1', 38.5, 68.7, null, null, 10, wallet, points, null)::text;
+  begin r := place_order(s, jsonb_build_array(jsonb_build_object('item_id', it, 'qty', n)), 0, pay, 'Rudaki 1', 38.5, 68.7, null, null, 20, wallet, points, null)::text;
   exception when others then r := 'ERR:' || sqlerrm; end;
   perform set_config('request.jwt.claim.sub', '', true); return r;
 end $f$;

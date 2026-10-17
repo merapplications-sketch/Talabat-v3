@@ -1,5 +1,5 @@
 -- =============================================================================================
--- ROLLBACK of patch 37: deliver_order, ticket_set_status and ticket_refund_room EXACTLY as read live on 17 Oct; removes the
+-- ROLLBACK of patch 37: deliver_order, ticket_set_status, ticket_refund_room and trg_wallet_return EXACTLY as read live on 17 Oct; removes the
 -- helpers. Roll back the option files first if they were applied. Patch 37 keeps no money records of its own. Not run anywhere.
 -- =============================================================================================
 begin;
@@ -85,6 +85,22 @@ AS $function$
 $function$;
 revoke all on function ticket_refund_room(bigint) from public, anon;
 grant execute on function ticket_refund_room(bigint) to authenticated;
+-- live definition, read 17 Oct (owner postgres)
+CREATE OR REPLACE FUNCTION public.trg_wallet_return()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+begin
+  if new.status in ('rejected', 'cancelled') and old.status not in ('rejected', 'cancelled')
+     and coalesce(new.wallet_used, 0) > 0 and new.wallet_returned_at is null then
+    insert into wallet_entries(user_id, amount, kind, order_id) values (new.customer_id, new.wallet_used, 'return', new.id)
+    on conflict (order_id) where kind = 'return' do nothing;
+    new.wallet_returned_at := now();
+  end if;
+  return new;
+end $function$;
 drop function if exists order_refund_cap(bigint);
 drop function if exists proof_exists(text, uuid);
 drop index if exists wallet_order_idx;

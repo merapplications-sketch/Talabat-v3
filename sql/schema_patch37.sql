@@ -16,6 +16,8 @@
 --    wallet return trigger updates the same order row) cannot pass the cap at the same moment. One refund per ticket stays.
 --    NOT included (proposals, sql/option_*.sql): «refund only after the order ends», «a delivered order stays delivered».
 --    Exceptional compensation is NOT created here (wallet_adjust stays as it is).
+-- 2b) v61: the automatic wallet return on cancel is limited to what is still refundable (no double return); recorded cash
+--     counts as paid whatever the order status becomes.
 -- 3) Support refunds per order are read by the app with the existing RLS (wallet_read: own rows); an index on order_id.
 -- =============================================================================================
 begin;
@@ -67,7 +69,7 @@ language sql stable security definer set search_path = public as $$
                coalesce(sum(amount) filter (where kind = 'refund'), 0) as refunded
           from wallet_entries where order_id = p_order),
   p as (select greatest(0, -w.net_wallet) as pw,
-               case when o.status = 'delivered' and o.cash_collected is not null
+               case when o.cash_collected is not null                    -- v61: collected cash stays a fact whatever the status becomes
                     then greatest(0, least(o.cash_collected, o.total - coalesce(o.wallet_used, 0))) else 0 end as pc,
                w.refunded as rf, o.total as total, coalesce(o.wallet_used, 0) as wu
           from o, w)
@@ -120,6 +122,27 @@ begin
     insert into wallet_entries(user_id, amount, kind, ticket_id, order_id, note, created_by)
     values (v_t.customer_id, v_ref, 'refund', p_ticket, v_t.order_id, left(coalesce(p_note, ''), 200), auth.uid());
   end if;
+end $$;
+
+-- ---------- 2b) the automatic wallet return on cancel / reject never pays back more than is still refundable (v61) ----------
+-- (proven paid − support refunds already made). Fixes «refund, then cancel» (SA): the wallet part is not given back twice.
+-- Nothing new is granted: the return can only be smaller than before, never larger; points are returned separately (trg_loyalty,
+-- untouched). Runs inside the order row update, i.e. under the same row lock ticket_set_status takes.
+create or replace function trg_wallet_return() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare v_room numeric; v_amt numeric;
+begin
+  if new.status in ('rejected', 'cancelled') and old.status not in ('rejected', 'cancelled')
+     and coalesce(new.wallet_used, 0) > 0 and new.wallet_returned_at is null then
+    select c.paid_wallet + c.paid_cash - c.refunded into v_room from order_refund_cap(new.id) c;
+    v_amt := round(least(new.wallet_used, greatest(coalesce(v_room, 0), 0)), 2);
+    if v_amt > 0 then
+      insert into wallet_entries(user_id, amount, kind, order_id) values (new.customer_id, v_amt, 'return', new.id)
+      on conflict (order_id) where kind = 'return' do nothing;
+    end if;
+    new.wallet_returned_at := now();                                              -- processed (also when nothing was left to return)
+  end if;
+  return new;
 end $$;
 
 -- ---------- 3) support refunds per order on the receipt ----------

@@ -69,9 +69,27 @@ for phase in ('live', 'patch'):
     c = conn(SUP); r1 = call(c, "select ticket_set_status(%s,'resolved','w',40)", (tk,)); c.commit() if r1[0] == 'ok' else None; c.close()
     q1("update orders set status = 'cancelled' where id = %s", (oid,))
     back = float(q1("select coalesce(sum(amount),0) from wallet_entries where order_id = %s and kind in ('return','refund')", (oid,))[0])
-    ok(back == 80, 'R2b %s (gap shown, needs the proposal / a decision): refund while in progress, then cancel → 80 back for 40 paid' % ('patch 37 alone' if P else 'local copy of live defs'))
+    if P: ok(back == 40, 'R2b patch (v61, no proposal needed): refund 40 while in progress, then cancel → the automatic return adds nothing → 40 back for 40 paid')
+    else: ok(back == 80, 'R2b local copy of live defs (gap shown): refund while in progress, then cancel → 80 back for 40 paid')
+    # ---- SA / SC at the same moment, both orders of arrival (delivered: wallet 50 + collected cash 150 = paid 200) ----
+    def back_of(o): return float(q1("select coalesce(sum(amount),0) from wallet_entries where order_id = %s and kind in ('return','refund')", (o,))[0])
+    for nm, first in (('SA', 'refund'), ('SC', 'cancel')):
+        oid = new_order('delivered', 'cash', 200, wallet=50, cash=150, driver=DRV); tk = ticket(oid, 'in_progress')
+        amt = 200 if nm == 'SA' else 150
+        ref = ("select ticket_set_status(%s,'resolved','r',%s)", (tk, amt)); can = ("update orders set status = 'cancelled' where id = %s", (oid,))
+        f, g = (ref, can) if first == 'refund' else (can, ref)
+        r = race(f[0], f[1], g[0], g[1], SUP if first == 'refund' else CUS, CUS if first == 'refund' else SUP)
+        tot = back_of(oid)
+        if P: ok(r['waited'] and r['a'][0] == 'ok' and r['b'][0] == 'ok' and tot == 200,
+                 '%s race patch: %s %s and cancel at the same moment → the second waits, both succeed, 200 back for 200 paid (got %s)' % (nm, 'refund' if nm == 'SA' else 'cancel first, then refund', amt, tot))
+        elif nm == 'SA': ok(tot > 200, 'SA race local copy of live defs (gap shown): %s back for 200 paid' % tot)
+        else: ok(tot == 200, 'SC race local copy of live defs: 200 back (live caps by the order total; the SC gap was in v60 patch 37 only, fixed in v61)')
+        if P:   # retry: the same refund again on a new ticket, and a second status change → nothing more
+            t2 = ticket(oid, 'in_progress'); c = conn(SUP); r2 = call(c, "select ticket_set_status(%s,'resolved','again',1)", (t2,)); c.close()
+            q1("update orders set status = 'delivered' where id = %s", (oid,)); q1("update orders set status = 'rejected' where id = %s", (oid,))
+            ok(r2[0] == 'err' and 'refund_too_high' in r2[1] and back_of(oid) == 200, '%s retry patch: one more refund → refund_too_high; delivered → rejected again → still 200' % nm)
     if P:
-        run_file('sql/option_refund_after_finish.sql')
+        run_file('sql/option_refund_after_finish.sql')   # the proposal stays a separate option for review (not adopted)
         oid = new_order('preparing', 'cash', 90, wallet=40); tk = ticket(oid, 'in_progress')
         r = race("update orders set status = 'cancelled' where id = %s", (oid,), "select ticket_set_status(%s,'resolved','w',40)", (tk,), CUS, SUP)
         back = float(q1("select coalesce(sum(amount),0) from wallet_entries where order_id = %s and kind in ('return','refund')", (oid,))[0])

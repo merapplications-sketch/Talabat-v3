@@ -10,7 +10,8 @@
 --    the rules in force on the order (orders.pay_rules). Historical orders are not touched. No electronic capture is created:
 --    there is still no payment provider; an electronic payment is NOT recorded as collected.
 -- B) SEPARATE RECORDS (no «all cash the courier took is a debt» model; the v60 model A is withdrawn):
---    v60d: courier payments confirmed / pending / disputed kept apart; the courier's advance is its own balance; platform
+--    v61: on «courier pays the store» orders the courier keeps his delivery pay from the cash (owner's operation; rule kept per
+--    order); a recorded store payment counts as paid (store confirmation optional), a disputed one is held back; platform
 --    settlements cover only platform-settled orders; one store lock for both paths; idempotency keys bound to the data.
 --    customer collection   = orders.cash_collected (courier, at delivery) + wallet ledger (patch 21); kept whatever the status
 --    courier → store       = driver_store_payments (amount, reference / photo, who confirmed: the store or finance; disputed)
@@ -18,7 +19,7 @@
 --    platform ↔ courier    = platform_driver_settlements (both directions, receiver / payer, reference, before / after)
 --    store owed / paid     = the restaurant's existing «net payable» formula of delivered orders; paid by the courier (non-disputed)
 --                            or by the platform (platform_store_settlements: method, reference, status pending / done / failed)
---    Nothing is netted automatically (courier pay is never deducted from the cash he holds without an approved rule).
+--    Nothing else is netted (pay on «platform settles» orders is paid by the platform; no other rule is assumed).
 --    A status change never deletes a collection or a payment.
 -- C) START OF THE NEW ACCOUNTING: accounting_start (set once by finance at activation, after reviewing
 --    sql/reconcile_transition_readonly.sql). Orders created from that moment belong to the new records; older ones stay with the
@@ -225,7 +226,9 @@ begin
   select total, coalesce(wallet_used, 0) into v_t2, v_w2 from orders where id = v_id;
   if v_t2 - v_w2 > 0 and p_payment !~ '^(cash|Cash|Наличн)' and not s.accept_online then raise exception 'online_not_allowed'; end if;
   update orders set pay_rules = jsonb_build_object('accept_online', s.accept_online, 'allow_wallet', s.allow_wallet, 'allow_points', s.allow_points,
-                                                   'settle_method', s.settle_method) where id = v_id;
+                                                   'settle_method', s.settle_method,
+                                                   -- v61: the courier keeps his delivery pay from the cash on courier-paid orders (kept per order)
+                                                   'courier_pay', case when s.settle_method = 'driver_pays' then 'keeps_fee_from_cash' end) where id = v_id;
   if v_gid is not null then update group_orders set status = 'placed', order_id = v_id, closed_at = coalesce(closed_at, now()) where id = v_gid; end if;
   return v_id;
 end $function$;
@@ -338,57 +341,67 @@ drop policy if exists pss_read on platform_store_settlements;
 create policy pss_read on platform_store_settlements for select using (owns_store(store_id) or has_perm('finance'));
 
 -- ---------- positions (read) ----------
--- v60d: confirmed / pending / disputed courier payments are kept apart. Pending ones are a precautionary reserve, never «paid»;
--- disputed ones are neither paid nor unpaid (no responsibility is assumed): they are not confirmed store payments, not an advance
--- owed to him, and they are NOT available to be taken from him either (v60e) — they stay held back until a decision. The courier's ADVANCE (he paid stores more than he
--- collected) is its own balance, repaid only by its own settlement direction; it is never offset against his pay or his cash.
+-- v61 (owner's operation, 17 Oct): on a «courier pays the store» order the restaurant hands the food over only when paid, the
+-- courier pays the full bill, collects from the customer and KEEPS his delivery pay from that cash. Example: meal 100, delivery
+-- 20 → he pays 100, collects 120, keeps 20 → 0 cash to hand over and 0 pay owed by the platform for that order. The rule in force
+-- is kept on each order (pay_rules.courier_pay = 'keeps_fee_from_cash'). The store's confirmation is OPTIONAL: a recorded payment
+-- counts as paid; a payment the store DISPUTES is held back (not paid, not an advance, not collectable), no responsibility assigned.
+-- On «platform settles» orders (reviewed separately) the courier hands the cash over and his pay is paid by the platform (not netted).
+-- A store payment on an order that is NOT completed (still on the way, or cancelled / rejected before delivery) stays apart
+-- (store_paid_open): it is neither netted nor owed to the courier — what happens to it is an open decision (no new entitlement).
+-- «Completed» = delivered, or cash was collected (a later status change does not erase collected cash).
 drop function if exists driver_position(uuid);
 create function driver_position(p_driver uuid)
-returns table(collected numeric, store_paid_confirmed numeric, store_paid_pending numeric, store_paid_disputed numeric,
-              handed_to_platform numeric, advance_repaid numeric, net_cash numeric, cash_held numeric, pending_reserve numeric,
-              can_hand_over numeric, advance_due numeric, earned numeric, earnings_paid numeric, earnings_due numeric)
+returns table(collected numeric, store_paid numeric, store_paid_confirmed numeric, store_paid_disputed numeric, store_paid_open numeric, pay_kept numeric,
+              handed_to_platform numeric, repaid_to_courier numeric, net numeric, can_hand_over numeric, owed_to_courier numeric,
+              ps_pay_earned numeric, ps_pay_paid numeric, ps_pay_due numeric)
 language sql stable security definer set search_path = public as $$
-  with o as (select * from orders where driver_id = p_driver and acc_order(created_at)),
-  c as (select coalesce(sum(cash_collected), 0) as col,                                     -- kept whatever the status now is
-               coalesce(sum(driver_payout) filter (where status = 'delivered'), 0) as ear from o),
-  p as (select coalesce(sum(amount) filter (where status = 'confirmed'), 0) as conf, coalesce(sum(amount) filter (where status = 'claimed'), 0) as pend,
-               coalesce(sum(amount) filter (where status = 'disputed'), 0) as disp
-          from driver_store_payments d where d.driver_id = p_driver and d.order_id in (select id from o)),
+  with o as (select *, coalesce(pay_rules->>'courier_pay', '') = 'keeps_fee_from_cash' as kf, (status = 'delivered' or cash_collected is not null) as done
+               from orders where driver_id = p_driver and acc_order(created_at)),
+  c as (select coalesce(sum(cash_collected), 0) as col,                                            -- kept whatever the status now is
+               coalesce(sum(driver_payout) filter (where done and kf), 0) as kept,                 -- his pay, taken from the cash
+               coalesce(sum(driver_payout) filter (where done and not kf), 0) as ear from o),        -- his pay paid by the platform
+  p as (select coalesce(sum(d.amount) filter (where d.status <> 'disputed' and o.done), 0) as paid,
+               coalesce(sum(d.amount) filter (where d.status = 'confirmed' and o.done), 0) as conf,
+               coalesce(sum(d.amount) filter (where d.status = 'disputed'), 0) as disp,
+               coalesce(sum(d.amount) filter (where d.status <> 'disputed' and not o.done), 0) as open
+          from driver_store_payments d join o on o.id = d.order_id where d.driver_id = p_driver),
   s as (select coalesce(sum(amount) filter (where direction = 'driver_to_platform'), 0) as hand,
                coalesce(sum(amount) filter (where direction = 'platform_to_driver'), 0) as paid,
-               coalesce(sum(amount) filter (where direction = 'advance_repayment'), 0) as adv from platform_driver_settlements where driver_id = p_driver),
-  n as (select c.col - p.conf - s.hand + s.adv as net from c, p, s)
-  select round(c.col, 2), round(p.conf, 2), round(p.pend, 2), round(p.disp, 2), round(s.hand, 2), round(s.adv, 2), round(n.net, 2),
-         round(greatest(n.net, 0), 2),                                   -- cash he holds on the confirmed basis
-         round(p.pend, 2),                                               -- shown as a reserve: he says he paid it, not confirmed yet
-         round(greatest(n.net - p.pend - p.disp, 0), 2),                 -- what may be taken from him now: pending AND disputed kept back
-         round(greatest(-n.net, 0), 2),                                  -- confirmed advance the platform owes him
+               coalesce(sum(amount) filter (where direction = 'advance_repayment'), 0) as rep from platform_driver_settlements where driver_id = p_driver),
+  n as (select c.col - p.paid - c.kept - s.hand + s.rep as net from c, p, s)
+  select round(c.col, 2), round(p.paid, 2), round(p.conf, 2), round(p.disp, 2), round(p.open, 2), round(c.kept, 2), round(s.hand, 2), round(s.rep, 2), round(n.net, 2),
+         round(greatest(n.net - p.disp, 0), 2),                          -- cash he must hand over; a disputed amount is held back
+         round(greatest(-n.net, 0), 2),                                  -- what the platform owes him on completed orders (e.g. «card» orders)
          round(c.ear, 2), round(s.paid, 2), round(c.ear - s.paid, 2)
     from c, p, s, n where has_perm('finance') or p_driver = auth.uid()
 $$;
--- the store side, split by the settlement method kept on each order: courier-paid orders and platform-settled orders never
--- share a payment, so the same goods cannot be paid twice through the two paths. Orders with no method set are shown apart.
+-- the store side, split by the method kept on each order; on courier-paid orders the store is paid the full bill by the courier and
+-- the platform commission (and what the store funds: points, cashback, free delivery) is OWED BY THE STORE — shown, not collected
+-- (how it is collected is an open decision); platform-settled orders are paid by the platform; no method → shown apart.
 drop function if exists store_position(uuid);
 create function store_position(p_store uuid)
 returns table(gross numeric, commission numeric, store_funded numeric, net_due numeric,
-              cp_net_due numeric, cp_paid_confirmed numeric, cp_paid_pending numeric, cp_paid_disputed numeric, cp_paid_on_undelivered numeric, cp_balance numeric,
+              cp_bill numeric, cp_paid numeric, cp_paid_confirmed numeric, cp_paid_disputed numeric, cp_unpaid numeric, cp_paid_open numeric, cp_owed_by_store numeric,
               pp_net_due numeric, pp_paid_done numeric, pp_paid_pending numeric, pp_available numeric, unassigned_due numeric)
 language sql stable security definer set search_path = public as $$
-  with o as (select *, coalesce(pay_rules->>'settle_method', '') as m from orders where store_id = p_store and acc_order(created_at)),
-  d as (select coalesce(sum(subtotal - discount), 0) as gross, coalesce(sum(commission), 0) as com,
-               coalesce(sum(coalesce(points_value, 0) + coalesce(cashback, 0) + coalesce(fee_waived, 0)), 0) as sf,
-               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m = 'driver_pays'), 0) as cpd,
-               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m = 'platform_settles'), 0) as ppd,
-               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m not in ('driver_pays', 'platform_settles')), 0) as una
-          from o where status = 'delivered'),                                   -- the restaurant's existing «net payable» formula
-  p as (select coalesce(sum(x.amount) filter (where x.status = 'confirmed'), 0) as conf, coalesce(sum(x.amount) filter (where x.status = 'claimed'), 0) as pend,
+  with o as (select *, coalesce(pay_rules->>'settle_method', '') as m, (status = 'delivered' or cash_collected is not null) as done
+               from orders where store_id = p_store and acc_order(created_at)),
+  d as (select coalesce(sum(subtotal - discount) filter (where status = 'delivered'), 0) as gross, coalesce(sum(commission) filter (where status = 'delivered'), 0) as com,
+               coalesce(sum(coalesce(points_value, 0) + coalesce(cashback, 0) + coalesce(fee_waived, 0)) filter (where status = 'delivered'), 0) as sf,
+               coalesce(sum(subtotal - discount) filter (where m = 'driver_pays' and done), 0) as cpb,
+               coalesce(sum(coalesce(commission, 0) + coalesce(points_value, 0) + coalesce(cashback, 0) + coalesce(fee_waived, 0)) filter (where m = 'driver_pays' and status = 'delivered'), 0) as cpo,
+               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m = 'platform_settles' and status = 'delivered'), 0) as ppd,
+               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m not in ('driver_pays', 'platform_settles') and status = 'delivered'), 0) as una
+          from o),                                                              -- the restaurant's existing formulas (delivered orders)
+  p as (select coalesce(sum(x.amount) filter (where x.status <> 'disputed' and o.done), 0) as paid, coalesce(sum(x.amount) filter (where x.status = 'confirmed' and o.done), 0) as conf,
                coalesce(sum(x.amount) filter (where x.status = 'disputed'), 0) as disp,
-               coalesce(sum(x.amount) filter (where x.status <> 'disputed' and o.status <> 'delivered'), 0) as undel
+               coalesce(sum(x.amount) filter (where x.status <> 'disputed' and not o.done), 0) as open
           from driver_store_payments x join o on o.id = x.order_id),
   q as (select coalesce(sum(amount) filter (where status = 'done'), 0) as done, coalesce(sum(amount) filter (where status = 'pending'), 0) as pend
           from platform_store_settlements where store_id = p_store)
   select round(d.gross, 2), round(d.com, 2), round(d.sf, 2), round(d.gross - d.com - d.sf, 2),
-         round(d.cpd, 2), round(p.conf, 2), round(p.pend, 2), round(p.disp, 2), round(p.undel, 2), round(d.cpd - p.conf, 2),
+         round(d.cpb, 2), round(p.paid, 2), round(p.conf, 2), round(p.disp, 2), round(greatest(d.cpb - p.paid, 0), 2), round(p.open, 2), round(d.cpo, 2),
          round(d.ppd, 2), round(q.done, 2), round(q.pend, 2), round(d.ppd - q.done - q.pend, 2), round(d.una, 2)
     from d, p, q where has_perm('finance') or owns_store(p_store)
 $$;
@@ -447,9 +460,10 @@ begin
          decision_note = nullif(left(btrim(coalesce(p_note, '')), 200), '') where id = p_id;
 end $$;
 -- platform ↔ courier, three separate directions, each against its own balance (never netted):
---   driver_to_platform : cash taken from him            ≤ can_hand_over (pending AND disputed store payments kept back)
---   platform_to_driver : his pay paid out               ≤ earnings_due
---   advance_repayment  : his confirmed advance repaid   ≤ advance_due      (PREPARED FOR REVIEW — see BATCH3-PLAN.md)
+--   driver_to_platform : cash taken from him                       ≤ can_hand_over (disputed store payments kept back)
+--   platform_to_driver : his pay on platform-settled orders        ≤ ps_pay_due
+--   advance_repayment  : what the platform owes him on courier-paid orders (e.g. «card» orders: bill + pay not covered by cash)
+--                        ≤ owed_to_courier        (PREPARED FOR REVIEW — paying it out is an open decision)
 create or replace function record_driver_settlement(p_driver uuid, p_direction text, p_amount numeric, p_reference text, p_note text, p_key text)
 returns table(id bigint, amount numeric, before_amount numeric, after_amount numeric, recorded_at timestamptz)
 language plpgsql security definer set search_path = public as $$
@@ -469,7 +483,7 @@ begin
   end if;
   if acc_start() is null then raise exception 'accounting_not_started'; end if;
   select * into x from driver_position(p_driver);
-  v_b := case p_direction when 'driver_to_platform' then x.can_hand_over when 'platform_to_driver' then x.earnings_due else x.advance_due end;
+  v_b := case p_direction when 'driver_to_platform' then x.can_hand_over when 'platform_to_driver' then x.ps_pay_due else x.owed_to_courier end;
   if coalesce(v_b, 0) <= 0 then raise exception 'nothing_due'; end if;
   if v_a > v_b then raise exception 'amount_too_high'; end if;
   insert into platform_driver_settlements(driver_id, direction, amount, before_amount, after_amount, reference, note, recorded_by, recorded_by_name, client_key, request)

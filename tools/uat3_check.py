@@ -110,7 +110,10 @@ with sync_playwright() as p:
     pg,errs=page(b,CU,'customer');E=pg.evaluate
     E("()=>{window.__owReal=id=>Promise.resolve(window.__pvTables.wallet_entries.filter(e=>e.order_id==id).map(e=>({id:e.id,amount:+e.amount,kind:e.kind,orderId:e.order_id,ticketId:e.ticket_id,at:Date.parse(e.created_at)})));TLB.orderWallet=window.__owReal}")
     def setord(js):E("()=>{const o=window.__pvTables.orders.find(o=>o.id=='ord5');Object.assign(o,%s)}"%js);E("()=>TLB.reload()");pg.wait_for_timeout(900);E("()=>{go('track',{tid:'ord5'})}");pg.wait_for_timeout(400)
+    # v61: the live trigger writes the return entry together with wallet_returned_at; the receipt reads the entry (it can be capped)
+    E("()=>{const W=window.__pvTables.wallet_entries;if(!W.some(e=>e.order_id=='ord5'&&e.kind=='return'))W.push({id:99005,user_id:'u',amount:124.38,kind:'return',order_id:'ord5',ticket_id:null,created_at:new Date().toISOString()})}")
     setord("{status:'cancelled',subtotal:265,discount:0,delivery_fee:10,tip:0,total:275,payment:'cash',wallet_used:124.38,points_used:1000,points_value:10,wallet_returned_at:new Date().toISOString(),points_returned_at:new Date().toISOString(),cash_collected:null}")
+    E("()=>{S.owl=null;render()}");pg.wait_for_timeout(400)
     st=pg.inner_text('#stl') if pg.locator('#stl').count() else ''
     ok('Возвращено в кошелёк' in st and '+124.38' in st,'012 (9104): wallet return shown from the record: +124.38')
     ok('Баллы возвращены' in st and re.search(r'\+1\s?000',st) is not None,'012: points return shown from the record: +1000')
