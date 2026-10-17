@@ -435,13 +435,275 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 .fbar.d6-dock .btn.s{background:#FFF1E9;color:#EF500B;flex:0 0 auto;min-width:120px;box-shadow:none}
 .fbar.d6-dock .btn:not(.s){background:#FF5A12;flex:1}
 .fbar.d6-dock .btn:disabled{background:#C9CED8;color:#fff}
+
+/* ===== design v06.1 — batches 2–3: page layer for checkout, order details, wallet, profile, address (.d6p), Home B (.d6h),
+   restaurants list (.d6l). Existing markup and handlers; only the look follows the design. ===== */
+.d6p .top,.d6l .top{background:var(--bg);gap:8px;padding:calc(8px + env(safe-area-inset-top,0px)) 16px 12px}
+.d6p .top .ib,.d6l .top .ib{width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 1px 5px #00000011;position:static;flex:none;color:var(--ink)}
+.d6p .tt b,.d6l .tt b{font-size:22px;line-height:27px;font-weight:700;color:var(--ink)}
+.d6p .tt span,.d6l .tt span{font-size:13px;line-height:18px;color:var(--mut)}
+.d6p .pg{padding:0 16px 16px}
+.d6p .card{border-radius:16px;border:1px solid var(--line2);box-shadow:none;padding:16px;margin-bottom:12px;background:#fff}
+.d6p .card h3,.d6p h3{font-size:16px;line-height:22px;font-weight:700;color:var(--ink)}
+.d6p .tip{background:var(--form);border-radius:12px;min-height:44px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:700;color:var(--ink);padding:0 6px}
+.d6p .tip.on{background:var(--o);color:#fff}
+.d6p .wsw.on{background:var(--o)}
+.d6p .fld{background:var(--form);border:1px solid var(--line);border-radius:12px;min-height:48px;padding:12px;font-size:16px}
+.d6p .fld:focus{border-color:var(--o);background:#fff}
+.d6p .pm .btn{background:var(--tint);color:var(--o);border-radius:12px;height:48px;padding:0 16px;flex:none}
+.d6p .btn.t{color:var(--o);font-weight:700;min-height:44px}
+.d6p .wsw{width:64px;height:44px;border:7px solid transparent;box-sizing:border-box}
+.d6p .wsw,.d6p .wsw.on{background-clip:padding-box!important}
+.d6p .btn.big{min-height:56px;height:auto;border-radius:12px;font-size:15px}
+.d6p .sum .row{font-size:14px;line-height:20px;color:var(--mut2);padding:7px 0}
+.d6p .sum .tot{border-top:1px solid var(--line2);font-size:16px;color:var(--ink)}
+.d6p .sum .tot span:last-child{color:var(--o);font-size:18px}
+.d6p .ernb{background:linear-gradient(90deg,#FF6A1F,#F3B04B);color:var(--ink);min-height:40px;border-radius:20px;padding:8px 16px}
+.d6p .sv{background:var(--tint);color:var(--ink);border:1px solid #FFD4BE;border-radius:16px;font-weight:700}
+.d6p .rad.on{background:var(--o);border-color:var(--o)}
+.d6p .pay{min-height:56px}
+.d6p .closedb{border-radius:16px}
+.d6p .fbar{background:#fff;box-shadow:0 -4px 16px #17243C0a;padding:12px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.d6p .fbar .btn{min-height:56px;height:auto;border-radius:12px}
+.d6p .dr{border-bottom-color:var(--line2)}
+/* order details */
+.d6p .d6-st{display:flex;align-items:center;gap:12px}
+.d6p .d6-st .ok{width:40px;height:40px;border-radius:12px;background:#E6F6ED;color:var(--ok);display:flex;align-items:center;justify-content:center;flex:none}
+.d6p .d6-st .ok.bad{background:#FDECEB;color:var(--bad)}
+.d6p .d6-st b{font-size:18px;line-height:24px}
+.d6p .d6-it{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line2)}
+.d6p .d6-it:last-child{border-bottom:0}
+.d6p .d6-it .d6-ph{width:64px;height:56px;border-radius:10px;flex:none}
+.d6p .d6-it .tx{flex:1;min-width:0;font-size:14px;line-height:20px}
+.d6p .d6-it .tx b{display:block;font-size:15px}
+.d6p .d6-it .nt2,.d6p .d6-it .nt{font-size:12px;line-height:16px;color:var(--mut2)}
+.d6p .d6-it .pr{font-weight:700;white-space:nowrap}
+.d6p .d6-rep{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:12px 16px;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);text-align:start;margin-bottom:12px;cursor:pointer}
+/* wallet */
+.d6p .d6-bal{background:var(--tint);border:1px solid #FFD4BE;border-radius:16px;padding:16px;margin-bottom:12px;position:relative}
+.d6p .d6-bal .lb{font-size:13px;line-height:18px;font-weight:700;color:var(--o)}
+.d6p .d6-bal .am{font-size:32px;line-height:40px;font-weight:800;color:var(--ink);margin-top:4px}
+.d6p .d6-bal .am small{font-size:14px;color:var(--o);font-weight:700;margin-left:4px}
+.d6p .d6-bal .hn{font-size:12px;line-height:17px;color:var(--mut2);margin-top:6px}
+.d6p .d6-bal .ic{position:absolute;right:16px;top:16px;color:var(--o)}
+.d6p .d6-pts .am{font-size:28px;line-height:34px;font-weight:800}
+.d6p .d6-pts .am small{font-size:13px;color:var(--mut);font-weight:500;margin-left:4px}
+.d6p .d6-pts .cp{color:var(--o);font-weight:700;font-size:13px}
+.d6p .d6-prog{height:6px;border-radius:6px;background:#E7EBF1;margin:12px 0 8px;overflow:hidden}
+.d6p .d6-prog i{display:block;height:100%;background:var(--o);border-radius:6px}
+.d6p .d6-lnk{background:none;border:0;padding:0;min-height:44px;color:var(--o);font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.d6p .d6-rules{display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:18px;color:var(--mut2);margin-top:4px}
+.d6p .d6-dis{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:0 16px;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:12px;cursor:pointer}
+.d6p .d6-dis svg{transition:transform .15s}
+.d6p .d6-dis.on svg{transform:rotate(180deg)}
+.d6p .d6-tabs{display:flex;gap:8px;margin:0 0 12px}
+.d6p .d6-tabs button{flex:1;min-height:44px;border-radius:12px;border:1px solid var(--line2);background:#fff;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer}
+.d6p .d6-tabs button.on{background:var(--tint);border-color:var(--o);color:var(--o)}
+/* profile */
+.d6p .d6-pf{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:16px;margin-bottom:12px}
+.d6p .d6-av{width:52px;height:52px;border-radius:50%;background:var(--tint);color:var(--o);font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.d6p .d6-pf b{display:block;font-size:17px;line-height:22px}
+.d6p .d6-pf .pn{font-size:13px;color:var(--mut);margin-top:2px}
+.d6p .d6-pf .d6-lnk{min-height:44px}
+.d6p .d6-sv{background:var(--tint);border:1px solid #FFD4BE;border-radius:16px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.d6p .d6-sv .lb{font-size:12px;color:var(--mut2)}
+.d6p .d6-sv b{font-size:24px;line-height:30px;font-weight:800}
+.d6p .d6-sv .xs{text-align:right}
+.d6p .gp{background:#fff;border:1px solid var(--line2);border-radius:16px;padding:0 16px;margin-bottom:12px;box-shadow:none}
+.d6p .r2{min-height:56px;padding:0;border-radius:0;font-size:15px;font-weight:700;gap:12px;border-bottom:1px solid var(--line2)}
+.d6p .r2:last-child{border-bottom:0}
+.d6p .r2 .i3{background:none;color:var(--o);width:24px;height:24px}
+.d6p .r2 .vl{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--o);font-weight:700;font-size:14px}
+.d6p .r2 .vl svg{color:var(--mut)}
+.d6p .d6-ft{font-size:12px;line-height:17px;color:var(--mut);margin:4px 4px 0}
+/* address form */
+.d6p .seg{background:none;padding:0;gap:8px}
+.d6p .seg button{min-height:44px;border-radius:12px;background:#fff;border:1px solid var(--line2);color:var(--ink);font-size:14px;font-weight:700}
+.d6p .seg button.on{background:var(--tint);border-color:var(--tint);color:var(--o);box-shadow:none}
+.d6p .mapbox{border-radius:12px}
+.d6p .fl2{font-size:13px;font-weight:700;color:var(--ink)}
+.d6p .frow{display:block}
+.d6p .fbar.d6-save .btn{background:var(--o)}
+
+.d6p .supl{justify-content:flex-start;gap:12px;min-height:64px;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:12px 16px;margin:0 0 12px;color:var(--ink);font-size:15px;font-weight:700;text-align:start}
+.d6p .supl svg{color:var(--o)}
+.d6p .ratef h3{font-size:18px}
+.d6p .rcp .li{display:flex}
+/* ===== Home B (.d6h) and the restaurants list (.d6l) ===== */
+.d6h,.d6l{background:#fff;padding-bottom:4px;min-height:100vh}
+.d6-hh{position:sticky;top:calc(-58px - env(safe-area-inset-top,0px));z-index:55;background:#fff;padding:calc(8px + env(safe-area-inset-top,0px)) 14px 8px}
+.d6-hr{display:flex;align-items:center;gap:8px;min-height:48px;margin-bottom:8px}
+.d6-logo{width:108px;height:auto;flex:none;display:block}
+.d6-loc{flex:1;min-width:0;display:flex;align-items:center;gap:4px;border:0;background:none;font-family:inherit;color:var(--ink);text-align:start;min-height:48px;padding:0 2px;cursor:pointer}
+.d6-loc svg{flex:none}
+.d6-loc span{flex:1;min-width:0;display:flex;flex-direction:column}
+.d6-loc small{font-size:12px;line-height:16px;color:var(--mut2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d6-loc b{font-size:14px;line-height:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d6-hib{position:relative;width:44px;height:44px;border-radius:50%;background:var(--form);border:0;display:flex;align-items:center;justify-content:center;color:var(--ink);flex:none;cursor:pointer;padding:0}
+.d6-hib .bdg{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:var(--o);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;box-sizing:content-box;line-height:1}
+.d6-sf{display:flex;align-items:center;gap:8px;min-height:52px;border-radius:14px;background:var(--form);border:1px solid var(--line2);padding:0 1px 0 14px;color:var(--mut);cursor:text}
+.d6-sf input[type=search]{flex:1;min-width:0;border:0;background:none;font-family:inherit;font-size:16px;color:var(--ink);height:48px;outline:none;padding:0;margin:0;-webkit-appearance:none;appearance:none;box-shadow:none}
+.d6-sf input::placeholder{color:var(--mut)}
+.d6-fb{width:48px;height:48px;border-radius:12px;background:var(--tint);color:var(--o);border:0;display:flex;align-items:center;justify-content:center;position:relative;flex:none;cursor:pointer;padding:0}
+.d6-fb.on{background:var(--o);color:#fff}
+.d6-fb i{position:absolute;top:9px;right:9px;width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid var(--o)}
+.d6h .ndg{margin:8px 14px 0}
+/* bento */
+.d6-bento{display:grid;grid-template-columns:1.53fr 1fr;grid-template-rows:106px 106px;gap:8px;padding:6px 14px 0}
+.d6-bento.one{grid-template-columns:1fr;grid-template-rows:180px}
+.d6-bm{grid-row:1/3;position:relative;border-radius:14px;overflow:hidden;min-width:0}
+.d6-bento.one .d6-bm{grid-row:auto}
+.d6-bsc{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.d6-bsc::-webkit-scrollbar{display:none}
+.d6-bsc>.d6-bt{flex:0 0 100%;scroll-snap-align:start;border-radius:0;padding-bottom:22px}
+.d6-bt{position:relative;overflow:hidden;border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;cursor:pointer;color:#fff;background:linear-gradient(150deg,#FF7A2E,#FF5A12 60%,#E84A08);min-width:0;min-height:0}
+.d6-bt.d6tg{background:linear-gradient(150deg,#45A862,#23853F)}
+.d6-bt.d6tp{background:linear-gradient(150deg,#FAD0DC,#F2A3BD);color:var(--ink)}
+.d6-bt .tt{font-size:14px;line-height:18px;font-weight:800;position:relative;z-index:1;max-width:100%}
+.d6-bt.d6tm .tt{font-size:22px;line-height:26px;max-width:80%}
+.d6-bt .su{font-size:11px;line-height:15px;position:relative;z-index:1;max-width:72%}
+.d6-bt.d6tm .su{font-size:13px;line-height:17px}
+.d6-bt .cd{font-size:12px;font-weight:700;background:#ffffff33;border-radius:8px;padding:2px 8px;position:relative;z-index:1;display:inline-flex;align-items:center;gap:4px}
+.d6-bt .cta{margin-top:auto;background:#fff;color:var(--ink);font-size:13px;font-weight:700;border-radius:12px;min-height:40px;padding:0 12px;display:inline-flex;align-items:center;gap:6px;position:relative;z-index:1;max-width:100%}
+.d6-bt:not(.d6tm) .su{display:none}
+.d6-bt .ar{margin-top:auto;width:34px;height:34px;border-radius:50%;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;flex:none}
+.d6-bt .art{position:absolute;right:-8px;bottom:-8px;width:70px;height:70px;filter:drop-shadow(0 6px 8px #00000026)}
+.d6-bt.d6tm .art{width:112px;height:112px;right:-12px;bottom:auto;top:44%}
+.d6-bento.one .d6-bt.d6tm .art{width:140px;height:140px;top:auto;bottom:-10px;right:-6px}
+.d6-bt.img{padding:0;background:var(--form);color:var(--ink)}
+.d6-bt.img>img{width:100%;height:100%;object-fit:cover;display:block}
+.d6-bt.img .tt{padding:12px}
+.d6-bm .hdt{position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center;gap:5px;pointer-events:none;margin:0}
+.d6-bm .hdt i{width:6px;height:6px;border-radius:3px;background:#ffffff99}
+.d6-bm .hdt i.on{width:16px;background:#fff}
+/* categories: one row of six */
+.d6-cats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;padding:14px 6px 2px}
+.d6-ct{display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;font-family:inherit;color:var(--ink);padding:0;cursor:pointer;min-width:0;min-height:75px}
+.d6-ct span{width:52px;height:52px;max-width:100%;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.d6-ct img{width:38px;height:38px;filter:drop-shadow(0 3px 4px #17243C22)}
+.d6-ct b{font-size:11px;line-height:14px;font-weight:600;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em}
+/* section titles */
+.d6-sh{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:18px 14px 6px}
+.d6-sh h2{display:flex;align-items:center;gap:8px;font-size:18px;line-height:24px;font-weight:700;color:var(--ink);margin:0;min-width:0}
+.d6-sh h2 span{overflow:hidden;text-overflow:ellipsis}
+.d6-sh h2 svg{color:var(--o);flex:none}
+.d6-sh button{border:0;background:none;color:var(--o);font-family:inherit;font-size:12px;font-weight:700;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:flex-end;gap:2px;padding:0;flex:none;cursor:pointer}
+.d6-shs{font-size:12px;line-height:16px;color:var(--mut2);margin:-6px 14px 8px}
+.d6l .d6-sh{padding:16px 0 6px}.d6l .d6-shs{margin:-6px 0 10px 28px}
+/* rails */
+.d6-rl{display:flex;gap:10px;overflow-x:auto;padding:4px 14px 6px;scroll-snap-type:x proximity;scrollbar-width:none;scroll-padding:0 14px}
+.d6-rl::-webkit-scrollbar{display:none}
+.d6-rl>*{flex:none;scroll-snap-align:start}
+.d6h .d6-ph .hb{position:absolute;top:8px;left:8px;z-index:1}
+.d6h .hrt,.d6l .hrt{position:absolute;top:2px;right:2px;width:44px;height:44px;border:0;background:none;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;padding:0;box-shadow:none}
+.d6h .hrt::before,.d6l .hrt::before{content:'';position:absolute;inset:5px;border-radius:10px;background:#fff;box-shadow:0 1px 4px #17243C22;z-index:-1}
+/* favourites again */
+.d6-lo{width:122px;border:1px solid var(--line2);border-radius:12px;padding:0 0 8px;display:flex;flex-direction:column;overflow:hidden;background:#fff}
+.d6-lo .d6-ph{width:100%;height:60px}
+.d6-lo .nm{font-size:13px;line-height:17px;font-weight:700;margin:8px 8px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d6-lo .it{font-size:11px;line-height:15px;color:var(--mut2);margin:2px 8px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d6-ob{margin:8px 8px 0;min-height:48px;border-radius:8px;background:var(--o);color:#fff;border:0;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:0 4px}
+/* best offers */
+.d6-of{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.d6-of.one{grid-template-columns:1fr}
+.d6-ot{position:relative;overflow:hidden;min-height:92px;border-radius:12px;padding:12px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;cursor:pointer;background:var(--tint);color:var(--ink)}
+.d6-ot.g{background:#E8F6EC}
+.d6-ot b{font-size:14px;line-height:18px;font-weight:800;display:flex;align-items:center;gap:4px;position:relative;z-index:1;max-width:76%}
+.d6-ot b svg{color:var(--o);flex:none}
+.d6-ot .s{font-size:12px;line-height:16px;color:var(--mut2);position:relative;z-index:1;max-width:64%;display:inline-flex;align-items:center;gap:3px}
+.d6-ot .ar{margin-top:auto;width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.d6-ot img{position:absolute;right:-6px;bottom:-6px;width:68px;height:68px}
+/* popular restaurants */
+.d6-sc{width:167px;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;padding-bottom:10px}
+.d6-sc .d6-ph{width:100%;height:100px}
+.d6-sc.closed .d6-ph>img{filter:grayscale(1);opacity:.6}
+.d6-sc .nm,.d6-dc .nm{display:block;font-size:14px;line-height:18px;font-weight:700;margin:8px 10px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d6-sc .mt,.d6-dc .mt,.d6-sr .mt{font-size:12px;line-height:16px;color:var(--mut2);margin:3px 10px 0;display:flex;gap:4px;align-items:center;white-space:nowrap;overflow:hidden}
+.d6-sc .mt>span:last-child,.d6-dc .mt>span:last-child,.d6-sr .mt>span:last-child{overflow:hidden;text-overflow:ellipsis}
+.d6h .rt,.d6l .rt{display:inline-flex;align-items:center;gap:2px;color:var(--ink);font-weight:700;flex:none}
+.d6h .rt svg,.d6l .rt svg{color:#F5A524}
+.d6h .rt i,.d6l .rt i{font-style:normal;font-weight:500;color:var(--mut2)}
+.d6-sc .pk{margin:6px 10px 0}
+/* recommended dishes */
+.d6-pt{width:120px;cursor:pointer}
+.d6-pt .d6-ph{width:120px;height:80px;border-radius:12px}
+.d6-pt .d6-bdg{position:absolute;left:6px;top:6px;z-index:1}
+.d6-pa{position:absolute;right:0;bottom:0;width:44px;height:44px;border:0;background:none;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;color:var(--ink);padding:0}
+.d6-pa::before{content:'';position:absolute;inset:6px;border-radius:50%;background:#fff;box-shadow:0 1px 4px #17243C2e;z-index:-1}
+.d6-pt .nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;line-height:17px;font-weight:700;margin-top:6px}
+.d6-pt .px{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-top:2px}
+.d6-pt .px s{font-weight:500;color:var(--mut);margin-left:4px;font-size:11px}
+.d6-pt .st{display:block;font-size:11px;line-height:15px;color:var(--mut2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* nearby */
+.d6-nr{display:grid;grid-auto-flow:column;grid-template-rows:auto auto;grid-auto-columns:min(292px,calc(100vw - 52px));gap:10px;overflow-x:auto;padding:4px 14px 6px;scrollbar-width:none;scroll-snap-type:x proximity;scroll-padding:0 14px}
+.d6-nr::-webkit-scrollbar{display:none}
+.d6-nc{display:flex;align-items:center;height:100px;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;scroll-snap-align:start;min-width:0}
+.d6-nc .d6-ph{width:100px;height:100%;flex:none}
+.d6-nc.closed .d6-ph>img{filter:grayscale(1);opacity:.6}
+.d6-nc .tx{flex:1;min-width:0;padding:0 8px 0 12px;display:flex;flex-direction:column;gap:1px}
+.d6-nc .tx b{font-size:15px;line-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d6-nc .tx span{font-size:12px;line-height:17px;color:var(--mut2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d6-nc .go{width:44px;height:44px;border-radius:12px;background:var(--tint);color:var(--o);display:flex;align-items:center;justify-content:center;margin-right:12px;flex:none}
+/* coupons and rewards */
+.d6-cp{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.d6-cp>div{min-height:112px;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-width:0}
+.d6-cp .c1{background:#FFF8F3;border:1px solid #F0DCD0;color:var(--ink)}
+.d6-cp .c2{background:#17243C;color:#fff}
+.d6-cp .ic{color:var(--o);display:flex}
+.d6-cp b{font-size:15px;line-height:19px}
+.d6-cp .go{margin-top:auto;font-size:12px;line-height:16px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:4px}
+.d6-cp .c1 .go svg{color:var(--o)}
+/* DineOut */
+.d6-dn{position:relative;overflow:hidden;margin:0 14px;border-radius:15px;min-height:170px;background:linear-gradient(135deg,#17243C,#2A2620 62%,#5A3D16);color:#fff;padding:18px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;cursor:pointer}
+.d6-dn .dlg{font-family:Georgia,'Times New Roman',serif;font-size:34px;line-height:38px;font-weight:700;color:#F6E2B3;position:relative;z-index:1}
+.d6-dn p{font-size:14px;line-height:19px;margin:0;position:relative;z-index:1;max-width:62%;color:#F1E6D2}
+.d6-dn .go{margin-top:auto;background:var(--o);color:#fff;border-radius:20px;min-height:40px;padding:0 16px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;position:relative;z-index:1}
+.d6-dn .art{position:absolute;right:-6px;bottom:-10px;width:120px;height:120px;filter:drop-shadow(0 8px 10px #0000004d)}
+.d6-dn .pct{position:absolute;right:12px;top:14px;background:var(--tint);color:var(--o);font-size:12px;font-weight:800;border-radius:10px;padding:4px 8px;z-index:1}
+.d6-dc{width:240px;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;padding-bottom:10px}
+.d6-dc .d6-ph{width:100%;height:130px}
+.d6-dc .nm{display:flex;align-items:center;gap:4px;margin:8px 12px 0;font-size:15px;line-height:20px}
+.d6-dc .nm span{overflow:hidden;text-overflow:ellipsis}
+.d6-dc .nm svg{color:var(--o);flex:none}
+.d6-dc .mt{margin:3px 12px 0}
+/* partner banners (admin) */
+.d6h .bbs{margin:0 14px;border-radius:16px}
+.d6h .bb{background:#FFF0E7;color:var(--ink)}
+.d6h .bb b{display:block;padding:16px;font-size:18px}
+/* restaurants list (all lists) */
+.d6-lh{background:#fff;padding:calc(8px + env(safe-area-inset-top,0px)) 14px 0}
+.d6-lt{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px}
+.d6-lt h1{font-size:22px;line-height:28px;font-weight:700;margin:0;color:var(--ink);min-width:0;flex:none;max-width:70%}
+.d6-lt span{font-size:12px;line-height:16px;color:var(--mut2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.d6-l3{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px;padding:0 14px 12px}
+.d6-l3 button{min-height:88px;border-radius:14px;border:2px solid transparent;font-family:inherit;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:8px;padding:12px;font-size:14px;line-height:18px;font-weight:700;color:var(--ink);text-align:start;cursor:pointer;min-width:0}
+.d6-l3 .a{background:var(--tint)}.d6-l3 .b{background:#F1F3F6}.d6-l3 .c{background:#FFF6E8}
+.d6-l3 svg{color:var(--o)}
+.d6-l3 button.on{border-color:var(--o)}
+.d6l .d6-sf{margin:0 14px}
+.d6l .chips{padding:10px 14px 2px;gap:8px}
+.d6l .chip{min-height:44px;border-radius:12px;border:1px solid var(--line2);background:#fff;color:var(--o);font-weight:700;font-size:13px;box-shadow:none}
+.d6l .chip.on{background:var(--o);color:#fff;border-color:var(--o)}
+.d6l .pg{padding:4px 14px 16px}
+.d6-res.pg{padding:8px 14px 16px}
+.sr.d6-sr{gap:12px;align-items:flex-start;border:1px solid var(--line2);border-radius:16px;padding:14px 12px;margin-bottom:12px;background:#fff;box-shadow:none;cursor:pointer}
+.sr.d6-sr .d6-ph.th{width:80px;height:80px;border-radius:12px;flex:none;background:var(--form)}
+.sr.d6-sr .tx{padding-right:34px}
+.sr.d6-sr .nm{font-size:16px;line-height:21px;font-weight:700;color:var(--ink)}
+.sr.d6-sr .tx p{font-size:12px;line-height:17px;color:var(--mut2);margin-top:2px}
+.sr.d6-sr .tx p.hit{color:var(--o);font-weight:600}
+.sr.d6-sr .mt{margin:5px 0 0;color:var(--ink)}
+.sr.d6-sr .dl{font-size:12px;line-height:17px;color:var(--mut2);margin-top:2px;display:flex;align-items:center;gap:4px}
+.sr.d6-sr .or{position:absolute;right:12px;bottom:12px;background:var(--form);border-radius:10px;font-size:11px;line-height:14px;padding:4px 8px;color:var(--mut2)}
+.sr.d6-sr.closed .d6-ph>img{filter:grayscale(1);opacity:.55}
+@media (max-width:374px){.d6-ct b{font-size:10px}.d6-bt.d6tm .tt{font-size:20px;line-height:24px}.d6-l3 button{font-size:13px;padding:10px}}
 </style></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="talabat-core.js?v=56"></script>
 <script>
-TLB.addDict({d6Close:'Закрыть',d6Info:'Подробнее о ресторане',d6UpTo:'Скидка до {n}%',d6OnDishes:'На отдельные блюда',d6Pop:'Популярные блюда',d6Note:'Особые пожелания',d6NotePh:'Например: без лука, больше соуса',d6NoteHint:'Передаётся ресторану вместе с этим блюдом',d6AddCart:'Добавить в корзину',d6InCart:'в корзине {n}',d6Items:'{n} шт.',d6Removed:'Удалено',d6Undo:'Вернуть',d6Clear:'Очистить корзину',d6CmtCap:'У каждого блюда есть пожелание — комментарий добавится к первому блюду (осталось знаков: {n}).',d6CmtLong:'Комментарий не помещается вместе с пожеланием к первому блюду. Сократите его.',d6Addr:'Адрес',d6Map:'Открыть на карте',home:'Главная',orders:'Заказы',fav:'Избранное',promoTab:'Акции',me:'Профиль',deliverTo:'Адрес доставки',rest:'Рестораны',grocery:'Супер\u00adмаркеты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Конди\u00adтерские',
+TLB.addDict({d6DelTo:'Доставить в',d6c_rest:'Рестораны',d6c_grocery:'Продукты',d6c_pharmacy:'Аптеки',d6c_beauty:'Красота',d6c_flowersgifts:'Цветы',d6c_sweets:'Сладости',d6All:'Все',d6FavAgain:'Ваши любимые снова',d6Ord:'Заказать',d6PopR:'Популярные рестораны',d6Near:'Рядом с вами',d6DelTbd:'Доставка уточняется',d6CpT:'Купоны и награды',d6Cp:'Купоны',d6CpGo:'Открыть купоны',d6Rw:'Баллы и награды',d6RwGo:'Мои награды',d6Partn:'Предложения партнёров',d6HiR:'С высоким рейтингом',d6HiRs:'По оценкам клиентов',d6AgainS:'Из ваших прошлых заказов',d6LastO:'Последний заказ: {d}',d6AllPl:'Все места',d6Other:'Другие подходящие места',d6tDisc:'Скидки',d6tFree:'Бесплатная доставка',d6tMine:'Для вас',d6AddrReq:'Улица, дом и точка на карте обязательны.',d6Chk:'Чек',d6WalT:'Кошелёк и баллы',d6BalL:'Доступный баланс',d6PtsT:'Бонусные баллы',d6Vch:'купонов: {n}',d6Rate:'{n} баллов = {v} TJS',d6Rules:'Правила баллов и срок действия',d6Ops:'Операции кошелька',d6CbH:'История кешбэка',d6NoPts:'Начислений и списаний баллов пока нет.',d6NoCb:'Кешбэка пока не было.',d6MeT:'Профиль',d6Acc:'Настройки аккаунта',d6Saved:'Экономия на доставленных заказах',d6LangPh:'Язык и номер телефона — в настройках аккаунта.',d6Close:'Закрыть',d6Info:'Подробнее о ресторане',d6UpTo:'Скидка до {n}%',d6OnDishes:'На отдельные блюда',d6Pop:'Популярные блюда',d6Note:'Особые пожелания',d6NotePh:'Например: без лука, больше соуса',d6NoteHint:'Передаётся ресторану вместе с этим блюдом',d6AddCart:'Добавить в корзину',d6InCart:'в корзине {n}',d6Items:'{n} шт.',d6Removed:'Удалено',d6Undo:'Вернуть',d6Clear:'Очистить корзину',d6CmtCap:'У каждого блюда есть пожелание — комментарий добавится к первому блюду (осталось знаков: {n}).',d6CmtLong:'Комментарий не помещается вместе с пожеланием к первому блюду. Сократите его.',d6Addr:'Адрес',d6Map:'Открыть на карте',home:'Главная',orders:'Заказы',fav:'Избранное',promoTab:'Акции',me:'Профиль',deliverTo:'Адрес доставки',rest:'Рестораны',grocery:'Супер\u00adмаркеты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Конди\u00adтерские',
 noMenu:'Меню скоро появится',closed:'Закрыто',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',apple:'Apple Pay',place:'Оформить заказ',
 noOrders:'Заказов пока нет',back:'Назад',courier:'Курьер',cancelO:'Отменить заказ',chatH:'Сообщение курьеру',send:'Отправить',langL:'Язык',none:'Нет',cartT:'Корзина',note:'Тестовая версия',
 free:'Бесплатно',bestOffers:'Лучшие предложения',favs:'Избранное',search:'Поиск ресторанов, товаров, блюд…',noRes:'Ничего не найдено',searchCat:'Поиск в категории…',fOpen:'Открыто',fFree:'Бесплатная доставка',fDisc:'Скидки',fRate:'Рейтинг',
@@ -457,7 +719,7 @@ orderDone:'Заказ оформлен!',orderDoneS:'Спасибо! Мы пер
 stp1:'Принят',stp2:'Готовится',stp3:'В пути',stp4:'Доставлен',
 trk_pending:'Заказ отправлен',trk_pending_s:'Ждём подтверждения ресторана',trk_preparing:'Готовим ваш заказ',trk_preparing_s:'Ресторан готовит ваш заказ',trk_ready:'Заказ почти готов',trk_ready_s:'Ждём курьера в ресторане',trk_pickedup:'Курьер в пути',trk_pickedup_s:'Курьер едет к вам',trk_delivered:'Заказ доставлен',trk_delivered_s:'Приятного аппетита!',trk_rejected:'Заказ отклонён',trk_rejected_s:'Ресторан не смог принять заказ',trk_cancelled:'Заказ отменён',trk_cancelled_s:'Вы отменили этот заказ',
 closedMsg:'Ресторан сейчас закрыт. Заказ недоступен.',brs:'Другие филиалы',closedBanner:'Ресторан сейчас закрыт — заказать нельзя',recT:'Состав заказа',deliveredOn:'Доставлен',cancelledOn:'Заказ отменён',placedOn:'Оформлен',dateL:'Дата',promoTab2:'Акции',rateT:'Оцените заказ',rateStore:'Ресторан',rateDrv:'Курьер',rateCmt:'Комментарий (необязательно)',rateCmtPh:'Что понравилось или что можно улучшить?',rateSend:'Отправить оценку',rateThanks:'Спасибо за вашу оценку!',rateLow:'Нам жаль, что вы остались недовольны. Мы свяжемся с вами, чтобы всё исправить.',rateNeed:'Поставьте хотя бы одну оценку',rateHow:'Как всё прошло?',rateHowS:'Ваша оценка помогает нам стать лучше',st1:'Ужасно',st2:'Плохо',st3:'Нормально',st4:'Хорошо',st5:'Отлично',rateWhat:'Что пошло не так?',rateWhatG:'Что вам понравилось?',tgD1:'Опоздал',tgD2:'Грубое общение',tgD3:'Не позвонил',tgD4:'Небрежно обращался с заказом',tgD5:'Не тот адрес',tgD6:'Вежливый',tgD7:'Быстро',tgD8:'Аккуратно',tgS1:'Холодная еда',tgS2:'Не хватало блюд',tgS3:'Долго готовили',tgS4:'Невкусно',tgS5:'Плохая упаковка',tgS6:'Вкусно',tgS7:'Горячее',tgS8:'Хорошая порция',rateSkip:'Пропустить',customT:'Можно настроить',optReq:'Обязательно',optUpTo:'до {n}',optPick:'Выберите',addToCart:'Добавить',needChoose:'Выберите обязательные опции',optNone:'Без дополнений',inclOpts:'Опции',itemOff:'Недоступно',verL:'Версия',addrT:'Мои адреса',addrAdd:'Добавить адрес',addrEdit:'Редактировать адрес',addrNone:'Адресов пока нет',addrNoneS:'Добавьте адрес и отметьте точку на карте — курьер найдёт вас быстрее.',addrHome:'Дом',addrWork:'Работа',addrOther:'Другое',addrStreet:'Улица и дом',addrStreetPh:'Например: пр. Рудаки, 12',addrDet:'Подъезд, этаж, квартира',addrDetPh:'Подъезд 2, этаж 4, кв. 15',addrPoint:'Точка на карте',addrPick:'Выбрать на карте',addrPicked:'Точка выбрана',addrNoPoint:'Точка не выбрана',addrSave:'Сохранить адрес',addrDel:'Удалить адрес?',addrNeed:'Укажите улицу (минимум 3 символа) и отметьте точку на карте.',addrChange:'Изменить',addrAddFirst:'Добавьте адрес доставки',addrOpenMap:'Открыть на карте',addrSelect:'Выбрать',placedBanner:'Заказ оформлен! Ресторан получил ваш заказ.',addrHouse:'Дом',addrEntr:'Подъезд',addrFloor:'Этаж',addrApt:'Квартира / офис',addrNote:'Ориентир или комментарий курьеру',addrNotePh:'Например: синие ворота, домофон не работает',addrReq:'обязательно',addrAbE:'подъезд',addrAbF:'этаж',addrAbA:'кв.',addrHouseNeed:'Укажите номер дома.',phGateT:'Укажите ваш номер телефона',phGateS:'Курьер и ресторан смогут связаться с вами по заказу. Только Таджикистан: +992 и 9 цифр.',phSave:'Сохранить',adrSheetT:'Адрес доставки',adrOtherT:'Доставить на другой адрес',adrOtherS:'Выберите точку на карте',adrHereT:'Доставить в текущее место',adrHereS:'Отметьте точку на карте — адрес не нужен',adrManage:'Управлять адресами',adrHereWait:'Определяем местоположение…',adrHereFail:'Не удалось определить местоположение. Включите геопозицию для Safari и попробуйте снова.',adrNoneSheet:'У вас пока нет сохранённых адресов',delivBase:'Доставка (до {n} км)',delivBase2:'Доставка (базовая)',delivFar:'Расстояние сверх базового',delivKm:'≈ {km} км по дороге',kmU:'км',tooFarT:'Адрес слишком далеко',shareStore:'Поделиться рестораном',linkCopied:'Ссылка скопирована',storeGone:'Этот ресторан сейчас недоступен',callCourier:'Позвонить курьеру',roT:'Повторить заказ',roOk:'Доступно',roNo:'Недоступно сейчас',roOpts:'Изменились опции',roWas:'было',roGo:'Продолжить с доступным',roCancel:'Отмена',roClosed:'Ресторан сейчас закрыт. Повторить заказ можно, когда он откроется.',roTotal:'Итого по текущим ценам',roNoneOk:'Ничего из этого заказа сейчас нельзя заказать.',roSome:'Некоторые позиции недоступны — они не попадут в корзину.',supT:'Поддержка',supCall:'Позвонить в поддержку',supHours:'Часы работы',supWrite:'Написать в поддержку',supMy:'Мои обращения',supNone:'Обращений пока нет',supNoneS:'Если что-то пошло не так — напишите нам, мы поможем.',supOrderProb:'Проблема с заказом',supPick:'Что случилось?',supMsgPh:'Опишите проблему (минимум 5 символов)',supSend:'Отправить',supReplyPh:'Ваше сообщение',supClosedT:'Обращение закрыто',supNew:'Создать новое обращение',supRefund:'Возврат одобрен',supRefundS:'Сумма зачислена в ваш кошелёк. Её можно потратить при оплате заказа.',supNote:'Комментарий поддержки',supStaff:'Поддержка',supYou:'Вы',supSusp:'Аккаунт приостановлен',supSuspS:'Вы не можете оформлять заказы. Напишите в поддержку — мы разберёмся.',supWin:'Обращение по заказу возможно в течение 48 часов после его завершения.',supOpenTk:'Открыть обращение',supOrderL:'Заказ',supChars:'символов',supNeed:'Выберите причину. Для пункта «Другое» опишите проблему (минимум 5 символов).',tk_open:'Открыто',tk_in_progress:'В работе',tk_resolved:'Решено',tk_rejected:'Отклонено',adrPointT:'Точка на карте',tmpNoteL:'Ориентир для курьера (необязательно)',tmpNotePh:'Например: у красного зонта на пляже',tmpSaveL:'Сохранить как адрес',tmpHint:'Курьер приедет в эту точку. Телефон поможет ему вас найти.',supHint:'Возникла проблема с заказом? Свяжитесь с поддержкой',supMsgOpt:'Расскажите подробнее (необязательно)',phoneRule:'Номер можно менять, когда нет активных заказов, и не чаще одного раза в 30 дней. Если номер утерян — обратитесь в поддержку.',wallet:'Кошелёк',walT:'Кошелёк',walBal:'Баланс',walExp:'Сюда зачисляются возвраты по обращениям. Их можно потратить при оплате заказа.',walHist:'История',walNone:'Операций пока нет',walNoneS:'Когда вам вернут деньги, они появятся здесь.',wk_refund:'Возврат по обращению',wk_spend:'Оплата заказа',wk_return:'Возврат за отменённый заказ',wk_adjust:'Корректировка',walUse:'Оплатить из кошелька',walUseS:'Баланс: {b} TJS',walLine:'Из кошелька',walToPay:'К оплате',walPaidAll:'Оплачено из кошелька',walPaidAllS:'Заказ полностью оплачен кошельком — выбирать способ оплаты не нужно.',walOpen:'Открыть кошелёк',n6Use:'Использовать и экономить',n6Pay:'Детали оплаты',n6Rate:'Оцените заказ',n6Saved:'Вы сэкономили',n6SvD:'Скидки',n6SvP:'Промокоды',n6Set:'Настройки',n6Acc:'Аккаунт',n6Cont:'Контакты ресторана',n6Addr:'Адрес',n6Phone:'Телефон',n6Menu:'Открыть меню',n6Cond:'Условия предложения',n6Free:'Бесплатная доставка',n6FreeF:'Бесплатная доставка на первый заказ',n6Fee:'Доставка',n6Rt:'Рейтинг',n6Cnt:'предложений',n6Disc:'Скидка на блюда',n6NoPh:'Телефон не указан',n6Det:'Подробнее',n7About:'О приложении',n7Priv:'Конфиденциальность',n7Map:'Показать на карте',n7Load:'Загрузка…',n7Contact:'Связаться с поддержкой',n7NoText:'Текст пока не добавлен.',favEmptyT:'Пока ничего нет',favEmptyS:'Нажмите на сердечко у ресторана, чтобы сохранить его',promoTabT:'Акции и скидки',promoTabS:'Промокод вводится при оформлении заказа',noPromoT:'Сейчас нет акций',emptyCartT:'Корзина пуста',emptyCartS:'Добавьте блюда из меню ресторана',goMenu:'Вернуться к меню',noOrdersT:'Заказов пока нет',noOrdersS:'Здесь появятся ваши заказы',cartBarL:'Посмотреть корзину',ratingSrc:'Google',histL:'История заказов'},
-{d6Close:'Close',d6Info:'About the restaurant',d6UpTo:'Up to {n}% off',d6OnDishes:'On selected dishes',d6Pop:'Popular dishes',d6Note:'Special requests',d6NotePh:'E.g. no onion, extra sauce',d6NoteHint:'Sent to the restaurant with this dish',d6AddCart:'Add to cart',d6InCart:'{n} in the cart',d6Items:'{n} pcs',d6Removed:'Removed',d6Undo:'Undo',d6Clear:'Clear the cart',d6CmtCap:'Every dish has a request — the note is added to the first dish ({n} characters left).',d6CmtLong:'The note does not fit together with the first dish request. Please shorten it.',d6Addr:'Address',d6Map:'Open on the map',home:'Home',orders:'Orders',fav:'Favorites',promoTab:'Offers',me:'Profile',deliverTo:'Delivery address',rest:'Restaurants',grocery:'Supermarkets',pharmacy:'Pharmacy',beauty:'Beauty',flowers:'Flowers',gifts:'Gifts',shops:'Shops',sweets:'Desserts',
+{d6DelTo:'Deliver to',d6c_rest:'Food',d6c_grocery:'Grocery',d6c_pharmacy:'Pharmacy',d6c_beauty:'Beauty',d6c_flowersgifts:'Flowers',d6c_sweets:'Sweets',d6All:'All',d6FavAgain:'Your favourites again',d6Ord:'Order',d6PopR:'Popular restaurants',d6Near:'Near you',d6DelTbd:'Delivery time to be confirmed',d6CpT:'Coupons and rewards',d6Cp:'Coupons',d6CpGo:'Open coupons',d6Rw:'Points and rewards',d6RwGo:'My rewards',d6Partn:'Partner offers',d6HiR:'Top rated',d6HiRs:'By customer ratings',d6AgainS:'From your past orders',d6LastO:'Last order: {d}',d6AllPl:'All places',d6Other:'Other matching places',d6tDisc:'Discounts',d6tFree:'Free delivery',d6tMine:'For you',d6AddrReq:'Street, house and the map point are required.',d6Chk:'Receipt',d6WalT:'Wallet and points',d6BalL:'Available balance',d6PtsT:'Bonus points',d6Vch:'vouchers: {n}',d6Rate:'{n} points = {v} TJS',d6Rules:'Points rules and expiry',d6Ops:'Wallet operations',d6CbH:'Cashback history',d6NoPts:'No points earned or spent yet.',d6NoCb:'No cashback yet.',d6MeT:'Profile',d6Acc:'Account settings',d6Saved:'Saved on delivered orders',d6LangPh:'Language and phone number are in the account settings.',d6Close:'Close',d6Info:'About the restaurant',d6UpTo:'Up to {n}% off',d6OnDishes:'On selected dishes',d6Pop:'Popular dishes',d6Note:'Special requests',d6NotePh:'E.g. no onion, extra sauce',d6NoteHint:'Sent to the restaurant with this dish',d6AddCart:'Add to cart',d6InCart:'{n} in the cart',d6Items:'{n} pcs',d6Removed:'Removed',d6Undo:'Undo',d6Clear:'Clear the cart',d6CmtCap:'Every dish has a request — the note is added to the first dish ({n} characters left).',d6CmtLong:'The note does not fit together with the first dish request. Please shorten it.',d6Addr:'Address',d6Map:'Open on the map',home:'Home',orders:'Orders',fav:'Favorites',promoTab:'Offers',me:'Profile',deliverTo:'Delivery address',rest:'Restaurants',grocery:'Supermarkets',pharmacy:'Pharmacy',beauty:'Beauty',flowers:'Flowers',gifts:'Gifts',shops:'Shops',sweets:'Desserts',
 noMenu:'Menu coming soon',closed:'Closed',cartEmpty:'Your cart is empty',sub:'Subtotal',deliv:'Delivery',disc:'Discount',tip:'Courier tip',total:'Total',payM:'Payment method',card:'Alif card',cash:'Cash to courier',apple:'Apple Pay',place:'Place order',
 noOrders:'No orders yet',back:'Back',courier:'Courier',cancelO:'Cancel order',chatH:'Message courier',send:'Send',langL:'Language',none:'None',cartT:'Cart',note:'Test version',
 free:'Free',bestOffers:'Best offers',favs:'Favorites',search:'Search restaurants, products, dishes…',noRes:'Nothing found',searchCat:'Search in category…',fOpen:'Open',fFree:'Free delivery',fDisc:'Offers',fRate:'Rating',
@@ -837,18 +1099,24 @@ const kmOf=st=>{const a=curAddr();return a&&a.lat!=null&&st.la!=null&&isFinite(s
 /* delivery time only from real data: the restaurant's measured preparation time + the road (about 3 min per km) */
 function etaOf(st){const sp=TLB.speed&&TLB.speed(st.id);if(!sp||!(sp.min>0))return '';const km=kmOf(st),a=Math.max(10,Math.round((sp.min+(km!=null?km*3+5:10))/5)*5);return t('hMin').replace('{a}',a).replace('{b}',a+10)}
 const ofCat=(cs,limit)=>STORES.filter(x=>cs.includes(x.c)).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||((b.rt*Math.log(2+b.rc))-(a.rt*Math.log(2+a.rc)))||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,limit||10);
-const secH=(icon,title,all)=>`<div class="hsh"><h2>${icon?`<img src="${A3(icon)}" alt="" width="22" height="22">`:''}${title}</h2>${all?`<button onclick="${all}">${t('hSeeAll')} ${ico('chev',14)}</button>`:''}</div>`;
+/* v06.1 Home B / list helpers: section title (icon + title + «Все»), photo = the store's own picture or the «no photo» slot */
+const secH=(icon,title,all,sub)=>`<div class="d6-sh"><h2>${icon?ico(icon,20):''}<span>${title}</span></h2>${all?`<button onclick="${all}">${t('d6All')} ${ico('chev',14)}</button>`:''}</div>${sub?`<p class="d6-shs">${sub}</p>`:''}`;
+const d6Meta=st=>{const eta=etaOf(st),km=kmOf(st);return eta||(km!=null?t('hKm').replace('{n}',km):'')};
+const d6Rt=st=>st.rt>0?`<b class="rt">${ico('star',13,1)} ${st.rt.toFixed(1)}${st.rc?` <i>(${cnt(st.rc)})</i>`:''}</b>`:'';
+/* «2 дня назад» from the order's real date; older than a week → the date */
+function d6Ago(ts){const d=new Date(ts);if(isNaN(d))return '';const day=x=>{const y=new Date(x);y.setHours(0,0,0,0);return y.getTime()},n=Math.round((day(Date.now())-day(d))/864e5),L=TLB.lang()=='ru'?'ru-RU':'en-GB';
+  if(n>=0&&n<7&&window.Intl&&Intl.RelativeTimeFormat){const s=new Intl.RelativeTimeFormat(L,{numeric:'auto'}).format(-n,'day');return s.charAt(0).toUpperCase()+s.slice(1)}return d.toLocaleDateString(L,{day:'numeric',month:'short'})}
+/* one store card for the Home rails */
+const sCard=st=>{const op=TLB.isOpen(st.n),m=d6Meta(st);return `<div class="d6-sc ${op?'':'closed'}" role="button" onclick="openStore(${STORES.indexOf(st)})">${d6Ph(st.i||st.lg,(op?badge(st):`<span class="hb k">${t('closed')}</span>`)+heart(st))}<b class="nm">${esc(st.n)}</b><div class="mt">${[d6Rt(st),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>${perk(st)}</div>`};
+const rail=list=>`<div class="d6-rl">${list.map(sCard).join('')}</div>`;
 function perk(st){if(st.disc>0)return `<span class="pk r">${t('hDiscL').replace('{n}',st.disc)}</span>`;if(st.ft=='free')return `<span class="pk g">${t('hFreeL')}</span>`;if(st.fdm>0)return `<span class="pk g">${t('hFreeFromL').replace('{n}',st.fdm)}</span>`;if(st.ffd)return `<span class="pk g">${t('hFreeFirstL')}</span>`;return ''}
 function badge(st){if(st.disc>0)return `<span class="hb r">−${st.disc}%</span>`;if(TLB.isExpress&&TLB.isExpress(st.id))return `<span class="hb d">⚡ ${t('hExpL')}</span>`;if(isNew(st))return `<span class="hb b">${t('hNewL')}</span>`;return ''}
-/* one store card for every rail (restaurants, supermarkets, pharmacies, flowers) */
-const sCard=st=>{const op=TLB.isOpen(st.n),eta=etaOf(st),km=kmOf(st);return `<div class="sc ${op?'':'closed'}" onclick="openStore(${STORES.indexOf(st)})"><div class="sci">${pic(st.i||st.lg)}${op?badge(st):`<span class="hb k">${t('closed')}</span>`}${heart(st)}<span class="sct">${eta?`${ico('clock',13)} ${eta}`:km!=null?`${ico('pin',13)} ${t('hKm').replace('{n}',km)}`:`${ico('bike',13)} ${delTxt(st)}`}</span></div>
-  <div class="scb"><b class="scn">${esc(st.n)}</b>${st.rt>0?`<div class="scm"><span class="hrt2">${ico('star',14,1)} ${st.rt.toFixed(1)}${st.rc?` <i>(${cnt(st.rc)})</i>`:''}</span></div>`:''}${st.d?`<div class="scd">${esc(st.d)}</div>`:''}${perk(st)}</div></div>`};
-const rail=list=>`<div class="hs hsr">${list.map(sCard).join('')}</div>`;
-/* header: address (dominant), notifications, cart; the search row stays on screen */
-function hHead(){const n=cartCount(),un=TLB.totalUnread?TLB.totalUnread():0,fOn=hfOn();
-  return `<div class="hh"><div class="hht2"><button class="hloc" onclick="openSheet('home')" aria-label="${t('hDeliv')}">${ico('pin',18)}<span class="hla"><small>${t('hDeliv')}</small><b>${curAddr()?esc(addrLine(curAddr())):t('addrAddFirst')}</b></span>${ico('down',16)}</button>
-  <button class="hib" onclick="S.ntf=true;render()" aria-label="${t('hNotif')}">${ico('bell',21)}${un?`<span class="bdg">${un}</span>`:''}</button><button class="hib" aria-label="${t('cartT')}" onclick="${n?'goCart()':"TLB.toast&&TLB.toast(t('emptyCartT'))"}">${ico('cart',21)}${n?`<span class="bdg">${n}</span>`:''}</button></div>
-  <div class="hsb"><label class="hsf">${ico('search',18)}<input type="search" id="sq" placeholder="${t('hSearch')}" value="${esc(S.q)}" oninput="S.q=this.value;render()" enterkeyhint="search"></label><button class="hfb ${fOn?'on':''}" onclick="S.hfs=Object.assign({},S.hf);render()" aria-label="${t('hFilt')}">${ico('sliders',19)}${fOn?'<i></i>':''}</button></div></div>`}
+/* header (Home B): logo, delivery address, notifications, cart (kept); the search row stays on screen */
+const d6Icons=()=>{const n=cartCount(),un=TLB.totalUnread?TLB.totalUnread():0;return `<button class="d6-hib" onclick="S.ntf=true;render()" aria-label="${t('hNotif')}">${ico('bell',22)}${un?`<span class="bdg">${un}</span>`:''}</button><button class="d6-hib" aria-label="${t('cartT')}" onclick="${n?'goCart()':"TLB.toast&&TLB.toast(t('emptyCartT'))"}">${ico('cart',22)}${n?`<span class="bdg">${n}</span>`:''}</button>`};
+const d6Logo=()=>`<img class="d6-logo" src="assets/brand/talabot-ru.png" alt="TALABOT" width="108" height="23">`;
+function hHead(){const fOn=hfOn(),a=curAddr();
+  return `<div class="d6-hh"><div class="d6-hr">${d6Logo()}<button class="d6-loc" onclick="openSheet('home')" aria-label="${t('hDeliv')}">${ico('pin',20)}<span><small>${t('d6DelTo')}</small><b>${a?esc(addrLine(a)):t('addrAddFirst')}</b></span>${ico('down',16)}</button>${d6Icons()}</div>
+  <div class="d6-sf" onclick="if(event.target==this)$('sq').focus()">${ico('search',20)}<input type="search" id="sq" placeholder="${t('hSearch')}" value="${esc(S.q)}" oninput="S.q=this.value;render()" enterkeyhint="search"><button class="d6-fb ${fOn?'on':''}" onclick="S.hfs=Object.assign({},S.hf);render()" aria-label="${t('hFilt')}">${ico('sliders',20)}${fOn?'<i></i>':''}</button></div></div>`}
 /* filters: only what the data can really answer */
 const HF0={c:'',open:false,free:false,disc:false,r45:false,sort:''};
 const hfOn=()=>{const f=S.hf||HF0;return !!(f.c||f.open||f.free||f.disc||f.r45||f.sort)};
@@ -864,61 +1132,80 @@ function hfSheet(){const f=S.hfs;if(!f)return '';const ch=(on,fn,l)=>`<button cl
 function ntfSheet(){if(!S.ntf)return '';const act=TLB.orders().filter(o=>['pending','preparing','ready','pickedup'].includes(o.status)),msg=TLB.orders().filter(o=>TLB.unread(o.id)&&!act.includes(o));const l=act.concat(msg);
   return `<div class="sheet" onclick="S.ntf=false;render()"><div class="asheet" onclick="event.stopPropagation()"><div class="grab"><i></i></div><div class="ash-h"><h3>${t('hNotif')}</h3><button class="ib" style="position:static;box-shadow:none;background:#f1f1f4" aria-label="${t('roCancel')}" onclick="S.ntf=false;render()">${ico('x',16)}</button></div>
   ${l.length?l.map(o=>{const un=TLB.unread(o.id),st=storeOf(o.store);return `<div class="ntr" onclick="S.ntf=false;go('track',{tid:${JSON.stringify(o.id).replace(/"/g,'&quot;')}})"><span class="nti">${pic(st.lg||st.i)}</span><div style="flex:1;min-width:0"><b class="sm">${esc(o.store)} · #${o.id}</b><div class="xs mut">${un?t('hNotifMsg')+' · '+un:t('trk_'+o.status)}</div></div>${ico('chev',16)}</div>`}).join(''):emptyV(t('hNotifNone'),t('hNotifNoneS'),'','bell')}</div></div>`}
-const catTile=c=>`<button class="hct" onclick="openCat('${c}')"><span style="background:${CAT3[c][1]}"><img src="${A3(CAT3[c][0])}" alt="" width="64" height="64"></span>${t(c=='flowersgifts'?'hFlT':c)}</button>`;
+const catTile=c=>`<button class="d6-ct" onclick="openCat('${c}')"><span style="background:${CAT3[c][1]}"><img src="${A3(CAT3[c][0])}" alt="" width="40" height="40"></span><b>${t('d6c_'+c)}</b></button>`;
 /* hero carousel: the admin's banners first, then slides made from offers that really exist now */
 function heroSlides(){const out=[];inB('top').forEach(b=>out.push({k:'bn',b}));
   const maxD=STORES.filter(x=>TLB.isOpen(x.n)&&x.disc>0).reduce((m,x)=>Math.max(m,x.disc),0),hh=hhStores(),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
   if(hh.length)out.push({k:'hap',p:hh[0].p,end:hh[0].end});if(maxD>0)out.push({k:'disc',n:maxD});if(fr.length)out.push({k:'free',n:fr.length});out.push({k:'brand'});return out}
-function heroH(){const sl=heroSlides();
-  const one=x=>{if(x.k=='bn')return `<div class="hsl img" onclick="bannerGo('${x.b.id}')">${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<div class="hsx"><h3>${esc(x.b.title)}</h3></div>`}</div>`;
-    const d={hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?t('hHhS').replace('{t}',`<span data-end="${x.end}" class="hcd">${cdTxt(x.end-Date.now())}</span>`):'',t('hHeroGo'),"go('promo')",'hamburger','−'+x.p+'%'],
-      disc:[t('hHeroT'),t('hHeroD').replace('{n}',x.n),t('hHeroS'),t('hHeroGo'),"go('promo')",'hamburger',x.n+'%'],free:[t('hFreeT'),t('hFreeD').replace('{n}',x.n),t('hFreeS'),t('hFreeGo'),"openCat('*');S.srt='free'",'motor-scooter',''],
-      brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza','']}[x.k];
-    return `<div class="hsl ${x.k}" onclick="${d[4]}"><div class="hsx"><small>${t('hKick')}</small><h3>${d[0]}<em>${d[1]}</em></h3>${d[2]?`<p>${d[2]}</p>`:''}<span class="hcta">${d[3]} ${ico('arr',15)}</span></div><img class="hart" src="${A3(d[5])}" alt="" width="170" height="170">${d[6]?`<span class="hpct">${d[6]}</span>`:''}</div>`};
-  return `<div class="hro"><div class="hsc" id="hsc" onscroll="heroSync(this)" ontouchstart="HROT.t=Date.now()" onpointerdown="HROT.t=Date.now()">${sl.map(one).join('')}</div>${sl.length>1?`<div class="hdt">${sl.map((_,i)=>`<i class="${i==HROT.i?'on':''}"></i>`).join('')}</div>`:''}</div>`}
+/* Bento (Home B): the same slides — admin banners first, then real offers. Big tile = first slide (+ the slides after the
+   third, swipeable), two small tiles = slides 2 and 3. Fewer than 3 slides → one wide tile. */
+const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?`<span data-end="${x.end}" class="hcd">${cdTxt(x.end-Date.now())}</span>`:'',t('hHeroGo'),"go('promo')",'hamburger'],
+  disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),"go('promo')",'hamburger'],free:[t('hFreeT'),t('hFreeD').replace('{n}',x.n),'',t('hFreeGo'),"openCat('*');S.srt='free'",'motor-scooter'],
+  brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza']})[x.k];
+function d6Tile(x,cls){if(x.k=='bn')return `<div class="d6-bt img ${cls}" role="button" onclick="bannerGo('${x.b.id}')">${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}</div>`;
+  const d=heroD(x);return `<div class="d6-bt ${cls} k-${x.k}" role="button" onclick="${d[4]}"><b class="tt">${d[0]}</b><span class="su">${d[1]}</span>${d[2]?`<span class="cd">${ico('clock',13)} ${d[2]}</span>`:''}${cls=='d6tm'?`<span class="cta">${d[3]} ${ico('arr',15)}</span>`:`<span class="ar">${ico('arr',18)}</span>`}<img class="art" src="${A3(d[5])}" alt="" width="120" height="120"></div>`}
+function heroH(){const sl=heroSlides(),side=sl.length>=3?sl.slice(1,3):[],main=side.length?[sl[0]].concat(sl.slice(3)):sl;
+  return `<div class="d6-bento ${side.length?'':'one'}"><div class="d6-bm"><div class="d6-bsc" id="hsc" onscroll="heroSync(this)" ontouchstart="HROT.t=Date.now()" onpointerdown="HROT.t=Date.now()">${main.map(x=>d6Tile(x,'d6tm')).join('')}</div>${main.length>1?`<div class="hdt">${main.map((_,i)=>`<i class="${i==HROT.i?'on':''}"></i>`).join('')}</div>`:''}</div>${side.map((x,i)=>d6Tile(x,i?'d6tp':'d6tg')).join('')}</div>`}
 const HROT={i:0,t:0};
 function heroSync(e){const i=Math.round(e.scrollLeft/Math.max(1,e.clientWidth));if(i!==HROT.i){HROT.i=i;e.parentNode.querySelectorAll('.hdt i').forEach((d,k)=>d.classList.toggle('on',k==i))}}
 if(!window.__heroTick)window.__heroTick=setInterval(()=>{const e=$('hsc');if(!e||S.v!='home'||document.hidden||Date.now()-HROT.t<8000||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;const n=e.children.length;if(n<2)return;const i=(HROT.i+1)%n;e.scrollTo({left:i*e.clientWidth,behavior:'smooth'})},5000);
 /* the last delivered order, one tap to repeat (the re-order sheet checks today's prices and availability) */
 function lastH(){const l=TLB.orders().filter(x=>x.status=='delivered'&&x.items&&x.items.length).slice(0,10);if(!l.length)return '';
-  return secH('',t('hLastT'),"go('orders')")+`<div class="hs hsr">${l.map(o=>{const st=storeOf(o.store),it=o.items[0],id=JSON.stringify(o.id).replace(/"/g,'&quot;');return `<div class="lo"><span class="loi">${pic(st.lg||st.i)}</span><div class="lob"><b>${esc(it.name)}${o.items.length>1?` <i>+${o.items.length-1}</i>`:''}</b><div class="xs mut lon">${esc(o.store)}</div><div class="xs mut">${new Date(o.doneAt||o.createdAt).toLocaleDateString(TLB.lang()=='ru'?'ru-RU':'en-GB',{day:'numeric',month:'short'})} · ${o.total} TJS</div><button class="lob2" onclick="reorder(${id})">${t('hLastGo')}</button></div></div>`}).join('')}</div>`}
+  return secH('',t('d6FavAgain'),"go('orders')")+`<div class="d6-rl">${l.map(o=>{const st=storeOf(o.store),it=o.items[0],id=JSON.stringify(o.id).replace(/"/g,'&quot;');return `<div class="d6-lo">${d6Ph(st.lg||st.i)}<b class="nm">${esc(o.store)}</b><span class="it">${esc(it.name)}${o.items.length>1?` +${o.items.length-1}`:''}</span><span class="it">${d6Ago(o.doneAt||o.createdAt)} · ${o.total} TJS</span><button class="d6-ob" onclick="reorder(${id})">${t('d6Ord')}</button></div>`}).join('')}</div>`}
 /* best offers: flash sale = a real happy hour with its real end, or the biggest store discount; free delivery = stores that really offer it */
 function bestH(){const hh=hhStores(),maxD=STORES.filter(x=>TLB.isOpen(x.n)&&x.disc>0).reduce((m,x)=>Math.max(m,x.disc),0),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
   const fl=hh.length?{n:hh[0].p,end:hh[0].end}:maxD>0?{n:maxD,end:null}:null;if(!fl&&!fr.length)return '';
-  return secH('',t('hBestT'),"go('promo')")+`<div class="duos ${fl&&fr.length?'':'one'}">${fl?`<div class="bo f" onclick="go('promo')"><b class="bot">${ico('bolt',16)} ${t('hFlashT')}</b>${fl.end?`<span class="bcd hcd" data-end="${fl.end}">${cdTxt(fl.end-Date.now())}</span>`:`<span class="bos">${t('hFlashS')}</span>`}<b class="bod">${t('hFlashD').replace('{n}',fl.n)}</b><img src="${A3('hamburger')}" alt="" width="96" height="96" loading="lazy"><span class="boa">${ico('arr',16)}</span></div>`:''}
-  ${fr.length?`<div class="bo g" onclick="openCat('*');S.srt='free'"><b class="bot">${t('hFreeT')}</b><span class="bos">${t('hFreeS')}</span><img src="${A3('motor-scooter')}" alt="" width="96" height="96" loading="lazy"></div>`:''}</div>`}
+  return secH('',t('hBestT'),"go('promo')")+`<div class="d6-of ${fl&&fr.length?'':'one'}">${fl?`<div class="d6-ot f" role="button" onclick="go('promo')"><b>${ico('bolt',16)} ${t('hFlashD').replace('{n}',fl.n)}</b>${fl.end?`<span class="s">${ico('clock',12)} <span class="hcd" data-end="${fl.end}">${cdTxt(fl.end-Date.now())}</span></span>`:`<span class="s">${t('hFlashS')}</span>`}<span class="ar">${ico('arr',16)}</span><img src="${A3('hamburger')}" alt="" width="72" height="72" loading="lazy"></div>`:''}${fr.length?`<div class="d6-ot g" role="button" onclick="openCat('*');S.srt='free'"><b>${t('hFreeT')}</b><span class="s">${t('hFreeD').replace('{n}',fr.length)}</span><span class="ar">${ico('arr',16)}</span><img src="${A3('motor-scooter')}" alt="" width="72" height="72" loading="lazy"></div>`:''}</div>`}
 /* recommended products: the app's real best sellers, else dishes marked popular by restaurants */
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
   if(!out.length)return '';
-  return secH('',t('hRecT'))+`<div class="hs hsr">${out.slice(0,12).map(({it,st})=>{const e=eff(it,sdOf(st.n));return `<div class="pt" onclick="openN(${esc(JSON.stringify(st.n))})"><div class="pti">${it.image?`<img src="${esc(it.image)}" alt="" loading="lazy">`:''}${e?`<span class="hb r">−${e}%</span>`:''}<button class="pca" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${esc(JSON.stringify(st.n))},'${it.id}')">${ico('plus',16)}</button></div><b class="ptn">${esc(it.name)}</b>${pxH(it,sdOf(st.n))}</div>`}).join('')}</div>`}
+  return secH('',t('hRecT'))+`<div class="d6-rl">${out.slice(0,12).map(({it,st})=>{const e=eff(it,sdOf(st.n)),sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" role="button" onclick="openN(${sn})">${d6Ph(it.image,(e?`<span class="d6-bdg">−${e}%</span>`:'')+`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`)}<b class="nm">${esc(it.name)}</b>${pxH(it,sdOf(st.n))}<span class="st">${esc(st.n)}</span></div>`}).join('')}</div>`}
+/* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
+function nearH(){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b))).slice(0,8);if(!l.length)return '';
+  return secH('pin',t('d6Near'))+`<div class="d6-nr">${l.map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="button" onclick="openStore(${STORES.indexOf(st)})">${d6Ph(st.i||st.lg)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closed')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
 /* wallet + points: the user's own numbers */
+/* coupons and rewards: both open the wallet (vouchers, points, balance are there) */
 function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0);
-  return secH('',t('hWalT'))+`<div class="wl2" onclick="go('wallet')" role="button"><div class="wlt"><b>${t('hWalL')}</b><span class="wlb">${t('hWalGo')} ${ico('arr',13)}</span></div><img class="wlp" src="${A3('mobile-phone')}" alt="" width="84" height="84" loading="lazy"><ul class="wll"><li>${ico('check',12)} ${t('hWalB1')}</li>${pts?`<li>${ico('check',12)} ${t('hWalB2')}</li>`:''}<li>${ico('check',12)} ${t('hWalB3')}</li></ul><span class="wgo2">${ico('arr',16)}</span></div>`}
+  return secH('tag',t('d6CpT'))+`<div class="d6-cp"><div class="c1" role="button" onclick="go('wallet')"><span class="ic">${ico('tag',24)}</span><b>${t('d6Cp')}</b><span class="go">${t('d6CpGo')} ${ico('chev',14)}</span></div><div class="c2" role="button" onclick="go('wallet')"><span class="ic">${ico('star',24)}</span><b>${t(pts?'d6Rw':'d6WalT')}</b><span class="go">${t(pts?'d6RwGo':'hWalGo')} ${ico('chev',14)}</span></div></div>`}
 /* DineOut: a banner + the restaurants that have a real discount now (only real offers; no table booking yet) */
 const areaOf=st=>{const a=String(st.ad||'').split(',').map(x=>x.trim()).filter(Boolean);return a[0]||''};
 function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0).sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,12);if(!l.length)return '';const mx=l[0].disc;
-  return secH('',t('hDineT'),"openCat('rest');S.srt='disc'")+`<div class="dine" onclick="openCat('rest');S.srt='disc'"><div class="dnx"><b class="dnl">DineOut</b><p>${t('hDineS')}</p><span class="dnb">${t('hDineGo')} ${ico('arr',13)}</span></div><img class="dna" src="${A3('pizza')}" alt="" width="110" height="110" loading="lazy"><span class="dnp">${t('hDineP').replace('{n}',mx)}</span></div>
-  <div class="hs hsr dnr">${l.map(st=>{const km=kmOf(st),ar=areaOf(st);return `<div class="dc" onclick="openStore(${STORES.indexOf(st)})"><div class="dci">${pic(st.i||st.lg)}<span class="hb r">−${st.disc}%</span>${heart(st)}</div><div class="dcb"><b>${esc(st.n)}</b>${st.rt>0?`<div class="scm"><span class="hrt2">${ico('star',13,1)} ${st.rt.toFixed(1)}${st.rc?` <i>(${cnt(st.rc)})</i>`:''}</span></div>`:''}<div class="scm dca">${ico('pin',12)} ${esc(ar||(km!=null?t('hKm').replace('{n}',km):''))}${ar&&km!=null?` · ${t('hKm').replace('{n}',km)}`:''}</div></div></div>`}).join('')}</div>`}
-const bottomBn=()=>{const bb=inB('bottom');return bb.length?`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
+  return secH('',t('hDineT'),"openCat('rest');S.srt='disc'")+`<div class="d6-dn" role="button" onclick="openCat('rest');S.srt='disc'"><b class="dlg">DineOut</b><p>${t('hDineS')}</p><span class="go">${t('hDineGo')} ${ico('arr',14)}</span><img class="art" src="${A3('pizza')}" alt="" width="120" height="120" loading="lazy"><span class="pct">${t('hDineP').replace('{n}',mx)}</span></div>
+  <div class="d6-rl">${l.map(st=>{const km=kmOf(st),ar=areaOf(st);return `<div class="d6-dc" role="button" onclick="openStore(${STORES.indexOf(st)})">${d6Ph(st.i||st.lg,`<span class="hb r">−${st.disc}%</span>`+heart(st))}<b class="nm"><span>${esc(st.n)}</span>${ico('chev',14)}</b><div class="mt">${[d6Rt(st),ar||km!=null?`<span>${esc(ar||t('hKm').replace('{n}',km))}${ar&&km!=null?` · ${t('hKm').replace('{n}',km)}`:''}</span>`:''].filter(Boolean).join('<span>·</span>')}</div></div>`}).join('')}</div>`}
+const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
+/* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
+const d6SRow=(s,h,last)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);return `<div class="sr d6-sr ${op?'':'closed'}" role="button" onclick="openStore(${STORES.indexOf(s)})">${d6Ph(s.i||s.lg,'','th')}<div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p class="hit">${esc(h.name)} — ${h.price} TJS</p>`:''}${last?`<p>${t('d6LastO').replace('{d}',d6Ago(last))}</p>`:''}${d6Rt(s)||m?`<div class="mt">${[d6Rt(s),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>`:''}<div class="dl">${ico('bike',14)} ${delTxt(s)}</div></div>${op?'':`<span class="or">${t('closed')}</span>`}${heart(s)}</div>`};
+/* stores of the user's delivered orders → date of the last one */
+function d6Mine(){const m={};TLB.orders().forEach(o=>{if(o.status!='delivered')return;const d=+new Date(o.doneAt||o.createdAt)||0;if(!(o.store in m)||d>m[o.store])m[o.store]=d});return m}
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf||Object.assign({},HF0);const head=hHead();
-  if(q||hfOn()){const list=hfApply(matches(M,q));return head+`<div class="pg">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h})=>storeRow(s,h)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
-  return head+grpBanner()+cartNudge()+`<div class="hcg">${HOME_CATS.map(catTile).join('')}</div>
-  ${heroH()}${lastH()}
-  ${(()=>{const l=ofCat(['rest']);return l.length?secH('',t('hPopT'),"openCat('rest')")+rail(l):''})()}
-  ${bestH()}${recH()}${walH()}${dineH()}${bottomBn()}<div style="height:8px"></div>`}
+  if(q||hfOn()){const list=hfApply(matches(M,q));return head+`<div class="pg d6-res">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h})=>d6SRow(s,h)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
+  return head+grpBanner()+cartNudge()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+bestH()
+  +(()=>{const l=ofCat(['rest']);return l.length?secH('',t('d6PopR'),"openCat('rest')")+rail(l):''})()
+  +recH()+nearH()+walH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
 if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{document.querySelectorAll('.hcd[data-end]').forEach(e=>{const end=+e.dataset.end;if(end)e.textContent=cdTxt(end-Date.now())})},1000);
-/* ---------- LIST (category or all) ---------- */
-function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true);
+/* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
+function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
+  if(S.srt=='mine'&&!hasMine)S.srt='';
   let list=matches(M,q).filter(({s})=>all||catIn(c,s.c));
   if(S.fo)list=list.filter(({s})=>TLB.isOpen(s.n));
   if(S.srt=='free')list=list.filter(({s})=>s.fee==0||s.ffd);
   if(S.srt=='disc')list=list.filter(({s})=>s.disc>0).sort((a,b)=>b.s.disc-a.s.disc);
   if(S.srt=='rate')list=list.slice().sort((a,b)=>b.s.rt-a.s.rt);
-  const ch=(on,fn,l)=>`<button class="chip ${on?'on':''}" onclick="${fn};render()">${t(l)}</button>`;
-  return topbar(all?t('allStores'):t(c=='flowersgifts'?'hFlT':c),'',"go('home')")+`<div class="pg" style="padding-bottom:0"><label class="sb">${ico('search',18)}<input type="text" id="cq" placeholder="${t('searchCat')}" value="${esc(S.cq)}" oninput="S.cq=this.value;render()"></label></div>
+  if(S.srt=='mine')list=list.filter(({s})=>s.n in mine).sort((a,b)=>mine[b.s.n]-mine[a.s.n]);
+  const ch=(on,fn,l)=>`<button class="chip ${on?'on':''}" onclick="${fn};render()">${t(l)}</button>`,a=curAddr(),ti=all?t('allStores'):t(c=='flowersgifts'?'hFlT':c);
+  const tl=(k,cl,ic,l)=>`<button class="${cl} ${S.srt==k?'on':''}" aria-pressed="${S.srt==k}" onclick="S.srt=S.srt=='${k}'?'':'${k}';render()">${ico(ic,24)}<span>${t(l)}</span></button>`;
+  const row=({s,h})=>d6SRow(s,h,s.n in mine?mine[s.n]||null:null);let body;
+  if(!list.length)body=emptyV(t(q||S.fo||S.srt?'noRes':'noStores'),t(q||S.fo||S.srt?'emNoResS':'emNoStoresS'),'',q||S.fo||S.srt?'search':'store');
+  else if(q||S.fo||S.srt)body=list.map(row).join('');
+  else{/* sections: high rating (open, 4.5+), order again (your stores), all the others — every store once */
+    const hi=list.filter(({s})=>TLB.isOpen(s.n)&&s.rt>=4.5).sort((a,b)=>b.s.rt-a.s.rt).slice(0,3),ag=list.filter(x=>!hi.includes(x)&&x.s.n in mine).sort((a,b)=>mine[b.s.n]-mine[a.s.n]).slice(0,5),rest=list.filter(x=>!hi.includes(x)&&!ag.includes(x));
+    body=(hi.length?secH('star',t('d6HiR'),'',t('d6HiRs'))+hi.map(row).join(''):'')+(ag.length?secH('clock',t('hLastGo'),'',t('d6AgainS'))+ag.map(row).join(''):'')+(rest.length?(hi.length||ag.length?secH('store',c=='rest'?t('allStores'):t('d6AllPl'),'',hi.length||ag.length?t('d6Other'):''):'')+rest.map(row).join(''):'')}
+  return `<div class="d6-lh"><div class="d6-hr"><button class="d6-hib" onclick="go('home')" aria-label="${t('back')}">${ico('back',22)}</button>${d6Logo()}<span style="flex:1"></span>${d6Icons()}</div><div class="d6-lt"><h1>${ti}</h1>${a?`<span>${esc(areaOf({ad:addrLine(a)})||addrLine(a))}</span>`:''}</div></div>
+  <div class="d6-l3">${tl('disc','a','tag','d6tDisc')}${tl('free','b','bike','d6tFree')}${hasMine?tl('mine','c','heart','d6tMine'):''}</div>
+  <div class="d6-sf" onclick="if(event.target==this)$('cq').focus()">${ico('search',20)}<input type="search" id="cq" placeholder="${t('searchCat')}" value="${esc(S.cq)}" oninput="S.cq=this.value;render()" enterkeyhint="search"></div>
   <div class="chips">${ch(S.srt=='rate',"S.srt=S.srt=='rate'?'':'rate'",'fRate')}${ch(S.srt=='disc',"S.srt=S.srt=='disc'?'':'disc'",'fDisc')}${ch(S.srt=='free',"S.srt=S.srt=='free'?'':'free'",'fFree')}${ch(S.fo,'S.fo=!S.fo','fOpen')}</div>
-  <div class="pg">${list.length?list.map(({s,h})=>storeRow(s,h)).join(''):emptyV(t(q||S.fo||S.srt?'noRes':'noStores'),t(q||S.fo||S.srt?'emNoResS':'emNoStoresS'),'',q||S.fo||S.srt?'search':'store')}</div>`}
+  <div class="pg">${body}</div>`}
 /* ---------- RESTAURANT ---------- */
 /* v06.1 store page parts. The photo is the dish's / store's own (no demo picture); without one, a neutral «no photo» slot. */
 const d6Ph=(src,badges,cls)=>`<div class="d6-ph ${src?'':'none'} ${cls||''}">${src?`<img src="${esc(src)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('none');this.remove()">`:''}${badges||''}</div>`;
@@ -1069,11 +1356,6 @@ function celebrate(L,st){
   d.innerHTML=(matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches?'':Array.from({length:60},(_,i)=>`<i style="left:${Math.random()*100}%;background:${cs[i%6]};animation-delay:${(Math.random()*0.6).toFixed(2)}s;transform:rotate(${Math.random()*360|0}deg)"></i>`).join(''))+`<div class="cfm" role="dialog"><div style="font-size:40px">🎉</div><b>${t('cfT')}</b><div class="sm" style="margin-top:6px">${t('cfS').replace('{v}',val)}</div><button class="btn" style="margin-top:14px;width:100%">${t('cfOk')}</button></div>`;
   d.onclick=()=>d.remove();document.body.appendChild(d)}
 /* ---------- POINTS (loyalty) ---------- */
-function ptsBlock(){const L=TLB.loyalty&&TLB.loyalty();if(!L||!(+L.points_per_tjs>0))return '';const b=+L.balance||0,vp=+L.voucher_points||1000,vv=Math.round(vp/(+L.points_per_tjs)*100)/100,nv=Math.floor(b/vp),v=Math.round(nv*vv*100)/100,hist=(TLB.points&&TLB.points())||[];
-  const exp=L.next_exp_at&&+L.next_exp_pts>0?`<div class="xs" style="margin-top:6px">${t('ptsExp').replace('{n}',fmtN(L.next_exp_pts)).replace('{d}',fmtD(Date.parse(L.next_exp_at)))}</div>`:'';
-  return `<div class="ptc"><div class="row"><div><div class="xs" style="font-weight:600;opacity:.9">${t('ptsT')}</div><div class="walb">${fmtN(b)} <small>${t('ptsU')}</small></div></div><span class="pv">🎟️ ${t('ptsVal').replace('{n}',nv).replace('{v}',v)}</span></div>${exp}
-  <div class="ptr"><span>${t('ptsR1').replace('{n}',fmtN(L.earn_per_tjs))}</span><span>${t('ptsR2').replace('{n}',fmtN(vp)).replace('{v}',vv)}</span><span>${t('ptsR3').replace('{n}',fmtN(L.min_redeem)).replace('{m}',+L.min_order||0)}</span><span>${t('ptsR4').replace('{n}',L.expiry_days)}</span>${+L.cashback_pct>0?`<span>${t('ptsR5').replace('{n}',+L.cashback_pct)}</span>`:''}</div></div>
-  ${hist.length?`<h3 style="margin:16px 4px 8px">${t('ptsHist')}</h3><div class="card" style="padding:2px 14px">${hist.slice(0,20).map(e=>`<div class="dr"><div style="min-width:0"><b>${t('pk_'+e.kind)}</b><div class="xs mut" style="margin-top:2px">${e.orderId?t('supOrderL')+' #'+e.orderId+' · ':''}${fmtD(e.at)}</div></div><b style="color:${e.points>0?'var(--ok)':'var(--bad)'};white-space:nowrap">${e.points>0?'+':'\u2212'}${fmtN(Math.abs(e.points))}</b></div>`).join('')}</div>`:''}`}
 function ptsCard(c){const L=c.L;if(!L||!(+L.points_per_tjs>0))return '';const st=c.step,val=Math.round(st/(+L.points_per_tjs)*100)/100;
   const nudge=`<div class="xs" style="margin-top:8px;color:var(--o);font-weight:700">${t('toNextV').replace('{n}',fmtN(st-(c.lb%st))).replace('{v}',val)}</div>`;
   if(!c.canP)return c.lb>0?`<div class="card"><div class="rg" style="gap:12px"><span class="or">${ico('star',22)}</span><div style="flex:1;min-width:0"><b>${t('ptsT')}: ${fmtN(c.lb)}</b>${nudge}</div></div></div>`:'';
@@ -1083,13 +1365,25 @@ const fmtN=n=>String(Math.round(+n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f'
 /* ---------- WALLET ---------- */
 function walletCard(c){if(!(c.bal>0))return '';
   return `<div class="card"><div class="rg" style="gap:12px"><span class="or">${ico('card',22)}</span><div style="flex:1;min-width:0"><b>${t('walUse')}</b><div class="xs mut" style="margin-top:2px">${t('walUseS').replace('{b}',c.bal)}</div></div><button class="wsw ${S.useWallet?'on':''}" onclick="S.useWallet=!S.useWallet;render()" aria-label="${t('walUse')}"><i></i></button></div>${S.useWallet&&c.w>0?`<div class="xs" style="color:var(--ok);margin-top:8px;font-weight:700">\u2212${c.w} TJS</div>`:''}</div>`}
-function vWallet(){const w=TLB.wallet();TLB.loadWallet();
+/* v06.1 wallet: balance, points (vouchers, progress to the next one, rules), wallet operations, points / cashback history */
+function vWallet(){const w=TLB.wallet();TLB.loadWallet();const L=TLB.loyalty&&TLB.loyalty(),on=!!(L&&+L.points_per_tjs>0);
   const who=e=>e.note?esc(e.note):e.kind=='refund'?(t('supT')+(e.ticketId?' #'+e.ticketId:'')):(e.orderId?t('supOrderL')+' #'+e.orderId:'');
-  return topbar(t('walT'),'',"go('home')")+`<div class="pg">
-  <div class="walc"><div class="xs" style="opacity:.92;font-weight:600">${t('walBal')}</div><div class="walb">${w.balance} <small>TJS</small></div><div class="xs" style="opacity:.95;line-height:1.45;margin-top:8px">${t('walExp')}</div></div>
-  ${ptsBlock()}
-  <h3 style="margin:16px 4px 8px">${t('walHist')}</h3>
-  ${w.entries.length?`<div class="card" style="padding:2px 14px">${w.entries.map(e=>`<div class="dr"><div style="min-width:0"><b>${t('wk_'+e.kind)}</b><div class="xs mut" style="margin-top:2px">${who(e)} · ${fmtD(e.at)}</div></div><b style="color:${e.amount>0?'var(--ok)':'var(--bad)'};white-space:nowrap">${e.amount>0?'+':'\u2212'}${Math.abs(e.amount)} TJS</b></div>`).join('')}</div>`:emptyV(t('walNone'),t('walNoneS'),'','card')}</div>`}
+  const wrow=e=>`<div class="dr"><div style="min-width:0"><b>${t('wk_'+e.kind)}</b><div class="xs mut" style="margin-top:2px">${who(e)} · ${fmtD(e.at)}</div></div><b style="color:${e.amount>0?'var(--ok)':'var(--bad)'};white-space:nowrap">${e.amount>0?'+':'−'}${Math.abs(e.amount)} TJS</b></div>`;
+  let pts='';if(on){const b=+L.balance||0,vp=+L.voucher_points||1000,vv=Math.round(vp/(+L.points_per_tjs)*100)/100,nv=Math.floor(b/vp),left=vp-(b%vp),pc=Math.round((b%vp)/vp*100);
+    const exp=L.next_exp_at&&+L.next_exp_pts>0?`<div class="xs" style="margin-top:6px;color:var(--bad)">${t('ptsExp').replace('{n}',fmtN(L.next_exp_pts)).replace('{d}',fmtD(Date.parse(L.next_exp_at)))}</div>`:'';
+    pts=`<h3 style="margin:20px 2px 10px;font-size:20px">${t('d6PtsT')}</h3><div class="card d6-pts"><div class="row"><div class="am">${fmtN(b)}<small>${t('ptsU')}</small></div><span class="cp">${t('d6Vch').replace('{n}',nv)}</span></div>
+    <div class="sm" style="margin-top:4px;font-weight:700">${t('d6Rate').replace('{n}',fmtN(vp)).replace('{v}',vv)}</div><div class="d6-prog"><i style="width:${Math.max(2,pc)}%"></i></div>
+    <div class="xs mut">${t('toNextV').replace('{n}',fmtN(left)).replace('{v}',vv)}</div>${exp}
+    <div class="d6-rules"><span>${t('ptsR1').replace('{n}',fmtN(L.earn_per_tjs))}</span></div><button class="d6-lnk" aria-expanded="${!!S.wRules}" onclick="S.wRules=!S.wRules;render()">${t('d6Rules')}</button>${S.wRules?`<div class="d6-rules"><span>${t('ptsR2').replace('{n}',fmtN(vp)).replace('{v}',vv)}</span><span>${t('ptsR3').replace('{n}',fmtN(L.min_redeem)).replace('{m}',+L.min_order||0)}</span><span>${t('ptsR4').replace('{n}',L.expiry_days)}</span>${+L.cashback_pct>0?`<span>${t('ptsR5').replace('{n}',+L.cashback_pct)}</span>`:''}</div>`:''}</div>`}
+  const hist=(TLB.points&&TLB.points())||[],cb=w.entries.filter(e=>e.kind=='cashback'),tab=S.wTab=='cb'?'cb':'pts';
+  const htab=tab=='pts'?(hist.length?`<div class="card" style="padding:2px 16px">${hist.slice(0,20).map(e=>`<div class="dr"><div style="min-width:0"><b>${t('pk_'+e.kind)}</b><div class="xs mut" style="margin-top:2px">${e.orderId?t('supOrderL')+' #'+e.orderId+' · ':''}${fmtD(e.at)}</div></div><b style="color:${e.points>0?'var(--ok)':'var(--bad)'};white-space:nowrap">${e.points>0?'+':'−'}${fmtN(Math.abs(e.points))}</b></div>`).join('')}</div>`:`<div class="card"><div class="sm mut">${t('d6NoPts')}</div></div>`)
+    :(cb.length?`<div class="card" style="padding:2px 16px">${cb.map(wrow).join('')}</div>`:`<div class="card"><div class="sm mut">${t('d6NoCb')}</div></div>`);
+  return topbar(t('d6WalT'),'',"go('home')")+`<div class="pg">
+  <div class="d6-bal"><span class="ic">${ico('card',22)}</span><div class="lb">${t('d6BalL')}</div><div class="am">${w.balance}<small>TJS</small></div><div class="hn">${t('walExp')}</div></div>
+  ${pts}
+  <button class="d6-dis ${S.wOps?'on':''}" aria-expanded="${!!S.wOps}" onclick="S.wOps=!S.wOps;render()">${t('d6Ops')}${ico('down',18)}</button>
+  ${S.wOps?(w.entries.length?`<div class="card" style="padding:2px 16px;margin-top:-4px">${w.entries.map(wrow).join('')}</div>`:emptyV(t('walNone'),t('walNoneS'),'','card')):''}
+  ${on?`<h3 style="margin:20px 2px 10px;font-size:20px">${t('walHist')}</h3><div class="d6-tabs" role="tablist"><button role="tab" aria-selected="${tab=='pts'}" class="${tab=='pts'?'on':''}" onclick="S.wTab='pts';render()">${t('ptsHist')}</button><button role="tab" aria-selected="${tab=='cb'}" class="${tab=='cb'?'on':''}" onclick="S.wTab='cb';render()">${t('d6CbH')}</button></div>${htab}`:''}</div>`}
 /* ---------- PAYMENT (address, method, tip, promo, summary) ---------- */
 function vPay(){const c=calc();if(!Object.keys(S.cart).length)return vCart();if(badKeys().length){S.v='cart';return vCart()}
   const sp=ALLS.find(x=>x.n==S.cartStore)||{},cashOnly=sp.po===false;if(cashOnly&&S.pay!='cash')S.pay='cash';   /* patch 38: a cash-only place shows no electronic method */
@@ -1193,7 +1487,9 @@ function tagTxt(r){const f=(L,pre)=>L.map(i=>t(pre+i));return f(rt0(r).ts,'tgS')
 async function sendRate(id){const r=rt0(id),o=TLB.order(id);if(!r.s&&!r.d){alert(t('rateNeed'));return}
   const tags=[];if(r.s&&r.s<=3)rt0(id).ts.forEach(i=>tags.push(t('tgS'+i)));if(r.s&&r.s>=4)rt0(id).ts.forEach(i=>tags.push(t('tgS'+i)));if(o&&o.driver&&r.d)rt0(id).td.forEach(i=>tags.push(t('tgD'+i)));
   const cm=(tags.length?'['+tags.join(' | ')+'] ':'')+r.c.trim();
-  const res=await TLB.rateOrder(id,r.s||null,o&&o.driver?(r.d||null):null,cm.slice(0,300));if(res&&res.error){alert(t('err_'+res.error));return}PL.retry=0;ptsReload();const L=TLB.loyalty&&TLB.loyalty();if(L&&+L.rate_reward>0&&TLB.toast)TLB.toast(t('rateGot').replace('{n}',+L.rate_reward));render()}
+  const res=await TLB.rateOrder(id,r.s||null,o&&o.driver?(r.d||null):null,cm.slice(0,300));if(res&&res.error){alert(t('err_'+res.error));return}PL.retry=0;ptsReload();const L=TLB.loyalty&&TLB.loyalty();if(L&&+L.rate_reward>0&&TLB.toast)TLB.toast(t('rateGot').replace('{n}',+L.rate_reward));render();
+  /* v63: the «thank you» card replaces the taller form; if it ended up under the header, bring the page back to the top so the confirmation is seen */
+  const rc=document.querySelector('.card.rated'),hd=document.querySelector('.top');if(rc&&hd&&rc.getBoundingClientRect().top<hd.getBoundingClientRect().bottom)scrollTo(0,0)}
 const STL=['','st1','st2','st3','st4','st5'];
 function starBlock(id,k,val,title,sub,bad,good){const tg=(val&&val<=3)?bad:(val>=4?good:[]),sel=k=='s'?rt0(id).ts:rt0(id).td,pre=k=='s'?'tgS':'tgD';
   return `<div class="rb"><div class="rbh"><span class="rbi">${k=='s'?ico('home',20):ico('bike',20)}</span><div style="min-width:0"><div class="b7">${title}</div><div class="xs mut" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sub}</div></div></div>
@@ -1227,14 +1523,15 @@ function settleCard(o){const dead=o.status=='rejected'||o.status=='cancelled',W=
   rf.forEach(e=>R.push(row(t('stlRef')+(e.ticketId?' #'+e.ticketId:''),(e.amount>0?'+':'\u2212')+Math.abs(e.amount)+' TJS','var(--ok)')));
   const note=dead&&OW==='err'?`<div class="xs mut" id="stlcov" style="margin-top:8px;line-height:1.45">${t('stlCovNone')}</div>`:Array.isArray(OW)&&OW.partial?`<div class="xs mut" id="stlcov" style="margin-top:8px;line-height:1.45">${t('stlCovMany')}</div>`:'';
   return R.length||note?`<div class="card sum" id="stl"><h3 style="margin-bottom:6px">${t('stlT')}</h3>${R.join('')}${note}</div>`:''}
-function receipt(o,done){const lines=(o.items||[]).map(i=>`<div class="li"><span>${i.qty}× ${esc(i.name)}${(i.opts&&i.opts.length)?`<div class="nt2">${esc(i.opts.map(x=>x.n).join(', '))}</div>`:''}${i.note?`<div class="nt">${esc(i.note)}</div>`:''}</span><span class="b6">${Math.round(i.qty*i.price*100)/100} TJS</span></div>`).join('');
-  return `<div class="card"><div class="dn"><span class="ok ${done?'':'bad'}">${ico(done?'check':'trash',22)}</span><div style="flex:1;min-width:0"><b style="font-size:15px">${t(done?'trk_delivered':'trk_'+o.status)}</b><div class="xs mut" style="margin-top:2px">${fmtD(o.doneAt||o.createdAt)}</div></div><span class="pill ${o.status}">${t('trk_'+o.status)}</span></div></div>
-  <div class="card rcp"><h3 style="margin-bottom:6px">${t('recT')}</h3>${lines||'<div class="sm mut">—</div>'}</div>
-  <div class="card sum"><div class="row"><span>${t('sub')}</span><span>${o.subtotal} TJS</span></div>${o.discount-o.hhDiscount>0.004?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${Math.round((o.discount-o.hhDiscount)*100)/100} TJS</span></div>`:''}${o.hhDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('hhLine')}${o.hhPct?' −'+o.hhPct+'%':''}</span><span>−${o.hhDiscount} TJS</span></div>`:''}${o.promoDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('promoLine')} ${esc(o.promoCode)}</span><span>−${o.promoDiscount} TJS</span></div>`:''}${o.pointsValue>0?`<div class="row" style="color:var(--ok)"><span>${t('ptsLine')} (${fmtN(o.pointsUsed)})</span><span>−${o.pointsValue} TJS</span></div>`:''}${o.feeWaived>0?`<div class="row"><span>${t('deliv')}</span><span><s class="mut" style="font-weight:500">${o.feeWaived}</s> 0 TJS</span></div>`:o.deliveryExtra>0&&o.delivery>0?`<div class="row"><span>${t('delivBase2')}</span><span>${o.deliveryBase} TJS</span></div><div class="row"><span>${t('delivFar')}${o.deliveryKm?`<span class="xs mut" style="display:block;font-weight:500">${t('delivKm').replace('{km}',o.deliveryKm)}</span>`:''}</span><span>${o.deliveryExtra} TJS</span></div>`:`<div class="row"><span>${t('deliv')}</span><span>${o.delivery} TJS</span></div>`}${o.tip>0?`<div class="row"><span>${t('tip')}</span><span>${o.tip} TJS</span></div>`:''}<div class="row"><span>${t('payM')}</span><span class="b6">${esc(t(o.payment))}</span></div><div class="row tot"><span>${t(done?'total':'stlSum')}</span><span>${o.total} TJS</span></div>${o.walletUsed>0?`<div class="row" style="color:var(--ok)"><span>${t('walLine')}</span><span>\u2212${o.walletUsed} TJS</span></div>`:''}${o.pointsEarned>0||o.cashback>0?`<div class="ern">${ico('star',14,1)}<span>${[o.pointsEarned>0?t('ptsGot').replace('{n}',fmtN(o.pointsEarned)):'',o.cashback>0?t('cbGot').replace('{n}',o.cashback):''].filter(Boolean).join(' · ')}</span></div>`:''}</div>`+settleCard(o)}
+/* v06.1 order details: status first, then rating, dishes (each with its own photo from today's menu when it still exists), receipt */
+const rcStatus=(o,done)=>`<div class="card d6-st"><span class="ok ${done?'':'bad'}">${ico(done?'check':'x',22)}</span><div style="flex:1;min-width:0"><b>${t(done?'trk_delivered':'trk_'+o.status)}</b><div class="xs mut" style="margin-top:2px">${fmtD(o.doneAt||o.createdAt)}</div></div></div>`;
+function receipt(o,done){const M=menuOf(o.store),lines=(o.items||[]).map(i=>{const m=M.find(x=>x.id==i.id);return `<div class="d6-it li">${d6Ph(m&&m.image)}<div class="tx"><b>${esc(i.name)}</b><div class="xs mut">${i.qty} × ${Math.round(i.price*100)/100} TJS</div>${(i.opts&&i.opts.length)?`<div class="nt2">${esc(i.opts.map(x=>x.n).join(', '))}</div>`:''}${i.note?`<div class="nt">${t('d6Note')}: ${esc(i.note)}</div>`:''}</div><span class="pr">${Math.round(i.qty*i.price*100)/100} TJS</span></div>`}).join('');
+  return `<h3 style="margin:20px 2px 10px;font-size:20px">${t('recT')}</h3><div class="card rcp" style="padding:4px 16px">${lines||'<div class="sm mut" style="padding:12px 0">—</div>'}</div>
+  <h3 style="margin:20px 2px 10px;font-size:20px">${t('d6Chk')}</h3><div class="card sum"><div class="row"><span>${t('sub')}</span><span>${o.subtotal} TJS</span></div>${o.discount-o.hhDiscount>0.004?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${Math.round((o.discount-o.hhDiscount)*100)/100} TJS</span></div>`:''}${o.hhDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('hhLine')}${o.hhPct?' −'+o.hhPct+'%':''}</span><span>−${o.hhDiscount} TJS</span></div>`:''}${o.promoDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('promoLine')} ${esc(o.promoCode)}</span><span>−${o.promoDiscount} TJS</span></div>`:''}${o.pointsValue>0?`<div class="row" style="color:var(--ok)"><span>${t('ptsLine')} (${fmtN(o.pointsUsed)})</span><span>−${o.pointsValue} TJS</span></div>`:''}${o.feeWaived>0?`<div class="row"><span>${t('deliv')}</span><span><s class="mut" style="font-weight:500">${o.feeWaived}</s> 0 TJS</span></div>`:o.deliveryExtra>0&&o.delivery>0?`<div class="row"><span>${t('delivBase2')}</span><span>${o.deliveryBase} TJS</span></div><div class="row"><span>${t('delivFar')}${o.deliveryKm?`<span class="xs mut" style="display:block;font-weight:500">${t('delivKm').replace('{km}',o.deliveryKm)}</span>`:''}</span><span>${o.deliveryExtra} TJS</span></div>`:`<div class="row"><span>${t('deliv')}</span><span>${o.delivery} TJS</span></div>`}${o.tip>0?`<div class="row"><span>${t('tip')}</span><span>${o.tip} TJS</span></div>`:''}<div class="row"><span>${t('payM')}</span><span class="b6">${esc(t(o.payment))}</span></div><div class="row tot"><span>${t(done?'total':'stlSum')}</span><span>${o.total} TJS</span></div>${o.walletUsed>0?`<div class="row" style="color:var(--ok)"><span>${t('walLine')}</span><span>\u2212${o.walletUsed} TJS</span></div>`:''}${o.pointsEarned>0||o.cashback>0?`<div class="ern">${ico('star',14,1)}<span>${[o.pointsEarned>0?t('ptsGot').replace('{n}',fmtN(o.pointsEarned)):'',o.cashback>0?t('cbGot').replace('{n}',o.cashback):''].filter(Boolean).join(' · ')}</span></div>`:''}</div>`+settleCard(o)}
 function vTrack(){const o=TLB.order(S.tid);if(!o)return vOrders();const banner=S.fresh==o.id&&o.status=='pending'?`<div class="placed" onclick="S.fresh=null;render()"><span>${ico('check',20)}</span><b>${t('placedBanner')}</b></div>`:'';
   const dead=o.status=='rejected'||o.status=='cancelled',done=o.status=='delivered';
   if((done||dead)&&S.owl!==o.id&&TLB.orderWallet){S.owl=o.id;S.ow=null;const id=o.id;TLB.orderWallet(id).then(l=>{if(S.owl===id){S.ow=l===null?'err':l;render()}})}
-  if(done||dead)return topbar(`${t('orderN')} #${o.id}`,esc(o.store),"go('orders')")+`<div class="pg">${cxCard(o)}${done?rateCard(o):''}${done&&o.deliveryPhoto?proofCard(o):''}${receipt(o,done)}<button class="btn big" onclick="reorder(${o.id})">${t('reorder')}</button>${reportBtn(o)}</div>`;
+  if(done||dead)return `<div class="d6 d6p">`+topbar(`${t('orderN')} #${o.id}`,esc(o.store),"go('orders')")+`<div class="pg">${rcStatus(o,done)}${cxCard(o)}${done?rateCard(o):''}${done&&o.deliveryPhoto?proofCard(o):''}${receipt(o,done)}<button class="btn big" style="width:100%;margin:4px 0 12px" onclick="reorder(${o.id})">${t('reorder')}</button>${reportBtn(o)}</div></div>`;
   const n={pending:0,preparing:1,ready:1,pickedup:2}[o.status],live=['preparing','ready','pickedup'].includes(o.status),steps=['stp1','stp2','stp3','stp4'];
   return topbar(`${t('orderN')} #${o.id}`,esc(o.store),"S.fresh=null;go('orders')")+`<div class="pg">${banner}${o.scheduledFor?`<div class="okb sch" style="margin:0 0 12px">${ico('clock',18)}<b>${t('schedAt').replace('{t}',fmtWhen(o.scheduledFor))}</b></div>`:''}${o.status=='pickedup'&&o.arrivedCustAt?`<div class="okb sch" style="margin:0 0 12px">${ico('bike',18)}<b>${t('courAtYou')}</b></div>`:['preparing','ready'].includes(o.status)&&o.arrivedStoreAt&&o.driver?`<div class="okb sch" style="margin:0 0 12px;background:#eef2ff;color:#3730a3">${ico('bike',18)}<b>${t('courAtRest')}</b></div>`:''}
   <div class="hero">${HERO}</div>
@@ -1260,8 +1557,8 @@ function vAddrForm(){const f=S.af;if(!f){go('addr');return ''}const ok=f.lat!=nu
   <div class="fg"><label class="fl2">${t('addrEntr')}</label><input class="fld" id="afe" type="text" maxlength="10" inputmode="numeric" placeholder="2" value="${esc(f.entrance)}" oninput="afSet('entrance',this.value)"></div></div>
   <div class="frow"><div class="fg"><label class="fl2">${t('addrFloor')}</label><input class="fld" id="aff" type="text" maxlength="10" inputmode="numeric" placeholder="4" value="${esc(f.floor)}" oninput="afSet('floor',this.value)"></div>
   <div class="fg"><label class="fl2">${t('addrApt')}</label><input class="fld" id="afa" type="text" maxlength="10" inputmode="text" placeholder="15" value="${esc(f.apartment)}" oninput="afSet('apartment',this.value)"></div></div>
-  <div class="fg" style="margin-bottom:0"><label class="fl2">${t('addrNote')}</label><textarea class="fld" id="afn" maxlength="120" placeholder="${t('addrNotePh')}" oninput="afSet('note',this.value)" style="min-height:70px">${esc(f.note)}</textarea></div></div>
-  <div style="height:90px"></div><div class="fbar"><button class="btn big" onclick="afSave()">${t('addrSave')}</button></div></div>`}
+  <div class="fg" style="margin-bottom:0"><label class="fl2">${t('addrNote')}</label><textarea class="fld" id="afn" maxlength="120" placeholder="${t('addrNotePh')}" oninput="afSet('note',this.value)" style="min-height:70px">${esc(f.note)}</textarea></div></div><p class="d6-ft">${t('d6AddrReq')}</p>
+  <div style="height:90px"></div><div class="fbar d6-save"><button class="btn big" onclick="afSave()">${t('addrSave')}</button></div></div>`}
 /* ---------- SUPPORT ---------- */
 const RS_ORDER=['not_delivered','wrong_order','missing_items','quality','late','courier','restaurant','payment','other'],RS_GENERAL=['courier','restaurant','payment','other'],RS_ACTIVE=['late','courier','restaurant','payment','other'],RS_CLOSED=['restaurant','payment','other'];
 function reasonsFor(orderId){if(orderId==null)return RS_GENERAL;const o=TLB.order(orderId);if(!o)return RS_GENERAL;if(['pending','preparing','ready','pickedup'].includes(o.status))return RS_ACTIVE;return o.status=='delivered'?RS_ORDER:RS_CLOSED}
@@ -1318,12 +1615,14 @@ function vOffer(){const s=STORES.find(x=>x.id==S.oid);if(!s){S.v='promo';return 
   <div class="card"><h3>${t('n6Cond')}</h3>${rows.map(([a,b])=>`<div class="dr"><span>${a}</span><b>${b}</b></div>`).join('')}${s.d?`<div class="xs mut" style="margin-top:8px;line-height:1.45">${esc(s.d)}</div>`:''}</div>
   <div class="card"><h3 style="margin-bottom:4px">${t('n6Cont')}</h3><div class="ctr"><span class="i3">${ico('pin',16)}</span><div class="ctx"><div class="xs mut">${t('n6Addr')}</div><div class="b6">${s.ad?esc(s.ad):'—'}</div></div>${mapH(s)?`<a class="cbt" href="${mapH(s)}" target="_blank" rel="noopener" aria-label="${t('n7Map')}" title="${t('n7Map')}">${ico('nav',18)}</a>`:''}</div><div class="ctr"><span class="i3">${ico('phone',16)}</span><div class="ctx"><div class="xs mut">${t('n6Phone')}</div><div class="b6">${s.ph?esc(s.ph):`<span class="mut">${t('n6NoPh')}</span>`}</div></div>${s.ph?`<a class="cbt call" href="${telH(s.ph)}" aria-label="${t('n6Phone')}" title="${t('n6Phone')}">${ico('phone',18)}</a>`:''}</div></div>
   <button class="btn big" onclick="openStore(${STORES.indexOf(s)})">${t('n6Menu')}</button></div>`}
-function vMe(){const dl=TLB.orders().filter(o=>o.status=='delivered'),r2=n=>Math.round(n*100)/100,d=r2(dl.reduce((a,o)=>a+(+o.discount||0),0)),p=r2(dl.reduce((a,o)=>a+(+o.promoDiscount||0),0)),row=(ic,tx,go,vl)=>`<div class="r2" onclick="${go}"><span class="i3">${ico(ic,16)}</span><span>${tx}</span><span class="vl">${vl||''}${ico('chev',14)}</span></div>`;
-  return `<div class="pg"><div class="pf2"><div class="av2">${esc(String(ME.name||'?').charAt(0).toUpperCase())}</div><div style="min-width:0"><b style="font-size:15px;color:#fff;display:block">${esc(ME.name)}</b><div style="opacity:.95;font-size:12px">${esc(ME.phone||'')}</div></div><span class="gr" onclick="go('settings')" role="button" aria-label="${t('n6Set')}">${ico('gear',16)}</span></div>
-  ${d+p>0?`<div class="sv2"><div><div class="xs mut">${t('n6Saved')}</div><b>${r2(d+p)} TJS</b></div><div class="xs mut" style="text-align:right">${t('n6SvD')} ${d}<br>${t('n6SvP')} ${p}</div></div>`:''}
-  <div class="gp">${row('card',t('walT'),"go('wallet')",`${TLB.wallet().balance} TJS`)}${row('receipt',t('histL'),"go('orders')")}${row('pin',t('addrT'),"openAddr('me')")}${row('heart',t('fav'),"go('fav')")}${row('chat',t('supT'),"go('support')",TLB.ticketUnread()?`<span class="bdg" style="position:static">${TLB.ticketUnread()}</span>`:'')}</div>
+/* v06.1 profile: the user's card, savings on delivered orders, the same menu */
+const maskPh=p=>{const d=String(p||'');return d.length>8?d.slice(0,7)+' ••• •• '+d.slice(-2):d};
+function vMe(){const dl=TLB.orders().filter(o=>o.status=='delivered'),r2=n=>Math.round(n*100)/100,d=r2(dl.reduce((a,o)=>a+(+o.discount||0),0)),p=r2(dl.reduce((a,o)=>a+(+o.promoDiscount||0),0)),row=(ic,tx,go,vl)=>`<div class="r2" role="button" tabindex="0" onclick="${go}"><span class="i3">${ico(ic,20)}</span><span>${tx}</span><span class="vl">${vl||''}${ico('chev',16)}</span></div>`;
+  return topbar(t('d6MeT'),'',"go('home')")+`<div class="pg"><div class="d6-pf"><div class="d6-av">${esc(String(ME.name||'?').charAt(0).toUpperCase())}</div><div style="min-width:0;flex:1"><b>${esc(ME.name)}</b><div class="pn">${esc(maskPh(ME.phone))}</div><button class="d6-lnk" onclick="go('settings')">${t('d6Acc')} ${ico('arr',14)}</button></div></div>
+  ${d+p>0?`<div class="d6-sv"><div><div class="lb">${t('d6Saved')}</div><b>${r2(d+p)} TJS</b></div><div class="xs mut">${t('n6SvD')} ${d}<br>${t('n6SvP')} ${p}</div></div>`:''}
+  <div class="gp">${row('card',t('walT'),"go('wallet')",`${TLB.wallet().balance} TJS`)}${row('receipt',t('histL'),"go('orders')")}${row('pin',t('addrT'),"openAddr('me')")}${row('heart',t('fav'),"go('fav')")}${row('chat',t('supT'),"go('support')",TLB.ticketUnread()?`<b>${TLB.ticketUnread()}</b>`:'')}</div>
   <div class="gp">${row('star',t('n7About'),"go('about')")}${row('check',t('n7Priv'),"go('privacy')")}</div>
-  <p class="xs mut" style="text-align:center;margin-top:6px">${t('verL')} ${esc(TLB.version||'')} · ${PGV}</p></div>`}
+  <p class="d6-ft">${t('d6LangPh')}</p><p class="xs mut" style="text-align:center;margin-top:10px">${t('verL')} ${esc(TLB.version||'')} · ${PGV}</p></div>`}
 function vPage(slug){TLB.loadPages();const pg=TLB.pages()[slug],txt=pg?(TLB.lang()=='ru'?pg.ru:pg.en)||pg.ru||pg.en:null,sp=TLB.supportInfo();
   return topbar(t(slug=='about'?'n7About':'n7Priv'),'',"go('me')")+`<div class="pg"><div class="card">${pg===undefined?`<div class="xs mut">${t('n7Load')}</div>`:txt?`<div class="tx2">${esc(txt)}</div>`:`<div class="xs mut">${t('n7NoText')}</div>`}</div>
   ${slug=='about'?`<div class="card"><div class="dr"><span>${t('verL')}</span><b>${esc(TLB.version||'')} · ${PGV}</b></div>${sp.phone?`<div class="dr"><span>${t('supCall')}</span><a href="${telH(sp.phone)}">${esc(sp.phone)}</a></div>`:''}${sp.hours?`<div class="dr"><span>${t('supHours')}</span><b>${esc(sp.hours)}</b></div>`:''}</div><button class="btn s big" onclick="go('support')">${t('n7Contact')}</button>`:''}</div>`}
@@ -1344,7 +1643,7 @@ function render(){
   const navH=full?'':`<div class="nav">${nav.map(k=>`<div class="${on(k)?'on':''}" onclick="${k=='home'?"S.q='';":''}go('${k}')">${ico(ni[k],24)}${t(k=='promo'?'promoTab':k)}${k=='orders'&&un?`<span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
   const a=document.activeElement,kid=a&&['ci','sq','cq','ph','pc','mq','nt','shn','rc','afs','afh','afe','aff','afa','afn','rpm','tkm','tmpn','gfn','gfp'].includes(a.id)?a.id:null,keep=kid?a.value:null;
   const _o=document.querySelector('.osh'),_ost=_o?_o.scrollTop:0,_osw=!!_o;
-  $('app').innerHTML=V+bar+navH+addrSheet()+roSheet()+repSheet()+cxnSheet()+(S.v=='home'?hfSheet()+ntfSheet():'');
+  const D6P=['pay','wallet','me','addrForm'].includes(S.v),D6W=D6P?'d6p':S.v=='home'?'d6h':S.v=='cat'?'d6l':'';$('app').innerHTML=(D6W?'<div class="d6 '+D6W+'">'+V+'</div>':V)+bar+navH+addrSheet()+roSheet()+repSheet()+cxnSheet()+(S.v=='home'?hfSheet()+ntfSheet():'');
   const _n=document.querySelector('.osh');if(_n&&_osw&&S.sh&&S.sh.keep)_n.scrollTop=_ost;document.documentElement.classList.toggle('shopen',!!S.sh);
   if(kid&&$(kid)){const e=$(kid);if(kid!=='ci')e.value=keep;e.focus();e.setSelectionRange(e.value.length,e.value.length)}   /* the chat field takes its text from the per-order draft (never another order's text) */
   const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();menuAfter();

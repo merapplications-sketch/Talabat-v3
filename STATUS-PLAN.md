@@ -123,3 +123,10 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   flow / qa_all customer / ui_rules all clean (Chromium). Differences and the not-tested list: CHANGES-v62-design-b1.md.
   Pending: Home decisions, final font (licence), batches 2–3, iPhone check. Old notes: classification corrected in
   DESIGN-v06.1-INTAKE.md (earlier fixes = verification only). Safari notes stay open.
+- v63 (design v06.1 batches 2 + 3, `design/customer-v06`, local): the ten customer pages complete for review — checkout,
+  order details, wallet, profile, address form, Home B, restaurants list (all lists) on top of v62's store / sheet / cart.
+  Real data only; empty blocks hidden; admin banners in the bento; six categories in one row. Checks: design_v06_check
+  149/149 (10 pages × RU/EN × 360/390/430 × with/without photos), cart / sheet / branch / hdr / smoke / ui_rules / flow /
+  qa_all customer / uat2 48/0 / uat3 70/70 / patch37_ui / patch38_ui all clean (Chromium). One list of differences, gaps and
+  decisions D1–D9: CHANGES-v63-design-full.md. Not final approval; other apps not designed; iPhone not tested; Safari
+  notes open; the 21:16 image not received.

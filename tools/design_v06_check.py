@@ -7,6 +7,10 @@ Supabase; place_order is captured, nothing is sent anywhere). Chromium only — 
   B. layout at 360 / 390 / 430, RU and EN: no horizontal overflow, targets ≥ 44, fields ≥ 16 px, sheet ≤ min(560, 66 % of
      the screen), title + quantity / add outside the options scroll, the request field reachable on a small screen and with
      a keyboard-sized screen, no tabs, no demo values, no raw text keys.
+  C. batches 2–3 (10 pages: Home B, search, list, «for you», checkout, order details, wallet, profile, address) at
+     360 / 390 / 430, RU and EN, with and without photos: no overflow, targets ≥ 44, fields ≥ 16 px, no raw keys / demo
+     values / design pictures, photo slots; Home: original logo, 6 categories in one row, every admin banner kept,
+     Home B order, sections without data hidden; list: every store once, «Для вас» = your stores.
   python3 tools/design_v06_check.py"""
 import os, sys, json, re
 from playwright.sync_api import sync_playwright
@@ -134,5 +138,64 @@ with sync_playwright() as p:
             ok(want in r['txt'] and not re.search(r'\bd6[A-Z]', r['txt']), '%s cart: request shown with its label, no raw keys' % tag)
             ok(not errs, '%s: no JS errors %s' % (tag, errs[:1]))
             ctx.close()
+
+    # ======================= C. batches 2–3: Home B, list, checkout, order details, wallet, profile, address =======================
+    PIC = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='40'%3E%3Crect width='60' height='40' fill='%23c86'/%3E%3C/svg%3E"
+    VIEWS = [('home', "S.q='';go('home')"), ('home search', "S.q='пл';go('home')"), ('list', "S.q='';S.srt='';S.fo=false;S.cq='';go('cat',{catKey:'rest'})"),
+             ('list all', "go('cat',{catKey:'*'})"), ('list «for you»', "S.srt='mine';render()"),
+             ('checkout', "S.srt='';S.cart={i2:2};S.cartStore=ALLS.find(x=>x.id=='s1').n;go('pay')"), ('order details', "TLB.proofUrl=()=>Promise.resolve(null);go('track',{tid:'ord4'})"),
+             ('wallet', "go('wallet')"), ('profile', "go('me')"), ('address', "editAddr(addrs()[0].id)")]
+    for lang in ('ru', 'en'):
+        for w in (360, 390, 430):
+            for photos in (False, True):
+                ctx, pg, errs, dlg = page(b, w, 844 if w != 360 else 780, lang); E = pg.evaluate; tag = '%s %d %s' % (lang.upper(), w, 'photos' if photos else 'no photos')
+                if photos:
+                    E("""(P)=>{ALLS.forEach(s=>{s.i=P;s.lg=P});const f=TLB.allMenus;TLB.allMenus=function(){const o=f.apply(this,arguments);Object.values(o).forEach(l=>l.forEach(i=>{i.image=P}));return o};render()}""", PIC)
+                bad = []
+                for name, js in VIEWS:
+                    E("()=>{" + js + ";render();scrollTo(0,0)}"); pg.wait_for_timeout(250)
+                    r = E("""()=>{const W=document.documentElement.clientWidth,R='.d6-rl,.d6-nr,.d6-bsc,.chips,.bbs,.d6-rail,.hs';
+                      const over=[...document.querySelectorAll('#app *')].filter(e=>{const b=e.getBoundingClientRect();return b.width&&b.right>W+1&&!e.closest(R)&&getComputedStyle(e).position!='fixed'}).map(e=>e.className||e.tagName).slice(0,3);
+                      /* .vh = screen-reader-only alternative to the 2-second hold (not a visible tap target) */const small=[...document.querySelectorAll('.d6 button:not(.vh),.d6 [role=button],.d6 a[href],.nav>div')].filter(e=>{const b=e.getBoundingClientRect();return b.width&&(b.width<43.5||b.height<43.5)}).map(e=>(e.className||e.tagName)+':'+Math.round(e.getBoundingClientRect().width)+'x'+Math.round(e.getBoundingClientRect().height)).slice(0,3);
+                      const fld=[...document.querySelectorAll('#app input,#app textarea,#app select')].filter(e=>e.type!='hidden'&&e.getBoundingClientRect().width&&parseFloat(getComputedStyle(e).fontSize)<16).length;
+                      const txt=document.getElementById('app').innerText;
+                      return {over,small,fld,sx:document.documentElement.scrollWidth>W+1,wrap:!!document.querySelector('#app>.d6'),
+                        raw:(txt.match(/\\bd6[A-Z][A-Za-z_]*\\b|\\bundefined\\b|\\bNaN\\b|\\{[a-z]\\}/)||[''])[0],
+                        demo:(txt.match(/Демо|ДЕМО|DEMO|Demo|Dubai|Дубай|Аль Барша|Pizza Hut|KFC|Carrefour|Burger House|SushiArt|Basilico|Burger Lab|Мин\\. заказ|Min\\. order/)||[''])[0],
+                        dimg:[...document.querySelectorAll('#app img')].map(i=>i.getAttribute('src')||'').filter(s=>/Assets\\/|raster-|windows\\/|References\\//.test(s)).length,
+                        none:document.querySelectorAll('.d6 .d6-ph.none').length,pics:[...document.querySelectorAll('.d6 .d6-ph>img')].filter(i=>i.complete&&i.naturalWidth>0).length}}""")
+                    if r['over'] or r['sx']: bad.append('%s overflow %s' % (name, r['over']))
+                    if r['small']: bad.append('%s small targets %s' % (name, r['small']))
+                    if r['fld']: bad.append('%s field < 16 px' % name)
+                    if not r['wrap']: bad.append('%s not in the design layer' % name)
+                    if r['raw'] or r['demo'] or r['dimg']: bad.append('%s raw/demo %s %s %d' % (name, r['raw'], r['demo'], r['dimg']))
+                    if name in ('home', 'list'):
+                        if photos and (r['none'] or not r['pics']): bad.append('%s photos: %d empty slots, %d shown' % (name, r['none'], r['pics']))
+                        if not photos and (r['pics'] or not r['none']): bad.append('%s no photos: %d pictures, %d «no photo» slots' % (name, r['pics'], r['none']))
+                ok(not bad, '%s: 10 pages — no overflow, targets ≥ 44, fields ≥ 16 px, design layer, no raw keys / demo values / design pictures, photo slots %s' % (tag, bad[:3]))
+                ok(not errs, '%s: no JS errors %s' % (tag, errs[:1]))
+                if w == 390 and not photos:
+                    E("()=>{S.q='';go('home');render()}")
+                    r = E("""()=>{const H=document.querySelector('.d6h');const ord=[...H.querySelectorAll('.d6-hh,.d6-bento,.d6-cats,.d6-sh h2,.d6-dn')].map(e=>e.className||e.textContent.trim());
+                      return {logo:(H.querySelector('.d6-logo')||{}).getAttribute?H.querySelector('.d6-logo').getAttribute('src'):'',logoOk:H.querySelector('.d6-logo').naturalWidth>0,
+                        cats:H.querySelectorAll('.d6-cats .d6-ct').length,catsRow:new Set([...H.querySelectorAll('.d6-cats .d6-ct')].map(e=>Math.round(e.getBoundingClientRect().top))).size,
+                        bn:TLB.banners().filter(b=>(b.placement||'top')=='top').length,bnIn:H.querySelectorAll('.d6-bento [onclick^="bannerGo"]').length,
+                        bot:TLB.banners().filter(b=>b.placement=='bottom').length,botIn:H.querySelectorAll('.bbs [onclick^="bannerGo"]').length,
+                        ord,heads:[...H.querySelectorAll('.d6-sh h2')].map(e=>e.textContent.trim()),sq:!!document.getElementById('sq'),bell:!!H.querySelector('[onclick^="S.ntf=true"]'),
+                        reo:H.querySelectorAll('.d6-lo [onclick^="reorder("]').length,del:TLB.orders().filter(o=>o.status=='delivered'&&o.items&&o.items.length).length}}""")
+                    ok(r['logo'] == 'assets/brand/talabot-ru.png' and r['logoOk'], '%s Home: the original logo file is shown (%s)' % (tag, r['logo']))
+                    ok(r['cats'] == 6 and r['catsRow'] == 1, '%s Home: the six categories in one row' % tag)
+                    ok(r['bnIn'] == r['bn'] and r['botIn'] == r['bot'], '%s Home: every admin banner kept — top %d/%d in the bento, partners %d/%d' % (tag, r['bnIn'], r['bn'], r['botIn'], r['bot']))
+                    ok(r['sq'] and r['bell'] and r['reo'] == min(10, r['del']), '%s Home: search, notifications, «order again» on each delivered order (%d)' % (tag, r['reo']))
+                    want = ['Ваши любимые снова', 'Лучшие предложения', 'Популярные рестораны', 'Рекомендуем для вас'] if lang == 'ru' else ['Your favourites again', 'Best offers', 'Popular restaurants', 'Recommended for you']
+                    hs = r['heads']; ok(all(x in hs for x in want) and [hs.index(x) for x in want] == sorted(hs.index(x) for x in want), '%s Home: Home B order %s' % (tag, hs))
+                    ok(not any(re.search(x, ' '.join(hs)) for x in ('Флеш', 'Flash', 'Смотрите', 'Discover')), '%s Home: no section without data (flash sale by category, editorial)' % tag)
+                    # list: every store of the category exactly once, sections, «for you» = stores you ordered from
+                    r = E("""()=>{S.srt='';S.fo=false;S.cq='';go('cat',{catKey:'*'});render();const ids=[...document.querySelectorAll('.d6l .d6-sr')].map(e=>e.getAttribute('onclick'));
+                      const n=STORES.length,u=new Set(ids).size;S.srt='mine';render();const mine=[...document.querySelectorAll('.d6l .d6-sr .nt')].map(e=>e.textContent),want=[...new Set(TLB.orders().filter(o=>o.status=='delivered').map(o=>o.store))].filter(x=>STORES.some(s=>s.n==x));
+                      S.srt='';render();document.querySelector('.d6-l3 .a').click();const disc=S.srt;go('home');return {n,len:ids.length,u,mine:mine.sort(),want:want.sort(),disc}}""")
+                    ok(r['len'] == r['n'] and r['u'] == r['n'], '%s list: every store shown exactly once across the sections (%d/%d)' % (tag, r['u'], r['n']))
+                    ok(r['mine'] == r['want'] and r['disc'] == 'disc', '%s list: «Для вас» = the stores of your delivered orders %s; «Скидки» tile = the discount filter' % (tag, r['mine']))
+                ctx.close()
     b.close()
 print('\nDESIGN v06 CHECK %d/%d' % (n - len(fails), n)); sys.exit(1 if fails else 0)
