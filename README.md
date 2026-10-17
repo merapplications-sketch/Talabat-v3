@@ -1,0 +1,1 @@
+Read-only preview of v63 (design v06.1 complete for review: 10 customer pages), design/customer-v06 @ 9c018bca6bc29b0fbf39db682d827b489ecf7e67. Demo data only; writes refused. Screens: shots/ (Chromium; _ph = temporary test pictures, not app data).
