@@ -75,15 +75,23 @@ Store logos, dish photos and covers in the app always come from the restaurants'
 - HOME-MAP rules: only real data; empty sections hidden; no invented times, countdowns or discounts.
 - UI rules: fields ≥ 16 px, zoom never blocked, 44 px targets.
 - Customer fixes v58–v61: cancel waits for the server (UAT002), chat drafts per order (UAT003), 2-second hold, UAT008 / 009 / 012 / 013 / 015 receipts and points, store payment rules at checkout (v60c), recorded automatic return (v61).
-- QA-UAT1 follow-up: customer handlers with unquoted ids (fixed where the installation touches them).
+- QA-UAT1 follow-up: customer handlers with unquoted ids — the new markup quotes every id; the other handlers are unchanged (outside this batch).
 - Backlog batch 4 linked by look only (not built): combo / family banner at peaks, order streak / rating rewards («Бонусы за заказ»).
 - Owner 10 Oct home tweaks (3×2 grid, 3:2 banner, order) — superseded only if §4.2 is accepted.
 
-**Independent of the design (can go ahead without it):** v61 activation + 8 economic decisions; v57 onboarding activation;
-patch 35; admin rating thresholds; payment provider; points paid by the platform for batch-4 rewards (SQL); receipt printing
-(restaurant); backlog 4–7 (auto-cancel, GPS, offline, push, OTP, launch checklist); OSM map tiles 403 (admin / courier map
-provider); admin customer history limit; «свободны» label; drafts after sign-out (Pending); restaurant header selector 12 px
-proposal; test accounts; iPhone checks of v57c–v61; Safari notes (not opened now).
+**Independent of the design — open work:** v61 activation + 8 economic decisions; v57 onboarding activation; patch 35; admin
+rating thresholds; payment provider; points paid by the platform for batch-4 rewards (SQL); receipt printing (restaurant);
+backlog 4–7 (auto-cancel, GPS, offline, push, OTP, launch checklist); drafts after sign-out (Pending decision); restaurant
+header selector 12 px proposal; test accounts; Safari notes (not opened now).
+
+**Already fixed earlier — verification only, NOT re-implementation tasks (reopen only with regression evidence)** (corrected 17 Oct):
+| Item | Fixed in | What is still pending |
+|---|---|---|
+| Admin back from a customer's order returns to the customer (Парвиз #9103) | v56f (`openFrom` / `ordBack`), tested | owner check on the phone |
+| OSM map tiles «403 Access blocked» | v56 (tiles carry the site origin; `map_tile_check`) | check on the phone / real network |
+| Customer history limited to 50 with no «more» | v56 (history by account + «show more») | identity of same-name orders needs real data |
+| Store form delivery type «свободны» | v56 (two texts no longer share one key) | — |
+| iPhone checks of v57c–v61 | — | owner iPhone round (not a code task) |
 
 ## 6. Files that change in the installation
 - `customer.html` — CSS token layer (design colours, radii, spacing, shared metrics) and the render functions of the 10 screens.
