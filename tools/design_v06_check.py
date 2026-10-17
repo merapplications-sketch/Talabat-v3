@@ -197,5 +197,31 @@ with sync_playwright() as p:
                     ok(r['len'] == r['n'] and r['u'] == r['n'], '%s list: every store shown exactly once across the sections (%d/%d)' % (tag, r['u'], r['n']))
                     ok(r['mine'] == r['want'] and r['disc'] == 'disc', '%s list: «Для вас» = the stores of your delivered orders %s; «Скидки» tile = the discount filter' % (tag, r['mine']))
                 ctx.close()
+
+    # ======================= D. fit to the v06.1 reference (sizes / line-heights / weights measured on the reference pages) =======================
+    S1 = "ALLS.find(x=>x.id=='s1').n"
+    FIT = [("S.cart={};go('menu',{store:%s});render();openItem('i1')" % S1, [('.d6s-in h2', '21/25/700'), ('.d6s-pr', '22/26/700'), ('.d6-gh h3', '17/24/700'), ('.d6-g1 .d6-ch .nm', '14/18/700'),
+              ('.d6-gm .d6-ch .nm', '13/19/400'), ('.d6-nt h3', '17/21/700'), ('.oshf .px6', '20/25/700')]),
+           ("S.sh=null;S.cart={i2:2};S.cartStore=%s;go('cart')" % S1, [('.d6-head h1', '22/28/700'), ('.d6-head .st', '12/17/400'), ('.fdc b', '14/20/400'), ('.ci .nm', '18/23/700'), ('.ci .d6-lp', '18/26/700')]),
+           ("S.cart={i2:2};S.cartStore=%s;go('pay')" % S1, [('.card h3', '17/22/700'), ('.b6', '14/20/700'), ('.card .rg b', '14/20/700'), ('.tip', '12/18/700'), ('.sum .tot span:last-child', '18/26/700')]),
+           ("go('wallet')", [('.d6-bal .am', '36/44/700'), ('.d6-pts .am', '28/41/700'), ('.d6-pts .sm', '13/19/700'), ('.dr b', '14/20/700')]),
+           ("go('me')", [('.d6-pf b', '18/24/700'), ('.d6-pf .pn', '12/17/400'), ('.d6-sv b', '24/30/700')]),
+           ("S.q='';go('home')", [('.d6-loc small', '12/16/400'), ('.d6-loc b', '14/19/700'), ('.d6-ct b', '11/16/400'), ('.d6-sh h2', '18/24/700'), ('.d6-lo .nm', '12/15/700')]),
+           ("go('cat',{catKey:'rest'})", [('.d6-lt h1', '22/28/700'), ('.d6-sh h2', '20/26/700'), ('.d6-sr .nm', '15/20/700'), ('.d6-sr .rt', '12/18/700')])]
+    ctx, pg, errs, dlg = page(b, 390); E = pg.evaluate; off = []; heavy = []
+    for js, roles in FIT:
+        E("()=>{" + js + ";render();scrollTo(0,0)}"); pg.wait_for_timeout(250)
+        for sel, want in roles:
+            got = E("(s)=>{const e=document.querySelector(s);if(!e)return 'missing';const c=getComputedStyle(e);return Math.round(parseFloat(c.fontSize))+'/'+Math.round(parseFloat(c.lineHeight))+'/'+c.fontWeight}", sel)
+            if got != want: off.append('%s %s≠%s' % (sel, got, want))
+        heavy += E("""()=>[...document.querySelectorAll('.d6 *')].filter(e=>{const c=getComputedStyle(e);return e.childNodes.length&&[...e.childNodes].some(n=>n.nodeType==3&&n.textContent.trim())&&e.getBoundingClientRect().width&&!['400','700'].includes(c.fontWeight)&&!e.closest('.vh')}).map(e=>(e.className||e.tagName)+':'+getComputedStyle(e).fontWeight).slice(0,3)""")
+    ok(not off, 'fit 390: text roles match the reference sizes / line-heights / weights %s' % off[:4])
+    ok(not heavy, 'fit 390: only the two design weights (400 / 700) in the design layer %s' % heavy[:4])
+    r = E("""()=>{S.cart={};go('menu',{store:ALLS.find(x=>x.id=='s1').n});render();openItem(menuOf(ALLS.find(x=>x.id=='s1').n).find(i=>isBest(i.id)&&!i.image)?.id||'i1');
+      const top=document.querySelector('.d6s-top');return {floating:top.querySelectorAll('.d6-bdg').length,img:!!top.querySelector('img'),sep:getComputedStyle(document.querySelector('.d6s .og')).borderBottomWidth}}""")
+    ok(r['floating'] == 0 or r['img'], 'sheet without a dish photo: no badge floating over the page (it moves into the panel)')
+    ok(r['sep'] == '0px', 'sheet: no separator line under the option groups (reference has none)')
+    E("()=>{shClose()}")
+    ctx.close()
     b.close()
 print('\nDESIGN v06 CHECK %d/%d' % (n - len(fails), n)); sys.exit(1 if fails else 0)

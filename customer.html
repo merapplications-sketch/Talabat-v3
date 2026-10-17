@@ -622,7 +622,7 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 .d6-sc .mt>span:last-child,.d6-dc .mt>span:last-child,.d6-sr .mt>span:last-child{overflow:hidden;text-overflow:ellipsis}
 .d6h .rt,.d6l .rt{display:inline-flex;align-items:center;gap:2px;color:var(--ink);font-weight:700;flex:none}
 .d6h .rt svg,.d6l .rt svg{color:#F5A524}
-.d6h .rt i,.d6l .rt i{font-style:normal;font-weight:500;color:var(--mut2)}
+.d6h .rt i,.d6l .rt i{font-style:normal;font-weight:400;color:var(--mut2)}
 .d6-sc .pk{margin:6px 10px 0}
 /* recommended dishes */
 .d6-pt{width:120px;cursor:pointer}
@@ -697,6 +697,113 @@ h1{font-size:19px;line-height:1.2;font-weight:700}h2{font-size:15px;font-weight:
 .sr.d6-sr .or{position:absolute;right:12px;bottom:12px;background:var(--form);border-radius:10px;font-size:11px;line-height:14px;padding:4px 8px;color:var(--mut2)}
 .sr.d6-sr.closed .d6-ph>img{filter:grayscale(1);opacity:.55}
 @media (max-width:374px){.d6-ct b{font-size:10px}.d6-bt.d6tm .tt{font-size:20px;line-height:24px}.d6-l3 button{font-size:13px;padding:10px}}
+
+/* ===== v63b — fit to the v06.1 reference (measured side by side at the same CSS width, same content). Sizes, line-heights and
+   weights follow the reference roles; the design font has only 400 / 700, so 500/600/800/900 render as 400 or 700 there and
+   are mapped the same here. Fields stay 16 px and targets 44 px (they are limits, not a reason to enlarge text). ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* shared */
+.d6 .d6-un{font-weight:400}
+.d6 .d6-hd{margin-top:16px}
+.d6 .d6-pv .nm{font-size:15px;line-height:18px}
+/* store page */
+.d6m .d6-logo,.d6m .d6-id h1{font-weight:700}
+.d6m .d6-of .ic{font-size:23px;line-height:33px;font-weight:700}
+.d6m .d6-of b{line-height:19px}
+.d6m .d6-of span{line-height:17px}
+.d6m .d6-mc .d6-sub{line-height:17px}
+.d6m .d6-sb{margin-top:16px}
+.d6m .d6-sb input::placeholder{color:var(--mut)}
+/* dish sheet */
+.d6s .d6-gm .d6-ch{min-height:44px;padding-top:6px;padding-bottom:6px}
+.d6s .d6-gm .d6-ch .nm{font-size:13px;line-height:19px;font-weight:400}
+.d6s .d6-gm .d6-ch .pr{font-size:13px;line-height:19px}
+.d6s .d6-nt h3{line-height:21px}
+.d6s .oshf .btn span:first-child{font-size:15px;line-height:20px}
+.d6s .oshf .btn .px6{font-size:20px;line-height:25px;font-weight:700}
+.d6s .oshf .btn.soft span:first-child{font-size:13px;line-height:17px}
+.d6s .d6s-in .d6-pill.hot{display:block;width:max-content;position:static;background:#E5322D;color:#fff;height:24px;line-height:24px;margin-bottom:6px}
+/* cart */
+.d6c .d6-head .st{font-size:12px;line-height:17px}
+.d6c .fdc b{font-weight:400}
+.d6c .fdc b strong{font-weight:700}
+.d6c .ci .nm{font-size:18px;line-height:23px}
+.d6c .ci .d6-lp{font-size:18px;line-height:26px;font-weight:700}
+.d6c .ci .d6-lp s{line-height:19px}
+.bar.d6-cbar .d6-cbi b{font-weight:700}
+.bar.d6-cbar .d6-cbi small{font-weight:400}
+/* checkout, order details, wallet, profile, address */
+.d6p .tt b{line-height:28px}
+.d6p .tt span{font-size:12px;line-height:17px}
+.d6p .card h3{font-size:17px;line-height:22px}
+.d6p .pg>h3{font-size:20px;line-height:26px}
+.d6p .xs{font-size:12px;line-height:17px}
+.d6p .card b:not(.sm):not([class]){font-size:14px;line-height:20px}
+.d6p b.sm{font-size:14px;line-height:20px}
+.d6p .b6{font-size:14px;line-height:20px;font-weight:700}
+.d6p .btn.t{font-size:12px}
+.d6p .tip{font-size:12px;line-height:18px}
+.d6p .sm.mut{font-size:12px;line-height:18px}
+.d6p .sum .row{color:var(--mut2)}
+.d6p .sum .row span:last-child{font-weight:700;color:var(--ink)}
+.d6p .sum .row.tot span,.d6p .sum .tot span:last-child{font-size:18px;line-height:26px}
+.d6p .ernb{font-weight:700;line-height:18px}
+.d6p .btn.big,.d6p .fbar .btn{font-size:14px;line-height:20px}
+.d6p .d6-st b{line-height:26px}
+.d6p .d6-it .pr{font-size:14px;line-height:20px}
+.d6p .d6-it .xs{line-height:18px}
+.d6p .supl{font-size:14px}
+.d6p .d6-bal .lb{line-height:19px}
+.d6p .d6-bal .am{font-size:36px;line-height:44px;font-weight:700;letter-spacing:-1px}
+.d6p .d6-bal .am small{font-size:14px;line-height:20px;letter-spacing:0}
+.d6p .d6-bal .hn{line-height:19px}
+.d6p .d6-pts .am{line-height:41px;font-weight:700;letter-spacing:-.5px}
+.d6p .d6-pts .am small{font-size:12px;line-height:17px;font-weight:400;letter-spacing:0}
+.d6p .d6-pts .cp{font-size:12px;line-height:17px}
+.d6p .d6-pts .sm{font-size:13px;line-height:19px}
+.d6p .d6-pts .xs{font-size:13px;line-height:19px}
+.d6p .d6-rules{font-size:13px;line-height:19px}
+.d6p .d6-lnk{font-size:12px}
+.d6p .d6-dis{font-size:16px;line-height:23px}
+.d6p .dr b{font-size:14px;line-height:20px}
+.d6p .dr .xs{font-size:13px;line-height:19px}
+.d6p .d6-av{width:56px;height:56px;font-size:26px;font-weight:700}
+.d6p .d6-pf b{font-size:18px;line-height:24px}
+.d6p .d6-pf .pn{font-size:12px;line-height:17px}
+.d6p .d6-sv b{font-weight:700}
+.d6p .d6-sv .xs{font-size:11px;line-height:16px}
+.d6p .r2{min-height:64px;font-size:14px}
+.d6p .r2 .vl{font-size:13px}
+.d6p .d6-ft{line-height:18px}
+.d6p .seg button{font-size:12px;line-height:18px}
+.d6p .fl2{line-height:20px}
+/* Home B */
+.d6-hh{padding-bottom:6px}
+.d6-bento{padding-top:0}
+.d6-bt .tt,.d6-bt.d6tm .tt,.d6-ot b,.d6-dn .pct,.d6h .hb{font-weight:700}
+.d6-ct b{font-weight:400;line-height:16px;letter-spacing:-.2px}
+.d6-sh button{font-weight:400}
+.d6-lo .nm{font-size:12px;line-height:15px;letter-spacing:-.2px}
+.d6-lo .it{line-height:14px}
+.d6-ob{font-size:12px}
+.d6-sc .mt,.d6-dc .mt{line-height:18px}
+.d6-nc .tx span{font-size:13px;line-height:18px}
+.d6-cp b{line-height:18px}
+.d6-sh h2{letter-spacing:-.2px}
+/* restaurants list */
+.d6l .d6-sh h2{font-size:20px;line-height:26px}
+.d6l .d6-shs{font-size:12px;line-height:18px}
+.d6-lt span{font-size:11px}
+.d6l .chip{font-size:12px}
+.sr.d6-sr .nm{font-size:15px;line-height:20px}
+.sr.d6-sr .tx p,.sr.d6-sr .mt,.sr.d6-sr .dl{line-height:18px}
+.d6l .rt,.d6h .d6-res .rt{font-size:12px}
+.fbar.d6-dock .btn span{font-weight:700!important}
+.sr.d6-sr .rt{font-size:12px}
+.d6 s{font-weight:400!important}
+.d6p .xs[style*="font-weight:500"]{font-weight:400!important}
+.d6s .og{border:0;padding-bottom:0}
+.d6m .brc{font-weight:700}
 </style></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -966,9 +1073,9 @@ function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S
     return `<div class="og ${S.sh.miss==g.id?'miss':''}" id="og-${g.id}" role="${multi?'group':'radiogroup'}" aria-labelledby="ogh-${g.id}"><div class="d6-gh"><h3 id="ogh-${g.id}">${esc(g.name)}</h3><span class="d6-pill ${g.required?'rq':''}">${pill}</span></div>
     <div class="${multi?'d6-gm':'d6-g1'}">${g.options.map(o=>{const on=sel.includes(o.id),dis=!on&&multi&&sel.length>=g.max;
       return `<button type="button" class="d6-ch ${on?'on':''} ${dis?'dis':''}" role="${multi?'checkbox':'radio'}" aria-checked="${on}" ${dis?'aria-disabled="true"':''} onclick="${dis?'':`shPick('${g.id}','${o.id}',${g.max})`}"><span class="nm">${esc(o.name)}</span>${o.price>0?`<span class="pr">+${o.price} TJS</span>`:''}<span class="mk">${on?ico('check'):''}</span></button>`}).join('')}</div></div>`};
-  return `<div class="sheet d6 d6s" onclick="shClose()"><div class="d6s-top">${it.image?`<img src="${esc(it.image)}" alt="" onerror="this.remove()">`:''}<button class="d6-circ d6s-x" aria-label="${t('d6Close')}" onclick="event.stopPropagation();shClose()">${ico('x')}</button>${isBest(it.id)?`<span class="d6-bdg hot">${t('hotB')}</span>`:''}</div>
+  return `<div class="sheet d6 d6s" onclick="shClose()"><div class="d6s-top">${it.image?`<img src="${esc(it.image)}" alt="" onerror="const p=this.parentNode;p.querySelectorAll('.d6-bdg').forEach(x=>x.remove());p.classList.add('nop');this.remove()">`:''}<button class="d6-circ d6s-x" aria-label="${t('d6Close')}" onclick="event.stopPropagation();shClose()">${ico('x')}</button>${it.image&&isBest(it.id)?`<span class="d6-bdg hot">${t('hotB')}</span>`:''}</div>
   <div class="d6s-p" role="dialog" aria-modal="true" aria-labelledby="shT" onclick="event.stopPropagation()"><div class="d6s-hd"></div>
-  <div class="d6s-in"><h2 id="shT">${esc(it.name)}</h2><div class="d6s-pr">${e?`${Math.round(base*(100-e))/100} TJS<s>${base} TJS</s>`:`${base} TJS`}</div></div>
+  <div class="d6s-in">${!it.image&&isBest(it.id)?`<span class="d6-pill hot">${t('hotB')}</span>`:''}<h2 id="shT">${esc(it.name)}</h2><div class="d6s-pr">${e?`${Math.round(base*(100-e))/100} TJS<s>${base} TJS</s>`:`${base} TJS`}</div></div>
   <div class="osh">${gs.map(grp).join('')}
   <div class="d6-nt"><h3><label for="shn">${t('d6Note')}</label></h3><textarea id="shn" maxlength="120" rows="2" placeholder="${t('d6NotePh')}" oninput="S.sh.note=this.value">${esc(S.sh.note||'')}</textarea><small>${t('d6NoteHint')}</small></div></div>
   <div class="oshf"><div class="d6-q"><button aria-label="−" ${q<=1?'disabled':''} onclick="shQ(-1)">${ico('minus')}</button><span aria-live="polite">${q}</span><button aria-label="+" ${q>=50?'disabled':''} onclick="shQ(1)">${ico('plus')}</button></div>
@@ -1293,7 +1400,7 @@ function vCart(){const m=menuOf(S.cartStore),ids=Object.keys(S.cart),mm=TLB.allM
   <div style="height:${ids.length?104:24}px"></div>${itemSheet()}${ids.length?`<div class="fbar d6-dock"><button class="btn s" onclick="goMore()">${t('addMore')}</button>${inGrp()?`<button class="btn" ${ok&&!S.busy?'':'disabled'} onclick="grpPush()">${t('grpPush')}</button>`:`<button class="btn" ${ok?'':'disabled'} style="flex-direction:column;gap:1px;line-height:1.2" onclick="go('pay');quoteNow()"><span>${t('contPay')}</span><span style="font-size:16px;font-weight:800">${Math.round((c.sub-c.d-c.h)*100)/100} TJS</span></button>`}</div>`:''}`}
 /* ---------- free delivery above the restaurant's own threshold ---------- */
 function fdCard(c){if(!(c.fdm>0)||c.ff||!c.sub)return '';const st=ALLS.find(x=>x.n==S.cartStore)||{};if(st.ft=='free')return '';const pc=Math.max(4,Math.min(100,Math.round((c.sub-c.d-c.h)/c.fdm*100)));
-  return `<div class="card fdc" id="fdc"><div class="rg" style="gap:10px"><span class="or">${ico('bike',20)}</span><b class="sm" style="flex:1;min-width:0">${c.fdLeft>0?t('fdLeft').replace('{x}',c.fdLeft):t('fdOk')}</b></div><div class="bar2"><i style="width:${pc}%"></i></div></div>`}
+  return `<div class="card fdc" id="fdc"><div class="rg" style="gap:10px"><span class="or">${ico('bike',20)}</span><b class="sm" style="flex:1;min-width:0">${c.fdLeft>0?t('fdLeft').replace('{x} TJS','<strong>'+c.fdLeft+' TJS</strong>').replace('{x}',c.fdLeft):t('fdOk')}</b></div><div class="bar2"><i style="width:${pc}%"></i></div></div>`}
 /* ---------- ORDER OPTIONS: missing dish, leave at the door, gift ---------- */
 function optsCard(){const g=S.gift;return `<div class="card"><h3 style="margin-bottom:8px">${t('optT')}</h3>
   <div class="xs mut" style="margin-bottom:6px">${t('subT')}</div><div class="tipr sub3">${['call','replace','remove'].map(k=>`<div class="tip ${S.subst==k?'on':''}" onclick="S.subst='${k}';render()">${t('sub_'+k)}</div>`).join('')}</div>

@@ -130,3 +130,8 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   qa_all customer / uat2 48/0 / uat3 70/70 / patch37_ui / patch38_ui all clean (Chromium). One list of differences, gaps and
   decisions D1–D9: CHANGES-v63-design-full.md. Not final approval; other apps not designed; iPhone not tested; Safari
   notes open; the 21:16 image not received.
+- v63b (18 Oct, same branch): visual fit to v06.1 after the owner's iPhone notes (the missing 21:16 image). Measured against the
+  reference at the same width / content: weights mapped to the design's 400 / 700, text roles set to the reference sizes,
+  extra gaps removed, sheet badge without a photo fixed, text-size-adjust 100 %. The iPhone screenshots are 430 CSS px and
+  Chromium at 430 reproduces them → no phone text enlargement. Preview `?photos=1` shows harmless test photos (preview only).
+  design_v06_check 153/153; affected suites clean. Open decisions D1–D4, D7, D8: CHANGES-v63b-design-fit.md.

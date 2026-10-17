@@ -193,7 +193,31 @@ def _build_id():
         d=subprocess.run(['git','status','--porcelain','--','admin.html','merchant.html','talabat-core.js','tools/build_preview.py'],capture_output=True,text=True,cwd=os.path.dirname(os.path.abspath(__file__))).stdout.strip()
         return (h or '?')+(' +local changes' if d else '')
     except Exception: return '?'
-open(os.path.join(out,'preview-client.js'),'w').write(FIX+GUARD+DIAG.replace('@@BUILD@@',_build_id()))
+# customer preview only: «?photos=1» puts harmless TEST pictures (test-photos/) on the DEMO rows of this preview — stores, dishes and
+# three demo admin banners — so the photo state can be reviewed. Nothing of it is in the app or in any real data.
+PHOTOS=r"""
+(function(){try{if(new URLSearchParams(location.search).get('photos')!=='1')return;var make=window.supabase.createClient,done=false;
+ window.supabase.createClient=function(){var c=make.apply(this,arguments);if(!done&&window.__pvTables){done=true;var T=window.__pvTables,P=function(i){return 'test-photos/t'+(i%4+1)+'.jpg'};
+  (T.stores||[]).forEach(function(s,i){s.cover_url=P(i);s.logo_url=P(i+1)});(T.menu_items||[]).forEach(function(it,i){it.image_url=P(i+2)});
+  T.banners=[{id:'pvb1',title:'TEST 1',image_url:P(0),placement:'top',is_active:true,sort:1},{id:'pvb2',title:'TEST 2',image_url:P(1),placement:'top',is_active:true,sort:2},
+   {id:'pvb3',title:'TEST 3',image_url:P(2),placement:'top',is_active:true,sort:3},{id:'pvb4',title:'TEST 4',image_url:P(3),placement:'bottom',is_active:true,sort:4}]}
+  return c};
+ document.addEventListener('DOMContentLoaded',function(){var s=document.getElementById('pv-strip')||document.body;var d=document.createElement('div');d.style.cssText='background:#17243C;color:#fff;font:700 12px/1.4 -apple-system,sans-serif;padding:4px 10px;text-align:center';d.textContent='ТЕСТОВЫЕ ФОТО (только превью) · TEST PHOTOS (preview only)';document.body.insertBefore(d,document.body.firstChild)});
+}catch(e){}})();
+"""
+def _test_photos(o):
+    try:
+        from PIL import Image,ImageDraw
+        os.makedirs(os.path.join(o,'test-photos'),exist_ok=True)
+        for k,(a,b) in enumerate([((214,120,60),(120,50,20)),((70,140,90),(20,70,40)),((90,110,170),(30,40,90)),((190,90,120),(90,30,60))]):
+            im=Image.new('RGB',(600,400));d=ImageDraw.Draw(im)
+            for y in range(400):
+                t=y/399;d.line([(0,y),(600,y)],fill=tuple(int(a[i]*(1-t)+b[i]*t) for i in range(3)))
+            d.rectangle([20,20,250,70],fill=(255,255,255));d.text((32,36),'TEST PHOTO %d'%(k+1),fill=(0,0,0))
+            im.save(os.path.join(o,'test-photos','t%d.jpg'%(k+1)),quality=80)
+    except Exception as e: print('test photos not made:',e)
+if app=='customer': _test_photos(out)
+open(os.path.join(out,'preview-client.js'),'w').write(FIX+GUARD+DIAG.replace('@@BUILD@@',_build_id())+(PHOTOS if app=='customer' else ''))
 s=open(os.path.join(root,app+'.html')).read()
 s2=re.sub(r'<script src="https://cdn\.jsdelivr\.net/npm/@supabase/supabase-js@[^"]+"></script>','<script src="preview-client.js"></script>',s)
 assert s2!=s,'supabase script tag not found'
