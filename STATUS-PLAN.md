@@ -103,7 +103,7 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   | Platform settles (reviewed separately) | unchanged model: all cash handed over, pay paid by the platform | test_patch38, integration | decision 7 below |
   | SA / SC refund sequences | fixed (no proposal adopted) | test_patch37, patch37_race (local) | server activation |
   | Points apart from money | kept (own ledger) | test_patch37 | — |
-  | Screens (admin / courier / restaurant; customer receipt values) | implemented, customer design unchanged | patch38_ui_check, uat3_check, qa_all (Chromium) | iPhone check |
+  | Screens (admin / courier / restaurant; customer receipt values) | implemented, customer design unchanged | patch38_ui_check 50/50, uat3_check 70/70, qa_all 0 issues (Chromium) | iPhone check |
   **Customer design:** arrives later; it must be applied on top of `fix/trial-v61` (latest corrected version), keeping its fixes and functions.
   **Open decisions (each once, numbers from the local test; recommendation in brackets):**
   1. Commission on «courier pays» orders: the place owes 10 per 100 order (shown as `cp_owed_by_store`). How is it paid? [periodic statement from the store position, paid by the place by bank / cash, recorded later as its own record type]

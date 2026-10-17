@@ -32,5 +32,5 @@ the approved design is to be applied later ON TOP of this branch, keeping its fi
 ## Checks (local PostgreSQL stand-in / Chromium previews — not the live DB, not iPhone)
 test_patch37 72/72 · patch37_race 14/14 · test_patch38 100/100 · patch38_race 17/17 · trial_v61_integration 20/20 (four apps,
 one database) · patch38_ui_check 50/50 · patch37_ui_check 11/11 · uat3_check 70/70 · flow_check 0 fails · ui_rules 0 fails ·
-qa_all (four apps) — see STATUS-PLAN.md. Not re-run (unaffected, core unchanged): smoke, cart, courier, merchant_stats, v58 checks.
+qa_all (four apps) 0 issues. Not re-run (unaffected, core unchanged): smoke, cart, courier, merchant_stats, v58 checks.
 Stand-in fix: the patch-38 stand-in lacked the live trigger `trg_orders_wallet_return` (now added; found by the integration check).
