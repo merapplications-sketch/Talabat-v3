@@ -35,7 +35,7 @@ batch only; Home, the final font and batches 2–3 stay pending. Receiving the d
 5. Menu-page cart bar keeps its function and text «Посмотреть корзину» (the reference says «Оформить заказ» but opens the cart).
 6. Prices keep the app-wide format «16.88 TJS» (reference «32,00 TJS»); best seller badge says «Хит».
 7. Below 560 px of screen height (small phone / keyboard open) the sheet may grow to the screen − 56 px so the options, the
-   request and the add button are never cut.
+   request and the add button are never cut; the «Хит» badge on the photo strip is hidden there (it stays on the dish card).
 8. Test pictures: the preview / test data have no photos, so every photo slot shows the «no photo» state.
 
 ## Checks (Chromium, mocked Supabase — not iPhone, not the live DB)
@@ -45,5 +45,5 @@ batch only; Home, the final font and batches 2–3 stay pending. Receiving the d
   overflow, targets ≥ 44, fields ≥ 16 px, no tabs, no demo values / design pictures / raw keys, info card columns, sheet
   height at 780–932 / 560 / 420 px (keyboard-sized) with the request field reachable, cart reachable above the fixed buttons.
 - Existing, unchanged selectors (no check weakened): cart_check 0 fails, sheet_check OK, branch_check OK, uat2 48/0,
-  uat3 70/70, smoke 0 errors, flow_check 0 fails; qa_all customer and ui_rules — see STATUS-PLAN.md.
+  uat3 70/70, smoke 0 errors, flow_check 0 fails, qa_all (customer, 360/390/430 online + offline) 0 issues, ui_rules 0 fails.
 - NOT tested: a real iPhone / Safari (keyboard and the fixed sheet behave differently on iOS), the live database.

@@ -118,3 +118,8 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
 - Design v06.1 received (17 Oct): package verified (base sha256 = addendum reference; 242 files PASS; 37 addendum images
   byte-identical to base files). Mapping, asset gaps, conflicts and the proposed batches: DESIGN-v06.1-INTAKE.md (branch
   `design/customer-v06` from v61). No app file changed yet. Receiving the design closes none of the notes above.
+- v62 (design v06.1 batch 1, `design/customer-v06`, local): store page → dish sheet → cart in the design, per-dish request,
+  remove + «Вернуть», original logo file. Checks: design_v06_check 109/109, cart / sheet / branch / uat2 / uat3 / smoke /
+  flow / qa_all customer / ui_rules all clean (Chromium). Differences and the not-tested list: CHANGES-v62-design-b1.md.
+  Pending: Home decisions, final font (licence), batches 2–3, iPhone check. Old notes: classification corrected in
+  DESIGN-v06.1-INTAKE.md (earlier fixes = verification only). Safari notes stay open.
