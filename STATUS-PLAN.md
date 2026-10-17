@@ -115,3 +115,6 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   7. «Platform settles»: courier hands over 120 and receives his 20 later (not netted). [keep for the trial; revisit only if couriers ask to keep the fee]
   8. «Card» orders on «courier pays» stores: no payment provider exists, so the platform would owe the courier 120 (bill + pay) while capturing nothing. [turn online payment OFF for these stores during the trial — a store setting, no code]
   Not closed by v61: Safari notes, stability batch, onboarding activation, UAT011, iPhone checks of v57c–v59b and v61.
+- Design v06.1 received (17 Oct): package verified (base sha256 = addendum reference; 242 files PASS; 37 addendum images
+  byte-identical to base files). Mapping, asset gaps, conflicts and the proposed batches: DESIGN-v06.1-INTAKE.md (branch
+  `design/customer-v06` from v61). No app file changed yet. Receiving the design closes none of the notes above.
