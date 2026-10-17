@@ -1,0 +1,21 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>معاينة v61 — نسخة التجريب</title>
+<style>body{font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0;padding:20px 16px;background:#f6f4f2;color:#1d1b1a}main{max-width:640px;margin:auto}.ro{display:inline-block;background:#b42318;color:#fff;font-weight:700;font-size:13px;padding:3px 10px;border-radius:6px}a.btn{display:block;text-align:center;background:#c2410c;color:#fff;font-weight:700;text-decoration:none;padding:14px;border-radius:14px;margin:12px 0}code{direction:ltr;unicode-bidi:embed;background:#fff;border:1px solid #e3dcd6;padding:1px 6px;border-radius:5px;font-size:14px}li{margin:6px 0}</style></head>
+<body><main>
+<span class="ro">معاينة فقط · بيانات تجريبية · الكتابة مرفوضة · لا قبض إلكتروني</span>
+<h1 style="font-size:22px">TALABOT — v61: حساب المندوب حسب التشغيل المعتمد + تسلسلات الاسترداد</h1>
+<p>فرع <code>fix/trial-v61</code>، commit <code>c991f3bb59b357222599e337e75de597c656361f</code>. أرقام بطاقات المال عيّنة من الاختبار المحلي، وليست بيانات حقيقية. تصميم العميل لم يُعدَّل.</p>
+<a class="btn" href="customer/customer.html">العميل</a>
+<a class="btn" style="background:#475467" href="admin/admin.html">الإدارة</a>
+<a class="btn" style="background:#0f766e" href="driver/driver.html">المندوب</a>
+<a class="btn" style="background:#7c3aed" href="merchant/merchant.html">المطعم</a>
+<p><b>ما يُفحص:</b></p>
+<ol>
+<li><b>المندوب:</b> الطلب ord2 (المتجر يُدفع من المندوب): «ادفع للمطعم 100 · اقبض 120 · احتفظ بـ 20 · سلّم للمنصة 0»، والمبلغ معبّأ مسبقاً بـ 100. الملف ← «أموالي»: 120 − 100 − 20 = 0.</li>
+<li><b>الإدارة ← المندوبون:</b> المندوب الأول = مثال المالك (0 / 0). المندوب الثاني = الاختبار الكامل (محفظة، بطاقة، نزاع، طلب ملغى).</li>
+<li><b>الإدارة ← المتاجر ← المتجر الأول:</b> الفاتورة مدفوعة من المندوبين، التأكيد اختياري، العمولة 30 «يدين بها المتجر» دون آلية تحصيل.</li>
+<li><b>المطعم:</b> الإحصاءات ← «التسويات مع المنصة»؛ ونافذة الطلب ← دفعة المندوب «مسجّلة، التأكيد اختياري».</li>
+<li><b>العميل:</b> بلا تغيير في التصميم؛ إيصال الطلب الملغى يعرض مبلغ الإرجاع المسجّل فعلاً.</li>
+</ol>
+<p>يحتاج تفعيل الخادم (غير مطبّق): الأرصدة الحقيقية، تسجيل الدفعات والتسويات، سقف الاسترداد، التحقق من صورة التسليم.</p>
+</main></body></html>
