@@ -339,7 +339,8 @@ create policy pss_read on platform_store_settlements for select using (owns_stor
 
 -- ---------- positions (read) ----------
 -- v60d: confirmed / pending / disputed courier payments are kept apart. Pending ones are a precautionary reserve, never «paid»;
--- disputed ones are neither paid nor unpaid (no responsibility is assumed). The courier's ADVANCE (he paid stores more than he
+-- disputed ones are neither paid nor unpaid (no responsibility is assumed): they are not confirmed store payments, not an advance
+-- owed to him, and they are NOT available to be taken from him either (v60e) — they stay held back until a decision. The courier's ADVANCE (he paid stores more than he
 -- collected) is its own balance, repaid only by its own settlement direction; it is never offset against his pay or his cash.
 drop function if exists driver_position(uuid);
 create function driver_position(p_driver uuid)
@@ -360,7 +361,7 @@ language sql stable security definer set search_path = public as $$
   select round(c.col, 2), round(p.conf, 2), round(p.pend, 2), round(p.disp, 2), round(s.hand, 2), round(s.adv, 2), round(n.net, 2),
          round(greatest(n.net, 0), 2),                                   -- cash he holds on the confirmed basis
          round(p.pend, 2),                                               -- shown as a reserve: he says he paid it, not confirmed yet
-         round(greatest(n.net - p.pend, 0), 2),                          -- what may be taken from him now (reserve kept back)
+         round(greatest(n.net - p.pend - p.disp, 0), 2),                 -- what may be taken from him now: pending AND disputed kept back
          round(greatest(-n.net, 0), 2),                                  -- confirmed advance the platform owes him
          round(c.ear, 2), round(s.paid, 2), round(c.ear - s.paid, 2)
     from c, p, s, n where has_perm('finance') or p_driver = auth.uid()
@@ -408,6 +409,7 @@ begin
   select store_id into v_store from orders where orders.id = p_order;
   if not found then raise exception 'not_found'; end if;
   perform 1 from stores where stores.id = v_store for update;                    -- the same lock as every payment of this store
+  perform 1 from profiles where profiles.id = auth.uid() for update;             -- v60e: and the courier's lock (cash taken from him waits)
   select * into o from orders where orders.id = p_order for update;
   select * into r from driver_store_payments where driver_id = auth.uid() and client_key = p_key;
   if found then
@@ -435,6 +437,7 @@ begin
   select store_id into v_store from driver_store_payments where id = p_id;
   if not found then raise exception 'not_found'; end if;
   perform 1 from stores where stores.id = v_store for update;                    -- serialised with the store's other payments
+  perform 1 from profiles where profiles.id = (select driver_id from driver_store_payments where id = p_id) for update;   -- v60e: and with cash taken from the courier
   select * into r from driver_store_payments where id = p_id for update;
   if not (owns_store(r.store_id) or has_perm('finance')) then raise exception 'not_allowed'; end if;
   if p_ok is null then raise exception 'bad_value'; end if;
@@ -444,7 +447,7 @@ begin
          decision_note = nullif(left(btrim(coalesce(p_note, '')), 200), '') where id = p_id;
 end $$;
 -- platform ↔ courier, three separate directions, each against its own balance (never netted):
---   driver_to_platform : cash taken from him            ≤ can_hand_over (pending store payments kept back as a reserve)
+--   driver_to_platform : cash taken from him            ≤ can_hand_over (pending AND disputed store payments kept back)
 --   platform_to_driver : his pay paid out               ≤ earnings_due
 --   advance_repayment  : his confirmed advance repaid   ≤ advance_due      (PREPARED FOR REVIEW — see BATCH3-PLAN.md)
 create or replace function record_driver_settlement(p_driver uuid, p_direction text, p_amount numeric, p_reference text, p_note text, p_key text)

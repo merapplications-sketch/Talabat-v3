@@ -188,3 +188,12 @@ Checks: test_patch38 93/93, patch38_race 12/12, patch38_ui_check 40/40 + affecte
    goods a second time).
 4. Money paid to a store for an order cancelled afterwards; cancellation / refund policy (proposal files still open).
 5. Orders without a settlement method and the start date of the new accounting.
+
+## v60e — dispute fix (local, NOT applied). THE PACKAGE IS NOW FROZEN pending the grouped economic decisions.
+- `can_hand_over` keeps back pending AND disputed courier payments: a disputed amount is never collectable from the courier while
+  the dispute is open; it is not a confirmed store payment and not an advance owed to him; no responsibility is assigned.
+- Shared lock: recording a courier payment and confirming / disputing it now also lock the courier's row, the same lock taken
+  when cash is received from him (lock order store → courier; the cash receipt takes the courier lock only — no cycle).
+- R12 tightened: «collected 100, payment 100 under dispute» → the cash receipt is refused in both orders (dispute → take,
+  take → dispute → take) and at the same moment (both orders); taken = 0 in every case.
+Checks: test_patch38 95/95; patch38_race 15/15; patch38_ui_check 40/40.

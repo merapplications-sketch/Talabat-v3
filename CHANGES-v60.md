@@ -39,3 +39,7 @@ cart; ui_rules; merchant_stats; qa_all (four apps) 0 issues.
   paths, idempotency keys bound to the request (`key_reused`).
 - Apps: admin / courier / restaurant money cards show the split; admin courier card has the advance path labelled «prepared for review».
 Checks: test_patch38 93/93; patch38_race 12/12; patch38_ui_check 40/40; smoke; ui_rules; merchant_stats; uat3; courier; qa_all admin / courier / restaurant.
+
+## v60e — dispute fix (local, NOT applied); package frozen
+- Disputed courier payments are held back from what may be taken from the courier; courier lock shared by payment record /
+  decision and cash receipt. Checks: test_patch38 95/95, patch38_race 15/15 (R12 tightened), patch38_ui_check 40/40.

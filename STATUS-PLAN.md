@@ -91,3 +91,5 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   UAT011, iPhone checks of v57c–v59b).
 - v60d (prepared, NOT applied): review fixes to patch 38 (advance apart, confirmed / pending / disputed apart, no double
   payment across the two paths, keys bound to the request). Open decisions: BATCH3-PLAN.md («v60d»). Other notes unchanged.
+- v60e (prepared, NOT applied): disputed courier payments are never collectable from the courier; shared courier lock.
+  Package v60 FROZEN pending the grouped economic decisions (BATCH3-PLAN.md). No new feature round. Other notes unchanged.

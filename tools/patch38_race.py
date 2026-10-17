@@ -111,17 +111,36 @@ ok(r['waited'] and r['a'][0] == 'ok' and r['b'][0] == 'ok' and cnt == 1 and pos 
 # ---- R11: the same key at once with DIFFERENT data ----
 r = race("select * from record_driver_settlement(%s, 'platform_to_driver', 5, 'K', null, 'race-r11-k001')", (DRV,), "select * from record_driver_settlement(%s, 'platform_to_driver', 6, 'K', null, 'race-r11-k001')", (DRV,), FIN, FIN)
 ok(r['a'][0] == 'ok' and r['b'][0] == 'err' and 'key_reused' in r['b'][1], 'R11 the same key at once with another amount → the second is refused (key_reused), one record')
-# ---- R12: taking cash from the courier while the store disputes his pending payment ----
-d2 = 'd0000000-0000-0000-0000-00000000000e'
-o9 = q1("""insert into orders(store_id, customer_id, driver_id, status, payment, total, subtotal, discount, commission, driver_payout, cash_collected, pay_rules)
-           values (%s, 'c0000000-0000-0000-0000-000000000001', %s, 'pickedup', 'cash', 110, 100, 0, 10, 10, null, '{"settle_method":"driver_pays"}') returning id""", (KEBAB, d2))[0]
-q1("select * from record_store_payment(%s, 100, 'R12', null, 'race-r12-p001')", (o9,), user=d2)
-q1("update orders set status = 'delivered', cash_collected = 100 where id = %s", (o9,))          # collected 100, pending payment 100 → may take 0
-pid9 = q1("select id from driver_store_payments where order_id = %s", (o9,))[0]
-r = race("select decide_store_payment(%s, false, 'x')", (pid9,), "select * from record_driver_settlement(%s, 'driver_to_platform', 100, 'R12', null, 'race-r12-s001')", (d2,), OWN, FIN, hold=0.3)
-taken = float(q1("select coalesce(sum(amount),0) from platform_driver_settlements where driver_id = %s", (d2,))[0])
-net = q1("select row(store_paid_disputed, net_cash, can_hand_over)::text from driver_position(%s)", (d2,), user=FIN)[0]
-ok(taken in (0.0, 100.0) and net.startswith('(100.00'), 'R12 dispute + cash taken at once → never more than collected − confirmed (taken %s; %s); the dispute is kept apart' % (taken, net))
+# ---- R12: «collected 100, payment 100 under dispute» → nothing may be taken from him: both orders in sequence, and at once ----
+def r12_setup(tag):
+    d = q1("insert into profiles(id, role, name) values (gen_random_uuid(), 'driver', %s) returning id::text", ('R12' + tag,))[0]
+    o = q1("""insert into orders(store_id, customer_id, driver_id, status, payment, total, subtotal, discount, commission, driver_payout, cash_collected, pay_rules)
+              values (%s, 'c0000000-0000-0000-0000-000000000001', %s, 'pickedup', 'cash', 110, 100, 0, 10, 10, null, '{"settle_method":"driver_pays"}') returning id""", (KEBAB, d))[0]
+    q1("select * from record_store_payment(%s, 100, 'R12', null, %s)", (o, 'race-r12-p' + tag + '01'), user=d)
+    q1("update orders set status = 'delivered', cash_collected = 100 where id = %s", (o,))      # collected 100, payment 100 pending
+    return d, q1("select id from driver_store_payments where order_id = %s", (o,))[0]
+def taken(d): return float(q1("select coalesce(sum(amount),0) from platform_driver_settlements where driver_id = %s and direction = 'driver_to_platform'", (d,))[0])
+# a) dispute first, then try to take 100
+d, pid = r12_setup('a')
+q1("select decide_store_payment(%s, false, 'x')", (pid,), user=OWN)
+c = conn(FIN); ra = call(c, "select * from record_driver_settlement(%s, 'driver_to_platform', 100, 'R12a', null, 'race-r12-sa01')", (d,)); c.commit(); c.close()
+pos = q1("select row(store_paid_confirmed, store_paid_disputed, cash_held, can_hand_over, advance_due)::text from driver_position(%s)", (d,), user=FIN)[0]
+ok(ra[0] == 'err' and 'nothing_due' in ra[1] and taken(d) == 0 and pos == '(0.00,100.00,100.00,0.00,0.00)',
+   'R12a dispute, then «take 100» → refused (nothing_due); disputed 100 is neither a confirmed store payment nor an advance; taken 0 %s' % pos)
+# b) try to take first (pending reserve), then dispute, then try again
+d, pid = r12_setup('b')
+c = conn(FIN); rb1 = call(c, "select * from record_driver_settlement(%s, 'driver_to_platform', 100, 'R12b', null, 'race-r12-sb01')", (d,)); c.commit(); c.close()
+q1("select decide_store_payment(%s, false, 'x')", (pid,), user=OWN)
+c = conn(FIN); rb2 = call(c, "select * from record_driver_settlement(%s, 'driver_to_platform', 100, 'R12b', null, 'race-r12-sb02')", (d,)); c.commit(); c.close()
+ok(rb1[0] == 'err' and rb2[0] == 'err' and taken(d) == 0, 'R12b «take 100» while pending → refused; after the dispute → still refused; taken 0')
+# c) at the same moment, both orders
+for first in ('dispute', 'take'):
+    d, pid = r12_setup('c' + first[0])
+    take = ("select * from record_driver_settlement(%s, 'driver_to_platform', 100, 'R12c', null, %s)", (d, 'race-r12-sc' + first[0] + '1'))
+    disp = ("select decide_store_payment(%s, false, 'x')", (pid,))
+    r = race(*(disp + take + (OWN, FIN)) if first == 'dispute' else (take + disp + (FIN, OWN)), hold=0.5)
+    ok(taken(d) == 0 and ((r['b'][0] == 'err' and 'nothing_due' in r['b'][1]) if first == 'dispute' else (r['a'][0] == 'err' and 'nothing_due' in r['a'][1])) and (r['waited'] if first == 'dispute' else True),
+       'R12c at once (%s first) → the cash receipt is refused, taken 0%s' % (first, '; it waited for the dispute (shared courier lock)' if first == 'dispute' else ''))
 # ---- R7: a failing transaction leaves nothing ----
 c = conn(FIN); call(c, "select * from record_store_settlement(%s, 5, 'cash', 'X', null, 'done', 'race-r7-a001')", (PIZZA,)); c.rollback(); c.close()
 ok(q1("select count(*) from platform_store_settlements where client_key = 'race-r7-a001'")[0] == 0, 'R7 a settlement whose transaction fails / is cancelled leaves no record')
