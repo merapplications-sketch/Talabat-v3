@@ -32,3 +32,10 @@ Checks: test_patch37 76/76; patch37_race 12/12; patch37_ui_check 17/17; qa_all a
 Checks (local PostgreSQL / Chromium): test_patch37 61/61; test_patch38 75/75; patch37_race 8/8; patch38_race 7/7 (incl. a
 rollback racing a concurrent insert); patch37_ui_check 11/11; patch38_ui_check 36/36; uat3_check 70/70; smoke; flow; courier;
 cart; ui_rules; merchant_stats; qa_all (four apps) 0 issues.
+
+## v60d — review fixes (local, NOT applied)
+- patch 38: courier advance apart (+ prepared `advance_repayment` direction), confirmed / pending / disputed apart in both
+  positions, store money split by the order's method (platform pays only platform-settled orders), one store lock for both
+  paths, idempotency keys bound to the request (`key_reused`).
+- Apps: admin / courier / restaurant money cards show the split; admin courier card has the advance path labelled «prepared for review».
+Checks: test_patch38 93/93; patch38_race 12/12; patch38_ui_check 40/40; smoke; ui_rules; merchant_stats; uat3; courier; qa_all admin / courier / restaurant.

@@ -75,7 +75,7 @@ ok(r['b'][0] == 'ok' and cnt == 1 and r['a'][1][0][0] == r['b'][1][0][0], 'R2 th
 # ---- R3: two store settlements at once (Pizza net due 90) ----
 r = race("select * from record_store_settlement(%s, 60, 'bank', 'B1', null, 'done', 'race-r3-a001')", (PIZZA,),
          "select * from record_store_settlement(%s, 60, 'bank', 'B2', null, 'done', 'race-r3-b001')", (PIZZA,), FIN, FIN)
-bal = float(q1("select balance from store_position(%s)", (PIZZA,), user=FIN)[0])
+bal = float(q1("select pp_available from store_position(%s)", (PIZZA,), user=FIN)[0])
 ok(r['waited'] and r['b'][0] == 'err' and 'amount_too_high' in r['b'][1] and bal == 30, 'R3 two store settlements at once → the second waits, then amount_too_high; balance 90 → 30 (never paid twice)')
 # ---- R4: two store-payment forms for one order at once (different keys) ----
 o2 = order(KEBAB, 'pickedup', method='driver_pays')
@@ -87,6 +87,41 @@ pid = q1("select id from driver_store_payments where order_id = %s", (o2,))[0]
 r = race("select decide_store_payment(%s, true)", (pid,), "select decide_store_payment(%s, false, 'x')", (pid,), OWN, FIN)
 st = q1("select status from driver_store_payments where id = %s", (pid,))[0]
 ok(r['waited'] and r['b'][0] == 'err' and 'already_decided' in r['b'][1] and st == 'confirmed', 'R5 confirm and dispute at once → the first decision stands, the second gets already_decided')
+# ---- R8: the platform pays a store while the store confirms a courier payment (both paths, one store) ----
+o3 = order(KEBAB, 'pickedup', method='driver_pays')
+q1("select * from record_store_payment(%s, 100, 'R8', null, 'race-r8-p001')", (o3,), user=DRV)
+pid3 = q1("select id from driver_store_payments where order_id = %s", (o3,))[0]
+o4 = order(KEBAB, 'delivered', cash=110, method='platform_settles')                       # platform part of Kebab: 90
+r = race("select * from record_store_settlement(%s, 90, 'bank', 'R8B', null, 'done', 'race-r8-s001')", (KEBAB,), "select decide_store_payment(%s, true)", (pid3,), FIN, OWN)
+pos = q1("select row(cp_paid_confirmed, cp_paid_pending, pp_paid_done, pp_available)::text from store_position(%s)", (KEBAB,), user=FIN)[0]
+ok(r['waited'] and r['a'][0] == 'ok' and r['b'][0] == 'ok' and pos == '(200.00,0.00,90.00,0.00)', 'R8 platform settlement + store confirmation at once on one store → serialised (the second waited); courier payment confirmed, platform part paid once %s' % pos)
+# ---- R9: the platform pays while the store DISPUTES a courier payment ----
+o5 = order(KEBAB, 'pickedup', method='driver_pays'); q1("select * from record_store_payment(%s, 100, 'R9', null, 'race-r9-p001')", (o5,), user=DRV)
+pid5 = q1("select id from driver_store_payments where order_id = %s", (o5,))[0]
+o6 = order(KEBAB, 'delivered', cash=110, method='platform_settles')
+r = race("select decide_store_payment(%s, false, 'x')", (pid5,), "select * from record_store_settlement(%s, 90, 'bank', 'R9B', null, 'done', 'race-r9-s001')", (KEBAB,), OWN, FIN)
+pos = q1("select row(cp_paid_disputed, pp_available)::text from store_position(%s)", (KEBAB,), user=FIN)[0]
+ok(r['waited'] and r['b'][0] == 'ok' and pos.endswith(',0.00)') and pos.startswith('(100.00'), 'R9 dispute + platform settlement at once → serialised; the dispute does not open a platform payment for courier-paid goods %s' % pos)
+# ---- R10: the courier records a payment while the platform pays the same store ----
+o7 = order(KEBAB, 'pickedup', method='driver_pays'); o8 = order(KEBAB, 'delivered', cash=110, method='platform_settles')
+r = race("select * from record_store_settlement(%s, 90, 'bank', 'R10B', null, 'done', 'race-r10-s001')", (KEBAB,), "select * from record_store_payment(%s, 100, 'R10', null, 'race-r10-p001')", (o7,), FIN, DRV)
+pos = q1("select pp_available::text from store_position(%s)", (KEBAB,), user=FIN)[0]
+cnt = q1("select count(*) from driver_store_payments where order_id = %s", (o7,))[0]
+ok(r['waited'] and r['a'][0] == 'ok' and r['b'][0] == 'ok' and cnt == 1 and pos == '0.00', 'R10 courier payment + platform payment at once → serialised by the store lock; each covers its own orders, nothing paid twice')
+# ---- R11: the same key at once with DIFFERENT data ----
+r = race("select * from record_driver_settlement(%s, 'platform_to_driver', 5, 'K', null, 'race-r11-k001')", (DRV,), "select * from record_driver_settlement(%s, 'platform_to_driver', 6, 'K', null, 'race-r11-k001')", (DRV,), FIN, FIN)
+ok(r['a'][0] == 'ok' and r['b'][0] == 'err' and 'key_reused' in r['b'][1], 'R11 the same key at once with another amount → the second is refused (key_reused), one record')
+# ---- R12: taking cash from the courier while the store disputes his pending payment ----
+d2 = 'd0000000-0000-0000-0000-00000000000e'
+o9 = q1("""insert into orders(store_id, customer_id, driver_id, status, payment, total, subtotal, discount, commission, driver_payout, cash_collected, pay_rules)
+           values (%s, 'c0000000-0000-0000-0000-000000000001', %s, 'pickedup', 'cash', 110, 100, 0, 10, 10, null, '{"settle_method":"driver_pays"}') returning id""", (KEBAB, d2))[0]
+q1("select * from record_store_payment(%s, 100, 'R12', null, 'race-r12-p001')", (o9,), user=d2)
+q1("update orders set status = 'delivered', cash_collected = 100 where id = %s", (o9,))          # collected 100, pending payment 100 → may take 0
+pid9 = q1("select id from driver_store_payments where order_id = %s", (o9,))[0]
+r = race("select decide_store_payment(%s, false, 'x')", (pid9,), "select * from record_driver_settlement(%s, 'driver_to_platform', 100, 'R12', null, 'race-r12-s001')", (d2,), OWN, FIN, hold=0.3)
+taken = float(q1("select coalesce(sum(amount),0) from platform_driver_settlements where driver_id = %s", (d2,))[0])
+net = q1("select row(store_paid_disputed, net_cash, can_hand_over)::text from driver_position(%s)", (d2,), user=FIN)[0]
+ok(taken in (0.0, 100.0) and net.startswith('(100.00'), 'R12 dispute + cash taken at once → never more than collected − confirmed (taken %s; %s); the dispute is kept apart' % (taken, net))
 # ---- R7: a failing transaction leaves nothing ----
 c = conn(FIN); call(c, "select * from record_store_settlement(%s, 5, 'cash', 'X', null, 'done', 'race-r7-a001')", (PIZZA,)); c.rollback(); c.close()
 ok(q1("select count(*) from platform_store_settlements where client_key = 'race-r7-a001'")[0] == 0, 'R7 a settlement whose transaction fails / is cancelled leaves no record')

@@ -89,3 +89,5 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   separate courier / store / platform records), two proposal files, transition reconciliation (read-only). Details and the
   blocking decisions: BATCH3-PLAN.md («v60c»). v60 model A withdrawn. Other open notes unchanged (Safari, stability, onboarding,
   UAT011, iPhone checks of v57c–v59b).
+- v60d (prepared, NOT applied): review fixes to patch 38 (advance apart, confirmed / pending / disputed apart, no double
+  payment across the two paths, keys bound to the request). Open decisions: BATCH3-PLAN.md («v60d»). Other notes unchanged.

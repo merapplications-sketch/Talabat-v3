@@ -152,7 +152,7 @@
     err_online_not_allowed: 'Это заведение принимает только наличные. Выберите «Наличными».', err_wallet_not_allowed: 'Это заведение не принимает оплату из кошелька.',
     err_points_not_allowed: 'В этом заведении баллы не принимаются.', err_not_driver_pays: 'Для этого заказа курьер не платит заведению.',
     err_proof_required: 'Укажите номер чека или добавьте фото.', err_already_recorded: 'Оплата по этому заказу уже записана.', err_already_decided: 'Решение уже принято.',
-    err_accounting_not_started: 'Новый учёт ещё не начат.', err_reference_required: 'Укажите номер / ссылку операции.', err_already_set: 'Уже задано.',
+    err_accounting_not_started: 'Новый учёт ещё не начат.', err_reference_required: 'Укажите номер / ссылку операции.', err_already_set: 'Уже задано.', err_key_reused: 'Эта форма уже отправлялась с другими данными. Откройте новую форму.',
     err_unknown: 'Ответ не получен. Проверьте историю: повтор этой же формы не создаст вторую запись.' });
   Object.assign(I.en, { err_photo_missing: 'The photo was not found on the server. Upload it again and confirm the delivery.',
     err_order_not_finished: 'The order is still in progress: a refund is possible after it ends.',
@@ -161,7 +161,7 @@
     err_online_not_allowed: 'This place takes cash only. Choose «Cash».', err_wallet_not_allowed: 'This place does not take wallet payments.',
     err_points_not_allowed: 'Points are not accepted at this place.', err_not_driver_pays: 'For this order the courier does not pay the place.',
     err_proof_required: 'Enter the receipt number or add a photo.', err_already_recorded: 'A payment for this order is already recorded.', err_already_decided: 'Already decided.',
-    err_accounting_not_started: 'The new accounting has not started yet.', err_reference_required: 'Enter the operation number / reference.', err_already_set: 'Already set.',
+    err_accounting_not_started: 'The new accounting has not started yet.', err_reference_required: 'Enter the operation number / reference.', err_already_set: 'Already set.', err_key_reused: 'This form was already sent with other data. Open a new form.',
     err_unknown: 'No answer received. Check the history: sending this same form again will not record twice.' });
   var DB = { stores: [], items: [], orders: [], oitems: [], xorders: [], xitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
@@ -505,7 +505,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['photo_missing', 'order_not_finished', 'amount_too_high', 'nothing_due', 'online_not_allowed', 'wallet_not_allowed', 'points_not_allowed', 'not_driver_pays', 'proof_required', 'already_recorded', 'already_decided', 'accounting_not_started', 'reference_required', 'already_set', 'link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['photo_missing', 'order_not_finished', 'amount_too_high', 'nothing_due', 'online_not_allowed', 'wallet_not_allowed', 'points_not_allowed', 'not_driver_pays', 'proof_required', 'already_recorded', 'already_decided', 'accounting_not_started', 'reference_required', 'already_set', 'key_reused', 'link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }

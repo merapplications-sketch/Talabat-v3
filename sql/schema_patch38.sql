@@ -10,6 +10,8 @@
 --    the rules in force on the order (orders.pay_rules). Historical orders are not touched. No electronic capture is created:
 --    there is still no payment provider; an electronic payment is NOT recorded as collected.
 -- B) SEPARATE RECORDS (no «all cash the courier took is a debt» model; the v60 model A is withdrawn):
+--    v60d: courier payments confirmed / pending / disputed kept apart; the courier's advance is its own balance; platform
+--    settlements cover only platform-settled orders; one store lock for both paths; idempotency keys bound to the data.
 --    customer collection   = orders.cash_collected (courier, at delivery) + wallet ledger (patch 21); kept whatever the status
 --    courier → store       = driver_store_payments (amount, reference / photo, who confirmed: the store or finance; disputed)
 --    courier pay owed      = orders.driver_payout of delivered orders; paid only by a recorded platform → courier settlement
@@ -258,6 +260,7 @@ create table if not exists driver_store_payments (
   recorded_at timestamptz not null default now(),
   decided_by uuid, decided_by_name text, decided_at timestamptz, decision_note text check (decision_note is null or char_length(decision_note) <= 200),
   client_key text not null check (client_key ~ '^[A-Za-z0-9_-]{8,64}$'),
+  request jsonb not null default '{}'::jsonb,                                    -- the data the key was first used with
   check (reference is not null or proof_path is not null)
 );
 create unique index if not exists dsp_key_uq on driver_store_payments (driver_id, client_key);
@@ -268,13 +271,14 @@ create index if not exists dsp_driver_idx on driver_store_payments (driver_id, i
 create table if not exists platform_driver_settlements (
   id bigint generated always as identity primary key,
   driver_id uuid not null references profiles(id),
-  direction text not null check (direction in ('driver_to_platform', 'platform_to_driver')),
+  direction text not null check (direction in ('driver_to_platform', 'platform_to_driver', 'advance_repayment')),
   amount numeric(12,2) not null check (amount > 0 and amount <= 1000000),
   before_amount numeric(12,2) not null, after_amount numeric(12,2) not null,
   reference text check (reference is null or char_length(reference) between 1 and 80),
   note text check (note is null or char_length(note) <= 200),
   recorded_by uuid not null, recorded_by_name text, recorded_at timestamptz not null default now(),
   client_key text not null check (client_key ~ '^[A-Za-z0-9_-]{8,64}$'),
+  request jsonb not null default '{}'::jsonb,
   check (amount <= before_amount and after_amount = before_amount - amount)
 );
 create unique index if not exists pds_key_uq on platform_driver_settlements (recorded_by, client_key);
@@ -292,6 +296,7 @@ create table if not exists platform_store_settlements (
   recorded_by uuid not null, recorded_by_name text, recorded_at timestamptz not null default now(),
   status_by uuid, status_by_name text, status_at timestamptz,
   client_key text not null check (client_key ~ '^[A-Za-z0-9_-]{8,64}$'),
+  request jsonb not null default '{}'::jsonb,
   check (amount <= before_amount and after_amount = before_amount - amount),
   check (status <> 'done' or reference is not null)                       -- a done settlement always has its reference
 );
@@ -333,53 +338,82 @@ drop policy if exists pss_read on platform_store_settlements;
 create policy pss_read on platform_store_settlements for select using (owns_store(store_id) or has_perm('finance'));
 
 -- ---------- positions (read) ----------
-create or replace function driver_position(p_driver uuid)
-returns table(collected numeric, paid_to_stores_confirmed numeric, paid_to_stores_claimed numeric, handed_to_platform numeric,
-              cash_held numeric, earned numeric, earnings_paid numeric, earnings_due numeric)
+-- v60d: confirmed / pending / disputed courier payments are kept apart. Pending ones are a precautionary reserve, never «paid»;
+-- disputed ones are neither paid nor unpaid (no responsibility is assumed). The courier's ADVANCE (he paid stores more than he
+-- collected) is its own balance, repaid only by its own settlement direction; it is never offset against his pay or his cash.
+drop function if exists driver_position(uuid);
+create function driver_position(p_driver uuid)
+returns table(collected numeric, store_paid_confirmed numeric, store_paid_pending numeric, store_paid_disputed numeric,
+              handed_to_platform numeric, advance_repaid numeric, net_cash numeric, cash_held numeric, pending_reserve numeric,
+              can_hand_over numeric, advance_due numeric, earned numeric, earnings_paid numeric, earnings_due numeric)
 language sql stable security definer set search_path = public as $$
   with o as (select * from orders where driver_id = p_driver and acc_order(created_at)),
   c as (select coalesce(sum(cash_collected), 0) as col,                                     -- kept whatever the status now is
                coalesce(sum(driver_payout) filter (where status = 'delivered'), 0) as ear from o),
-  p as (select coalesce(sum(amount) filter (where status = 'confirmed'), 0) as conf, coalesce(sum(amount) filter (where status = 'claimed'), 0) as clm
+  p as (select coalesce(sum(amount) filter (where status = 'confirmed'), 0) as conf, coalesce(sum(amount) filter (where status = 'claimed'), 0) as pend,
+               coalesce(sum(amount) filter (where status = 'disputed'), 0) as disp
           from driver_store_payments d where d.driver_id = p_driver and d.order_id in (select id from o)),
   s as (select coalesce(sum(amount) filter (where direction = 'driver_to_platform'), 0) as hand,
-               coalesce(sum(amount) filter (where direction = 'platform_to_driver'), 0) as paid from platform_driver_settlements where driver_id = p_driver)
-  select round(c.col, 2), round(p.conf, 2), round(p.clm, 2), round(s.hand, 2), round(c.col - p.conf - p.clm - s.hand, 2),
+               coalesce(sum(amount) filter (where direction = 'platform_to_driver'), 0) as paid,
+               coalesce(sum(amount) filter (where direction = 'advance_repayment'), 0) as adv from platform_driver_settlements where driver_id = p_driver),
+  n as (select c.col - p.conf - s.hand + s.adv as net from c, p, s)
+  select round(c.col, 2), round(p.conf, 2), round(p.pend, 2), round(p.disp, 2), round(s.hand, 2), round(s.adv, 2), round(n.net, 2),
+         round(greatest(n.net, 0), 2),                                   -- cash he holds on the confirmed basis
+         round(p.pend, 2),                                               -- shown as a reserve: he says he paid it, not confirmed yet
+         round(greatest(n.net - p.pend, 0), 2),                          -- what may be taken from him now (reserve kept back)
+         round(greatest(-n.net, 0), 2),                                  -- confirmed advance the platform owes him
          round(c.ear, 2), round(s.paid, 2), round(c.ear - s.paid, 2)
-    from c, p, s where has_perm('finance') or p_driver = auth.uid()
+    from c, p, s, n where has_perm('finance') or p_driver = auth.uid()
 $$;
-create or replace function store_position(p_store uuid)
-returns table(gross numeric, commission numeric, store_funded numeric, net_due numeric, paid_by_drivers numeric, paid_by_platform numeric,
-              balance numeric, paid_on_undelivered numeric, claimed_unconfirmed numeric)
+-- the store side, split by the settlement method kept on each order: courier-paid orders and platform-settled orders never
+-- share a payment, so the same goods cannot be paid twice through the two paths. Orders with no method set are shown apart.
+drop function if exists store_position(uuid);
+create function store_position(p_store uuid)
+returns table(gross numeric, commission numeric, store_funded numeric, net_due numeric,
+              cp_net_due numeric, cp_paid_confirmed numeric, cp_paid_pending numeric, cp_paid_disputed numeric, cp_paid_on_undelivered numeric, cp_balance numeric,
+              pp_net_due numeric, pp_paid_done numeric, pp_paid_pending numeric, pp_available numeric, unassigned_due numeric)
 language sql stable security definer set search_path = public as $$
-  with o as (select * from orders where store_id = p_store and acc_order(created_at)),
+  with o as (select *, coalesce(pay_rules->>'settle_method', '') as m from orders where store_id = p_store and acc_order(created_at)),
   d as (select coalesce(sum(subtotal - discount), 0) as gross, coalesce(sum(commission), 0) as com,
-               coalesce(sum(coalesce(points_value, 0) + coalesce(cashback, 0) + coalesce(fee_waived, 0)), 0) as sf
+               coalesce(sum(coalesce(points_value, 0) + coalesce(cashback, 0) + coalesce(fee_waived, 0)), 0) as sf,
+               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m = 'driver_pays'), 0) as cpd,
+               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m = 'platform_settles'), 0) as ppd,
+               coalesce(sum(subtotal - discount - coalesce(commission, 0) - coalesce(points_value, 0) - coalesce(cashback, 0) - coalesce(fee_waived, 0)) filter (where m not in ('driver_pays', 'platform_settles')), 0) as una
           from o where status = 'delivered'),                                   -- the restaurant's existing «net payable» formula
-  p as (select coalesce(sum(x.amount), 0) as drv, coalesce(sum(x.amount) filter (where o.status <> 'delivered'), 0) as undel,
-               coalesce(sum(x.amount) filter (where x.status = 'claimed'), 0) as clm
-          from driver_store_payments x join o on o.id = x.order_id where x.status <> 'disputed'),
-  q as (select coalesce(sum(amount), 0) as plat from platform_store_settlements where store_id = p_store and status in ('pending', 'done'))
-  select round(d.gross, 2), round(d.com, 2), round(d.sf, 2), round(d.gross - d.com - d.sf, 2), round(p.drv, 2), round(q.plat, 2),
-         round(d.gross - d.com - d.sf - p.drv - q.plat, 2), round(p.undel, 2), round(p.clm, 2)
+  p as (select coalesce(sum(x.amount) filter (where x.status = 'confirmed'), 0) as conf, coalesce(sum(x.amount) filter (where x.status = 'claimed'), 0) as pend,
+               coalesce(sum(x.amount) filter (where x.status = 'disputed'), 0) as disp,
+               coalesce(sum(x.amount) filter (where x.status <> 'disputed' and o.status <> 'delivered'), 0) as undel
+          from driver_store_payments x join o on o.id = x.order_id),
+  q as (select coalesce(sum(amount) filter (where status = 'done'), 0) as done, coalesce(sum(amount) filter (where status = 'pending'), 0) as pend
+          from platform_store_settlements where store_id = p_store)
+  select round(d.gross, 2), round(d.com, 2), round(d.sf, 2), round(d.gross - d.com - d.sf, 2),
+         round(d.cpd, 2), round(p.conf, 2), round(p.pend, 2), round(p.disp, 2), round(p.undel, 2), round(d.cpd - p.conf, 2),
+         round(d.ppd, 2), round(q.done, 2), round(q.pend, 2), round(d.ppd - q.done - q.pend, 2), round(d.una, 2)
     from d, p, q where has_perm('finance') or owns_store(p_store)
 $$;
 revoke all on function driver_position(uuid) from public, anon; grant execute on function driver_position(uuid) to authenticated;
 revoke all on function store_position(uuid) from public, anon; grant execute on function store_position(uuid) to authenticated;
 
 -- ---------- writes ----------
--- courier → store: the courier records what he paid the store for THIS order (driver_pays stores, new accounting only)
+-- every write: permission → lock (store for store money, courier for courier money) → idempotency key → checks → insert.
+-- A key replayed with the SAME data returns the original record; the same key with different data is refused (key_reused).
+-- courier → store: the courier records what he paid the store for THIS order (driver_pays orders, new accounting only)
 create or replace function record_store_payment(p_order bigint, p_amount numeric, p_reference text, p_proof text, p_key text)
 returns table(id bigint, status text, amount numeric)
 language plpgsql security definer set search_path = public as $$
 #variable_conflict use_column
-declare o orders; v_a numeric := round(p_amount, 2); v_ref text := nullif(btrim(coalesce(p_reference, '')), ''); r driver_store_payments;
+declare o orders; v_a numeric := round(p_amount, 2); v_ref text := nullif(btrim(coalesce(p_reference, '')), ''); r driver_store_payments; v_store uuid;
 begin
   if p_key is null or p_key !~ '^[A-Za-z0-9_-]{8,64}$' then raise exception 'bad_value'; end if;
-  select * into r from driver_store_payments where driver_id = auth.uid() and client_key = p_key;
-  if found then return query select r.id, r.status, r.amount; return; end if;            -- the same form again → the first record
-  select * into o from orders where orders.id = p_order for update;
+  select store_id into v_store from orders where orders.id = p_order;
   if not found then raise exception 'not_found'; end if;
+  perform 1 from stores where stores.id = v_store for update;                    -- the same lock as every payment of this store
+  select * into o from orders where orders.id = p_order for update;
+  select * into r from driver_store_payments where driver_id = auth.uid() and client_key = p_key;
+  if found then
+    if r.request <> jsonb_build_object('order', p_order, 'amount', v_a, 'reference', v_ref, 'proof', p_proof) then raise exception 'key_reused'; end if;
+    return query select r.id, r.status, r.amount; return;                        -- the same form again → the first record
+  end if;
   if o.driver_id is distinct from auth.uid() then raise exception 'not_allowed'; end if;
   if not acc_order(o.created_at) then raise exception 'accounting_not_started'; end if;
   if coalesce(o.pay_rules->>'settle_method', '') <> 'driver_pays' then raise exception 'not_driver_pays'; end if;
@@ -388,17 +422,20 @@ begin
   if v_ref is null and p_proof is null then raise exception 'proof_required'; end if;
   if p_proof is not null and (p_proof !~ ('^' || auth.uid()::text || '/' || p_order::text || '/[A-Za-z0-9_-]{8,64}\.jpg$') or not proof_exists(p_proof, auth.uid())) then raise exception 'photo_missing'; end if;
   if exists (select 1 from driver_store_payments d where d.order_id = p_order and d.status <> 'disputed') then raise exception 'already_recorded'; end if;
-  insert into driver_store_payments(order_id, store_id, driver_id, amount, reference, proof_path, client_key)
-  values (p_order, o.store_id, auth.uid(), v_a, v_ref, p_proof, p_key) returning * into r;
+  insert into driver_store_payments(order_id, store_id, driver_id, amount, reference, proof_path, client_key, request)
+  values (p_order, o.store_id, auth.uid(), v_a, v_ref, p_proof, p_key, jsonb_build_object('order', p_order, 'amount', v_a, 'reference', v_ref, 'proof', p_proof)) returning * into r;
   return query select r.id, r.status, r.amount;
 end $$;
--- the store (owner) or finance confirms or disputes a courier's payment; who decided is kept
+-- the store (owner) or finance confirms or disputes a courier's payment; who decided is kept. A dispute records the store's
+-- statement only: it does not decide who is responsible for the amount.
 create or replace function decide_store_payment(p_id bigint, p_ok boolean, p_note text default null) returns void
 language plpgsql security definer set search_path = public as $$
-declare r driver_store_payments;
+declare r driver_store_payments; v_store uuid;
 begin
-  select * into r from driver_store_payments where id = p_id for update;
+  select store_id into v_store from driver_store_payments where id = p_id;
   if not found then raise exception 'not_found'; end if;
+  perform 1 from stores where stores.id = v_store for update;                    -- serialised with the store's other payments
+  select * into r from driver_store_payments where id = p_id for update;
   if not (owns_store(r.store_id) or has_perm('finance')) then raise exception 'not_allowed'; end if;
   if p_ok is null then raise exception 'bad_value'; end if;
   if r.status <> 'claimed' then raise exception 'already_decided'; end if;
@@ -406,59 +443,66 @@ begin
          decided_by_name = (select name from profiles where profiles.id = auth.uid()), decided_at = now(),
          decision_note = nullif(left(btrim(coalesce(p_note, '')), 200), '') where id = p_id;
 end $$;
--- platform ↔ courier: cash handed to the platform (≤ cash he holds) or courier pay paid out (≤ pay owed); never netted
+-- platform ↔ courier, three separate directions, each against its own balance (never netted):
+--   driver_to_platform : cash taken from him            ≤ can_hand_over (pending store payments kept back as a reserve)
+--   platform_to_driver : his pay paid out               ≤ earnings_due
+--   advance_repayment  : his confirmed advance repaid   ≤ advance_due      (PREPARED FOR REVIEW — see BATCH3-PLAN.md)
 create or replace function record_driver_settlement(p_driver uuid, p_direction text, p_amount numeric, p_reference text, p_note text, p_key text)
 returns table(id bigint, amount numeric, before_amount numeric, after_amount numeric, recorded_at timestamptz)
 language plpgsql security definer set search_path = public as $$
 #variable_conflict use_column
-declare v_a numeric := round(p_amount, 2); v_b numeric; v_ref text := nullif(btrim(coalesce(p_reference, '')), ''); r platform_driver_settlements; x record;
+declare v_a numeric := round(p_amount, 2); v_b numeric; v_ref text := nullif(btrim(coalesce(p_reference, '')), ''); v_note text := nullif(left(btrim(coalesce(p_note, '')), 200), '');
+        r platform_driver_settlements; x record;
 begin
   if not has_perm('finance') then raise exception 'not_allowed'; end if;
-  if p_key is null or p_key !~ '^[A-Za-z0-9_-]{8,64}$' or p_direction not in ('driver_to_platform', 'platform_to_driver') then raise exception 'bad_value'; end if;
+  if p_key is null or p_key !~ '^[A-Za-z0-9_-]{8,64}$' or p_direction is null or p_direction not in ('driver_to_platform', 'platform_to_driver', 'advance_repayment') then raise exception 'bad_value'; end if;
   if v_a is null or v_a <= 0 or v_a > 1000000 or char_length(coalesce(v_ref, '')) > 80 or char_length(coalesce(p_note, '')) > 200 then raise exception 'bad_value'; end if;
   perform 1 from profiles where profiles.id = p_driver and role = 'driver' for update;      -- one settlement at a time per courier
   if not found then raise exception 'not_found'; end if;
   select * into r from platform_driver_settlements where recorded_by = auth.uid() and client_key = p_key;
   if found then
-    if r.driver_id <> p_driver or r.direction <> p_direction or r.amount <> v_a then raise exception 'bad_value'; end if;
+    if r.request <> jsonb_build_object('driver', p_driver, 'direction', p_direction, 'amount', v_a, 'reference', v_ref, 'note', v_note) then raise exception 'key_reused'; end if;
     return query select r.id, r.amount, r.before_amount, r.after_amount, r.recorded_at; return;
   end if;
   if acc_start() is null then raise exception 'accounting_not_started'; end if;
   select * into x from driver_position(p_driver);
-  v_b := case when p_direction = 'driver_to_platform' then x.cash_held else x.earnings_due end;
+  v_b := case p_direction when 'driver_to_platform' then x.can_hand_over when 'platform_to_driver' then x.earnings_due else x.advance_due end;
   if coalesce(v_b, 0) <= 0 then raise exception 'nothing_due'; end if;
   if v_a > v_b then raise exception 'amount_too_high'; end if;
-  insert into platform_driver_settlements(driver_id, direction, amount, before_amount, after_amount, reference, note, recorded_by, recorded_by_name, client_key)
-  values (p_driver, p_direction, v_a, v_b, v_b - v_a, v_ref, nullif(left(btrim(coalesce(p_note, '')), 200), ''), auth.uid(),
-          (select name from profiles where profiles.id = auth.uid()), p_key) returning * into r;
+  insert into platform_driver_settlements(driver_id, direction, amount, before_amount, after_amount, reference, note, recorded_by, recorded_by_name, client_key, request)
+  values (p_driver, p_direction, v_a, v_b, v_b - v_a, v_ref, v_note, auth.uid(), (select name from profiles where profiles.id = auth.uid()), p_key,
+          jsonb_build_object('driver', p_driver, 'direction', p_direction, 'amount', v_a, 'reference', v_ref, 'note', v_note)) returning * into r;
   return query select r.id, r.amount, r.before_amount, r.after_amount, r.recorded_at;
 end $$;
--- platform → store: a settlement (≤ what the store is still owed, counting pending ones), method + reference + status
+-- platform → store: only for PLATFORM-SETTLED orders (courier-paid goods are never paid again by the platform), ≤ what is left
+-- after done AND pending settlements; method + reference + status
 create or replace function record_store_settlement(p_store uuid, p_amount numeric, p_method text, p_reference text, p_note text, p_status text, p_key text)
 returns table(id bigint, amount numeric, before_amount numeric, after_amount numeric, status text)
 language plpgsql security definer set search_path = public as $$
 #variable_conflict use_column
-declare v_a numeric := round(p_amount, 2); v_b numeric; v_ref text := nullif(btrim(coalesce(p_reference, '')), ''); r platform_store_settlements;
+declare v_a numeric := round(p_amount, 2); v_b numeric; v_ref text := nullif(btrim(coalesce(p_reference, '')), ''); v_note text := nullif(left(btrim(coalesce(p_note, '')), 200), '');
+        r platform_store_settlements;
 begin
   if not has_perm('finance') then raise exception 'not_allowed'; end if;
-  if p_key is null or p_key !~ '^[A-Za-z0-9_-]{8,64}$' or p_method not in ('cash', 'bank', 'online') or p_status not in ('pending', 'done') then raise exception 'bad_value'; end if;
+  if p_key is null or p_key !~ '^[A-Za-z0-9_-]{8,64}$' or p_method is null or p_method not in ('cash', 'bank', 'online') or p_status is null or p_status not in ('pending', 'done') then raise exception 'bad_value'; end if;
   if v_a is null or v_a <= 0 or char_length(coalesce(v_ref, '')) > 80 or char_length(coalesce(p_note, '')) > 200 then raise exception 'bad_value'; end if;
-  if p_status = 'done' and v_ref is null then raise exception 'reference_required'; end if;
-  perform 1 from stores where stores.id = p_store for update;                              -- one settlement at a time per store
+  perform 1 from stores where stores.id = p_store for update;                              -- one payment at a time per store (both paths)
   if not found then raise exception 'not_found'; end if;
   select * into r from platform_store_settlements where recorded_by = auth.uid() and client_key = p_key;
   if found then
-    if r.store_id <> p_store or r.amount <> v_a then raise exception 'bad_value'; end if;
+    if r.request <> jsonb_build_object('store', p_store, 'amount', v_a, 'method', p_method, 'reference', v_ref, 'note', v_note, 'status', p_status) then raise exception 'key_reused'; end if;
     return query select r.id, r.amount, r.before_amount, r.after_amount, r.status; return;
   end if;
+  if p_status = 'done' and v_ref is null then raise exception 'reference_required'; end if;
   if acc_start() is null then raise exception 'accounting_not_started'; end if;
-  select balance into v_b from store_position(p_store);
+  select pp_available into v_b from store_position(p_store);
   if coalesce(v_b, 0) <= 0 then raise exception 'nothing_due'; end if;
   if v_a > v_b then raise exception 'amount_too_high'; end if;
   insert into platform_store_settlements(store_id, amount, method, status, before_amount, after_amount, reference, note, recorded_by, recorded_by_name, client_key,
-                                         status_by, status_by_name, status_at)
-  values (p_store, v_a, p_method, p_status, v_b, v_b - v_a, v_ref, nullif(left(btrim(coalesce(p_note, '')), 200), ''), auth.uid(),
+                                         request, status_by, status_by_name, status_at)
+  values (p_store, v_a, p_method, p_status, v_b, v_b - v_a, v_ref, v_note, auth.uid(),
           (select name from profiles where profiles.id = auth.uid()), p_key,
+          jsonb_build_object('store', p_store, 'amount', v_a, 'method', p_method, 'reference', v_ref, 'note', v_note, 'status', p_status),
           case when p_status = 'done' then auth.uid() end, case when p_status = 'done' then (select name from profiles where profiles.id = auth.uid()) end,
           case when p_status = 'done' then now() end) returning * into r;
   return query select r.id, r.amount, r.before_amount, r.after_amount, r.status;
@@ -469,6 +513,7 @@ declare r platform_store_settlements; v_ref text := nullif(btrim(coalesce(p_refe
 begin
   if not has_perm('finance') then raise exception 'not_allowed'; end if;
   if p_status not in ('done', 'failed') then raise exception 'bad_value'; end if;
+  perform 1 from stores where stores.id = (select store_id from platform_store_settlements where id = p_id) for update;   -- v60d: same store lock
   select * into r from platform_store_settlements where id = p_id for update;
   if not found then raise exception 'not_found'; end if;
   if r.status <> 'pending' then raise exception 'already_decided'; end if;

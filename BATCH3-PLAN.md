@@ -160,3 +160,31 @@ The v60 «model A» (all cash a courier took = his debt; receipts on one running
    payment (today: yes, only by a recorded platform → courier payment), and may cash he holds ever be offset against his pay?
 4. The start date of the new accounting (after reviewing the transition reconciliation).
 5. Proposals still open: «refund only after the order ends»; «a delivered order stays delivered»; SA / SC gaps otherwise remain.
+
+## v60d — review fixes (local, NOT applied; no financial policy changed)
+1. **Courier advance apart from his pay.** driver_position now gives: net cash on the CONFIRMED basis
+   (collected − confirmed store payments − handed + advances repaid), cash held (≥ 0), advance due (the confirmed amount he paid
+   stores beyond what he collected), and his pay — three separate balances. A third settlement direction `advance_repayment`
+   (≤ advance due) is PREPARED FOR REVIEW; nothing repays an advance by itself and nothing is offset (paying his pay leaves the
+   advance unchanged — tested). Whether and when advances are repaid stays a decision.
+2. **Confirmed / pending / disputed kept apart** (courier and store views): pending = a precautionary reserve, never «paid»
+   (cash may be taken from the courier only above the reserve); disputed = neither paid nor unpaid — not added back to the cash he
+   holds, no responsibility assigned.
+3. **No double payment across the two paths.** Store money is split by the method kept on each order: courier-paid orders
+   (paid by couriers) and platform-settled orders (paid by the platform) never share a payment; orders without a method are shown
+   apart and paid by neither path. Every store payment write (courier payment, its confirm / dispute, platform settlement and its
+   status) takes the same store lock. Tested: in sequence (method switch, payments before / after) and at the same moment
+   (settlement vs confirm, vs dispute, vs a courier payment; cash taken vs a dispute).
+4. **Idempotency keys bound to the operation.** Each record keeps the request it was first sent with; the same key with the
+   same data returns the original record (also after its status changed), with other data (order, amount, method, direction,
+   reference, note, status) → `key_reused`. Concurrent replays serialise on the lock.
+Checks: test_patch38 93/93, patch38_race 12/12, patch38_ui_check 40/40 + affected screens.
+
+### Blocking economic decisions (all still open; nothing decided in this fix)
+1. Courier-pays stores: how the platform commission (and store-funded points / cashback / free delivery) is collected from a
+   store paid the full receipt by the courier (its confirmed balance goes negative).
+2. A courier advance: whether / when it is repaid (the path is prepared), and whether it may ever be offset.
+3. Disputed courier payments: who bears the amount and how a store that really was not paid gets paid (no path pays courier-paid
+   goods a second time).
+4. Money paid to a store for an order cancelled afterwards; cancellation / refund policy (proposal files still open).
+5. Orders without a settlement method and the start date of the new accounting.

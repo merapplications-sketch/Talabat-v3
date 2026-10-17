@@ -78,18 +78,21 @@ select c38('E delivered, «card»: nothing collected by the courier', u38(:DR, f
   and (select cash_collected is null from orders where id = (select id from ex where k = 'E')));
 
 -- ---------- positions (expected numbers written out) ----------
--- courier: collected A110 + B80 + C110 = 300; paid to stores confirmed A100 + B100 = 200, claimed (unconfirmed) E100 + D2 100 = 200;
--- cash held = 300 − 200 − 200 = −100 (the platform owes him 100 advanced for the «card» order and the cancelled one);
--- earned (delivered A, B, C, E) 4 × 10 = 40; paid 0 → due 40
-create temp table dp as select * from driver_position(:DR) limit 0;
-select c38('courier position before settlements', v38(:F, 'select row(p.*)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'') p') = '(300.00,200.00,200.00,0.00,-100.00,40.00,0.00,40.00)',
+-- courier: collected A110 + B80 + C110 = 300. Store payments: confirmed A100 + B100 = 200; PENDING E2 100 + D2 100 = 200 (a reserve,
+-- not «paid»); DISPUTED E1 100 (neither paid nor unpaid). Net on the confirmed basis = 300 − 200 = 100 → held 100, reserve 200,
+-- may be taken now 0, advance 0. Pay earned (delivered A, B, C, E) 4 × 10 = 40, paid 0 → owed 40.
+select c38('courier position: confirmed / pending / disputed apart; reserve; no advance yet',
+  v38(:F, 'select row(p.*)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'') p') = '(300.00,200.00,200.00,100.00,0.00,0.00,100.00,100.00,200.00,0.00,0.00,40.00,0.00,40.00)',
   v38(:F, 'select row(p.*)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'') p'));
--- store Kebab (driver pays): delivered A, B, E → gross 300, commission 30, store-funded 0, net due 270;
--- paid by couriers (non-disputed) A100 + B100 + E100 (2nd) + D2 100 = 400 → balance 270 − 400 = −130; paid on undelivered (D2) 100; claimed 200
-select c38('Kebab position', v38(:F, format('select row(p.*)::text from store_position(%L) p', '50000000-0000-0000-0000-000000000001')) = '(300.00,30.00,0.00,270.00,400.00,0.00,-130.00,100.00,200.00)',
+-- Kebab (courier pays): delivered A, B, E → gross 300, commission 30, owed 270 (all courier-paid orders);
+-- courier payments confirmed 200, pending 200, disputed 100, non-disputed on an undelivered order (D2) 100; confirmed balance 270 − 200 = 70;
+-- platform-settled part 0 → the platform may pay 0
+select c38('Kebab position: courier part (confirmed / pending / disputed apart) and platform part (0)',
+  v38(:F, format('select row(p.*)::text from store_position(%L) p', '50000000-0000-0000-0000-000000000001')) = '(300.00,30.00,0.00,270.00,270.00,200.00,200.00,100.00,100.00,70.00,0.00,0.00,0.00,0.00,0.00)',
   v38(:F, format('select row(p.*)::text from store_position(%L) p', '50000000-0000-0000-0000-000000000001')));
--- store Pizza (platform settles): delivered C → gross 100, commission 10, net due 90, nothing paid → balance 90
-select c38('Pizza position', v38(:F, format('select row(p.*)::text from store_position(%L) p', '50000000-0000-0000-0000-000000000002')) = '(100.00,10.00,0.00,90.00,0.00,0.00,90.00,0.00,0.00)',
+-- Pizza (platform settles): delivered C → owed 90, all of it platform-settled, nothing paid → the platform may pay 90
+select c38('Pizza position: platform part 90 available',
+  v38(:F, format('select row(p.*)::text from store_position(%L) p', '50000000-0000-0000-0000-000000000002')) = '(100.00,10.00,0.00,90.00,0.00,0.00,0.00,0.00,0.00,0.00,90.00,0.00,0.00,90.00,0.00)',
   v38(:F, format('select row(p.*)::text from store_position(%L) p', '50000000-0000-0000-0000-000000000002')));
 select c38('the store owner sees his own position, not another store''s', v38(:M, format('select count(*)::text from store_position(%L)', '50000000-0000-0000-0000-000000000001')) = '1'
   and v38(:M, format('select count(*)::text from store_position(%L)', '50000000-0000-0000-0000-000000000002')) = '0');
@@ -97,38 +100,79 @@ select c38('the courier sees his own position only', v38(:DR, 'select count(*)::
   and v38('d0000000-0000-0000-0000-00000000000e', 'select count(*)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '0');
 
 -- ---------- settlements ----------
--- the courier holds −100: nothing to hand over
-select c38('courier holds −100 → handing cash to the platform: nothing_due', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''driver_to_platform'', 10, ''R1'', null, ''pds-key-0001'')') like 'ERR:nothing_due%');
--- the store confirms D2 / E2 later? E2 confirmed now, D2 disputed by the store (it refunds the courier) → courier holds 0
+select c38('held 100 but 200 pending (reserve) → taking cash from him now: nothing_due (the reserve is kept back)', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''driver_to_platform'', 10, ''R1'', null, ''pds-key-0001'')') like 'ERR:nothing_due%');
+-- the store confirms E2 and disputes D2 (its statement only — no responsibility is decided)
 select u38(:M, format('select decide_store_payment(%s, true)', (select id from driver_store_payments where client_key = 'dsp-key-E002')));
-select u38(:M, format('select decide_store_payment(%s, false, ''refunded to courier'')', (select id from driver_store_payments where client_key = 'dsp-key-D201')));
-select c38('after E confirmed and D2 disputed: held = 300 − 300 = 0', v38(:F, 'select cash_held::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '0.00');
--- courier pay: partial 15, then the rest 25; more → amount_too_high
+select u38(:M, format('select decide_store_payment(%s, false, ''not received'')', (select id from driver_store_payments where client_key = 'dsp-key-D201')));
+select c38('after E2 confirmed and D2 disputed: confirmed 300, pending 0, disputed 200 (kept apart), net 0',
+  v38(:F, 'select row(store_paid_confirmed, store_paid_pending, store_paid_disputed, net_cash, can_hand_over, advance_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '(300.00,0.00,200.00,0.00,0.00,0.00)',
+  v38(:F, 'select row(store_paid_confirmed, store_paid_pending, store_paid_disputed, net_cash, can_hand_over, advance_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')'));
+select c38('a dispute is not treated as «the courier did not pay»: it is not added back to the cash he holds', v38(:F, 'select cash_held::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '0.00');
+-- courier pay: partial 15; the rest 25; more → amount_too_high
 select c38('platform pays the courier 15 of his 40 (partial)', v38(:F, 'select row(before_amount, after_amount)::text from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 15, ''PAY-1'', null, ''pds-key-0002'')') = '(40.00,25.00)');
 select c38('… the receiver / payer and the reference are kept', (select recorded_by_name = 'Finance Farhod' and reference = 'PAY-1' and direction = 'platform_to_driver' from platform_driver_settlements where client_key = 'pds-key-0002'));
 select c38('paying 26 when 25 is due → amount_too_high', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 26, ''PAY-2'', null, ''pds-key-0003'')') like 'ERR:amount_too_high%');
-select c38('the same form again (unknown answer, retried) → the first record, no second payment', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 15, ''PAY-1'', null, ''pds-key-0002'')') = 'ok'
+select c38('KEY: the same form again with the same data → the first record (no second payment)', v38(:F, 'select id::text from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 15, ''PAY-1'', null, ''pds-key-0002'')') = (select id::text from platform_driver_settlements where client_key = 'pds-key-0002')
   and (select count(*) = 1 from platform_driver_settlements));
-select c38('the same key with another amount → bad_value', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 16, ''PAY-1'', null, ''pds-key-0002'')') like 'ERR:bad_value%');
-select c38('courier pay is NOT netted against cash: held stays 0, pay due 25', v38(:F, 'select row(cash_held, earnings_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '(0.00,25.00)');
+select c38('KEY: the same key with another amount → key_reused', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 16, ''PAY-1'', null, ''pds-key-0002'')') like 'ERR:key_reused%');
+select c38('KEY: the same key with another direction → key_reused', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''advance_repayment'', 15, ''PAY-1'', null, ''pds-key-0002'')') like 'ERR:key_reused%');
+select c38('KEY: the same key with another reference → key_reused', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 15, ''PAY-X'', null, ''pds-key-0002'')') like 'ERR:key_reused%');
+select c38('KEY: a courier payment key replayed for another order → key_reused', u38(:DR, format('select * from record_store_payment(%s, 100, ''CHK-A'', null, ''dsp-key-A001'')', (select id from ex where k = 'B'))) like 'ERR:key_reused%');
+select c38('KEY: … with another amount → key_reused', u38(:DR, format('select * from record_store_payment(%s, 99, ''CHK-A'', null, ''dsp-key-A001'')', (select id from ex where k = 'A'))) like 'ERR:key_reused%');
+select c38('courier pay is NOT netted against cash: held 0, pay owed 25', v38(:F, 'select row(cash_held, earnings_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '(0.00,25.00)');
 -- a new cash order where the courier keeps the money: then hands part of it over
 insert into ex select 'G', po38('Pizza', 1, 'cash')::bigint;
 update orders set driver_id = :DR, status = 'pickedup' where id = (select id from ex where k = 'G');
 select u38(:DR, format('select deliver_order(%s, 110)', (select id from ex where k = 'G')));
 select c38('G (platform settles) delivered: courier holds 110', v38(:F, 'select cash_held::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '110.00');
 select c38('courier hands 60 of 110 (partial), receiver kept, 50 left', v38(:F, 'select row(before_amount, after_amount)::text from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''driver_to_platform'', 60, ''KASSA-7'', ''smena'', ''pds-key-0004'')') = '(110.00,50.00)');
--- the admin cancels G after delivery: the collection and the handover stay
 update orders set status = 'cancelled' where id = (select id from ex where k = 'G');
 select c38('a status change after delivery does not erase the cash collected or handed over (held still 50)', v38(:F, 'select cash_held::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '50.00');
--- platform → store (Pizza, net due 90; G was cancelled so not due)
+-- ADVANCE: a «card» order (nothing collected) where he pays the store 100, confirmed → net 50 − 100 = −50 → advance 50
+insert into ex select 'H', po38('Kebab', 2, 'card')::bigint;
+update orders set driver_id = :DR, status = 'pickedup' where id = (select id from ex where k = 'H');
+select u38(:DR, format('select * from record_store_payment(%s, 100, ''CHK-H'', null, ''dsp-key-H001'')', (select id from ex where k = 'H')));
+select u38(:M, format('select decide_store_payment(%s, true)', (select id from driver_store_payments where client_key = 'dsp-key-H001')));
+select u38(:DR, format('select deliver_order(%s)', (select id from ex where k = 'H')));
+select c38('ADVANCE apart: held 0, advance owed to him 50, his pay owed 35 (25 + 10 for H) — two separate balances',
+  v38(:F, 'select row(cash_held, advance_due, earnings_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '(0.00,50.00,35.00)',
+  v38(:F, 'select row(cash_held, advance_due, earnings_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')'));
+select c38('ADVANCE: paying his pay does not repay the advance (pay 35 → advance still 50)', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 35, ''PAY-3'', null, ''pds-key-0005'')') = 'ok'
+  and v38(:F, 'select row(advance_due, earnings_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '(50.00,0.00)');
+select c38('ADVANCE (prepared path, for review): repaying 60 of a 50 advance → amount_too_high', u38(:F, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''advance_repayment'', 60, ''ADV-1'', null, ''pds-key-0006'')') like 'ERR:amount_too_high%');
+select c38('ADVANCE: repaying 50 through its own direction → advance 0, cash and pay untouched', v38(:F, 'select row(before_amount, after_amount)::text from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''advance_repayment'', 50, ''ADV-1'', null, ''pds-key-0007'')') = '(50.00,0.00)'
+  and v38(:F, 'select row(cash_held, advance_due, earnings_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '(0.00,0.00,0.00)');
+-- platform → store (Pizza: platform-settled 90; G was cancelled so not owed)
 select c38('platform → Pizza: 50 by bank, pending (reference later)', v38(:F, 'select row(before_amount, after_amount, status)::text from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 50, ''bank'', null, null, ''pending'', ''pss-key-0001'')') = '(90.00,40.00,pending)');
+select c38('KEY: the same settlement key with another method → key_reused', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 50, ''cash'', null, null, ''pending'', ''pss-key-0001'')') like 'ERR:key_reused%');
+select c38('KEY: … with another status → key_reused', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 50, ''bank'', ''B'', null, ''done'', ''pss-key-0001'')') like 'ERR:key_reused%');
 select c38('done without a reference → reference_required', u38(:F, format('select set_store_settlement_status(%s, ''done'')', (select id from platform_store_settlements where client_key = 'pss-key-0001'))) like 'ERR:reference_required%');
 select c38('done with the bank reference', u38(:F, format('select set_store_settlement_status(%s, ''done'', ''BANK-55'')', (select id from platform_store_settlements where client_key = 'pss-key-0001'))) = 'ok');
+select c38('KEY: the original request replayed after it was marked done → the same record (no second payment)', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 50, ''bank'', null, null, ''pending'', ''pss-key-0001'')') = 'ok'
+  and (select count(*) = 1 from platform_store_settlements where store_id = :PIZZA));
 select c38('a pending one counts: 41 more → amount_too_high (40 left)', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 41, ''online'', ''ON-1'', null, ''done'', ''pss-key-0002'')') like 'ERR:amount_too_high%');
-select c38('online 40 done with reference → balance 0', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 40, ''online'', ''ON-1'', null, ''done'', ''pss-key-0003'')') = 'ok'
-  and v38(:F, format('select balance::text from store_position(%L)', '50000000-0000-0000-0000-000000000002')) = '0.00');
+select c38('online 40 done with reference', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 40, ''online'', ''ON-1'', null, ''done'', ''pss-key-0003'')') = 'ok');
+select c38('… nothing left for the platform to pay Pizza', v38(:F, format('select pp_available::text from store_position(%L)', '50000000-0000-0000-0000-000000000002')) = '0.00');
 select c38('Pizza paid → nothing_due (no double payment)', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000002'', 1, ''cash'', ''C'', null, ''done'', ''pss-key-0004'')') like 'ERR:nothing_due%');
-select c38('Kebab (balance −130, the store owes the platform) → the platform pays nothing: nothing_due', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000001'', 1, ''cash'', ''C'', null, ''done'', ''pss-key-0005'')') like 'ERR:nothing_due%');
+select c38('Kebab: courier-paid goods are never paid again by the platform → nothing_due', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000001'', 1, ''cash'', ''C'', null, ''done'', ''pss-key-0005'')') like 'ERR:nothing_due%');
+-- both paths in sequence on ONE store: Kebab switches to «platform settles»; old orders keep «courier pays» (snapshot)
+select u38(:T, 'select set_store_pay_rules(''50000000-0000-0000-0000-000000000001'', true, true, true, ''platform_settles'')');
+insert into ex select 'K', po38('Kebab', 2, 'cash')::bigint;
+update orders set driver_id = :DR, status = 'pickedup' where id = (select id from ex where k = 'K');
+select c38('BOTH PATHS: a platform-settled order cannot get a courier payment → not_driver_pays', u38(:DR, format('select * from record_store_payment(%s, 100, ''CHK-K'', null, ''dsp-key-K001'')', (select id from ex where k = 'K'))) like 'ERR:not_driver_pays%');
+select u38(:DR, format('select deliver_order(%s, 110)', (select id from ex where k = 'K')));
+select c38('BOTH PATHS: Kebab platform part = 90 (order K only); the courier-paid part and its payments are untouched',
+  v38(:F, format('select row(cp_net_due, cp_paid_confirmed, pp_net_due, pp_available)::text from store_position(%L)', '50000000-0000-0000-0000-000000000001')) = '(360.00,400.00,90.00,90.00)',
+  v38(:F, format('select row(cp_net_due, cp_paid_confirmed, pp_net_due, pp_available)::text from store_position(%L)', '50000000-0000-0000-0000-000000000001')));
+select c38('BOTH PATHS: the platform pays Kebab 90 for K', u38(:F, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000001'', 90, ''bank'', ''BK-K'', null, ''done'', ''pss-key-0006'')') = 'ok');
+select c38('BOTH PATHS: then a courier payment on an OLD courier-paid order does not reopen the platform part (still 0)',
+  u38(:DR, format('select * from record_store_payment(%s, 100, ''CHK-B2'', null, ''dsp-key-B002'')', (select id from ex where k = 'B'))) like 'ERR:already_recorded%'
+  and v38(:F, format('select pp_available::text from store_position(%L)', '50000000-0000-0000-0000-000000000001')) = '0.00');
+-- an order with no method set (store not configured when it was placed) is shown apart, payable by neither path
+update orders set pay_rules = null, driver_id = :DR, status = 'delivered' where id = (select id from ex where k = 'D1');
+select c38('no method on the order → shown as «unassigned» (90), not payable by the platform', v38(:F, format('select row(unassigned_due, pp_available)::text from store_position(%L)', '50000000-0000-0000-0000-000000000001')) = '(90.00,0.00)',
+  v38(:F, format('select row(unassigned_due, pp_available)::text from store_position(%L)', '50000000-0000-0000-0000-000000000001')));
+select u38(:T, 'select set_store_pay_rules(''50000000-0000-0000-0000-000000000001'', true, true, true, ''driver_pays'')');
 select c38('the old cash_balances counts only orders from before the start, none of the new ones', v38(:F, 'select coalesce(sum(balance), 0)::text from cash_balances()')::numeric = (select coalesce(sum(cash_collected), 0) from orders where status = 'delivered' and cash_collected is not null and cash_settled_at is null and created_at < acc_start()), v38(:F, 'select coalesce(sum(balance), 0)::text from cash_balances()'));
 select c38('a courier / merchant cannot record platform settlements', u38(:DR, 'select * from record_driver_settlement(''d0000000-0000-0000-0000-00000000000d'', ''platform_to_driver'', 1, null, null, ''pds-key-0009'')') like 'ERR:not_allowed%'
   and u38(:M, 'select * from record_store_settlement(''50000000-0000-0000-0000-000000000001'', 1, ''cash'', ''x'', null, ''done'', ''pss-key-0009'')') like 'ERR:not_allowed%');
@@ -139,14 +183,14 @@ select c38('app users cannot write the record tables directly', u38(:F, 'set loc
 \i sql/rollback_patch38.sql
 \set ON_ERROR_STOP on
 select c38('full rollback with records → refused, nothing changed', to_regprocedure('record_driver_settlement(uuid,text,numeric,text,text,text)') is not null
-  and (select count(*) from platform_driver_settlements) = 2 and v38(:F, 'select cash_held::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '50.00');
+  and (select count(*) from platform_driver_settlements) = 4 and v38(:F, 'select cash_held::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '110.00');
 \i sql/rollback_patch38_keep_records.sql
 select c38('partial rollback: checkout no longer enforces the agreement (live place_order)', po38('Pizza', 1, 'card') ~ '^[0-9]+$');
-select c38('… records, positions and the old-cash split kept (held 50, old cash_balances still excludes new orders)', v38(:F, 'select cash_held::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '50.00'
+select c38('… records, positions and the old-cash split kept (held 110 from order K, advance 0, old cash_balances still excludes new orders)', v38(:F, 'select row(cash_held, advance_due)::text from driver_position(''d0000000-0000-0000-0000-00000000000d'')') = '(110.00,0.00)'
   and v38(:F, 'select coalesce(sum(balance), 0)::text from cash_balances()')::numeric = (select coalesce(sum(cash_collected), 0) from orders where status = 'delivered' and cash_collected is not null and cash_settled_at is null and created_at < acc_start()));
 \i sql/schema_patch38.sql
 \i sql/schema_patch38.sql
-select c38('patch 38 re-applied twice: enforcement back, records intact', po38('Pizza', 1, 'card') like 'ERR:online_not_allowed%' and (select count(*) = 2 from platform_driver_settlements));
+select c38('patch 38 re-applied twice: enforcement back, records intact', po38('Pizza', 1, 'card') like 'ERR:online_not_allowed%' and (select count(*) = 4 from platform_driver_settlements));
 
 \pset tuples_only off
 select n, case when ok then 'PASS' else 'FAIL' end as r, label, left(got, 80) as got from r38 order by n;
