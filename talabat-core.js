@@ -148,11 +148,21 @@
   Object.assign(I.ru, { err_photo_missing: 'Фото не найдено на сервере. Загрузите фото ещё раз и подтвердите доставку.',
     err_order_not_finished: 'Заказ ещё выполняется: возврат возможен после его завершения.',
     err_refund_too_high: 'Сумма больше подтверждённой оплаты по заказу (с учётом автоматических возвратов и уже выданных возвратов).',
-    err_amount_too_high: 'Сумма больше долга курьера.', err_nothing_due: 'Курьер ничего не должен.' });
+    err_amount_too_high: 'Сумма больше остатка к расчёту.', err_nothing_due: 'Сейчас нечего рассчитывать.',
+    err_online_not_allowed: 'Это заведение принимает только наличные. Выберите «Наличными».', err_wallet_not_allowed: 'Это заведение не принимает оплату из кошелька.',
+    err_points_not_allowed: 'В этом заведении баллы не принимаются.', err_not_driver_pays: 'Для этого заказа курьер не платит заведению.',
+    err_proof_required: 'Укажите номер чека или добавьте фото.', err_already_recorded: 'Оплата по этому заказу уже записана.', err_already_decided: 'Решение уже принято.',
+    err_accounting_not_started: 'Новый учёт ещё не начат.', err_reference_required: 'Укажите номер / ссылку операции.', err_already_set: 'Уже задано.',
+    err_unknown: 'Ответ не получен. Проверьте историю: повтор этой же формы не создаст вторую запись.' });
   Object.assign(I.en, { err_photo_missing: 'The photo was not found on the server. Upload it again and confirm the delivery.',
     err_order_not_finished: 'The order is still in progress: a refund is possible after it ends.',
     err_refund_too_high: 'The amount is more than the confirmed payment of the order (counting automatic returns and earlier refunds).',
-    err_amount_too_high: 'The amount is more than the courier owes.', err_nothing_due: 'The courier owes nothing.' });
+    err_amount_too_high: 'The amount is more than what is left to settle.', err_nothing_due: 'Nothing to settle right now.',
+    err_online_not_allowed: 'This place takes cash only. Choose «Cash».', err_wallet_not_allowed: 'This place does not take wallet payments.',
+    err_points_not_allowed: 'Points are not accepted at this place.', err_not_driver_pays: 'For this order the courier does not pay the place.',
+    err_proof_required: 'Enter the receipt number or add a photo.', err_already_recorded: 'A payment for this order is already recorded.', err_already_decided: 'Already decided.',
+    err_accounting_not_started: 'The new accounting has not started yet.', err_reference_required: 'Enter the operation number / reference.', err_already_set: 'Already set.',
+    err_unknown: 'No answer received. Check the history: sending this same form again will not record twice.' });
   var DB = { stores: [], items: [], orders: [], oitems: [], xorders: [], xitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, ptsSeq = 0, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
@@ -184,7 +194,7 @@
         _x: !!xi[o.id], items: allItems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission || 0, commissionSet: o.commission != null && o.commission !== '', commissionPct: +o.commission_pct,
         payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, walletReturnedAt: o.wallet_returned_at ? Date.parse(o.wallet_returned_at) : null, pointsReturnedAt: o.points_returned_at ? Date.parse(o.points_returned_at) : null, arrivedStoreAt: o.arrived_store_at ? Date.parse(o.arrived_store_at) : null, arrivedCustAt: o.arrived_cust_at ? Date.parse(o.arrived_cust_at) : null, deliveryPhoto: o.delivery_photo || null, cancelReason: o.cancel_reason || null, cancelNote: o.cancel_note || '', cancelledBy: o.cancelled_by || null, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
-        cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
+        payRules: o.pay_rules || null, cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
         createdAt: Date.parse(o.created_at), doneAt: o.done_at ? Date.parse(o.done_at) : null };
@@ -495,9 +505,17 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['photo_missing', 'order_not_finished', 'amount_too_high', 'nothing_due', 'link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['photo_missing', 'order_not_finished', 'amount_too_high', 'nothing_due', 'online_not_allowed', 'wallet_not_allowed', 'points_not_allowed', 'not_driver_pays', 'proof_required', 'already_recorded', 'already_decided', 'accounting_not_started', 'reference_required', 'already_set', 'link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
+  }
+  /* patch 38 helpers: a position row (null = could not be read); an operation answer: {ok,row} | {error} | {error:'unknown'} when no answer came back */
+  function posRpc(name, args) { return sb.rpc(name, args).then(function (r) { return r.error || !r.data || !r.data.length ? null : r.data[0]; }, function () { return null; }); }
+  function opRpc(name, args) {
+    return sb.rpc(name, args).then(function (r) {
+      if (r.error) { var k = errKey(r.error); return { error: k === 'generic' && /fetch|network|timeout|abort/i.test(String(r.error.message || '')) ? 'unknown' : k }; }
+      var row = Array.isArray(r.data) ? r.data[0] : r.data; return refresh().then(function () { return { ok: true, row: row }; }, function () { return { ok: true, row: row }; });
+    }, function () { return { error: 'unknown' }; });
   }
   function rpc(name, args, okToast) {
     return sb.rpc(name, args).then(function (r) {
@@ -1352,25 +1370,49 @@
     setMyPhone: function (p) { p = normPhone(p); if (!p) return Promise.resolve({ error: 'bad_phone' }); return rpc('set_my_phone', { p_phone: p }, true).then(function (r) { return r.error ? r : { ok: true, phone: p }; }); },
     setDriverBlocked: function (id, v) { return sb.from('profiles').update({ accept_blocked: !!v }).eq('id', id).then(done); },
     setDriverLimit: function (id, v) { v = +v; if (!isFinite(v) || v <= 0 || v > 1000000) return badStore(); return sb.from('profiles').update({ cash_limit: v }).eq('id', id).then(done); },
-    /* patch 37: receive any positive amount from a courier (idempotent per form key); his receipts; wallet movements of ONE order */
-    receiveCash: function (driverId, amount, reference, note, key) {
-      return sb.rpc('receive_driver_cash', { p_driver: driverId, p_amount: +amount, p_reference: reference || null, p_note: note || null, p_key: key || null }).then(function (r) {
-        if (r.error) return { error: errKey(r.error) };
-        var x = (r.data || [])[0] || {}; return refresh().then(function () { return { ok: true, amount: +x.amount, remaining: +x.remaining_after, id: x.id }; });
-      }, function () { return { error: 'generic' }; });
+    /* ---------- patch 38: store agreements and separate money records ---------- */
+    setStorePayRules: function (storeId, online, wallet, points, method) {
+      return rpc('set_store_pay_rules', { p_store: storeId, p_online: !!online, p_wallet: !!wallet, p_points: !!points, p_method: method || null }, true);
     },
-    cashReceipts: function (driverId) {
-      return sb.from('cash_settlements').select('*').eq('driver_id', driverId).order('received_at', { ascending: false }).limit(20).then(function (r) {
-        if (r.error) return null;
-        return (r.data || []).map(function (x) { return { id: x.id, amount: +x.amount, dueBefore: +x.due_before, remaining: +x.remaining_after, by: x.received_by, at: Date.parse(x.received_at), reference: x.reference || '', note: x.note || '' }; });
+    driverPosition: function (driverId) { return posRpc('driver_position', { p_driver: driverId }); },
+    storePosition: function (storeId) { return posRpc('store_position', { p_store: storeId }); },
+    /* money records, newest first, a page at a time (stable order by id; «more» says whether older ones exist).
+       kind: 'dsp' courier → store payments, 'pds' platform ↔ courier, 'pss' platform → store; by: {driver_id | store_id | order_id} */
+    moneyRecords: function (kind, by, beforeId, size) {
+      var tb = { dsp: 'driver_store_payments', pds: 'platform_driver_settlements', pss: 'platform_store_settlements' }[kind], n = size || 20;
+      if (!tb) return Promise.resolve(null);
+      var q = sb.from(tb).select('*'); Object.keys(by || {}).forEach(function (k) { q = q.eq(k, by[k]); });
+      if (beforeId != null) q = q.lt('id', beforeId);
+      return q.order('id', { ascending: false }).limit(n + 1).then(function (r) {
+        if (r.error) return null; var rows = r.data || []; return { rows: rows.slice(0, n), more: rows.length > n };
       }, function () { return null; });
     },
+    /* writes: every form carries its own key, so a retry after an unknown answer never records twice */
+    recordStorePayment: function (orderId, amount, reference, proof, key) {
+      return opRpc('record_store_payment', { p_order: orderId, p_amount: +amount, p_reference: reference || null, p_proof: proof || null, p_key: key });
+    },
+    decideStorePayment: function (id, okd, note) { return opRpc('decide_store_payment', { p_id: id, p_ok: !!okd, p_note: note || null }); },
+    recordDriverSettlement: function (driverId, direction, amount, reference, note, key) {
+      return opRpc('record_driver_settlement', { p_driver: driverId, p_direction: direction, p_amount: +amount, p_reference: reference || null, p_note: note || null, p_key: key });
+    },
+    recordStoreSettlement: function (storeId, amount, method, reference, note, status, key) {
+      return opRpc('record_store_settlement', { p_store: storeId, p_amount: +amount, p_method: method, p_reference: reference || null, p_note: note || null, p_status: status, p_key: key });
+    },
+    setStoreSettlementStatus: function (id, status, reference) { return opRpc('set_store_settlement_status', { p_id: id, p_status: status, p_reference: reference || null }); },
+    /* wallet movements of ONE order, oldest first, page after page until the end (no silent cap); null = could not be read */
     orderWallet: function (orderId) {
-      return sb.from('wallet_entries').select('*').eq('order_id', orderId).order('created_at', { ascending: true }).limit(50).then(function (r) {
-        if (r.error) return null;
-        return (r.data || []).map(function (e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }; });
-      }, function () { return null; });
+      var all = [], page = function (after, k) {
+        var q = sb.from('wallet_entries').select('*').eq('order_id', orderId); if (after != null) q = q.gt('id', after);
+        return q.order('id', { ascending: true }).limit(51).then(function (r) {
+          if (r.error) return null; var rows = r.data || [], more = rows.length > 50; rows = rows.slice(0, 50);
+          rows.forEach(function (e) { all.push({ id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }); });
+          if (more && k < 40) return page(rows[rows.length - 1].id, k + 1);
+          if (more) all.partial = true; return all;
+        }, function () { return null; });
+      };
+      return page(null, 0);
     },
+    newKey: function (p) { return (p || 'k') + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10); },
     settleCash: function (driverId) {
       return sb.rpc('settle_driver_cash', { p_driver: driverId }).then(function (r) {
         if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }

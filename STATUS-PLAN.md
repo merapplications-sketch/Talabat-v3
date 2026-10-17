@@ -85,3 +85,7 @@ Designer brief document: asked 11 Oct, not delivered (`HANDOFF.md` line 5); its 
   | UAT011 expiry of returned points | NOT changed (live: new lot now + 90 days) | live read 17 Oct | owner decision |
   Logged for later batches (not in v59): UAT005 photo existence in storage; ticket_refund_room cap (refund only, executor function not read);
   driver cash settlement (concurrency, receiver / reference, partial amounts); cancellation responsibility apart from cancelled_by.
+- v60c (prepared, NOT applied; branch `prep/batch3-v60`): patch 37 revised (proof + refunds), patch 38 (store agreements +
+  separate courier / store / platform records), two proposal files, transition reconciliation (read-only). Details and the
+  blocking decisions: BATCH3-PLAN.md («v60c»). v60 model A withdrawn. Other open notes unchanged (Safari, stability, onboarding,
+  UAT011, iPhone checks of v57c–v59b).

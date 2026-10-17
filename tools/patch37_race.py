@@ -1,4 +1,4 @@
-"""Patch 37 — races with two real sessions on a LOCAL PostgreSQL test database (isolated stand-in data, sql/test_patch37_setup.sql).
+"""Patch 37 — races (refunds; courier / store money races: tools/patch38_race.py) with two real sessions on a LOCAL PostgreSQL test database (isolated stand-in data, sql/test_patch37_setup.sql).
 NOT run on production. Each race runs first on a LOCAL COPY of the live definitions read on 17 Oct (installed from the rollback files)
 to show the gap, then with patch 37 applied locally.
   python3 tools/patch37_race.py [dbname]      (creates / replaces that local database; needs psycopg2)"""
@@ -64,34 +64,23 @@ for phase in ('live', 'patch'):
     back = float(q1("select coalesce(sum(amount),0) from wallet_entries where order_id = %s and kind in ('return','refund')", (oid,))[0])
     if P: ok(r['waited'] and r['b'][0] == 'err' and back == 40, 'R2 patch: cancel + refund at once → refund refused after the cancel (%s); customer gets 40 once' % r['b'][1][:40])
     else: ok(back == 80, 'R2 local copy of live defs (gap shown): cancel + refund at once → the wallet part comes back twice (%s for 40 paid)' % back)
-    # ---- R2b: refund first, cancel after (order still in progress) ----
+    # ---- R2b: refund first, cancel after (order still in progress) — the proposal «refund after the end» is NOT in patch 37 ----
     oid = new_order('preparing', 'cash', 90, wallet=40); tk = ticket(oid, 'in_progress')
     c = conn(SUP); r1 = call(c, "select ticket_set_status(%s,'resolved','w',40)", (tk,)); c.commit() if r1[0] == 'ok' else None; c.close()
     q1("update orders set status = 'cancelled' where id = %s", (oid,))
     back = float(q1("select coalesce(sum(amount),0) from wallet_entries where order_id = %s and kind in ('return','refund')", (oid,))[0])
-    if P: ok(r1[0] == 'err' and 'order_not_finished' in r1[1] and back == 40, 'R2b patch: refund on an order in progress → order_not_finished; the later cancel returns 40 once')
-    else: ok(back == 80, 'R2b local copy of live defs (gap shown): refund while in progress, then cancel → 80 back for 40 paid')
-    # ---- R3: two finance staff receive cash from the same courier at the same moment ----
-    drv = q1("insert into profiles(id, role, name) values (gen_random_uuid(), 'driver', 'R') returning id::text")[0]
-    for _ in range(2): new_order('delivered', 'cash', 50, cash=50, driver=drv)          # owes 100
+    ok(back == 80, 'R2b %s (gap shown, needs the proposal / a decision): refund while in progress, then cancel → 80 back for 40 paid' % ('patch 37 alone' if P else 'local copy of live defs'))
     if P:
-        r = race("select * from receive_driver_cash(%s, 70, 'A', null, null)", (drv,), "select * from receive_driver_cash(%s, 70, 'B', null, null)", (drv,), FIN, FIN)
-        got = float(q1("select coalesce(sum(amount),0) from cash_settlements where driver_id = %s", (drv,))[0])
-        ok(r['waited'] and r['b'][0] == 'err' and 'amount_too_high' in r['b'][1] and got == 70, 'R3 patch: two receipts at once → the second waits, then amount_too_high (30 left); recorded 70')
-        r = race("select * from receive_driver_cash(%s, 30, 'C', null, 'same-key-0001')", (drv,), "select * from receive_driver_cash(%s, 30, 'C', null, 'same-key-0001')", (drv,), FIN, FIN)
-        cnt = q1("select count(*) from cash_settlements where driver_id = %s", (drv,))[0]
-        ok(r['b'][0] == 'ok' and cnt == 2 and r['a'][1][0][0] == r['b'][1][0][0], 'R3b patch: the same form sent twice at once → one receipt, both get its id')
-        r = race("select settle_driver_cash(%s)", (drv,), "select * from receive_driver_cash(%s, 1, null, null, null)", (drv,), FIN, FIN)
-        ok(r['b'][0] == 'err' and 'nothing_due' in r['b'][1], 'R3c patch: «receive all» then a receipt at once → nothing_due, no negative balance')
-    else:
-        r = race("select settle_driver_cash(%s)", (drv,), "select settle_driver_cash(%s)", (drv,), FIN, FIN)
-        a, b = float(r['a'][1][0][0]), float(r['b'][1][0][0]) if r['b'][0] == 'ok' else -1
-        ok(a == 100 and b == 100, 'R3 local copy of live defs (gap shown): two «receive all» at once → BOTH report 100 received for 100 owed (%s / %s), no record of who / reference' % (a, b))
+        run_file('sql/option_refund_after_finish.sql')
+        oid = new_order('preparing', 'cash', 90, wallet=40); tk = ticket(oid, 'in_progress')
+        r = race("update orders set status = 'cancelled' where id = %s", (oid,), "select ticket_set_status(%s,'resolved','w',40)", (tk,), CUS, SUP)
+        back = float(q1("select coalesce(sum(amount),0) from wallet_entries where order_id = %s and kind in ('return','refund')", (oid,))[0])
+        oid2 = new_order('preparing', 'cash', 90, wallet=40); tk2 = ticket(oid2, 'in_progress')
+        c = conn(SUP); r1 = call(c, "select ticket_set_status(%s,'resolved','w',40)", (tk2,)); c.close()
+        ok(back == 40 and r1[0] == 'err' and 'order_not_finished' in r1[1], 'R2b with the PROPOSAL applied locally: refund while in progress → order_not_finished; cancel + refund at once → 40 back once')
+        run_file('sql/rollback_option_refund_after_finish.sql')
     # ---- R4: failure mid-way leaves nothing behind ----
     if P:
-        drv2 = q1("insert into profiles(id, role, name) values (gen_random_uuid(), 'driver', 'R2') returning id::text")[0]; new_order('delivered', 'cash', 20, cash=20, driver=drv2)
-        c = conn(FIN); r1 = call(c, "select * from receive_driver_cash(%s, 5, 'X', null, null)", (drv2,)); c.rollback(); c.close()
-        ok(float(q1("select coalesce(sum(amount),0) from cash_settlements where driver_id = %s", (drv2,))[0]) == 0, 'R4 patch: a receipt whose transaction fails / is cancelled leaves no record')
         oid = new_order('delivered', 'cash', 60, cash=60, driver=DRV); tk = ticket(oid, 'in_progress')
         c = conn(SUP); call(c, "select ticket_set_status(%s,'resolved','x',20)", (tk,)); c.rollback(); c.close()
         ok(refunded(oid) == 0 and q1("select status from support_tickets where id = %s", (tk,))[0] == 'in_progress', 'R4 patch: a refund whose transaction fails leaves the ticket and the wallet unchanged')

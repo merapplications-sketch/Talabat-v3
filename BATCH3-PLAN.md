@@ -105,3 +105,58 @@ Activation order when approved: SQL patch 37 first, then the app files (the old 
 1. Allocation model A / B / C.
 2. Refunds only after the order ends (`order_not_finished`).
 3. Delivered → cancelled / rejected: forbid it (option file), or change the return rule — or leave the SA / SC gaps.
+
+## v60c — package per the owner's operating requirements (17 Oct 10:23), local only, NOT applied
+The v60 «model A» (all cash a courier took = his debt; receipts on one running balance) is WITHDRAWN. Nothing old is migrated.
+
+### Patch 37 (revised) — proof + refunds only
+- Proof: the stored object must have a recorded type image/jpeg (a missing type is refused, not assumed), size 1 B–1 MB, current.
+- Refund cap unchanged in principle (proven paid − earlier refunds, locks). «Refund only after the order ends» is now a separate
+  PROPOSAL file (`option_refund_after_finish.sql`, with rollback) — NOT in the patch.
+- `option_no_cancel_after_delivery.sql` (proposal): a delivered order stays delivered (also no delivered → ready → cancelled);
+  calling with the same status again changes nothing (done_at kept). NOT in the patch.
+- Rollback: plain (patch 37 keeps no money records).
+
+### Patch 38 — store agreements + separate records
+- Store agreement: accept_online / allow_wallet / allow_points (defaults = today) + settle_method (courier pays the store /
+  platform settles / not set). Only admin / staff «stores» (guard trigger + audit). Checkout enforces it (server + app: a
+  cash-only store shows only «cash» with a RU/EN notice; wallet / points hidden when not allowed). The rules in force are kept
+  on each order (orders.pay_rules); historical orders untouched. No electronic capture is created (no provider).
+- Records kept apart: customer collection (cash_collected, wallet ledger — kept whatever the status), courier → store payments
+  (reference / photo, confirmed or disputed by the store or finance, who decided), courier pay owed (driver_payout of delivered
+  orders) and paid (platform → courier), platform ↔ courier settlements both ways (receiver / payer, reference, before / after),
+  store owed (the restaurant's existing net formula) and paid by couriers (non-disputed) or by the platform (method, reference,
+  status pending / done / failed). Nothing netted automatically; a status change erases no collection or payment.
+- No double payment of a store: one active courier payment per order; platform settlements capped by what is left (pending
+  ones count); every write under a lock + per-form idempotency key.
+- New accounting start (`accounting_start`, set once by finance at activation). Older orders stay with the old cash_balances /
+  settle_driver_cash (which then only look at older orders). `reconcile_transition_readonly.sql` (live-compatible, read only)
+  shows what the old records still hold, for review before the start is chosen.
+- Rollbacks: full (refuses while any money record exists — checked under a table lock, tested against a concurrent insert);
+  keep-records (only checkout enforcement goes back).
+
+### Worked example (test_patch38, Plov 50 TJS, delivery 10, courier pay 10, commission 10 %)
+| Order | Customer paid | Courier → store | Store owed (net) | Courier pay |
+|---|---|---|---|---|
+| A Kebab (courier pays) cash 110 | 110 cash | 100 (confirmed by the owner) | 90 | 10 |
+| B Kebab mixed | 30 wallet + 80 cash | 100 (photo, confirmed by finance) | 90 | 10 |
+| C Pizza (platform settles) cash 110 | 110 cash | — | 90 | 10 |
+| E Kebab «card» (simulated, nothing captured) | 0 recorded | 100 disputed, then 100 again confirmed | 90 | 10 |
+| D2 Kebab cancelled after the courier paid | 0 | 100 (kept; later disputed by the store) | 0 | 0 |
+- Courier (before settlements): collected 300, paid to stores confirmed 200 + awaiting 200 → held −100 (the platform owes him);
+  after E confirmed and D2 disputed → held 0. Pay earned 40, paid 15 (partial) → owed 25 — not netted with cash.
+  Order G (Pizza) cash 110 → held 110; handed 60 (receiver «Finance Farhod», KASSA-7) → 50 left; G cancelled later → still 50.
+- Kebab: gross 300 − commission 30 = owed 270; paid by couriers 400 → balance −130 (received more than owed, incl. 100 on the
+  cancelled D2 and the commission not withheld); platform pays nothing (nothing_due).
+- Pizza: owed 90; platform 50 by bank (pending → done with BANK-55) + 40 online (done, ON-1) → 0; a further payment → nothing_due.
+
+### Blocking economic decisions (only these)
+1. Courier-pays stores: how the platform commission is collected from the store (the courier pays the full receipt, so the
+   store ends with a negative balance = what it owes the platform), and what «full receipt» is (the store's own price after its
+   discount, i.e. today's «revenue» figure?) — today the courier records the amount actually paid.
+2. Money paid to a store for an order that is then cancelled (D2): returned by the store to the courier, kept as the store's,
+   or covered by the platform?
+3. When a courier holds a negative amount (he advanced more than he collected): does the platform repay him as a separate
+   payment (today: yes, only by a recorded platform → courier payment), and may cash he holds ever be offset against his pay?
+4. The start date of the new accounting (after reviewing the transition reconciliation).
+5. Proposals still open: «refund only after the order ends»; «a delivered order stays delivered»; SA / SC gaps otherwise remain.
