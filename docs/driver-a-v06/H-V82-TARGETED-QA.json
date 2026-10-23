@@ -1,0 +1,80 @@
+{
+  "base": "eff07017f974f595da7c90a78788b10661c51e04",
+  "browser": "Actual local Chromium; current driver/core with isolated test services",
+  "results": [
+    {
+      "item": "H1",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "item": "H2",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "item": "H3",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "item": "H6",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "item": "H1",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "item": "H2",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "item": "H3",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "item": "H6",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "item": "H1",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "item": "H2",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "item": "H3",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "item": "H6",
+      "width": 430,
+      "pass": true
+    }
+  ],
+  "checks": [
+    "H1 exact cashBox reuse; 4 points/wallet combinations; total already net of points; due and payload unchanged; noncash excluded; details visible",
+    "H2 core offline banner via failed probe; wrapped resize; menu reachable; no shift/stage changes; reconnection zero offset; ordinary header no double offset",
+    "H3 pending RU/EN text; disabled controls; one delivery RPC; cash=75; unchanged phase pending/failure; other phases Checking",
+    "H6 unavailable restaurant amount absent before acceptance, pickup, delivery; available earnings/cash retained",
+    "Affected sheet last content reachable; no overflow or JS errors"
+  ],
+  "notTested": [
+    "Safari/physical iPhone",
+    "Live backend/storage/payments",
+    "Live maps/GPS/network field behavior",
+    "Other screens or general regression suite"
+  ],
+  "jsErrors": []
+}
