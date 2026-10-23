@@ -34,8 +34,13 @@ with sync_playwright() as p:
     pg.evaluate("()=>{mine().status='pickedup';render()}");swipe()
     ok(last()==['driver_arrived',{'p_id':'ord1','p_where':'customer'}],'step 3 swipe → at the customer')
     pg.evaluate("()=>{const a=mine();a.arrivedCustAt=Date.now();a.leaveAtDoor=true;a.payment='cash';a.total=116;a.pointsValue=4;a.walletUsed=10;render()}")
-    t=pg.evaluate("()=>document.querySelector('.cashb').innerText")
-    ok('106.00' in t and '120.00' in t and '4.00' in t and '10.00' in t,'cash box: take 106 = order 120 − points 4 − wallet 10: '+t.replace('\n',' | '))
+    if pg.evaluate("()=>!!document.querySelector('.cashb')"):
+        t=pg.evaluate("()=>document.querySelector('.cashb').innerText")
+        ok('106.00' in t and '120.00' in t and '4.00' in t and '10.00' in t,'cash box: take 106 = order 120 − points 4 − wallet 10: '+t.replace('\n',' | '))
+    else:   # driver A v06: the amount to collect is the main figure; the breakdown is in «Заказ и расчёты»
+        t=pg.evaluate("()=>{const p=document.querySelector('[data-money=collect]');const a=p?p.innerText:'';aDetails();const d=(document.querySelector('.a-aux')||document.body).innerText;AAux=null;render();return [a,d]}")
+        ok(('106,00' in t[0] or '106.00' in t[0]),'driver A: amount to collect = 106 (order 120 − points 4 − wallet 10): '+t[0].replace('\n',' | '))
+        ok(all(x in t[1].replace(',','.') for x in ('120.00','4.00','10.00','106.00')),'driver A (UI hand-off H1): the v52 cash breakdown 120 − points 4 − wallet 10 = 106 is shown somewhere (today only the 106 total)')
     n0=len(pg.evaluate("()=>window.__rpcs"));swipe()
     ok(pg.evaluate("()=>!!DV&&DV.photo&&DV.cash"),'step 4 swipe opens the photo + cash dialog')
     pg.evaluate("()=>confirmDeliver()");pg.wait_for_timeout(200)

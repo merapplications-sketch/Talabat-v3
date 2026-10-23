@@ -121,7 +121,7 @@
       document.body.appendChild(ov); applyI18n();
       var st = (start && isFinite(+start[0]) && isFinite(+start[1]) && start[0] !== null && start[1] !== null) ? [+start[0], +start[1]] : null;
       var map = L.map('tlb-map', { zoomControl: false }).setView(st || [38.5598, 68.787], st ? 17 : 14);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap' }).addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap' , referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
       var show = function () { var c = map.getCenter(); $('tlb-co').textContent = c.lat.toFixed(6) + ', ' + c.lng.toFixed(6); };
       map.on('movestart', function () { var p = $('tlb-pin'); if (p) p.style.transform = 'translateY(-10px)'; });
       map.on('move', show);
@@ -1089,7 +1089,7 @@
       loadLeaflet(function () {
         var box = $(elId); if (!box) return;
         var map = L.map(elId).setView(center || [38.5598, 68.787], 12);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' , referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
         var group = [];
         (points || []).forEach(function (p) {
           if (!isFinite(+p.lat) || !isFinite(+p.lng)) return;
