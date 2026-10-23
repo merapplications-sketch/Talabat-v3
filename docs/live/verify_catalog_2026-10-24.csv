@@ -1,0 +1,134 @@
+kind,name,detail
+accounts,role=admin,1
+accounts,role=customer,2
+accounts,role=driver,1
+accounts,role=merchant,2
+bucket,media,"public=true · size_limit=1048576 · types=image/jpeg,image/png,image/webp"
+bucket,proofs,public=false · size_limit=1048576 · types=image/jpeg
+column,banners.ends_at,∅ · null=YES · timestamp with time zone
+column,banners.image_url,∅ · null=YES · text
+column,banners.is_active,true · null=NO · boolean
+column,banners.link_type,'none'::text · null=NO · text
+column,banners.link_value,∅ · null=YES · text
+column,banners.placement,'top'::text · null=NO · text
+column,banners.sort,0 · null=NO · integer
+column,banners.starts_at,∅ · null=YES · timestamp with time zone
+column,item_option_groups.max_sel,1 · null=NO · integer
+column,item_option_groups.required,false · null=NO · boolean
+column,item_option_groups.sort,0 · null=NO · integer
+column,item_options.available,true · null=NO · boolean
+column,item_options.price_delta,0 · null=NO · numeric
+column,item_options.sort,0 · null=NO · integer
+column,loyalty_ledger.created_at,timestamp with time zone
+column,loyalty_ledger.id,bigint
+column,loyalty_ledger.kind,text
+column,loyalty_ledger.order_id,bigint
+column,loyalty_ledger.points,integer
+column,loyalty_ledger.user_id,uuid
+column,menu_items.approved,true · null=NO · boolean
+column,menu_items.available,true · null=NO · boolean
+column,menu_items.discount_pct,0 · null=NO · numeric
+column,menu_items.image_url,∅ · null=YES · text
+column,menu_items.section,∅ · null=YES · text
+column,stores.cover_url,∅ · null=YES · text
+column,stores.discount_pct,0 · null=NO · numeric
+column,stores.fee_per_km,0 · null=NO · numeric
+column,stores.is_active,true · null=NO · boolean
+column,stores.is_open,true · null=NO · boolean
+column,stores.logo_url,∅ · null=YES · text
+column,stores.owner_id,∅ · null=YES · uuid
+column,wallet_entries.amount,numeric
+column,wallet_entries.created_at,timestamp with time zone
+column,wallet_entries.created_by,uuid
+column,wallet_entries.id,bigint
+column,wallet_entries.kind,text
+column,wallet_entries.note,text
+column,wallet_entries.order_id,bigint
+column,wallet_entries.ticket_id,bigint
+column,wallet_entries.user_id,uuid
+function,assign_owner,security_definer=true
+function,is_admin,security_definer=true
+function,my_perms,security_definer=true
+function,set_store_open,security_definer=true
+function,update_my_store,security_definer=true
+patch,26,present (can_see_order)
+patch,27,present (brand_stats)
+patch,29,present (loyalty_lots)
+patch,32,present (loyalty_summary)
+patch,33,present (group_get)
+patch,34,present (driver_arrived)
+patch,35,absent (admin_search_orders)
+patch,36,absent (lead_link)
+patch,37,absent (order_refund_cap)
+patch,38,absent (accounting_start)
+policy,banners · banners_admin,ALL · roles=public · using=has_perm('content'::text) · check=has_perm('content'::text)
+policy,banners · banners_read,SELECT · roles=public · using=((is_active AND ((starts_at IS NULL) OR (starts_at <= now())) AND ((ends_at IS NULL) OR (ends_at >= now()))) OR has_perm('content'::text)) · check=∅
+policy,item_option_groups · iog_read,SELECT · roles=public · using=(auth.uid() IS NOT NULL) · check=∅
+policy,item_option_groups · iog_write,"ALL · roles=public · using=(EXISTS ( SELECT 1
+   FROM menu_items m
+  WHERE ((m.id = item_option_groups.item_id) AND (owns_store(m.store_id) OR has_perm('stores'::text))))) · check=(EXISTS ( SELECT 1
+   FROM menu_items m
+  WHERE ((m.id = item_option_groups.item_id) AND (owns_store(m.store_id) OR has_perm('stores'::text)))))"
+policy,item_options · io_read,SELECT · roles=public · using=(auth.uid() IS NOT NULL) · check=∅
+policy,item_options · io_write,"ALL · roles=public · using=(EXISTS ( SELECT 1
+   FROM (item_option_groups g
+     JOIN menu_items m ON ((m.id = g.item_id)))
+  WHERE ((g.id = item_options.group_id) AND (owns_store(m.store · check=(EXISTS ( SELECT 1
+   FROM (item_option_groups g
+     JOIN menu_items m ON ((m.id = g.item_id)))
+  WHERE ((g.id = item_options.group_id) AND (owns_store(m.store"
+policy,menu_items · items_read,"SELECT · roles=public · using=((available AND approved AND (EXISTS ( SELECT 1
+   FROM stores s
+  WHERE ((s.id = menu_items.store_id) AND s.is_active)))) OR owns_store(store_id) OR has_perm(' · check=∅"
+policy,menu_items · items_write,ALL · roles=public · using=(owns_store(store_id) OR has_perm('stores'::text)) · check=(owns_store(store_id) OR has_perm('stores'::text))
+policy,stores · stores_admin,ALL · roles=public · using=is_admin() · check=is_admin()
+policy,stores · stores_read,SELECT · roles=public · using=(is_active OR (owner_id = auth.uid()) OR has_perm('stores'::text)) · check=∅
+policy,stores · stores_staff_ins,INSERT · roles=public · using=∅ · check=has_perm('stores'::text)
+policy,stores · stores_staff_upd,UPDATE · roles=public · using=has_perm('stores'::text) · check=has_perm('stores'::text)
+rls,banners,on
+rls,item_option_groups,on
+rls,item_options,on
+rls,menu_items,on
+rls,stores,on
+rows,banners,9 · active 9 · inline photo 0
+rows,item_option_groups,8
+rows,item_options,15
+rows,menu_items,7 · approved 7 · with photo 7 · inline photo 0
+rows,stores,5 · active 4
+storage_policy,media_delete,"DELETE · roles=authenticated · using=((bucket_id = 'media'::text) AND (((storage.foldername(name))[1] = (auth.uid())::text) OR (EXISTS ( SELECT 1
+   FROM profiles p
+  WHERE ((p.id = auth.uid()) AND · check=∅"
+storage_policy,media_insert,"INSERT · roles=authenticated · using=∅ · check=((bucket_id = 'media'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND (EXISTS ( SELECT 1
+   FROM profiles p
+  WHERE ((p.id = auth.uid()) AND"
+storage_policy,media_read,SELECT · roles=public · using=(bucket_id = 'media'::text) · check=∅
+storage_policy,media_update,UPDATE · roles=authenticated · using=((bucket_id = 'media'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text)) · check=∅
+storage_policy,proofs_insert,"INSERT · roles=authenticated · using=∅ · check=((bucket_id = 'proofs'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND (EXISTS ( SELECT 1
+   FROM orders o
+  WHERE (((o.id)::text = (storage"
+storage_policy,proofs_read,"SELECT · roles=authenticated · using=((bucket_id = 'proofs'::text) AND (((storage.foldername(name))[1] = (auth.uid())::text) OR is_admin() OR has_perm('orders'::text) OR (EXISTS ( SELECT 1
+   FROM  · check=∅"
+trigger,banners · trg_audit_banners,AFTER INSERT
+trigger,banners · trg_audit_banners,AFTER UPDATE
+trigger,banners · trg_audit_banners,AFTER DELETE
+trigger,banners · trg_images_banners,BEFORE UPDATE
+trigger,banners · trg_images_banners,BEFORE INSERT
+trigger,item_option_groups · trg_cap_groups,BEFORE INSERT
+trigger,item_options · trg_cap_options,BEFORE INSERT
+trigger,menu_items · trg_audit_items,AFTER UPDATE
+trigger,menu_items · trg_guard_item_approval,BEFORE UPDATE
+trigger,menu_items · trg_images_menu,BEFORE INSERT
+trigger,menu_items · trg_images_menu,BEFORE UPDATE
+trigger,menu_items · trg_item_approval,BEFORE INSERT
+trigger,menu_items · trg_item_approval,BEFORE UPDATE
+trigger,menu_items · trg_validate_item,BEFORE INSERT
+trigger,menu_items · trg_validate_item,BEFORE UPDATE
+trigger,stores · trg_audit_stores,AFTER INSERT
+trigger,stores · trg_audit_stores,AFTER UPDATE
+trigger,stores · trg_audit_stores,AFTER DELETE
+trigger,stores · trg_images_stores,BEFORE INSERT
+trigger,stores · trg_images_stores,BEFORE UPDATE
+trigger,stores · trg_store_phone,BEFORE INSERT
+trigger,stores · trg_store_phone,BEFORE UPDATE
+trigger,stores · trg_validate_store,BEFORE UPDATE
+trigger,stores · trg_validate_store,BEFORE INSERT

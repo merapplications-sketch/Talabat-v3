@@ -121,7 +121,7 @@
       document.body.appendChild(ov); applyI18n();
       var st = (start && isFinite(+start[0]) && isFinite(+start[1]) && start[0] !== null && start[1] !== null) ? [+start[0], +start[1]] : null;
       var map = L.map('tlb-map', { zoomControl: false }).setView(st || [38.5598, 68.787], st ? 17 : 14);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap' , referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
       var show = function () { var c = map.getCenter(); $('tlb-co').textContent = c.lat.toFixed(6) + ', ' + c.lng.toFixed(6); };
       map.on('movestart', function () { var p = $('tlb-pin'); if (p) p.style.transform = 'translateY(-10px)'; });
       map.on('move', show);
@@ -143,9 +143,10 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
+  var pagesSt = 'loading', pagesErr = '';
+  var DB = { stores: [], items: [], orders: [], oitems: [], xorders: [], xitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
-  var ptsSeq = 0, walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
+  var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, ptsSeq = 0, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   /* happy-hour windows running at a moment (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
   function hhOnNow(at) {
     var d = new Date((at || Date.now()) + 5 * 3600000), dow = d.getUTCDay() || 7, prev = dow === 1 ? 7 : dow - 1, mins = d.getUTCHours() * 60 + d.getUTCMinutes() + d.getUTCSeconds() / 60;
@@ -160,16 +161,20 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'v52';
+  var VERSION = 'v56';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
   function shape() {
-    return DB.orders.map(function (o) {
+    // orders found by the admin search outside the newest loaded ones are shaped too (flag _x) but not listed by TLB.orders()
+    var have = {}; DB.orders.forEach(function (o) { have[o.id] = 1; });
+    var extra = DB.xorders.filter(function (o) { return !have[o.id]; }), xi = {}; extra.forEach(function (o) { xi[o.id] = 1; });
+    var allItems = DB.oitems.concat(DB.xitems.filter(function (i) { return xi[i.order_id]; }));
+    return DB.orders.concat(extra).map(function (o) {
       return { id: o.id, store: storeName(o.store_id), storeId: o.store_id, storePhone: storePhone(o.store_id), status: o.status,
-        items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
-        subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
-        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, arrivedStoreAt: o.arrived_store_at ? Date.parse(o.arrived_store_at) : null, arrivedCustAt: o.arrived_cust_at ? Date.parse(o.arrived_cust_at) : null, deliveryPhoto: o.delivery_photo || null, cancelReason: o.cancel_reason || null, cancelNote: o.cancel_note || '', cancelledBy: o.cancelled_by || null, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        _x: !!xi[o.id], items: allItems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
+        subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission || 0, commissionSet: o.commission != null && o.commission !== '', commissionPct: +o.commission_pct,
+        payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, walletReturnedAt: o.wallet_returned_at ? Date.parse(o.wallet_returned_at) : null, pointsReturnedAt: o.points_returned_at ? Date.parse(o.points_returned_at) : null, arrivedStoreAt: o.arrived_store_at ? Date.parse(o.arrived_store_at) : null, arrivedCustAt: o.arrived_cust_at ? Date.parse(o.arrived_cust_at) : null, deliveryPhoto: o.delivery_photo || null, cancelReason: o.cancel_reason || null, cancelNote: o.cancel_note || '', cancelledBy: o.cancelled_by || null, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
@@ -322,7 +327,7 @@
       // a customer's tickets and the support phone are fetched only when he has a ticket or opened the support screen (keeps an idle customer cheap)
       (admin || (cust && (DB.tickets.length || wantTix))) ? sb.from('support_tickets').select('*').order('updated_at', { ascending: false }).limit(admin ? 200 : 30) : Promise.resolve({ data: cust ? DB.tickets : [] }),
       (admin || (cust && (DB.tickets.length || wantTix))) ? sb.from('app_texts').select('*') : Promise.resolve({ data: Object.keys(DB.texts).map(function (k) { return { key: k, value: DB.texts[k] }; }) }),
-      (admin || ME.role === 'merchant') ? sb.from('store_requests').select('*').order('created_at', { ascending: false }).limit(admin ? 100 : 20) : Promise.resolve({ data: [] }),
+      (admin || ME.role === 'merchant' || MYPERMS.indexOf('stores') >= 0) ? sb.from('store_requests').select('*').order('created_at', { ascending: false }).limit(ME.role === 'merchant' ? 20 : 100) : Promise.resolve({ data: [] }),
       // the balance is fetched once, then only after a wallet event (realtime), coming back to the app, or an order that used it: an idle customer costs nothing
       cust ? (walletStale ? sb.rpc('wallet_balance') : Promise.resolve({ data: DB.wallet.balance })) : Promise.resolve({ data: null }),
       // happy hours change prices, every app shows them; the customer also gets his points (patch 29; empty before it is run)
@@ -346,9 +351,11 @@
       return true;
     }).then(function (ch) {
       if (ME.role !== 'admin') return ch;
-      var need = {}; DB.tickets.forEach(function (t) { if (!DB.people[t.customer_id]) need[t.customer_id] = 1; }); DB.sreqs.forEach(function (q) { if (!DB.people[q.user_id]) need[q.user_id] = 1; });
+      var need = {}; DB.tickets.forEach(function (t) { if (t.customer_id && !DB.people[t.customer_id]) need[t.customer_id] = 1; }); DB.sreqs.forEach(function (q) { if (q.user_id && !DB.people[q.user_id]) need[q.user_id] = 1; });
       var pids = Object.keys(need).slice(0, 100);
-      if (pids.length) return sb.from('profiles').select('id,name,phone').in('id', pids).then(function (pr) { (pr.data || []).forEach(function (p) { DB.people[p.id] = { name: p.name || '', phone: p.phone || '' }; }); return true; }, function () { return ch; }).then(function (more) { return afterAdminMisc(ch || more); });
+      if (pids.length) return sb.from('profiles').select('id,name,phone').in('id', pids).then(function (pr) { if (pr.error) return ch; (pr.data || []).forEach(function (p) { DB.people[p.id] = { name: p.name || '', phone: p.phone || '' }; });
+        // a profile that is not readable (deleted, hidden) is remembered as unknown: otherwise it was asked again and the screen redrawn every 10 s
+        pids.forEach(function (id) { if (!DB.people[id]) DB.people[id] = { name: '', phone: '' }; }); return !!(pr.data || []).length; }, function () { return ch; }).then(function (more) { return afterAdminMisc(ch || more); });
       return afterAdminMisc(ch);
     });
   }
@@ -413,7 +420,7 @@
     if (ME.role === 'driver') on('order_offers', 'offers');
     if (ME.role === 'admin') { on('ratings', 'misc'); on('order_offers', 'misc'); on('support_tickets', 'misc'); on('ticket_messages', 'misc'); on('store_requests', 'misc'); }
     if (ME.role === 'customer') { on('support_tickets', 'misc'); ch.on('postgres_changes', { event: '*', schema: 'public', table: 'wallet_entries' }, function () { walletStale = true; kick('misc'); }); }
-    if (ME.role === 'merchant') { on('store_requests', 'misc'); }
+    if (ME.role === 'merchant' || (ME.role !== 'admin' && MYPERMS.indexOf('stores') >= 0)) { on('store_requests', 'misc'); }   /* staff with 'stores': restaurant / website requests */
     ch.subscribe();
   }
   /* The browser's "offline" event is unreliable (iOS fires it by mistake and sometimes never sends "online").
@@ -479,7 +486,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -588,7 +595,7 @@
     $('tlb-rl').onclick = function () { location.reload(); };
     $('tlb-rs2').onclick = function () { try { localStorage.removeItem('tlb-auth-' + need); } catch (e) { } location.reload(); };
   }
-  function logout() { sb.auth.signOut().then(function () { location.reload(); }); }
+  function logout() { window.TLB_SIGNING_OUT = true; try { sessionStorage.removeItem('tlb-ui-' + need); } catch (e) { } sb.auth.signOut().then(function () { location.reload(); }); }
   var authMode = 'in', resendAt = 0;
   function authErr(e) {
     var m = String((e && e.message) || '').toLowerCase(), c = String((e && (e.code || e.error_code)) || '');
@@ -726,8 +733,100 @@
   }
 
   /* ---------- API ---------- */
+  /* ===================== staff UI (admin panel + restaurant app only; the customer and courier apps never call these) =====================
+     One icon family: 24×24 outline, stroke 2, round caps — the same drawing style the restaurant app already used. */
+  var ICONS = {
+    plus: '<path d="M12 5v14M5 12h14"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>', check: '<path d="M5 12l5 5L20 7"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>', chev: '<path d="M9 6l6 6-6 6"/>', back: '<path d="M15 6l-6 6 6 6"/>',
+    doc: '<path d="M14 3v4a1 1 0 0 0 1 1h4M5 3h9l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2zM9 13h6M9 17h6"/>',
+    store: '<path d="M3 9l1-5h16l1 5M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M5 12v8h14v-8"/>',
+    bike: '<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9H8"/>',
+    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 13.6A6.5 6.5 0 0 1 21.5 20"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    help: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l4 4M14.4 14.4l4 4M18.4 5.6l-4 4M9.6 14.4l-4 4"/>',
+    text: '<path d="M5 5h14M12 5v14M9 19h6"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+    image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+    tag: '<path d="M3 12V4h8l9 9-8 8zM7.5 8.5h.01"/>', award: '<circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/>',
+    log: '<path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4M12 7v5l3 2"/>', shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+    box: '<path d="M21 8l-9-5-9 5 9 5zM3 8v8l9 5 9-5V8M12 13v8"/>', cash: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>',
+    percent: '<path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>', clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>', home: '<path d="M3 11l9-7 9 7M5 10v10h14V10"/>',
+    door: '<path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17M3 21h18M15 12h.01"/>',
+    gift: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8S10.5 3 8 3a2.5 2.5 0 0 0 0 5M12 8s1.5-5 4-5a2.5 2.5 0 0 1 0 5"/>',
+    receipt: '<path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2zM9 8h6M9 12h6M9 16h3"/>', chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+    edit: '<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>', save: '<path d="M5 3h11l3 3v15H5zM8 3v5h7M8 21v-7h8v7"/>',
+    link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+    refresh: '<path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/>', folder: '<path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>',
+    alert: '<path d="M12 4L2 20h20zM12 10v4M12 17h.01"/>', ban: '<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+    clip: '<path d="M9 3h6v3H9zM7 4.5H5V21h14V4.5h-2M9 11h6M9 15h4"/>', cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/>', building: '<path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M15 9h4a1 1 0 0 1 1 1v11M3 21h18M8 8h3M8 12h3M8 16h3"/>',
+    cam: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>', phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+    chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', out: '<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>', globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>', map: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>', bag: '<path d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"/>',
+    dot: '<circle cx="12" cy="12" r="3"/>'
+  };
+  function icon(n, s, label) {
+    var z = s || 16;
+    return '<svg class="tic" viewBox="0 0 24 24" width="' + z + '" height="' + z + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+      (label ? 'role="img" aria-label="' + String(label).replace(/"/g, '&quot;') + '"' : 'aria-hidden="true"') + '>' + (ICONS[n] || ICONS.dot) + '</svg>';
+  }
+  /* shared look of the staff apps: light page, white cards with a thin border, orange only for the active item and the main action,
+     dark side menu on wide screens (the same menu entries; phones keep their compact menu) */
+  var STAFF_CSS = [
+    /* phones and tablets keep the existing layout, sizes and spacing; only the icon family is shared */
+    '.tic{display:inline-block;vertical-align:-3px;flex-shrink:0}',
+    '.card>b .tic,.card>.row>b .tic{color:var(--o)}',
+    '.tabs button .tic{display:none}.sbrand{display:none}',
+    '.amt{white-space:nowrap}',
+    /* wide screens (>=1024px): dark side menu built from the same menu entries */
+    '@media(min-width:1024px){',
+    ' body.st-admin{padding-left:272px!important}body.st-merchant{padding-left:256px!important;padding-bottom:30px!important}',
+    ' .side{position:fixed;top:0;bottom:0;left:0;width:248px;background:#16171b;color:#c9ccd3;padding:20px 12px;overflow-y:auto;z-index:700}',
+    ' .sbrand{display:flex;align-items:center;gap:10px;padding:2px 8px 18px;color:#fff;font-weight:800;font-size:19px;letter-spacing:.3px}.sbrand i{width:36px;height:36px;border-radius:11px;background:var(--o);display:flex;align-items:center;justify-content:center;font-style:normal}.sbrand small{display:block;font-size:11.5px;font-weight:600;color:#8d929c;letter-spacing:0}',
+    ' .side .tabs{flex-direction:column;gap:4px;overflow:visible;margin:0}',
+    ' .side .tabs button{flex:none;width:100%;display:flex;align-items:center;gap:10px;justify-content:flex-start;background:transparent;border:0;color:#c9ccd3;padding:11px 12px;font-size:14px;font-weight:500;border-radius:12px}',
+    ' .side .tabs button .tic{display:inline-block}.side .tabs button:hover{background:#ffffff0f}.side .tabs .on{background:var(--o);color:#fff;font-weight:600}.side .tabs button em{margin-left:auto}',
+    ' .nav{top:0;bottom:0!important;right:auto!important;width:232px;flex-direction:column;justify-content:flex-start;gap:4px;background:#16171b!important;border-radius:0!important;box-shadow:none!important;padding:84px 12px 20px!important;z-index:700}',
+    ' .nav::before{content:"TALABOT";position:absolute;left:22px;top:26px;color:#fff;font-weight:800;font-size:19px;letter-spacing:.3px}',
+    ' .nav div{flex:none!important;display:flex!important;align-items:center;gap:12px;text-align:left!important;padding:11px 12px!important;border-radius:12px;color:#c9ccd3!important;font-size:14px!important;font-weight:500!important}',
+    ' .nav div span{display:inline-flex!important}.nav .on{background:var(--o);color:#fff!important}.nav div em{position:static!important;margin-left:auto}',
+    '}'
+  ].join('\n');
+  function staffUI(role) {
+    try { document.body.classList.add('st-' + role); } catch (e) { }
+    if (document.getElementById('tlb-staff')) return;
+    var st = document.createElement('style'); st.id = 'tlb-staff'; st.textContent = STAFF_CSS; document.head.appendChild(st);
+  }
+  /* Redraw of the same screen: patch the live page to match new HTML instead of rebuilding it (nodes that did not change are left alone:
+     focus, an open picker, typed values, horizontal strips and the page height stay). Fields bound to app state (oninput/onchange)
+     take the new value unless the user is in them. */
+  function isChk(e) { return e.type === 'checkbox' || e.type === 'radio'; }
+  function bound(e) { return e.hasAttribute('oninput') || e.hasAttribute('onchange'); }
+  function morphKids(a, b) {
+    var an = [].slice.call(a.childNodes), bn = [].slice.call(b.childNodes), i, x, y;
+    for (i = 0; i < bn.length; i++) {
+      x = an[i]; y = bn[i];
+      if (!x) { a.appendChild(y); continue; }
+      if (x.nodeType !== y.nodeType || x.nodeName !== y.nodeName || (x.nodeType === 1 && ((x.id || '') !== (y.id || '') || (x.getAttribute('type') || '') !== (y.getAttribute('type') || '')))) { a.replaceChild(y, x); continue; }
+      if (x.nodeType !== 1) { if (x.nodeValue !== y.nodeValue) x.nodeValue = y.nodeValue; continue; }
+      morphEl(x, y);
+    }
+    for (i = an.length - 1; i >= bn.length; i--) if (an[i].parentNode === a) a.removeChild(an[i]);
+  }
+  function morphEl(x, y) {
+    var k, at = [].slice.call(x.attributes);
+    for (k = 0; k < at.length; k++) if (!y.hasAttribute(at[k].name)) x.removeAttribute(at[k].name);
+    for (k = 0; k < y.attributes.length; k++) if (x.getAttribute(y.attributes[k].name) !== y.attributes[k].value) x.setAttribute(y.attributes[k].name, y.attributes[k].value);
+    var tg = x.nodeName, live = x === document.activeElement;
+    if (tg === 'INPUT') { if (bound(x) && !live) { if (isChk(x)) { if (x.checked !== y.checked) x.checked = y.checked; } else if (x.type !== 'file' && x.value !== y.value) x.value = y.value; } return; }
+    morphKids(x, y);
+    if ((tg === 'TEXTAREA' || tg === 'SELECT') && bound(x) && !live && x.value !== y.value) x.value = y.value;
+  }
+  function morph(el, html) { var tp = document.createElement('template'); tp.innerHTML = html; morphKids(el, tp.content); }
+
   var TLBref = null;
   window.TLB = {
+    icon: icon, staffUI: staffUI, morph: morph,
     version: VERSION,
     loadFailed: function () { return !!secFail.stat; },
     normPhone: normPhone,
@@ -789,7 +888,35 @@
     setOpen: function (n, v) { var s = storeByName(n); return s ? rpc('set_store_open', { p_store: s.id, p_open: !!v }, true) : Promise.resolve({ error: 'generic' }); },
 
     order: function (id) { return ORD.find(function (o) { return o.id == id; }) || null; },
-    orders: function (fn) { return ORD.filter(fn || function () { return true; }); },
+    orders: function (fn) { return ORD.filter(function (o) { return !o._x && (!fn || fn(o)); }); },
+    /* admin search over ALL orders (patch 35, server side, same permission as the orders list). Falls back to the loaded orders. */
+    searchOrders: function (q, status) {
+      q = String(q || '').trim().slice(0, 60); if (!q || !sb) return Promise.resolve({ ids: [] });
+      return sb.rpc('admin_search_orders', { p_q: q, p_status: status || null, p_limit: 100 }).then(function (r) {
+        if (r.error) return { error: errKey(r.error), missing: /admin_search_orders|function|schema cache/i.test(String(r.error.message || '')) };
+        var ids = (r.data || []).map(function (x) { return x.id; }); if (!ids.length) return { ids: [] };
+        var need = ids.filter(function (id) { return !DB.orders.some(function (o) { return o.id === id; }); });
+        return Promise.all([need.length ? sb.from('orders').select('*').in('id', need) : Promise.resolve({ data: [] }), need.length ? sb.from('order_items').select('*').in('order_id', need) : Promise.resolve({ data: [] })]).then(function (x) {
+          if (!x[0].error) DB.xorders = (x[0].data || []).concat(DB.xorders.filter(function (o) { return need.indexOf(o.id) < 0; })).slice(0, 300);
+          if (!x[1].error) DB.xitems = (x[1].data || []).concat(DB.xitems.filter(function (i) { return need.indexOf(i.order_id) < 0; }));
+          return fetchAdminContacts(ids).then(function () { ORD = shape(); return { ids: ids }; });
+        });
+      }, function () { return { error: 'generic' }; });
+    },
+    /* staff: bring orders that are not among the loaded newest ones (opened from a customer card, a rating, a ticket, a search) */
+    fetchOrders: function (ids) {
+      ids = (ids || []).filter(function (id) { return id != null && !ORD.some(function (o) { return o.id == id; }); });
+      if (!ids.length || !sb) return Promise.resolve(true);
+      return Promise.all([sb.from('orders').select('*').in('id', ids), sb.from('order_items').select('*').in('order_id', ids)]).then(function (x) {
+        if (x[0].error) return false;
+        var got = (x[0].data || []).filter(function (o) { return ids.some(function (id) { return o.id == id; }); });
+        if (!got.length) return false;
+        var gid = got.map(function (o) { return o.id; });
+        DB.xorders = got.concat(DB.xorders.filter(function (o) { return gid.indexOf(o.id) < 0; })).slice(0, 300);
+        if (!x[1].error) DB.xitems = (x[1].data || []).filter(function (i) { return gid.indexOf(i.order_id) >= 0; }).concat(DB.xitems.filter(function (i) { return gid.indexOf(i.order_id) < 0; }));
+        return (ME && ME.role === 'admin' ? fetchAdminContacts(gid) : Promise.resolve()).then(function () { ORD = shape(); fireSoon(); return true; });
+      }, function () { return false; });
+    },
     offers: function () {
       return DB.myOffers.map(function (f) {
         var o = ORD.filter(function (x) { return x.id === f.order_id; })[0]; if (!o) return null;
@@ -857,17 +984,22 @@
     },
     /* ---------- About / Privacy pages (edited by the admin) ---------- */
     pages: function () { return DB.pages; },
+    /* 'loading' until the first answer; 'ok'; 'empty' = the table has no rows (set_page can only update existing rows); 'error' */
+    pagesState: function () { return pagesSt; },
     loadPages: function (force) {
       var now = Date.now();
       if (!force && extraLoaded.pages && now - extraLoaded.pages < 30000) return Promise.resolve(false);
       extraLoaded.pages = now;
+      var st0 = pagesSt;
       return sb.from('app_pages').select('slug,body_ru,body_en').then(function (r) {
-        if (r.error) return false;
+        if (r.error) { pagesSt = 'error'; pagesErr = String(r.error.message || r.error.code || ''); if (st0 !== 'error') fireSoon(); return false; }
         var o = {}; (r.data || []).forEach(function (p) { o[p.slug] = { ru: p.body_ru || '', en: p.body_en || '' }; });
-        if (JSON.stringify(o) === JSON.stringify(DB.pages)) return false;
+        pagesSt = Object.keys(o).length ? 'ok' : 'empty';
+        if (JSON.stringify(o) === JSON.stringify(DB.pages) && st0 === pagesSt) return false;
         DB.pages = o; fireSoon(); return true;
-      }, function () { return false; });
+      }, function (e) { pagesSt = 'error'; pagesErr = String((e && e.message) || e || ''); fireSoon(); return false; });
     },
+    pagesError: function () { return pagesErr; },
     setPage: function (slug, lang, body) {
       var b = String(body == null ? '' : body);
       if (['about', 'privacy'].indexOf(slug) < 0 || ['ru', 'en'].indexOf(lang) < 0 || b.length > 20000) return Promise.resolve({ error: 'bad_value' });
@@ -963,14 +1095,26 @@
         sigs = {}; return refresh().then(function () { return { ok: true, store: r.data }; });
       }, function () { return { error: 'generic' }; });
     },
+    /* restaurant requests from the public partner page (patch 36): status by 'stores' staff, link to a store by the admin */
+    leadDecide: function (id, action, arg) {
+      var p = action === 'link' ? sb.rpc('lead_link', { p_id: id, p_store: arg }) :
+        (action === 'contacted' || action === 'rejected') ? sb.rpc('lead_set_status', { p_id: id, p_status: action, p_note: String(arg || '').trim().slice(0, 300) }) : null;
+      if (!p) return Promise.resolve({ error: 'bad_value' });
+      if (action === 'rejected' && String(arg || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
+      return p.then(function (r) { if (r.error) { console.error(r.error); return { error: errKey(r.error) }; } return refresh(['misc']).then(function () { return { ok: true }; }); },
+        function () { return { error: 'generic' }; });
+    },
     /* ---------- customers (admin) ---------- */
     customers: function (q, offset) {
       return sb.rpc('admin_customers', { p_q: String(q || '').trim().slice(0, 60) || null, p_limit: 30, p_offset: Math.max(0, Math.floor(+offset || 0)) }).then(function (r) { return r.error ? { error: errKey(r.error), rows: [] } : { rows: r.data || [] }; }, function () { return { error: 'generic', rows: [] }; });
     },
-    customerOrders: function (id) {
-      return sb.from('orders').select('id,store_id,status,total,created_at').eq('customer_id', id).order('created_at', { ascending: false }).limit(50).then(function (r) {
-        return (r.data || []).map(function (o) { return { id: o.id, store: storeName(o.store_id), status: o.status, total: +o.total, createdAt: Date.parse(o.created_at) }; });
-      }, function () { return []; });
+    /* one account's orders (by customer id, newest first), 50 at a time; .total = how many this account has in all (null if unknown) */
+    customerOrders: function (id, from) {
+      from = Math.max(0, Math.floor(+from || 0));
+      return sb.from('orders').select('id,store_id,status,total,created_at', { count: 'exact' }).eq('customer_id', id).order('created_at', { ascending: false }).order('id', { ascending: false }).range(from, from + 49).then(function (r) {
+        var a = (r.data || []).map(function (o) { return { id: o.id, store: storeName(o.store_id), status: o.status, total: +o.total, createdAt: Date.parse(o.created_at) }; });
+        a.total = typeof r.count === 'number' ? r.count : null; a.failed = !!r.error; return a;
+      }, function () { var a = []; a.total = null; a.failed = true; return a; });
     },
     setBan: function (id, banned, reason) {
       if (banned && String(reason || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
@@ -1062,12 +1206,12 @@
       if (!force && extraLoaded[k] && now - extraLoaded[k] < 6000) return Promise.resolve(false);
       extraLoaded[k] = now;
       return Promise.all([sb.from('wallet_entries').select('*').eq('user_id', ME.id).order('created_at', { ascending: false }).limit(60), sb.rpc('wallet_balance')]).then(function (r) {
-        if (r[0].error) return false;
+        if (r[0].error) return null;   // null = not loaded (error); true / false = loaded, changed or not
         var key = JSON.stringify(r[0].data || []); var ch = JSON.stringify(DB.wallet.entries) !== key;
         DB.wallet.entries = (r[0].data || []).map(function (e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }; });
         if (!r[1].error && r[1].data != null) DB.wallet.balance = Math.round(+r[1].data * 100) / 100;
-        if (ch) fireSoon(); return ch;
-      }, function () { return false; });
+        DB.wallet.loadedAt = Date.now(); if (ch) fireSoon(); return ch;
+      }, function () { return null; });
     },
     walletOf: function (userId) {
       return Promise.all([sb.rpc('wallet_balance', { p_user: userId }), sb.from('wallet_entries').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(30)]).then(function (r) {
@@ -1089,7 +1233,7 @@
       loadLeaflet(function () {
         var box = $(elId); if (!box) return;
         var map = L.map(elId).setView(center || [38.5598, 68.787], 12);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' , referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
         var group = [];
         (points || []).forEach(function (p) {
           if (!isFinite(+p.lat) || !isFinite(+p.lng)) return;

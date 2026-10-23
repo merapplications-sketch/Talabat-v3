@@ -26,12 +26,12 @@ Test words: **mock** = Chromium + in-memory Supabase (tools/*) · **live** = the
 ## 3. Batches to do (order; done-criteria; what it waits for)
 | # | Batch | Content (sources) | Done when | Waits for |
 |---|---|---|---|---|
-| T1 | Live DB read | `sql/verify_catalog_readonly.sql`: catalog defaults, RLS, bucket `media`, storage policies, triggers, owner/perm functions, accounts by role, patch markers 26–38, wallet / loyalty columns | result table received and mapped here | owner runs it once (no access from this workspace) |
+| T1 ✔ live (24 Oct) | Live DB read | `sql/verify_catalog_readonly.sql`: catalog defaults, RLS, bucket `media`, storage policies, triggers, owner/perm functions, accounts by role, patch markers 26–38, wallet / loyalty columns | result table received and mapped here | owner runs it once (no access from this workspace) |
 | T2 ✔ mock | Core functions v80 already calls | port `pointsSnapshot`, `pointsAbandon` (v59) and `orderWallet` (read-only, from v60, existing table `wallet_entries`) into the published core; no SQL, no UI change | catalog / flow / qa_all mock clean; uat3 customer parts pass; live: columns confirmed by T1 | can start now (live confirmation after T1) |
-| T3 | v56 admin — functional items only | 10 UAT1 items + forms kept on refresh (v56d–f), ids as JSON (v56h, v56m), customer history paging (v56g), merchant analytics from recorded values (v56l–m), OSM origin; search uses patch 35 when present, else loaded orders (existing fallback) | admin_uat / form_keep / merchant_ids / merchant_stats / qa_all mock clean; hand-off list of touched admin / merchant lines | can start now; visual parts (v56i–j staff look, v56n–o strip) go to the UI team as a hand-off, not ported by us |
-| T4 | v58 driver / core | one delivery confirmation at a time (UAT004 screen guard), chat drafts per order (core), cancel waits for the server (core) | courier / uat2 mock clean | can start now; driver visual design waits for the designer — only logic lines touched |
-| T5 | v59 merchant / core | UAT012 recorded returns in the restaurant order sheet, UAT013 rejected vs cancelled labels, UAT014 net payable + breakdown (formula unchanged) | uat3 (merchant parts), merchant_stats mock clean | can start now; label/text changes listed for the UI team |
-| T6 | Live functional pass | sign-in (admin, staff, restaurant, courier, customer), save store / dish / sizes / extras / photos / banners, customer sees them, one test order through the 4 apps, assignment, cancel / reject | each step done on the published app with the test accounts, results logged | owner opens Chrome with the Claude extension (or does the steps himself) |
+| T3 ✔ mock (v82) | v56 admin — functional items only | 10 UAT1 items + forms kept on refresh (v56d–f), ids as JSON (v56h, v56m), customer history paging (v56g), merchant analytics from recorded values (v56l–m), OSM origin; search uses patch 35 when present, else loaded orders (existing fallback) | admin_uat / form_keep / merchant_ids / merchant_stats / qa_all mock clean; hand-off list of touched admin / merchant lines | can start now; visual parts (v56i–j staff look, v56n–o strip) go to the UI team as a hand-off, not ported by us |
+| T4 ✔ mock (v82) | v58 driver / core | one delivery confirmation at a time (UAT004 screen guard), chat drafts per order (core), cancel waits for the server (core) | courier / uat2 mock clean | can start now; driver visual design waits for the designer — only logic lines touched |
+| T5 ✔ mock (v82) | v59 merchant / core | UAT012 recorded returns in the restaurant order sheet, UAT013 rejected vs cancelled labels, UAT014 net payable + breakdown (formula unchanged) | uat3 (merchant parts), merchant_stats mock clean | can start now; label/text changes listed for the UI team |
+| T6 (+ LINK-02/03/05) | Live functional pass | sign-in (admin, staff, restaurant, courier, customer), save store / dish / sizes / extras / photos / banners, customer sees them, one test order through the 4 apps, assignment, cancel / reject | each step done on the published app with the test accounts, results logged | owner opens Chrome with the Claude extension (or does the steps himself) |
 | T7 | Merge / publish T2–T5 | PR to main with the list of files and checks | owner approval | owner |
 | T8 | Onboarding (v57) | patch 36, partner-lead function, Turnstile, lead card ON | activation list in ACTIVATION-v57.md | keys + patch 36 approval |
 | T9 | Finance (v60 / v61) | patch 37 / 38 | — | FROZEN: decisions 1–8 |
@@ -39,3 +39,9 @@ Test words: **mock** = Chromium + in-memory Supabase (tools/*) · **live** = the
 
 Rules: one batch per branch from the previous one; customer.html (v80) is not edited — logic needs there go to the UI team as
 a hand-off; every SQL is read-only unless the owner approves a named patch; mock results never reported as live.
+
+## Driver A link items (docs/driver-a-v06) — placed by dependency
+LINK-01 → waits for T9 decisions (finance frozen) + owner decision D-L1; LINK-02, LINK-03, LINK-05 → T6 (live, device);
+LINK-04 → done in T4 (v58 driver fixes; v60–v61 accounting not ported); LINK-06 → owner iPhone round. Details: CHANGES-v82-int.md.
+T1 result: docs/live/T1-RESULT.md (patches 26–34 present, 35–38 absent; save path allowed by RLS / storage).
+Integration branch for review: `tech/v82-int`.
