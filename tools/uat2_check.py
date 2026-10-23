@@ -122,7 +122,7 @@ with sync_playwright() as p:
     E(CTL,['deliver']);direct=E("()=>!TLB.isCash(mine())")
     E("()=>{const id=mine().id;deliverClick(id);deliverClick(id);swDo();finish(id,null,null,null)}");pg.wait_for_timeout(300)
     ok(direct and E("()=>__calls.deliver")==1,'courier direct delivery (no modal): 4 attempts at once → ONE request (%d)'%E("()=>__calls.deliver"))
-    ok(any(w in pg.inner_text('#swp') for w in ('Подтверждаем','Проверяем')),'courier: the swipe shows «Подтверждаем доставку…» and cannot be swiped')
+    _sw=pg.inner_text('#swp');ok('Подтверждаем доставку' in _sw,'courier: the swipe shows «Подтверждаем доставку…» (H3) and cannot be swiped: '+_sw.replace('\n',' '))
     E("()=>__q.deliver[0].res({error:'generic'})");pg.wait_for_timeout(400)
     E("()=>deliverClick(mine().id)");pg.wait_for_timeout(200)
     ok(E("()=>__calls.deliver")==2,'courier: after a failure a new confirmation is possible')

@@ -34,7 +34,10 @@ with sync_playwright() as p:
     pg.evaluate("()=>{mine().status='pickedup';render()}");swipe()
     ok(last()==['driver_arrived',{'p_id':'ord1','p_where':'customer'}],'step 3 swipe → at the customer')
     pg.evaluate("()=>{const a=mine();a.arrivedCustAt=Date.now();a.leaveAtDoor=true;a.payment='cash';a.total=116;a.pointsValue=4;a.walletUsed=10;render()}")
-    if pg.evaluate("()=>!!document.querySelector('.cashb')"):
+    if pg.evaluate("()=>!!document.querySelector('.a-cash-detail .cashb')"):   # driver A + H1 (f484f01): breakdown under the amount to collect
+        t=pg.evaluate("()=>{const p=document.querySelector('[data-money=collect]');return (p?p.innerText:'')+' | '+document.querySelector('.a-cash-detail .cashb').innerText}")
+        ok(('106.00' in t or '106,00' in t) and '120.00' in t and '4.00' in t and '10.00' in t,'driver A H1: take 106 shown + breakdown order 120 − points 4 − wallet 10: '+t.replace('\n',' | '))
+    elif pg.evaluate("()=>!!document.querySelector('.cashb')"):
         t=pg.evaluate("()=>document.querySelector('.cashb').innerText")
         ok('106.00' in t and '120.00' in t and '4.00' in t and '10.00' in t,'cash box: take 106 = order 120 − points 4 − wallet 10: '+t.replace('\n',' | '))
     else:   # driver A v06: the amount to collect is the main figure; the breakdown is in «Заказ и расчёты»

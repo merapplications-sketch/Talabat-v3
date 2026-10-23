@@ -201,4 +201,8 @@ s2=s2.replace("<script>if(window.top!==window.self){document.documentElement.sty
 s2=s2.replace('<title>','<title>PREVIEW · ',1)
 open(os.path.join(out,app+'.html'),'w').write(s2)
 open(os.path.join(out,'talabat-core.js'),'w').write(open(os.path.join(root,'talabat-core.js')).read())
+# the app's own asset folder (driver A layer: driver-a.css / driver-a.js / fonts) — same files as the branch
+import shutil
+if os.path.isdir(os.path.join(root,'assets')):
+    shutil.rmtree(os.path.join(out,'assets'),ignore_errors=True);shutil.copytree(os.path.join(root,'assets'),os.path.join(out,'assets'))
 print('preview built in',out)

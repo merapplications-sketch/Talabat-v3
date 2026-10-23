@@ -17,7 +17,8 @@ with sync_playwright() as p:
         rows=pg.locator('#app [onclick^="OD="]');n=rows.count()
         ok(n>=3,tag+' Аналитика → История has %d order rows'%n)
         for i in range(n):
-            r=rows.nth(i);r.scroll_into_view_if_needed();y0=E("()=>Math.round(scrollY)");label=r.inner_text().split('\n')[0]
+            # row clear of the fixed bottom bar first: a row half under it made Playwright scroll the page before the tap (0→209), not the app
+            r=rows.nth(i);r.evaluate("e=>e.scrollIntoView({block:'center'})");pg.wait_for_timeout(150);y0=E("()=>Math.round(scrollY)");label=r.inner_text().split('\n')[0]
             r.click();pg.wait_for_timeout(400)
             opened=E("()=>OD!=null&&!!TLB.order(OD)")
             ok(opened and not errs,tag+' tap «%s» opens the order details %s'%(label,errs[:1]))

@@ -36,3 +36,25 @@ admin_uat 0 · form_keep 194/0 · staff_ui 500/0 · tab_nav 0 · merchant_stats 
 today: scroll-restore case, pre-existing) · uat2 47/0 (v80 slide + driver A) · uat3 70/70 · flow 0 · catalog OK · admin sign-in OK ·
 driver T4 OK · core v80 OK · cart 0 · smoke 0 · driver A UI OK · courier 1 (= H1) · qa_all: 0 except driver offline 18 (= H2).
 Tests changed only to follow approved controls (v80 slide, driver A menu / chat / labels); no check removed.
+
+## v82b — driver A H1 / H2 / H3 / H6 from the UI team (f484f01, on eff0701) — 24 Oct
+- Reviewed the commit diff only: `assets/driver-a/driver-a.js` + `.css` (presentation), their docs, `tools/driver_h_check.cjs`,
+  `tools/driver_h_review.py`. driver.html / talabat-core.js / customer / admin / merchant: byte-identical. Merged with `--no-ff`;
+  no newer integration work conflicted (T4 delivery lock and chat-draft rule kept as is).
+- H1: cash breakdown reuses the existing `cashBox()` under the amount to collect (formula `due()` unchanged).
+- H2: driver-scoped offset measured from the core offline strip; connectivity logic unchanged.
+- H3: «Подтверждаем доставку…» while the delivery call is in flight only.
+- H6: restaurant amount hidden (no zero / derived value). D-L1 still open. Side effect: at the pickup stage, collapsed sheet shows
+  no headline amount (the only one there was the hidden restaurant row) → H7 for the UI team to confirm.
+- Test tools (no check removed):
+  - courier_check: driver A H1 branch (106 shown + 120 / 4 / 10 breakdown) → was the H1 failure, now passes.
+  - uat2_check: the swipe must show «Подтверждаем доставку» (H3). build_preview now copies `assets/` — the earlier driver preview
+    lacked the driver A layer, so the earlier uat2 driver part ran on the base driver screen; now it runs on driver A.
+  - driver_a_ui_check: no headline amount check at pickup when H6 removes it (asserts the restaurant row is absent instead).
+  - driver_h_check: waits until the sheet size is stable before measuring the last row (was flaky here: 2 of 3 runs failed
+    while the sheet was still resizing; 4 / 4 after).
+  - merchant_ids: row centred before the tap. Diagnosis: the 0→209 was Playwright scrolling a row half under the fixed bottom
+    bar before tapping, not the app; a user-scrolled position (150) is kept after closing. Not functional — no app change.
+- Mock results v82b: courier 0 · uat2 47/0 (driver A) · driver T4 OK · flow 0 · qa_all 0 (driver offline 18 → 0, H2) ·
+  driver A UI OK · driver H 12 cases OK · merchant_ids 0 · smoke 0. Others unaffected (driver-a only) — not re-run.
+- Not tested: live app / database, Safari, iPhone, GPS, live tiles, field network.
