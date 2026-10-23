@@ -113,7 +113,7 @@ function resizeImg(fl,w,q,cb){TLB.uploadImage(fl,{maxW:w,q:q}).then(u=>{if(u)cb(
 function addStore(){if(!v('sn')){alert(t('aFill'));return}
   const ph=TLB.normPhone(v('sp'));if(!ph){alert(t('aPhReq'));return}
   const ft=v('sf'),fb=v('sb');if(ft!='free'&&(fb===''||!(+fb>=0))){alert(t('aFeeReq'));return}
-  TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:ph,commission_pct:v('sm')===''?10:+v('sm'),fee_type:ft,fee_base:ft=='free'?0:+fb,fee_per_km:+v('sk')||0,discount_pct:+v('sd')||0}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddS=false;render()}})}
+  TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:ph,commission_pct:v('sm')===''?10:+v('sm'),fee_type:ft,fee_base:ft=='free'?0:+fb,fee_per_km:$('sk')?+v('sk')||0:0,discount_pct:+v('sd')||0}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddS=false;render()}})}
 function pickB(e){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>{bimg=d;$('bp').src=d;$('bp').style.display='block'})}
 function linkLabel(v){if(!v||v=='none')return t('aBNone');const p=String(v).split(':');if(p[0]=='store'){const s=TLB.stores(true).find(x=>x.id==p[1]);return '🏪 '+(s?s.name:'?')}if(p[0]=='cat')return '📂 '+t(p[1]);return t('aBNone')}
 function pickLink(cb){const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;z-index:10000;background:#fff;display:flex;flex-direction:column;font:14px -apple-system,BlinkMacSystemFont,sans-serif';

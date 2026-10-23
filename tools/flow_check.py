@@ -211,6 +211,13 @@ with sync_playwright() as p:
         if not loc.count(): ok(False,'%s: button «%s» not found'%(role,text));return False
         loc.scroll_into_view_if_needed();loc.click();pg.wait_for_timeout(500);return True
     status=lambda i:(db.order(i) or {}).get('status')
+    def hold_order():   # v80: the order is confirmed by sliding the thumb to the end (approved customer v80; v58 was a 2 s hold)
+        pg=P['customer'];b=pg.locator('#hbtn')
+        if not b.count(): ok(False,'customer: slide-to-order control not found');return False
+        b.scroll_into_view_if_needed();t=b.locator('.d69-slide-thumb');tb=t.bounding_box();bb=b.bounding_box()
+        x0,y=tb['x']+tb['width']/2,tb['y']+tb['height']/2;pg.mouse.move(x0,y);pg.mouse.down()
+        for i in range(1,21): pg.mouse.move(x0+(bb['width']-tb['width'])*i/20+4,y);pg.wait_for_timeout(20)
+        pg.mouse.up();pg.wait_for_timeout(1200);return True
 
     # 1) customer orders
     c=P['customer'];c.evaluate("()=>TLB.setLang('ru')");
@@ -223,7 +230,7 @@ with sync_playwright() as p:
     c.locator('.bar').first.click();c.wait_for_timeout(300);look('customer','2-cart')
     click('customer','Перейти к оплате');c.wait_for_timeout(400)
     c.evaluate("()=>{S.useWallet=false;S.pay='cash';render()}");look('customer','3-pay')
-    click('customer','Оформить заказ');c.wait_for_timeout(800)
+    hold_order()
     oid=max([o['id'] for o in db.T['orders']] or [0])
     ok(oid and status(oid)=='pending','order created (#%s, pending)'%oid)
     ok(c.evaluate("()=>S.v")=='track','customer lands on the tracking page')
@@ -283,12 +290,12 @@ with sync_playwright() as p:
     a.evaluate("(i)=>{D=i;render()}",oid);a.wait_for_timeout(400);look('admin','18-order-detail')
     # 6) side paths
     c.evaluate("()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={};openN(s.n);const it=menuOf(s.n).find(i=>!i.hasOpts&&i.available);addFrom(it.id);goCart()}")
-    click('customer','Перейти к оплате');c.evaluate("()=>{S.pay='cash';render()}");click('customer','Оформить заказ')
+    click('customer','Перейти к оплате');c.evaluate("()=>{S.pay='cash';render()}");hold_order()
     o2=max(o['id'] for o in db.T['orders']);ok(status(o2)=='pending','2nd order placed')
     c.evaluate("()=>{window.confirm=()=>true}");click('customer','Отменить заказ');ok(status(o2)=='cancelled','customer cancelled a pending order')
     sync('customer');look('customer','19-cancelled')
     c.evaluate("()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={};openN(s.n);const it=menuOf(s.n).find(i=>!i.hasOpts&&i.available);addFrom(it.id);goCart()}")
-    click('customer','Перейти к оплате');c.evaluate("()=>{S.pay='cash';render()}");click('customer','Оформить заказ')
+    click('customer','Перейти к оплате');c.evaluate("()=>{S.pay='cash';render()}");hold_order()
     o3=max(o['id'] for o in db.T['orders']);sync('merchant')
     c.evaluate("()=>go('home')")
     click('merchant','[onclick="rjOpen(%s)"]'%o3);look('merchant','20a-reject-reasons')
