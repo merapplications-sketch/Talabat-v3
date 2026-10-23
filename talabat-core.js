@@ -145,7 +145,7 @@
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
   var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
-  var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
+  var ptsSeq = 0, walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   /* happy-hour windows running at a moment (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
   function hhOnNow(at) {
     var d = new Date((at || Date.now()) + 5 * 3600000), dow = d.getUTCDay() || 7, prev = dow === 1 ? 7 : dow - 1, mins = d.getUTCHours() * 60 + d.getUTCMinutes() + d.getUTCSeconds() / 60;
@@ -981,13 +981,40 @@
     /* loyalty (patch 29): summary {balance, next_exp_at, next_exp_pts, earn_per_tjs, points_per_tjs, min_redeem, expiry_days, cashback_pct} */
     loyalty: function () { return DB.loyalty; },
     points: function () { return DB.pts; },
+    /* each call is numbered: a reply that arrives after a newer call was started is ignored (never overwrites newer data) */
     loadPoints: function () {
+      var n = ++ptsSeq;
       return sb.from('loyalty_ledger').select('*').eq('user_id', ME.id).order('created_at', { ascending: false }).limit(60).then(function (r) {
-        if (r.error) return false;
+        if (n !== ptsSeq || r.error) return null;   // null = not applied (failed or superseded); true / false = applied, changed or not
         var nu = (r.data || []).map(function (e) { return { id: e.id, points: +e.points, kind: e.kind, orderId: e.order_id, at: Date.parse(e.created_at) }; });
         var ch = JSON.stringify(nu) !== JSON.stringify(DB.pts); DB.pts = nu; if (ch) fire(); return ch;
-      }, function () { return false; });
+      }, function () { return null; });
     },
+    /* UAT008 / 009: the points history and the points balance read as ONE consistent pair: ledger → balance → ledger again; when both
+       ledger reads end at the same newest row, no movement was written in between, so the balance belongs to exactly those rows.
+       Otherwise read again (at most 3 rounds). Each call is numbered: a reply that arrives after a newer call (or after pointsAbandon)
+       is ignored. Resolves {rows, balance, consistent} or null (failed / superseded). */
+    pointsSnapshot: function () {
+      var n = ++ptsSeq, lg = function () { return sb.from('loyalty_ledger').select('*').eq('user_id', ME.id).order('id', { ascending: false }).limit(60); };
+      var top = function (r) { return r.data && r.data.length ? +r.data[0].id : 0; };
+      function round(k) {
+        var a; return lg().then(function (r1) { if (r1.error) throw r1.error; a = r1; return sb.rpc('loyalty_summary'); }).then(function (rs) {
+          if (rs.error) throw rs.error; return lg().then(function (r2) {
+            if (r2.error) throw r2.error;
+            if (top(a) !== top(r2) && k < 2) return round(k + 1);
+            return { rows: r2.data || [], sum: rs.data, consistent: top(a) === top(r2) };
+          });
+        });
+      }
+      return round(0).then(function (x) {
+        if (n !== ptsSeq) return null;
+        var nu = x.rows.map(function (e) { return { id: e.id, points: +e.points, kind: e.kind, orderId: e.order_id, at: Date.parse(e.created_at) }; });
+        var ch = JSON.stringify(nu) !== JSON.stringify(DB.pts) || JSON.stringify(x.sum) !== JSON.stringify(DB.loyalty);
+        DB.pts = nu; if (x.sum) DB.loyalty = x.sum; if (ch) fire();
+        return { rows: nu, balance: x.sum ? +x.sum.balance || 0 : null, consistent: x.consistent && !!x.sum };
+      }, function () { return null; });
+    },
+    pointsAbandon: function () { ptsSeq++; },
     happyHours: function () { return DB.hh; },
     /* best-selling dishes of the last 30 days [{item_id, store_id, cnt}] and real preparation speed per store {min, n} (patch 32) */
     bestDishes: function () { return DB.best; },
@@ -1128,6 +1155,19 @@
         };
         fr.readAsDataURL(file);
       });
+    },
+    /* v81 (from v60, read-only): the wallet records of one order (returns, refunds), paged by id; null = could not read */
+    orderWallet: function (orderId) {
+      var all = [], page = function (after, k) {
+        var q = sb.from('wallet_entries').select('*').eq('order_id', orderId); if (after != null) q = q.gt('id', after);
+        return q.order('id', { ascending: true }).limit(51).then(function (r) {
+          if (r.error) return null; var rows = r.data || [], more = rows.length > 50; rows = rows.slice(0, 50);
+          rows.forEach(function (e) { all.push({ id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }); });
+          if (more && k < 40) return page(rows[rows.length - 1].id, k + 1);
+          if (more) all.partial = true; return all;
+        }, function () { return null; });
+      };
+      return page(null, 0);
     },
     proofUrl: function (path) { if (!path || !sb || !sb.storage) return Promise.resolve(null); return sb.storage.from('proofs').createSignedUrl(path, 3600).then(function (r) { return r && r.data ? r.data.signedUrl : null; }, function () { return null; }); },
     leaflet: function (cb) { loadLeaflet(cb); },

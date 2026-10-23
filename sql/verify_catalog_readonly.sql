@@ -1,4 +1,4 @@
--- v81 · READ-ONLY check of the catalog path (stores, dishes, sizes / extras, photos, banners) and of the admin accounts.
+-- v81b · READ-ONLY check of the catalog path (stores, dishes, sizes / extras, photos, banners) and of the admin accounts.
 -- Changes nothing: only SELECT on catalog views. Run once in Supabase → SQL Editor and send back the result table.
 -- No personal data: accounts are counted, emails are not shown.
 with
@@ -38,6 +38,16 @@ fn as (
 acc as (
   select 'accounts', 'role='||coalesce(role,'∅'), count(*)::text from public.profiles group by role
 ),
+patch as (
+  select 'patch', x.p, case when exists (select 1 from pg_proc where proname=x.o and pronamespace='public'::regnamespace)
+                             or to_regclass('public.'||x.o) is not null then 'present ('||x.o||')' else 'absent ('||x.o||')' end
+  from (values ('26','can_see_order'),('27','brand_stats'),('29','loyalty_lots'),('32','loyalty_summary'),('33','group_get'),
+               ('34','driver_arrived'),('35','admin_search_orders'),('36','lead_link'),('37','order_refund_cap'),('38','accounting_start')) x(p,o)
+),
+wcols as (
+  select 'column', table_name||'.'||column_name, data_type
+  from information_schema.columns where table_schema='public' and table_name in ('wallet_entries','loyalty_ledger')
+),
 cnt as (
   select 'rows','stores', count(*)::text||' · active '||count(*) filter (where is_active)::text from public.stores
   union all select 'rows','menu_items', count(*)::text||' · approved '||count(*) filter (where approved)::text||' · with photo '||count(*) filter (where image_url is not null and image_url<>'')::text||' · inline photo '||count(*) filter (where image_url like 'data:%')::text from public.menu_items
@@ -47,4 +57,5 @@ cnt as (
 )
 select * from cols union all select * from pol union all select * from rls union all select * from bkt union all select * from spol
 union all select * from trg union all select * from fn union all select * from acc union all select * from cnt
+union all select * from patch union all select * from wcols
 order by 1,2;

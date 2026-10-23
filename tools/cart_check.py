@@ -26,7 +26,7 @@ with sync_playwright() as p:
       return {saved:localStorage.getItem('tlb-cart-'+TLB.me().id),btn:btn.textContent,dis:btn.disabled,sub:calc().sub}}""")
     d=json.loads(r['saved'] or 'null') or {}
     ok(d.get('sid')=='s1' and d.get('cart',{}).get('i2')==2,'cart saved to the device')
-    ok('TJS' in r['btn'] and not r['dis'],'continue button shows the amount: '+r['btn'].strip())
+    ok(not r['dis'] and r['btn'].strip()!='','continue button usable (v80: amount is shown in the cart summary, not on the button): '+r['btn'].strip())
     sub=r['sub'];load()
     r=pg.evaluate("()=>({cart:S.cart,store:(ALLS.find(x=>x.n==S.cartStore)||{}).id,note:S.note,tip:S.tip,bar:!!document.querySelector('.bar')})")
     ok(r['cart']=={'i2':2,'i1~o11':1} and r['store']=='s1' and r['note']=='без лука' and r['tip']==5,'cart restored after reload')
@@ -88,8 +88,8 @@ with sync_playwright() as p:
     ok(r['notes']==['Зарина ×2; Бахромджон ×1 (без лука)'],'each line keeps who ordered it: %s'%r['notes'])
     ok(r['after']['gid'] is None and r['after']['cart']==['i2'] and r['after']['v']=='track','after the group order: own cart is back, group closed on this phone')
     # 4) busy label
-    t=pg.evaluate("()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={i2:1};S.cartStore=s.n;S.busy=true;go('pay');const t=document.querySelector('.fbar .btn').textContent;S.busy=false;render();return t}")
-    ok('…' in t,'placing state shows "sending…": '+t)
+    t=pg.evaluate("()=>{const s=ALLS.find(x=>x.id=='s1');S.cart={i2:1};S.cartStore=s.n;S.busy=true;go('pay');const e=document.querySelector('#hbtn .d69-slide-label')||document.querySelector('.fbar .btn');const t=e?e.textContent:'';S.busy=false;render();return t}")
+    ok(t.strip()!='' and t==pg.evaluate("()=>t('placing')"),'placing state shows the sending label on the v80 slide control: '+t)
     ok(not errs,'no JS errors '+str(errs[:2]))
     b.close()
 print('CART FAILS',len(fails));sys.exit(1 if fails else 0)
