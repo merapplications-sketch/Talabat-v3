@@ -1135,6 +1135,30 @@ body.w-waiting{height:100dvh;overflow:hidden;padding:0;background:#E8EFEB}body.w
       }).filter(Boolean);
     },
     decline: function (id) { return sb.rpc('driver_decline', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
+    /* B (prepared for review, inactive until the Edge Function «route» is deployed with its key): street route between two
+       real points through the server proxy (the OpenRouteService key never reaches the browser). null = no route -> the
+       caller keeps the straight line and says so. Result: {coords:[[lat,lng],...], distanceM, durationS, source, at}. */
+    route: function (from, to) {
+      var ok = function (p) { return p && isFinite(+p[0]) && isFinite(+p[1]) && Math.abs(+p[0]) <= 90 && Math.abs(+p[1]) <= 180 && !(+p[0] === 0 && +p[1] === 0); };
+      if (!ok(from) || !ok(to) || !sb.functions || !sb.functions.invoke) return Promise.resolve(null);
+      return Promise.race([
+        sb.functions.invoke('route', { body: { from: [+from[0], +from[1]], to: [+to[0], +to[1]] } }).then(function (r) {
+          var d = r && !r.error && r.data;
+          if (!d || !Array.isArray(d.coords) || d.coords.length < 2 || !isFinite(+d.distance_m) || !isFinite(+d.duration_s)) return null;
+          return { coords: d.coords, distanceM: +d.distance_m, durationS: +d.duration_s, source: d.source || '', at: Date.now() };
+        }, function () { return null; }),
+        new Promise(function (res) { setTimeout(function () { res(null); }, 8000); })
+      ]);
+    },
+    /* C (prepared for review, needs the proposed SQL function order_courier_position): the last courier position of MY
+       order, only while it is out for delivery. Result {lat, lng, acc, at(ms)} or null (not allowed / not on the way / none). */
+    courierPosition: function (orderId) {
+      return sb.rpc('order_courier_position', { p_order: orderId }).then(function (r) {
+        var d = r && !r.error && (Array.isArray(r.data) ? r.data[0] : r.data);
+        if (!d || d.lat == null || d.lng == null) return null;
+        return { lat: +d.lat, lng: +d.lng, acc: d.acc == null ? null : +d.acc, at: d.updated_at ? new Date(d.updated_at).getTime() : null };
+      }, function () { return null; });
+    },
     sendLocation: function (lat, lng, acc) { if (isNaN(num(lat)) || isNaN(num(lng))) return Promise.resolve({ ok: false }); return sb.rpc('driver_location', { p_lat: num(lat), p_lng: num(lng), p_acc: isNaN(num(acc)) ? null : num(acc) }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
     assignDriver: function (orderId, driverId) { return rpc('admin_assign_driver', { p_order: orderId, p_driver: driverId }, true); },
     allOffers: function () { return DB.offersAll; },
@@ -1671,7 +1695,7 @@ function swipeH(a){const n=stepOf(a),wait=n==2&&a.status!='ready';
   return `<div class="swp ${n==4?'g':''} ${SWB?'busy':''}" id="swp"><button class="swk" id="swk" aria-label="${t('sw'+n)} · ${t('swHint')}">${ico(n==4?'check':'nav',22)}</button><div class="swt"><span>${t('sw'+n)}</span> ››</div></div>`}
 const storeLL=n=>{const st=TLB.stores(true).find(x=>x.name==n);return st&&st.lat!=null&&st.lng!=null&&isFinite(+st.lat)&&isFinite(+st.lng)?(+st.lat)+','+(+st.lng):null};
 const map=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q+' Душанбе')}`;
-const pt=o=>o&&o.lat!=null&&o.lng!=null&&isFinite(+o.lat)&&isFinite(+o.lng)?`https://www.google.com/maps/search/?api=1&query=${+o.lat},${+o.lng}`:null;
+const pt=o=>o&&o.lat!=null&&o.lng!=null&&isFinite(+o.lat)&&isFinite(+o.lng)?`https://www.google.com/maps/dir/?api=1&destination=${+o.lat},${+o.lng}&travelmode=driving`:null;   /* B: navigation (directions) to the exact order pin */
 function invoice(o){const cash=TLB.isCash(o);
   return `<div class="inv"><b>🧾 ${t('inv')}</b><div style="height:6px"></div>
   ${o.items.map(i=>`<div class="l"><span>${i.qty}× ${esc(i.name)}${(i.opts&&i.opts.length)?`<small style="display:block;color:#8b8f98">${esc(i.opts.map(x=>x.n).join(', '))}</small>`:''}${i.note?` <small style="color:#e74c3c">(${esc(i.note)})</small>`:''}</span><span>${(i.qty*i.price).toFixed(2)}</span></div>`).join('')}
@@ -1698,7 +1722,7 @@ function cashBox(o){const pv=+o.pointsValue||0,w=+o.walletUsed||0;
   return `<div class="cashb"><div class="big"><span>💵 ${t('cashGet')}</span><span>${due(o).toFixed(2)} TJS</span></div>${pv>0||w>0?`<div class="r"><span>${t('cashOrder')}</span><span>${(o.total+pv).toFixed(2)}</span></div>${pv>0?`<div class="r"><span>⭐ ${t('cashPts')}</span><span>−${pv.toFixed(2)}</span></div>`:''}${w>0?`<div class="r"><span>👛 ${t('cashWal')}</span><span>−${w.toFixed(2)}</span></div>`:''}`:''}</div>`}
 function itemsSummary(a){const n=a.items.reduce((s,i)=>s+i.qty,0);
   return `<div class="card"><div class="row" onclick="invOpen=!invOpen;render()" style="cursor:pointer"><div><b>${t('orderInfo')}</b><div class="xs" style="color:var(--mut)">${n} ${t('itemsN')} · ${a.total.toFixed(2)} TJS</div></div><span style="color:var(--o)">${ico(invOpen?'up':'down',22)}</span></div>${invOpen?invoice(a):''}</div>`}
-function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id),cash=TLB.isCash(a),restNav=storeLL(a.store)?'https://www.google.com/maps/search/?api=1&query='+storeLL(a.store):map(a.store);
+function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id),cash=TLB.isCash(a),restNav=storeLL(a.store)?'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+storeLL(a.store):map(a.store);
   const sub=rd?t('readyNow'):a.prepTime?t('prepIn').replace('{n}',a.prepTime):t('prepOn');
   const focus=ot?`<div class="fc"><div class="rg" style="gap:11px"><div class="av2">${esc(String(a.client.name||'?').charAt(0).toUpperCase())}</div><div style="flex:1;min-width:0"><div class="xs lbl">${t('custT')}</div><div class="nm" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.client.name)}</div></div>
     <div class="cta"><a target="_blank" rel="noopener" href="${pt(a)||map(a.address)}" aria-label="${t('ctNav')}" title="${t('ctNav')}">${ico('nav',19)}</a>${a.client.phone?`<a class="call" href="tel:${esc(a.client.phone)}" aria-label="${t('ctCall')}" title="${t('ctCall')}">${ico('phone',19)}</a>`:''}<button class="msg" onclick="chatOpen=true;render()" aria-label="${t('ctChat')}" title="${t('ctChat')}">${ico('chat',19)}${un?`<span class="dotb">${un}</span>`:''}</button></div></div>
@@ -2057,7 +2081,7 @@ function aCashDetail(x){return aCash(x)&&((+x.pointsValue||0)>0||(+x.walletUsed|
 function aPendingLabel(){return t(AFlight?.n===4?'aConfirmingDelivery':'aCheck')}
 function aPrimary(x){const n=aTaskStage(x),kind=n===0?'earn':n<3?'restaurant':'collect',label={earn:'aEarn',restaurant:'aRestaurant',collect:'aCollect'}[kind];if(kind==='restaurant')return '';const amount=kind==='earn'?x.payout:kind==='collect'?(aCash(x)?due(x):0):null;return `<section class="a-primary" data-money="${kind}"><div><strong>${t(label)}</strong><small>${kind==='restaurant'?t('aMissingAmount'):kind==='collect'?(aCash(x)?t('cash'):t('paidOnline')):t('earnT')}</small></div><b>${amount==null?'—':aAmount(amount)+' <span>TJS</span>'}</b></section>`}
 function aSecondary(x){const n=aTaskStage(x),rows=n===0?[[t('aRestaurant'),null],[t('aCollect'),aCash(x)?due(x):0]]:n<3?[[t('aCollect'),aCash(x)?due(x):0],[t('aEarn'),x.payout]]:[[t('aRestaurant'),null],[t('aEarn'),x.payout]];return `<div class="a-money-secondary">${rows.filter(([,value])=>value!==null).map(([label,value])=>`<div><small>${label}</small><b>${value==null?'—':aAmount(value)+' <span>TJS</span>'}</b></div>`).join('')}</div>`}
-function aTools(x){const n=aTaskStage(x);if(!n)return '';const client=n>=3,st=aStore(x),href=client?(pt(x)||map(x.address)):(storeLL(x.store)?'https://www.google.com/maps/search/?api=1&query='+storeLL(x.store):map(x.store)),phone=client?x.client.phone:x.storePhone;return `<div class="a-tools"><a class="a-navigation" href="${esc(href)}" target="_blank" rel="noopener">${ico('nav',20)} ${t('navB')}</a>${phone?`<a class="a-call" href="tel:${esc(phone)}">${ico('phone',20)} ${t('callRest')}</a>`:`<span class="a-contact-missing">${t('noPh')}</span>`}${client?aButton(ico('chat',20),"chatOpen=true;render()",'round a-chat',`aria-label="${t('chatT')}"`):''}</div>`}
+function aTools(x){const n=aTaskStage(x);if(!n)return '';const client=n>=3,st=aStore(x),href=client?(pt(x)||map(x.address)):(storeLL(x.store)?'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+storeLL(x.store):map(x.store)),phone=client?x.client.phone:x.storePhone;return `<div class="a-tools"><a class="a-navigation" href="${esc(href)}" target="_blank" rel="noopener">${ico('nav',20)} ${t('navB')}</a>${phone?`<a class="a-call" href="tel:${esc(phone)}">${ico('phone',20)} ${t('callRest')}</a>`:`<span class="a-contact-missing">${t('noPh')}</span>`}${client?aButton(ico('chat',20),"chatOpen=true;render()",'round a-chat',`aria-label="${t('chatT')}"`):''}</div>`}
 function aExtraInfo(x){let h='';if(x.recipient)h+=`<div class="a-note"><b>${t('dGift')}</b><p>${esc(x.recipient.name)}</p><a href="tel:${esc(x.recipient.phone)}">${ico('phone',18)} ${t('dGiftCall')}</a></div>`;else if(x.isGift)h+=`<p class="a-note">${t('dGift')}</p>`;if(x.scheduledFor)h+=`<p class="a-note">${t('dSched')} ${new Date(x.scheduledFor).toLocaleTimeString(TLB.lang()==='ru'?'ru-RU':'en-GB',{hour:'2-digit',minute:'2-digit'})}</p>`;if(x.leaveAtDoor)h+=`<p class="a-note">${t('dDoor')}</p>`;if(x.substitution&&x.substitution!=='call')h+=`<p class="a-note">${t('dsub_'+x.substitution)}</p>`;return h}
 function aNext(x){const client=aTaskStage(x)>=3,st=aStore(x);return `<section class="a-next" data-previous-store="${client}">${ico(client?'store':'pin',20)}<div><small>${t(client?'aPrevious':'aNext')}</small><b>${esc(client?x.store:x.address)}</b>${client?`<small>${esc(st.address||t('aStoreAddress'))}</small>`:''}</div></section>`}
 function aSheet(x){const n=aTaskStage(x),status=n?`<span class="badge ${n>=3?'a-navy':x.status==='ready'?'a-green':''}">${n===2?(x.status==='ready'?t('readyNow'):t('wait')):t('st4_'+n)}</span>`:`<span class="badge">${t(x.offer.mode==='single'?'forYou':'openOrd')}</span>`;return `<main class="a-sheet" id="a-sheet"><button class="a-grip" id="a-grip" aria-controls="a-sheet-body" aria-expanded="true" aria-label="${t('expand')}"><i></i>${ico('up',16)}</button><div class="a-sheet-body shb" id="a-sheet-body"><div class="a-summary">${aTarget(x)}${aPrimary(x)}${n>=3?aCashDetail(x):''}</div><div class="a-extra">${aStages(x)}${status}${aTools(x)}${aExtraInfo(x)}${aSecondary(x)}${n<3?aCashDetail(x):''}${legs(x)}${aNext(x)}${aButton(t('aDetails')+' <span>›</span>','aDetails()','a-details-link')}${!n?aButton(t('declineB'),`aDecline(${aId(x.id)})`,'a-details-link a-muted'):''}</div></div></main>`}
@@ -2198,5 +2222,66 @@ window.addEventListener('resize',wQueueLayout);let WOfflineState=document.docume
   }
   /* for a «my location» control on the mission screen (none in driver A today): back to the automatic frame */
   window.aMapRecenter = function () { var x = typeof aTask === 'function' ? aTask() : null; user = false; if (x && ready()) { withMe = GEO.lat != null; frameOnce(x); } };
+})();
+</script><script>/* TALABOT driver — street route on the mission map (batch B, prepared for review; loaded after map-view.js).
+   Current leg only: before pickup driver -> restaurant, after pickup driver -> the order pin (the same lat/lng the customer
+   chose, stored with the order). Route, distance and duration come from the server proxy (TLB.route -> Edge Function
+   «route» -> OpenRouteService); the key never reaches the browser. Until that function is deployed, or when it fails,
+   nothing changes: driver A keeps its straight line and its «не дорожный маршрут» label.
+   Requests: on task / stage change, then at most every 120 s and only after the driver moved >= 250 m (quota: 2 000 / day).
+   The duration is a road-speed estimate (no live traffic); shown as «~N мин», never as a countdown. */
+(function () {
+  'use strict';
+  if (typeof mapUpd !== 'function' || !window.TLB || typeof TLB.route !== 'function') return;
+  TLB.addDict({ rRoute: 'По дорогам: {km} км · ~{min} мин', rRouteAttr: 'Маршрут: openrouteservice.org' },
+              { rRoute: 'By road: {km} km · ~{min} min', rRouteAttr: 'Route: openrouteservice.org' });
+  var MIN_GAP = 120000, MIN_MOVE = 250;
+  var cur = null, inflight = false, attr = false;   /* cur = {key, from, to, at, route} */
+  function ready() { return !!(window.L && typeof DM !== 'undefined' && DM && DM !== 1 && DM.getContainer); }
+  function stageOf(x) { return typeof aTaskStage === 'function' ? aTaskStage(x) : 0; }
+  function target(x) {
+    if (stageOf(x) >= 3) return x.lat != null && x.lng != null && isFinite(+x.lat) && isFinite(+x.lng) ? [+x.lat, +x.lng] : null;
+    return typeof storePt === 'function' ? storePt(x.store) : null;
+  }
+  function meters(a, b) {
+    var R = 6371000, r = function (v) { return v * Math.PI / 180; }, dl = r(b[0] - a[0]), dn = r(b[1] - a[1]);
+    var h = Math.sin(dl / 2) * Math.sin(dl / 2) + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dn / 2) * Math.sin(dn / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+  function draw(x) {
+    if (!ready()) return;
+    if (!DM.__route) DM.__route = L.layerGroup().addTo(DM);
+    DM.__route.clearLayers();
+    var key = String(x.id) + ':' + stageOf(x);
+    if (!cur || cur.key !== key || !cur.route) return;
+    /* the real route replaces the straight line that driver.html draws on every mapUpd */
+    if (DM.__l) DM.__l.eachLayer(function (l) { if (l instanceof L.Polyline && !(l instanceof L.Polygon)) DM.__l.removeLayer(l); });
+    L.polyline(cur.route.coords, { color: '#f1511b', weight: 5, opacity: 0.85, interactive: false, className: 'a-route' }).addTo(DM.__route);
+    if (!attr && DM.attributionControl) { DM.attributionControl.addAttribution(t('rRouteAttr')); attr = true; }
+    var label = document.getElementById('a-map-state');
+    if (label) label.textContent = t('rRoute').replace('{km}', (cur.route.distanceM / 1000).toFixed(1).replace('.', ',')).replace('{min}', Math.max(1, Math.round(cur.route.durationS / 60)));
+  }
+  function want(x) {
+    var to = target(x), from = GEO.lat != null && GEO.lng != null ? [GEO.lat, GEO.lng] : null;
+    if (!to || !from || inflight) return;
+    var key = String(x.id) + ':' + stageOf(x), now = Date.now();
+    if (cur && cur.key === key && (now - cur.at < MIN_GAP || meters(cur.from, from) < MIN_MOVE)) return;
+    if (!cur || cur.key !== key) cur = { key: key, from: from, to: to, at: now, route: null };
+    inflight = true;
+    var ask = { key: key, from: from };
+    TLB.route(from, to).then(function (r) {
+      inflight = false;
+      if (!cur || cur.key !== ask.key) return;          /* the task / stage changed meanwhile: drop the late answer */
+      cur.at = Date.now(); cur.from = ask.from;
+      if (r) { cur.route = r; var x2 = typeof aTask === 'function' ? aTask() : null; if (x2 && String(x2.id) + ':' + stageOf(x2) === ask.key) draw(x2); }
+    }, function () { inflight = false; });
+  }
+  var inner = mapUpd;
+  mapUpd = function (x, force) {
+    var res = inner.apply(this, arguments);
+    if (x && ready()) { want(x); draw(x); }
+    return res;
+  };
+  window.__routeLayer = { state: function () { return cur ? { key: cur.key, hasRoute: !!cur.route, at: cur.at } : null; } };   /* for checks */
 })();
 </script></body></html>
