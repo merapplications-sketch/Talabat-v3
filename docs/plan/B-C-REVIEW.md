@@ -46,8 +46,8 @@
 1. ✔ done 15:40 — read-only result received; patch 39 confirmed necessary.
 2. Owner creates the free ORS account (account.heigit.org), checks its terms, and sets the secrets `ORS_KEY` and
    `ALLOWED_ORIGINS=https://merapplications-sketch.github.io` in Supabase → Edge Functions → Secrets. Endpoint: api.heigit.org.
-3. Deploy the Edge Function `route` (Supabase CLI or dashboard).
-4. Apply patch 39 (step 1 showed no reusable path).
+3. ON HOLD — deploy the Edge Function `route` only after the ORS commercial terms are settled (secrets already saved).
+4. ✔ Patch 39 applied by the owner 24 Oct 16:23 (SQL Editor «Success»); grants checked: anon = false, authenticated = true.
 5. Merge `tech/v82-int` to main (T7) — separately approved.
 
 ## Test path before main (no merge)

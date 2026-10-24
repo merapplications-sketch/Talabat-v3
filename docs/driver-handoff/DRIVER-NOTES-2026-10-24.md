@@ -97,3 +97,8 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
   https://raw.githack.com/merapplications-sketch/Talabat-v3/97295f1abfece1fb7e7acef77f35e8756f14c91a/<app>.html, with
   `ALLOWED_ORIGINS` temporarily `https://merapplications-sketch.github.io,https://raw.githack.com`, restored after the test.
   Patch 39 check without a customer screen: SQL Editor «run as» the test customer.
+
+## 11. 24 Oct 16:26 — patch 39 live
+- Applied by the owner in SQL Editor (Success. No rows returned); `order_courier_position(bigint)`: anon = false, authenticated = true.
+- Route function: still on hold (ORS commercial terms). C1 / C2 handed to the UI team (UI pack, same file). Live tracking test
+  after the C1 screen exists, together with the iPhone round. No merge, no UI publish.
