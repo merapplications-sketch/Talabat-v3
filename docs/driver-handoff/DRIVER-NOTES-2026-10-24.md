@@ -84,3 +84,16 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
   (names + digests, no values). After deploy the function itself answers 503 `not_configured` if ORS_KEY is missing.
 - Added `supabase/functions/route/single-file-for-dashboard.ts` (generated, same code) for a dashboard-editor deploy.
 - Remaining before activation: owner approval of deploy + patch 39; how to test before main (see B-C-REVIEW, test path).
+
+## 10. 24 Oct 16:20 — owner approval (route function + patch 39, after the routing terms are settled)
+- ORS commercial terms from official sources: NOT clear. Plans page: Standard free (2 000 / day), «commercial use not allowed»
+  written only under the Collaborative plan; ORS staff (2019): «we don't offer commercial plans», raise quota by e-mail;
+  ORS (announcement): no free support for commercial users. No official sentence allows or forbids commercial use of the
+  free Standard key → route function stays on hold until the owner gets a written answer (enquiry@openrouteservice.org)
+  or accepts the risk. Patch 39 does not depend on ORS and may go first.
+- Owner executes from the Supabase dashboard (steps in the chat of 16:20): patch 39 in SQL Editor; route function via
+  Edge Functions editor with `single-file-for-dashboard.ts`, JWT verification left ON (default, recommended for user calls).
+- Live test (one round, existing test accounts, one order): branch build at
+  https://raw.githack.com/merapplications-sketch/Talabat-v3/97295f1abfece1fb7e7acef77f35e8756f14c91a/<app>.html, with
+  `ALLOWED_ORIGINS` temporarily `https://merapplications-sketch.github.io,https://raw.githack.com`, restored after the test.
+  Patch 39 check without a customer screen: SQL Editor «run as» the test customer.
