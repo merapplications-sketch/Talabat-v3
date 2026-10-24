@@ -49,3 +49,10 @@
 3. Deploy the Edge Function `route` (Supabase CLI or dashboard).
 4. Apply patch 39 (step 1 showed no reusable path).
 5. Merge `tech/v82-int` to main (T7) — separately approved.
+
+## Test path before main (no merge)
+- The published app (main) does not contain the new client code, so a live test needs the branch build against the live project:
+  serve `tech/v82-int` from a temporary origin (e.g. raw.githack.com of the branch) and add that origin to `ALLOWED_ORIGINS`
+  for the test only; remove it afterwards. Test accounts: 1 customer + 1 driver (existing); one test order to «pickedup».
+- Checks then: route line + «По дорогам» label on the driver; customer `TLB.courierPosition` returns the last point only while
+  pickedup, nothing after delivered; quota use visible in the HeiGIT dashboard.

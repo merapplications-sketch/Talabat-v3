@@ -77,3 +77,10 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
   executable by anon / authenticated. Not yet closed: other tables and those functions are unknown →
   read-only `sql/verify_grants_readonly.sql` (grants on all public tables, role login / bypassrls, such functions,
   default privileges). Any REVOKE is a separate SQL step for approval.
+
+## 9. 24 Oct 16:16 — secrets saved by the owner (not verified from here)
+- Owner reports `ORS_KEY` and `ALLOWED_ORIGINS` saved. This workspace cannot reach Supabase (no network / no access token),
+  so their presence is not verified by Claude; names-only check = Edge Functions → Secrets list, or `supabase secrets list`
+  (names + digests, no values). After deploy the function itself answers 503 `not_configured` if ORS_KEY is missing.
+- Added `supabase/functions/route/single-file-for-dashboard.ts` (generated, same code) for a dashboard-editor deploy.
+- Remaining before activation: owner approval of deploy + patch 39; how to test before main (see B-C-REVIEW, test path).
