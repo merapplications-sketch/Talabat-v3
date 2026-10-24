@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "width": 360,
+      "pass": true
+    },
+    {
+      "width": 390,
+      "pass": true
+    },
+    {
+      "width": 430,
+      "pass": true
+    }
+  ],
+  "reason": "Original waiting patch observed root class only. Wrapped core banner changed --a-offh after layout, overlapping header. Observe root style too; existing A/v82b unchanged."
+}

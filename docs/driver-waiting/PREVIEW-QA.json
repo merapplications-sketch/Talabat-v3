@@ -1,0 +1,8 @@
+{
+  "pass": true,
+  "states": 8,
+  "images": 12,
+  "jsErrors": [],
+  "blockedExternalAttempts": 0,
+  "note": "Export uses labelled schematic review provider, no GPS/real restaurants; no live requests allowed"
+}

@@ -1,0 +1,145 @@
+{
+  "base": "bc052421b8cb5af54a983a22be87391a6dfaf89d",
+  "browser": "Local Chromium; current source/core; isolated fixture and non-geographic provider stub",
+  "cases": [
+    {
+      "state": "waiting",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "offer",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "loading",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "denied",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "offline",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "empty",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "error",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "unbound",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "state": "waiting",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "offer",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "loading",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "denied",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "offline",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "empty",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "error",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "unbound",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "state": "waiting",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "state": "offer",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "state": "loading",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "state": "denied",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "state": "offline",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "state": "empty",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "state": "error",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "state": "unbound",
+      "width": 430,
+      "pass": true
+    }
+  ],
+  "jsErrors": [],
+  "checks": [
+    "Waiting and offer keep map surface visible",
+    "Header/panel/nav/recenter geometry and affected scrolling",
+    "Vertical drag, keyboard snaps; horizontal drag no action",
+    "Real core offline strip and recovery",
+    "Existing offer opens task without acceptance",
+    "Recenter calls provider; repeated render does not remount",
+    "History/task/end-shift cleanup and reentry",
+    "Blocked offers hidden",
+    "No provider: explicit unbound; no fabricated restaurants or empty result"
+  ],
+  "notTested": [
+    "Live GPS/location permissions",
+    "Leaflet tiles/real geographic resize",
+    "Nearby policy, backend, dispatch, cash or account rules",
+    "Safari/physical iPhone",
+    "General previous regression suite"
+  ]
+}
