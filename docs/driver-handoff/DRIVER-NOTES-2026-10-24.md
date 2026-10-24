@@ -115,5 +115,5 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
 - Found, outside H / C: customer.html refers to `assets/brand/talabot-ru.png`, which is not in the repo (main has none either) → logo
   file missing in the published customer app; asset placement is a UI-team item (H14), not changed here.
 - Live test (one round, existing accounts, one order) — branch build on the live project, no merge, no publish:
-  customer https://raw.githack.com/merapplications-sketch/Talabat-v3/<sha>/customer.html, driver …/driver.html,
+  customer https://raw.githack.com/merapplications-sketch/Talabat-v3/7f60d160e589c3117686526ad92c8bbc3d5ae49f/customer.html, driver …/driver.html,
   restaurant on the published merchant app. `ALLOWED_ORIGINS` not touched (route function not deployed).
