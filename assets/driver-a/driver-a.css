@@ -23,3 +23,7 @@ body.w-waiting{height:100dvh;overflow:hidden;padding:0;background:#E8EFEB}body.w
 @media(prefers-reduced-motion:reduce){.w-sheet{transition:none}}
 
 .w-offers .a-offer{padding:12px}.w-offers .a-offer-heading{margin-bottom:10px}.w-offers .a-offer-route{gap:10px;margin-top:0}.w-offers .a-offer-route section{margin:0}.w-offers .a-offer-collect{padding:8px 10px;margin:12px 0}.w-offers .a-offer .b{margin-top:10px}
+
+/* H7/H9/H12: reuse the primary money card; control stays outside the moving panel. */
+.a-mission .a-ready-recentre.round{position:fixed;right:max(16px,calc(50% - 199px));width:48px;height:48px;min-width:48px;bottom:620px;z-index:6;border:1px solid var(--line);border-radius:12px;background:white;color:var(--o);box-shadow:0 3px 12px #17243c15}
+.a-ready-prep{font-size:13px;line-height:19px;font-weight:400;color:var(--mut);margin:8px 0 12px;overflow-wrap:anywhere}

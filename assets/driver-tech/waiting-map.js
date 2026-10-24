@@ -51,8 +51,8 @@
   function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   /* H8 texts (provider's own; the screen's other texts stay in driver-a.js) */
-  try { TLB.addDict({ wMapFail: 'Карта не загрузилась', wMapFailHint: 'Заказы продолжают приходить. Проверьте интернет и повторите.', wMapRetry: 'Повторить', wMapPartial: 'Часть карты не загрузилась', wMapPartialRetry: 'Обновить' },
-                    { wMapFail: 'The map did not load', wMapFailHint: 'Orders keep arriving. Check the internet and try again.', wMapRetry: 'Retry', wMapPartial: 'Part of the map did not load', wMapPartialRetry: 'Reload' }); } catch (e) {}
+  try { TLB.addDict({ wMapFail: 'Карта не загрузилась', wMapFailHint: 'Проверьте соединение и повторите загрузку карты.', wMapRetry: 'Повторить', wMapPartial: 'Часть карты не загрузилась', wMapPartialRetry: 'Обновить' },
+                    { wMapFail: 'The map did not load', wMapFailHint: 'Check your connection and try loading the map again.', wMapRetry: 'Retry', wMapPartial: 'Part of the map did not load', wMapPartialRetry: 'Reload' }); } catch (e) {}
   function tx(k) { try { return typeof t === 'function' ? t(k) : k; } catch (e) { return k; } }
   /* shared state read by the waiting screen (read() is called on every render: cheap, no side effects) */
   var S = { map: 'loading', nearby: 'loading', mounted: false };

@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "item": "H7/H9/H12",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "item": "H4/H13",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "item": "H7/H9/H12",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "item": "H4/H13",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "item": "H7/H9/H12",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "item": "H4/H13",
+      "width": 430,
+      "pass": true
+    }
+  ],
+  "jsErrors": [],
+  "H11": "RU/EN hint changed only; keys and other strings retained",
+  "limits": [
+    "Local fixtures and recenter contract counter",
+    "No rerun of previous general/map stability suites",
+    "Physical iPhone/Safari/live tiles/customer account pending"
+  ]
+}

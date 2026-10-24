@@ -1,0 +1,24 @@
+{
+  "pass": true,
+  "views": [
+    "driverPreparing",
+    "driverReady",
+    "driverUnset",
+    "store",
+    "customerPreparing",
+    "customerUnset",
+    "customerReady",
+    "copy",
+    "point",
+    "older",
+    "none",
+    "loading",
+    "mapFail",
+    "browse",
+    "browseCart",
+    "browseMulti"
+  ],
+  "jsErrors": [],
+  "blockedExternalAttempts": 0,
+  "note": "One isolated source-based export; Demo map and fixtures only; not live account validation"
+}

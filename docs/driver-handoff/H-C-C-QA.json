@@ -1,0 +1,157 @@
+{
+  "base": "17e650da6f648ddd46df710e44be03591d439493",
+  "cases": [
+    {
+      "scene": "point",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "older",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "none",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "loading",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "mapFail",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "browse",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "browseCart",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "browseMulti",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "browseNone",
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scene": "point",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "older",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "none",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "loading",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "mapFail",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "browse",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "browseCart",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "browseMulti",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "browseNone",
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scene": "point",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "older",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "none",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "loading",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "mapFail",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "browse",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "browseCart",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "browseMulti",
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scene": "browseNone",
+      "width": 430,
+      "pass": true
+    }
+  ],
+  "jsErrors": [],
+  "checks": [
+    "RPC through unchanged core and exact p_order",
+    "15-second cadence; repeated render no duplicate request/map",
+    "10-second timeout, pending no overlap, late reply not shown as fresh",
+    "Null/invalid/time missing/rejection clear marker",
+    "Stop after state/navigation/hidden/pagehide; resume on visibility/pageshow",
+    "C2 real list one/many/no-active; exact navigation; cart/nav spacing and overlays",
+    "Local Leaflet 1.9.4 smoke with isolated tiles when downloaded"
+  ],
+  "notTested": [
+    "Actual customer account RPC permissions/data",
+    "Live OSM tiles/CDN field behavior",
+    "Safari/physical iPhone",
+    "B1/B2 routes/ETA",
+    "General unrelated regression suite"
+  ]
+}

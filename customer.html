@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#f1511b">
 <script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location}catch(e){}}</script>
 <title>Talabat</title>
+<link rel="stylesheet" href="assets/customer-c/customer-c.css">
 <style>
 :root{--o:#f1511b;--o2:#d94512;--tint:#fff0ea;--ink:#1c1c21;--mut:#8b8f98;--line:#eeeef1;--bg:#f6f6f8;--ok:#1fa05a;--okbg:#e6f6ed;--bad:#d92d20;--badbg:#fdeceb;--wbg:#fff0e5;--sh:0 2px 14px rgba(28,28,33,.06)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -1094,6 +1095,11 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .d6m .d71-reward-copy small{font-size:11px;line-height:14px}
 #app .d80-section-emoji{font-size:19px;line-height:24px;flex:none}
 
+
+/* UI-PACK H4/H13: same note, readable without a disclosure. No rewards calculation change. */
+#app .ui-ready-reward>.d6-rw{cursor:default}
+#app .ui-ready-reward>.d6-rwn{display:block;font-size:13px;line-height:19px;font-weight:400;color:#536176;margin-top:8px;margin-bottom:12px}
+#app .d6-order-summary .ui-ready-prep{font-size:14px;line-height:20px;font-weight:400;color:#536176;margin:10px 0 14px;overflow-wrap:anywhere}
 </style></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -1682,7 +1688,7 @@ window.addEventListener('scroll',()=>{if(!menuNavFrame&&S.v==='menu')menuNavFram
 /* points the customer gets for this restaurant (the current cart, or the rule) */
 TLB.addDict({v71RewardCart:'За блюда в корзине · начислим после доставки',v71RewardRate:'За покупки здесь · подробнее по нажатию'},{v71RewardCart:'For items in your cart · credited after delivery',v71RewardRate:'Earn on purchases here · tap for details'});
 function d6Earn(){const L=TLB.loyalty&&TLB.loyalty(),sd=ALLS.find(x=>x.n==S.store)||{},er=sd.er!=null?sd.er:(L?+L.earn_per_tjs||0:0);if(!L||!(er>0))return '';const c=S.cartStore==S.store&&cartCount()?calc():null;
-  return `<details class="d68-earn"><summary class="d6-rw">${ico('star',16,1)} <span class="d71-reward-copy"><span>${c&&c.earn>0?t('ptsEarn').replace('{n}',fmtN(c.earn)):t('ptsEarnRule').replace('{n}',fmtN(er))}</span><small>${t(c&&c.earn>0?'v71RewardCart':'v71RewardRate')}</small></span></summary><div class="d6-rwn">${t('ernNote')}</div></details>`}
+  return `<section class="d68-earn ui-ready-reward"><div class="d6-rw">${ico('star',16,1)} <span class="d71-reward-copy"><span>${c&&c.earn>0?t('ptsEarn').replace('{n}',fmtN(c.earn)):t('ptsEarnRule').replace('{n}',fmtN(er))}</span><small>${t(c&&c.earn>0?'v71RewardCart':'uiReadyRewardRate')}</small></span></div><p class="d6-rwn ui-ready-estimate-note">${t('ernNote')}</p></section>`}
 /* ---------- CART ---------- */
 function stepper(id,q){return `<div class="d6-q"><button aria-label="${q==1?t('removeI'):'−'}" onclick="${q==1?`delLine('${id}')`:`add('${id}',-1)`}">${ico(q==1?'trash':'minus')}</button><span>${q}</span><button aria-label="+" ${q>=50?'disabled':''} onclick="add('${id}',1)">${ico('plus')}</button></div>`}
 /* v06.1 cart: line cards (photo, options, the dish request, price, quantity with remove / «Вернуть»), suggestions, group order, comment */
@@ -1944,9 +1950,13 @@ const rcStatus=(o,done)=>`<div class="card d6-st"><span class="ok ${done?'':'bad
 function receipt(o,done){const M=menuOf(o.store),lines=(o.items||[]).map(i=>{const m=M.find(x=>x.id==i.id);return `<div class="d6-it li">${d6Ph(m&&m.image)}<div class="tx"><b>${esc(i.name)}</b><div class="xs mut">${i.qty} × ${Math.round(i.price*100)/100} TJS</div>${(i.opts&&i.opts.length)?`<div class="nt2">${esc(i.opts.map(x=>x.n).join(', '))}</div>`:''}${i.note?`<div class="nt">${t('d6Note')}: ${esc(i.note)}</div>`:''}</div><span class="pr">${Math.round(i.qty*i.price*100)/100} TJS</span></div>`}).join('');
   return `<h3 style="margin:20px 2px 10px;font-size:20px">${t('recT')}</h3><div class="card rcp" style="padding:4px 16px">${lines||'<div class="sm mut" style="padding:12px 0">—</div>'}</div>
   <h3 style="margin:20px 2px 10px;font-size:20px">${t('d6Chk')}</h3><div class="card sum"><div class="row"><span>${t('sub')}</span><span>${o.subtotal} TJS</span></div>${o.discount-o.hhDiscount>0.004?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${Math.round((o.discount-o.hhDiscount)*100)/100} TJS</span></div>`:''}${o.hhDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('hhLine')}${o.hhPct?' −'+o.hhPct+'%':''}</span><span>−${o.hhDiscount} TJS</span></div>`:''}${o.promoDiscount>0?`<div class="row" style="color:var(--ok)"><span>${t('promoLine')} ${esc(o.promoCode)}</span><span>−${o.promoDiscount} TJS</span></div>`:''}${o.pointsValue>0?`<div class="row" style="color:var(--ok)"><span>${t('ptsLine')} (${fmtN(o.pointsUsed)})</span><span>−${o.pointsValue} TJS</span></div>`:''}${o.feeWaived>0?`<div class="row"><span>${t('deliv')}</span><span><s class="mut" style="font-weight:500">${o.feeWaived}</s> 0 TJS</span></div>`:o.deliveryExtra>0&&o.delivery>0?`<div class="row"><span>${t('delivBase2')}</span><span>${o.deliveryBase} TJS</span></div><div class="row"><span>${t('delivFar')}${o.deliveryKm?`<span class="xs mut" style="display:block;font-weight:500">${t('delivKm').replace('{km}',o.deliveryKm)}</span>`:''}</span><span>${o.deliveryExtra} TJS</span></div>`:`<div class="row"><span>${t('deliv')}</span><span>${o.delivery} TJS</span></div>`}${o.tip>0?`<div class="row"><span>${t('tip')}</span><span>${o.tip} TJS</span></div>`:''}<div class="row"><span>${t('payM')}</span><span class="b6">${esc(t(o.payment))}</span></div><div class="row tot"><span>${t(done?'total':'stlSum')}</span><span>${o.total} TJS</span></div>${o.walletUsed>0?`<div class="row" style="color:var(--ok)"><span>${t('walLine')}</span><span>\u2212${o.walletUsed} TJS</span></div>`:''}${o.pointsEarned>0||o.cashback>0?`<div class="ern">${ico('star',14,1)}<span>${[o.pointsEarned>0?t('ptsGot').replace('{n}',fmtN(o.pointsEarned)):'',o.cashback>0?t('cbGot').replace('{n}',o.cashback):''].filter(Boolean).join(' · ')}</span></div>`:''}</div>`+settleCard(o)}
+/* UI-PACK H13: show the restaurant's stored estimate, never a countdown. */
+TLB.addDict({uiReadyPrep:'Готовится, ~{n} мин',uiReadyRewardRate:'За покупки здесь'},{uiReadyPrep:'Preparing, ~{n} min',uiReadyRewardRate:'For purchases here'});
+function uiReadyCustomerPrep(o){const n=o.prepTime;if(o.status!=='preparing'||n==null||n===''||!Number.isFinite(+n)||+n<0)return '';return `<p class="ui-ready-prep" data-ready="H13">${esc(t('uiReadyPrep').replace('{n}',String(n)))}</p>`}
 function orderSummary(o){
   const statuses=['pending','preparing','ready','pickedup','delivered'],labels=['v66Placed','v66Preparing','v66Ready','v66OnWay','v66Delivered'],at=statuses.indexOf(o.status),dead=['cancelled','rejected'].includes(o.status);
   return `<section class="card d6-order-summary"><div class="d6-order-top"><strong>#${esc(o.id)}</strong><span>${fmtD(o.createdAt)}</span></div><h2>${t('trk_'+o.status)}</h2>${['pending','preparing','ready','pickedup'].includes(o.status)?`<p class="mut">${t('trk_'+o.status+'_s')}</p>`:''}
+  ${uiReadyCustomerPrep(o)}
   ${dead?'':`<ol class="d6-order-progress" aria-label="${t('trk_'+o.status)}">${statuses.map((st,i)=>`<li class="${i<at||o.status=='delivered'?'done':i==at?'current':''}" ${i==at?'aria-current="step"':''}><i>${i<at||o.status=='delivered'?ico('check',12):''}</i><span>${t(labels[i])}</span></li>`).join('')}</ol>`}
   <div class="d6-order-items">${(o.items||[]).map(i=>`<div><span>${i.qty} × ${esc(i.name)}</span></div>`).join('')}</div><div class="d6-order-total"><span>${t('total')}</span><strong>${o.total} TJS</strong></div><div class="xs mut">${esc(t(o.payment))}</div></section>`
 }
@@ -2077,4 +2087,5 @@ function render(){
 if(!window.__hhTick)window.__hhTick=setInterval(()=>{if(ME.phone&&TLB.happyHours&&TLB.happyHours().length&&!S.busy){syncStores();render()}},60000);
 {const previewLang=new URLSearchParams(location.search).get('lang');if(previewLang==='ru'||previewLang==='en')TLB.setLang(previewLang)}
 TLB.start('customer',me=>{ME={name:me.name,phone:me.phone};TLB.chrome(false);prefLoad();TLB.wantSupport();syncStores();cartLoad();TLB.on(()=>{syncStores();cartLoad();watchOrders();ptsWatch();render();openDeep();grpDeep()});watchOrders();ptsWatch();render();openDeep();grpDeep()});
-</script></body></html>
+</script><script src="assets/customer-c/customer-c.js"></script>
+</body></html>

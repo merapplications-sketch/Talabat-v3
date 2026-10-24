@@ -1,0 +1,18 @@
+/* C1/C2 only. v80 content, navigation and financial components stay intact. */
+.c-track{padding:16px;border:1px solid var(--line);border-radius:20px;background:#fff;margin:0 0 14px;color:var(--ink)}
+.c-track h3{font-size:16px;line-height:22px;margin:0 0 4px;font-weight:600}
+.c-track-age{font-size:13px;line-height:19px;color:#536176;margin:0 0 12px;overflow-wrap:anywhere}
+.c-track-map{height:180px;border-radius:12px;overflow:hidden;background:#f2f4f6;position:relative;isolation:isolate}
+.c-track-map[hidden]{display:none}
+.c-track-note{font-size:14px;line-height:20px;color:#536176;margin:8px 0 0}
+.c-track-retry{font:inherit;font-size:14px;color:var(--o);border:1px solid var(--line);background:#fff;border-radius:10px;min-height:44px;padding:8px 12px;margin-top:8px}
+.c-track-pin{border:0!important;background:none!important}
+.c-track-pin>span{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:3px solid white;border-radius:50%;background:var(--o);color:white;box-shadow:0 2px 8px #17243c30}
+.c-current{--o:#FF5A12;--tint:#FFF1E9;--ink:#17243C;--line:#E0E5EC;position:fixed;left:16px;right:16px;z-index:49;min-height:64px;border:1px solid var(--line);border-radius:16px;padding:10px 12px;background:#fff;box-shadow:0 2px 12px #17243c14;color:var(--ink);font-family:inherit;text-align:start;display:flex;align-items:center;gap:10px;cursor:pointer}
+.c-current-ic{display:flex;align-items:center;justify-content:center;flex:none;width:32px;height:32px;background:var(--tint);color:var(--o);border-radius:10px}
+.c-current-txt{flex:1;min-width:0;display:block}
+.c-current-txt strong{display:block;font-size:14px;line-height:20px;font-weight:600;overflow-wrap:anywhere}
+.c-current-txt small{display:block;font-size:13px;line-height:19px;color:#536176;overflow-wrap:anywhere}
+.c-current-open{color:var(--o);display:flex;align-items:center;gap:4px;flex:none;font-size:13px;line-height:19px;font-weight:600}
+.c-current:focus-visible,.c-track-retry:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.c-current{scroll-behavior:auto}}
