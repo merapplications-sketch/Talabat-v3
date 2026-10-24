@@ -5,7 +5,8 @@
 // Pure module: dependencies are injected so it can be checked locally without Deno or a network.
 
 export const LIMITS = { maxStraightKm: 60, perUserPerMinute: 12, cacheMs: 5 * 60 * 1000, timeoutMs: 7000, maxPoints: 400 };
-const ORS_URL = 'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
+// api.openrouteservice.org is deprecated (shut down 2–6 Nov 2026); the same key works on api.heigit.org.
+const ORS_URL = 'https://api.heigit.org/openrouteservice/v2/directions/driving-car/geojson';
 
 function valid(p) {
   return Array.isArray(p) && p.length === 2 && p.every((v) => typeof v === 'number' && Number.isFinite(v)) &&

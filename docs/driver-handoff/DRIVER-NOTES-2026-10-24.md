@@ -63,3 +63,17 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
 - This log + `docs/plan/DELIVERY-TRACKING-PLAN.md` (with `B-C-REVIEW.md`) are the single reference; update by differences only.
 - No repeat of done work or passing checks unless an affecting change or a proven failure.
 - Waiting: approval for ORS key + function deploy, patch 39 (confirmed needed by the 15:40 result), merge to main.
+
+## 8. 24 Oct 15:42 — ORS setup + TRUNCATE note (no permission change made)
+- ORS: accounts moved to HeiGIT (account.heigit.org, since 25 Feb 2025); `api.openrouteservice.org` is deprecated and shuts down
+  2–6 Nov 2026 → the route function now calls `api.heigit.org/openrouteservice/v2/...` (same key). Function check re-run
+  for this change only: 14/0. Index.ts uses the project's public key under either name (legacy anon / new publishable).
+- Secrets (Supabase → Edge Functions → Secrets): `ORS_KEY`, `ALLOWED_ORIGINS=https://merapplications-sketch.github.io`.
+- TRUNCATE (from the 15:40 result, `profiles` only — the query was limited to that table): role `authenticated` holds
+  DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE on `profiles`; `anon` holds none there.
+  RLS covers SELECT / INSERT / UPDATE / DELETE but NOT TRUNCATE. Known access routes for a signed-in user: the REST API and
+  supabase-js have no TRUNCATE operation; Realtime / Storage none; a direct SQL session needs a login role (`authenticated`
+  is normally NOLOGIN — to confirm). The one real route would be an RPC function that runs TRUNCATE or dynamic SQL and is
+  executable by anon / authenticated. Not yet closed: other tables and those functions are unknown →
+  read-only `sql/verify_grants_readonly.sql` (grants on all public tables, role login / bypassrls, such functions,
+  default privileges). Any REVOKE is a separate SQL step for approval.
