@@ -124,3 +124,14 @@ Tests changed only to follow approved controls (v80 slide, driver A menu / chat 
 - Checked (local Chromium headless 1194): map stability 15/0 (0 view changes during renders, GPS, countdown, offer arrival,
   panel snaps and viewport heights; user zoom / pan kept; one change on «my location» / task stage change);
   waiting map 77/0; driver A UI OK; driver H OK. Other checks not affected.
+
+## v82g — driver batch: panel jump + one notes log / hand-off (24 Oct)
+- Panel jump (iPhone, waiting panel with an offer and mission panel): each render (≈1/s with an offer countdown, each GPS
+  reading) rebuilt the panel at its CSS top (460 / 240 px) and the `transition: top .18s` slid it to the real position.
+  Reproduced locally: per-frame samples 460→184 (waiting) and 240→180 (mission) on every render. map-view.js now switches
+  the two panels' transition off during a re-render only (`html.a-rerender`); snaps / drags / taps keep their animation.
+- One notes log + one hand-off: `docs/driver-handoff/DRIVER-NOTES-2026-10-24.md` (H4, H5, H7, H9 «Моё местоположение» on the
+  mission screen → `aMapRecenter()`, H10, H11; D-W1, D-L1; what still needs iPhone / live).
+- Checks once for the batch (local Chromium): map stability 18/0 (panel one position for 5 s of renders, waiting + mission;
+  grip tap still animates) · waiting map 77/0 · UI-team waiting OK · driver A UI OK · H OK · T4 OK · courier 0 · uat2 47/0 ·
+  flow 0 · qa_all 0.

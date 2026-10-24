@@ -39,6 +39,8 @@ def page(b, case='empty', width=390, height=844):
     pg.goto('file://' + root + '/driver.html'); pg.wait_for_function("()=>typeof DRV!=='undefined'&&!!DRV")
     pg.evaluate("()=>{online=true;startGeo();render()}"); pg.wait_for_timeout(2500)
     return ctx, pg, errs
+PANEL = """(sel)=>new Promise(res=>{const out=[];const t0=performance.now();(function f(){const e=document.querySelector(sel);out.push(e?Math.round(e.getBoundingClientRect().top):null);
+ if(performance.now()-t0<5000)requestAnimationFrame(f);else res([...new Set(out)])})()})"""
 def views(pg, since=0): return pg.evaluate("(s)=>(window.__views||[]).slice(s)", since)
 def nviews(pg): return pg.evaluate("()=>(window.__views||[]).length")
 def churn(pg, ctx, sel_snap):
@@ -62,6 +64,10 @@ with sync_playwright() as p:
     ok(not v, 'waiting: renders + 3 GPS readings + countdown + panel snaps + toolbar heights -> 0 view changes (%s)' % v)
     me1 = pg.evaluate("()=>{const r=document.querySelector('#w-map .dmk.me').getBoundingClientRect();return [r.left,r.top,GEO.lat]}")
     ok(abs(me1[2] - (TAS['latitude'] + 0.06)) < 1e-9 and (abs(me1[0] - me0[0]) > 0.5 or abs(me1[1] - me0[1]) > 0.5), 'waiting: GPS readings move only the marker (%s -> %s)' % (me0, me1))
+    # panel jump: each render rebuilt the panel at its CSS top (460) and slid it up; sampled every frame for 5 s, no touch
+    pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(2500)
+    tops = pg.evaluate(PANEL, '#w-sheet'); ok(len(tops) == 1, 'waiting panel with an offer: one position for 5 s of renders (frames: %s)' % tops)
+    pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_timeout(2500)
     # offer arrives while waiting: panel grows, view stays
     k = nviews(pg); pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(2500)
     ok(pg.evaluate("()=>(document.querySelector('.w-title h1')||{}).textContent") == 'Новое предложение' and not views(pg, k), 'waiting: an offer arrives -> panel changes, 0 view changes (%s)' % views(pg, k))
@@ -78,6 +84,9 @@ with sync_playwright() as p:
     ctx, pg, errs = page(b, 'orders')
     pg.evaluate("()=>aSelect(TLB.offers()[0].id)"); pg.wait_for_timeout(2500)
     first = [x for x in views(pg) if x[1] == 'dmap']
+    tops = pg.evaluate(PANEL, '#a-sheet'); ok(len(tops) == 1, 'mission panel: one position for 5 s of renders (frames: %s)' % tops)
+    pg.click('#a-grip'); tops = pg.evaluate(PANEL, '#a-sheet'); ok(len(tops) > 2, 'mission panel: a tap on the grip still animates (frames: %d)' % len(tops))
+    pg.click('#a-grip'); pg.click('#a-grip'); pg.wait_for_timeout(400)
     ok(1 <= len(first) <= 4, 'mission: first display frames the map (%d calls: %s)' % (len(first), [x[0] for x in first]))
     k = nviews(pg); churn(pg, ctx, "()=>aSnap('%s')")
     v = [x for x in views(pg, k) if x[1] == 'dmap']
