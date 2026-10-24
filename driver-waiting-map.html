@@ -1862,7 +1862,7 @@ function render(){if(window.__drag){window.__rp=1;return}const _sb=document.quer
     var getLocation = typeof opts.getLocation === 'function' ? opts.getLocation : function () { return {}; };
     var onViewChange = typeof opts.onViewChange === 'function' ? opts.onViewChange : function () {};
     var map = null, layerStores = null, meMarker = null, accCircle = null, dead = false;
-    var storesKey = '', placedWithDriver = false, tilesOk = 0, tilesBad = 0, fitTimer = 0;
+    var storesKey = '', placedWithDriver = false, tilesOk = 0, tilesBad = 0;
     /* view mode: 'fit' = driver + restaurants fitted into the uncovered strip (start); 'me' = «my location» pressed;
        'free' = the user moved the map (nothing moves it back except «my location») */
     var mode = 'fit';
@@ -1906,7 +1906,6 @@ function render(){if(window.__drag){window.__rp=1;return}const _sb=document.quer
       var st = strip();
       map.fitBounds(pts, { paddingTopLeft: [32, st.top + 32], paddingBottomRight: [32, st.size.y - st.bottom + 32], maxZoom: 16, animate: false });
     }
-    function placeView() { if (mode === 'fit') fitView(); else if (mode === 'me') { var l = loc(); if (l.ok) centreOn([l.lat, l.lng]); } }
     function drawStores() {
       var list = stores(), key = list.map(function (s) { return s.id + ':' + (+s.lat) + ',' + (+s.lng) + ':' + (s.is_open ? 1 : 0); }).join('|');
       if (key !== storesKey && layerStores) {
@@ -1941,7 +1940,7 @@ function render(){if(window.__drag){window.__rp=1;return}const _sb=document.quer
       setState('nearby', !l0.ok || !storesLoaded() ? 'loading' : 'ready');
       if (!map) return;
       drawStores(); var l = drawMe();
-      if (l.ok && !placedWithDriver) { placedWithDriver = true; if (mode === 'fit') fitView(); }   /* first real reading: include the driver once */
+      if (l.ok && !placedWithDriver) { placedWithDriver = true; if (mode === 'fit') fitView(); }   /* first real reading: include the driver once; later readings only move the marker */
     }
 
     /* H8: map failure message + retry, inside the map area only (offers, panel and shift are not touched).
@@ -2000,6 +1999,9 @@ function render(){if(window.__drag){window.__rp=1;return}const _sb=document.quer
       tiles.addTo(map);
       layerStores = L.layerGroup().addTo(map);
       map.on('dragstart', function () { mode = 'free'; });   /* the user's own view is kept; «my location» brings the driver back */
+      ['pointerdown', 'touchstart', 'wheel', 'dblclick'].forEach(function (ev) {   /* pinch / wheel / double-tap zoom = the user's choice too */
+        box.addEventListener(ev, function (e) { if (e.isTrusted !== false) mode = 'free'; }, { passive: true });
+      });
       var l = loc();
       map.setView(l.ok ? [l.lat, l.lng] : CITY, l.ok ? 15 : 13);
       placedWithDriver = l.ok; fitView(); refresh();
@@ -2012,16 +2014,16 @@ function render(){if(window.__drag){window.__rp=1;return}const _sb=document.quer
         if (v) { visible.top = +v.visibleTop || 0; visible.bottom = +v.visibleBottom || 0; }
         if (failOn || partOn) placeFail();
         if (!map || sizeFrame) return;
-        sizeFrame = requestAnimationFrame(function () { sizeFrame = 0; if (map && !dead) map.invalidateSize({ pan: false }); });
-        /* panel moved (snap, offer arrived, offline strip): re-place the view once it settles, never during a drag */
-        clearTimeout(fitTimer); fitTimer = setTimeout(function () { if (map && !dead && !window.__drag) placeView(); }, 220);
+        /* panel moved / Safari toolbar / offer arrived: keep centre and zoom (invalidateSize pans to keep the centre);
+           NO re-framing here — it ran on every render (GPS, countdown) and made the map jump on iPhone */
+        sizeFrame = requestAnimationFrame(function () { sizeFrame = 0; if (map && !dead) map.invalidateSize({ animate: false }); });
       },
       recenter: function () {
         var l = loc(); if (!map || !l.ok) return;
         mode = 'me'; centreOn([l.lat, l.lng], Math.max(map.getZoom(), 16));   /* street level: the accuracy circle is readable around the marker */
       },
       destroy: function () {
-        dead = true; if (sizeFrame) cancelAnimationFrame(sizeFrame); clearTimeout(fitTimer); window.removeEventListener('online', onOnline);
+        dead = true; if (sizeFrame) cancelAnimationFrame(sizeFrame); window.removeEventListener('online', onOnline);
         if (map) { try { map.remove(); } catch (e) {} }
         map = null; meMarker = null; accCircle = null; layerStores = null;
         node.replaceChildren(); S.mounted = false; S.map = 'loading'; S.nearby = 'loading';
@@ -2143,4 +2145,37 @@ window.addEventListener('resize',wQueueLayout);let WOfflineState=document.docume
 </script><script>(function(){var go=startShift;startShift=async function(){var r=await go.apply(this,arguments);clearTimeout(window.__demoOffer);
  window.__demoOffer=setTimeout(function(){window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];try{TLB.reload&&TLB.reload()}catch(e){}},25000);return r}})();
 (function(){var b=document.createElement('div');b.textContent='\u0414\u0435\u043c\u043e-\u0434\u0430\u043d\u043d\u044b\u0435 \u00b7 GPS \u0438 \u043a\u0430\u0440\u0442\u0430 \u0440\u0435\u0430\u043b\u044c\u043d\u044b\u0435';
- b.style.cssText='position:fixed;left:8px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:5;font:600 10px/14px system-ui;background:#17243cd0;color:#fff;padding:3px 8px;border-radius:8px;pointer-events:none';document.body.appendChild(b)})();</script></body></html>
+ b.style.cssText='position:fixed;left:8px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:5;font:600 10px/14px system-ui;background:#17243cd0;color:#fff;padding:3px 8px;border-radius:8px;pointer-events:none';document.body.appendChild(b)})();</script><script>/* TALABOT driver — mission map view policy (technical, loaded after assets/driver-a/driver-a.js).
+   Driver A re-framed the mission map (fitBounds) after EVERY mapUpd and EVERY non-drag panel paint, i.e. on each render
+   (GPS reading, offer countdown, Safari toolbar / innerHeight change) -> the map jumped and changed zoom by itself.
+   Policy here, same markers and the same fit function of driver A (aFitVisible), only WHEN it runs changes:
+   - auto-frame once per task + stage (first display, task change, stage change);
+   - plus once when the driver's position first becomes known for that task (the first frame had no driver point);
+   - after a user pan / pinch / wheel / double-tap the user's view is kept (no auto-frame) until the task or stage changes
+     or window.aMapRecenter() is called;
+   - otherwise (GPS update, re-render, panel or viewport size change) only invalidateSize, which keeps centre and zoom.
+   Markers keep moving with GPS through the unchanged mapUpd of driver.html. */
+(function () {
+  'use strict';
+  if (typeof aFitVisible !== 'function' || typeof mapUpd !== 'function') return;
+  var frameOnce = aFitVisible, key = '', withMe = false, user = false, bound = null;
+  function ready() { return !!(window.L && typeof DM !== 'undefined' && DM && DM !== 1 && DM.getContainer); }
+  function bindUser() {
+    var c = DM.getContainer(); if (bound === c) return; bound = c;
+    ['pointerdown', 'touchstart', 'wheel', 'dblclick'].forEach(function (ev) {
+      c.addEventListener(ev, function (e) { if (e.isTrusted !== false) user = true; }, { passive: true });
+    });
+  }
+  function keep() { try { DM.invalidateSize({ animate: false }); } catch (e) {} }   /* pan:true (default) keeps the centre */
+  aFitVisible = function (x) {
+    if (!x || !ready() || !document.getElementById('a-sheet')) return;
+    bindUser();
+    var k = String(x.id) + ':' + (typeof aTaskStage === 'function' ? aTaskStage(x) : ''), hasMe = GEO.lat != null && GEO.lng != null;
+    if (k !== key) { key = k; user = false; withMe = hasMe; frameOnce(x); return; }
+    if (!user && hasMe && !withMe) { withMe = true; frameOnce(x); return; }
+    keep();
+  };
+  /* for a «my location» control on the mission screen (none in driver A today): back to the automatic frame */
+  window.aMapRecenter = function () { var x = typeof aTask === 'function' ? aTask() : null; user = false; if (x && ready()) { withMe = GEO.lat != null; frameOnce(x); } };
+})();
+</script></body></html>
