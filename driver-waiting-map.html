@@ -2175,6 +2175,27 @@ window.addEventListener('resize',wQueueLayout);let WOfflineState=document.docume
     if (!user && hasMe && !withMe) { withMe = true; frameOnce(x); return; }
     keep();
   };
+  /* Panel jump (iPhone 24 Oct): every render (about once a second while an offer counts down, and on each GPS reading)
+     rebuilds the waiting / mission panel with innerHTML. The new panel starts at its CSS top (460 / 240 px); driver A then
+     measures the layout and sets the real top, and the `transition: top .18s` animated that move -> the panel slid up from
+     the default position on every render. During a re-render only, transitions of the two panels are switched off, so the
+     panel appears directly at its kept position; snaps, drags and taps keep their animation. Layout and design unchanged. */
+  if (typeof render0 === 'function') {
+    var css = document.createElement('style');
+    css.textContent = 'html.a-rerender .w-sheet,html.a-rerender .a-sheet{transition:none!important}';
+    document.head.appendChild(css);
+    var renderPanels = render0, clearFrame = 0;
+    render0 = function () {
+      var root = document.documentElement;
+      root.classList.add('a-rerender');
+      try { return renderPanels.apply(this, arguments); }
+      finally {
+        void root.offsetHeight;   /* settle the new panel at its final top before the class goes away */
+        if (clearFrame) cancelAnimationFrame(clearFrame);
+        clearFrame = requestAnimationFrame(function () { clearFrame = 0; root.classList.remove('a-rerender'); });
+      }
+    };
+  }
   /* for a «my location» control on the mission screen (none in driver A today): back to the automatic frame */
   window.aMapRecenter = function () { var x = typeof aTask === 'function' ? aTask() : null; user = false; if (x && ready()) { withMe = GEO.lat != null; frameOnce(x); } };
 })();
