@@ -36,6 +36,10 @@ s = s.replace('<link rel="stylesheet" href="assets/driver-a/driver-a.css">', '<s
 # CSP of the export only: fonts / logo are embedded as data:, so allow data: fonts. Nothing else opened.
 s = s.replace("img-src 'self' data: blob: https:;", "img-src 'self' data: blob: https:; font-src 'self' data:;", 1)
 s = re.sub(r'<title>[^<]*</title>', '<title>TALABOT Waiting Map</title>', s, count=1)
+# Frame guard of the app (hides the page when framed): removed in the export only, so the review page can also open inside
+# a viewer frame. The app keeps it. (v82c preview showed a blank/black page in Claude's frame because of it.)
+GUARD = "<script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location}catch(e){}}</script>"
+assert s.count(GUARD) == 1; s = s.replace(GUARD, '', 1)
 assert 'supabase-js' not in s and 'src="talabat-core' not in s and 'src="assets/' not in s
 (out / 'TALABOT-Driver-Waiting-Map-Preview.html').write_text(s)
 print('preview:', out / 'TALABOT-Driver-Waiting-Map-Preview.html', len(s) // 1024, 'KB')

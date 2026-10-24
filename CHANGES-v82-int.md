@@ -84,3 +84,14 @@ Tests changed only to follow approved controls (v80 slide, driver A menu / chat 
 - Review page: `tools/driver_waiting_map_preview.py` → one HTML with demo data (fixture), REAL phone location + Leaflet + OSM;
   the probe follows navigator.onLine; one demo offer 25 s after «start shift». Never loaded by the app.
 - Not proven: iPhone Safari, real GPS / permission prompts, real tiles, live database, live dispatch.
+
+## v82d — H8 map failure + «Рестораны» wording + preview frame fix — 24 Oct
+- H8 (waiting-map.js): when Leaflet or the tiles fail, the map area shows «Карта не загрузилась / Заказы продолжают приходить…»
+  and «Повторить» (44 px), placed in the uncovered strip; panel, shift, offers and navigation untouched. Retry reloads
+  the tiles (same map) or Leaflet (failed tag removed, one fresh tag); one automatic retry when the connection returns.
+- Until D-W1: the provider never reports «empty»; strings in driver-a.js: wArea «Карта рядом» → «Рестораны»,
+  wEmpty «Поблизости нет ресторанов» → «Рестораны не найдены» (+ EN). List source and dispatch unchanged.
+- Preview black screen (v82c, Claude frame): cause = the app's frame guard (`if(window.top!==window.self) … display:none`)
+  inside driver.html. Removed in the review export only (tools/driver_waiting_map_preview.py); the app keeps it.
+- Checked (local Chromium headless 1194 only): driver_waiting_map_check 65/0; preview opens to «Начните смену» top-level
+  and inside a cross-origin sandboxed frame; old export reproduced display:none in the same frame. Other checks not re-run.

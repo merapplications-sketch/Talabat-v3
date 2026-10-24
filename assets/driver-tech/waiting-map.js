@@ -6,8 +6,9 @@
      No geocoding, no midpoint fill-in. «Nearby» has NO radius: no approved rule exists (decision D-W1 pending), so the
      map shows every active restaurant with coordinates and the user's view decides what is near. No ranking, no ETA,
      no order / dispatch meaning.
-   - States are from real data only: map loading / ready / error; nearby ready / empty (after a valid location + loaded
-     list) / loading. onViewChange fires only when one of these states changes (never on resize or map movement). */
+   - States are from real data only: map loading / ready / error (H8: message + retry in the map area); nearby loading /
+     ready — never «empty / none nearby» until D-W1 defines «nearby». onViewChange fires only when one of these states
+     changes (never on resize or map movement). */
 (function () {
   'use strict';
   var LEAFLET = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
@@ -25,9 +26,11 @@
       /* the mission map (core loader) may already be loading the same script: wait for it instead of adding another */
       var s = document.querySelector('script[src="' + LEAFLET + '"]'), fresh = !s;
       if (fresh) { s = document.createElement('script'); s.src = LEAFLET; }
-      var timer = setTimeout(function () { bad(new Error('timeout')); }, 20000);
-      s.addEventListener('load', function () { clearTimeout(timer); window.L ? ok() : bad(new Error('no L')); });
-      s.addEventListener('error', function () { clearTimeout(timer); bad(new Error('load')); });
+      /* a failed tag is removed so that «retry» adds a fresh one instead of waiting on a dead tag */
+      function drop(e) { clearTimeout(timer); if (s.parentNode) s.parentNode.removeChild(s); bad(e); }
+      var timer = setTimeout(function () { drop(new Error('timeout')); }, 20000);
+      s.addEventListener('load', function () { clearTimeout(timer); window.L ? ok() : drop(new Error('no L')); });
+      s.addEventListener('error', function () { drop(new Error('load')); });
       if (fresh) document.head.appendChild(s);
     }).catch(function (e) { loading = null; throw e; });  /* a later mount may try again (e.g. after the connection returns) */
     return loading;
@@ -47,6 +50,10 @@
   function icon(name, size) { try { return typeof ico === 'function' ? ico(name, size) : ''; } catch (e) { return ''; } }   /* driver.html's ico is a top-level const, not a window property */
   function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
+  /* H8 texts (provider's own; the screen's other texts stay in driver-a.js) */
+  try { TLB.addDict({ wMapFail: 'Карта не загрузилась', wMapFailHint: 'Заказы продолжают приходить. Проверьте интернет и повторите.', wMapRetry: 'Повторить' },
+                    { wMapFail: 'The map did not load', wMapFailHint: 'Orders keep arriving. Check the internet and try again.', wMapRetry: 'Retry' }); } catch (e) {}
+  function tx(k) { try { return typeof t === 'function' ? t(k) : k; } catch (e) { return k; } }
   /* shared state read by the waiting screen (read() is called on every render: cheap, no side effects) */
   var S = { map: 'loading', nearby: 'loading', mounted: false };
 
@@ -134,32 +141,58 @@
     function refresh() {
       if (dead) return;
       /* nearby does not depend on the map library: «empty» only after a valid location AND the restaurant list was read */
-      var l0 = loc(), n0 = stores().length;
-      setState('nearby', !l0.ok || !storesLoaded() ? 'loading' : n0 ? 'ready' : 'empty');
+      /* until D-W1 (what «nearby» means) the list has no radius, so it is never reported as «empty / none nearby» */
+      var l0 = loc();
+      setState('nearby', !l0.ok || !storesLoaded() ? 'loading' : 'ready');
       if (!map) return;
       drawStores(); var l = drawMe();
       if (l.ok && !placedWithDriver) { placedWithDriver = true; if (mode === 'fit') fitView(); }   /* first real reading: include the driver once */
     }
 
-    loadLeaflet().then(function () {
+    /* H8: map failure message + retry, inside the map area only (offers, panel and shift are not touched) */
+    var fail = document.createElement('div'), tiles = null;
+    fail.className = 'w-map-fail'; fail.setAttribute('role', 'status'); fail.hidden = true;
+    fail.style.cssText = 'position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 24px;text-align:center;z-index:500;background:#E8EFEB;color:#5b6676;font-size:13px;line-height:18px';
+    fail.innerHTML = '<span aria-hidden="true">' + icon('pin', 28) + '</span><b style="color:#17243c;font-size:15px;line-height:20px">' + esc(tx('wMapFail')) + '</b><span>' + esc(tx('wMapFailHint')) + '</span>' +
+      '<button type="button" class="w-map-retry" style="min-height:44px;min-width:120px;margin-top:4px;padding:10px 20px;border:0;border-radius:999px;background:#f1511b;color:#fff;font-weight:700;font-size:14px;cursor:pointer">' + esc(tx('wMapRetry')) + '</button>';
+    node.appendChild(fail);
+    fail.querySelector('button').addEventListener('click', function () { retry(); });
+    function placeFail() {
+      var r = node.getBoundingClientRect(), top = Math.max(0, visible.top - r.top), bottom = visible.bottom > 0 ? Math.min(r.height, visible.bottom - r.top) : r.height;
+      if (bottom - top < 160) { top = 0; bottom = r.height; }
+      fail.style.top = top + 'px'; fail.style.height = (bottom - top) + 'px';
+    }
+    function showFail(on) { fail.hidden = !on; if (on) placeFail(); }
+    function failed() { if (dead) return; setState('map', 'error'); showFail(true); refresh(); }
+    function retry() {
+      if (dead) return;
+      showFail(false); setState('map', 'loading');
+      if (map && tiles) { tilesOk = 0; tilesBad = 0; tiles.redraw(); } else start();
+    }
+    function onOnline() { if (S.map === 'error') retry(); }   /* the connection came back: try once by itself */
+    window.addEventListener('online', onOnline);
+
+    function start() { loadLeaflet().then(function () {
       if (dead) return;
       map = L.map(box, { zoomControl: false, attributionControl: false });
       L.control.attribution({ position: 'topright', prefix: false }).addTo(map);
-      var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' });
-      tiles.on('tileload', function () { tilesOk++; setState('map', 'ready'); });
-      tiles.on('tileerror', function () { tilesBad++; if (!tilesOk && tilesBad >= 4) setState('map', 'error'); });
+      tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' });
+      tiles.on('tileload', function () { tilesOk++; if (S.map !== 'ready') { setState('map', 'ready'); showFail(false); } });
+      tiles.on('tileerror', function () { tilesBad++; if (!tilesOk && tilesBad >= 4 && S.map !== 'error') failed(); });
       tiles.addTo(map);
       layerStores = L.layerGroup().addTo(map);
       map.on('dragstart', function () { mode = 'free'; });   /* the user's own view is kept; «my location» brings the driver back */
       var l = loc();
       map.setView(l.ok ? [l.lat, l.lng] : CITY, l.ok ? 15 : 13);
       placedWithDriver = l.ok; fitView(); refresh();
-    }, function () { if (!dead) { setState('map', 'error'); refresh(); } });
+    }, failed); }
+    start();
 
     return {
       update: function () { refresh(); },
       resize: function (v) {
         if (v) { visible.top = +v.visibleTop || 0; visible.bottom = +v.visibleBottom || 0; }
+        if (!fail.hidden) placeFail();
         if (!map || sizeFrame) return;
         sizeFrame = requestAnimationFrame(function () { sizeFrame = 0; if (map && !dead) map.invalidateSize({ pan: false }); });
         /* panel moved (snap, offer arrived, offline strip): re-place the view once it settles, never during a drag */
@@ -170,7 +203,7 @@
         mode = 'me'; centreOn([l.lat, l.lng], Math.max(map.getZoom(), 14));
       },
       destroy: function () {
-        dead = true; if (sizeFrame) cancelAnimationFrame(sizeFrame); clearTimeout(fitTimer);
+        dead = true; if (sizeFrame) cancelAnimationFrame(sizeFrame); clearTimeout(fitTimer); window.removeEventListener('online', onOnline);
         if (map) { try { map.remove(); } catch (e) {} }
         map = null; meMarker = null; accCircle = null; layerStores = null;
         node.replaceChildren(); S.mounted = false; S.map = 'loading'; S.nearby = 'loading';

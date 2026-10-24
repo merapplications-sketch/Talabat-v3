@@ -20,17 +20,17 @@ def ok(c, m):
 def page(b, geo='grant', tiles='ok', leaflet='ok', width=390, stores=None):
     ctx = b.new_context(viewport={'width': width, 'height': 844}, permissions=(['geolocation'] if geo == 'grant' else []),
                         geolocation=ME if geo == 'grant' else None)
-    errs = []; net = {'tiles': 0, 'leaflet': 0, 'other': []}
+    errs = []; net = {'tiles': 0, 'leaflet': 0, 'other': [], 'mode': {'tiles': tiles, 'leaflet': leaflet}}   # mode can change during a case (retry)
     def route(rt, rq):
         u = rq.url
         if 'supabase-js' in u: return rt.fulfill(status=200, content_type='application/javascript', body=FIX)
         if 'leaflet@1.9.4/dist/leaflet.js' in u:
             net['leaflet'] += 1
-            return rt.abort() if leaflet == 'fail' else rt.fulfill(status=200, content_type='application/javascript', body=open(os.path.join(LEAF, 'leaflet.js')).read())
+            return rt.abort() if net['mode']['leaflet'] == 'fail' else rt.fulfill(status=200, content_type='application/javascript', body=open(os.path.join(LEAF, 'leaflet.js')).read())
         if 'leaflet@1.9.4/dist/leaflet.css' in u: return rt.fulfill(status=200, content_type='text/css', body=open(os.path.join(LEAF, 'leaflet.css')).read())
         if 'tile.openstreetmap.org' in u:
             net['tiles'] += 1
-            return rt.abort() if tiles == 'fail' else rt.fulfill(status=200, content_type='image/png', body=PNG)
+            return rt.abort() if net['mode']['tiles'] == 'fail' else rt.fulfill(status=200, content_type='image/png', body=PNG)
         if u.startswith('http'): net['other'].append(u); return rt.abort()
         return rt.continue_()
     ctx.route('**/*', route)
@@ -131,24 +131,54 @@ with sync_playwright() as p:
     ok(s['geo'] == 'wait' and s['title'] == 'Определяем местоположение…' and s['me'] == 0 and s['rec'] and s['view']['nearby'] == 'loading',
        'location loading: loading state, no marker, nothing invented (%s)' % s)
     ctx.close()
-    # 6) no restaurant with coordinates -> «empty» only after a valid location
+    # 6) no restaurant with coordinates: until D-W1 nothing says «none nearby» (no radius exists)
     ctx, pg, errs, net = page(b, stores="()=>TLB.stores(true).forEach(s=>{s.lat=null;s.lng=null})"); s = st(pg)
-    ok(s['view']['nearby'] == 'empty' and s['title'] == 'Поблизости нет ресторанов' and s['storeMk'] == 0 and s['me'] == 1,
-       'no restaurant has coordinates: «empty» after a valid location, no substitute point (%s)' % s)
+    txt = pg.evaluate("()=>document.body.innerText")
+    ok(s['view']['nearby'] == 'ready' and s['title'] == 'Ожидаем заказ' and s['storeMk'] == 0 and s['me'] == 1 and 'Поблизости' not in txt and 'рядом' not in txt,
+       'no restaurant with coordinates: no «Поблизости нет ресторанов», normal waiting state, no substitute point (%s)' % s)
+    ok(pg.evaluate("()=>$('w-map').getAttribute('aria-label')") == 'Рестораны', 'map area is named «Рестораны» (not «nearby»)')
     ctx.close()
     # 7) invalid coordinates and inactive records are not drawn
     ctx, pg, errs, net = page(b, stores="()=>{const a=TLB.stores(true);a[0].lat=0;a[0].lng=0;a[1].lat='x';a[2].is_active=false}"); s = st(pg)
     exp = pg.evaluate("()=>TLB.stores().filter(x=>x.lat!=null&&x.lng!=null&&isFinite(+x.lat)&&isFinite(+x.lng)&&!(+x.lat===0&&+x.lng===0)).length")
     ok(s['storeMk'] == exp, '(0,0), non-numeric and inactive restaurants are not drawn (%d/%d)' % (s['storeMk'], exp))
     ctx.close()
-    # 8) tiles fail -> map error (no fake background); Leaflet fails -> map error, no crash
-    ctx, pg, errs, net = page(b, tiles='fail'); pg.wait_for_timeout(1000); s = st(pg)
-    ok(s['view']['map'] == 'error' and s['rec'] and s['me'] == 1, 'tiles fail: map «error», «my location» disabled, real marker still there (%s)' % s)
-    ok(not errs, 'tiles fail: no JS errors %s' % errs[:2]); ctx.close()
-    ctx, pg, errs, net = page(b, leaflet='fail'); s = st(pg)
-    ok(s['view']['map'] == 'error' and s['maps'] == 0 and s['rec'], 'Leaflet fails to load: map «error», no map, button disabled (%s)' % s)
+    # 8) H8: tiles fail -> message + retry in the map area; offers / panel untouched; retry recovers
+    FAILV = "()=>{const f=document.querySelector('#w-map .w-map-fail');if(!f||f.hidden)return null;const r=f.getBoundingClientRect(),h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top,btn=f.querySelector('button').getBoundingClientRect();return {text:f.innerText,inStrip:r.top>=h-2&&r.bottom<=t+2,btn:[btn.width,btn.height],btnVisible:btn.top>=h&&btn.bottom<=t}}"
+    for w in (360, 390, 430):
+        ctx, pg, errs, net = page(b, tiles='fail', width=w); pg.wait_for_timeout(1000); s = st(pg); f = pg.evaluate(FAILV)
+        ok(s['view']['map'] == 'error' and s['rec'] and s['me'] == 1, '[%d] tiles fail: map «error», «my location» disabled, real marker kept (%s)' % (w, s['view']))
+        ok(f and 'Карта не загрузилась' in f['text'] and 'Повторить' in f['text'] and f['inStrip'] and f['btnVisible'] and f['btn'][1] >= 44,
+           '[%d] H8: «Карта не загрузилась» + «Повторить» (44px) inside the uncovered map strip (%s)' % (w, f))
+        ok(s['title'] == 'Ожидаем заказ' and pg.locator('.nav').is_visible() and pg.locator('#w-sheet').is_visible(), '[%d] panel, shift and navigation unchanged' % w)
+        if w == 390:
+            pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(1500)
+            ok(pg.evaluate("()=>TLB.offers().length") == 1 and (pg.evaluate("()=>(document.querySelector('.w-title h1')||{}).textContent") == 'Новое предложение'),
+               'with the map failed, a new offer still arrives in the panel')
+            pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_timeout(1200)
+            net['mode']['tiles'] = 'ok'; pg.click('#w-map .w-map-retry'); pg.wait_for_timeout(1500); s = st(pg)
+            ok(s['view']['map'] == 'ready' and pg.evaluate(FAILV) is None and not s['rec'] and s['maps'] == 1 and s['lc']['mount'] == 1,
+               'retry: tiles load, message gone, «my location» enabled, same map (no remount) (%s)' % s)
+            net['mode']['tiles'] = 'fail'; pg.evaluate("()=>{const m=document.querySelector('#w-map .leaflet-container');}")
+        ok(not errs, '[%d] tiles fail: no JS errors %s' % (w, errs[:2])); ctx.close()
+    # Leaflet fails -> same message; retry after it becomes reachable builds the map once
+    ctx, pg, errs, net = page(b, leaflet='fail'); s = st(pg); f = pg.evaluate(FAILV)
+    ok(s['view']['map'] == 'error' and s['maps'] == 0 and s['rec'] and f and 'Повторить' in f['text'], 'Leaflet fails: message + retry, no map, button disabled (%s)' % s['view'])
+    net['mode']['leaflet'] = 'ok'; pg.click('#w-map .w-map-retry'); pg.wait_for_timeout(2000); s = st(pg)
+    ok(s['view']['map'] == 'ready' and s['maps'] == 1 and s['me'] == 1 and pg.evaluate(FAILV) is None and s['scripts'] == 1,
+       'retry after Leaflet becomes reachable: one map built, message gone, one script tag (%s)' % s)
     ok(not errs, 'Leaflet fail: no JS errors %s' % errs[:2]); ctx.close()
+    # connection returns while the map is in error: one automatic retry
+    ctx, pg, errs, net = page(b, tiles='fail'); pg.wait_for_timeout(800); net['mode']['tiles'] = 'ok'
+    pg.evaluate("()=>dispatchEvent(new Event('online'))"); pg.wait_for_timeout(1500); s = st(pg)
+    ok(s['view']['map'] == 'ready' and pg.evaluate(FAILV) is None, 'connection back while in error: map retried by itself (%s)' % s['view'])
+    ctx.close()
     b.close()
-prot = subprocess.run(['git', 'diff', '--stat', 'ab8fd6c', '--', 'talabat-core.js', 'customer.html', 'admin.html', 'merchant.html', 'assets/driver-a/'], cwd=root, capture_output=True, text=True).stdout.strip()
-ok(prot == '', 'core / customer / admin / merchant / driver A files unchanged by the binding (%s)' % (prot or 'no diff'))
+prot = subprocess.run(['git', 'diff', '--stat', 'ab8fd6c', '--', 'talabat-core.js', 'customer.html', 'admin.html', 'merchant.html', 'assets/driver-a/driver-a.css'], cwd=root, capture_output=True, text=True).stdout.strip()
+ok(prot == '', 'core / customer / admin / merchant / driver A css unchanged by the binding (%s)' % (prot or 'no diff'))
+dj = subprocess.run(['git', 'diff', '-U0', '--word-diff=porcelain', '--word-diff-regex=[^,{}]+', 'ab8fd6c', '--', 'assets/driver-a/driver-a.js'], cwd=root, capture_output=True, text=True).stdout
+ch = sorted(l for l in dj.splitlines() if l[:1] in '+-' and not l.startswith(('+++', '---')))
+ok(ch == sorted(["-wArea:'Карта рядом'", "+wArea:'Рестораны'", "-wEmpty:'Поблизости нет ресторанов'", "+wEmpty:'Рестораны не найдены'",
+                 "-wArea:'Nearby map'", "+wArea:'Restaurants'", "-wEmpty:'No nearby restaurants'", "+wEmpty:'No restaurants found'"]),
+   'driver-a.js: only the 4 «nearby» strings renamed (%s)' % ch)
 print('\nWAITING MAP CHECK %s' % ('FAILS %d of %d' % (len(fails), n) if fails else 'OK (%d)' % n)); sys.exit(1 if fails else 0)
