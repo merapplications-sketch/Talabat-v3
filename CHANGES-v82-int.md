@@ -58,3 +58,29 @@ Tests changed only to follow approved controls (v80 slide, driver A menu / chat 
 - Mock results v82b: courier 0 · uat2 47/0 (driver A) · driver T4 OK · flow 0 · qa_all 0 (driver offline 18 → 0, H2) ·
   driver A UI OK · driver H 12 cases OK · merchant_ids 0 · smoke 0. Others unaffected (driver-a only) — not re-run.
 - Not tested: live app / database, Safari, iPhone, GPS, live tiles, field network.
+
+## v82c — driver waiting home (ab8fd6c, UI team) + real waiting-map binding — 24 Oct
+- Reviewed ab8fd6c diff: additions at the end of driver-a.js / .css, docs, review tools. driver.html / core / customer /
+  admin / merchant unchanged by it. Merged `--no-ff`; v82b corrections (H1/H2/H3/H6), T4 delivery lock, chat drafts kept.
+- New `assets/driver-tech/waiting-map.js` (loaded before driver-a.js; one script tag added in driver.html) implements the
+  local contract `window.TALABOT_WAITING_MAP_UI` (read / mount → update, resize, recenter, destroy):
+  - location only from the existing GEO via getLocation(); no second watcher, no location write, no timer movement;
+  - existing Leaflet 1.9.4 + OSM tiles (same referrerPolicy); one shared loader (waits for the core loader's tag if present);
+  - restaurants: `TLB.stores()` (active records already loaded for the account) with valid coordinates only
+    (finite, in range, not 0,0); closed = grey marker; no geocoding / midpoint;
+  - view: start = driver + restaurants fitted into the uncovered strip (header..panel), re-fitted when the panel moves;
+    a user pan is kept; «Моё местоположение» centres the real position in the strip;
+  - states: map loading / ready (first tile) / error (Leaflet or tiles fail); nearby loading / ready / empty —
+    «empty» only after a valid location AND the list was read; denied / loading / offline never shown as «empty»;
+    onViewChange only on a state change (no render loop);
+  - offline: last map kept, no live claim (UI shows «Нет соединения», button disabled).
+- «Nearby»: NO approved radius / rule exists in the repo (my_offers dispatch SQL is not in the repo; delivery_max_km is the
+  customer delivery limit, not a driver rule). Nothing invented: all active restaurants with coordinates are drawn,
+  no radius, no ranking, no ETA. Decision D-W1 (source + radius of «nearby») is open.
+- Tests: new `tools/driver_waiting_map_check.py` (local Leaflet copy, local tiles, mocked browser geolocation; 49 checks at
+  360/390/430). flow_check taps the visible offer (the first aSelect in the DOM is the hidden collapsed mini card).
+  Re-run (affected): waiting map 49/0 · UI-team waiting check OK · waiting offline OK · flow 0 · T4 OK · courier 0 ·
+  uat2 47/0 · driver A UI OK · driver H OK · qa_all 0.
+- Review page: `tools/driver_waiting_map_preview.py` → one HTML with demo data (fixture), REAL phone location + Leaflet + OSM;
+  the probe follows navigator.onLine; one demo offer 25 s after «start shift». Never loaded by the app.
+- Not proven: iPhone Safari, real GPS / permission prompts, real tiles, live database, live dispatch.

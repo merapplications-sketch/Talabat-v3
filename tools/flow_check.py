@@ -252,7 +252,8 @@ with sync_playwright() as p:
     look('driver','7-offer')
     ok(d.evaluate("(i)=>!!document.body.innerText.match(/#"+str(oid)+"/)",oid) or d.evaluate("()=>document.querySelectorAll('[onclick^=\"take(\"],[onclick^=\"aSelect(\"]').length>0"),'courier sees the offer')
     if d.locator('[onclick^="aSelect("]').count():   # driver A v06: open the offer, then confirm it with the slide (same driver_accept)
-        d.locator('[onclick^="aSelect("]').first.click();d.wait_for_timeout(400);swipe(d);d.wait_for_timeout(500)
+        # waiting home (ab8fd6c): the first aSelect in the DOM is the collapsed-panel mini card (hidden) -> tap the visible offer
+        d.locator('[onclick^="aSelect("] >> visible=true').first.click();d.wait_for_timeout(400);swipe(d);d.wait_for_timeout(500)
     else: d.locator('[onclick^="take("]').first.click();d.wait_for_timeout(500)
     sync('driver')
     ok(db.order(oid)['driver_id']==U['driver'],'courier accepted the order')
