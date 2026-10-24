@@ -924,6 +924,30 @@
       }).filter(Boolean);
     },
     decline: function (id) { return sb.rpc('driver_decline', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
+    /* B (prepared for review, inactive until the Edge Function «route» is deployed with its key): street route between two
+       real points through the server proxy (the OpenRouteService key never reaches the browser). null = no route -> the
+       caller keeps the straight line and says so. Result: {coords:[[lat,lng],...], distanceM, durationS, source, at}. */
+    route: function (from, to) {
+      var ok = function (p) { return p && isFinite(+p[0]) && isFinite(+p[1]) && Math.abs(+p[0]) <= 90 && Math.abs(+p[1]) <= 180 && !(+p[0] === 0 && +p[1] === 0); };
+      if (!ok(from) || !ok(to) || !sb.functions || !sb.functions.invoke) return Promise.resolve(null);
+      return Promise.race([
+        sb.functions.invoke('route', { body: { from: [+from[0], +from[1]], to: [+to[0], +to[1]] } }).then(function (r) {
+          var d = r && !r.error && r.data;
+          if (!d || !Array.isArray(d.coords) || d.coords.length < 2 || !isFinite(+d.distance_m) || !isFinite(+d.duration_s)) return null;
+          return { coords: d.coords, distanceM: +d.distance_m, durationS: +d.duration_s, source: d.source || '', at: Date.now() };
+        }, function () { return null; }),
+        new Promise(function (res) { setTimeout(function () { res(null); }, 8000); })
+      ]);
+    },
+    /* C (prepared for review, needs the proposed SQL function order_courier_position): the last courier position of MY
+       order, only while it is out for delivery. Result {lat, lng, acc, at(ms)} or null (not allowed / not on the way / none). */
+    courierPosition: function (orderId) {
+      return sb.rpc('order_courier_position', { p_order: orderId }).then(function (r) {
+        var d = r && !r.error && (Array.isArray(r.data) ? r.data[0] : r.data);
+        if (!d || d.lat == null || d.lng == null) return null;
+        return { lat: +d.lat, lng: +d.lng, acc: d.acc == null ? null : +d.acc, at: d.updated_at ? new Date(d.updated_at).getTime() : null };
+      }, function () { return null; });
+    },
     sendLocation: function (lat, lng, acc) { if (isNaN(num(lat)) || isNaN(num(lng))) return Promise.resolve({ ok: false }); return sb.rpc('driver_location', { p_lat: num(lat), p_lng: num(lng), p_acc: isNaN(num(acc)) ? null : num(acc) }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
     assignDriver: function (orderId, driverId) { return rpc('admin_assign_driver', { p_order: orderId, p_driver: driverId }, true); },
     allOffers: function () { return DB.offersAll; },

@@ -173,7 +173,7 @@ function swipeH(a){const n=stepOf(a),wait=n==2&&a.status!='ready';
   return `<div class="swp ${n==4?'g':''} ${SWB?'busy':''}" id="swp"><button class="swk" id="swk" aria-label="${t('sw'+n)} · ${t('swHint')}">${ico(n==4?'check':'nav',22)}</button><div class="swt"><span>${t('sw'+n)}</span> ››</div></div>`}
 const storeLL=n=>{const st=TLB.stores(true).find(x=>x.name==n);return st&&st.lat!=null&&st.lng!=null&&isFinite(+st.lat)&&isFinite(+st.lng)?(+st.lat)+','+(+st.lng):null};
 const map=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q+' Душанбе')}`;
-const pt=o=>o&&o.lat!=null&&o.lng!=null&&isFinite(+o.lat)&&isFinite(+o.lng)?`https://www.google.com/maps/search/?api=1&query=${+o.lat},${+o.lng}`:null;
+const pt=o=>o&&o.lat!=null&&o.lng!=null&&isFinite(+o.lat)&&isFinite(+o.lng)?`https://www.google.com/maps/dir/?api=1&destination=${+o.lat},${+o.lng}&travelmode=driving`:null;   /* B: navigation (directions) to the exact order pin */
 function invoice(o){const cash=TLB.isCash(o);
   return `<div class="inv"><b>🧾 ${t('inv')}</b><div style="height:6px"></div>
   ${o.items.map(i=>`<div class="l"><span>${i.qty}× ${esc(i.name)}${(i.opts&&i.opts.length)?`<small style="display:block;color:#8b8f98">${esc(i.opts.map(x=>x.n).join(', '))}</small>`:''}${i.note?` <small style="color:#e74c3c">(${esc(i.note)})</small>`:''}</span><span>${(i.qty*i.price).toFixed(2)}</span></div>`).join('')}
@@ -200,7 +200,7 @@ function cashBox(o){const pv=+o.pointsValue||0,w=+o.walletUsed||0;
   return `<div class="cashb"><div class="big"><span>💵 ${t('cashGet')}</span><span>${due(o).toFixed(2)} TJS</span></div>${pv>0||w>0?`<div class="r"><span>${t('cashOrder')}</span><span>${(o.total+pv).toFixed(2)}</span></div>${pv>0?`<div class="r"><span>⭐ ${t('cashPts')}</span><span>−${pv.toFixed(2)}</span></div>`:''}${w>0?`<div class="r"><span>👛 ${t('cashWal')}</span><span>−${w.toFixed(2)}</span></div>`:''}`:''}</div>`}
 function itemsSummary(a){const n=a.items.reduce((s,i)=>s+i.qty,0);
   return `<div class="card"><div class="row" onclick="invOpen=!invOpen;render()" style="cursor:pointer"><div><b>${t('orderInfo')}</b><div class="xs" style="color:var(--mut)">${n} ${t('itemsN')} · ${a.total.toFixed(2)} TJS</div></div><span style="color:var(--o)">${ico(invOpen?'up':'down',22)}</span></div>${invOpen?invoice(a):''}</div>`}
-function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id),cash=TLB.isCash(a),restNav=storeLL(a.store)?'https://www.google.com/maps/search/?api=1&query='+storeLL(a.store):map(a.store);
+function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id),cash=TLB.isCash(a),restNav=storeLL(a.store)?'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+storeLL(a.store):map(a.store);
   const sub=rd?t('readyNow'):a.prepTime?t('prepIn').replace('{n}',a.prepTime):t('prepOn');
   const focus=ot?`<div class="fc"><div class="rg" style="gap:11px"><div class="av2">${esc(String(a.client.name||'?').charAt(0).toUpperCase())}</div><div style="flex:1;min-width:0"><div class="xs lbl">${t('custT')}</div><div class="nm" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.client.name)}</div></div>
     <div class="cta"><a target="_blank" rel="noopener" href="${pt(a)||map(a.address)}" aria-label="${t('ctNav')}" title="${t('ctNav')}">${ico('nav',19)}</a>${a.client.phone?`<a class="call" href="tel:${esc(a.client.phone)}" aria-label="${t('ctCall')}" title="${t('ctCall')}">${ico('phone',19)}</a>`:''}<button class="msg" onclick="chatOpen=true;render()" aria-label="${t('ctChat')}" title="${t('ctChat')}">${ico('chat',19)}${un?`<span class="dotb">${un}</span>`:''}</button></div></div>
@@ -295,4 +295,4 @@ function render(){if(window.__drag){window.__rp=1;return}const _sb=document.quer
   render0();{const nb=document.querySelector('.shb');if(nb&&_st)nb.scrollTop=_st}
   if(ok){let e=id?document.getElementById(id):null;if(!e||e===a){const n=[...document.querySelectorAll('input,textarea')];e=n[ix]}if(e&&e!==a){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
   window.scrollTo(0,y)}
-</script><script src="assets/driver-tech/waiting-map.js"></script><script src="assets/driver-a/driver-a.js"></script><script src="assets/driver-tech/map-view.js"></script></body></html>
+</script><script src="assets/driver-tech/waiting-map.js"></script><script src="assets/driver-a/driver-a.js"></script><script src="assets/driver-tech/map-view.js"></script><script src="assets/driver-tech/route-layer.js"></script></body></html>

@@ -50,3 +50,11 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
   - H13 customer v80 order page: show the prep minutes while preparing (field `prepTime`; no «ready at» column exists).
 - Review proposals P1–P5 recorded in the plan, section 7 — nothing started.
 - One UI hand-off list now: H4, H5, H7, H9 (`aMapRecenter()`), H10, H11, H12, H13 + plan section 3 (B–D screens, after approval).
+
+## 7. Update 24 Oct 15:08 — batch B + C prepared for review (nothing deployed / applied)
+- One UI pack: `docs/driver-handoff/UI-PACK-2026-10-24.md` (H4, H5, H7, H9–H13 + B1, B2, C1, C2 after approval).
+- B + C review and the single external approval list: `docs/plan/B-C-REVIEW.md`.
+- New files: supabase/functions/route/ (index.ts, handler.js), assets/driver-tech/route-layer.js, core TLB.route /
+  TLB.courierPosition, sql/verify_tracking_readonly.sql (read-only), sql/proposed/patch39_order_courier_position.sql (not applied).
+- Local checks: route function 14/0 · driver route 13/0 · courier position OK · affected: map stability, driver A UI, H, T4,
+  flow, core v80 — all clean.
