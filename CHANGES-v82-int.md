@@ -95,3 +95,15 @@ Tests changed only to follow approved controls (v80 slide, driver A menu / chat 
   inside driver.html. Removed in the review export only (tools/driver_waiting_map_preview.py); the app keeps it.
 - Checked (local Chromium headless 1194 only): driver_waiting_map_check 65/0; preview opens to «Начните смену» top-level
   and inside a cross-origin sandboxed frame; old export reproduced display:none in the same frame. Other checks not re-run.
+
+## v82e — map failure states after the iPhone test (24 Oct)
+- Cause of the iPhone report (full «Карта не загрузилась» over a working map): the message was hidden with the [hidden]
+  attribute, which loses against its inline `display:flex` on the direct page (no reset sheet) → visible from the start.
+  The local check read `.hidden` and missed it. Now shown / hidden with style.display; checks read computed display.
+- Two levels: TOTAL (Leaflet failed, or no tile loaded and ≥4 failed) → full message + «Повторить»; any tile load later
+  removes it by itself. PARTIAL (some tiles failed, others loaded) → small notice «Часть карты не загрузилась · Обновить»
+  under the attribution line; the loaded part stays visible; cleared when the failed tiles load or are unloaded.
+- «Моё местоположение» now centres at street zoom (≥16) so the accuracy circle is readable around the marker;
+  accuracy circle tagged `w-acc` for the check.
+- Checked (local Chromium headless 1194; local Leaflet copy, local tiles, mocked geolocation): driver_waiting_map_check 78/0
+  incl. computed visibility at 360/390/430, partial notice, self-recovery, Tashkent marker + circle + re-centre.

@@ -17,9 +17,9 @@ def ok(c, m):
     global n; n += 1; print(('PASS ' if c else 'FAIL ') + m, flush=True)
     if not c: fails.append(m)
 
-def page(b, geo='grant', tiles='ok', leaflet='ok', width=390, stores=None):
+def page(b, geo='grant', tiles='ok', leaflet='ok', width=390, stores=None, me=None):
     ctx = b.new_context(viewport={'width': width, 'height': 844}, permissions=(['geolocation'] if geo == 'grant' else []),
-                        geolocation=ME if geo == 'grant' else None)
+                        geolocation=(me or ME) if geo == 'grant' else None)
     errs = []; net = {'tiles': 0, 'leaflet': 0, 'other': [], 'mode': {'tiles': tiles, 'leaflet': leaflet}}   # mode can change during a case (retry)
     def route(rt, rq):
         u = rq.url
@@ -30,7 +30,9 @@ def page(b, geo='grant', tiles='ok', leaflet='ok', width=390, stores=None):
         if 'leaflet@1.9.4/dist/leaflet.css' in u: return rt.fulfill(status=200, content_type='text/css', body=open(os.path.join(LEAF, 'leaflet.css')).read())
         if 'tile.openstreetmap.org' in u:
             net['tiles'] += 1
-            return rt.abort() if net['mode']['tiles'] == 'fail' else rt.fulfill(status=200, content_type='image/png', body=PNG)
+            m = net['mode']['tiles']; xy = [int(v) for v in u.split('?')[0].split('/')[-2:-1] + [u.split('?')[0].split('/')[-1].split('.')[0]]]
+            if m == 'partial' and (xy[0] + xy[1]) % 3 == 0: return rt.abort()   # every 3rd tile fails, the rest load
+            return rt.abort() if m == 'fail' else rt.fulfill(status=200, content_type='image/png', body=PNG)
         if u.startswith('http'): net['other'].append(u); return rt.abort()
         return rt.continue_()
     ctx.route('**/*', route)
@@ -144,7 +146,7 @@ with sync_playwright() as p:
     ok(s['storeMk'] == exp, '(0,0), non-numeric and inactive restaurants are not drawn (%d/%d)' % (s['storeMk'], exp))
     ctx.close()
     # 8) H8: tiles fail -> message + retry in the map area; offers / panel untouched; retry recovers
-    FAILV = "()=>{const f=document.querySelector('#w-map .w-map-fail');if(!f||f.hidden)return null;const r=f.getBoundingClientRect(),h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top,btn=f.querySelector('button').getBoundingClientRect();return {text:f.innerText,inStrip:r.top>=h-2&&r.bottom<=t+2,btn:[btn.width,btn.height],btnVisible:btn.top>=h&&btn.bottom<=t}}"
+    FAILV = "()=>{const f=document.querySelector('#w-map .w-map-fail');if(!f||getComputedStyle(f).display==='none'||!f.getBoundingClientRect().height)return null;const r=f.getBoundingClientRect(),h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top,btn=f.querySelector('button').getBoundingClientRect();return {text:f.innerText,inStrip:r.top>=h-2&&r.bottom<=t+2,btn:[btn.width,btn.height],btnVisible:btn.top>=h&&btn.bottom<=t}}"
     for w in (360, 390, 430):
         ctx, pg, errs, net = page(b, tiles='fail', width=w); pg.wait_for_timeout(1000); s = st(pg); f = pg.evaluate(FAILV)
         ok(s['view']['map'] == 'error' and s['rec'] and s['me'] == 1, '[%d] tiles fail: map «error», «my location» disabled, real marker kept (%s)' % (w, s['view']))
@@ -161,6 +163,40 @@ with sync_playwright() as p:
                'retry: tiles load, message gone, «my location» enabled, same map (no remount) (%s)' % s)
             net['mode']['tiles'] = 'fail'; pg.evaluate("()=>{const m=document.querySelector('#w-map .leaflet-container');}")
         ok(not errs, '[%d] tiles fail: no JS errors %s' % (w, errs[:2])); ctx.close()
+    PARTV = "()=>{const f=document.querySelector('#w-map .w-map-partial');if(!f||getComputedStyle(f).display==='none'||!f.getBoundingClientRect().height)return null;const r=f.getBoundingClientRect(),h=document.querySelector('.a-header').getBoundingClientRect().bottom;return {text:f.innerText,h:Math.round(r.height),top:Math.round(r.top-h),w:Math.round(r.width)}}"
+    # tiles fine: neither message is visible (computed, not the [hidden] flag) — the iPhone report of v82d
+    for w in (360, 390, 430):
+        ctx, pg, errs, net = page(b, width=w); pg.wait_for_timeout(800)
+        ok(pg.evaluate(FAILV) is None and pg.evaluate(PARTV) is None and st(pg)['view']['map'] == 'ready',
+           '[%d] tiles load: no failure message and no notice visible (computed display)' % w); ctx.close()
+    # partial: some tiles fail, others load -> small notice only, map stays usable; «Обновить» clears it
+    ctx, pg, errs, net = page(b, tiles='partial'); pg.wait_for_timeout(1500); s = st(pg); pv = pg.evaluate(PARTV)
+    ok(s['view']['map'] == 'ready' and pg.evaluate(FAILV) is None and pv and 'Часть карты не загрузилась' in pv['text'] and pv['h'] <= 48 and 24 <= pv['top'] <= 40 and not s['rec'],
+       'partial tile failure: small notice at the top of the map (not the full message), map ready, «my location» enabled (%s)' % pv)
+    net['mode']['tiles'] = 'ok'; pg.click('#w-map .w-map-partial-retry'); pg.wait_for_timeout(1500)
+    ok(pg.evaluate(PARTV) is None and pg.evaluate(FAILV) is None and st(pg)['view']['map'] == 'ready', '«Обновить»: tiles reload, notice gone')
+    ok(not errs, 'partial: no JS errors %s' % errs[:2]); ctx.close()
+    # total failure, then tiles come back on their own (e.g. a pan / zoom): full message removed without pressing retry
+    ctx, pg, errs, net = page(b, tiles='fail'); pg.wait_for_timeout(1000)
+    ok(pg.evaluate(FAILV) is not None, 'all tiles fail: full message visible')
+    net['mode']['tiles'] = 'ok'; pg.evaluate("()=>{const m=document.querySelector('#w-map .leaflet-container');}"); pg.click('#w-recentre', force=True) if False else None
+    pg.evaluate("()=>window.__wmapPan&&0"); bx = pg.locator('#w-sheet').bounding_box()
+    pg.evaluate("()=>{const e=document.querySelector('#w-map .leaflet-container');e.dispatchEvent(new WheelEvent('wheel',{deltaY:-300,clientX:200,clientY:200,bubbles:true}))}"); pg.wait_for_timeout(1500)
+    ok(pg.evaluate(FAILV) is None and st(pg)['view']['map'] == 'ready', 'tiles load again after a zoom: full message removed by itself, map ready')
+    ok(not errs, 'recovery: no JS errors %s' % errs[:2]); ctx.close()
+    # Tashkent position (the iPhone test place): own marker, accuracy circle, «my location»
+    TAS = {'latitude': 41.2995, 'longitude': 69.2401, 'accuracy': 35}
+    ctx, pg, errs, net = page(b, me=TAS); pg.wait_for_timeout(800)
+    me = pg.evaluate("""()=>{const m=document.querySelector('#w-map .dmk.me');if(!m)return null;const r=m.getBoundingClientRect(),h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top;
+      const c=[...document.querySelectorAll('#w-map path.w-acc')];return {inStrip:r.top>=h&&r.bottom<=t,visible:getComputedStyle(m).display!=='none',lat:GEO.lat,acc:GEO.acc,circles:c.length,zoom:0}}""")
+    ok(me and me['inStrip'] and me['visible'] and abs(me['lat'] - 41.2995) < 1e-6, 'Tashkent: own marker drawn at the real reading, inside the visible strip (%s)' % me)
+    ok(me and me['circles'] == 1, 'accuracy circle drawn from the reading (35 m) (%s)' % me)
+    pg.evaluate("()=>wRecentre()"); pg.wait_for_timeout(500)
+    z = pg.evaluate("""()=>{const m=document.querySelector('#w-map .dmk.me').getBoundingClientRect(),h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top;
+      const p=document.querySelector('#w-map path.w-acc'),c=p&&p.getBoundingClientRect(),mc=[(m.left+m.right)/2,(m.top+m.bottom)/2];return {dy:Math.round(mc[1]-(h+t)/2),circlePx:c?Math.round(c.width):0,circleOnMarker:c?Math.abs((c.left+c.right)/2-mc[0])<3&&Math.abs((c.top+c.bottom)/2-mc[1])<3:false}}""")
+    ok(abs(z['dy']) <= 12 and z['circlePx'] > 24 and z['circleOnMarker'], '«Моё местоположение»: marker centred in the strip, accuracy circle visible at street zoom (%s)' % z)
+    pg.screenshot(path=os.path.join(out, 'tashkent-recentre-390.png'))
+    ok(not errs, 'Tashkent: no JS errors %s' % errs[:2]); ctx.close()
     # Leaflet fails -> same message; retry after it becomes reachable builds the map once
     ctx, pg, errs, net = page(b, leaflet='fail'); s = st(pg); f = pg.evaluate(FAILV)
     ok(s['view']['map'] == 'error' and s['maps'] == 0 and s['rec'] and f and 'Повторить' in f['text'], 'Leaflet fails: message + retry, no map, button disabled (%s)' % s['view'])

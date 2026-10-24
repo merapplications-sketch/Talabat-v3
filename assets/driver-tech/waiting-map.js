@@ -51,8 +51,8 @@
   function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   /* H8 texts (provider's own; the screen's other texts stay in driver-a.js) */
-  try { TLB.addDict({ wMapFail: 'Карта не загрузилась', wMapFailHint: 'Заказы продолжают приходить. Проверьте интернет и повторите.', wMapRetry: 'Повторить' },
-                    { wMapFail: 'The map did not load', wMapFailHint: 'Orders keep arriving. Check the internet and try again.', wMapRetry: 'Retry' }); } catch (e) {}
+  try { TLB.addDict({ wMapFail: 'Карта не загрузилась', wMapFailHint: 'Заказы продолжают приходить. Проверьте интернет и повторите.', wMapRetry: 'Повторить', wMapPartial: 'Часть карты не загрузилась', wMapPartialRetry: 'Обновить' },
+                    { wMapFail: 'The map did not load', wMapFailHint: 'Orders keep arriving. Check the internet and try again.', wMapRetry: 'Retry', wMapPartial: 'Part of the map did not load', wMapPartialRetry: 'Reload' }); } catch (e) {}
   function tx(k) { try { return typeof t === 'function' ? t(k) : k; } catch (e) { return k; } }
   /* shared state read by the waiting screen (read() is called on every render: cheap, no side effects) */
   var S = { map: 'loading', nearby: 'loading', mounted: false };
@@ -133,7 +133,7 @@
       if (!meMarker) meMarker = L.marker(ll, { interactive: false, keyboard: false, zIndexOffset: 1000, icon: L.divIcon({ className: '', html: '<div class="dmk me"></div>', iconSize: [20, 20], iconAnchor: [10, 10] }) }).addTo(map);
       else meMarker.setLatLng(ll);
       if (l.acc > 0) {
-        if (!accCircle) accCircle = L.circle(ll, { radius: l.acc, color: '#1d4ed8', weight: 1, opacity: .4, fillOpacity: .08, interactive: false }).addTo(map);
+        if (!accCircle) accCircle = L.circle(ll, { className: 'w-acc', radius: l.acc, color: '#1d4ed8', weight: 1, opacity: .4, fillOpacity: .08, interactive: false }).addTo(map);
         else { accCircle.setLatLng(ll); accCircle.setRadius(l.acc); }
       } else if (accCircle) { accCircle.remove(); accCircle = null; }
       return l;
@@ -149,25 +149,36 @@
       if (l.ok && !placedWithDriver) { placedWithDriver = true; if (mode === 'fit') fitView(); }   /* first real reading: include the driver once */
     }
 
-    /* H8: map failure message + retry, inside the map area only (offers, panel and shift are not touched) */
-    var fail = document.createElement('div'), tiles = null;
-    fail.className = 'w-map-fail'; fail.setAttribute('role', 'status'); fail.hidden = true;
-    fail.style.cssText = 'position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 24px;text-align:center;z-index:500;background:#E8EFEB;color:#5b6676;font-size:13px;line-height:18px';
+    /* H8: map failure message + retry, inside the map area only (offers, panel and shift are not touched).
+       Two levels: TOTAL = nothing could be drawn (Leaflet failed, or no tile loaded and >=4 failed) -> message over the map
+       strip; PARTIAL = some tiles failed while others loaded -> small notice at the top, the loaded part stays visible.
+       Shown / hidden with style.display (the [hidden] attribute loses against an inline display without a reset sheet). */
+    var fail = document.createElement('div'), part = document.createElement('div'), tiles = null, failOn = false, partOn = false, bad = {};
+    fail.className = 'w-map-fail'; fail.setAttribute('role', 'status');
+    fail.style.cssText = 'position:absolute;left:0;right:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 24px;text-align:center;z-index:500;background:#E8EFEB;color:#5b6676;font-size:13px;line-height:18px';
     fail.innerHTML = '<span aria-hidden="true">' + icon('pin', 28) + '</span><b style="color:#17243c;font-size:15px;line-height:20px">' + esc(tx('wMapFail')) + '</b><span>' + esc(tx('wMapFailHint')) + '</span>' +
       '<button type="button" class="w-map-retry" style="min-height:44px;min-width:120px;margin-top:4px;padding:10px 20px;border:0;border-radius:999px;background:#f1511b;color:#fff;font-weight:700;font-size:14px;cursor:pointer">' + esc(tx('wMapRetry')) + '</button>';
-    node.appendChild(fail);
+    part.className = 'w-map-partial'; part.setAttribute('role', 'status');
+    part.style.cssText = 'position:absolute;left:50%;transform:translateX(-50%);display:none;align-items:center;gap:6px;max-width:calc(100% - 24px);padding:0 4px 0 12px;z-index:500;background:#fff;border:1px solid #e3e7ee;border-radius:999px;box-shadow:0 2px 10px #17243c1f;color:#5b6676;font-size:12px;line-height:16px;white-space:nowrap';
+    part.innerHTML = '<span style="overflow:hidden;text-overflow:ellipsis">' + esc(tx('wMapPartial')) + '</span><button type="button" class="w-map-partial-retry" style="min-height:44px;padding:0 10px;border:0;background:none;color:#f1511b;font-weight:700;font-size:12px;cursor:pointer">' + esc(tx('wMapPartialRetry')) + '</button>';
+    node.appendChild(fail); node.appendChild(part);
     fail.querySelector('button').addEventListener('click', function () { retry(); });
-    function placeFail() {
+    part.querySelector('button').addEventListener('click', function () { retry(); });
+    function stripPx() {
       var r = node.getBoundingClientRect(), top = Math.max(0, visible.top - r.top), bottom = visible.bottom > 0 ? Math.min(r.height, visible.bottom - r.top) : r.height;
       if (bottom - top < 160) { top = 0; bottom = r.height; }
-      fail.style.top = top + 'px'; fail.style.height = (bottom - top) + 'px';
+      return { top: top, bottom: bottom };
     }
-    function showFail(on) { fail.hidden = !on; if (on) placeFail(); }
+    function placeFail() { var st = stripPx(); fail.style.top = st.top + 'px'; fail.style.height = (st.bottom - st.top) + 'px'; part.style.top = (st.top + 30) + 'px';   /* below the OSM attribution line */ }
+    function showFail(on) { failOn = !!on; fail.style.display = on ? 'flex' : 'none'; if (on) { showPart(false); placeFail(); } }
+    function showPart(on) { partOn = !!on && !failOn; part.style.display = partOn ? 'flex' : 'none'; if (partOn) placeFail(); }
+    function badCount() { var n = 0; for (var k in bad) n++; return n; }
     function failed() { if (dead) return; setState('map', 'error'); showFail(true); refresh(); }
     function retry() {
       if (dead) return;
-      showFail(false); setState('map', 'loading');
-      if (map && tiles) { tilesOk = 0; tilesBad = 0; tiles.redraw(); } else start();
+      showFail(false); showPart(false); bad = {};
+      if (map && tiles) { if (S.map === 'error') setState('map', 'loading'); tilesOk = 0; tilesBad = 0; tiles.redraw(); }
+      else { setState('map', 'loading'); start(); }
     }
     function onOnline() { if (S.map === 'error') retry(); }   /* the connection came back: try once by itself */
     window.addEventListener('online', onOnline);
@@ -177,8 +188,20 @@
       map = L.map(box, { zoomControl: false, attributionControl: false });
       L.control.attribution({ position: 'topright', prefix: false }).addTo(map);
       tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' });
-      tiles.on('tileload', function () { tilesOk++; if (S.map !== 'ready') { setState('map', 'ready'); showFail(false); } });
-      tiles.on('tileerror', function () { tilesBad++; if (!tilesOk && tilesBad >= 4 && S.map !== 'error') failed(); });
+      var key = function (e) { return e && e.coords ? e.coords.z + '/' + e.coords.x + '/' + e.coords.y : ''; };
+      tiles.on('tileload', function (e) {
+        tilesOk++; delete bad[key(e)];
+        if (S.map !== 'ready') setState('map', 'ready');
+        if (failOn) showFail(false);                       /* recovered: the full message goes away */
+        if (partOn && !badCount()) showPart(false);
+      });
+      tiles.on('tileerror', function (e) {
+        tilesBad++; bad[key(e)] = 1;
+        if (!tilesOk && tilesBad >= 4) { if (!failOn) failed(); }   /* nothing could be drawn: total failure */
+      });
+      tiles.on('tileunload', function (e) { delete bad[key(e)]; if (partOn && !badCount()) showPart(false); });
+      /* all tiles of the view settled: some loaded + some failed = partial notice; none failed = clear */
+      tiles.on('load', function () { if (!failOn) showPart(tilesOk > 0 && badCount() > 0); });
       tiles.addTo(map);
       layerStores = L.layerGroup().addTo(map);
       map.on('dragstart', function () { mode = 'free'; });   /* the user's own view is kept; «my location» brings the driver back */
@@ -192,7 +215,7 @@
       update: function () { refresh(); },
       resize: function (v) {
         if (v) { visible.top = +v.visibleTop || 0; visible.bottom = +v.visibleBottom || 0; }
-        if (!fail.hidden) placeFail();
+        if (failOn || partOn) placeFail();
         if (!map || sizeFrame) return;
         sizeFrame = requestAnimationFrame(function () { sizeFrame = 0; if (map && !dead) map.invalidateSize({ pan: false }); });
         /* panel moved (snap, offer arrived, offline strip): re-place the view once it settles, never during a drag */
@@ -200,7 +223,7 @@
       },
       recenter: function () {
         var l = loc(); if (!map || !l.ok) return;
-        mode = 'me'; centreOn([l.lat, l.lng], Math.max(map.getZoom(), 14));
+        mode = 'me'; centreOn([l.lat, l.lng], Math.max(map.getZoom(), 16));   /* street level: the accuracy circle is readable around the marker */
       },
       destroy: function () {
         dead = true; if (sizeFrame) cancelAnimationFrame(sizeFrame); clearTimeout(fitTimer); window.removeEventListener('online', onOnline);
