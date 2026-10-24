@@ -102,3 +102,18 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
 - Applied by the owner in SQL Editor (Success. No rows returned); `order_courier_position(bigint)`: anon = false, authenticated = true.
 - Route function: still on hold (ORS commercial terms). C1 / C2 handed to the UI team (UI pack, same file). Live tracking test
   after the C1 screen exists, together with the iPhone round. No merge, no UI publish.
+
+## 12. 24 Oct 21:35 — UI team H + C1 / C2 integrated (4ef3b68, base 17e650d = branch head → fast-forward, no conflict)
+- Kept unchanged by it: driver.html, core, map-view.js, route-layer.js, admin, merchant; patch 39 not re-run; B1 / B2 on hold.
+- Review: C1 calls `TLB.courierPosition(id)` → RPC `order_courier_position(p_order)` (patch 39, live); only in «track» of that
+  order while `pickedup` and the page is visible; first read at once, then every 15 s, no overlap, 10 s timeout; stops on
+  leaving the page, status change (render / 60 s check), hidden tab, pagehide; late answers dropped; null → «недоступно»,
+  no old point shown. Map: existing Leaflet / OSM, courier marker only, not draggable. C2: active orders only, hidden in
+  cart / pay / track / sheets, placed above the cart bar and navigation; body padding stays constant over renders (checked).
+- Checks re-run because affected (driver-a / customer changed): map stability 18/0, driver route 13/0, courier position OK,
+  flow 0. UI team's own H / C checks not repeated.
+- Found, outside H / C: customer.html refers to `assets/brand/talabot-ru.png`, which is not in the repo (main has none either) → logo
+  file missing in the published customer app; asset placement is a UI-team item (H14), not changed here.
+- Live test (one round, existing accounts, one order) — branch build on the live project, no merge, no publish:
+  customer https://raw.githack.com/merapplications-sketch/Talabat-v3/<sha>/customer.html, driver …/driver.html,
+  restaurant on the published merchant app. `ALLOWED_ORIGINS` not touched (route function not deployed).
