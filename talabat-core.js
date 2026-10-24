@@ -74,7 +74,7 @@
     document.body.appendChild(d); setTimeout(function () { d.remove(); }, 2300);
   }
   var AC = null;
-  function unlock() { try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) { } }
+  function unlock() { try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') { var pending = AC.resume(); if (pending && typeof pending.catch === 'function') pending.catch(function () { }); } } catch (e) { } }
   ['touchstart', 'click'].forEach(function (ev) { document.addEventListener(ev, unlock, { passive: true }); });
   function beep() {
     try { unlock(); [0, 0.35].forEach(function (d) { var o = AC.createOscillator(), g = AC.createGain(); o.frequency.value = 880; g.gain.setValueAtTime(0.2, AC.currentTime + d); g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + d + 0.28); o.connect(g); g.connect(AC.destination); o.start(AC.currentTime + d); o.stop(AC.currentTime + d + 0.3); }); } catch (e) { }
@@ -941,8 +941,10 @@
     },
     /* C (prepared for review, needs the proposed SQL function order_courier_position): the last courier position of MY
        order, only while it is out for delivery. Result {lat, lng, acc, at(ms)} or null (not allowed / not on the way / none). */
-    courierPosition: function (orderId) {
-      return sb.rpc('order_courier_position', { p_order: orderId }).then(function (r) {
+    courierPosition: function (orderId, signal) {
+      var request = sb.rpc('order_courier_position', { p_order: orderId });
+      if (signal && typeof request.abortSignal === 'function') request = request.abortSignal(signal);
+      return request.then(function (r) {
         var d = r && !r.error && (Array.isArray(r.data) ? r.data[0] : r.data);
         if (!d || d.lat == null || d.lng == null) return null;
         return { lat: +d.lat, lng: +d.lng, acc: d.acc == null ? null : +d.acc, at: d.updated_at ? new Date(d.updated_at).getTime() : null };

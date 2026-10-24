@@ -4,11 +4,11 @@
  TLB.addDict({cMapTitle:'Курьер в пути',cMapLoading:'Получаем местоположение…',cMapNone:'Местоположение курьера недоступно',cMapAge:'Обновлено {n} мин назад',cMapUnavailable:'Карта недоступна',cMapRetry:'Повторить загрузку карты',cCurrent:'Текущий заказ',cCurrentMany:'Текущие заказы',cOpen:'Открыть'},
  {cMapTitle:'Courier on the way',cMapLoading:'Getting location…',cMapNone:'Courier location unavailable',cMapAge:'Updated {n} min ago',cMapUnavailable:'Map unavailable',cMapRetry:'Retry map',cCurrent:'Current order',cCurrentMany:'Current orders',cOpen:'Open'});
  const ACTIVE=['pending','preparing','ready','pickedup'];
- let root=null,map=null,marker=null,tiles=null,tileReady=false,tileError=false,loadTimer=0,pollTimer=0,deadline=0,ageTimer=0,id=null,epoch=0,busy=false,point=null,lastCall=0,phase='loading',mapLoading=false,layoutObserver=null,basePadding='',mapEpoch=0;
+ let root=null,map=null,marker=null,tiles=null,tileReady=false,tileError=false,loadTimer=0,pollTimer=0,deadline=0,ageTimer=0,id=null,epoch=0,busy=false,point=null,lastCall=0,phase='loading',mapLoading=false,layoutObserver=null,basePadding='',mapEpoch=0,controller=null;
  function eligible(){if(!ME?.phone)return null;const o=S.v==='track'&&TLB.order(S.tid);return o&&o.status==='pickedup'&&!document.hidden?String(o.id):null}
  function valid(p){return p&&p.lat!==null&&p.lng!==null&&Number.isFinite(p.lat)&&Math.abs(p.lat)<=90&&Number.isFinite(p.lng)&&Math.abs(p.lng)<=180&&Number.isFinite(p.at)&&p.at>0&&p.at<=Date.now()}
  function mapDestroy(){mapEpoch++;clearTimeout(loadTimer);loadTimer=0;if(map){map.remove();map=null}marker=null;tiles=null;tileReady=false;tileError=false;mapLoading=false}
- function reset(){epoch++;clearTimeout(pollTimer);clearTimeout(deadline);clearInterval(ageTimer);mapDestroy();root?.remove();root=null;point=null;id=null;busy=false;lastCall=0;phase='loading'}
+ function reset(){epoch++;controller?.abort();controller=null;clearTimeout(pollTimer);clearTimeout(deadline);clearInterval(ageTimer);mapDestroy();root?.remove();root=null;point=null;id=null;busy=false;lastCall=0;phase='loading'}
  function create(){root=document.createElement('section');root.className='c-track';root.dataset.c='C1';root.setAttribute('aria-label',t('cMapTitle'));root.innerHTML='<h3></h3><p class="c-track-age" aria-live="polite"></p><div class="c-track-map" role="img"></div><p class="c-track-note" role="status"></p><button type="button" class="c-track-retry" hidden></button>';root.querySelector('button').onclick=()=>{mapDestroy();draw()}}
  function draw(){if(!root)return;root.querySelector('h3').textContent=t('cMapTitle');const area=root.querySelector('.c-track-map'),note=root.querySelector('.c-track-note'),retry=root.querySelector('button');
   root.querySelector('.c-track-age').textContent=phase==='loading'&&!point?t('cMapLoading'):point?t('cMapAge').replace('{n}',Math.max(0,Math.floor((Date.now()-point.at)/60000))):t('cMapNone');
@@ -24,8 +24,10 @@
  }
  function drawError(){if(!root)return;const note=root.querySelector('.c-track-note'),retry=root.querySelector('button');note.textContent=t('cMapUnavailable');note.hidden=!point||!tileError;retry.textContent=t('cMapRetry');retry.hidden=!point||!tileError}
  async function request(){if(!id||busy||eligible()!==id)return;busy=true;lastCall=Date.now();const token=epoch,order=id;let value=null,timedOut=false;
-  deadline=setTimeout(()=>{if(token!==epoch||eligible()!==order)return;timedOut=true;point=null;phase='settled';draw()},10000);
-  try{value=await TLB.courierPosition(order)}catch(e){}finally{if(token!==epoch)return;clearTimeout(deadline);busy=false}
+  const active=controller=new AbortController();let release;
+  const stopped=new Promise(resolve=>{release=()=>resolve(null);active.signal.addEventListener('abort',release,{once:true})});
+  deadline=setTimeout(()=>{if(token!==epoch)return;timedOut=true;active.abort()},10000);
+  try{value=await Promise.race([TLB.courierPosition(order,active.signal),stopped])}catch(e){}finally{active.signal.removeEventListener('abort',release);if(token===epoch){clearTimeout(deadline);busy=false;if(controller===active)controller=null}}
   if(token!==epoch||eligible()!==order)return;point=!timedOut&&valid(value)?value:null;phase='settled';draw();pollTimer=setTimeout(request,Math.max(0,15000-(Date.now()-lastCall)));
  }
  function current(){document.body.style.paddingBottom=basePadding;document.querySelector('.c-current')?.remove();layoutObserver?.disconnect();layoutObserver=null;const views=['home','cat','menu','fav','promo','offer','wallet','me'];

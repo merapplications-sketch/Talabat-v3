@@ -117,3 +117,78 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
 - Live test (one round, existing accounts, one order) — branch build on the live project, no merge, no publish:
   customer https://raw.githack.com/merapplications-sketch/Talabat-v3/7f60d160e589c3117686526ad92c8bbc3d5ae49f/customer.html, driver …/driver.html,
   restaurant on the published merchant app. `ALLOWED_ORIGINS` not touched (route function not deployed).
+
+## 13. 24 Oct — Pre-owner audit, isolated repair branch (no merge / deployment)
+
+Source / coordination:
+- Started from the actual `tech/v82-int` head `bef04020e9c5bfcdf497a994fcc41bfdd706e0b5`, not the older preview.
+  Read this log, UI-PACK, integration changes, saved H/C QA and T1 evidence before testing. Remote integration head
+  rechecked unchanged before handoff. Repair branch: `fix/v82-pre-owner-audit-20261024`.
+- Existing successful unchanged H/driver-map checks remain prior evidence; no replacement review package was built.
+  Driver A / v80 / Claude fixes retained. Only the fixes below and their test harnesses changed.
+
+Confirmed defects and repairs:
+1. C1 hung RPC: the previous 10-second UI deadline did not cancel the request or release `busy`. A never-settling
+   transport prevented the next location poll; leaving/returning could leave the old transport outstanding.
+   Reproduced against the exact base: after 10.1 s + the next 5 s, RPC calls = 1, expected 2 (regression assertion failed).
+   Repair: optional AbortSignal through `TLB.courierPosition`; abort on timeout/reset/navigation/background/pagehide;
+   release pending UI work, keep 15-second cadence and epoch guards. No RPC arguments, SQL or location permissions changed.
+   Current regression verifies repeated timeout cancellation/retry, no late repaint, cancel while hidden, fresh return,
+   no continued polling after completion and no duplicate calls/maps during repeated render.
+2. WebKit audio failure: `AudioContext.resume()` rejection escaped the synchronous try/catch. Actual local WebKit
+   produced `InvalidStateError: Failed to start the audio device`; the global reload alert covered checkout controls.
+   Repair: consume the resume rejection. Audio remains optional; no delivery/order action depends on audio success.
+   Forced rejected-resume test passes in both engines and the previously blocked WebKit order flow now finishes.
+3. H14: missing `assets/brand/talabot-ru.png` restored byte-for-byte from the approved original RU artwork, also present
+   at `assets/driver-a/brand/TALABOT-Original-RU.png` (identical to the recovered design package).
+   SHA-256: `e05393ddc1b94bd27dba52f40e11d670b8b5a3a0e8bbc740cf2aea46f2851e36`.
+   Real image decoding/naturalWidth checked at 360/390/430 in both engines. No replacement logo designed.
+4. QA fidelity, not an application-policy change: catalog fixture assumed `menu_items.approved=false` for every new dish.
+   Read-only live inspection found default true, with `item_approval` forcing false for pharmacy only. Aligned the
+   restaurant catalog fixture/assertion with that existing rule. No DB/default/trigger/approval behavior was changed.
+
+Executed evidence — LOCAL, isolated Supabase/Storage/RPC doubles, not live operation:
+- `python tools/flow_check.py`: Chromium 134, width 390, final combined fixes: FLOW FAILS 0; 23 screen checkpoints.
+- `FLOW_BROWSER=webkit FLOW_W=360|390|430 python tools/flow_check.py`: WebKit 18.4, all three widths: FLOW FAILS 0 each;
+  23 screen checkpoints each. Customer cart/payment/order → merchant prep 15 min/accept/ready → driver offer/accept/
+  arrive/pickup/cash delivery → customer rating/admin visibility; cancellation/rejection/busy-driver side paths.
+  The earlier unpatched WebKit run failed at checkout due to the audio error; it is not counted as a pass.
+- `CHROMIUM_PATH=<headless-shell> TALABOT_UI_QA_OUT=/tmp/... node tools/ui_c_check.cjs`:
+  27 C1/C2 state/width cases at 360/390/430 plus lifecycle, invalid/null/error/old timestamps, map failure/retry,
+  one/multiple/current-order shortcuts, cart/navigation spacing, overlay exclusion; zero JS errors.
+- `python tools/pre_owner_check.py`: Chromium + WebKit at 360/390/430: rejected audio recovery, H14 image decoding,
+  location timeout/cancel/retry/null/background/return/end, no overflow; gift recipient tel-link rendered using the
+  existing recipient data path; driver sheet scrolling, chat draft and reachable send control at height 520.
+  No telephone link was activated or external message sent. Reduced viewport is NOT a physical keyboard test.
+- `python tools/admin_login_check.py`: mock admin login errors/lock/session reload/signout/role refusal/staff sections OK.
+- `python tools/catalog_check.py`: aligned fixture OK: store/cover/logo/banner create/edit, dish/photo, sizes/extras,
+  customer visibility/required selection/pricing. Real file inputs, isolated storage; no live uploads.
+- `python tools/cart_check.py`: CART FAILS 0: persistence, options, unavailable lines, retry idempotency key, gift input,
+  group-cart return and busy state. `python tools/driver_t4_check.py`: OK, repeated delivery lock/failure recovery,
+  chat draft/late response handling and tile referrer. `python tools/courier_position_check.py`: API parsing/null/errors OK.
+- Reused existing waiting/sheet/map stability evidence where unaffected. New reduced-viewport checks exercise scroll,
+  but no claim of physical iPhone keyboard, GPS, WebKit touch implementation or background OS behavior is made.
+
+LIVE inspection — strictly read-only:
+- Confirmed the connected project matches the application's Supabase project. Patch39 function already exists; not run again.
+- Inspected live `order_courier_position(bigint)`: only own order (`customer_id=auth.uid()`), only `pickedup`, joined assigned
+  driver's coordinates/time; anonymous execute forbidden, authenticated execute present. This is deployed-definition
+  evidence, NOT a real second-account isolation test or a live positive tracking demonstration.
+- No pickedup order with a usable assigned-driver location was available at inspection time.
+- Catalog RLS enabled on stores/items/groups/options/banners. Existing media/public and proofs/private buckets and their
+  policies/defaults/triggers inspected; existence of policies is NOT proof that actual account writes/uploads succeed.
+- Browser inventory contained only about:blank; no authenticated TALABOT sessions or existing-account login credentials
+  were available. Therefore live login, four-role order, saving/uploading, receiver chat/call, location freshness/access
+  isolation and real reconnect were not completed. No test order created; no production rows/accounts/files changed,
+  no records deleted, no balances settled. Do not count any synthetic orders as the authorized live test order.
+
+Limits / remaining gates:
+- Existing-account authenticated live round (one retained test order) is still required, including account isolation and
+  real GPS updates during pickedup; cannot be replaced by these mocks or the read-only SQL inspection.
+- Physical iPhone Safari: location permission/real stale or absent GPS, background/foreground, true keyboard/safe areas,
+  vertical sheet vs horizontal confirm gesture, and reconnection during a slow request. Local WebKit is emulation only.
+- No live OSM tile/CDN or phone-call completion proved; fixture maps/media failures were isolated on purpose.
+- Route function, B1/B2 and frozen financial packages remain on hold and were not classified as defects or enabled.
+- No SQL mutation, permission/account/financial-policy/dispatch change, main merge or app deployment.
+- Preview handoff: one `customer.html` raw.githack URL pinned to the repair commit; ordinary branch preview, not a deployment
+  or an isolated data sandbox. The driver and other apps at the same commit remain available from the branch source.

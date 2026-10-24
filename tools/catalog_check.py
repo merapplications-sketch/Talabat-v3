@@ -7,7 +7,7 @@ real file inputs for the photos.
   admin:  new store (form) -> edit: cover + logo photos, address -> owner linked to the restaurant account
           -> top banner with photo + bottom banner (form) -> banner edit (title, active)
   restaurant: new dish with photo, section, price -> sizes group (required, 1 of 3, prices) -> extras group (max 2, 2 extras)
-  admin:  approves the dish
+  admin:  sees the non-pharmacy dish already approved (live default; pharmacy still requires approval)
   customer: store in the list with its photos, dish with photo in the menu, the sheet shows sizes / extras with prices,
           required size enforced, line price = dish + size + extras, both banners on Home.
 DB defaults the mock applies on insert are the ones the live check must confirm (DEFAULTS below).
@@ -17,7 +17,7 @@ here=os.path.dirname(os.path.abspath(__file__))
 SRC=open(os.path.join(here,'flow_check.py')).read()
 exec(compile(SRC.split('shots=[]')[0],os.path.join(here,'flow_check.py'),'exec'))
 from PIL import Image
-DEFAULTS={'stores':{'is_active':True,'is_open':True},'menu_items':{'available':True,'approved':False},
+DEFAULTS={'stores':{'is_active':True,'is_open':True},'menu_items':{'available':True,'approved':True},
           'item_option_groups':{'sort':0},'item_options':{'available':True,'sort':0},'banners':{'is_active':True}}
 _ins=DB.handle
 def handle(s,q):
@@ -120,10 +120,9 @@ with sync_playwright() as p:
     gs=[x for x in db.T['item_option_groups'] if x.get('item_id')==iid];os_=[x for x in db.T['item_options'] if x.get('group_id') in [g['id'] for g in gs]]
     ok(sorted((g['name'],bool(g['required']),int(g['max_sel'])) for g in gs)==[('Добавки',False,2),('Размер',True,1)],'restaurant: sizes (required, 1) and extras (max 2) groups saved %s'%[(g['name'],g.get('required'),g.get('max_sel')) for g in gs])
     ok(sorted((o['name'],float(o['price_delta'])) for o in os_)==sorted([('Обычный',0.0),('Большой',8.0),('Семейный',20.0),('Казы',12.0),('Перепелиное яйцо',5.0)]),'restaurant: 5 options saved with their prices')
-    # ---- admin approves the dish ----
-    sync('admin');ok(a.evaluate("(i)=>TLB.pendingItems().some(x=>x.id==i)",iid),'admin: the new dish waits for approval')
-    a.evaluate("(i)=>TLB.approveItem(i)",iid);a.wait_for_timeout(500)
-    ok(next(x for x in db.T['menu_items'] if x['id']==iid).get('approved') is True,'admin: dish approved')
+    # Live read-only inspection 2026-10-24: default true; item_approval forces false for pharmacy only.
+    sync('admin');ok(not a.evaluate("(i)=>TLB.pendingItems().some(x=>x.id==i)",iid),'admin: a restaurant dish follows the existing approved=true default')
+    ok(next(x for x in db.T['menu_items'] if x['id']==iid).get('approved') is True,'restaurant dish is approved; no approval-policy changes')
     # ---- customer ----
     sync('customer');c.evaluate("()=>{S.q='';go('home')}");c.wait_for_timeout(500)
     r=c.evaluate("""(sid)=>{const s=ALLS.find(x=>x.id==sid);const bt=TLB.banners().map(b=>b.title);

@@ -188,7 +188,7 @@ MOCK="""(function(){var role=window.__ROLE,uid=window.__UID,user={id:uid,email:r
 
 shots=[]
 with sync_playwright() as p:
-    b=p.chromium.launch();tmp=b.new_page();db=DB(base_tables(tmp));tmp.close()
+    b=getattr(p,os.environ.get('FLOW_BROWSER','chromium')).launch();tmp=b.new_page();db=DB(base_tables(tmp));tmp.close()
     P={};ERR={};DLG=[]
     def open_app(role,app=None):
         app=app or role;ctx=b.new_context(viewport={'width':W,'height':844});pg=ctx.new_page();ERR[role]=[]
