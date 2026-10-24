@@ -9,7 +9,7 @@ def extract(p,key):
  s=Path(p).read_text();m=re.search('const '+key+'=',s);assert m;return json.JSONDecoder().raw_decode(s[m.end():])[0]
 H=extract(sys.argv[1],'TEMPLATES');C=extract(sys.argv[2],'TEMPLATE')
 def data(p):
- mime={'.png':'image/png','.woff2':'font/woff2','.svg':'image/svg+xml'}[p.suffix]
+ mime={'.png':'image/png','.woff2':'font/woff2','.svg':'image/svg+xml','.webp':'image/webp'}[p.suffix]
  return 'data:'+mime+';base64,'+base64.b64encode(p.read_bytes()).decode()
 def controller(role):return next(s for s in re.findall(r'<script[^>]*>(.*?)</script>',(root/(role+'.html')).read_text(),re.S) if ('let DLV=' if role=='driver' else 'let S=') in s)
 def css_driver():return re.sub(r"url\('([^']+)'\)",lambda m:"url('"+data(root/'assets/driver-a'/m[1])+"')",(root/'assets/driver-a/driver-a.css').read_text())
@@ -17,7 +17,13 @@ def update(template,role):
  def scripts(m):
   s=m[1]
   if s.startswith('/* talabat-core.js'):s=(root/'talabat-core.js').read_text()
-  elif ('let DLV=' if role=='driver' else 'let S=') in s:s=controller(role)
+  elif ('let DLV=' if role=='driver' else 'let S=') in s:
+   s=controller(role)
+   if role=='customer':
+    art={p.stem:data(p) for p in (root/'assets/3d').glob('*.webp')}
+    s=s.replace("const A3=n=>'assets/3d/'+n+'.webp';",'const A3=n=>('+json.dumps(art)+')[n]||\'\';')
+    # Source references a missing brand path. For review only, reuse the repository's approved original RU asset.
+    s=s.replace('assets/brand/talabot-ru.png',data(root/'assets/driver-a/brand/TALABOT-Original-RU.png'))
   elif role=='driver' and 'function aSheet(' in s:s=(root/'assets/driver-a/driver-a.js').read_text().replace('assets/driver-a/brand/TALABOT-Original-RU.png',data(root/'assets/driver-a/brand/TALABOT-Original-RU.png'))
   elif s.startswith('/* TALABOT driver — mission map view policy'):s=(root/'assets/driver-tech/map-view.js').read_text()
   if '/* Local proposed delta.' in s:
