@@ -32,6 +32,7 @@ s = s.replace('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
 s = re.sub(r'<script src="talabat-core\.js[^"]*"></script>', lambda m: script((ROOT / 'talabat-core.js').read_text()), s, count=1)
 s = s.replace('<script src="assets/driver-tech/waiting-map.js"></script>', script((ROOT / 'assets/driver-tech/waiting-map.js').read_text()), 1)
 s = s.replace('<script src="assets/driver-a/driver-a.js"></script>', script(js) + script(post), 1)
+s = s.replace('<script src="assets/driver-tech/map-view.js"></script>', script((ROOT / 'assets/driver-tech/map-view.js').read_text()), 1)
 s = s.replace('<link rel="stylesheet" href="assets/driver-a/driver-a.css">', '<style>' + css + '</style>', 1)
 # CSP of the export only: fonts / logo are embedded as data:, so allow data: fonts. Nothing else opened.
 s = s.replace("img-src 'self' data: blob: https:;", "img-src 'self' data: blob: https:; font-src 'self' data:;", 1)

@@ -107,3 +107,20 @@ Tests changed only to follow approved controls (v80 slide, driver A menu / chat 
   accuracy circle tagged `w-acc` for the check.
 - Checked (local Chromium headless 1194; local Leaflet copy, local tiles, mocked geolocation): driver_waiting_map_check 78/0
   incl. computed visibility at 360/390/430, partial notice, self-recovery, Tashkent marker + circle + re-centre.
+
+## v82f — map stability after the iPhone test (24 Oct)
+- Diagnosis (local, before the fix, tools/driver_map_stability_check.py on cb35a8c): during one test sequence (6 renders, 3 GPS
+  readings, countdown, 3 panel snaps, 3 viewport heights) the mission map re-framed 64× (fitBounds) and the waiting map 9×.
+  Mission: driver A ran aFitVisible after every mapUpd (every render: GPS, offer countdown) and every non-drag panel paint
+  (incl. Safari toolbar / innerHeight change) with a padding that follows the sheet → jumps and zoom changes.
+  Waiting: the provider re-framed 220 ms after every resize call (called on each render).
+- Fix, design unchanged:
+  - new `assets/driver-tech/map-view.js` (after driver-a.js, one script tag): same aFitVisible, but only once per task+stage,
+    plus once when the driver position first becomes known; user pan / pinch / wheel / double-tap keeps the user's view
+    until the task or stage changes or `aMapRecenter()`; otherwise only invalidateSize (centre and zoom kept).
+    Driver A has no «my location» control on the mission screen → hand-off H9 (hook aMapRecenter ready).
+  - waiting-map.js: no re-framing on resize; frame on first display + first GPS reading only; GPS moves the marker only;
+    pinch / wheel / double-tap = user choice (kept until «Моё местоположение»).
+- Checked (local Chromium headless 1194): map stability 15/0 (0 view changes during renders, GPS, countdown, offer arrival,
+  panel snaps and viewport heights; user zoom / pan kept; one change on «my location» / task stage change);
+  waiting map 77/0; driver A UI OK; driver H OK. Other checks not affected.

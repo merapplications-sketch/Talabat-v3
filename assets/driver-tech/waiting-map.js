@@ -67,7 +67,7 @@
     var getLocation = typeof opts.getLocation === 'function' ? opts.getLocation : function () { return {}; };
     var onViewChange = typeof opts.onViewChange === 'function' ? opts.onViewChange : function () {};
     var map = null, layerStores = null, meMarker = null, accCircle = null, dead = false;
-    var storesKey = '', placedWithDriver = false, tilesOk = 0, tilesBad = 0, fitTimer = 0;
+    var storesKey = '', placedWithDriver = false, tilesOk = 0, tilesBad = 0;
     /* view mode: 'fit' = driver + restaurants fitted into the uncovered strip (start); 'me' = «my location» pressed;
        'free' = the user moved the map (nothing moves it back except «my location») */
     var mode = 'fit';
@@ -111,7 +111,6 @@
       var st = strip();
       map.fitBounds(pts, { paddingTopLeft: [32, st.top + 32], paddingBottomRight: [32, st.size.y - st.bottom + 32], maxZoom: 16, animate: false });
     }
-    function placeView() { if (mode === 'fit') fitView(); else if (mode === 'me') { var l = loc(); if (l.ok) centreOn([l.lat, l.lng]); } }
     function drawStores() {
       var list = stores(), key = list.map(function (s) { return s.id + ':' + (+s.lat) + ',' + (+s.lng) + ':' + (s.is_open ? 1 : 0); }).join('|');
       if (key !== storesKey && layerStores) {
@@ -146,7 +145,7 @@
       setState('nearby', !l0.ok || !storesLoaded() ? 'loading' : 'ready');
       if (!map) return;
       drawStores(); var l = drawMe();
-      if (l.ok && !placedWithDriver) { placedWithDriver = true; if (mode === 'fit') fitView(); }   /* first real reading: include the driver once */
+      if (l.ok && !placedWithDriver) { placedWithDriver = true; if (mode === 'fit') fitView(); }   /* first real reading: include the driver once; later readings only move the marker */
     }
 
     /* H8: map failure message + retry, inside the map area only (offers, panel and shift are not touched).
@@ -205,6 +204,9 @@
       tiles.addTo(map);
       layerStores = L.layerGroup().addTo(map);
       map.on('dragstart', function () { mode = 'free'; });   /* the user's own view is kept; «my location» brings the driver back */
+      ['pointerdown', 'touchstart', 'wheel', 'dblclick'].forEach(function (ev) {   /* pinch / wheel / double-tap zoom = the user's choice too */
+        box.addEventListener(ev, function (e) { if (e.isTrusted !== false) mode = 'free'; }, { passive: true });
+      });
       var l = loc();
       map.setView(l.ok ? [l.lat, l.lng] : CITY, l.ok ? 15 : 13);
       placedWithDriver = l.ok; fitView(); refresh();
@@ -217,16 +219,16 @@
         if (v) { visible.top = +v.visibleTop || 0; visible.bottom = +v.visibleBottom || 0; }
         if (failOn || partOn) placeFail();
         if (!map || sizeFrame) return;
-        sizeFrame = requestAnimationFrame(function () { sizeFrame = 0; if (map && !dead) map.invalidateSize({ pan: false }); });
-        /* panel moved (snap, offer arrived, offline strip): re-place the view once it settles, never during a drag */
-        clearTimeout(fitTimer); fitTimer = setTimeout(function () { if (map && !dead && !window.__drag) placeView(); }, 220);
+        /* panel moved / Safari toolbar / offer arrived: keep centre and zoom (invalidateSize pans to keep the centre);
+           NO re-framing here — it ran on every render (GPS, countdown) and made the map jump on iPhone */
+        sizeFrame = requestAnimationFrame(function () { sizeFrame = 0; if (map && !dead) map.invalidateSize({ animate: false }); });
       },
       recenter: function () {
         var l = loc(); if (!map || !l.ok) return;
         mode = 'me'; centreOn([l.lat, l.lng], Math.max(map.getZoom(), 16));   /* street level: the accuracy circle is readable around the marker */
       },
       destroy: function () {
-        dead = true; if (sizeFrame) cancelAnimationFrame(sizeFrame); clearTimeout(fitTimer); window.removeEventListener('online', onOnline);
+        dead = true; if (sizeFrame) cancelAnimationFrame(sizeFrame); window.removeEventListener('online', onOnline);
         if (map) { try { map.remove(); } catch (e) {} }
         map = null; meMarker = null; accCircle = null; layerStores = null;
         node.replaceChildren(); S.mounted = false; S.map = 'loading'; S.nearby = 'loading';

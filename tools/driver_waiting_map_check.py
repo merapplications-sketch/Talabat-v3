@@ -82,10 +82,10 @@ with sync_playwright() as p:
                 return pg.evaluate("()=>{const h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top,m=document.querySelector('#w-map .dmk.me').getBoundingClientRect();return [Math.round((m.top+m.bottom)/2),Math.round((h+t)/2)]}")
             inside = "()=>{const h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top;return [...document.querySelectorAll('#w-map .leaflet-marker-icon')].map(e=>{const r=e.getBoundingClientRect();return r.top>=h-2&&r.bottom<=t+2&&r.left>=0&&r.right<=innerWidth}).every(Boolean)}"
             ok(pg.evaluate(inside), 'first view: driver + every drawn restaurant inside the uncovered strip (header..panel), no radius applied')
-            pg.evaluate("()=>wSnap('collapsed')"); pg.wait_for_timeout(700)
-            ok(pg.evaluate(inside), 'panel collapsed: view re-fitted to the larger strip')
-            pg.evaluate("()=>wSnap('default')"); pg.wait_for_timeout(700)
-            ok(pg.evaluate(inside), 'panel back to default: all markers still in the strip')
+            mpos = "()=>{const r=document.querySelector('#w-map .dmk.me').getBoundingClientRect();return [Math.round(r.left),Math.round(r.top)]}"
+            p0 = pg.evaluate(mpos); pg.evaluate("()=>wSnap('collapsed')"); pg.wait_for_timeout(700); p1 = pg.evaluate(mpos)
+            pg.evaluate("()=>wSnap('default')"); pg.wait_for_timeout(700); p2 = pg.evaluate(mpos)
+            ok(p0 == p1 == p2, 'panel collapsed / back: map keeps centre and zoom, no re-framing (%s %s %s)' % (p0, p1, p2))
             m = pg.locator('#w-map'); bx = m.bounding_box(); pg.mouse.move(bx['x'] + 150, bx['y'] + 120); pg.mouse.down(); pg.mouse.move(bx['x'] + 40, bx['y'] + 20, steps=8); pg.mouse.up(); pg.wait_for_timeout(300)
             c2 = centred(); ok(abs(c2[0] - c2[1]) > 30, 'user pan moves the map away (%s)' % c2)
             pg.evaluate("()=>wSnap('collapsed')"); pg.wait_for_timeout(700); pg.evaluate("()=>wSnap('default')"); pg.wait_for_timeout(700)
