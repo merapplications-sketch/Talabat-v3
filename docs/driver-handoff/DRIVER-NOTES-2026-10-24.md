@@ -35,3 +35,11 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
 - iPhone Safari round (one batch): waiting map, offer arrival, mission map, panels, permission denied, airplane mode.
 - T6 live pass on the published app (needs Chrome extension or the owner); LINK-02/03/05; LINK-06 iPhone.
 - T7 merge of `tech/v82-int` after owner approval (no SQL).
+
+## 5. Delivery & tracking requests (added 24 Oct, 13:58) — plan: `docs/plan/DELIVERY-TRACKING-PLAN.md`
+- Batch A started: pin chain checked locally (customer point = stored order point = courier point, flow_check);
+  read-only query `sql/verify_delivery_readonly.sql` ready for the owner (courier-position read path, recipient / chat
+  policies, prep / status functions, realtime tables).
+- UI requests for batches B–D (route line + distance / ETA + «Навигатор», customer tracking map + draggable card + current-order
+  shortcut, recipient / code screens) are listed in the plan, section 3 — one hand-off with H9.
+- Blocking questions Q1, Q3–Q8 in the plan, section 4 (plus D-W1, D-L1).

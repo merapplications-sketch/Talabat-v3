@@ -233,6 +233,10 @@ with sync_playwright() as p:
     hold_order()
     oid=max([o['id'] for o in db.T['orders']] or [0])
     ok(oid and status(oid)=='pending','order created (#%s, pending)'%oid)
+    # pin chain (plan batch A): the point chosen by the customer is the point stored with the order (no re-geocoding)
+    _o=db.order(oid);_pt=c.evaluate("()=>{const a=typeof curAddr==='function'?curAddr():null;return a&&a.lat!=null?[+a.lat,+a.lng]:null}")
+    ok(_o.get('lat') is not None and _o.get('lng') is not None and (_pt is not None and (abs(_pt[0]-_o['lat'])<1e-9 and abs(_pt[1]-_o['lng'])<1e-9)),
+       'pin: order stored with the customer point %s (customer selection %s)'%((_o.get('lat'),_o.get('lng')),_pt))
     ok(c.evaluate("()=>S.v")=='track','customer lands on the tracking page')
     look('customer','4-track-pending')
     # 2) restaurant accepts with a time
@@ -251,6 +255,8 @@ with sync_playwright() as p:
     d=P['driver'];sync('driver');click('driver','Начать смену|Выйти на смену|смену');sync('driver');d.wait_for_timeout(500);sync('driver')
     look('driver','7-offer')
     ok(d.evaluate("(i)=>!!document.body.innerText.match(/#"+str(oid)+"/)",oid) or d.evaluate("()=>document.querySelectorAll('[onclick^=\"take(\"],[onclick^=\"aSelect(\"]').length>0"),'courier sees the offer')
+    _dl=d.evaluate("(i)=>{const o=TLB.order(i)||TLB.offers().find(x=>String(x.id)===String(i));return o?[o.lat,o.lng]:null}",oid)
+    ok(_dl and abs(_dl[0]-_o['lat'])<1e-9 and abs(_dl[1]-_o['lng'])<1e-9,'pin: the courier receives the same point as stored (%s)'%(_dl,))
     if d.locator('[onclick^="aSelect("]').count():   # driver A v06: open the offer, then confirm it with the slide (same driver_accept)
         # waiting home (ab8fd6c): the first aSelect in the DOM is the collapsed-panel mini card (hidden) -> tap the visible offer
         d.locator('[onclick^="aSelect("] >> visible=true').first.click();d.wait_for_timeout(400);swipe(d);d.wait_for_timeout(500)
