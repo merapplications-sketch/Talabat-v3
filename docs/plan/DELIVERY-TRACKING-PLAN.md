@@ -41,3 +41,36 @@ No new proximity, settlement or permission policy is assumed. Budget 0; same Sup
 6. Q7 voice note: allowed; who may hear it (courier of the order only); kept how long.
 7. Q8 approach alert: at what distance / time — no number is assumed.
 Open from before: D-W1 (nearby), D-L1 (courier pays restaurant).
+
+## 5. Live read-only result (owner, 24 Oct 14:48 — `docs/live/verify_delivery_2026-10-24.csv`)
+Proven live (structure only):
+- Saved addresses always have a pin: `addresses.lat/lng` NOT NULL; landmark = `addresses.note` (optional). Orders keep
+  `orders.lat/lng` (nullable) + `orders.address` text. No separate landmark / entrance columns on the order (they are in the text).
+- Courier position is stored on `profiles.lat/lng/loc_acc/loc_updated` by `driver_location` (security definer).
+  `profiles` is NOT in the realtime publication; profiles read policies were not in this query → a customer read path is
+  NOT proven (expect: missing).
+- Gift: `orders.is_gift` + `order_recipient(order_id, name, phone)`, read only by admin / orders / support permission and
+  the order's parties (policy text truncated in the export).
+- Chat: `order_chat` read = `can_see_order(order_id)`; in realtime. Orders, order_events, order_offers in realtime.
+- Restaurant: `set_prep_time(p_id, p_min)`, `set_order_status(p_id, p_to)`; `orders.prep_time` integer NOT NULL; no ready_at.
+- No delivery-code column / function. Extensions pg_cron / pg_net / http / postgis: none installed.
+Not proven: profiles policies (who can read a courier position), insert policy text of chat / recipient, Safari / iPhone,
+live end-to-end order.
+
+## 6. Batch A results (local + code reading; no change to v80 / driver A design)
+- Pin chain: customer point = stored order point = courier point (flow_check, mock) ✔.
+- Gift contact routing (code): chat and «Я на месте» go to the order owner; the recipient is reachable by phone only
+  (driver.html + driver A note with call) ✔ — consistent with the review proposals below.
+- Restaurant prep: set and edited while pending / preparing (15 / 30 / 45 min chips, `set_prep_time`) ✔.
+  Gaps (UI, not logic): driver A mission does not show «Готовится, ~N мин» (driver.html had it) → H12;
+  customer v80 does not show prep minutes (data `prepTime` is in the order) → H13. A «ready at» time needs an anchor
+  (accept time) that is not stored as a column → only «~N мин» can be shown without SQL.
+
+## 7. Proposals for review (24 Oct 14:48) — NOT started
+| # | Proposal | Needs before start |
+|---|---|---|
+| P1 | Street routing: evaluate a free source (recommended OpenRouteService Standard key; OSRM public as fallback), check its terms and protect the key (Edge Function proxy) before adopting | owner approval of source + key handling |
+| P2 | Customer tracks the courier of HIS order only while out for delivery; ends at delivered / cancelled | SQL read function (security definer, last position only) — approval |
+| P3 | Delivery code for gifts first, shared by the owner with the recipient; server check; when the code is impossible an authorised staff member approves before the order closes, with reason + evidence; a call alone never confirms delivery | SQL patch + staff screen — approval |
+| P4 | Temporary tracking link for the recipient: stage + map only, no code, no account data; ends at delivered / cancelled | SQL / Edge Function — approval |
+| P5 | Postponed: voice note, Web Push, automatic approach alert; use the existing chat / call / «Я подъезжаю» meanwhile | — |

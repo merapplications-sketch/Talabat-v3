@@ -1,0 +1,76 @@
+kind,name,detail
+column,addresses.apartment,text · null=YES
+column,addresses.created_at,timestamp with time zone · null=NO
+column,addresses.details,text · null=YES
+column,addresses.entrance,text · null=YES
+column,addresses.floor,text · null=YES
+column,addresses.house,text · null=YES
+column,addresses.id,uuid · null=NO
+column,addresses.is_default,boolean · null=NO
+column,addresses.label,text · null=NO
+column,addresses.lat,double precision · null=NO
+column,addresses.lng,double precision · null=NO
+column,addresses.note,text · null=YES
+column,addresses.street,text · null=NO
+column,addresses.user_id,uuid · null=NO
+column,order_chat.body,text · null=NO
+column,order_chat.created_at,timestamp with time zone · null=NO
+column,order_chat.id,bigint · null=NO
+column,order_chat.order_id,bigint · null=NO
+column,order_chat.sender_id,uuid · null=NO
+column,order_recipient.name,text · null=NO
+column,order_recipient.order_id,bigint · null=NO
+column,order_recipient.phone,text · null=NO
+column,orders.address,text · null=YES
+column,orders.cancel_note,text · null=YES
+column,orders.cash_note,text · null=YES
+column,orders.driver_id,uuid · null=YES
+column,orders.driver_name,text · null=YES
+column,orders.driver_payout,numeric · null=NO
+column,orders.is_gift,boolean · null=NO
+column,orders.lat,double precision · null=YES
+column,orders.lng,double precision · null=YES
+column,orders.prep_time,integer · null=NO
+column,orders.promo_code,text · null=YES
+column,profiles.accept_blocked,boolean · null=NO
+column,profiles.last_seen,timestamp with time zone · null=YES
+column,profiles.lat,double precision · null=YES
+column,profiles.lng,double precision · null=YES
+column,profiles.loc_acc,double precision · null=YES
+column,profiles.loc_updated,timestamp with time zone · null=YES
+column,profiles.online,boolean · null=NO
+function,brand_detach,security_definer=true · args=p_store uuid
+function,deliver_order,"security_definer=true · args=p_id bigint, p_cash numeric, p_note text, p_photo text"
+function,delivery_calc,"security_definer=true · args=p_store uuid, p_lat double precision, p_lng double precision, p_uid uuid"
+function,delivery_quote,"security_definer=true · args=p_store uuid, p_lat double precision, p_lng double precision"
+function,driver_location,"security_definer=true · args=p_lat double precision, p_lng double precision, p_acc double precision"
+function,set_my_free_delivery,"security_definer=true · args=p_store uuid, p_min numeric"
+function,set_order_status,"security_definer=true · args=p_id bigint, p_to order_status"
+function,set_prep_time,"security_definer=true · args=p_id bigint, p_min integer"
+function,set_store_free_delivery,"security_definer=true · args=p_store uuid, p_min numeric"
+function,ticket_set_status,"security_definer=true · args=p_ticket bigint, p_status text, p_note text, p_refund numeric"
+function,trg_chat_limit,security_definer=true · args=
+policy,addresses.addr_admin_read,SELECT · is_admin()
+policy,addresses.addr_own,ALL · (user_id = auth.uid())
+policy,order_chat.chat_insert,"INSERT · "
+policy,order_chat.chat_read,SELECT · can_see_order(order_id)
+policy,order_recipient.recipient_read,"SELECT · (is_admin() OR has_perm('orders'::text) OR has_perm('support'::text) OR (EXISTS ( SELECT 1
+   FROM orders o
+  WHERE ((o.id = order_recipient.order_id) AND ((o.c"
+policy,orders.orders_read,SELECT · can_see_order(id)
+realtime,banners,in supabase_realtime publication
+realtime,favorites,in supabase_realtime publication
+realtime,happy_hours,in supabase_realtime publication
+realtime,item_option_groups,in supabase_realtime publication
+realtime,item_options,in supabase_realtime publication
+realtime,menu_items,in supabase_realtime publication
+realtime,order_chat,in supabase_realtime publication
+realtime,order_events,in supabase_realtime publication
+realtime,order_offers,in supabase_realtime publication
+realtime,orders,in supabase_realtime publication
+realtime,ratings,in supabase_realtime publication
+realtime,store_requests,in supabase_realtime publication
+realtime,stores,in supabase_realtime publication
+realtime,support_tickets,in supabase_realtime publication
+realtime,ticket_messages,in supabase_realtime publication
+realtime,wallet_entries,in supabase_realtime publication

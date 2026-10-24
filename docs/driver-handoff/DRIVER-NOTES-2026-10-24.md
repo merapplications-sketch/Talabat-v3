@@ -43,3 +43,10 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
 - UI requests for batches B–D (route line + distance / ETA + «Навигатор», customer tracking map + draggable card + current-order
   shortcut, recipient / code screens) are listed in the plan, section 3 — one hand-off with H9.
 - Blocking questions Q1, Q3–Q8 in the plan, section 4 (plus D-W1, D-L1).
+
+## 6. Update 24 Oct 14:48 (after the live read-only result)
+- Batch A done as far as possible without approval (plan sections 5–6). New UI hand-offs:
+  - H12 driver A mission: show the restaurant prep time «Готовится, ~N мин» (field `prepTime`, as driver.html did).
+  - H13 customer v80 order page: show the prep minutes while preparing (field `prepTime`; no «ready at» column exists).
+- Review proposals P1–P5 recorded in the plan, section 7 — nothing started.
+- One UI hand-off list now: H4, H5, H7, H9 (`aMapRecenter()`), H10, H11, H12, H13 + plan section 3 (B–D screens, after approval).
