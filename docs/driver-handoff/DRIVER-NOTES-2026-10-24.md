@@ -58,3 +58,8 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
   TLB.courierPosition, sql/verify_tracking_readonly.sql (read-only), sql/proposed/patch39_order_courier_position.sql (not applied).
 - Local checks: route function 14/0 · driver route 13/0 · courier position OK · affected: map stability, driver A UI, H, T4,
   flow, core v80 — all clean.
+
+## Working rule (owner, 24 Oct 15:33)
+- This log + `docs/plan/DELIVERY-TRACKING-PLAN.md` (with `B-C-REVIEW.md`) are the single reference; update by differences only.
+- No repeat of done work or passing checks unless an affecting change or a proven failure.
+- Waiting: CSV of `sql/verify_tracking_readonly.sql`; approval for function deploy, modifying SQL, merge to main.
