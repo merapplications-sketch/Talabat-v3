@@ -32,9 +32,19 @@
 - Next batch (D/E): gift delivery code + staff-approved exception; temporary recipient tracking link.
 - Postponed: voice note, Web Push, automatic approach alert.
 
+## Live read-only result 2 (24 Oct 15:40, `docs/live/verify_tracking_2026-10-24.csv`)
+- `profiles` SELECT: own row or admin; staff with orders / finance read drivers. **No existing path lets a customer read the
+  courier position** → patch 39 is needed (no reuse possible). Status `pickedup` and `orders.customer_id` confirmed.
+- `driver_location` writes at most one point / 3 s for an approved, online driver; `driver_ping(false)` clears the position →
+  patch 39 then returns nothing (shown as «unavailable», never an old point).
+- `can_see_order`, chat insert (customer or driver, only with a courier and status preparing / ready / pickedup) and
+  recipient read (staff perms + the order's customer and courier) confirmed — no change needed.
+- Note: `profiles` has the default Supabase table grants for `authenticated` (incl. TRUNCATE); rows are protected by RLS and
+  TRUNCATE is not reachable through the API. No action proposed.
+
 ## One approval — external steps (in this order)
-1. Owner runs `sql/verify_tracking_readonly.sql` (read-only) and sends the CSV.
+1. ✔ done 15:40 — read-only result received; patch 39 confirmed necessary.
 2. Owner creates the free ORS account, checks its terms, and sets the secrets (`ORS_KEY`, `ALLOWED_ORIGINS`) in Supabase.
 3. Deploy the Edge Function `route` (Supabase CLI or dashboard).
-4. Apply patch 39 — only if step 1 shows no reusable path.
+4. Apply patch 39 (step 1 showed no reusable path).
 5. Merge `tech/v82-int` to main (T7) — separately approved.

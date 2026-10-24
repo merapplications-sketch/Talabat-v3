@@ -62,4 +62,4 @@ Files the UI team owns and Claude touched (logic only): `assets/driver-a/driver-
 ## Working rule (owner, 24 Oct 15:33)
 - This log + `docs/plan/DELIVERY-TRACKING-PLAN.md` (with `B-C-REVIEW.md`) are the single reference; update by differences only.
 - No repeat of done work or passing checks unless an affecting change or a proven failure.
-- Waiting: CSV of `sql/verify_tracking_readonly.sql`; approval for function deploy, modifying SQL, merge to main.
+- Waiting: approval for ORS key + function deploy, patch 39 (confirmed needed by the 15:40 result), merge to main.
