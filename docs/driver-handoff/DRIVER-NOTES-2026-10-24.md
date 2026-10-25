@@ -248,3 +248,13 @@ Still open / limits:
   No live chat, test order, account, SQL/permission or balance change was performed.
 - Physical iPhone Safari pinch/drag/keyboard/browser chrome still needs device acceptance; local WebKit is only an engine
   simulation. This delta does not activate B1/B2 or claim that a street route now exists.
+
+## 15. 25 Oct — Internal navigation requirement: planning delta only
+- Owner accepted the saved touch/chat repairs; neither reimplemented or re-tested. Reviewed their source `a03a9d7...`.
+- One consolidated reconciliation/provider recommendation appended to section 8 of `docs/plan/DELIVERY-TRACKING-PLAN.md`.
+  It distinguishes prepared B1 street-route display, optional customer B2, internal visual navigation gaps, and an absent
+  turn-by-turn engine. Recommendation: Geoapify Free as one proposed route upstream, reusing map/proxy, NOT an activation.
+- Research corrects prior ORS commercial-use uncertainty (official team permission found); records the separate current
+  personal-data clause, attribution, free limits, actual Geoapify Dushanbe public-demo route samples and remaining limits.
+- Only plan/log files changed. No app/SQL/accounts/secrets/functions/providers/merge/deployment changes. B1/B2 and route
+  activation remain suspended pending the explicit decision. Full inputs, owners and acceptance gates are in the plan delta.
