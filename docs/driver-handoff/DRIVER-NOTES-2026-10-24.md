@@ -258,3 +258,16 @@ Still open / limits:
   personal-data clause, attribution, free limits, actual Geoapify Dushanbe public-demo route samples and remaining limits.
 - Only plan/log files changed. No app/SQL/accounts/secrets/functions/providers/merge/deployment changes. B1/B2 and route
   activation remain suspended pending the explicit decision. Full inputs, owners and acceptance gates are in the plan delta.
+
+
+## 16. 25 Oct — Navigation evaluation gaps completed (planning only)
+- Extends accepted evaluation baseline `727835abfb3648063aef06f57d56930a5f536a85`; details in section 9 of
+  `docs/plan/DELIVERY-TRACKING-PLAN.md`. No repeated Dushanbe comparison/tests or accepted touch/chat repairs.
+- Recorded hard-coded Dushanbe text suffix and camera defaults; separated map/route coverage from operating service
+  policy and the existing pairwise route guard. No source correction or service-city activation performed.
+- Added two Khujand public-demo directed routes/address selections with limits; added Yandex PWA/license/product-cost
+  assessment and Geoapify foreground navigator work beyond geometry (progress, turns, off-route recalculation).
+- Added all-fleet/all-city credit scenarios and proposed durable shared cap/depletion behavior with no automatic paid
+  plan. One recommendation retained, approval/owners/acceptance gates explicit. ORS and B1/B2 remain held.
+- Changed only this log and existing plan; app, SQL, accounts, financial logic, dispatch, deployment and accepted fixes
+  remain unchanged. This documentation review is not proof of live navigation, deployed city rules or actual Safari.

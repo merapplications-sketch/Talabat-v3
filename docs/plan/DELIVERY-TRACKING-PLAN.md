@@ -1,6 +1,6 @@
 # TALABOT — delivery & tracking improvements: plan (24 Oct 2026)
 
-Latest planning delta: section 8 (25 Oct, internal navigation/provider review). Earlier proposals remain historical; no routing activation is approved by this update.
+Latest planning delta: section 9 (25 Oct, multi-city/navigation/quota gaps; extends section 8). Earlier proposals remain historical; no routing activation is approved by this update.
 Matched once against `tech/v82-int` (code + repo SQL patches 17–34). Improve and connect what exists; no rebuild.
 No new proximity, settlement or permission policy is assumed. Budget 0; same Supabase project, accounts, free services.
 
@@ -196,3 +196,163 @@ Official sources / observation method (checked 25 Oct):
 - [O3] Current Terms: https://account.heigit.org/info/tos (read in browser; JavaScript page)
 - [O4] ORS route output: https://giscience.github.io/openrouteservice/v9.10.0/api-reference/endpoints/directions/requests-and-return-types
 - [M1] Basemap policy: https://operations.osmfoundation.org/policies/tiles/
+
+
+## 9. 25 Oct — Completion of navigation evaluation: differences only
+
+Baseline: `727835abfb3648063aef06f57d56930a5f536a85`, same repair branch
+`fix/v82-pre-owner-audit-20261024`. Remote head checked before this update. Sections 1–8 remain historical evidence;
+this section extends the recommendation without repeating the completed comparison or Dushanbe tests. No activation,
+provider switch, touch/chat repair, live order, SQL, account, finance, dispatch, merge or deployment change.
+Status: code findings and public-demo observations below are verified within their stated bounds. Architecture,
+thresholds and implementation scope are PROPOSED, not approved or implemented.
+
+### 9.1 Multi-city: map coverage is not operational service availability
+
+TALABOT scope includes Dushanbe, Khujand and later cities. Do not encode one city as the allowed navigation area.
+Source inspection found an actual Dushanbe bias, so a blanket claim that no city is hard-coded would be incorrect:
+
+| Finding in this baseline | Meaning / future correction, not performed now |
+|---|---|
+| `driver.html`, `map(q)` appends ` Душанбе` to text-only Google Maps searches | Wrong-city risk for Khujand when coordinates are missing. Remove unconditional suffix in the future approved change; use the actual order/store address and its city, prefer validated coordinates. External navigation remains a separate action |
+| `[38.5598,68.787]` in `talabat-core.js` location picker and generic map, `driver.html` mission initialization, `assets/driver-tech/waiting-map.js` CITY | Dushanbe default camera positions, not city boundaries. Use relevant confirmed order/address/store coordinates or authorized GPS first; configurable fallback must be clearly unconfirmed, never mistaken for GPS or silently accepted as an address |
+| No `maxBounds` / `setMaxBounds` city rectangle in the inspected map/routing files; waiting-map stores filter checks active/valid coordinates | These components are not constrained to Dushanbe. This does not prove nationwide operational availability or correct cross-city dispatch |
+| Route proxy `LIMITS.maxStraightKm = 60` | Pairwise straight-distance request guard, not a radius centered on Dushanbe. A long intercity request can be rejected by TALABOT even if provider data exists. Keep guard pending explicit decision |
+| `delivery_calc`, `sql/schema_patch18.sql`, still called by later order patches | Delivery eligibility uses distance from the selected store and configured `delivery_max_km` (source fallback 15), with existing road-factor estimate. Global settings, not a demonstrated city polygon. This is source evidence, not verification of deployed DB values |
+
+No city-specific `city_id`/service-zone policy was established in the inspected source. Claude must reconcile actual
+store coverage, current dispatch/eligibility and deployed configuration before enabling a new operating city; do not
+invent zones, change distance/price equations, enable intercity orders or run old SQL. Asia/Dushanbe is a timezone,
+shared by Khujand, not a map boundary. Coverage of map tiles, geocoding and roads must each be assessed independently.
+A city can have a visible map and routable roads while remaining outside approved operating service areas.
+
+### 9.2 Khujand: additional public address and route samples
+
+Observed 25 Oct 2026 through Geoapify's official public Routing Playground [K1], using its visible autocomplete and
+Generate response; no TALABOT connection, personal addresses, provider account or extracted key. Mode `drive`.
+Coordinates below are public demo selections, latitude then longitude:
+
+| Public address resolved by autocomplete | Selected coordinate | Limit |
+|---|---|---|
+| Panjshanbe bazaar, Шарқ, 735690 Khujand, Tajikistan | 40.2793400, 69.6332017 | Public market point; no premise/entrance verification |
+| Ismoili Somoni Avenue, 735690 Khujand, Tajikistan | 40.2761447, 69.6345640 | Street representative point, NOT a verified house number. Several similarly named suggestions appeared |
+
+| Directed sample | Response distance | Response time |
+|---|---:|---:|
+| Market → selected avenue point | 789 m | 62.335 s |
+| Selected avenue point → market | 2,459 m | 182.413 s |
+
+These are two directed routes between two nearby points, not city-wide testing. The difference may reflect road
+connectivity/one-way routing; it was not independently driven or verified as legally/currently passable. Searching
+`Khujand Fortress` did not yield a selectable suggestion in this demo attempt: an address-search limitation, not proof
+that roads or the city are unsupported. No house-number, courtyard, new suburb, bridge, closure, traffic, scooter,
+GPS-following, rerouting, ETA accuracy or actual iPhone navigation acceptance is established. No Dushanbe test repeated.
+Future city acceptance needs owner-selected non-private representative entrances/streets and field validation; these
+samples do not automatically open Khujand for operations. No Yandex city routing test was performed.
+
+### 9.3 Yandex added to the options — evaluated, not connected
+
+| Product / issue | Verified implication for current TALABOT PWA |
+|---|---|
+| JavaScript Maps API [Y1] | Browser embedding is technically supported with HTTPS SDK, key/referrer configuration and its own renderer; therefore a web/PWA screen is possible. This is not an implementation test in our installed PWA or a drop-in route adapter for the current Leaflet map |
+| Free-use terms [Y2] | Prohibit real-time vehicle/mobile-employee monitoring and dispatch use; open-access, storage and attribution conditions also apply. Do not assume the free JS license authorizes TALABOT fleet navigation |
+| HTTP Route Details pricing [Y3] | Published entry example: 250K requests/year, Basic $1,250/year, storage option $1,625/year; commercial terms and extras apply. Not a zero-budget authorization for this project |
+| Native NaviKit [Y4] | Android/iOS navigation SDK; public page mentions Unlimited free up to 10 vehicles, distinct from the free map tier up to 25K MAU. This is not a PWA SDK entitlement; do not mix product limits or claim every Yandex navigation option is paid |
+
+Conclusion: Yandex has navigation products, but a zero-cost, licensed fit for this existing fleet PWA is not established.
+Its native small-fleet offer does not justify rebuilding the map or native app. Any reconsideration needs written
+product-specific licensing/territory confirmation and a separate architecture decision. No account, key, SDK or contact
+request created. Country/region marketing is not proof of house-level Khujand coverage. Existing external maps remain
+optional links; they do not provide TALABOT internal navigation.
+
+### 9.4 Geoapify evaluated as input to a navigator, not a complete navigator
+
+API documentation [G1] supplies geometry, legs, distance/time and localized maneuver data (`ru` included). Its traffic
+models are free-flow/approximated, not proof of live congestion. The following is engineering assessment of what TALABOT
+must implement; public route success proves none of these movement behaviors:
+
+| Required experience | Available input versus missing TALABOT work |
+|---|---|
+| Follow real movement inside design A | Existing browser GPS + map are reusable. Add explicit internal navigation/follow mode, heading where trustworthy, accuracy/freshness gates and manual pan/recenter; GPS updates alone need no routing call |
+| Remaining road distance and ETA | Project reliable fixes onto the active route, track segment progress, compute remaining geometry and segment-time estimates locally. Reconcile noisy/reversing fixes; do not use straight distance or simply count down the original total time. Show calculation/fix timestamps and approximate ETA |
+| Recalculate off-route | No continuously running Geoapify reroute session is provided by the routing response. TALABOT detects sustained deviation beyond GPS uncertainty, debounces/cools down, requests a new route through the same server adapter and budget, discards obsolete responses and prevents overlapping requests |
+| Turn-by-turn | API provides instructions/indices; TALABOT needs step selection, distance-to-turn, maneuver UI and advance logic tied to actual progress. Preserve original route geometry and step mapping separately from simplified display points; current proxy's 400-point output discards steps. Text Russian guidance is feasible but not implemented/tested; voice prompts need their own browser/voice acceptance |
+| Restaurant then customer pin | Navigation targets the restaurant until pickup, then the saved order pin; cancel previous-leg requests, reject late results by order/leg/version and clear obsolete ETA. Never infer a destination from a city center |
+| Background, lock, offline | PWA cannot be promised continuous background/locked-screen GPS or offline routing. On return validate fresh fixes, route, order/leg and quota before resuming; do not replay a stale maneuver. Cached geometry is not an offline navigation guarantee |
+
+Scope clarification versus section 8.4: the owner's current request asks us to assess complete foreground navigation,
+including turn guidance, not merely a route line. Proposed implementation acceptance therefore includes textual
+maneuvers, progress and off-route recalculation. Native/background guarantees and spoken guidance are separate scope
+choices; none are silently approved. B1 prepared route display and B2 customer display remain held; B2 is not the
+restaurant→customer driver leg. Keep the same map/design A/TLB.route boundary and existing tracking permissions.
+
+### 9.5 Shared free allowance: all drivers, all cities, all keys in the account
+
+Published Free allowance [G2]: 3,000 credits/day and 5 requests/s. Ordinary short two-point routing is normally one
+credit; extra options can increase cost [G3]. Daily limits are soft, so provider behavior is not our zero-spend guard.
+
+Sizing formula (not a forecast):
+Daily credits = sum over ALL cities/drivers/orders of (initial leg requests + refresh + deviation + retry requests)
+× actual request credit cost + other account API consumption. Include autocomplete requests, geocoding and any tile
+usage if later put on that account. Do not reset the allowance per city/driver/key or open accounts to evade limits.
+Local GPS tracking, progress calculations and advancing already-fetched instructions do not consume routing credits.
+Only upstream calls count; allow conservatively for failed calls/retries instead of assuming they are free.
+
+Illustration: 8 orders/driver/day; 20 total active navigation minutes/order; 2 initial leg calls + up to 10 refresh calls
+(at 120 s) + 2 combined deviation/retry calls = 14 calls/order at 1 credit/call. These are assumptions, not existing
+behavior or an approved refresh schedule. Local progress should avoid unnecessary timed requests.
+
+| Combined fleet across cities | Orders/day | Routing credits/day | Against proposed 2,400 route allowance |
+|---|---:|---:|---|
+| 10 drivers total | 80 | 1,120 | Fits, subject to other assumptions |
+| 20 drivers total, e.g. 10 Dushanbe + 10 Khujand | 160 | 2,240 | Only 160 routing credits remain |
+| 30 drivers total across present/future cities | 240 | 3,360 | Exceeds even the whole 3,000 account allowance |
+
+At 30-second refresh, the same assumptions become 44 calls/order: 80 orders cost 3,520 credits. At 14 credits/order,
+2,400 supports at most 171 such orders/day, not an unlimited multi-city fleet. More expensive options reduce capacity.
+Average request rate is concurrent drivers / refresh seconds, plus initial/deviation bursts; stagger and enforce a
+shared limiter even if the average is low. Fleet size, daily orders and duration need actual operating estimates before
+promising capacity. Existing per-user/per-instance rate limiter and five-minute cache are not a durable shared budget.
+
+Proposed zero-spend envelope for approval: reserve 600/day for other usage and route cap 2,400/day (reduce routing if
+other use is higher), shared account-level hard ceiling within 3,000; warning at 80% of route cap; aggregate <=4 upstream
+requests/s with controlled bursts and bounded retries. All API access must be accounted for: an unmetered public key or
+outside consumer defeats the cap. Maintain an atomic durable reservation ledger across server instances/restarts and
+reconcile provider usage; establish the provider's actual daily reset window before implementation, not local midnight
+by assumption. Claude must propose storage/permissions if needed; no SQL or permissions change is authorized here.
+
+Required behavior at exhaustion/provider denial (proposal):
+- Stop new routing calls globally, not per city. No automatic paid subscription, credit top-up, billed overage consent,
+  provider switch, ORS fallback, retry loop or automatic dispatch/financial policy change.
+- Keep map interaction/GPS and the last valid route with clear age/unavailable-state messaging. Estimated local progress
+  is usable only against a still-relevant path and reliable fix; when off-route or switching legs, suppress stale guidance
+  and ETA rather than present them as current. Never draw an invented street path.
+- Offer external navigation explicitly. Order/chat/delivery-confirmation services remain available. No route quota
+  failure is itself a reason to cancel an order or invent an amount.
+- Resume gradually only after budget reset/authorized availability, rechecking current order/leg/location. No recovery
+  request storm. Account/city usage monitoring must distinguish route, geocode and other credits.
+
+### 9.6 One recommendation and approval gate
+
+Retain the recommendation: Geoapify Free as the single proposed route upstream, through the existing server boundary,
+with the existing map and design A, plus a TALABOT foreground navigation controller for progress, textual Russian turns
+and budgeted off-route recalculation. This is feasible engineering scope, not a ready-made free navigation SDK or a
+promise of unlimited fleet capacity, live traffic, reliable locked-screen navigation or all-city address quality.
+ORS stays unchanged and suspended; no second provider is connected. No implementation authorized by this document.
+
+| Next owner | Inputs / approval needed | Completion gate after authorization |
+|---|---|---|
+| Owner/coordinator | Approve the single upstream replacement proposal, foreground/text-turn scope and optional external navigation; accept finite capacity and degraded behavior; supply combined fleet/order estimates | Explicit decision recorded, not inferred from viewing samples |
+| Claude | Above decision; location-data/privacy/attribution review; shared cap/reset/usage design; propose any necessary DB/permission delta separately | Normalized route+step contract, true timestamps, budget gate and error states; same business/financial/dispatch rules |
+| ChatGPT visual programmer | Approved contract; existing A and accepted repairs | Internal mode, follow/pan, local remaining estimates, leg isolation and text maneuvers; remove unconditional Dushanbe address bias and unconfirmed defaults without redesign |
+| Claude + visual programmer, then owner device check | One authorized provider; selected Khujand and other-city samples; existing test-account policy | Simulated movement/deviation/jitter/leg change/quota exhaustion and stale/offline recovery; affected tests only; field route/address checks and actual iPhone foreground/return acceptance remain open |
+
+No extra design direction, scope-19-screen approval, production service-city activation or financial package decision is
+implied. The above is a delta to the current plan, not a duplicate package or a completed live acceptance report.
+
+Additional official sources checked 25 Oct (G references retained from section 8):
+- [K1] https://apidocs.geoapify.com/playground/routing/ — two Khujand autocomplete selections and generated responses observed in browser UI.
+- [Y1] https://yandex.com/maps-api/docs/js-api/common/connection/javascript.html
+- [Y2] https://yandex.com/dev/commercial/doc/en/ and https://www.yandex.ru/legal/maps_api/en/
+- [Y3] https://yandex.com/maps-api/products/router-api
+- [Y4] https://yandex.com/maps-api/products/navikit
