@@ -344,3 +344,14 @@ Still open / limits:
   navigation_contract_check 39/0 (consultant test: settle double + cap 2 for 1 credit per call); concurrency check OK
   (PostgreSQL 17, reserve function changed). Dashboard copy regenerated (0 syntax diagnostics, all module lines present).
   Time / attribution / rollback / dailyCredits 0 closed by the consultant — not reopened.
+
+## 19. 25 Oct 17:12 — consultant closed add55b3; one test point (internal routing off)
+- External Yandex / 2GIS / Google: the driver UI gets them ONLY from the Edge Function `route` (`TLB.navigation({op:'config'})`
+  then `{op:'links'}`); no local fallback. The function was never deployed (log 10–12) → live the «Навигация» sheet shows
+  «unavailable», no links. Not provable from here: the workspace cannot reach the project (allowlist) and Chrome is not linked.
+- Server step needed (owner, separate approval; NOT done): deploy `route` from `single-file-for-dashboard.ts`, JWT verification
+  ON; secrets: `NAVIGATION_CONFIG` = `{"internal":false,"external":true}` (or unset — same result), `ALLOWED_ORIGINS` +
+  `,https://raw.githack.com` for the test only; `GEOAPIFY_KEY` not needed, patch 40 not needed. Local check of that exact mode
+  (handler, empty key, ledger and upstream that would fail): config «tracking/disabled», links yandex,2gis,google, route request
+  «disabled», foreign origin 403, upstream 0 calls, ledger 0 calls.
+- Everything else of the test (order, chat, waiting / mission maps, courier tracking C1 via patch 39) uses DB / RPC already live.
