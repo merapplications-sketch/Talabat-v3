@@ -17,7 +17,9 @@ function navigationConfig(env) {
     internal: x.internal === true, external: x.external !== false, providers,
     defaultExternal: providers.includes(x.defaultExternal) ? x.defaultExternal : providers[0],
     dailyCredits: bounded(x.dailyCredits, 2400, 0, 3000), accountCredits: 3000,
-    reservationCredits: bounded(x.reservationCredits, 2, 1, 100), rps: bounded(x.rps, 4, 1, 4),
+    // Credits per request are computed (routeCredits), not a fixed reservation. detailsCredits = conservative surcharge for
+    // `details=instruction_details`, whose cost Geoapify does not publish (0..10, default 1). Old `reservationCredits` is ignored.
+    detailsCredits: bounded(x.detailsCredits, 1, 0, 10), rps: bounded(x.rps, 4, 1, 4),
     maxStraightKm: bounded(x.maxStraightKm, 60, 1, 60), cacheMs: 60000, timeoutMs: 7000,
     configTtlMs: 30000, refreshMs: 120000, deviationM: 60, deviationHoldMs: 5000, gpsMaxAgeMs: 30000,
   };
@@ -43,6 +45,15 @@ function externalLinks(c, to) {
     google: { name: 'Google Maps', app: 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ll) + '&travelmode=driving&dir_action=navigate', web: 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ll) + '&travelmode=driving&dir_action=navigate' },
   };
   return c.providers.map(id => ({ id, ...urls[id] }));
+}
+
+// Geoapify Routing credits (pricing-details): credits = waypoints − 1, plus 1 credit for each 500 km of result route length
+// when the route is longer than 500 km (counted conservatively as ceil(km / 500)), plus the conservative details surcharge.
+// Before the request the length is unknown: the straight-line cap (maxStraightKm <= 60) makes the length surcharge 0 for the
+// reservation; after the response the real length is checked and any excess is settled in the ledger (never refunded).
+function routeCredits({ waypoints = 2, distanceM = 0, detailsCredits = 1 } = {}) {
+  const km = Math.max(0, +distanceM || 0) / 1000;
+  return Math.max(1, (waypoints | 0) - 1) + (km > 500 ? Math.ceil(km / 500) : 0) + Math.max(0, detailsCredits | 0);
 }
 
 // ---- providers.js
@@ -86,7 +97,7 @@ const defaultProviders = providers;
 // Prepared, NOT deployed. Authenticated navigation policy + one upstream behind a uniform contract.
 const LIMITS = { maxStraightKm: 60, perUserPerMinute: 12, timeoutMs: 7000 };
 function km(a,b) { const r=v=>v*Math.PI/180, h=Math.sin(r(b[0]-a[0])/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(r(b[1]-a[1])/2)**2; return 6371*2*Math.asin(Math.sqrt(Math.min(1,h))); }
-function makeHandler({ fetch, env, getUser, reserveBudget, now = () => Date.now(), providers = defaultProviders }) {
+function makeHandler({ fetch, env, getUser, reserveBudget, settleBudget, now = () => Date.now(), providers = defaultProviders }) {
   const cache = new Map(), hits = new Map();
   return async req => {
     const c = navigationConfig(env), allowed = String(env.ALLOWED_ORIGINS || '').split(',').map(s=>s.trim()).filter(Boolean);
@@ -117,7 +128,8 @@ function makeHandler({ fetch, env, getUser, reserveBudget, now = () => Date.now(
     if(!reserveBudget) return fallback('budget_unavailable');
     const cached=hit&&t-hit.at<c.cacheMs;
     let reservation;
-    try { reservation=await reserveBudget({ provider:c.provider, credits:cached?0:c.reservationCredits,
+    const reserved=cached?0:routeCredits({ waypoints:2, distanceM:0, detailsCredits:c.detailsCredits });
+    try { reservation=await reserveBudget({ provider:c.provider, credits:reserved,
       dailyCap:c.dailyCredits, rps:c.rps, requestId:crypto.randomUUID() }); } catch { return fallback('budget_unavailable'); }
     if(reservation?.allowed!==true) return fallback(reservation?.reason==='rate'?'rate':reservation?.reason==='quota'?'quota':'budget_unavailable',Math.min(300,Math.max(1,+reservation?.retryAfterS||30)));
     if(cached) return out(200,{...hit.data,mode:'internal',config});
@@ -127,6 +139,9 @@ function makeHandler({ fetch, env, getUser, reserveBudget, now = () => Date.now(
       // Configuration can be revoked while an upstream request is pending. Never return its old policy result.
       const next=navigationConfig(env);
       if(JSON.stringify(next)!==JSON.stringify(c)) return fallback('config_changed',1);
+      // Real cost after the response (length surcharge > 500 km): book the excess truthfully, even above the cap.
+      const actual=routeCredits({ waypoints:2, distanceM:data.distance_m, detailsCredits:c.detailsCredits });
+      if(actual>reserved){ try{ await settleBudget?.({ provider:c.provider, credits:actual-reserved, requestId:crypto.randomUUID() }); }catch{} }
       cache.set(ck,{at:now(),data}); if(cache.size>500)cache.delete(cache.keys().next().value);
       return out(200,{...data,mode:'internal',config});
     } catch(e) { return fallback(['quota','provider_denied','no_route'].includes(e?.message)?e.message:'upstream'); }
@@ -182,4 +197,11 @@ async function reserveBudget(v: { provider: string; credits: number; dailyCap: n
   if (result.error) throw new Error('budget_unavailable');
   return result.data;
 }
-Deno.serve(makeHandler({ fetch, env, getUser, reserveBudget }));
+async function settleBudget(v: { provider: string; credits: number; requestId: string }) {
+  const key = serviceKey();
+  if (!key) return;
+  const sb = createClient(Deno.env.get('SUPABASE_URL')!, key, { auth: { persistSession: false } });
+  await sb.rpc('navigation_settle_budget', { p_provider: v.provider, p_credits: v.credits, p_request_id: v.requestId })
+    .abortSignal(AbortSignal.timeout(3000));
+}
+Deno.serve(makeHandler({ fetch, env, getUser, reserveBudget, settleBudget }));

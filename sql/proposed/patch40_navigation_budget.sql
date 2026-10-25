@@ -1,18 +1,22 @@
 -- PROPOSED patch 40 (navigation budget) — NOT applied. Apply only after owner approval. Safe to run again.
--- One durable, project-wide routing budget shared by ALL drivers, cities and Edge Function instances.
--- Called only by the Edge Function «route» with the service-role key, BEFORE every upstream routing request:
---   navigation_reserve_budget(p_provider, p_credits, p_daily_cap, p_rps, p_request_id)
---   -> {"allowed":true} | {"allowed":false,"reason":"quota"|"rate"|"bad_value","retryAfterS":n}
--- Window: rolling 24 hours, counted as the current hour + the 24 previous hour buckets (never shorter than 24 h). The provider does not publish its daily reset time, so a rolling window
---   guarantees that no 24-hour period ever exceeds the cap, whatever the provider's reset moment.
--- Concurrency: one row per provider is locked (FOR UPDATE) for the whole check-and-reserve, so simultaneous requests
---   from any number of instances are serialized; the cap can never be passed by a race.
--- Idempotent by request id: a repeated id returns the first decision and never reserves twice.
--- Hard limits inside SQL as well (the caller cannot raise them): daily cap <= 3000, rps <= 5, credits per request <= 100.
--- No refund on ambiguous upstream errors (the function never gives credits back). Zero-credit calls (cache hits) are still
---   refused once the window is exhausted, and do not count against the per-second rate.
--- No change to orders, dispatch, accounts, finance, or existing tables / policies. New tables are closed to anon /
---   authenticated (RLS on, no policies, privileges revoked — also TRUNCATE, which RLS does not cover).
+-- One durable routing budget for ALL drivers, cities and Edge Function instances, used only by the Edge Function «route»
+-- with the service key:
+--   navigation_reserve_budget(p_provider, p_credits, p_daily_cap, p_rps, p_request_id)   BEFORE every upstream request
+--     -> {"allowed":true} | {"allowed":false,"reason":"quota"|"rate"|"bad_value","retryAfterS":n}
+--   navigation_settle_budget(p_provider, p_credits, p_request_id)                          AFTER a response that cost more
+--     -> records the extra credits truthfully (even above the cap: the next reservations are then refused)
+-- Time: read AFTER the provider row lock is held, so a request that waited for the lock is booked in the hour / second in
+--   which it really passes (not the moment it started waiting). Read through navigation_budget_clock() (= clock_timestamp()).
+-- Window: rolling — current hour + the 24 previous hour buckets (never shorter than 24 h); the provider does not publish its
+--   daily reset moment, so no 24-hour period can exceed the cap.
+-- Concurrency: one row per provider locked FOR UPDATE for the whole check-and-book; idempotent by request id.
+-- Hard limits inside SQL (caller cannot raise them): cap <= 3000, rps <= 5, credits per call <= 100. Cap 0 = routing stopped.
+-- No refund on ambiguous errors. Zero-credit checks (cache) are refused once exhausted and do not count towards the rate.
+-- SCOPE OF THE GUARANTEE: only requests that go through this proxy are counted. Any other use of the same Geoapify account
+--   (other keys / apps, map tiles, geocoding, dashboard playground) is invisible here; keep a dedicated Geoapify project
+--   and key for TALABOT routing only and keep dailyCredits below the account allowance (3 000) to leave room for it.
+-- New tables are closed to anon / authenticated: RLS on, no policies, all privileges revoked (incl. TRUNCATE).
+-- No change to orders, dispatch, accounts, finance, or existing tables / policies.
 
 create table if not exists public.navigation_budget_state (
   provider   text primary key check (provider in ('geoapify')),
@@ -41,8 +45,10 @@ alter table public.navigation_budget_hours    enable row level security;
 alter table public.navigation_budget_requests enable row level security;
 revoke all on table public.navigation_budget_state, public.navigation_budget_hours, public.navigation_budget_requests
   from public, anon, authenticated;
-
 insert into public.navigation_budget_state (provider) values ('geoapify') on conflict do nothing;
+
+create or replace function public.navigation_budget_clock() returns timestamptz
+language sql volatile security invoker set search_path = public as $$ select clock_timestamp() $$;
 
 create or replace function public.navigation_reserve_budget(
   p_provider text, p_credits integer, p_daily_cap integer, p_rps integer, p_request_id uuid)
@@ -52,16 +58,11 @@ security invoker
 set search_path = public
 as $$
 declare
-  v_now     timestamptz := clock_timestamp();
-  v_sec     timestamptz := date_trunc('second', v_now);
-  v_hour    timestamptz := date_trunc('hour', v_now);
-  v_cap     integer;
-  v_rps     integer;
-  v_used    integer;
-  v_oldest  timestamptz;
-  v_state   public.navigation_budget_state%rowtype;
-  v_prev    public.navigation_budget_requests%rowtype;
-  v_result  jsonb;
+  v_now timestamptz; v_sec timestamptz; v_hour timestamptz;
+  v_cap integer; v_rps integer; v_used integer; v_oldest timestamptz;
+  v_state public.navigation_budget_state%rowtype;
+  v_prev  public.navigation_budget_requests%rowtype;
+  v_result jsonb;
 begin
   if p_provider is null or p_request_id is null or p_credits is null or p_credits < 0 or p_credits > 100
      or p_daily_cap is null or p_daily_cap < 0 or p_rps is null or p_rps < 1 then
@@ -70,13 +71,13 @@ begin
   v_cap := least(p_daily_cap, 3000);
   v_rps := least(p_rps, 5);
 
-  -- serialize every reservation of this provider (all instances, all cities)
   select * into v_state from public.navigation_budget_state where provider = p_provider for update;
   if not found then
     return jsonb_build_object('allowed', false, 'reason', 'bad_value', 'retryAfterS', 300);
   end if;
+  -- time is taken only now, with the lock held
+  v_now := public.navigation_budget_clock(); v_sec := date_trunc('second', v_now); v_hour := date_trunc('hour', v_now);
 
-  -- idempotency: same request id -> same answer, nothing reserved twice
   select * into v_prev from public.navigation_budget_requests where request_id = p_request_id;
   if found then
     return case when v_prev.allowed then jsonb_build_object('allowed', true)
@@ -103,21 +104,47 @@ begin
     v_result := jsonb_build_object('allowed', true);
   end if;
 
-  insert into public.navigation_budget_requests (request_id, provider, credits, allowed, reason, retry_after_s)
-  values (p_request_id, p_provider, p_credits, (v_result->>'allowed')::boolean, v_result->>'reason', (v_result->>'retryAfterS')::int);
-
-  -- housekeeping, bounded: old request ids and hour buckets outside any window
+  insert into public.navigation_budget_requests (request_id, provider, credits, allowed, reason, retry_after_s, created_at)
+  values (p_request_id, p_provider, p_credits, (v_result->>'allowed')::boolean, v_result->>'reason',
+          (v_result->>'retryAfterS')::int, v_now);
+  -- bounded housekeeping: request ids older than 3 days only (hour buckets are kept as the usage record)
   delete from public.navigation_budget_requests where created_at < v_now - interval '3 days';
-  delete from public.navigation_budget_hours where provider = p_provider and hour < v_hour - interval '3 days';
   return v_result;
 end $$;
 
+create or replace function public.navigation_settle_budget(p_provider text, p_credits integer, p_request_id uuid)
+returns jsonb
+language plpgsql
+security invoker
+set search_path = public
+as $$
+declare v_now timestamptz; v_hour timestamptz;
+begin
+  if p_provider is null or p_request_id is null or p_credits is null or p_credits < 1 or p_credits > 100 then
+    return jsonb_build_object('recorded', false, 'reason', 'bad_value');
+  end if;
+  perform 1 from public.navigation_budget_state where provider = p_provider for update;
+  if not found then return jsonb_build_object('recorded', false, 'reason', 'bad_value'); end if;
+  v_now := public.navigation_budget_clock(); v_hour := date_trunc('hour', v_now);
+  if exists (select 1 from public.navigation_budget_requests where request_id = p_request_id) then
+    return jsonb_build_object('recorded', true, 'repeat', true);
+  end if;
+  insert into public.navigation_budget_hours (provider, hour, credits) values (p_provider, v_hour, p_credits)
+    on conflict (provider, hour) do update set credits = public.navigation_budget_hours.credits + excluded.credits;
+  insert into public.navigation_budget_requests (request_id, provider, credits, allowed, reason, created_at)
+  values (p_request_id, p_provider, p_credits, true, 'settle', v_now);
+  return jsonb_build_object('recorded', true);
+end $$;
+
+revoke all on function public.navigation_budget_clock() from public, anon, authenticated;
 revoke all on function public.navigation_reserve_budget(text, integer, integer, integer, uuid) from public, anon, authenticated;
+revoke all on function public.navigation_settle_budget(text, integer, uuid) from public, anon, authenticated;
+grant execute on function public.navigation_budget_clock() to service_role;
 grant execute on function public.navigation_reserve_budget(text, integer, integer, integer, uuid) to service_role;
+grant execute on function public.navigation_settle_budget(text, integer, uuid) to service_role;
 grant select, insert, update, delete on table public.navigation_budget_state, public.navigation_budget_hours,
   public.navigation_budget_requests to service_role;
 
--- Read-only usage view for the owner (SQL Editor): credits reserved in the last 24 h.
+-- Usage (owner, SQL Editor, read-only): credits booked in the current window
 --   select coalesce(sum(credits),0) from public.navigation_budget_hours where hour > date_trunc('hour', now()) - interval '25 hours';
--- Rollback: drop function public.navigation_reserve_budget(text,integer,integer,integer,uuid);
---           drop table public.navigation_budget_requests, public.navigation_budget_hours, public.navigation_budget_state;
+-- Default rollback = DISABLE, keep the record: sql/proposed/patch40_disable.sql (no table dropped, no booking reset).

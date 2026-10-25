@@ -397,7 +397,7 @@ before the next policy refresh. No background/locked-screen or voice navigation 
 ```json
 {"revision":"navigation-v1","provider":"geoapify","internal":false,"external":true,
  "externalProviders":["yandex","2gis","google"],"defaultExternal":"yandex",
- "dailyCredits":2400,"reservationCredits":2,"rps":4,"maxStraightKm":60}
+ "dailyCredits":2400,"detailsCredits":1,"rps":4,"maxStraightKm":60}
 ```
 Omitting the setting keeps internal routes disabled. `GEOAPIFY_KEY` is read server-side only. Existing Supabase/origin
 secrets remain server inputs. Do not put any provider/service-role secret in HTML or add a provider account/subscription.
@@ -486,11 +486,14 @@ Next owners / gates:
    leg switch, turns/ETA, real deviation, budget denial and unaffected chat/delivery. None is claimed completed now.
 
 
-## 11. Activation requirements (Claude, 25 Oct) — one approval, in this order
-1. Apply `sql/proposed/patch40_navigation_budget.sql` (SQL Editor). Check: `select has_function_privilege('authenticated',
-   'public.navigation_reserve_budget(text,integer,integer,integer,uuid)','execute');` → false; `… ('service_role', …)` → true.
-2. Geoapify account (free, no card): myprojects.geoapify.com → project → API key; save it as Supabase secret `GEOAPIFY_KEY`.
-3. Save `NAVIGATION_CONFIG` (section 10.2 example; `"internal":true` only when routes should start).
-4. Deploy function `route` (dashboard editor: `supabase/functions/route/single-file-for-dashboard.ts`; JWT verification ON).
-5. One live test round (branch build, existing accounts, one order): route + «Powered by Geoapify» attribution, budget refusal
-   («quota») when the cap is lowered for the test, Yandex / 2GIS / Google launch on the real phones. No merge / publish.
+## 11. Activation requirements (Claude, 25 Oct; revised after review of f4e38dc) — one approval, in this order
+1. Apply `sql/proposed/patch40_navigation_budget.sql`. Check: `has_function_privilege('authenticated',
+   'public.navigation_reserve_budget(text,integer,integer,integer,uuid)','execute')` → false; same for `service_role` → true.
+2. Geoapify account (free, no card, commercial use allowed within the free quota with attribution): a DEDICATED project and key
+   for TALABOT routing only → Supabase secret `GEOAPIFY_KEY`.
+3. `NAVIGATION_CONFIG` with `"internal":true`, `"dailyCredits"` ≤ 2 400 (room for any other use of the account), `"detailsCredits":1`.
+4. Deploy `route` (dashboard: `single-file-for-dashboard.ts`, JWT verification ON).
+5. One live round: route + visible «Powered by Geoapify» link; quota test by setting `"dailyCredits":0` (no ledger wipe; restore
+   the value after); Yandex / 2GIS / Google on real phones. Privacy text addition reviewed (`PRIVACY-NAVIGATION-DIFF.md`).
+- Default rollback: `"internal":false` in `NAVIGATION_CONFIG`, then `sql/proposed/patch40_disable.sql` — tables and bookings kept.
+- Guarantee scope: the ledger counts only requests through this proxy; other use of the same Geoapify account is not visible.

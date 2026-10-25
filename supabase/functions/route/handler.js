@@ -1,9 +1,9 @@
 // Prepared, NOT deployed. Authenticated navigation policy + one upstream behind a uniform contract.
-import { navigationConfig, publicConfig, externalLinks, validPoint } from './config.js';
+import { navigationConfig, publicConfig, externalLinks, validPoint, routeCredits } from './config.js';
 import { providers as defaultProviders } from './providers.js';
 export const LIMITS = { maxStraightKm: 60, perUserPerMinute: 12, timeoutMs: 7000 };
 function km(a,b) { const r=v=>v*Math.PI/180, h=Math.sin(r(b[0]-a[0])/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(r(b[1]-a[1])/2)**2; return 6371*2*Math.asin(Math.sqrt(Math.min(1,h))); }
-export function makeHandler({ fetch, env, getUser, reserveBudget, now = () => Date.now(), providers = defaultProviders }) {
+export function makeHandler({ fetch, env, getUser, reserveBudget, settleBudget, now = () => Date.now(), providers = defaultProviders }) {
   const cache = new Map(), hits = new Map();
   return async req => {
     const c = navigationConfig(env), allowed = String(env.ALLOWED_ORIGINS || '').split(',').map(s=>s.trim()).filter(Boolean);
@@ -34,7 +34,8 @@ export function makeHandler({ fetch, env, getUser, reserveBudget, now = () => Da
     if(!reserveBudget) return fallback('budget_unavailable');
     const cached=hit&&t-hit.at<c.cacheMs;
     let reservation;
-    try { reservation=await reserveBudget({ provider:c.provider, credits:cached?0:c.reservationCredits,
+    const reserved=cached?0:routeCredits({ waypoints:2, distanceM:0, detailsCredits:c.detailsCredits });
+    try { reservation=await reserveBudget({ provider:c.provider, credits:reserved,
       dailyCap:c.dailyCredits, rps:c.rps, requestId:crypto.randomUUID() }); } catch { return fallback('budget_unavailable'); }
     if(reservation?.allowed!==true) return fallback(reservation?.reason==='rate'?'rate':reservation?.reason==='quota'?'quota':'budget_unavailable',Math.min(300,Math.max(1,+reservation?.retryAfterS||30)));
     if(cached) return out(200,{...hit.data,mode:'internal',config});
@@ -44,6 +45,9 @@ export function makeHandler({ fetch, env, getUser, reserveBudget, now = () => Da
       // Configuration can be revoked while an upstream request is pending. Never return its old policy result.
       const next=navigationConfig(env);
       if(JSON.stringify(next)!==JSON.stringify(c)) return fallback('config_changed',1);
+      // Real cost after the response (length surcharge > 500 km): book the excess truthfully, even above the cap.
+      const actual=routeCredits({ waypoints:2, distanceM:data.distance_m, detailsCredits:c.detailsCredits });
+      if(actual>reserved){ try{ await settleBudget?.({ provider:c.provider, credits:actual-reserved, requestId:crypto.randomUUID() }); }catch{} }
       cache.set(ck,{at:now(),data}); if(cache.size>500)cache.delete(cache.keys().next().value);
       return out(200,{...data,mode:'internal',config});
     } catch(e) { return fallback(['quota','provider_denied','no_route'].includes(e?.message)?e.message:'upstream'); }

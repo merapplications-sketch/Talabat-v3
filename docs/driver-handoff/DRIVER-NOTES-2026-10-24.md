@@ -306,3 +306,23 @@ Still open / limits:
   launch on real devices still open.
 - Secret for activation: `GEOAPIFY_KEY` (Supabase → Edge Functions → Secrets). `NAVIGATION_CONFIG` only at activation.
   `ORS_KEY` is no longer read by the function (can stay or be deleted).
+
+## 14. 25 Oct 15:48 — review of f4e38dc: six blockers fixed (nothing applied / deployed)
+1. Time after the lock: `navigation_reserve_budget` / `navigation_settle_budget` read the time (`navigation_budget_clock()`)
+   only after `FOR UPDATE`. Real PostgreSQL 17: a request that waited for the lock across an hour + second boundary is judged
+   and booked at the new time (new hour bucket, rate counter restarted); released inside the same second → still «rate».
+2. Cost: fixed reservation replaced by `routeCredits()` from Geoapify pricing-details (waypoints − 1; +1 per 500 km when the
+   route is > 500 km, counted as ceil; + `detailsCredits` 1 as a conservative surcharge for `instruction_details`, whose price
+   is not published). Excess after the real response is settled (`navigation_settle_budget`), even above the cap. Scope: only
+   requests through this proxy are counted — other use of the Geoapify account is invisible; dedicated key + cap ≤ 2 400.
+3. Attribution: fixed «Powered by <a href="https://www.geoapify.com/">Geoapify</a>» (server text never inserted as HTML),
+   Leaflet attribution moved top-right on the mission map (bottom corner is under the sheet).
+4. Default rollback = disable: `NAVIGATION_CONFIG` internal:false + `sql/proposed/patch40_disable.sql` (revoke execute);
+   no table dropped, no booking reset; hour buckets are no longer deleted by housekeeping.
+5. Quota test = `"dailyCredits":0`: refused at once, no upstream call, ledger unchanged.
+6. Privacy: live text = `app_pages` row `privacy` (body_ru / body_en, admin `set_page()`); RU / EN addition prepared in
+   `docs/plan/PRIVACY-NAVIGATION-DIFF.md` (two points only, server-side request, Geoapify ≤ 24 h retention, external apps,
+   customer sees courier position while on the way). Not applied.
+- Checks run (fixes + missing cases only): navigation_budget_check 26/0 (PGlite) · navigation_budget_concurrency_check OK
+  (PostgreSQL 17: 40 parallel, lock-wait boundaries) · navigation_contract_check 39/0 (handler changed) ·
+  navigation_attribution_check OK (360/390/430). Dashboard copy regenerated, TypeScript: 0 diagnostics.

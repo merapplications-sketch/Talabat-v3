@@ -37,7 +37,7 @@
    if(mode==='internal'&&route){
      if(DM.__l)DM.__l.eachLayer(l=>{if(l instanceof L.Polyline&&!(l instanceof L.Polygon))DM.__l.removeLayer(l);});
      L.polyline(route.coords,{color:'#f1511b',weight:5,interactive:false,className:'a-route'}).addTo(DM.__route);
-     if(DM.attributionControl&&DM.__navAttr!==route.attribution){if(DM.__navAttr)DM.attributionControl.removeAttribution(DM.__navAttr);DM.__navAttr=route.attribution;DM.attributionControl.addAttribution(DM.__navAttr);}
+     if(DM.attributionControl){const at=route.source==='geoapify'?'Powered by <a href="https://www.geoapify.com/" target="_blank" rel="noopener">Geoapify</a>':'';/* fixed text per provider (Geoapify terms: visible follow link near the map); the server string is never inserted as HTML */if(DM.__navAttr!==at){if(DM.__navAttr)DM.attributionControl.removeAttribution(DM.__navAttr);DM.__navAttr=at;if(at)DM.attributionControl.addAttribution(at);}if(DM.attributionControl.getPosition()!=='topright')DM.attributionControl.setPosition('topright');/* bottom corner is under the sheet */}
    }
    if(boundMap!==DM){boundMap=DM;DM.on('dragstart zoomstart',e=>{if(e.originalEvent||e.type==='dragstart')following=false;});DM.getContainer().addEventListener('pointerdown',()=>{following=false;},{passive:true});DM.getContainer().addEventListener('touchstart',()=>{following=false;},{passive:true});DM.getContainer().addEventListener('wheel',()=>{following=false;},{passive:true});}
  }

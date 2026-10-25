@@ -50,4 +50,11 @@ async function reserveBudget(v: { provider: string; credits: number; dailyCap: n
   if (result.error) throw new Error('budget_unavailable');
   return result.data;
 }
-Deno.serve(makeHandler({ fetch, env, getUser, reserveBudget }));
+async function settleBudget(v: { provider: string; credits: number; requestId: string }) {
+  const key = serviceKey();
+  if (!key) return;
+  const sb = createClient(Deno.env.get('SUPABASE_URL')!, key, { auth: { persistSession: false } });
+  await sb.rpc('navigation_settle_budget', { p_provider: v.provider, p_credits: v.credits, p_request_id: v.requestId })
+    .abortSignal(AbortSignal.timeout(3000));
+}
+Deno.serve(makeHandler({ fetch, env, getUser, reserveBudget, settleBudget }));

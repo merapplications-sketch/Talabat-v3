@@ -9,7 +9,9 @@ export function navigationConfig(env) {
     internal: x.internal === true, external: x.external !== false, providers,
     defaultExternal: providers.includes(x.defaultExternal) ? x.defaultExternal : providers[0],
     dailyCredits: bounded(x.dailyCredits, 2400, 0, 3000), accountCredits: 3000,
-    reservationCredits: bounded(x.reservationCredits, 2, 1, 100), rps: bounded(x.rps, 4, 1, 4),
+    // Credits per request are computed (routeCredits), not a fixed reservation. detailsCredits = conservative surcharge for
+    // `details=instruction_details`, whose cost Geoapify does not publish (0..10, default 1). Old `reservationCredits` is ignored.
+    detailsCredits: bounded(x.detailsCredits, 1, 0, 10), rps: bounded(x.rps, 4, 1, 4),
     maxStraightKm: bounded(x.maxStraightKm, 60, 1, 60), cacheMs: 60000, timeoutMs: 7000,
     configTtlMs: 30000, refreshMs: 120000, deviationM: 60, deviationHoldMs: 5000, gpsMaxAgeMs: 30000,
   };
@@ -35,4 +37,13 @@ export function externalLinks(c, to) {
     google: { name: 'Google Maps', app: 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ll) + '&travelmode=driving&dir_action=navigate', web: 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ll) + '&travelmode=driving&dir_action=navigate' },
   };
   return c.providers.map(id => ({ id, ...urls[id] }));
+}
+
+// Geoapify Routing credits (pricing-details): credits = waypoints − 1, plus 1 credit for each 500 km of result route length
+// when the route is longer than 500 km (counted conservatively as ceil(km / 500)), plus the conservative details surcharge.
+// Before the request the length is unknown: the straight-line cap (maxStraightKm <= 60) makes the length surcharge 0 for the
+// reservation; after the response the real length is checked and any excess is settled in the ledger (never refunded).
+export function routeCredits({ waypoints = 2, distanceM = 0, detailsCredits = 1 } = {}) {
+  const km = Math.max(0, +distanceM || 0) / 1000;
+  return Math.max(1, (waypoints | 0) - 1) + (km > 500 ? Math.ceil(km / 500) : 0) + Math.max(0, detailsCredits | 0);
 }

@@ -68,7 +68,7 @@ await db.exec(`delete from navigation_budget_hours; delete from navigation_budge
 const reserveBudget = async v => { await resetRate(); return call(v.credits, v.dailyCap, v.rps, v.requestId, v.provider); };
 let upstream = 0;
 const fetch = async () => { upstream++; return new Response(JSON.stringify({ features: [{ properties: { distance: 4210, time: 611, legs: [{ steps: [] }] }, geometry: { type: 'LineString', coordinates: [[69.24, 41.29], [69.25, 41.30]] } }] }), { status: 200 }); };
-const env = { GEOAPIFY_KEY: 'k', ALLOWED_ORIGINS: 'https://app.example', NAVIGATION_CONFIG: JSON.stringify({ internal: true, provider: 'geoapify', dailyCredits: 6, reservationCredits: 2, rps: 4 }) };
+const env = { GEOAPIFY_KEY: 'k', ALLOWED_ORIGINS: 'https://app.example', NAVIGATION_CONFIG: JSON.stringify({ internal: true, provider: 'geoapify', dailyCredits: 6, detailsCredits: 1, rps: 4 }) };
 const req = (from, to) => new Request('https://fn/route', { method: 'POST', headers: { authorization: 'Bearer x', origin: 'https://app.example', 'content-type': 'application/json' }, body: JSON.stringify({ from, to }) });
 const hDushanbe = makeHandler({ fetch, env, getUser: async () => 'driver-dushanbe', reserveBudget });
 const hKhujand = makeHandler({ fetch, env, getUser: async () => 'driver-khujand', reserveBudget });
@@ -78,7 +78,7 @@ modes.push((await (await hKhujand(req([40.28, 69.62], [40.29, 69.63]))).json()).
 modes.push((await (await hDushanbe(req([38.56, 68.78], [38.58, 68.80]))).json()).mode);
 const last = await (await hKhujand(req([40.28, 69.62], [40.30, 69.64]))).json();
 ok(modes.join() === 'internal,internal,internal' && last.mode === 'tracking' && last.reason === 'quota' && upstream === 3,
-  'two cities share one budget (6 credits = 3 routes); the 4th falls back to tracking «quota», no upstream call (' + modes + ' / ' + last.reason + ', upstream ' + upstream + ')');
+  'two cities share one budget (6 credits = 3 routes at 1 leg + 1 details credit); the 4th falls back to tracking «quota», no upstream call (' + modes + ' / ' + last.reason + ', upstream ' + upstream + ')');
 ok(!('coords' in last) && !('duration_s' in last), 'tracking fallback carries no route / ETA');
 const noLedger = makeHandler({ fetch, env, getUser: async () => 'u' });
 const nl = await (await noLedger(req([38.56, 68.78], [38.57, 68.79]))).json();
@@ -86,4 +86,28 @@ ok(nl.mode === 'tracking' && nl.reason === 'budget_unavailable' && upstream === 
 const broken = makeHandler({ fetch, env, getUser: async () => 'u', reserveBudget: async () => { throw new Error('rpc missing'); } });
 const br = await (await broken(req([38.56, 68.78], [38.57, 68.79]))).json();
 ok(br.mode === 'tracking' && br.reason === 'budget_unavailable' && upstream === 3, 'ledger error (RPC missing / timeout): routing refused, upstream never called');
+// 8) computed cost + settlement: a 600 km result route costs 1 + 1 + ceil(600/500)=2 -> 4; 2 reserved, 2 settled
+await db.exec(`delete from navigation_budget_hours; delete from navigation_budget_requests`); await resetRate();
+const settleBudget = async v => (await db.query('select public.navigation_settle_budget($1,$2,$3::uuid) r', [v.provider, v.credits, v.requestId])).rows[0].r;
+const longFetch = async () => new Response(JSON.stringify({ features: [{ properties: { distance: 600000, time: 30000, legs: [{ steps: [] }] }, geometry: { type: 'LineString', coordinates: [[69.24, 41.29], [69.25, 41.30]] } }] }), { status: 200 });
+const envBig = { ...env, NAVIGATION_CONFIG: JSON.stringify({ internal: true, provider: 'geoapify', dailyCredits: 100, detailsCredits: 1, rps: 4 }) };
+const hLong = makeHandler({ fetch: longFetch, env: envBig, getUser: async () => 'u', reserveBudget, settleBudget });
+const lr = await (await hLong(req([38.56, 68.78], [38.57, 68.79]))).json();
+ok(lr.mode === 'internal' && await used() === 4, 'route longer than 500 km: 2 reserved + 2 settled = 4 credits booked (' + await used() + ')');
+const st = await settleBudget({ provider: 'geoapify', credits: 5, requestId: randomUUID() });
+await db.exec(`update navigation_budget_hours set credits = 100`); await resetRate();
+const over = await settleBudget({ provider: 'geoapify', credits: 3, requestId: randomUUID() });
+ok(st.recorded && over.recorded && await used() === 103, 'settlement is booked even above the cap (truthful record): ' + await used());
+await resetRate(); r = await call(0, 100);
+ok(r.allowed === false && r.reason === 'quota', 'after an over-cap settlement every further request is refused');
+// 9) quota test setting: dailyCredits 0 refuses at once and leaves the ledger exactly as it was
+await db.exec(`delete from navigation_budget_hours; delete from navigation_budget_requests;
+  insert into navigation_budget_hours values ('geoapify', date_trunc('hour', now()), 7)`); await resetRate();
+const before = JSON.stringify((await db.query('select provider, hour, credits from navigation_budget_hours order by hour')).rows);
+const env0 = { ...env, NAVIGATION_CONFIG: JSON.stringify({ internal: true, provider: 'geoapify', dailyCredits: 0, detailsCredits: 1, rps: 4 }) };
+const h0 = makeHandler({ fetch, env: env0, getUser: async () => 'u', reserveBudget, settleBudget });
+const up0 = upstream, q0 = await (await h0(req([38.56, 68.78], [38.57, 68.79]))).json();
+const after = JSON.stringify((await db.query('select provider, hour, credits from navigation_budget_hours order by hour')).rows);
+ok(q0.mode === 'tracking' && q0.reason === 'quota' && upstream === up0, 'dailyCredits 0: «quota» at once, no upstream call');
+ok(before === after, 'dailyCredits 0 test: booked credits unchanged (ledger not wiped, nothing added)');
 console.log(`\nNAVIGATION BUDGET CHECK ${fails ? 'FAILS ' + fails + ' of ' + n : 'OK (' + n + ')'}`); process.exit(fails ? 1 : 0);
