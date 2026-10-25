@@ -484,3 +484,13 @@ Next owners / gates:
    Browser engines/UA do not prove OS native handoff, actual map coverage, permissions or background behavior.
 4. After authorized live activation only: one permitted existing-account test trip proving fresh GPS, restaurant/customer
    leg switch, turns/ETA, real deviation, budget denial and unaffected chat/delivery. None is claimed completed now.
+
+
+## 11. Activation requirements (Claude, 25 Oct) — one approval, in this order
+1. Apply `sql/proposed/patch40_navigation_budget.sql` (SQL Editor). Check: `select has_function_privilege('authenticated',
+   'public.navigation_reserve_budget(text,integer,integer,integer,uuid)','execute');` → false; `… ('service_role', …)` → true.
+2. Geoapify account (free, no card): myprojects.geoapify.com → project → API key; save it as Supabase secret `GEOAPIFY_KEY`.
+3. Save `NAVIGATION_CONFIG` (section 10.2 example; `"internal":true` only when routes should start).
+4. Deploy function `route` (dashboard editor: `supabase/functions/route/single-file-for-dashboard.ts`; JWT verification ON).
+5. One live test round (branch build, existing accounts, one order): route + «Powered by Geoapify» attribution, budget refusal
+   («quota») when the cap is lowered for the test, Yandex / 2GIS / Google launch on the real phones. No merge / publish.

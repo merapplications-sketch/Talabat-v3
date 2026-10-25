@@ -286,3 +286,23 @@ Still open / limits:
   original chat/pickup/delivery still work under simulated quota. No claim of live/native-device proof.
 - Evidence: NAVIGATION-QA-2026-10-25.json. One isolated fixture preview navigation-review.html; no old packages rebuilt.
   Physical installed/absent-app launch checks and live budget/location integration remain open; see plan section 10.
+
+## 13. 25 Oct 15:13 — consultant hand-off b47ed9b integrated + shared routing budget (Claude)
+- Fast-forward of the whole chain 91b1795 → b47ed9b onto `tech/v82-int` (tracking cancellation, optional audio recovery,
+  customer logo, map gestures, driver chat with unread count, navigation facade / Geoapify / external Yandex · 2GIS · Google).
+  No commit taken alone; earlier Claude fixes untouched.
+- Shared budget (proposed, NOT applied): `sql/proposed/patch40_navigation_budget.sql` — `navigation_reserve_budget(...)`,
+  3 closed tables (RLS on, no policies, all privileges revoked from anon / authenticated incl. TRUNCATE), service_role only.
+  One ledger for all drivers / cities / instances; per-provider row lock → no race past the cap; idempotent request id;
+  rolling window ≥ 24 h (provider reset time is not published); SQL hard limits cap ≤ 3 000, rps ≤ 5, credits ≤ 100;
+  cache checks refused when exhausted; no refund on ambiguous errors. Rollback lines in the file.
+- Binding: `index.ts` calls it with the service key under either name (SUPABASE_SERVICE_ROLE_KEY / SUPABASE_SECRET_KEYS).
+  Missing RPC / key / timeout / bad answer → «tracking» (no route, no ETA); order, chat and delivery unaffected.
+  `single-file-for-dashboard.ts` regenerated from the current modules (TypeScript syntax check: 0 diagnostics).
+- Checks (local; new binding only): `tools/navigation_budget_check.mjs` 21/0 (PostgreSQL 16 / PGlite: cap, cache, idempotency,
+  rate, hard limits, window, privileges, handler binding across two cities, fail-closed);
+  `tools/navigation_budget_concurrency_check.mjs` OK (real PostgreSQL 17, 40 parallel connections: cap 6 held exactly,
+  rps 4 held, no deadlock). Consultant checks not repeated. Simulated routes still not proven live; Yandex / 2GIS / Google
+  launch on real devices still open.
+- Secret for activation: `GEOAPIFY_KEY` (Supabase → Edge Functions → Secrets). `NAVIGATION_CONFIG` only at activation.
+  `ORS_KEY` is no longer read by the function (can stay or be deleted).

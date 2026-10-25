@@ -29,10 +29,19 @@ async function getUser(authorization: string): Promise<string | null> {
   return error || !data?.user ? null : data.user.id;
 }
 
-// Binding point for Claude's separately approved durable, service-only atomic budget RPC.
-// No schema/permission change is included. Missing RPC/secret -> tracking-only, never unmetered calls.
+// Bound to patch 40 `navigation_reserve_budget` (proposed, applied only after approval). Missing RPC / key / timeout /
+// malformed answer -> tracking-only, never unmetered upstream calls.
+// Service key under either name (legacy service_role / new secret keys). Server-side only; never sent to the browser.
+function serviceKey(): string {
+  const legacy = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (legacy) return legacy;
+  const raw = Deno.env.get('SUPABASE_SECRET_KEYS') ?? '';
+  try { const v = JSON.parse(raw); const first = typeof v === 'string' ? v : Object.values(v ?? {})[0]; if (typeof first === 'string') return first; } catch { /* plain value */ }
+  return raw;
+}
+
 async function reserveBudget(v: { provider: string; credits: number; dailyCap: number; rps: number; requestId: string }) {
-  const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  const key = serviceKey();
   if (!key) throw new Error('budget_unavailable');
   const sb = createClient(Deno.env.get('SUPABASE_URL')!, key, { auth: { persistSession: false } });
   const result = await sb.rpc('navigation_reserve_budget', {
