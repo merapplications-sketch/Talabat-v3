@@ -192,3 +192,59 @@ Limits / remaining gates:
 - No SQL mutation, permission/account/financial-policy/dispatch change, main merge or app deployment.
 - Preview handoff: one `customer.html` raw.githack URL pinned to the repair commit; ordinary branch preview, not a deployment
   or an isolated data sandbox. The driver and other apps at the same commit remain available from the branch source.
+
+## 14. 25 Oct — Owner correction: interactive map/layout and cross-session chat (same repair branch)
+
+- Continued from `91b179586146823f7605720bde38c5b21d73de49` on
+  `fix/v82-pre-owner-audit-20261024`; remote branch checked unchanged before saving this delta.
+  Scope is map usability/space and message visibility, not another screen-jump fix. No redesign, merge or deployment.
+
+Map diagnosis and repair:
+- Confirmed with real Leaflet: `DM.dragging.enabled()` and `DM.touchZoom.enabled()` were both true. In the exposed map
+  area, `document.elementFromPoint(...)` returned `#app`, not a map descendant. The full-height positioned mission
+  UI container was intercepting gestures above the sibling `#dmap`. This was an overlay bug, not deliberate map locking.
+- Mission `#app` now passes pointer events through its empty area. Header, detail sheet, confirmation dock, recenter
+  control and modal overlays explicitly retain pointer input. Waiting/customer UI and order logic are unchanged.
+- Added 44 px Leaflet +/- controls and exposed the map region to accessibility. Existing recenter is positioned from
+  the header/offline offset instead of `bottom:620px`, which could put it outside usable space on shorter screens.
+- Default sheet keeps at least 180 px of map where its measured content/viewport permit; the existing expanded and
+  collapsed snaps remain. No cards/content/design A replaced. Short-phone sheet content remains independently scrollable.
+- Addresses in the task summary remain plain text; external directions remain the separate `Навигация` button.
+  Map-unavailable hint now explicitly names that button. B1/B2, route function, routing/ETA and straight-line policy untouched.
+
+Chat diagnosis and repair:
+- Two distinct isolated browser contexts/users with a shared order reproduced this: customer message inserted;
+  driver's normal scheduler fetched it; `TLB.unread(id)=1`, but `.a-chat` count was 0 while heading to/at the restaurant.
+  `aTools` only rendered chat at stage >=3, despite deployed chat policy allowing assigned-driver conversations during
+  preparing/ready/pickedup. The existing chat button also had no unread badge at delivery stages.
+- Chat control is now present in every assigned active task stage, with the actual `TLB.unread(id)` badge/accessibility
+  label. Unassigned offers still have no conversation control. Existing send/read services and permissions are unchanged.
+- In isolated delivery-stage testing, customer-to-driver data receipt already worked before this delta. This repair
+  addresses the proven UI visibility gap; it does not establish the cause of every possible live delivery failure.
+- Confirmed read-only on deployed DB: chat_insert requires own sender, assigned driver, participant and status in
+  preparing/ready/pickedup; chat_read uses can_see_order; order_chat is in supabase_realtime publication. Logs inspected
+  without copying message contents/identities. These checks do not prove authenticated message delivery or Realtime events.
+
+Affected verification only:
+- `MAP_LEAFLET=<Leaflet 1.9.4 dist> TEST_ENGINE=chromium|webkit python tools/driver_map_chat_check.py`:
+  six map width/height cases per engine (360/390/430 x 700/844), actual Leaflet with isolated 1 px tiles. Verified map hit
+  target, real mouse pan/centre change, +/- zoom change, grip drag/collapse, sheet-body scrolling and vertical swipe not
+  confirming an order. Explicit external navigation link and plain summary address checked. No horizontal overflow.
+  Chromium additionally passed two-finger touch zoom injected through CDP without moving the sheet or confirming an action.
+  WebKit tested mouse pan and zoom buttons; this is not physical iPhone pinch testing.
+- `CHECK_PART=chat ... tools/driver_map_chat_check.py` passed independently in Chromium 134 and WebKit 18.4:
+  preparing, ready, pickedup; in each phase customer types/sends -> driver's real unread badge -> driver opens/reads ->
+  driver types/replies -> customer sees the reply once. Separate contexts and user IDs, no receiver reload/render calls.
+  Shared test DB normalizes order_chat.order_id to bigint like Postgres; no production code type workaround introduced.
+  Realtime intentionally absent in the double: the app's existing 10 s driver / 25 s customer polling proves fallback.
+  The initial 20 s receiver-test deadline was too short for customer polling; corrected to 35 s, not an app polling change.
+- `python tools/driver_map_stability_check.py <Leaflet dist>`: MAP STABILITY CHECK OK (18), including waiting map,
+  mission, GPS/re-render/panel/viewport stability, retaining user view and recenter. No JavaScript errors in affected checks.
+- Existing successful unrelated checkout/catalog/auth tests from section 13 were not repeated.
+
+Still open / limits:
+- No signed-in TALABOT sessions were available in this turn's browser inventory (no tabs). No existing-account secrets
+  were available. Real customer+driver sending/receiving, actual Realtime, and real tiles/GPS remain unverified live.
+  No live chat, test order, account, SQL/permission or balance change was performed.
+- Physical iPhone Safari pinch/drag/keyboard/browser chrome still needs device acceptance; local WebKit is only an engine
+  simulation. This delta does not activate B1/B2 or claim that a street route now exists.
