@@ -37,7 +37,7 @@ const noBudget=makeHandler({fetch,env,getUser:auth});r=await read({from:A,to:B},
 for(const f of ['quota','down','malformed']){failure=f;change({internal:true});r=await read({from:A,to:B});check(r.mode==='tracking'&&!('duration_s'in r),'provider '+f+' has no misleading ETA');}failure='';
 let release;pending=new Promise(res=>release=res);change({internal:true});const req=read({from:A,to:B});await new Promise(res=>setTimeout(res,0));change({internal:false});release();r=await req;pending=null;check(r.reason==='config_changed','policy revoked during upstream request discards its result');
 change({internal:false});const c=navigationConfig(env),links=externalLinks(c,K);
-check(links.length===3,'all three approved external providers independent of internal flag');
+check(links.length===3&&links.find(x=>x.id==='yandex').app.startsWith('yandexmaps://maps.yandex.ru/'),'all three external providers; official Yandex host shared by iOS/Android examples');
 for(const link of links){const url=new URL(link.web);check(!url.searchParams.has('text')&&!url.searchParams.has('query')&&!decodeURIComponent(url.href).includes('Душанбе'),link.id+' has no text/city fallback');if(link.id==='google')assert.equal(url.searchParams.get('destination'),K.join(','));if(link.id==='yandex')assert.equal(url.searchParams.get('rtext'),'~'+K.join(','));if(link.id==='2gis')assert.ok(url.pathname.endsWith('/|'+K[1]+','+K[0]));}
 check(externalLinks(c,[null,69]).length===0,'missing destination pin cannot launch navigation');
 change({internal:false,external:false});r=await read({op:'links',to:K});check(r.links.length===0,'external navigation disabled centrally');

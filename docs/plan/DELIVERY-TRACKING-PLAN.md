@@ -436,7 +436,7 @@ No quota condition changes order acceptance, pricing, cash, financial settlement
 
 | External choice | Server-generated destination / fallback |
 |---|---|
-| Yandex Maps | App scheme `yandexmaps://maps.yandex.com/?rtext=~LAT,LNG&rtt=auto`; explicit HTTPS web link `https://yandex.ru/maps/?rtext=~LAT,LNG&rtt=auto`. Start left to external app/device; same exact destination, no search text |
+| Yandex Maps | App scheme `yandexmaps://maps.yandex.ru/?rtext=~LAT,LNG&rtt=auto`; explicit HTTPS web link `https://yandex.ru/maps/?rtext=~LAT,LNG&rtt=auto`. Start left to external app/device; same exact destination, no search text |
 | 2GIS | Current documented directions format `https://2gis.ru/directions/tab/car/points/|LNG,LAT`; universal HTTPS links are preferred by official documentation and fall back to the web when app is absent |
 | Google Maps | `https://www.google.com/maps/dir/?api=1&destination=LAT,LNG&travelmode=driving&dir_action=navigate`; official cross-platform HTTPS format, no API key, browser fallback if app absent |
 

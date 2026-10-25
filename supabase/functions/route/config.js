@@ -30,7 +30,7 @@ export function externalLinks(c, to) {
   const ll = to.join(','), xy = [to[1], to[0]].join(',');
   // Provider-documented coordinates: Yandex/Google lat,lng; 2GIS lng,lat. Never text search.
   const urls = {
-    yandex: { name: 'Yandex Maps', app: 'yandexmaps://maps.yandex.com/?rtext=' + encodeURIComponent('~' + ll) + '&rtt=auto', web: 'https://yandex.ru/maps/?rtext=' + encodeURIComponent('~' + ll) + '&rtt=auto' },
+    yandex: { name: 'Yandex Maps', app: 'yandexmaps://maps.yandex.ru/?rtext=' + encodeURIComponent('~' + ll) + '&rtt=auto', web: 'https://yandex.ru/maps/?rtext=' + encodeURIComponent('~' + ll) + '&rtt=auto' },
     '2gis': { name: '2GIS', app: 'https://2gis.ru/directions/tab/car/points/|' + xy, web: 'https://2gis.ru/directions/tab/car/points/|' + xy },
     google: { name: 'Google Maps', app: 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ll) + '&travelmode=driving&dir_action=navigate', web: 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(ll) + '&travelmode=driving&dir_action=navigate' },
   };

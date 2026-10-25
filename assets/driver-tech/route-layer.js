@@ -84,7 +84,7 @@
  modal=function(){
    if(!open||chatOpen||CXL||DV)return oldModal();
    const x=task(),to=x&&target(x),k=x&&M.key(x,stage(x),to);
-   const safeLink=u=>typeof u==='string'&&/^(https:\/\/(www\.google\.com\/maps\/dir\/|yandex\.ru\/maps\/|2gis\.ru\/directions\/)|yandexmaps:\/\/maps\.yandex\.com\/)/.test(u);
+   const safeLink=u=>typeof u==='string'&&/^(https:\/\/(www\.google\.com\/maps\/dir\/|yandex\.ru\/maps\/|2gis\.ru\/directions\/)|yandexmaps:\/\/maps\.yandex\.(com|ru)\/)/.test(u);
    const list=linksKey===k?links.filter(v=>config?.external&&config.providers.includes(v.id)&&safeLink(v.app)&&safeLink(v.web)):[];
    return '<div class="ov a-aux" onclick="aNavigationClose()"><div class="md" role="dialog" aria-modal="true" aria-label="'+t('nChoose')+'" onclick="event.stopPropagation()"><h2>'+t('nChoose')+'</h2>'+(!to?'<p>'+t('nNoPin')+'</p>':'<p>'+esc(stage(x)>=3?x.address:x.store)+'</p>')+
     (to&&config?.mode==='internal'?'<button type="button" class="b" onclick="aNavigationInside()">'+t('nInternal')+'</button>':'<p role="status">'+t('nTracking')+'</p>')+
