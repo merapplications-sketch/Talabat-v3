@@ -398,3 +398,11 @@ Still open / limits:
 - Claude integration: shared files are assets/driver-a/driver-a.js, driver-a.css and assets/driver-tech/route-layer.js. Apply their narrow presentation diff onto current integration source; preserve map-view.js, waiting-map.js, talabat-core.js, driver.html, navigation-model.js, customer v80 and deployed route function/secrets. No service change needed for this polish. B1/B2 and routing activation remain outside scope. Before any later release: review this preview; actual iPhone safe areas/toolbar/touch/native app handoff and real server pickup remain acceptance items (no live order was changed for this batch).
 
 - Screenshot files: polish-20261025/mission.png, collapsed.png, navigation.png, pickup-success.png. Reproduce isolated checks/build with `MAP_LEAFLET=/path/to/local/leaflet python tools/driver_polish_check.py` and `... python tools/driver_polish_touch_check.py` (Leaflet JS/CSS local directory; no live tile/provider requests). One preview at navigation-review.html; actual map tiles intentionally blank and labelled in the shell.
+
+## 20. 26 Oct 02:24 — designer polish 79af0bb integrated (base 9dbe13a = branch head → fast-forward, no conflict)
+- Shared files: `assets/driver-a/driver-a.js` / `.css` (sheet metrics, collapse, stage disclosure, money rows, success notice)
+  and `assets/driver-tech/route-layer.js` (chooser layout, external note, Esc / focus). Kept unchanged by it: map-view.js
+  (framing, a-rerender), waiting-map.js, Geoapify attribution, route function / CORS log, core, patch 39. Internal stays off.
+- Affected checks only: driver_map_stability_check 18/0 (sheet metrics changed) · navigation_attribution_check OK
+  (route-layer changed). Designer's polish checks ran on the identical tree — not repeated.
+- External maps live: still waiting for the `route_cors` log line (section 19); the chooser shows no links until then.
