@@ -367,3 +367,8 @@ Still open / limits:
   origin (spaces, quotes, trailing «/», full page URL). JWT unchanged. Check: `tools/navigation_cors_check.mjs` OK (Chromium +
   supabase-js 2.117.2: headers, POST reaches, 3 links, missing origin → OPTIONS 403, tolerant entries); contract 39/0.
   Dashboard file regenerated (0 syntax diagnostics) — owner redeploys `route` with it.
+- 19:27 live after redeploy: OPTIONS 403, no POST → the origin refusal is now confirmed (headers were never the cause). The
+  edge log has no `request.headers.origin` (only `deno_origin`, the function's own host), so the received value is unknown.
+  Added a limited refusal log (handler, Logs tab): `{"route_cors":"refused","method","origin","allowed":[parsed list]}` —
+  origins only, no headers / keys / sessions / body / coordinates. CORS check re-run (affected): OK incl. the log line;
+  contract 39/0. Dashboard file regenerated. Next: one opening of «Навигация», then read that log line.

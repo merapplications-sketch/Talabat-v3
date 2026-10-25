@@ -6,7 +6,7 @@ import { makeHandler } from '../supabase/functions/route/handler.js';
 const { chromium } = createRequire(import.meta.url)('playwright');
 const UMD = fs.readFileSync(process.argv[2]); const PAGE = 'http://127.0.0.1:8001';
 let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
-let env = {}, log = [];
+let env = {}, log = [], warns = []; const warn0 = console.warn; console.warn = m => warns.push(String(m));
 const h = req => makeHandler({ fetch: async () => { throw Error('no upstream allowed'); }, env, getUser: async a => a.startsWith('Bearer ') ? 'driver' : null,
   reserveBudget: async () => { throw Error('no ledger'); }, settleBudget: async () => { throw Error('no ledger'); } })(req);
 const fn = http.createServer(async (req, res) => {
@@ -35,6 +35,9 @@ ok(r.l.data?.links?.map(x => x.id).join() === 'yandex,2gis,google', 'links: yand
 r = await run('https://merapplications-sketch.github.io');
 ok(r.log.every(x => x.m === 'OPTIONS') && r.log.every(x => x.s === 403) && r.c.error === 'FunctionsFetchError',
   'origin missing from ALLOWED_ORIGINS (the live symptom: no POST) -> preflight now answers 403, visible in the log (' + r.log.map(x => x.m + ' ' + x.s) + ')');
+const w = warns.at(-1) || '', wj = JSON.parse(w || '{}');
+ok(wj.route_cors === 'refused' && wj.origin === JSON.stringify(PAGE) && wj.allowed.join() === 'https://merapplications-sketch.github.io' && !/Bearer|signed-in|apikey|sb_publishable|38\.56/.test(w),
+  'refusal log line: received origin + parsed allow-list only, no key / session / coordinates: ' + w);
 for (const v of [' ' + PAGE + '/ ', '"' + PAGE + '"', PAGE + '/driver.html']) {
   r = await run('https://merapplications-sketch.github.io,' + v);
   ok(r.l.data?.links?.length === 3, 'secret entry ' + JSON.stringify(v) + ' is reduced to the origin and accepted');

@@ -115,9 +115,11 @@ function makeHandler({ fetch, env, getUser, reserveBudget, settleBudget, now = (
     const out = (status,body)=>new Response(JSON.stringify(body),{status,headers});
     // A preflight from a non-allowed origin answers 403 (was 200 with another origin's header: the browser then silently
     // dropped the POST and the log showed only «OPTIONS 200»).
-    if(req.method==='OPTIONS') return allowed.length&&origin&&!allowed.includes(origin)?out(403,{error:'origin'}):out(200,{});
+    // Limited diagnostic on refusal only: received Origin + parsed allow-list (origins only — no headers, keys, sessions, body).
+    const refuse=()=>{console.warn(JSON.stringify({route_cors:'refused',method:req.method,origin:JSON.stringify(origin).slice(0,200),allowed}));return out(403,{error:'origin'});};
+    if(req.method==='OPTIONS') return allowed.length&&origin&&!allowed.includes(origin)?refuse():out(200,{});
     if(req.method!=='POST') return out(405,{error:'method'});
-    if(allowed.length && origin && !allowed.includes(origin)) return out(403,{error:'origin'});
+    if(allowed.length && origin && !allowed.includes(origin)) return refuse();
     const user=await getUser(req.headers.get('authorization')||'').catch(()=>null);
     if(!user) return out(401,{error:'auth'});
     let b; try { b=await req.json(); } catch { return out(400,{error:'bad_value'}); }
