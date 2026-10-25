@@ -3,8 +3,8 @@
  'use strict';
  if(typeof mapUpd!=='function'||!window.TLB||!window.TALABOT_NAV_MODEL)return;
  const M=window.TALABOT_NAV_MODEL;
- TLB.addDict({nChoose:'Навигация',nInternal:'Внутри TALABOT',nExternal:'Внешняя навигация',nWeb:'Веб-ссылка',nApp:'Открыть приложение',nHint:'Если приложение не установлено или не открылось — откройте в браузере. Можно выбрать другую карту.',nIdle:'Для маршрута выберите «Внутри TALABOT»',nTracking:'Только отслеживание · время прибытия недоступно',nLoading:'Проверяем навигацию…',nQuota:'Лимит маршрутов исчерпан',nDisabled:'Дорожная навигация отключена',nUnavailable:'Маршрут недоступен',nGps:'Нет свежего точного местоположения',nOffRoute:'Вне маршрута · пересчитываем',nNoPin:'Точные координаты назначения отсутствуют',nFollow:'Следовать за мной',nTurn:'Манёвр через',nRemaining:'Осталось примерно',nClose:'Закрыть',nUpdated:'Расчёт маршрута',nFix:'Позиция',nRetry:'Повторить'},
- {nChoose:'Navigation',nInternal:'Inside TALABOT',nExternal:'External navigation',nWeb:'Web link',nApp:'Open app',nHint:'If the app is missing or did not open, use the browser link. You can choose another map.',nIdle:'Choose Inside TALABOT to start routing',nTracking:'Tracking only · arrival time unavailable',nLoading:'Checking navigation…',nQuota:'Route allowance exhausted',nDisabled:'Road navigation disabled',nUnavailable:'Route unavailable',nGps:'No fresh accurate location',nOffRoute:'Off route · recalculating',nNoPin:'Exact destination coordinates missing',nFollow:'Follow me',nTurn:'Maneuver in',nRemaining:'Estimated remaining',nClose:'Close',nUpdated:'Route calculated',nFix:'Position',nRetry:'Retry'});
+ TLB.addDict({nChoose:'Навигация',nInternal:'Внутри TALABOT',nExternal:'Внешняя навигация',nWeb:'Ссылка сайта',nApp:'Открыть',nHint:'Ссылка сайта тоже может открыть приложение — это зависит от телефона.',nExternalNote:'Маршрут — во внешней карте · TALABOT отслеживает позицию',nIdle:'Для маршрута выберите «Внутри TALABOT»',nTracking:'Только отслеживание · время прибытия недоступно',nLoading:'Проверяем навигацию…',nQuota:'Лимит маршрутов исчерпан',nDisabled:'Дорожная навигация отключена',nUnavailable:'Маршрут недоступен',nGps:'Нет свежего точного местоположения',nOffRoute:'Вне маршрута · пересчитываем',nNoPin:'Точные координаты назначения отсутствуют',nFollow:'Следовать за мной',nTurn:'Манёвр через',nRemaining:'Осталось примерно',nClose:'Закрыть',nUpdated:'Расчёт маршрута',nFix:'Позиция',nRetry:'Повторить'},
+ {nChoose:'Navigation',nInternal:'Inside TALABOT',nExternal:'External navigation',nWeb:'Website link',nApp:'Open',nHint:'A website link may also open the app, depending on your phone.',nExternalNote:'Directions in an external map · TALABOT tracks your position',nIdle:'Choose Inside TALABOT to start routing',nTracking:'Tracking only · arrival time unavailable',nLoading:'Checking navigation…',nQuota:'Route allowance exhausted',nDisabled:'Road navigation disabled',nUnavailable:'Route unavailable',nGps:'No fresh accurate location',nOffRoute:'Off route · recalculating',nNoPin:'Exact destination coordinates missing',nFollow:'Follow me',nTurn:'Maneuver in',nRemaining:'Estimated remaining',nClose:'Close',nUpdated:'Route calculated',nFix:'Position',nRetry:'Retry'});
  let config=null,configAt=0,configFlight=null,epoch=0,currentKey='',route=null,flight=null,lastAsk=0,retryAt=0,offRouteSince=0;
  let mode='tracking',reason='disabled',following=false,chosen=false,open=false,links=[],linksKey='',linksFlight=null,detail=null,boundMap=null;
  function task(){return typeof aTask==='function'?aTask():null;}
@@ -27,9 +27,9 @@
  function label(){
    const el=document.getElementById('a-map-state');if(!el)return;
    if(mode==='internal'&&detail){
-     const stamp=v=>new Date(v).toLocaleTimeString(TLB.lang()==='ru'?'ru-RU':'en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+     el.hidden=false;const stamp=v=>new Date(v).toLocaleTimeString(TLB.lang()==='ru'?'ru-RU':'en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
      el.textContent=t('nRemaining')+': '+(detail.remainingM/1000).toFixed(1)+' км · ~'+Math.max(1,Math.round(detail.remainingS/60))+' мин'+(detail.step?.instruction?' · '+t('nTurn')+' '+Math.round(detail.turnDistanceM)+' м: '+detail.step.instruction:'')+' · '+t('nUpdated')+' '+stamp(detail.calculatedAt)+' · '+t('nFix')+' '+stamp(detail.fixAt);
-   }else{const k=reason==='not_started'?'nIdle':reason==='external'?'nExternal':reason==='quota'?'nQuota':reason==='disabled'?'nDisabled':reason==='gps_unavailable'?'nGps':reason==='off_route'?'nOffRoute':reason==='no_pin'?'nNoPin':'nUnavailable';el.textContent=t(k)+' · '+t('nTracking');}
+   }else if(config?.external&&config.mode!=='internal'){el.textContent=open?'':t('nExternalNote');el.hidden=open;}else{el.hidden=false;const k=reason==='not_started'?'nIdle':reason==='external'?'nExternal':reason==='quota'?'nQuota':reason==='disabled'?'nDisabled':reason==='gps_unavailable'?'nGps':reason==='off_route'?'nOffRoute':reason==='no_pin'?'nNoPin':'nUnavailable';el.textContent=t(k)+' · '+t('nTracking');}
  }
  function renderRoute(){
    if(!ready())return;
@@ -76,7 +76,7 @@
    linksFlight=TLB.navigation({op:'links',to}).then(r=>{const y=task();if(y&&M.key(y,stage(y),target(y))===k){linksKey=k;links=Array.isArray(r.links)?r.links:[];if(r.config){config=r.config;configAt=Date.now();}if(open)render();}}).finally(()=>{linksFlight=null;});return linksFlight;
  }
  window.aNavigationOpen=function(){open=true;links=[];linksKey='';render();policy(true).then(()=>loadLinks()).then(()=>{if(open)render();});};
- window.aNavigationClose=function(){open=false;render();};
+ window.aNavigationClose=function(){open=false;render();document.querySelector('.a-navigation')?.focus();};
  window.aNavigationInside=function(){open=false;chosen=true;following=true;retryAt=0;lastAsk=0;render();const x=task();if(x)update(x);};
  window.aNavigationExternal=function(){if(flight)flight.ctl.abort();chosen=false;mode='external';detail=null;route=null;epoch++;clearLine();label();};
  window.aNavigationFollow=function(){following=true;const x=task();if(x)update(x);};
@@ -86,16 +86,18 @@
    const x=task(),to=x&&target(x),k=x&&M.key(x,stage(x),to);
    const safeLink=u=>typeof u==='string'&&/^(https:\/\/(www\.google\.com\/maps\/dir\/|yandex\.ru\/maps\/|2gis\.ru\/directions\/)|yandexmaps:\/\/maps\.yandex\.(com|ru)\/)/.test(u);
    const list=linksKey===k?links.filter(v=>config?.external&&config.providers.includes(v.id)&&safeLink(v.app)&&safeLink(v.web)):[];
-   return '<div class="ov a-aux" onclick="aNavigationClose()"><div class="md" role="dialog" aria-modal="true" aria-label="'+t('nChoose')+'" onclick="event.stopPropagation()"><h2>'+t('nChoose')+'</h2>'+(!to?'<p>'+t('nNoPin')+'</p>':'<p>'+esc(stage(x)>=3?x.address:x.store)+'</p>')+
-    (to&&config?.mode==='internal'?'<button type="button" class="b" onclick="aNavigationInside()">'+t('nInternal')+'</button>':'<p role="status">'+t('nTracking')+'</p>')+
-    '<h3>'+t('nExternal')+'</h3>'+list.map(v=>'<section class="n-provider"><b>'+esc(v.name)+'</b><div><a class="b s" href="'+esc(v.app)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nApp')+'</a><a class="b s" href="'+esc(v.web)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nWeb')+'</a></div></section>').join('')+
-    (!config?'<p>'+t('nUnavailable')+'</p>':!list.length&&to?'<p>'+t('nDisabled')+'</p>':'')+'<p class="xs">'+t('nHint')+'</p><button type="button" class="b s" onclick="aNavigationClose()">'+t('nClose')+'</button></div></div>';
+   return '<div class="ov a-aux n-chooser" onclick="aNavigationClose()"><div class="md" role="dialog" aria-modal="true" aria-label="'+t('nChoose')+'" onclick="event.stopPropagation()"><header class="n-heading"><h2>'+t('nChoose')+'</h2><button type="button" class="round" onclick="aNavigationClose()" aria-label="'+t('nClose')+'">'+ico('x',20)+'</button></header><div class="n-body">'+(!to?'<p>'+t('nNoPin')+'</p>':'<p class="n-destination">'+esc(stage(x)>=3?x.address:x.store)+'</p>')+
+    (to&&config?.mode==='internal'?'<button type="button" class="b" onclick="aNavigationInside()">'+t('nInternal')+'</button>':'<p class="n-note" role="status">'+t('nExternalNote')+'</p>')+
+    list.map(v=>'<section class="n-provider"><b>'+esc(v.name)+'</b><div><a class="n-open" aria-label="'+esc(v.name)+' · '+t('nApp')+'" href="'+esc(v.app)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nApp')+' '+ico('arr',16)+'</a><a class="n-web" aria-label="'+esc(v.name)+' · '+t('nWeb')+'" href="'+esc(v.web)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nWeb')+'</a></div></section>').join('')+
+    (!config?'<p>'+t('nUnavailable')+'</p>':!list.length&&to?'<p>'+t(linksFlight?'nLoading':'nDisabled')+'</p>':'')+'<p class="n-hint">'+t('nHint')+'</p></div></div></div>';
+
  };
  const inner=mapUpd;mapUpd=function(x,force){const v=inner.apply(this,arguments);if(x)update(x);return v;};
+ document.addEventListener('keydown',e=>{if(open&&e.key==='Escape'){e.preventDefault();aNavigationClose();}});
  document.addEventListener('visibilitychange',()=>{if(document.hidden){reset();configAt=0;links=[];linksKey='';open=false;}else policy(true).then(()=>{const x=task();if(x)update(x);});});
  window.addEventListener('pagehide',()=>reset());
  // Bounded lifecycle tick: stops provider requests off the mission; checks policy/staleness without creating a GPS watch.
  setInterval(()=>{const x=task();if(!x||document.hidden){if(currentKey)reset();return;}update(x);},1000);
- const css=document.createElement('style');css.textContent='.n-provider{margin:12px 0}.n-provider>div{display:flex;gap:8px;margin-top:6px}.n-provider a{min-height:44px;flex:1;font-size:13px}.a-map-state{max-width:calc(100% - 32px);white-space:normal}.a-tools .a-navigation{border:1px solid #ffd8c3;color:inherit;font:inherit;cursor:pointer}';document.head.appendChild(css);
+ const css=document.createElement('style');css.textContent='.n-provider{margin:12px 0}.n-provider>div{display:flex;gap:8px;margin-top:6px}.n-provider a{min-height:44px;flex:1;font-size:13px}.a-map-state{max-width:calc(100% - 32px);white-space:normal}';document.head.appendChild(css);
  window.__routeLayer={state:()=>({key:currentKey,hasRoute:!!route,mode,reason,inflight:!!flight,following}),refreshPolicy:()=>policy(true)};
 })();

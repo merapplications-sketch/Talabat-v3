@@ -52,7 +52,7 @@ with sync_playwright() as pw:
    pg.screenshot(path=str(OUT/f'chooser-{engine}-{width}.png'),full_page=True)
    rest_links=pg.locator('.n-provider a').evaluate_all('(els)=>els.map(e=>e.href)')
    check(all('38.56' in u and '68.78' in u and 'Душанбе' not in u for u in rest_links),f'{engine} {width}: all links target actual restaurant')
-   check(pg.locator('.n-provider a').count()==6 and 'браузере' in pg.locator('.md').inner_text(),f'{engine} {width}: explicit app/web fallback, no installation detection claim')
+   check(pg.locator('.n-provider a').count()==6 and 'зависит от телефона' in pg.locator('.md').inner_text(),f'{engine} {width}: primary / website links, no browser-only or installation detection claim')
    pg.get_by_role('button',name='Внутри TALABOT',exact=True).click();wait(pg, "()=>__routeLayer.state().mode==='internal'",timeout=10000)
    check(pg.locator('#dmap path.a-route').count()==1 and 'примерно' in pg.locator('#a-map-state').inner_text(),f'{engine} {width}: internal route on existing map with approximate ETA')
    check(not pg.evaluate('document.documentElement.scrollWidth>innerWidth'),f'{engine} {width}: no horizontal overflow')
