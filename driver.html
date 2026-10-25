@@ -115,7 +115,7 @@ const setTab=x=>{tab=x;render()};
 let GEO={state:'idle',lat:null,lng:null,acc:null,sent:0,wid:null},wake=null;
 const ping=()=>TLB.ping(online);
 function startGeo(){if(GEO.wid!=null)return;if(!navigator.geolocation){GEO.state='na';return}GEO.state='wait';
-  GEO.wid=navigator.geolocation.watchPosition(p=>{GEO.lat=p.coords.latitude;GEO.lng=p.coords.longitude;GEO.acc=p.coords.accuracy;GEO.state='ok';pushGeo(false);render()},
+  GEO.wid=navigator.geolocation.watchPosition(p=>{GEO.lat=p.coords.latitude;GEO.lng=p.coords.longitude;GEO.acc=p.coords.accuracy;GEO.at=p.timestamp||Date.now();GEO.state='ok';pushGeo(false);render()},
     e=>{GEO.state=e&&e.code==1?'denied':'err';render()},{enableHighAccuracy:true,maximumAge:5000,timeout:30000})}
 function stopGeo(){if(GEO.wid!=null&&navigator.geolocation)navigator.geolocation.clearWatch(GEO.wid);GEO.wid=null;GEO.state='idle';GEO.lat=null;GEO.lng=null}
 function pushGeo(force){if(!online||GEO.lat==null)return;const n=Date.now();if(!force&&n-GEO.sent<8000)return;GEO.sent=n;TLB.sendLocation(GEO.lat,GEO.lng,GEO.acc)}
@@ -172,8 +172,6 @@ function swipeH(a){const n=stepOf(a),wait=n==2&&a.status!='ready';
   if(wait)return `<div class="swp off" id="swp" role="status"><div class="swt">⏳ ${t('swWait')}</div></div>`;
   return `<div class="swp ${n==4?'g':''} ${SWB?'busy':''}" id="swp"><button class="swk" id="swk" aria-label="${t('sw'+n)} · ${t('swHint')}">${ico(n==4?'check':'nav',22)}</button><div class="swt"><span>${t('sw'+n)}</span> ››</div></div>`}
 const storeLL=n=>{const st=TLB.stores(true).find(x=>x.name==n);return st&&st.lat!=null&&st.lng!=null&&isFinite(+st.lat)&&isFinite(+st.lng)?(+st.lat)+','+(+st.lng):null};
-const map=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q+' Душанбе')}`;
-const pt=o=>o&&o.lat!=null&&o.lng!=null&&isFinite(+o.lat)&&isFinite(+o.lng)?`https://www.google.com/maps/dir/?api=1&destination=${+o.lat},${+o.lng}&travelmode=driving`:null;   /* B: navigation (directions) to the exact order pin */
 function invoice(o){const cash=TLB.isCash(o);
   return `<div class="inv"><b>🧾 ${t('inv')}</b><div style="height:6px"></div>
   ${o.items.map(i=>`<div class="l"><span>${i.qty}× ${esc(i.name)}${(i.opts&&i.opts.length)?`<small style="display:block;color:#8b8f98">${esc(i.opts.map(x=>x.n).join(', '))}</small>`:''}${i.note?` <small style="color:#e74c3c">(${esc(i.note)})</small>`:''}</span><span>${(i.qty*i.price).toFixed(2)}</span></div>`).join('')}
@@ -191,7 +189,7 @@ function banner(){const m=TLB.me(),bal=TLB.myCash();let h=geoBanner();
   return h}
 function stepBar(a){const n=stepOf(a);return `<div class="sgm4">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div><div class="xs mut">${t('stepN4').replace('{n}',n)}</div><div class="stt">${t('st4_'+n)}</div>`}
 const kmTo=(la,ln)=>{if(GEO.lat==null||la==null||!isFinite(la)||!isFinite(ln))return null;const R=6371,r=x=>x*Math.PI/180,dl=r(la-GEO.lat),dn=r(ln-GEO.lng),h=Math.sin(dl/2)**2+Math.cos(r(GEO.lat))*Math.cos(r(la))*Math.sin(dn/2)**2;return Math.round(2*R*Math.asin(Math.sqrt(h))*10)/10};
-const storePt=n=>{const v=storeLL(n);return v?v.split(',').map(Number):null};
+const storePt=n=>{if(n&&typeof n==='object'){const s=TLB.stores(true).find(v=>v.id===n.storeId);return s&&s.lat!=null&&s.lng!=null&&Number.isFinite(+s.lat)&&Number.isFinite(+s.lng)&&Math.abs(+s.lat)<=90&&Math.abs(+s.lng)<=180&&!(+s.lat===0&&+s.lng===0)?[+s.lat,+s.lng]:null}const v=storeLL(n);return v?v.split(',').map(Number):null};
 function legs(a){const ot=a.status=='pickedup',sp=storePt(a.store),tg=ot?[+a.lat,+a.lng]:sp,d=tg?kmTo(tg[0],tg[1]):null,fee=Math.round((a.payout-(+a.tip||0))*100)/100;
   return `<div class="legs">${d!=null?`<span class="leg">📍 ${t('toTarget').replace('{n}',d)}</span>`:''}${a.deliveryKm?`<span class="leg">🛵 ${t('restToCust').replace('{n}',a.deliveryKm)}</span>`:''}<span class="leg">💰 ${t('feeFor')} ${fee.toFixed(2)}${a.tip>0?` + ${t('tipT')} ${(+a.tip).toFixed(2)}`:''} TJS</span></div>`}
 /* cash: what to take, with points and wallet shown apart from the cash */
@@ -200,17 +198,17 @@ function cashBox(o){const pv=+o.pointsValue||0,w=+o.walletUsed||0;
   return `<div class="cashb"><div class="big"><span>💵 ${t('cashGet')}</span><span>${due(o).toFixed(2)} TJS</span></div>${pv>0||w>0?`<div class="r"><span>${t('cashOrder')}</span><span>${(o.total+pv).toFixed(2)}</span></div>${pv>0?`<div class="r"><span>⭐ ${t('cashPts')}</span><span>−${pv.toFixed(2)}</span></div>`:''}${w>0?`<div class="r"><span>👛 ${t('cashWal')}</span><span>−${w.toFixed(2)}</span></div>`:''}`:''}</div>`}
 function itemsSummary(a){const n=a.items.reduce((s,i)=>s+i.qty,0);
   return `<div class="card"><div class="row" onclick="invOpen=!invOpen;render()" style="cursor:pointer"><div><b>${t('orderInfo')}</b><div class="xs" style="color:var(--mut)">${n} ${t('itemsN')} · ${a.total.toFixed(2)} TJS</div></div><span style="color:var(--o)">${ico(invOpen?'up':'down',22)}</span></div>${invOpen?invoice(a):''}</div>`}
-function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id),cash=TLB.isCash(a),restNav=storeLL(a.store)?'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+storeLL(a.store):map(a.store);
+function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB.unread(a.id),cash=TLB.isCash(a);
   const sub=rd?t('readyNow'):a.prepTime?t('prepIn').replace('{n}',a.prepTime):t('prepOn');
   const focus=ot?`<div class="fc"><div class="rg" style="gap:11px"><div class="av2">${esc(String(a.client.name||'?').charAt(0).toUpperCase())}</div><div style="flex:1;min-width:0"><div class="xs lbl">${t('custT')}</div><div class="nm" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.client.name)}</div></div>
-    <div class="cta"><a target="_blank" rel="noopener" href="${pt(a)||map(a.address)}" aria-label="${t('ctNav')}" title="${t('ctNav')}">${ico('nav',19)}</a>${a.client.phone?`<a class="call" href="tel:${esc(a.client.phone)}" aria-label="${t('ctCall')}" title="${t('ctCall')}">${ico('phone',19)}</a>`:''}<button class="msg" onclick="chatOpen=true;render()" aria-label="${t('ctChat')}" title="${t('ctChat')}">${ico('chat',19)}${un?`<span class="dotb">${un}</span>`:''}</button></div></div>
+    <div class="cta"><button onclick="aNavigationOpen()" aria-label="${t('ctNav')}">${ico('nav',19)}</button>${a.client.phone?`<a class="call" href="tel:${esc(a.client.phone)}" aria-label="${t('ctCall')}" title="${t('ctCall')}">${ico('phone',19)}</a>`:''}<button class="msg" onclick="chatOpen=true;render()" aria-label="${t('ctChat')}" title="${t('ctChat')}">${ico('chat',19)}${un?`<span class="dotb">${un}</span>`:''}</button></div></div>
     <div class="caddr" style="margin-top:10px"><div class="xs lbl">${t('custAddrL')}</div><div style="font-weight:600;word-break:break-word;margin-top:2px">${esc(a.address)}</div></div>
     ${a.recipient?`<div class="gft"><span>🎁</span><div style="flex:1;min-width:0"><div class="xs lbl">${t('dGift')}</div><b>${esc(a.recipient.name)}</b></div><div class="cta"><a class="call" href="tel:${esc(a.recipient.phone)}" aria-label="${t('dGiftCall')}" title="${t('dGiftCall')}">${ico('phone',19)}</a></div></div>`:a.isGift?`<div class="gft"><span>🎁</span><b>${t('dGift')}</b></div>`:''}
     ${a.scheduledFor?`<div class="dwarn">🕒 ${t('dSched')} ${new Date(a.scheduledFor).toLocaleTimeString(TLB.lang()=='ru'?'ru-RU':'en-GB',{hour:'2-digit',minute:'2-digit'})}</div>`:''}${a.leaveAtDoor?`<div class="dwarn">🚪 ${t('dDoor')}</div>`:''}
     ${!a.client.phone?`<div class="xs" style="color:var(--bad);margin-top:8px">${t('noPh')}</div>`:''}</div>
     <div class="nx"><span class="hico">${ico('store',16)}</span><div style="flex:1;min-width:0"><div class="xs">${t('stRest')}</div><b>${esc(a.store)}</b></div><span class="tag ok">\u2713 ${t('pickedOk')}</span></div>`
   :`<div class="fc"><div class="rg" style="gap:11px;align-items:flex-start"><span class="hico" style="background:#fff1ea">${ico('store',18)}</span><div style="flex:1;min-width:0"><div class="xs lbl">${t('stRest')}</div><div class="nm" style="word-break:break-word">${esc(a.store)}</div><span class="tag ${rd?'ok':'wait'}">${sub}</span></div>
-    <div class="cta"><a target="_blank" rel="noopener" href="${restNav}" aria-label="${t('ctNav')}" title="${t('ctNav')}">${ico('nav',19)}</a>${a.storePhone?`<a class="call" href="tel:${esc(a.storePhone)}" aria-label="${t('ctCallR')}" title="${t('ctCallR')}">${ico('phone',19)}</a>`:''}</div></div></div>
+    <div class="cta"><button onclick="aNavigationOpen()" aria-label="${t('ctNav')}">${ico('nav',19)}</button>${a.storePhone?`<a class="call" href="tel:${esc(a.storePhone)}" aria-label="${t('ctCallR')}" title="${t('ctCallR')}">${ico('phone',19)}</a>`:''}</div></div></div>
     <div class="nx"><span class="hico">${ico('pin',16)}</span><div style="flex:1;min-width:0"><div class="xs">${t('nextT')}: ${t('custT')}</div><b style="word-break:break-word">${esc(a.address)}</b></div></div>`;
   return `<div class="row"><span class="badge" style="background:var(--o);color:#fff">#${a.id}</span><span class="earnchip">${t('earnT')} ${a.payout.toFixed(2)} TJS</span></div>
   ${stepBar(a)}${legs(a)}${a.status!='pickedup'&&a.substitution&&a.substitution!='call'?`<div class="dwarn" style="margin-bottom:8px">${t('dsub_'+a.substitution)}</div>`:''}${focus}
@@ -221,7 +219,7 @@ function sheetH(a){return `<div class="sht ${SHF?'full':''}"><div class="shh"><b
 /* the map stays outside the re-drawn page: only its markers change */
 function mapUpd(a,force){const box=$('dmap');if(!a||!box)return;if(!window.L){if(!DM){DM=1;TLB.leaflet&&TLB.leaflet(()=>{DM=null;render()})}return}
   if(!DM||DM===1){DM=L.map(box,{zoomControl:false,attributionControl:true});L.control.zoom({position:'topleft'}).addTo(DM);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'\u00a9 OpenStreetMap',referrerPolicy:'strict-origin-when-cross-origin'}).addTo(DM);DM.__l=L.layerGroup().addTo(DM);DM.setView([38.5598,68.787],13)}
-  const sp=storePt(a.store),cp=a.lat!=null&&isFinite(+a.lat)?[+a.lat,+a.lng]:null,me=GEO.lat!=null?[GEO.lat,GEO.lng]:null,ot=a.status=='pickedup';
+  const sp=storePt(a),cp=a.lat!=null&&isFinite(+a.lat)?[+a.lat,+a.lng]:null,me=GEO.lat!=null?[GEO.lat,GEO.lng]:null,ot=a.status=='pickedup';
   const key=[a.id,stepOf(a),sp,cp].join('|');const ic=(c,h,cls)=>L.divIcon({className:'',html:`<div class="dmk ${cls||''}" style="background:${c}">${h||''}</div>`,iconSize:[30,30],iconAnchor:[15,15]});
   DM.__l.clearLayers();if(sp)L.marker(sp,{icon:ic(ot?'#9aa0aa':'#f1511b',ico('store',15))}).addTo(DM.__l);if(cp)L.marker(cp,{icon:ic(ot?'#1fa05a':'#9aa0aa',ico('home',15))}).addTo(DM.__l);
   if(sp&&cp)L.polyline([sp,cp],{color:'#f1511b',weight:3,opacity:.5,dashArray:'6 8'}).addTo(DM.__l);if(me)L.marker(me,{icon:L.divIcon({className:'',html:'<div class="dmk me"></div>',iconSize:[20,20],iconAnchor:[10,10]})}).addTo(DM.__l);
@@ -295,4 +293,4 @@ function render(){if(window.__drag){window.__rp=1;return}const _sb=document.quer
   render0();{const nb=document.querySelector('.shb');if(nb&&_st)nb.scrollTop=_st}
   if(ok){let e=id?document.getElementById(id):null;if(!e||e===a){const n=[...document.querySelectorAll('input,textarea')];e=n[ix]}if(e&&e!==a){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
   window.scrollTo(0,y)}
-</script><script src="assets/driver-tech/waiting-map.js"></script><script src="assets/driver-a/driver-a.js"></script><script src="assets/driver-tech/map-view.js"></script><script src="assets/driver-tech/route-layer.js"></script></body></html>
+</script><script src="assets/driver-tech/waiting-map.js"></script><script src="assets/driver-a/driver-a.js"></script><script src="assets/driver-tech/map-view.js"></script><script src="assets/driver-tech/navigation-model.js"></script><script src="assets/driver-tech/route-layer.js"></script></body></html>

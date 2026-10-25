@@ -1,12 +1,13 @@
-// TALABOT — Edge Function «route» (batch B). Prepared for review — NOT deployed.
-// Deploy only after approval:  supabase secrets set ORS_KEY=... ALLOWED_ORIGINS=https://<site>
-//                              supabase functions deploy route
+// TALABOT navigation facade (same Edge Function name). Prepared, NOT deployed.
+// Selected provider: Geoapify. Set policy/key and deploy only in the separately authorized activation step.
 // SUPABASE_URL and the project's public key (SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEYS) are provided by Supabase.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.4';
 import { makeHandler } from './handler.js';
 
+// Server-only configuration; defaults keep internal routing disabled until explicitly activated.
 const env = {
-  ORS_KEY: Deno.env.get('ORS_KEY') ?? '',
+  NAVIGATION_CONFIG: Deno.env.get('NAVIGATION_CONFIG') ?? '',
+  GEOAPIFY_KEY: Deno.env.get('GEOAPIFY_KEY') ?? '',
   ALLOWED_ORIGINS: Deno.env.get('ALLOWED_ORIGINS') ?? '',
 };
 
@@ -28,4 +29,16 @@ async function getUser(authorization: string): Promise<string | null> {
   return error || !data?.user ? null : data.user.id;
 }
 
-Deno.serve(makeHandler({ fetch, env, getUser }));
+// Binding point for Claude's separately approved durable, service-only atomic budget RPC.
+// No schema/permission change is included. Missing RPC/secret -> tracking-only, never unmetered calls.
+async function reserveBudget(v: { provider: string; credits: number; dailyCap: number; rps: number; requestId: string }) {
+  const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (!key) throw new Error('budget_unavailable');
+  const sb = createClient(Deno.env.get('SUPABASE_URL')!, key, { auth: { persistSession: false } });
+  const result = await sb.rpc('navigation_reserve_budget', {
+    p_provider: v.provider, p_credits: v.credits, p_daily_cap: v.dailyCap, p_rps: v.rps, p_request_id: v.requestId,
+  }).abortSignal(AbortSignal.timeout(3000));
+  if (result.error) throw new Error('budget_unavailable');
+  return result.data;
+}
+Deno.serve(makeHandler({ fetch, env, getUser, reserveBudget }));

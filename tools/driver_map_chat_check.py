@@ -70,7 +70,7 @@ with sync_playwright() as pw:
    knob=pg.locator('#swk').bounding_box();drag(pg,knob['x']+20,knob['y']+20,0,-80)
    assert pg.evaluate("__UI_RPCS.filter(x=>['driver_accept','deliver_order','set_order_status'].includes(x[0])).length")==0
    assert pg.locator('.a-navigation').count()==1
-   assert pg.locator('.a-navigation').get_attribute('target')=='_blank'
+   assert pg.locator('.a-navigation').get_attribute('onclick')=='aNavigationOpen()'  # current explicit internal/external chooser
    assert pg.locator('.a-target a').count()==0
    pg.evaluate("aSnap('default');$('a-sheet-body').scrollTop=0");pause(pg);pg.screenshot(path=str(OUT/f'{ENGINE}-map-{width}-{height}.png'))
    print('PASS',ENGINE,width,height,'hit target, pan, zoom, sheet/scroll/slider separation, explicit external navigation',flush=True)

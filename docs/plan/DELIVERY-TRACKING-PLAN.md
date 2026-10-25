@@ -1,6 +1,6 @@
 # TALABOT — delivery & tracking improvements: plan (24 Oct 2026)
 
-Latest planning delta: section 9 (25 Oct, multi-city/navigation/quota gaps; extends section 8). Earlier proposals remain historical; no routing activation is approved by this update.
+Latest delta: section 10 (25 Oct, approved navigation architecture implemented in source; NOT activated/deployed). Earlier proposals remain historical; no live routing activation or paid integration is implied.
 Matched once against `tech/v82-int` (code + repo SQL patches 17–34). Improve and connect what exists; no rebuild.
 No new proximity, settlement or permission policy is assumed. Budget 0; same Supabase project, accounts, free services.
 
@@ -356,3 +356,131 @@ Additional official sources checked 25 Oct (G references retained from section 8
 - [Y2] https://yandex.com/dev/commercial/doc/en/ and https://www.yandex.ru/legal/maps_api/en/
 - [Y3] https://yandex.com/maps-api/products/router-api
 - [Y4] https://yandex.com/maps-api/products/navikit
+
+
+## 10. 25 Oct — Approved replaceable navigation architecture + external options: implementation delta
+
+Owner authorized source implementation after evaluation `2523d554ebaac4c4591c3613e5126d629e89cf59`:
+provider-independent internal navigation, one server policy, internal/external/tracking modes and three external choices.
+This supersedes section 9's *implementation* hold for this scope only. It does not approve deployment, SQL/permission
+changes, subscriptions, a second embedded provider, B2 customer routing or frozen financial packages. Same repair branch;
+`tech/v82-int` still `bef04020e9c5bfcdf497a994fcc41bfdd706e0b5` at initial matching. No merge or live changes performed.
+
+### 10.1 Source implemented; activation remains separate
+
+| Layer | Current implementation / boundary |
+|---|---|
+| `supabase/functions/route/config.js` | Central server navigation policy, validation, external allow-list and coordinate URL builders. One `NAVIGATION_CONFIG` JSON environment setting; no browser/localStorage policy or provider keys |
+| `providers.js` | Only Geoapify adapter implemented now: `configured(env)`, `calculate({from,to,env,fetch,signal,now})` → normalized geometry, road distance/time, original step indices, Russian instructions, attribution and server completion timestamp. No alternative real adapters or SDKs |
+| `handler.js` + `index.ts` | Same authenticated Edge Function `route`; operations config, links and route. Existing auth/origin/distance protections kept. Internal policy/key/adapter/budget failures return tracking state with a reason and no ETA. No ORS or paid fallback |
+| `talabat-core.js` | `TLB.navigation(body, signal)` invokes the same server facade with timeout/cancellation; legacy `TLB.route` remains a compatibility adapter. No checkout/order/status/chat/finance/RPC business methods rewritten |
+| `navigation-model.js` | Provider-neutral destination/leg key, route projection/progress, remaining distance/time, upcoming text maneuver and distance, accuracy/stale/deviation classification. No network, GPS watch or order writes |
+| `route-layer.js`, existing driver A tools | Navigation opens the internal/external chooser. Existing map/markers/sheet retained. Explicit internal follow mode; manual pan/pinch/zoom remains possible; follow can be restarted via Navigation. Original order/chat/delivery services and swipe handlers preserved |
+
+Target uses the actual store ID's coordinates before pickup, then the order pin at stage >=3, including already-at-customer.
+Map marker/framing and the navigation target use the same store-ID lookup so duplicated restaurant names cannot select
+another branch. Missing/invalid coordinates disable navigation instead of text search. Removed the Dushanbe suffix/search
+fallback. Default camera positions documented in section 9 remain fallbacks; this delta does not configure service areas.
+The UI offers all enabled external maps, and no automatic provider replacement occurs.
+
+The controller updates progress from fresh GPS locally, suppresses stale/uncertain/off-route ETA, waits for sustained
+5-second deviation and a 120-second route-request cooldown, and makes one recalculation request. It rejects late results
+by order/restaurant-or-customer-leg/target/version, aborts pending work on mission/leg/visibility exit, and revalidates on
+return. A same-restaurant arrival-stage change does not itself request another route. Policy is refreshed at bounded
+30-second intervals while a mission is active; failures are also cached for that interval, preventing request loops when
+the function is absent. An observed central disable clears route/ETA; do not promise instantaneous cross-device changes
+before the next policy refresh. No background/locked-screen or voice navigation guarantee is added.
+
+### 10.2 Central configuration and free-budget binding
+
+`NAVIGATION_CONFIG` example for review (NOT applied):
+```json
+{"revision":"navigation-v1","provider":"geoapify","internal":false,"external":true,
+ "externalProviders":["yandex","2gis","google"],"defaultExternal":"yandex",
+ "dailyCredits":2400,"reservationCredits":2,"rps":4,"maxStraightKm":60}
+```
+Omitting the setting keeps internal routes disabled. `GEOAPIFY_KEY` is read server-side only. Existing Supabase/origin
+secrets remain server inputs. Do not put any provider/service-role secret in HTML or add a provider account/subscription.
+Provider and mode changes require server configuration, not changes to order/delivery logic or reconstruction of views.
+A future adapter can be registered at the server `providers` registry against the same normalized contract; Yandex/2GIS/
+Google internal implementations are intentionally absent. Selecting one now fails closed as unsupported, not paid.
+
+**Remaining activation blocker, deliberately fail-closed:** durable shared accounting does not yet exist in the inspected
+source. This implementation prepares `index.ts`'s service-only binding to Claude's proposed
+`navigation_reserve_budget(p_provider,p_credits,p_daily_cap,p_rps,p_request_id)` RPC. No function/table/grant/SQL was
+created or executed. Missing secret/RPC, timeout or malformed reservation denies upstream routing while config/links
+remain available. A local Map counter is not presented as the real global ledger.
+
+Required RPC contract for Claude's separate proposal/review:
+- Service-role-only execution, no public/anon/authenticated grant; never accept budget/cap changes from the browser.
+- Atomic, durable account-wide reservation across all drivers, cities and server instances, idempotent by request ID.
+  Return `{allowed:true}` or `{allowed:false,reason:"quota"|"rate",retryAfterS:number}`. Enforce the global window/reset
+  using the provider's verified reset semantics, not a user city or driver ID. A zero-credit cache check still rejects when
+  the budget is already exhausted; request-rate counting concerns actual upstream requests.
+- Reserve before upstream fetch; no refund on ambiguous timeout/error; retries also reserve. Cache retains its original
+  calculation timestamp and cannot bypass an exhausted budget. Coordinate cache keys are exact, not rounded customer pins.
+- Current conservative reservation is 2 credits/request, configurable; it is a reservation, not a claim about actual billing.
+  Section 9's 1-credit examples remain sizing examples. At 14 requests/order this envelope reserves 28/order, so a 2,400
+  envelope supports at most 85 such orders without reclaiming reservations. Confirm a sufficient per-request credit ceiling
+  for allowed route lengths/options and account-wide other API usage before activation; no unlimited capacity is promised.
+- Account for other keys/API usage before asserting a 3,000 account ceiling. RPS is capped at 4 and daily routing allowance
+  at <=3,000 in config. A provider soft quota is not an independent hard spending guard. No paid auto-upgrade/top-up/
+  subscription or automatic alternate upstream is implemented.
+
+At disabled/not configured/no budget/quota/denial/offline/error/stale GPS: clear current street guidance and ETA, show a
+tracking-only reason, retain map/position and order services, and offer manually selected external navigation when enabled.
+The existing dashed point-to-point line is not described as a street route. New-leg results cannot reuse old-leg ETA.
+No quota condition changes order acceptance, pricing, cash, financial settlement, delivery validation or dispatch policy.
+
+### 10.3 Approved external navigation: launch links only
+
+| External choice | Server-generated destination / fallback |
+|---|---|
+| Yandex Maps | App scheme `yandexmaps://maps.yandex.com/?rtext=~LAT,LNG&rtt=auto`; explicit HTTPS web link `https://yandex.ru/maps/?rtext=~LAT,LNG&rtt=auto`. Start left to external app/device; same exact destination, no search text |
+| 2GIS | Current documented directions format `https://2gis.ru/directions/tab/car/points/|LNG,LAT`; universal HTTPS links are preferred by official documentation and fall back to the web when app is absent |
+| Google Maps | `https://www.google.com/maps/dir/?api=1&destination=LAT,LNG&travelmode=driving&dir_action=navigate`; official cross-platform HTTPS format, no API key, browser fallback if app absent |
+
+Values are encoded and coordinate order differs deliberately by provider. Links are rendered as ordinary user-clicked
+anchors after server response; no asynchronous popup launch, automatic custom-scheme timeout, installed-app detection,
+store redirect, city suffix or arbitrary server-supplied URL execution. If coordinates are unavailable, no text-search
+substitute appears. The menu includes a separate web-link action and a clear instruction to choose another map if opening
+fails. An OS can intercept an HTTPS link when an app is installed: a web-link button does not forcibly bypass OS defaults.
+If the provider has no local routing coverage, these launch links do not manufacture a road route; choose another external
+map. Coverage, native handoff and installed/not-installed behavior remain separate acceptance evidence.
+
+Documentation verified 25 Oct; no embedded SDK/subscription endorsement:
+- Google cross-platform and absent-app fallback: https://developers.google.com/maps/documentation/urls/get-started
+- Yandex iOS scheme/route: https://yandex.com/dev/yandex-apps-launch-maps/doc/en/concepts/yandexmaps-ios-app
+- Yandex Android official Russian page (English link failed): https://yandex.ru/dev/yandex-apps-launch-maps/doc/ru/concepts/yandexmaps-android-app
+- Yandex HTTPS route: https://yandex.com/dev/yandex-apps-launch-maps/doc/en/concepts/yandexmaps-web
+- 2GIS current HTTPS directions and fallback: https://help.2gis.ru/question/razrabotchikam-zapusk-ideystviya-vmobilnom-prilozhenii-cherez-deeplink
+
+### 10.4 Affected verification / remaining handoff
+
+- `node tools/navigation_contract_check.mjs`: 39 local checks, actual server modules + injected upstream and a shared
+  atomic ledger double. Tests unsupported provider/disable/synthetic adapter substitution, cross-instance/user quota,
+  cache/quota, errors, in-flight policy revoke, all coordinate link builders, no exposed key, target and progress states.
+  Synthetic second adapter exists only in the test, not as another provider integration.
+- `python tools/navigation_ui_check.py`: Chromium with Android UA and WebKit with iPhone UA, 360/390/430 x 844. Additional
+  movement/deviation/cancellation cases at 390. 68 distinct UI assertions across recorded runs; details in
+  `docs/driver-handoff/NAVIGATION-QA-2026-10-25.json`. Real app/core/Leaflet, isolated fixture DB/GPS/route responses.
+  Bounded failed-policy retries, no duplicate reroute, late restaurant result after pickup, exact links before/after pickup,
+  missing/stale GPS, central disable, provider failure and quota suppressing ETA; original chat/pickup/delivery works in
+  the isolated quota case. No live order, real recipient message, balance or account mutation.
+- Existing route-only check entry points now delegate to the current suite; no duplicate ORS-only expectations. Existing
+  map/chat test's old direct-link expectation updated to the deliberate chooser; accepted repair suite not reimplemented
+  or broadly repeated. Syntax and whitespace/diff checks run. No Dushanbe/provider comparison tests repeated.
+- One review-only preview: `docs/driver-handoff/navigation-review.html`, built by `tools/navigation_preview.py`. Same
+  current UI/controller with fixture service/GPS/data/roads, no real backend/GPS/provider. Modes are selectable outside the
+  app frame. This is not a live navigation or country-coverage proof. No completed packages recreated.
+
+Next owners / gates:
+1. Claude: review the budget RPC contract, propose the minimal schema/permission delta for owner approval, confirm actual
+   quota accounting/reset/credit ceiling, then bind and test it in the existing project. No SQL authorization implied here.
+2. Coordinator: one controlled source integration/activation after those gates and prior location/privacy/attribution
+   requirements; no paid plans, dual upstreams or automatic spending. Deployment is still outside this task's authorization.
+3. Physical acceptance remains: owner/device tester on iPhone Safari + installed PWA and real Android, each provider with
+   app installed/absent, expected coordinate destination, web-link/other-map fallback and safe return to same order.
+   Browser engines/UA do not prove OS native handoff, actual map coverage, permissions or background behavior.
+4. After authorized live activation only: one permitted existing-account test trip proving fresh GPS, restaurant/customer
+   leg switch, turns/ETA, real deviation, budget denial and unaffected chat/delivery. None is claimed completed now.

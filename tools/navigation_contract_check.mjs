@@ -1,0 +1,66 @@
+// Real server modules, injected network/atomic ledger; no service, account, SQL or provider activation.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import { makeHandler } from '../supabase/functions/route/handler.js';
+import { navigationConfig, externalLinks } from '../supabase/functions/route/config.js';
+import { geoapify } from '../supabase/functions/route/providers.js';
+let count=0;const check=(x,label)=>{assert.ok(x,label);console.log('PASS',label);count++;};
+const A=[38.56,68.78],B=[38.565,68.79],K=[40.27934,69.6332017];
+let clock=1792900000000,calls=0,failure='',pending=null;
+const payload={features:[{geometry:{type:'MultiLineString',coordinates:[[[A[1],A[0]],[B[1],B[0]]]]},properties:{distance:1000,time:120,legs:[{steps:[{from_index:0,to_index:1,distance:1000,time:120,instruction:{text:'Продолжайте прямо',type:'Straight'}}]}]}}]};
+const env={NAVIGATION_CONFIG:JSON.stringify({internal:true,revision:'1'}),GEOAPIFY_KEY:'server-secret',ALLOWED_ORIGINS:'https://app.test'};
+// Shared in-memory atomic test double models the required durable RPC contract, not production persistence.
+let used=0,cap=4,ledgerCalls=0,spent=[];
+const ledger=async v=>{ledgerCalls++;spent.push(v);if(used>=cap||used+v.credits>cap)return {allowed:false,reason:'quota',retryAfterS:120};used+=v.credits;return {allowed:true};};
+const fetch=async(url,init)=>{calls++;check(url.startsWith('https://api.geoapify.com/'),'only selected upstream called');assert.equal(new URL(url).searchParams.get('apiKey'),'server-secret');assert.equal(new URL(url).searchParams.get('waypoints'),A.join(',')+'|'+B.join(','));if(pending)await pending;if(failure==='down')throw Error('down');if(failure==='malformed')return Response.json({features:[]});return failure==='quota'?new Response('',{status:429}):Response.json(payload);};
+const auth=async a=>a==='Bearer test'?'driver-1':null;
+const h=makeHandler({fetch,env,getUser:auth,reserveBudget:ledger,now:()=>clock});
+const request=(body,authorization='Bearer test',origin='https://app.test')=>new Request('https://fn/route',{method:'POST',headers:{authorization,origin},body:JSON.stringify(body)});
+const read=async(body,handler=h)=>(await handler(request(body))).json();
+let r=await read({op:'config'});check(r.mode==='internal'&&r.providers.length===3&&!JSON.stringify(r).includes('secret'),'public config has flags, no provider key');
+r=await read({from:A,to:B});check(r.mode==='internal'&&r.steps[0].instruction==='Продолжайте прямо'&&r.calculated_at===clock,'normalized geometry, original maneuver indices and real calculation timestamp');
+check(!JSON.stringify(r).includes('server-secret'),'key never returned');const route=r;
+await read({from:A,to:B});check(calls===1&&spent.at(-1).credits===0,'cache preserves original timestamp and still checks shared quota');
+const h2=makeHandler({fetch,env,getUser:async()=> 'another-driver-in-another-city',reserveBudget:ledger,now:()=>clock});
+await read({from:A,to:B},h2);check(used===4,'two server instances/users share the account ledger');
+r=await read({from:A,to:B});check(r.mode==='tracking'&&r.reason==='quota'&&!('duration_s'in r)&&calls===2,'global exhaustion overrides cached ETA without upstream call');
+check((await h(request({op:'config'},''))).status===401,'config requires authenticated session');
+check((await h(request({op:'config'},'Bearer test','https://other.test'))).status===403,'foreign origin rejected');
+check((await h(request({from:[null,68],to:B}))).status===400,'null coordinate is not coerced to zero');
+r=await read({from:A,to:K});check(r.reason==='too_far','existing pairwise guard retained, not a city boundary');
+const change=x=>{env.NAVIGATION_CONFIG=JSON.stringify({...x,revision:String(++clock)});};
+change({internal:false});r=await read({from:A,to:B});check(r.reason==='disabled'&&r.config.external,'routes disabled; external navigation still available');
+change({internal:true,provider:'yandex'});r=await read({from:A,to:B});check(r.reason==='unsupported_provider','unimplemented provider selection fails closed, no paid/ORS fallback');
+change({internal:true});used=0;cap=100;
+const noBudget=makeHandler({fetch,env,getUser:auth});r=await read({from:A,to:B},noBudget);check(r.reason==='budget_unavailable','no durable budget binding -> zero upstream calls');
+for(const f of ['quota','down','malformed']){failure=f;change({internal:true});r=await read({from:A,to:B});check(r.mode==='tracking'&&!('duration_s'in r),'provider '+f+' has no misleading ETA');}failure='';
+let release;pending=new Promise(res=>release=res);change({internal:true});const req=read({from:A,to:B});await new Promise(res=>setTimeout(res,0));change({internal:false});release();r=await req;pending=null;check(r.reason==='config_changed','policy revoked during upstream request discards its result');
+change({internal:false});const c=navigationConfig(env),links=externalLinks(c,K);
+check(links.length===3,'all three approved external providers independent of internal flag');
+for(const link of links){const url=new URL(link.web);check(!url.searchParams.has('text')&&!url.searchParams.has('query')&&!decodeURIComponent(url.href).includes('Душанбе'),link.id+' has no text/city fallback');if(link.id==='google')assert.equal(url.searchParams.get('destination'),K.join(','));if(link.id==='yandex')assert.equal(url.searchParams.get('rtext'),'~'+K.join(','));if(link.id==='2gis')assert.ok(url.pathname.endsWith('/|'+K[1]+','+K[0]));}
+check(externalLinks(c,[null,69]).length===0,'missing destination pin cannot launch navigation');
+change({internal:false,external:false});r=await read({op:'links',to:K});check(r.links.length===0,'external navigation disabled centrally');
+change({internal:false,externalProviders:['2gis'],defaultExternal:'2gis'});r=await read({op:'links',to:K});check(r.links.length===1&&r.config.defaultExternal==='2gis','central provider allow-list/default honored');
+env.NAVIGATION_CONFIG='{bad';r=await read({op:'config'});check(!r.internal&&!r.external&&r.reason==='invalid_config','invalid policy cannot activate service');
+// Provider substitution is tested with a test-only adapter, not another real integration.
+change({internal:true,provider:'test_adapter'});
+const testAdapter={configured:()=>true,calculate:async()=>({...route,source:'test_adapter'})};
+const swap=makeHandler({fetch:()=>{throw Error('unexpected network')},env,getUser:auth,reserveBudget:ledger,now:()=>clock,providers:{geoapify,test_adapter:testAdapter}});
+r=await read({from:A,to:B},swap);check(r.source==='test_adapter'&&r.mode==='internal','uniform provider interface swaps with test-only adapter, unchanged client contract');
+change({internal:true});delete env.GEOAPIFY_KEY;r=await read({from:A,to:B});check(r.reason==='not_configured','missing key stops routing, no alternative upstream');env.GEOAPIFY_KEY='server-secret';
+const isolated=vm.createContext({});vm.runInContext(fs.readFileSync(new URL('../assets/driver-tech/navigation-model.js',import.meta.url),'utf8'),isolated);const M=isolated.TALABOT_NAV_MODEL;
+check(M.destination({lat:K[0],lng:K[1]},2,A).join(',')===A.join(',')&&M.destination({lat:K[0],lng:K[1]},3,A).join(',')===K.join(','),'same target resolver switches restaurant -> customer only after pickup');
+check(M.key({id:1},1,A)===M.key({id:1},2,A),'same restaurant leg does not spend a route for arrival-stage change');
+const p=M.progress(route,{point:[(A[0]+B[0])/2,(A[1]+B[1])/2],at:clock,accuracy:10},{gpsMaxAgeMs:30000,deviationM:60},clock);
+check(p.mode==='internal'&&Math.abs(p.remainingM-500)<1&&Math.abs(p.remainingS-60)<1,'local movement updates remaining road distance/time, no API');
+const turnRoute={coords:[A,[(A[0]+B[0])/2,(A[1]+B[1])/2],B],distance_m:1000,duration_s:120,steps:[{from:0,to:1,durationS:60,instruction:'start'},{from:1,to:2,durationS:60,instruction:'turn right'}]};
+const turn=M.progress(turnRoute,{point:[A[0]+(B[0]-A[0])*0.25,A[1]+(B[1]-A[1])*0.25],at:clock,accuracy:10},{gpsMaxAgeMs:30000,deviationM:60},clock);
+check(turn.step.instruction==='turn right'&&turn.turnDistanceM>100,'next maneuver comes from upcoming step start, not a maneuver already passed');
+check(M.progress(route,{point:A,at:clock-31000,accuracy:10},{gpsMaxAgeMs:30000,deviationM:60},clock).reason==='gps_unavailable','stale GPS suppresses ETA');
+check(M.progress(route,{point:[38.58,68.77],at:clock,accuracy:10},{gpsMaxAgeMs:30000,deviationM:60},clock).reason==='off_route','deviation suppresses guidance until new path');
+// Export actual server-generated responses for affected browser checks. No hand-coded URL contract in that fixture.
+change({internal:true});const internal=await read({op:'config'});change({internal:false});const disabled=await read({op:'config'});
+const fixture={internal,disabled,route:{...route,config:internal},linksRestaurant:externalLinks(navigationConfig(env),A),linksCustomer:externalLinks(navigationConfig(env),K)};
+fs.writeFileSync('/tmp/talabot-navigation-fixture.json',JSON.stringify(fixture));
+console.log('NAVIGATION CONTRACT CHECK OK ('+count+')');

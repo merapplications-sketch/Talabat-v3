@@ -924,20 +924,24 @@
       }).filter(Boolean);
     },
     decline: function (id) { return sb.rpc('driver_decline', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
-    /* B (prepared for review, inactive until the Edge Function «route» is deployed with its key): street route between two
-       real points through the server proxy (the OpenRouteService key never reaches the browser). null = no route -> the
-       caller keeps the straight line and says so. Result: {coords:[[lat,lng],...], distanceM, durationS, source, at}. */
-    route: function (from, to) {
-      var ok = function (p) { return p && isFinite(+p[0]) && isFinite(+p[1]) && Math.abs(+p[0]) <= 90 && Math.abs(+p[1]) <= 180 && !(+p[0] === 0 && +p[1] === 0); };
-      if (!ok(from) || !ok(to) || !sb.functions || !sb.functions.invoke) return Promise.resolve(null);
+    /* Server-owned navigation policy and normalized routes; no provider key or policy stored in this client. */
+    navigation: function (body, signal) {
+      if (!sb.functions || !sb.functions.invoke) return Promise.resolve({ mode: 'tracking', reason: 'service_unavailable' });
+      var ctl = new AbortController(), timer, onAbort = function () { ctl.abort(); };
+      if (signal) { if (signal.aborted) ctl.abort(); else signal.addEventListener('abort', onAbort, { once: true }); }
       return Promise.race([
-        sb.functions.invoke('route', { body: { from: [+from[0], +from[1]], to: [+to[0], +to[1]] } }).then(function (r) {
-          var d = r && !r.error && r.data;
-          if (!d || !Array.isArray(d.coords) || d.coords.length < 2 || !isFinite(+d.distance_m) || !isFinite(+d.duration_s)) return null;
-          return { coords: d.coords, distanceM: +d.distance_m, durationS: +d.duration_s, source: d.source || '', at: Date.now() };
-        }, function () { return null; }),
-        new Promise(function (res) { setTimeout(function () { res(null); }, 8000); })
-      ]);
+        sb.functions.invoke('route', { body: body, signal: ctl.signal }).then(function (r) {
+          return r && !r.error && r.data ? r.data : { mode: 'tracking', reason: 'service_unavailable' };
+        }, function () { return { mode: 'tracking', reason: 'service_unavailable' }; }),
+        new Promise(function (res) { timer = setTimeout(function () { ctl.abort(); res({ mode: 'tracking', reason: 'timeout' }); }, 8000); })
+      ]).then(function (r) { clearTimeout(timer); if (signal) signal.removeEventListener('abort', onAbort); return r; });
+    },
+    route: function (from, to) {
+      return TLB.navigation({ from: from, to: to }).then(function (d) {
+        if (d.mode !== 'internal' || !Array.isArray(d.coords) || d.coords.length < 2 || !Number.isFinite(d.distance_m) || !Number.isFinite(d.duration_s)) return null;
+        return { coords: d.coords, steps: d.steps || [], distanceM: d.distance_m, durationS: d.duration_s,
+          source: d.source || '', attribution: d.attribution || '', at: d.calculated_at };
+      });
     },
     /* C (prepared for review, needs the proposed SQL function order_courier_position): the last courier position of MY
        order, only while it is out for delivery. Result {lat, lng, acc, at(ms)} or null (not allowed / not on the way / none). */

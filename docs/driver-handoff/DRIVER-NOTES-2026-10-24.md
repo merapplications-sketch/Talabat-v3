@@ -271,3 +271,18 @@ Still open / limits:
   plan. One recommendation retained, approval/owners/acceptance gates explicit. ORS and B1/B2 remain held.
 - Changed only this log and existing plan; app, SQL, accounts, financial logic, dispatch, deployment and accepted fixes
   remain unchanged. This documentation review is not proof of live navigation, deployed city rules or actual Safari.
+
+
+## 17. 25 Oct — Approved navigation architecture / external choices implemented in source
+- Continues baseline `2523d554ebaac4c4591c3613e5126d629e89cf59` on the same repair branch. Latest owner authorization
+  permits this source delta; no activation/deployment/SQL/main merge or second paid/embedded provider is authorized.
+- Section 10 of the existing tracking plan records the single Geoapify adapter, provider-neutral contract/view split,
+  central server policy and tracking/internal/external states. Yandex Maps / 2GIS / Google Maps are external launch choices
+  only, using the same actual restaurant ID coordinates then saved customer pin; text/city fallback removed.
+- Missing global ledger is fail-closed. Service-only atomic `navigation_reserve_budget` RPC binding prepared for Claude's
+  separate approved schema/permission proposal; no DB/RPC/grant created, no secret configured or upstream activated.
+- Verification: server contract 39; browser navigation assertions 68 distinct across Chromium Android UA / WebKit iPhone UA
+  at 360/390/430, including additional affected movement/deviation/cancellation cases. Local DB/GPS/upstream doubles;
+  original chat/pickup/delivery still work under simulated quota. No claim of live/native-device proof.
+- Evidence: NAVIGATION-QA-2026-10-25.json. One isolated fixture preview navigation-review.html; no old packages rebuilt.
+  Physical installed/absent-app launch checks and live budget/location integration remain open; see plan section 10.
