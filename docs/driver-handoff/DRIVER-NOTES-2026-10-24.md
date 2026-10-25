@@ -355,3 +355,5 @@ Still open / limits:
   (handler, empty key, ledger and upstream that would fail): config «tracking/disabled», links yandex,2gis,google, route request
   «disabled», foreign origin 403, upstream 0 calls, ledger 0 calls.
 - Everything else of the test (order, chat, waiting / mission maps, courier tracking C1 via patch 39) uses DB / RPC already live.
+- 17:45 owner approved deploying `route` for external navigation only at bb37893 with `{"internal":false,"external":true}`;
+  the unchanged file (sha256 ac32b015…bf860) and dashboard steps sent. Deploy done by the owner — result pending. No Geoapify / patch 40 / main.
