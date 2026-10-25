@@ -10,7 +10,7 @@ WRAP="""
 (function(){const old=supabase.createClient;supabase.createClient=function(){const c=old.apply(this,arguments);window.__navCalls=[];
  const config={internal:false,external:true,providers:['yandex','2gis','google'],mode:'tracking',reason:'disabled',configTtlMs:30000};
  c.functions={invoke:async function(name,opt){const b=opt.body;window.__navCalls.push(b);if(b.op==='config')return {data:config,error:null};
- if(b.op==='links'){const p=b.to,xy=encodeURIComponent(p.join(',')),yx=p[1]+','+p[0];const y='https://yandex.ru/maps/?rtext=~'+xy+'&rtt=auto',d='https://2gis.ru/directions/tab/car/points/|'+yx,g='https://www.google.com/maps/dir/?api=1&destination='+xy+'&travelmode=driving&dir_action=navigate';return {data:{config,links:[{id:'yandex',name:'Yandex Maps',app:y.replace('https://yandex.ru','yandexmaps://maps.yandex.ru'),web:y},{id:'2gis',name:'2GIS',app:d,web:d},{id:'google',name:'Google Maps',app:g,web:g}]},error:null};}throw Error('Internal routes forbidden in review');}};return c;}})();
+ if(b.op==='links'){const p=b.to,xy=encodeURIComponent(p.join(',')),yx=p[1]+','+p[0];const y='https://yandex.ru/maps/?rtext=~'+xy+'&rtt=auto',d='https://2gis.ru/directions/tab/car/points/|'+yx,g='https://www.google.com/maps/dir/?api=1&destination='+xy+'&travelmode=driving&dir_action=navigate';return {data:{config,links:[{id:'yandex',name:'Yandex Maps',app:y.replace('https://yandex.ru/maps/','yandexmaps://maps.yandex.ru/'),web:y},{id:'2gis',name:'2GIS',app:d,web:d},{id:'google',name:'Google Maps',app:g,web:g}]},error:null};}throw Error('Internal routes forbidden in review');}};return c;}})();
 """
 def script(x):return '<script>'+x.replace('</script','<\\/script')+'</script>'
 s=(ROOT/'driver.html').read_text()
