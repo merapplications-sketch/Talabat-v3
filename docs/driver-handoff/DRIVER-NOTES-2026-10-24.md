@@ -326,3 +326,21 @@ Still open / limits:
 - Checks run (fixes + missing cases only): navigation_budget_check 26/0 (PGlite) · navigation_budget_concurrency_check OK
   (PostgreSQL 17: 40 parallel, lock-wait boundaries) · navigation_contract_check 39/0 (handler changed) ·
   navigation_attribution_check OK (360/390/430). Dashboard copy regenerated, TypeScript: 0 diagnostics.
+
+## 18. 25 Oct 16:10 — review of f174ce9: three remaining blockers (nothing applied / deployed / merged)
+1. Cost before the call: request restricted to published-price options (2 waypoints, drive, ru; `details` removed — the step
+   text and indices stay, the unused maneuver type goes). Formula corrected to the docs: one pair = max(1, ceil(km / 500))
+   (630 340 m = 2). No pre-call ceiling can be documented (length known only afterwards, no max-length option) → the cap is
+   NOT guaranteed before sending; routing stays disabled; plan section 11 marked BLOCKED for the owner's decision.
+2. Settlement: one request id per route call for reservation + settlement (same ledger row); settle always, before the
+   `config_changed` check; RPC error → throw, only `recorded:true` accepted, 3 tries with the same id (idempotent, «conflict»
+   on a different total); unconfirmed → route withheld; unsettled > 60 s blocks every reservation («unsettled»), housekeeping
+   keeps such rows; owner recovery SQL in patch 40. `patch40_disable.sql` follows the new signature.
+3. Privacy: RU / EN now say «как правило» / «generally», successful requests only, no period for other cases; live text match
+   stays open until `app_pages/privacy` is read. Not applied.
+- Checks (missing cases only): navigation_budget_check 43/0 (PGlite; new: restricted request, docs example, same id, repeat /
+  conflict / unknown, RPC error, no recorded:true, lost reply, unsettled guard + housekeeping + recovery, settle before
+  config_changed, upstream error); navigation_index_binding_check OK (index.ts: RPC args, error → throw);
+  navigation_contract_check 39/0 (consultant test: settle double + cap 2 for 1 credit per call); concurrency check OK
+  (PostgreSQL 17, reserve function changed). Dashboard copy regenerated (0 syntax diagnostics, all module lines present).
+  Time / attribution / rollback / dailyCredits 0 closed by the consultant — not reopened.

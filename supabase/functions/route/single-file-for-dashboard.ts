@@ -17,9 +17,9 @@ function navigationConfig(env) {
     internal: x.internal === true, external: x.external !== false, providers,
     defaultExternal: providers.includes(x.defaultExternal) ? x.defaultExternal : providers[0],
     dailyCredits: bounded(x.dailyCredits, 2400, 0, 3000), accountCredits: 3000,
-    // Credits per request are computed (routeCredits), not a fixed reservation. detailsCredits = conservative surcharge for
-    // `details=instruction_details`, whose cost Geoapify does not publish (0..10, default 1). Old `reservationCredits` is ignored.
-    detailsCredits: bounded(x.detailsCredits, 1, 0, 10), rps: bounded(x.rps, 4, 1, 4),
+    // Credits per request: routeCredits() below. Old `reservationCredits` / `detailsCredits` keys are ignored (no `details`
+    // option is requested any more, so no unpublished surcharge exists to estimate).
+    rps: bounded(x.rps, 4, 1, 4),
     maxStraightKm: bounded(x.maxStraightKm, 60, 1, 60), cacheMs: 60000, timeoutMs: 7000,
     configTtlMs: 30000, refreshMs: 120000, deviationM: 60, deviationHoldMs: 5000, gpsMaxAgeMs: 30000,
   };
@@ -47,13 +47,16 @@ function externalLinks(c, to) {
   return c.providers.map(id => ({ id, ...urls[id] }));
 }
 
-// Geoapify Routing credits (pricing-details): credits = waypoints − 1, plus 1 credit for each 500 km of result route length
-// when the route is longer than 500 km (counted conservatively as ceil(km / 500)), plus the conservative details surcharge.
-// Before the request the length is unknown: the straight-line cap (maxStraightKm <= 60) makes the length surcharge 0 for the
-// reservation; after the response the real length is checked and any excess is settled in the ledger (never refunded).
-function routeCredits({ waypoints = 2, distanceM = 0, detailsCredits = 1 } = {}) {
+// Geoapify Routing credits for the ONE restricted request this function sends (providers.js): exactly 2 waypoints (one pair),
+// mode=drive, lang=ru, no `details` (route_details / elevation add credits; instruction_details has no published price) and
+// no other option. Official rule (apidocs.geoapify.com/docs/routing, «Pricing»): 1 credit per waypoint pair, «1 credit for every
+// 500 km (or partial 500 km) of route distance»; published example: a 630 340 m route costs 2 credits.
+// -> one pair costs max(1, ceil(km / 500)). Before the call the road length is unknown and Geoapify has no maximum-length
+// option, so the only documented pre-call amount is the 1-credit minimum; it is NOT a ceiling (see plan section 11).
+const REQUEST_PAIRS = 1;
+function routeCredits(distanceM) {
   const km = Math.max(0, +distanceM || 0) / 1000;
-  return Math.max(1, (waypoints | 0) - 1) + (km > 500 ? Math.ceil(km / 500) : 0) + Math.max(0, detailsCredits | 0);
+  return REQUEST_PAIRS * Math.max(1, Math.ceil(km / 500));
 }
 
 // ---- providers.js
@@ -63,7 +66,9 @@ const geoapify = {
   configured: env => !!env.GEOAPIFY_KEY,
   async calculate({ from, to, env, fetch, signal, now }) {
     const url = new URL('https://api.geoapify.com/v1/routing');
-    url.search = new URLSearchParams({ waypoints: from.join(',') + '|' + to.join(','), mode: 'drive', lang: 'ru', details: 'instruction_details', apiKey: env.GEOAPIFY_KEY }).toString();
+    // Restricted request with a published price (config.js routeCredits): 2 waypoints, drive, ru, NO `details` option.
+    // Steps keep text instructions and indices by default; the maneuver type (instruction_details) is not requested.
+    url.search = new URLSearchParams({ waypoints: from.join(',') + '|' + to.join(','), mode: 'drive', lang: 'ru', apiKey: env.GEOAPIFY_KEY }).toString();
     const r = await fetch(url.toString(), { signal, headers: { Accept: 'application/geo+json' } });
     if (r.status === 429) throw new Error('quota');
     if (r.status === 401 || r.status === 403) throw new Error('provider_denied');
@@ -125,27 +130,39 @@ function makeHandler({ fetch, env, getUser, reserveBudget, settleBudget, now = (
     // Exact coordinates: rounded cache keys must not silently reuse a different customer pin.
     const ck=JSON.stringify([c.revision,c.provider,b.from,b.to]), hit=cache.get(ck);
     // Always check the global ledger, even cache hits: exhaustion/disable must not show an apparently current ETA.
-    if(!reserveBudget) return fallback('budget_unavailable');
+    // Both ledger calls must be bound: an upstream call is only made when its cost can be recorded afterwards.
+    if(!reserveBudget||!settleBudget) return fallback('budget_unavailable');
     const cached=hit&&t-hit.at<c.cacheMs;
+    // ONE id per route call: the reservation and its settlement are the same ledger row.
+    const requestId=crypto.randomUUID();
     let reservation;
-    const reserved=cached?0:routeCredits({ waypoints:2, distanceM:0, detailsCredits:c.detailsCredits });
+    const reserved=cached?0:routeCredits(0);           // documented minimum (1); not a ceiling — see config.js
     try { reservation=await reserveBudget({ provider:c.provider, credits:reserved,
-      dailyCap:c.dailyCredits, rps:c.rps, requestId:crypto.randomUUID() }); } catch { return fallback('budget_unavailable'); }
+      dailyCap:c.dailyCredits, rps:c.rps, requestId }); } catch { return fallback('budget_unavailable'); }
     if(reservation?.allowed!==true) return fallback(reservation?.reason==='rate'?'rate':reservation?.reason==='quota'?'quota':'budget_unavailable',Math.min(300,Math.max(1,+reservation?.retryAfterS||30)));
     if(cached) return out(200,{...hit.data,mode:'internal',config});
     const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),c.timeoutMs);
-    try {
-      const data=await adapter.calculate({from:b.from,to:b.to,env,fetch,signal:ctl.signal,now});
-      // Configuration can be revoked while an upstream request is pending. Never return its old policy result.
-      const next=navigationConfig(env);
-      if(JSON.stringify(next)!==JSON.stringify(c)) return fallback('config_changed',1);
-      // Real cost after the response (length surcharge > 500 km): book the excess truthfully, even above the cap.
-      const actual=routeCredits({ waypoints:2, distanceM:data.distance_m, detailsCredits:c.detailsCredits });
-      if(actual>reserved){ try{ await settleBudget?.({ provider:c.provider, credits:actual-reserved, requestId:crypto.randomUUID() }); }catch{} }
-      cache.set(ck,{at:now(),data}); if(cache.size>500)cache.delete(cache.keys().next().value);
-      return out(200,{...data,mode:'internal',config});
-    } catch(e) { return fallback(['quota','provider_denied','no_route'].includes(e?.message)?e.message:'upstream'); }
+    let data=null,failure=null;
+    try { data=await adapter.calculate({from:b.from,to:b.to,env,fetch,signal:ctl.signal,now}); }
+    catch(e) { failure=e; }
     finally { clearTimeout(timer); }
+    // Settle EVERY upstream call before anything else (also before the config_changed check): total = real cost from the
+    // returned length; on failure / timeout the reservation is kept (no refund). Same id, idempotent, so retries are safe.
+    // Only {recorded:true} counts. Unconfirmed -> no route is returned; the row stays «unsettled» and, once older than 60 s,
+    // the ledger refuses every further request (all instances) until it is settled — no further unrecorded upstream use.
+    const total=data?routeCredits(data.distance_m):reserved;
+    let recorded=false;
+    for(let i=0;i<3&&!recorded;i++){
+      let s=null; try { s=await settleBudget({ provider:c.provider, requestId, credits:total }); } catch { s=null; }
+      if(s?.recorded===true) recorded=true; else if(s&&['conflict','unknown_request','bad_value'].includes(s.reason)) break;
+    }
+    if(!recorded) return fallback('budget_unavailable');
+    if(failure) return fallback(['quota','provider_denied','no_route'].includes(failure?.message)?failure.message:'upstream');
+    // Configuration can be revoked while an upstream request is pending. Never return its old policy result.
+    const next=navigationConfig(env);
+    if(JSON.stringify(next)!==JSON.stringify(c)) return fallback('config_changed',1);
+    cache.set(ck,{at:now(),data}); if(cache.size>500)cache.delete(cache.keys().next().value);
+    return out(200,{...data,mode:'internal',config});
   };
 }
 
@@ -197,11 +214,15 @@ async function reserveBudget(v: { provider: string; credits: number; dailyCap: n
   if (result.error) throw new Error('budget_unavailable');
   return result.data;
 }
+// Settlement of ONE route call (same request id as its reservation). Any RPC error / timeout -> throw (the handler retries
+// with the same id, then withholds the route); the answer is returned as is and only {recorded:true} counts.
 async function settleBudget(v: { provider: string; credits: number; requestId: string }) {
   const key = serviceKey();
-  if (!key) return;
+  if (!key) throw new Error('budget_unavailable');
   const sb = createClient(Deno.env.get('SUPABASE_URL')!, key, { auth: { persistSession: false } });
-  await sb.rpc('navigation_settle_budget', { p_provider: v.provider, p_credits: v.credits, p_request_id: v.requestId })
+  const result = await sb.rpc('navigation_settle_budget', { p_provider: v.provider, p_request_id: v.requestId, p_total_credits: v.credits })
     .abortSignal(AbortSignal.timeout(3000));
+  if (result.error) throw new Error('budget_unavailable');
+  return result.data;
 }
 Deno.serve(makeHandler({ fetch, env, getUser, reserveBudget, settleBudget }));

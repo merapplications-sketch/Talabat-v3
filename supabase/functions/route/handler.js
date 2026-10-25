@@ -31,26 +31,38 @@ export function makeHandler({ fetch, env, getUser, reserveBudget, settleBudget, 
     // Exact coordinates: rounded cache keys must not silently reuse a different customer pin.
     const ck=JSON.stringify([c.revision,c.provider,b.from,b.to]), hit=cache.get(ck);
     // Always check the global ledger, even cache hits: exhaustion/disable must not show an apparently current ETA.
-    if(!reserveBudget) return fallback('budget_unavailable');
+    // Both ledger calls must be bound: an upstream call is only made when its cost can be recorded afterwards.
+    if(!reserveBudget||!settleBudget) return fallback('budget_unavailable');
     const cached=hit&&t-hit.at<c.cacheMs;
+    // ONE id per route call: the reservation and its settlement are the same ledger row.
+    const requestId=crypto.randomUUID();
     let reservation;
-    const reserved=cached?0:routeCredits({ waypoints:2, distanceM:0, detailsCredits:c.detailsCredits });
+    const reserved=cached?0:routeCredits(0);           // documented minimum (1); not a ceiling — see config.js
     try { reservation=await reserveBudget({ provider:c.provider, credits:reserved,
-      dailyCap:c.dailyCredits, rps:c.rps, requestId:crypto.randomUUID() }); } catch { return fallback('budget_unavailable'); }
+      dailyCap:c.dailyCredits, rps:c.rps, requestId }); } catch { return fallback('budget_unavailable'); }
     if(reservation?.allowed!==true) return fallback(reservation?.reason==='rate'?'rate':reservation?.reason==='quota'?'quota':'budget_unavailable',Math.min(300,Math.max(1,+reservation?.retryAfterS||30)));
     if(cached) return out(200,{...hit.data,mode:'internal',config});
     const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),c.timeoutMs);
-    try {
-      const data=await adapter.calculate({from:b.from,to:b.to,env,fetch,signal:ctl.signal,now});
-      // Configuration can be revoked while an upstream request is pending. Never return its old policy result.
-      const next=navigationConfig(env);
-      if(JSON.stringify(next)!==JSON.stringify(c)) return fallback('config_changed',1);
-      // Real cost after the response (length surcharge > 500 km): book the excess truthfully, even above the cap.
-      const actual=routeCredits({ waypoints:2, distanceM:data.distance_m, detailsCredits:c.detailsCredits });
-      if(actual>reserved){ try{ await settleBudget?.({ provider:c.provider, credits:actual-reserved, requestId:crypto.randomUUID() }); }catch{} }
-      cache.set(ck,{at:now(),data}); if(cache.size>500)cache.delete(cache.keys().next().value);
-      return out(200,{...data,mode:'internal',config});
-    } catch(e) { return fallback(['quota','provider_denied','no_route'].includes(e?.message)?e.message:'upstream'); }
+    let data=null,failure=null;
+    try { data=await adapter.calculate({from:b.from,to:b.to,env,fetch,signal:ctl.signal,now}); }
+    catch(e) { failure=e; }
     finally { clearTimeout(timer); }
+    // Settle EVERY upstream call before anything else (also before the config_changed check): total = real cost from the
+    // returned length; on failure / timeout the reservation is kept (no refund). Same id, idempotent, so retries are safe.
+    // Only {recorded:true} counts. Unconfirmed -> no route is returned; the row stays «unsettled» and, once older than 60 s,
+    // the ledger refuses every further request (all instances) until it is settled — no further unrecorded upstream use.
+    const total=data?routeCredits(data.distance_m):reserved;
+    let recorded=false;
+    for(let i=0;i<3&&!recorded;i++){
+      let s=null; try { s=await settleBudget({ provider:c.provider, requestId, credits:total }); } catch { s=null; }
+      if(s?.recorded===true) recorded=true; else if(s&&['conflict','unknown_request','bad_value'].includes(s.reason)) break;
+    }
+    if(!recorded) return fallback('budget_unavailable');
+    if(failure) return fallback(['quota','provider_denied','no_route'].includes(failure?.message)?failure.message:'upstream');
+    // Configuration can be revoked while an upstream request is pending. Never return its old policy result.
+    const next=navigationConfig(env);
+    if(JSON.stringify(next)!==JSON.stringify(c)) return fallback('config_changed',1);
+    cache.set(ck,{at:now(),data}); if(cache.size>500)cache.delete(cache.keys().next().value);
+    return out(200,{...data,mode:'internal',config});
   };
 }

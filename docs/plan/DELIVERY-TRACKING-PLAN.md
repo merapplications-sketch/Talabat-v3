@@ -397,7 +397,7 @@ before the next policy refresh. No background/locked-screen or voice navigation 
 ```json
 {"revision":"navigation-v1","provider":"geoapify","internal":false,"external":true,
  "externalProviders":["yandex","2gis","google"],"defaultExternal":"yandex",
- "dailyCredits":2400,"detailsCredits":1,"rps":4,"maxStraightKm":60}
+ "dailyCredits":2400,"rps":4,"maxStraightKm":60}
 ```
 Omitting the setting keeps internal routes disabled. `GEOAPIFY_KEY` is read server-side only. Existing Supabase/origin
 secrets remain server inputs. Do not put any provider/service-role secret in HTML or add a provider account/subscription.
@@ -486,14 +486,25 @@ Next owners / gates:
    leg switch, turns/ETA, real deviation, budget denial and unaffected chat/delivery. None is claimed completed now.
 
 
-## 11. Activation requirements (Claude, 25 Oct; revised after review of f4e38dc) — one approval, in this order
+## 11. Activation requirements (Claude, 25 Oct; revised after reviews of f4e38dc and f174ce9) — one approval, in this order
+**BLOCKED (review of f174ce9): no documented pre-call cost ceiling.** The request is now restricted to options with a published
+price (2 waypoints, drive, ru, no `details`): one pair costs max(1, ceil(route km / 500)) — docs example 630 340 m = 2 credits.
+The road length is known only after the call, and Geoapify publishes no maximum-length option, so before the call only the
+1-credit minimum is documented; it is not a ceiling (the 60 km straight-line guard does not bound road length). The cap
+therefore cannot be guaranteed BEFORE sending; overshoot is recorded truthfully afterwards (settlement), not prevented.
+A dedicated key and a lower `dailyCredits` do not isolate the account allowance from other keys of the same account.
+Internal routing stays disabled (`internal` false = default; function not deployed) until the owner decides on this limit;
+the steps below are for that later decision only.
 1. Apply `sql/proposed/patch40_navigation_budget.sql`. Check: `has_function_privilege('authenticated',
    'public.navigation_reserve_budget(text,integer,integer,integer,uuid)','execute')` → false; same for `service_role` → true.
 2. Geoapify account (free, no card, commercial use allowed within the free quota with attribution): a DEDICATED project and key
    for TALABOT routing only → Supabase secret `GEOAPIFY_KEY`.
-3. `NAVIGATION_CONFIG` with `"internal":true`, `"dailyCredits"` ≤ 2 400 (room for any other use of the account), `"detailsCredits":1`.
+3. `NAVIGATION_CONFIG` with `"internal":true`, `"dailyCredits"` ≤ 2 400 (`detailsCredits` no longer used).
 4. Deploy `route` (dashboard: `single-file-for-dashboard.ts`, JWT verification ON).
 5. One live round: route + visible «Powered by Geoapify» link; quota test by setting `"dailyCredits":0` (no ledger wipe; restore
    the value after); Yandex / 2GIS / Google on real phones. Privacy text addition reviewed (`PRIVACY-NAVIGATION-DIFF.md`).
 - Default rollback: `"internal":false` in `NAVIGATION_CONFIG`, then `sql/proposed/patch40_disable.sql` — tables and bookings kept.
 - Guarantee scope: the ledger counts only requests through this proxy; other use of the same Geoapify account is not visible.
+- Every upstream call is settled under its own request id (`navigation_settle_budget(provider, request_id, total)`), only
+  `recorded:true` counts; unconfirmed → no route returned; a paid call unsettled for 60 s blocks all further reservations
+  («unsettled») until the owner closes it (SQL at the end of patch 40).

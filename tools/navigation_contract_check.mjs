@@ -11,19 +11,20 @@ let clock=1792900000000,calls=0,failure='',pending=null;
 const payload={features:[{geometry:{type:'MultiLineString',coordinates:[[[A[1],A[0]],[B[1],B[0]]]]},properties:{distance:1000,time:120,legs:[{steps:[{from_index:0,to_index:1,distance:1000,time:120,instruction:{text:'Продолжайте прямо',type:'Straight'}}]}]}}]};
 const env={NAVIGATION_CONFIG:JSON.stringify({internal:true,revision:'1'}),GEOAPIFY_KEY:'server-secret',ALLOWED_ORIGINS:'https://app.test'};
 // Shared in-memory atomic test double models the required durable RPC contract, not production persistence.
-let used=0,cap=4,ledgerCalls=0,spent=[];
+let used=0,cap=2,ledgerCalls=0,spent=[];   // 1 credit per route call since review of f174ce9 (no `details` option)
 const ledger=async v=>{ledgerCalls++;spent.push(v);if(used>=cap||used+v.credits>cap)return {allowed:false,reason:'quota',retryAfterS:120};used+=v.credits;return {allowed:true};};
+const settle=async v=>({recorded:true,extra:0});   // settlement double; ledger semantics are tested in navigation_budget_check.mjs
 const fetch=async(url,init)=>{calls++;check(url.startsWith('https://api.geoapify.com/'),'only selected upstream called');assert.equal(new URL(url).searchParams.get('apiKey'),'server-secret');assert.equal(new URL(url).searchParams.get('waypoints'),A.join(',')+'|'+B.join(','));if(pending)await pending;if(failure==='down')throw Error('down');if(failure==='malformed')return Response.json({features:[]});return failure==='quota'?new Response('',{status:429}):Response.json(payload);};
 const auth=async a=>a==='Bearer test'?'driver-1':null;
-const h=makeHandler({fetch,env,getUser:auth,reserveBudget:ledger,now:()=>clock});
+const h=makeHandler({fetch,env,getUser:auth,reserveBudget:ledger,settleBudget:settle,now:()=>clock});
 const request=(body,authorization='Bearer test',origin='https://app.test')=>new Request('https://fn/route',{method:'POST',headers:{authorization,origin},body:JSON.stringify(body)});
 const read=async(body,handler=h)=>(await handler(request(body))).json();
 let r=await read({op:'config'});check(r.mode==='internal'&&r.providers.length===3&&!JSON.stringify(r).includes('secret'),'public config has flags, no provider key');
 r=await read({from:A,to:B});check(r.mode==='internal'&&r.steps[0].instruction==='Продолжайте прямо'&&r.calculated_at===clock,'normalized geometry, original maneuver indices and real calculation timestamp');
 check(!JSON.stringify(r).includes('server-secret'),'key never returned');const route=r;
 await read({from:A,to:B});check(calls===1&&spent.at(-1).credits===0,'cache preserves original timestamp and still checks shared quota');
-const h2=makeHandler({fetch,env,getUser:async()=> 'another-driver-in-another-city',reserveBudget:ledger,now:()=>clock});
-await read({from:A,to:B},h2);check(used===4,'two server instances/users share the account ledger');
+const h2=makeHandler({fetch,env,getUser:async()=> 'another-driver-in-another-city',reserveBudget:ledger,settleBudget:settle,now:()=>clock});
+await read({from:A,to:B},h2);check(used===2,'two server instances/users share the account ledger');
 r=await read({from:A,to:B});check(r.mode==='tracking'&&r.reason==='quota'&&!('duration_s'in r)&&calls===2,'global exhaustion overrides cached ETA without upstream call');
 check((await h(request({op:'config'},''))).status===401,'config requires authenticated session');
 check((await h(request({op:'config'},'Bearer test','https://other.test'))).status===403,'foreign origin rejected');
@@ -46,7 +47,7 @@ env.NAVIGATION_CONFIG='{bad';r=await read({op:'config'});check(!r.internal&&!r.e
 // Provider substitution is tested with a test-only adapter, not another real integration.
 change({internal:true,provider:'test_adapter'});
 const testAdapter={configured:()=>true,calculate:async()=>({...route,source:'test_adapter'})};
-const swap=makeHandler({fetch:()=>{throw Error('unexpected network')},env,getUser:auth,reserveBudget:ledger,now:()=>clock,providers:{geoapify,test_adapter:testAdapter}});
+const swap=makeHandler({fetch:()=>{throw Error('unexpected network')},env,getUser:auth,reserveBudget:ledger,settleBudget:settle,now:()=>clock,providers:{geoapify,test_adapter:testAdapter}});
 r=await read({from:A,to:B},swap);check(r.source==='test_adapter'&&r.mode==='internal','uniform provider interface swaps with test-only adapter, unchanged client contract');
 change({internal:true});delete env.GEOAPIFY_KEY;r=await read({from:A,to:B});check(r.reason==='not_configured','missing key stops routing, no alternative upstream');env.GEOAPIFY_KEY='server-secret';
 const isolated=vm.createContext({});vm.runInContext(fs.readFileSync(new URL('../assets/driver-tech/navigation-model.js',import.meta.url),'utf8'),isolated);const M=isolated.TALABOT_NAV_MODEL;

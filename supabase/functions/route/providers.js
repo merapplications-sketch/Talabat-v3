@@ -5,7 +5,9 @@ export const geoapify = {
   configured: env => !!env.GEOAPIFY_KEY,
   async calculate({ from, to, env, fetch, signal, now }) {
     const url = new URL('https://api.geoapify.com/v1/routing');
-    url.search = new URLSearchParams({ waypoints: from.join(',') + '|' + to.join(','), mode: 'drive', lang: 'ru', details: 'instruction_details', apiKey: env.GEOAPIFY_KEY }).toString();
+    // Restricted request with a published price (config.js routeCredits): 2 waypoints, drive, ru, NO `details` option.
+    // Steps keep text instructions and indices by default; the maneuver type (instruction_details) is not requested.
+    url.search = new URLSearchParams({ waypoints: from.join(',') + '|' + to.join(','), mode: 'drive', lang: 'ru', apiKey: env.GEOAPIFY_KEY }).toString();
     const r = await fetch(url.toString(), { signal, headers: { Accept: 'application/geo+json' } });
     if (r.status === 429) throw new Error('quota');
     if (r.status === 401 || r.status === 403) throw new Error('provider_denied');

@@ -9,9 +9,9 @@ export function navigationConfig(env) {
     internal: x.internal === true, external: x.external !== false, providers,
     defaultExternal: providers.includes(x.defaultExternal) ? x.defaultExternal : providers[0],
     dailyCredits: bounded(x.dailyCredits, 2400, 0, 3000), accountCredits: 3000,
-    // Credits per request are computed (routeCredits), not a fixed reservation. detailsCredits = conservative surcharge for
-    // `details=instruction_details`, whose cost Geoapify does not publish (0..10, default 1). Old `reservationCredits` is ignored.
-    detailsCredits: bounded(x.detailsCredits, 1, 0, 10), rps: bounded(x.rps, 4, 1, 4),
+    // Credits per request: routeCredits() below. Old `reservationCredits` / `detailsCredits` keys are ignored (no `details`
+    // option is requested any more, so no unpublished surcharge exists to estimate).
+    rps: bounded(x.rps, 4, 1, 4),
     maxStraightKm: bounded(x.maxStraightKm, 60, 1, 60), cacheMs: 60000, timeoutMs: 7000,
     configTtlMs: 30000, refreshMs: 120000, deviationM: 60, deviationHoldMs: 5000, gpsMaxAgeMs: 30000,
   };
@@ -39,11 +39,14 @@ export function externalLinks(c, to) {
   return c.providers.map(id => ({ id, ...urls[id] }));
 }
 
-// Geoapify Routing credits (pricing-details): credits = waypoints − 1, plus 1 credit for each 500 km of result route length
-// when the route is longer than 500 km (counted conservatively as ceil(km / 500)), plus the conservative details surcharge.
-// Before the request the length is unknown: the straight-line cap (maxStraightKm <= 60) makes the length surcharge 0 for the
-// reservation; after the response the real length is checked and any excess is settled in the ledger (never refunded).
-export function routeCredits({ waypoints = 2, distanceM = 0, detailsCredits = 1 } = {}) {
+// Geoapify Routing credits for the ONE restricted request this function sends (providers.js): exactly 2 waypoints (one pair),
+// mode=drive, lang=ru, no `details` (route_details / elevation add credits; instruction_details has no published price) and
+// no other option. Official rule (apidocs.geoapify.com/docs/routing, «Pricing»): 1 credit per waypoint pair, «1 credit for every
+// 500 km (or partial 500 km) of route distance»; published example: a 630 340 m route costs 2 credits.
+// -> one pair costs max(1, ceil(km / 500)). Before the call the road length is unknown and Geoapify has no maximum-length
+// option, so the only documented pre-call amount is the 1-credit minimum; it is NOT a ceiling (see plan section 11).
+export const REQUEST_PAIRS = 1;
+export function routeCredits(distanceM) {
   const km = Math.max(0, +distanceM || 0) / 1000;
-  return Math.max(1, (waypoints | 0) - 1) + (km > 500 ? Math.ceil(km / 500) : 0) + Math.max(0, detailsCredits | 0);
+  return REQUEST_PAIRS * Math.max(1, Math.ceil(km / 500));
 }
