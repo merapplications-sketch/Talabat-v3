@@ -6,12 +6,17 @@ function km(a,b) { const r=v=>v*Math.PI/180, h=Math.sin(r(b[0]-a[0])/2)**2+Math.
 export function makeHandler({ fetch, env, getUser, reserveBudget, settleBudget, now = () => Date.now(), providers = defaultProviders }) {
   const cache = new Map(), hits = new Map();
   return async req => {
-    const c = navigationConfig(env), allowed = String(env.ALLOWED_ORIGINS || '').split(',').map(s=>s.trim()).filter(Boolean);
+    // Origins compared as the browser sends them (scheme://host[:port]): spaces, quotes, a trailing «/» or a full page URL
+    // pasted into the secret are reduced to that origin.
+    const asOrigin=v=>{v=v.trim().replace(/^["']+|["']+$/g,'');try{return new URL(v).origin;}catch{return v.replace(/\/+$/,'');}};
+    const c = navigationConfig(env), allowed = String(env.ALLOWED_ORIGINS || '').split(',').map(asOrigin).filter(v=>v&&v!=='null');
     const origin = req.headers.get('origin') || '';
     const headers = { 'Access-Control-Allow-Origin': allowed.includes(origin) ? origin : (allowed[0] || 'null'),
       'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type', 'Access-Control-Allow-Methods': 'POST, OPTIONS', Vary: 'Origin', 'Content-Type': 'application/json', 'Cache-Control': 'no-store' };
     const out = (status,body)=>new Response(JSON.stringify(body),{status,headers});
-    if(req.method==='OPTIONS') return out(200,{});
+    // A preflight from a non-allowed origin answers 403 (was 200 with another origin's header: the browser then silently
+    // dropped the POST and the log showed only «OPTIONS 200»).
+    if(req.method==='OPTIONS') return allowed.length&&origin&&!allowed.includes(origin)?out(403,{error:'origin'}):out(200,{});
     if(req.method!=='POST') return out(405,{error:'method'});
     if(allowed.length && origin && !allowed.includes(origin)) return out(403,{error:'origin'});
     const user=await getUser(req.headers.get('authorization')||'').catch(()=>null);

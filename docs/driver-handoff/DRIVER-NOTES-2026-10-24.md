@@ -357,3 +357,13 @@ Still open / limits:
 - Everything else of the test (order, chat, waiting / mission maps, courier tracking C1 via patch 39) uses DB / RPC already live.
 - 17:45 owner approved deploying `route` for external navigation only at bb37893 with `{"internal":false,"external":true}`;
   the unchanged file (sha256 ac32b015…bf860) and dashboard steps sent. Deploy done by the owner — result pending. No Geoapify / patch 40 / main.
+- 18:24 live: function deployed (JWT ON); Invocations show only OPTIONS 200, no POST, no options in the app.
+  Diagnosis: the app's supabase-js 2.117.2 asks for apikey, authorization, content-type, x-client-info — all allowed (real
+  Chromium). Gateway 401s would appear in the same log (function_edge_logs), so the POST never left the browser = CORS refusal
+  after the preflight. Only reproducible cause: page origin not matched in `ALLOWED_ORIGINS` — the handler then answered the
+  preflight 200 with another origin's header; Chromium blocks the POST (exact live pattern). The secret's value cannot be read
+  from here; the new log will confirm it.
+  Fix (handler only): preflight from a non-allowed origin → 403 (visible in Invocations); secret entries reduced to their
+  origin (spaces, quotes, trailing «/», full page URL). JWT unchanged. Check: `tools/navigation_cors_check.mjs` OK (Chromium +
+  supabase-js 2.117.2: headers, POST reaches, 3 links, missing origin → OPTIONS 403, tolerant entries); contract 39/0.
+  Dashboard file regenerated (0 syntax diagnostics) — owner redeploys `route` with it.
