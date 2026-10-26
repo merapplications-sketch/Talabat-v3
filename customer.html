@@ -1457,7 +1457,23 @@ const CD={},CS={},CE={};
 async function sendChat(){const id=S.tid,e=$('ci');if(e)CD[id]=e.value;const v=String(CD[id]||'').trim();if(!v||CS[id])return;CS[id]=v;CE[id]=false;render();let r;
   try{r=await TLB.chat(id,'client',v)}catch(x){r={error:'generic'}}
   delete CS[id];if(r&&!r.error){if(String(CD[id]||'').trim()===v)CD[id]=''}else CE[id]=true;render()}
-function sendLoc(){TLB.pickLocation((la,ln)=>TLB.chat(S.tid,'client','LOC:'+la.toFixed(6)+','+ln.toFixed(6)))}
+const CLoc={};
+TLB.addDict({locShareLoading:'Открываем карту выбора места…',locShareSelecting:'Выберите точку на карте и подтвердите отправку.',locShareSending:'Отправляем местоположение…',locShareSent:'Местоположение отправлено курьеру.',locShareFailed:'Не удалось отправить местоположение. Проверьте соединение и повторите.',locShareChanged:'Местоположение не отправлено: страница или статус заказа изменились.',locSharePending:'Сервер ещё не подтвердил отправку. Проверьте чат перед повтором.'},{locShareLoading:'Opening the location picker…',locShareSelecting:'Choose a point on the map and confirm sending.',locShareSending:'Sending location…',locShareSent:'Location sent to the courier.',locShareFailed:'Could not send location. Check your connection and retry.',locShareChanged:'Location was not sent: the page or order status changed.',locSharePending:'The server has not confirmed sending yet. Check the chat before retrying.'});
+function locShareAllowed(id){const o=TLB.order(id);return S.v==='track'&&String(S.tid)===String(id)&&!!o?.driver&&['preparing','ready','pickedup'].includes(o.status)}
+function locShareBusy(id){return ['loading','selecting','sending'].includes(CLoc[id]?.phase)}
+function locShareFeedback(id){const v=CLoc[id];return v?`<div class="xs" id="cloc-status" role="status" aria-live="polite" style="margin-top:6px;color:${v.phase==='error'?'var(--bad)':'var(--mut)'}">${esc(t(v.key))}</div>`:''}
+function sendLoc(){
+ const id=S.tid;if(!locShareAllowed(id)||locShareBusy(id))return;
+ const update=(phase,key)=>{CLoc[id]={phase,key};if(S.v==='track'&&String(S.tid)===String(id))render()};
+ update('loading','locShareLoading');
+ try{TLB.pickLocation(async(la,ln)=>{
+  if(!locShareAllowed(id)){update('error','locShareChanged');return}
+  update('sending','locShareSending');
+  const deadline=setTimeout(()=>{if(CLoc[id]?.phase==='sending')update('sending','locSharePending')},15000);
+  let r;try{r=await TLB.chat(id,'client','LOC:'+la.toFixed(6)+','+ln.toFixed(6))}catch(e){r=null}finally{clearTimeout(deadline)}
+  update(r&&!r.error?'sent':'error',r&&!r.error?'locShareSent':'locShareFailed');
+ },null,{canOpen:()=>locShareAllowed(id),onState:(phase,key)=>{if(phase==='cancelled'){delete CLoc[id];if(S.v==='track'&&String(S.tid)===String(id))render()}else update(phase,key||(phase==='loading'?'locShareLoading':'locShareSelecting'))}})}catch(e){update('error','locShareFailed')}
+}
 function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
   if(b.link_type=='store'){const o=ALLS.find(x=>x.id==b.link_value);if(o)openN(o.n)}
   else if(b.link_type=='category'){S.q='';openCat(b.link_value)}
@@ -1969,7 +1985,7 @@ function vTrack(){const o=TLB.order(S.tid);if(!o)return vOrders();const banner=S
   ${orderSummary(o)}
   ${o.driver?`<div class="card"><div class="cur-card"><div class="av">${o.driverName?esc(String(o.driverName).charAt(0).toUpperCase()):ico('bike',22)}</div><div style="flex:1;min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${o.driverName?esc(o.driverName):t('drvAssigned')}</b><div class="xs mut">${t('courier')}</div></div>${o.driverPhone&&live?`<a class="cbt call" style="width:44px;height:44px" href="${telH(o.driverPhone)}" aria-label="${t('callCourier')}" title="${t('callCourier')}">${ico('phone',20)}</a>`:''}</div>
   <div class="chat" id="ch">${(o.chat||[]).map(m=>`<div class="m ${m.s=='client'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
-  ${live?`<div class="rg"><input class="fld" type="text" id="ci" maxlength="200" placeholder="${t('chatH')}" value="${esc(CD[o.id]||'')}" oninput="CD[S.tid]=this.value;CE[S.tid]=false"><button class="ib" style="box-shadow:none;background:#f1f1f4" onclick="sendLoc()" aria-label="${t('sendLoc')}">${ico('pin',18)}</button><button class="btn sm" id="cisend" ${CS[o.id]?'disabled aria-busy="true"':''} onclick="sendChat()">${CS[o.id]?'…':t('send')}</button></div>${CE[o.id]?`<div class="xs" id="cierr" role="alert" style="color:var(--bad);font-weight:600;margin-top:6px">${t('chatFail')}</div>`:''}`:''}</div>`:''}
+  ${live?`<div class="rg"><input class="fld" type="text" id="ci" maxlength="200" placeholder="${t('chatH')}" value="${esc(CD[o.id]||'')}" oninput="CD[S.tid]=this.value;CE[S.tid]=false"><button class="ib" style="box-shadow:none;background:#f1f1f4" onclick="sendLoc()" ${locShareBusy(o.id)?'disabled aria-busy="true"':''} aria-label="${t('sendLoc')}">${ico('pin',18)}</button><button class="btn sm" id="cisend" ${CS[o.id]?'disabled aria-busy="true"':''} onclick="sendChat()">${CS[o.id]?'…':t('send')}</button></div>${locShareFeedback(o.id)}${CE[o.id]?`<div class="xs" id="cierr" role="alert" style="color:var(--bad);font-weight:600;margin-top:6px">${t('chatFail')}</div>`:''}`:''}</div>`:''}
 
   ${S.cxe&&S.cxe.id==o.id?`<div class="closedb" id="cxerr" role="alert" style="margin:0 0 12px;display:block">${esc(S.cxe.msg)}</div>`:''}${o.status=='pending'?`<button class="btn s big" id="cxbtn" ${S.cxb==o.id?'disabled aria-busy="true"':''} onclick="cancelO()">${S.cxb==o.id?t('cxBusy'):t('cancelO')}</button>`:''}${reportBtn(o)}</div></div>`}
 /* ---------- ADDRESSES ---------- */

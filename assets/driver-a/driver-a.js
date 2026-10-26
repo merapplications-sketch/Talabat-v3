@@ -2,7 +2,7 @@ TLB.addDict({uiReadyMyLocation:'Моё местоположение'},{uiReadyMy
 /* Driver A v06 view adapter on tech/v81. No mock data, finance, GPS or replacement core. */
 TLB.addDict({aMenu:'Разделы',aOpen:'Открыть заказ',aTake:'Принять заказ',aPickup:'Подтвердить получение',aDeliver:'Подтвердить доставку',aAccessible:'Без жеста',aSlide:'Проведите вправо до конца',aCheck:'Проверяем…',aConfirmingDelivery:'Подтверждаем доставку…',aSuccess:'Подтверждено',aFail:'Не удалось подтвердить. Проверьте статус и повторите.',aRestaurant:'Оплата ресторану',aCollect:'Получаете от клиента',aEarn:'Ваш заработок',aMissingAmount:'Сумма не передана',aNext:'Затем доставить',aPrevious:'Получено в ресторане',aDetails:'Заказ и расчёты',aStoreAddress:'Адрес ресторана не указан',aMapMissing:'Карта недоступна',aMapHint:'Внешняя навигация — кнопка «Навигация»',aMapStraight:'Линия между точками · не дорожный маршрут',aCurrent:'Текущий',aDone:'Завершён',aAhead:'Впереди',aBefore:'После принятия заказа',aConfirm:'Подтвердить',aCancel:'Отмена',aReceived:'Получено от клиента',aMapLoading:'Загрузка карты…'},
 {aMenu:'Sections',aOpen:'Open order',aTake:'Accept order',aPickup:'Confirm pickup',aDeliver:'Confirm delivery',aAccessible:'Without gesture',aSlide:'Slide all the way right',aCheck:'Checking…',aConfirmingDelivery:'Confirming delivery…',aSuccess:'Confirmed',aFail:'Could not confirm. Check the status and try again.',aRestaurant:'Restaurant settlement',aCollect:'Collect from customer',aEarn:'Your earnings',aMissingAmount:'Amount not provided',aNext:'Then deliver',aPrevious:'Picked up at restaurant',aDetails:'Order and amounts',aStoreAddress:'Restaurant address not set',aMapMissing:'Map unavailable',aMapHint:'Use the Navigation button for external directions',aMapStraight:'Line between points · not a road route',aCurrent:'Current',aDone:'Completed',aAhead:'Upcoming',aBefore:'After accepting',aConfirm:'Confirm',aCancel:'Cancel',aReceived:'Received from customer',aMapLoading:'Loading map…'});
-let AJourneyLayoutFrame=0;
+let AJourneyLayoutFrame=0,AJourneyCancelDrag=null,ASheetClickUntil=0;
 let ASelected=null,AAux=null,ASnap='default',AObserver=null,AFlight=null,AResult=null,AMapEpoch=0,ASheetMoved=false,AClickBlock=false;
 const AOldModal=modal,AOldOrders=vOrders,AOldHist=vHist,AOldMe=vMe;
 const aId=id=>esc(JSON.stringify(String(id))),aFind=id=>TLB.offers().find(x=>String(x.id)===String(id)&&x.offer&&x.offer.left>0),aOffer=()=>ASelected?aFind(ASelected):null,aTask=()=>tab==='o'?(mine()||aOffer()||aJourneyOffer()):null;
@@ -54,7 +54,39 @@ function aMetrics(){const panel=$('a-sheet'),dock=$('a-dock'),head=document.quer
 
 function aPaint(top,drag=false){const m=aMetrics();if(!m)return;const panel=$('a-sheet'),body=$('a-sheet-body');panel.classList.toggle('a-dragging',drag);if(drag)body.style.height=Math.max(m.bottom-44-Math.max(m.expanded,m.collapsed),Math.min(m.bottom-44-Math.min(m.expanded,m.collapsed),m.bottom-44-top))+'px';else body.style.height='';panel.dataset.y=panel.getBoundingClientRect().top;const isMap=ASnap==='collapsed';$('a-grip').setAttribute('aria-expanded',String(!isMap));$('a-mode-toggle').setAttribute('aria-expanded',String(!isMap));$('a-mode-toggle').setAttribute('aria-label',t(isMap?'jToWork':'jToMap'));$('a-mode-name').textContent=t(isMap?'jMap':'jWork');$('a-mode-toggle').innerHTML=aJourneyIcon(isMap?'receipt':'map',16)+t(isMap?'jWork':'jMap');if(DM&&DM!==1)DM.invalidateSize?.({animate:false})}
 function aSnap(name){ASnap=name==='collapsed'||name==='map'?'collapsed':'default';const panel=$('a-sheet');if(!panel)return;panel.classList.remove('a-collapsed');panel.classList.toggle('a-map-mode',ASnap==='collapsed');const m=aMetrics();if(m)aPaint(m[ASnap]);$('a-sheet-body').scrollTop=0}
-function aBindSheet(){const grip=$('a-grip');if(!grip)return;/* Safari may rubber-band the root even with pointer capture. Cancel only touches originating on the grip, from the first move; inner scrollers and Leaflet keep their own gestures. */grip.addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault()},{passive:false});let start=null,axis=null,origin=0,pid,stable;function release(cancel,ev){if(!start)return;const dx=(ev?.clientX??start.x)-start.x,dy=(ev?.clientY??start.y)-start.y;start=null;window.__drag=0;if(!cancel&&axis==='y'&&Math.abs(dy)>=36&&Math.abs(dy)>Math.abs(dx)*1.3)aSnap(dy>0?'collapsed':'default');else aSnap(stable);if(window.__rp){window.__rp=0;render()}}grip.addEventListener('pointerdown',e=>{if(AFlight)return;start={x:e.clientX,y:e.clientY};pid=e.pointerId;origin=$('a-sheet').getBoundingClientRect().top;stable=ASnap;axis=null;ASheetMoved=false;window.__drag=1;grip.setPointerCapture(pid)});grip.addEventListener('pointermove',e=>{if(!start||e.pointerId!==pid)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;if(!axis&&Math.max(Math.abs(dx),Math.abs(dy))>8)axis=Math.abs(dy)>Math.abs(dx)*1.3?'y':'cancel';if(axis==='cancel'){ASheetMoved=true;return}if(axis!=='y')return;ASheetMoved=true;aPaint(origin+dy,true)});grip.addEventListener('pointerup',e=>{if(start&&e.pointerId===pid)release(false,e)});grip.addEventListener('pointercancel',e=>{ASheetMoved=true;release(true,e)});grip.addEventListener('lostpointercapture',e=>{if(start){ASheetMoved=true;release(true,e)}});grip.addEventListener('click',e=>{if(e.detail===0||!ASheetMoved)aJourneyToggle()});grip.addEventListener('keydown',e=>{if(['Home','End','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();aSnap(e.key==='Home'||e.key==='ArrowUp'?'default':'collapsed')}});AObserver?.disconnect();AObserver=new ResizeObserver(aJourneyQueueLayout);AObserver.observe($('a-dock'));AObserver.observe(document.querySelector('.a-header'));aSnap(ASnap)}
+function aBindSheet(){
+ const grip=$('a-grip');if(!grip)return;
+ let gesture=null;
+ function end(cancel,x,y){
+  const g=gesture;if(!g)return;gesture=null;window.__drag=0;ASheetClickUntil=performance.now()+750;
+  if(g.source==='pointer'){try{if(grip.hasPointerCapture(g.id))grip.releasePointerCapture(g.id)}catch(_){}}
+  const dx=x-g.x,dy=y-g.y,moved=Math.max(Math.abs(dx),Math.abs(dy))>8;
+  ASheetMoved=g.moved||moved;
+  if(cancel)aSnap(g.stable);
+  else if(g.axis==='y'&&Math.abs(dy)>=36&&Math.abs(dy)>Math.abs(dx)*1.3)aSnap(dy>0?'collapsed':'default');
+  else if(!ASheetMoved)aJourneyToggle();
+  else aSnap(g.stable);
+  if(window.__rp){window.__rp=0;render()}
+ }
+ function begin(source,id,x,y){if(AFlight||gesture)return false;gesture={source,id,x,y,lastX:x,lastY:y,top:$('a-sheet').getBoundingClientRect().top,stable:ASnap,axis:null,moved:false};ASheetMoved=false;window.__drag=1;return true}
+ function move(x,y){const g=gesture;if(!g)return;g.lastX=x;g.lastY=y;const dx=x-g.x,dy=y-g.y;if(!g.axis&&Math.max(Math.abs(dx),Math.abs(dy))>8)g.axis=Math.abs(dy)>Math.abs(dx)*1.3?'y':'cancel';if(g.axis)g.moved=true;if(g.axis==='y')aPaint(g.top+dy,true)}
+ // Touch has its own lifecycle on iOS. Do not mix its compatibility pointer/click stream into the gesture.
+ grip.addEventListener('touchstart',e=>{if(e.touches.length!==1){if(gesture)end(true,gesture.lastX,gesture.lastY);return}const q=e.touches[0];begin('touch',q.identifier,q.clientX,q.clientY)},{passive:true});
+ grip.addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault();if(gesture?.source!=='touch')return;const q=[...e.touches].find(t=>t.identifier===gesture.id);if(q)move(q.clientX,q.clientY)},{passive:false});
+ grip.addEventListener('touchend',e=>{if(gesture?.source!=='touch')return;const q=[...e.changedTouches].find(t=>t.identifier===gesture.id);if(q)end(false,q.clientX,q.clientY)},{passive:true});
+ grip.addEventListener('touchcancel',()=>{if(gesture?.source==='touch')end(true,gesture.lastX,gesture.lastY)},{passive:true});
+ grip.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.isPrimary===false||e.button!==0)return;if(begin('pointer',e.pointerId,e.clientX,e.clientY)){try{grip.setPointerCapture(e.pointerId)}catch(_){end(true,e.clientX,e.clientY)}}});
+ grip.addEventListener('pointermove',e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId)move(e.clientX,e.clientY)});
+ grip.addEventListener('pointerup',e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId)end(false,e.clientX,e.clientY)});
+ for(const name of ['pointercancel','lostpointercapture'])grip.addEventListener(name,e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId)end(true,gesture.lastX,gesture.lastY)});
+ const cancel=()=>{if(gesture)end(true,gesture.lastX,gesture.lastY)};AJourneyCancelDrag=cancel;
+ // Bound to this node: no window listeners accumulate across the existing render loop.
+ grip.addEventListener('blur',cancel);
+ grip.addEventListener('click',e=>{e.preventDefault();if(performance.now()<ASheetClickUntil||gesture)return;if(e.detail===0)aJourneyToggle()});
+ grip.addEventListener('keydown',e=>{if(['Enter',' ','Home','End','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();if(e.repeat)return;cancel();ASheetClickUntil=performance.now()+750;if(e.key==='Enter'||e.key===' ')aJourneyToggle();else aSnap(e.key==='Home'||e.key==='ArrowUp'?'default':'collapsed')}});
+ AObserver?.disconnect();AObserver=new ResizeObserver(aJourneyQueueLayout);AObserver.observe($('a-dock'));AObserver.observe(document.querySelector('.a-header'));aSnap(ASnap)
+}
+
 /* Existing real Leaflet map is retained. Never copy the package's SVG demo map/positions. */
 const ARealMap=mapUpd;
 mapUpd=function(x,force){if(x){ARealMap(x,force);const label=$('a-map-state');if(label)label.textContent=window.L?t('aMapStraight'):t('aMapLoading');const epoch=++AMapEpoch;setTimeout(()=>{if(epoch===AMapEpoch&&!window.L&&$('a-map-state'))$('a-map-state').textContent=t('aMapMissing')+' · '+t('aMapHint')},6000)}};
@@ -134,3 +166,5 @@ function aJourneyToggle(){if(!AFlight)aSnap(ASnap==='collapsed'?'default':'colla
 function aJourneyQueueLayout(){if(!AJourneyLayoutFrame)AJourneyLayoutFrame=requestAnimationFrame(()=>{AJourneyLayoutFrame=0;aJourneyViewport();if($('a-sheet')&&!window.__drag){const m=aMetrics();if(m)aPaint(m[ASnap])}})}
 function aJourneyViewport(){const v=window.visualViewport;document.documentElement.style.setProperty('--a-vh',(v?.height||innerHeight)+'px');document.documentElement.style.setProperty('--a-vtop',(v?.offsetTop||0)+'px')}
 window.visualViewport?.addEventListener('resize',aJourneyQueueLayout);window.visualViewport?.addEventListener('scroll',aJourneyQueueLayout);window.addEventListener('resize',aJourneyQueueLayout);aJourneyViewport();if(DRV)render();
+
+window.addEventListener('pagehide',()=>AJourneyCancelDrag?.());window.addEventListener('blur',()=>AJourneyCancelDrag?.());document.addEventListener('visibilitychange',()=>{if(document.hidden)AJourneyCancelDrag?.()});

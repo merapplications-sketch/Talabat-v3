@@ -1,0 +1,23 @@
+{
+  "observed_date": "2026-10-27",
+  "integration_commit": "226f05e0b3dd4be27f032ed10af6fc49a46b5330",
+  "pages_url": "https://merapplications-sketch.github.io/Talabat-v3/customer.html",
+  "files": {
+    "customer.html": {
+      "pages_sha256": "e599bf4403bd4c5e29a8b0120668e6964d97bf63c1bfe8f9bab25f0674f2d8ee",
+      "integration_sha256": "3f1520213ccc2273fe67a6e2071345b99a9bd9ed24770c702f4ddcc1c07c2e64",
+      "equals_integration": false,
+      "equals_current_main_file": false,
+      "pages_has_customer_c": false,
+      "integration_has_customer_c": true
+    },
+    "talabat-core.js": {
+      "pages_sha256": "77796be799c4677cfcc24c6e2c1104366bebae6db42dffc886f28d985cc6ae15",
+      "integration_sha256": "df4d1d3f4a9ccaec8201f3e62707ba18f9da8118595bcab162656e97dced9761",
+      "equals_integration": false,
+      "equals_current_main_file": true
+    }
+  },
+  "note": "PGV customer-55 is identical in both pages and stale; compare bytes/scripts, not the version label. No publishing performed.",
+  "main_head": "148cfae50000e983af2221a96057c507edac6d69"
+}
