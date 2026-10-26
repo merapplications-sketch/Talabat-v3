@@ -155,12 +155,12 @@ with sync_playwright() as p:
         ok(s['title'] == 'Ожидаем заказ' and pg.locator('.nav').is_visible() and pg.locator('#w-sheet').is_visible(), '[%d] panel, shift and navigation unchanged' % w)
         if w == 390:
             pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(1500)
-            ok(pg.evaluate("()=>TLB.offers().length") == 1 and (pg.evaluate("()=>(document.querySelector('.w-title h1')||{}).textContent") == 'Новое предложение'),
-               'with the map failed, a new offer still arrives in the panel')
+            ok(pg.evaluate("()=>TLB.offers().length") == 1 and pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route')"),
+               'with the map failed, a new offer still arrives (journey R1 offer panel, 26 Oct)')
             pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_timeout(1200)
             net['mode']['tiles'] = 'ok'; pg.click('#w-map .w-map-retry'); pg.wait_for_timeout(1500); s = st(pg)
-            ok(s['view']['map'] == 'ready' and pg.evaluate(FAILV) is None and not s['rec'] and s['maps'] == 1 and s['lc']['mount'] == 1,
-               'retry: tiles load, message gone, «my location» enabled, same map (no remount) (%s)' % s)
+            ok(s['view']['map'] == 'ready' and pg.evaluate(FAILV) is None and not s['rec'] and s['maps'] == 1 and s['lc']['mount'] - s['lc'].get('destroy', 0) == 1,
+               'retry: tiles load, message gone, «my location» enabled, one live map (R1: leaving for the offer and back remounts once) (%s)' % s)
             net['mode']['tiles'] = 'fail'; pg.evaluate("()=>{const m=document.querySelector('#w-map .leaflet-container');}")
         ok(not errs, '[%d] tiles fail: no JS errors %s' % (w, errs[:2])); ctx.close()
     PARTV = "()=>{const f=document.querySelector('#w-map .w-map-partial');if(!f||getComputedStyle(f).display==='none'||!f.getBoundingClientRect().height)return null;const r=f.getBoundingClientRect(),h=document.querySelector('.a-header').getBoundingClientRect().bottom;return {text:f.innerText,h:Math.round(r.height),top:Math.round(r.top-h),w:Math.round(r.width)}}"

@@ -66,11 +66,12 @@ with sync_playwright() as p:
     ok(abs(me1[2] - (TAS['latitude'] + 0.06)) < 1e-9 and (abs(me1[0] - me0[0]) > 0.5 or abs(me1[1] - me0[1]) > 0.5), 'waiting: GPS readings move only the marker (%s -> %s)' % (me0, me1))
     # panel jump: each render rebuilt the panel at its CSS top (460) and slid it up; sampled every frame for 5 s, no touch
     pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(2500)
-    tops = pg.evaluate(PANEL, '#w-sheet'); ok(len(tops) == 1, 'waiting panel with an offer: one position for 5 s of renders (frames: %s)' % tops)
+    # Journey R1 (26 Oct): an offer opens the connected journey panel (#a-sheet), not the waiting list
+    tops = pg.evaluate(PANEL, '#a-sheet'); ok(len(tops) == 1 and tops[0] is not None, 'offer panel (journey R1): one position for 5 s of renders (frames: %s)' % tops)
     pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_timeout(2500)
     # offer arrives while waiting: panel grows, view stays
     k = nviews(pg); pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(2500)
-    ok(pg.evaluate("()=>(document.querySelector('.w-title h1')||{}).textContent") == 'Новое предложение' and not views(pg, k), 'waiting: an offer arrives -> panel changes, 0 view changes (%s)' % views(pg, k))
+    ok(pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route')") and not views(pg, k), 'waiting: an offer arrives -> journey offer panel (R1), 0 view changes (%s)' % views(pg, k))
     # user zoom (wheel) is kept through GPS / renders / resize; «my location» brings the driver back
     k = nviews(pg); box = pg.locator('#w-map .leaflet-container').bounding_box()
     pg.mouse.move(box['x'] + 200, box['y'] + 150); pg.mouse.wheel(0, -400); pg.wait_for_timeout(900)
