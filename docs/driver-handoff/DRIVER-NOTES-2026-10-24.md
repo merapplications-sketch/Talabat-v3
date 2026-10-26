@@ -287,7 +287,7 @@ Still open / limits:
 - Evidence: NAVIGATION-QA-2026-10-25.json. One isolated fixture preview navigation-review.html; no old packages rebuilt.
   Physical installed/absent-app launch checks and live budget/location integration remain open; see plan section 10.
 
-## 13. 25 Oct 15:13 — consultant hand-off b47ed9b integrated + shared routing budget (Claude)
+## 18. 25 Oct 15:13 — consultant hand-off b47ed9b integrated + shared routing budget (Claude)
 - Fast-forward of the whole chain 91b1795 → b47ed9b onto `tech/v82-int` (tracking cancellation, optional audio recovery,
   customer logo, map gestures, driver chat with unread count, navigation facade / Geoapify / external Yandex · 2GIS · Google).
   No commit taken alone; earlier Claude fixes untouched.
@@ -307,7 +307,7 @@ Still open / limits:
 - Secret for activation: `GEOAPIFY_KEY` (Supabase → Edge Functions → Secrets). `NAVIGATION_CONFIG` only at activation.
   `ORS_KEY` is no longer read by the function (can stay or be deleted).
 
-## 14. 25 Oct 15:48 — review of f4e38dc: six blockers fixed (nothing applied / deployed)
+## 19. 25 Oct 15:48 — review of f4e38dc: six blockers fixed (nothing applied / deployed)
 1. Time after the lock: `navigation_reserve_budget` / `navigation_settle_budget` read the time (`navigation_budget_clock()`)
    only after `FOR UPDATE`. Real PostgreSQL 17: a request that waited for the lock across an hour + second boundary is judged
    and booked at the new time (new hour bucket, rate counter restarted); released inside the same second → still «rate».
@@ -327,7 +327,7 @@ Still open / limits:
   (PostgreSQL 17: 40 parallel, lock-wait boundaries) · navigation_contract_check 39/0 (handler changed) ·
   navigation_attribution_check OK (360/390/430). Dashboard copy regenerated, TypeScript: 0 diagnostics.
 
-## 18. 25 Oct 16:10 — review of f174ce9: three remaining blockers (nothing applied / deployed / merged)
+## 20. 25 Oct 16:10 — review of f174ce9: three remaining blockers (nothing applied / deployed / merged)
 1. Cost before the call: request restricted to published-price options (2 waypoints, drive, ru; `details` removed — the step
    text and indices stay, the unused maneuver type goes). Formula corrected to the docs: one pair = max(1, ceil(km / 500))
    (630 340 m = 2). No pre-call ceiling can be documented (length known only afterwards, no max-length option) → the cap is
@@ -345,7 +345,7 @@ Still open / limits:
   (PostgreSQL 17, reserve function changed). Dashboard copy regenerated (0 syntax diagnostics, all module lines present).
   Time / attribution / rollback / dailyCredits 0 closed by the consultant — not reopened.
 
-## 19. 25 Oct 17:12 — consultant closed add55b3; one test point (internal routing off)
+## 21. 25 Oct 17:12 — consultant closed add55b3; one test point (internal routing off)
 - External Yandex / 2GIS / Google: the driver UI gets them ONLY from the Edge Function `route` (`TLB.navigation({op:'config'})`
   then `{op:'links'}`); no local fallback. The function was never deployed (log 10–12) → live the «Навигация» sheet shows
   «unavailable», no links. Not provable from here: the workspace cannot reach the project (allowlist) and Chrome is not linked.
@@ -374,7 +374,7 @@ Still open / limits:
   contract 39/0. Dashboard file regenerated. Next: one opening of «Навигация», then read that log line.
 
 
-## 20. 25 Oct 21:28 (+05) — live ALLOWED_ORIGINS correction (secret only)
+## 22. 25 Oct 21:28 (+05) — live ALLOWED_ORIGINS correction (secret only)
 - Verified project `dzydscryrnahnneydnry` / Talabat, org `bxhspuyufwkwfuggeowt`; dashboard account has access. Function `route` version 3, JWT verification ON. Reference source `9dbe13ab7535b1e5ce2b539f112d9577c6085cbe`.
 - Replaced (did not delete) `ALLOWED_ORIGINS` with `https://merapplications-sketch.github.io,https://raw.githack.com` through the dashboard. Saved at 2026-10-25 16:28:11 UTC; dashboard SHA256 `858da38f721f870c2eb5bdc1b09e7375de0fab505fc3a9daa14fa4a8a6faeab2` matches the exact requested value. Other secret digests unchanged; NAVIGATION_CONFIG unchanged, internal routing remains unactivated. No code deployment, SQL, patch40, Geoapify, account or order changes.
 - Live OPTIONS /functions/v1/route, Origin https://raw.githack.com, requested POST and authorization/apikey/content-type: HTTP 200, Access-Control-Allow-Origin https://raw.githack.com, methods POST/OPTIONS; request id `01a173e4-a960-79d0-8782-7a9f0a602405`, execution id `6987da75-ae9a-4c64-9e5b-28b0df275bed`.
@@ -387,7 +387,7 @@ Still open / limits:
 - Evidence: talabot-navigation-fixed-20261025.jpg (live browser capture). Closed: corrected allowlist, live preflight, authenticated app navigation options. Remaining: actual external-app launch on iPhone / device fallback behavior. No code fix or deployment required; no new SQL, secrets, accounts, order state or calculations changed in this follow-up.
 
 
-## 21. 25 Oct — Driver A phone / navigation polish (review only, not deployed)
+## 23. 25 Oct — Driver A phone / navigation polish (review only, not deployed)
 - Source matched against latest tech/v82-int `9dbe13ab7535b1e5ce2b539f112d9577c6085cbe`; independent branch `design/driver-polish-20261025` starts from local documentation checkpoint `2aea00986c61134cd09dd6885e095d3174f9fb90` (same application source). Sections 20 and its live CORS fix retained. No Supabase/JWT/SQL/Geoapify/main/deployment changes.
 - Driver A only: 56px header plus safe-area; measured sheet/dock boundaries, compact collapsed summary with map space; current step + persistent «Все этапы» disclosure; earnings shown once, collection separately; existing legs / fee details kept in Order and amounts. Navigation/call/chat share 44px plates. No due(), cashBox(), payout/points formula, chat, tracking or delivery-service edits.
 - Pickup success: the old generic toast at bottom:96 overlapped the swipe. Its UI-only replacement appears below the header, pointer-events:none, only after awaited server result; stale-stage duplicate guard retained after the visible notice expires. Existing TLB.setStatus / RPC refresh already awaits server acknowledgement and reload; tests confirm transition ready -> pickedup / step 2 -> 3. Pending and failed responses never show success.
@@ -399,16 +399,16 @@ Still open / limits:
 
 - Screenshot files: polish-20261025/mission.png, collapsed.png, navigation.png, pickup-success.png. Reproduce isolated checks/build with `MAP_LEAFLET=/path/to/local/leaflet python tools/driver_polish_check.py` and `... python tools/driver_polish_touch_check.py` (Leaflet JS/CSS local directory; no live tile/provider requests). One preview at navigation-review.html; actual map tiles intentionally blank and labelled in the shell.
 
-## 20. 26 Oct 02:24 — designer polish 79af0bb integrated (base 9dbe13a = branch head → fast-forward, no conflict)
+## 24. 26 Oct 02:24 — designer polish 79af0bb integrated (base 9dbe13a = branch head → fast-forward, no conflict)
 - Shared files: `assets/driver-a/driver-a.js` / `.css` (sheet metrics, collapse, stage disclosure, money rows, success notice)
   and `assets/driver-tech/route-layer.js` (chooser layout, external note, Esc / focus). Kept unchanged by it: map-view.js
   (framing, a-rerender), waiting-map.js, Geoapify attribution, route function / CORS log, core, patch 39. Internal stays off.
 - Affected checks only: driver_map_stability_check 18/0 (sheet metrics changed) · navigation_attribution_check OK
   (route-layer changed). Designer's polish checks ran on the identical tree — not repeated.
-- External maps live: still waiting for the `route_cors` log line (section 19); the chooser shows no links until then.
+- External maps live: still waiting for the `route_cors` log line (section 21); the chooser shows no links until then.
 
 
-## 22. 26 Oct — Connected Journey A R1 bound to the application (review branch only)
+## 25. 26 Oct — Connected Journey A R1 bound to the application (review branch only)
 - Independent branch `design/driver-journey-r1-20261026`, integration base `461d442bb20c96b29f8ce6f32c932d5b44aeb3f8` (rechecked before handoff; no newer integration head). Design package TALABOT-Driver-A-Connected-Journey-R1(1).zip SHA256 `0239f12402a5933903c44c0f33410a9563e21c4b497226b2010b50ab5b62713f`. Designer R1 source/spec compared first. Logo and both 400/700 font files match the package hashes exactly and are unchanged. Designer's proposed local record was read as reference; the existing current record is appended, not replaced.
 - Application changes: assets/driver-a/driver-a.js and driver-a.css only. Bind designer Work/Map distribution to existing task fields and handlers. Four short visible steps (acceptance remains separate n=0), destination, x.payout and cash due(x) / online-paid state, labelled 44px navigation/call/chat, next action together. Offer is shown directly in this layout, never auto-accepted. Details uses invoice/cashBox/notes/legs and retains decline and switching to another valid offer; existing sections and end-shift remain in menu with original conditions. Shift shown once; source unlockSound/testSound replaces the long sound banner. No demo data, map-demo.svg, demo-adapter.js, prototype service or alternate finance logic enters application assets.
 - Layout: measured 52px header plus actual safe inset; panel and dock are separate flex items in available visualViewport height (100dvh fallback), preserving .a-sheet/.w-sheet/#a-sheet-body/#a-dock/#a-grip and html.a-rerender hooks. Work opens by default; Map compacts secondary text, retaining four steps, destination, amounts, tools and confirmation. Only the independent 44px grip drags (8px axis lock, 36px switch, vertical x1.3), with live height feedback, cancel restore and equivalent mode/keyboard controls. Original stricter horizontal confirmation swipe is byte-identical. Cancelled/dragged grip suppresses its following click until a fresh pointer down; Enter/Space remains usable.
@@ -418,7 +418,7 @@ Still open / limits:
 - One isolated actual-source preview: journey-r1-review.html, built by tools/driver_journey_r1_preview.py. It embeds the current application UI/core with existing test service doubles; blank Leaflet tiles and synthetic points only in the clearly labelled review, no live GPS, accounts, provider, order changes or payments. Browser bars and size selection live outside iframe. Start at offer and actually swipe; restaurant ready/preparing/failure controls are outside application. Sources of test evidence: tools/driver_journey_r1_check.py, driver_journey_r1_edges.py, driver_journey_r1_layout.py (MAP_LEAFLET local JS/CSS directory).
 - Implementation screenshots from WebKit simulation at actual available viewport, not designer mockups: journey-r1-20261026/{offer,work-360,work-390,work-430,map,customer,handover,done,long-text}.png. No actual iPhone/Safari acceptance or live server mutations claimed. Remaining for Claude: integrate the narrow driver-a.js/CSS presentation diff after checking newer source; review preview, then live test real offer eligibility, server acknowledgements/photo upload, external-app return and real iPhone Safari/PWA toolbar, keyboard and safe areas. B1/B2, customer/admin pages and internal navigation remain out of scope.
 
-## 21. 26 Oct 17:08 — Journey R1 1807c57 reviewed and integrated (base 461d442 = branch head → fast-forward)
+## 26. 26 Oct 17:08 — Journey R1 1807c57 reviewed and integrated (base 461d442 = branch head → fast-forward)
 - Reviewed against the designer package R1 (IMPLEMENTATION-AR) and the ui-ux-pro-max checklist: offer shown in the journey
   composition (package item 12), 4-step bar, destination + order #, money (earnings / collect or «paid online»), call · chat ·
   Навигация, one 44 px panel head (grip + Детали + Карта/Работа toggle — a non-drag alternative), drag only on the grip,
@@ -435,9 +435,25 @@ Still open / limits:
   external map app with the order and chat kept.
 
 
-## 23. 26 Oct — Safari page pull versus Driver A grip (review fix only)
+## 27. 26 Oct — Safari page pull versus Driver A grip (review fix only)
 - Owner iPhone evidence IMG_5724(2).jpeg on integrated `fee8b6f2318c3cf1bfa9f82b1da9d3dedd91a072`: pulling the mission grip also pulls the document, showing Safari refresh spinner/white area above the logo. Latest integration fetched and matched fee8b6f before editing; independent branch `fix/driver-grip-safari-20261026`. No concurrent integration edits overwritten.
 - Narrow fix in assets/driver-a/driver-a.js + driver-a.css: while an actual mission/offer is displayed, lock the root overflow/overscroll and fix the body in the viewport; remove that class on utility/phone-gate exit. Grip and its child handle explicitly own touch-action:none; a grip-local non-passive touchmove listener cancels native document panning from the first movement. No document-wide touchmove cancellation; detail/chat scroll and Leaflet gestures retain their existing rules. Existing pointer thresholds, capture, cancel/release, mode button and horizontal confirmation handlers unchanged. This addresses the code-level opportunity for root rubber-banding; final native Safari acceptance is still required.
 - 36 affected Chromium checks PASS at 360/390/430, app heights outer 780/844/932 minus simulated browser bars 128/68/128px. Native CDP touch repeated three down/up cycles per size/bar state (27 full cycles / 54 directional drags); header stays at viewport top, scrollY=0, dock above viewport bottom. Grip-child touch-action, cancelable touchmove prevented, Work/Map button, one Leaflet map with working pan, independent detail scroll, partial confirmation and root-lock removal on exit verified. JS syntax and diff whitespace checks pass. No R1 226 successful checks re-run.
 - WebKit could be downloaded but could not launch: host lacks GTK4/GStreamer/other shared libraries; dependency installation failed with setgroups/seteuid Operation not permitted. No WebKit success claimed for this fix. Chromium is desktop phone/touch simulation, NOT an iPhone; native Safari pull-to-refresh, real toolbar expansion/collapse and external-app return remain device acceptance items. Evidence/results in grip-safari-20261026; reproducible limited runner tools/driver_grip_safari_check.py (GRIP_ENGINES=chromium for this host).
 - Claude handoff: apply only the two application file diffs onto integration after checking newer work. Existing driver.html/core/map-view/waiting-map/route-layer, route secrets and all finance/server/account rules unchanged. No SQL, backend changes, internal routes, main merge or deployment. Test driver.html pinned to the fix commit on raw.githack.com; this is a review branch connected to the existing test project, not an integrated release. Integration by Claude and actual iPhone acceptance remain pending.
+
+## 28. 26 Oct 23:10 — Safari grip pull fix c573842 integrated (base fee8b6f = branch head → fast-forward)
+- Diff: `driver-a.css` — `html.a-mission-lock` (root height 100 %, overflow hidden, overscroll none) and fixed
+  `body.a-mission` only while a task / offer is on screen; `#a-grip` touch-action none, no text selection.
+  `driver-a.js` — non-passive `touchmove` on the grip only (preventDefault), lock class toggled in render0 and removed at the
+  phone gate. Detail / chat scrollers, Leaflet, «Карта/Работа», swipe bar and visualViewport sizing unchanged.
+- Log: duplicate section numbers renumbered in file order (old 13/14 of 25 Oct → 18/19, then 20–27); content unchanged.
+- Integration checks (Chromium, local): navigation_attribution_check OK; driver_map_stability_check 18/0.
+  Correction to section 26: that stability run had stopped at the waiting-map zoom step (the R1 offer keeps the journey
+  panel open) and was reported OK by mistake. Test fixed, not the app: the offer is withdrawn before the waiting-map zoom
+  step, and «a tap on the grip animates» became «a tap switches Work / Map» (R1 has no slide animation by design).
+  Neither failure came from c573842.
+  WebKit not available here either (only Chromium installed; Playwright reinstall not allowed) → the grip fix is NOT
+  WebKit-checked. Designer's 36 Chromium checks ran on the identical tree — not repeated. Device acceptance of the drag
+  on iPhone Safari remains open.
+

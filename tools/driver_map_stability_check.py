@@ -72,6 +72,8 @@ with sync_playwright() as p:
     # offer arrives while waiting: panel grows, view stays
     k = nviews(pg); pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(2500)
     ok(pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route')") and not views(pg, k), 'waiting: an offer arrives -> journey offer panel (R1), 0 view changes (%s)' % views(pg, k))
+    # R1: the offer stays on the journey panel; withdraw it to return to the waiting map
+    pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_selector('#w-map .leaflet-container'); pg.wait_for_timeout(1500)
     # user zoom (wheel) is kept through GPS / renders / resize; «my location» brings the driver back
     k = nviews(pg); box = pg.locator('#w-map .leaflet-container').bounding_box()
     pg.mouse.move(box['x'] + 200, box['y'] + 150); pg.mouse.wheel(0, -400); pg.wait_for_timeout(900)
@@ -86,7 +88,9 @@ with sync_playwright() as p:
     pg.evaluate("()=>aSelect(TLB.offers()[0].id)"); pg.wait_for_timeout(2500)
     first = [x for x in views(pg) if x[1] == 'dmap']
     tops = pg.evaluate(PANEL, '#a-sheet'); ok(len(tops) == 1, 'mission panel: one position for 5 s of renders (frames: %s)' % tops)
-    pg.click('#a-grip'); tops = pg.evaluate(PANEL, '#a-sheet'); ok(len(tops) > 2, 'mission panel: a tap on the grip still animates (frames: %d)' % len(tops))
+    # R1: the grip / «Карта» toggle switches Work <-> Map at once (no slide animation by design)
+    m0 = pg.evaluate("()=>$('a-sheet').classList.contains('a-map-mode')"); pg.click('#a-grip'); pg.wait_for_timeout(400)
+    m1 = pg.evaluate("()=>$('a-sheet').classList.contains('a-map-mode')"); ok(m0 != m1, 'mission panel: a tap on the grip switches work / map (%s -> %s)' % (m0, m1))
     pg.click('#a-grip'); pg.click('#a-grip'); pg.wait_for_timeout(400)
     ok(1 <= len(first) <= 4, 'mission: first display frames the map (%d calls: %s)' % (len(first), [x[0] for x in first]))
     k = nviews(pg); churn(pg, ctx, "()=>aSnap('%s')")
