@@ -509,13 +509,15 @@ no fulfilment / pickup mode anywhere; `scheduled_for` + `too_early` in patch33; 
 order lists limited per role (core `LIMITS`, customer 60). No SQL, server, account or app change made.
 
 **Rules for any expansion package (designer + programmer)**
-- Map every screen to a §29 row: «موجود» rows are bound to the existing handlers named there, never rebuilt; new UI only for
-  gaps, and only after the decision for that gap is recorded here.
+- Map every screen to a §29 row: «موجود» rows are bound to the existing handlers named there, never rebuilt. Design proposals
+  for gaps may be shown at any time if clearly marked «proposal — not active»; an open decision blocks only ENABLING the
+  related behaviour (owner, 27 Oct 00:30).
 - Each server gap = its own proposed SQL file (next free number after the proposed patch 40 → patch 41+), RPC-only writes
   (security definer + role check), RLS on, no change to existing RPC signatures; read-only verify query first; owner applies.
 - Anything that moves money (COD for merchants, substitutions with a price difference, refunds, paid ads) depends on the
   frozen finance work (patches 37 / 38, D-L1) — designed, not built, until finance is unfrozen.
-- Budget zero: no payment gateway, SMS, WhatsApp Business API or paid ad server; manual / in-app paths only.
+- Paid services: none is enabled now (no payment gateway, SMS, WhatsApp Business API, paid ad server, own domain). This is the
+  current state, not a permanent policy — any paid service is a separate owner decision (owner, 27 Oct 00:30).
 
 | Gap (§29) | Integration requirement (technical) | Open decisions (owner) — blocking |
 |---|---|---|
@@ -533,3 +535,8 @@ order lists limited per role (core `LIMITS`, customer 60). No SQL, server, accou
 
 Suggested order once decided (least money / policy risk first): merchant links + QR → full-period reports → numeric stock
 → self-pickup → corporate (reusing group orders) → merchant delivery requests → substitutions / refunds / paid ads (after finance).
+- 27 Oct 00:30 (owner): first limited scope after the full R1.1 package arrives — (1) tracking display with current data,
+  (2) the existing group-order journey, (3) current merchant links + QR if possible without a domain or paid service.
+  One work list (ChatGPT programmer / Claude) with existing files, handlers and acceptance criteria will follow the R1.1 review;
+  financial / operational decisions kept separate. Drag + location fix stays with the ChatGPT programmer until delivered.
+
