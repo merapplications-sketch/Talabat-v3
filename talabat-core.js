@@ -100,15 +100,22 @@
     if (m) return '<a href="https://www.google.com/maps?q=' + m[1] + ',' + m[2] + '" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline">📍 ' + esc(t('openMap')) + '</a>';
     return esc(txt);
   }
-  function loadLeaflet(cb) {
+  function loadLeaflet(cb, fail) {
     if (window.L) return cb();
     var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(l);
     var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
-    s.onload = cb; s.onerror = function () { toast(t('mapFail'), true); }; document.head.appendChild(s);
+    s.onload = cb; s.onerror = function () { if (fail) fail(); else toast(t('mapFail'), true); }; document.head.appendChild(s);
   }
   /* One-time (not live) location: map opens on the device position, the user can drag the pin or tap the map. */
-  function pickLocation(cb, start) {
+  function pickLocation(cb, start, hooks) {
+    hooks = hooks || {}; var alive = true, loadTimer;
+    function state(phase, key) { if (hooks.onState) hooks.onState(phase, key); }
+    function loadFail() { if (!alive) return; alive = false; clearTimeout(loadTimer); state('error', 'locMapFail'); if (!hooks.onState) toast(t('locMapFail'), true); }
+    state('loading'); loadTimer = setTimeout(loadFail, 15000);
     loadLeaflet(function () {
+      if (!alive) return; if (!window.L || typeof L.map !== 'function') { loadFail(); return; } clearTimeout(loadTimer);
+      if (hooks.canOpen && !hooks.canOpen()) { alive = false; state('cancelled'); return; }
+      state('selecting');
       var ov = document.createElement('div');
       ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:#fff;display:flex;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,sans-serif';
       var PIN = '<svg viewBox="0 0 34 44" width="34" height="44"><path d="M17 0C7.6 0 0 7.4 0 16.6 0 29 17 44 17 44s17-15 17-27.4C34 7.4 26.4 0 17 0z" fill="#f1511b"/><circle cx="17" cy="16.5" r="6.5" fill="#fff"/></svg>';
@@ -122,25 +129,43 @@
       var st = (start && isFinite(+start[0]) && isFinite(+start[1]) && start[0] !== null && start[1] !== null) ? [+start[0], +start[1]] : null;
       var map = L.map('tlb-map', { zoomControl: false }).setView(st || [38.5598, 68.787], st ? 17 : 14);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap', referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
-      var show = function () { var c = map.getCenter(); $('tlb-co').textContent = c.lat.toFixed(6) + ', ' + c.lng.toFixed(6); };
+      var show = function () { if (!alive || !ov.isConnected) return; var c = map.getCenter(); $('tlb-co').textContent = c.lat.toFixed(6) + ', ' + c.lng.toFixed(6); };
       map.on('movestart', function () { var p = $('tlb-pin'); if (p) p.style.transform = 'translateY(-10px)'; });
       map.on('move', show);
       map.on('moveend', function () { var p = $('tlb-pin'); if (p) p.style.transform = ''; show(); });
-      setTimeout(function () { map.invalidateSize(); show(); }, 150);
-      function locate(silent) {
-        $('tlb-lm').textContent = '';
-        if (!navigator.geolocation) { if (!silent) $('tlb-lm').textContent = t('locNA'); return; }
-        navigator.geolocation.getCurrentPosition(function (p) { map.setView([p.coords.latitude, p.coords.longitude], 17); show(); },
-          function (e) { if (!silent) $('tlb-lm').textContent = (e && e.code === 1) ? t('locDenied') : t('locFail'); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 5000 });
+      setTimeout(function () { if (alive) { map.invalidateSize(); show(); } }, 150);
+      var locating = false, geoTimer = 0, geoSeq = 0;
+      function locate() {
+        if (locating || !alive) return;
+        var note = ov.querySelector('#tlb-lm'), button = ov.querySelector('#tlb-me');
+        if (!navigator.geolocation) { note.textContent = t('locNA'); return; }
+        if (window.isSecureContext === false) { note.textContent = t('locSecure'); return; }
+        locating = true; button.disabled = true; button.setAttribute('aria-busy', 'true'); note.textContent = t('locWaiting');
+        var seq = ++geoSeq;
+        function finish(key, p) {
+          if (!alive || seq !== geoSeq) return;
+          ++geoSeq; clearTimeout(geoTimer); locating = false; button.disabled = false; button.removeAttribute('aria-busy');
+          note.textContent = t(key);
+          if (p) { map.setView([p.coords.latitude, p.coords.longitude], 17); show(); }
+        }
+        geoTimer = setTimeout(function () { finish('locTimeout'); }, 13000);
+        try { navigator.geolocation.getCurrentPosition(function (p) {
+          var c = p && p.coords;
+          if (!c || !Number.isFinite(c.latitude) || !Number.isFinite(c.longitude) || Math.abs(c.latitude) > 90 || Math.abs(c.longitude) > 180) return finish('locFail');
+          finish('locFound', p);
+        }, function (e) { finish(e && e.code === 1 ? 'locDenied' : e && e.code === 3 ? 'locTimeout' : 'locFail'); }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 5000 }); }
+        catch (e) { finish('locFail'); }
       }
-      if (!st) locate(true);
-      $('tlb-me').onclick = function () { locate(false); };
-      function close() { map.remove(); ov.remove(); }
-      $('tlb-lx').onclick = close;
+      if (!st) locate();
+      $('tlb-me').onclick = locate;
+      function close() { alive = false; ++geoSeq; clearTimeout(geoTimer); map.remove(); ov.remove(); }
+      $('tlb-lx').onclick = function () { close(); state('cancelled'); };
       $('tlb-ls').onclick = function () { var c = map.getCenter(); close(); cb(c.lat, c.lng); };
-    });
+    }, loadFail);
   }
 
+  Object.assign(I.ru, {locMapFail:'Карта выбора места не загрузилась. Проверьте соединение и попробуйте снова.',locWaiting:'Определяем местоположение…',locFound:'Местоположение определено. Проверьте точку перед отправкой.',locTimeout:'Время ожидания геопозиции истекло. Повторите или выберите точку на карте.',locSecure:'Для геопозиции откройте страницу через HTTPS.'});
+  Object.assign(I.en, {locMapFail:'The location picker could not load. Check your connection and try again.',locWaiting:'Finding your location…',locFound:'Location found. Check the pin before sending.',locTimeout:'Location request timed out. Retry or choose a point on the map.',locSecure:'Open the page over HTTPS to use location.'});
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
   var pagesSt = 'loading', pagesErr = '';
