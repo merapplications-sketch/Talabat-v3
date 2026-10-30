@@ -1,0 +1,25 @@
+{
+  "project": "dzydscryrnahnneydnry",
+  "name": "Talabat",
+  "database": "PostgreSQL 17.11.0.002",
+  "date": "2026-10-30",
+  "sql_source": "sql/verify_order_events_readonly.sql",
+  "sql_sha256": "9857c6bc2fd5952bf87cd75753772594cf6643b871ac95481d63917e0b9cdc35",
+  "review": "Two SELECT/UNION statements; no DDL, mutation, permission or row changes",
+  "part1": {
+    "state": "executed",
+    "via": "Supabase execute_sql administrative connection",
+    "result": "order-events-part1.csv",
+    "limitation": "Tool does not expose session role impersonation; administrative result does not prove customer access"
+  },
+  "part2": {
+    "state": "not executed",
+    "customer_events_access": "unknown",
+    "reason": "execute_sql exposes project_id/query only, no authenticated customer impersonation selector; SQL Editor redirects this browser to sign-in. No admin run substituted for customer result."
+  },
+  "previous_25225b8": {
+    "driver": "https://raw.githack.com/merapplications-sketch/Talabat-v3/25225b8edac54c690c3f3e0e9b0a87e665a680ab/driver.html",
+    "customer": "https://raw.githack.com/merapplications-sketch/Talabat-v3/25225b8edac54c690c3f3e0e9b0a87e665a680ab/customer.html",
+    "observed": "Both reached existing sign-in UI; no authenticated test session. No live gesture/location assertion or account/server mutation."
+  }
+}

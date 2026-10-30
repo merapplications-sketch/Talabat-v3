@@ -16,3 +16,6 @@
 .c-current-open{color:var(--o);display:flex;align-items:center;gap:4px;flex:none;font-size:13px;line-height:19px;font-weight:600}
 .c-current:focus-visible,.c-track-retry:focus-visible{outline:2px solid var(--o);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.c-current{scroll-behavior:auto}}
+
+/* C1 remains the same map and request lifecycle, now inside its courier card. */
+.p1-courier .c-track{margin:10px 0 0;padding:0;border:0;box-shadow:none}.p1-courier .c-track h3{font-size:13px;font-weight:400;color:#536176}.p1-courier .c-track-map{border-radius:12px}

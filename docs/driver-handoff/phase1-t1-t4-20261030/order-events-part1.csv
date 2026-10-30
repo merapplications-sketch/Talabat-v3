@@ -1,0 +1,14 @@
+item,value,detail
+rls,true,false
+policy,events_read · SELECT · public,can_see_order(order_id) | 
+grant,authenticated,"DELETE,INSERT,REFERENCES,SELECT,TRIGGER,TRUNCATE,UPDATE"
+kind,pickedup,59
+kind,at_customer,13
+kind,cancelled,18
+kind,at_store,13
+kind,ready,59
+kind,driver_assigned,60
+kind,rejected,7
+kind,preparing,63
+kind,pending,85
+kind,delivered,60

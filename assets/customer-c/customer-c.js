@@ -11,7 +11,8 @@
  function reset(){epoch++;controller?.abort();controller=null;clearTimeout(pollTimer);clearTimeout(deadline);clearInterval(ageTimer);mapDestroy();root?.remove();root=null;point=null;id=null;busy=false;lastCall=0;phase='loading'}
  function create(){root=document.createElement('section');root.className='c-track';root.dataset.c='C1';root.setAttribute('aria-label',t('cMapTitle'));root.innerHTML='<h3></h3><p class="c-track-age" aria-live="polite"></p><div class="c-track-map" role="img"></div><p class="c-track-note" role="status"></p><button type="button" class="c-track-retry" hidden></button>';root.querySelector('button').onclick=()=>{mapDestroy();draw()}}
  function draw(){if(!root)return;root.querySelector('h3').textContent=t('cMapTitle');const area=root.querySelector('.c-track-map'),note=root.querySelector('.c-track-note'),retry=root.querySelector('button');
-  root.querySelector('.c-track-age').textContent=phase==='loading'&&!point?t('cMapLoading'):point?t('cMapAge').replace('{n}',Math.max(0,Math.floor((Date.now()-point.at)/60000))):t('cMapNone');
+  root.querySelector('.c-track-age').textContent=t('courierAtL')+': '+(point?fmtHM(point.at):t('timeUnknown'));
+  root.querySelector('h3').textContent=phase==='loading'&&!point?t('cMapLoading'):point?t('cMapTitle'):t('cMapNone');
   area.hidden=!point;area.setAttribute('aria-label',t('cMapTitle'));note.hidden=!point||!tileError;note.textContent=t('cMapUnavailable');retry.textContent=t('cMapRetry');retry.hidden=!point||!tileError;
   if(!point){mapDestroy();return}if(map){marker?.setLatLng([point.lat,point.lng]);map.setView([point.lat,point.lng],map.getZoom(),{animate:false});return}if(mapLoading||tileError)return;
   mapLoading=true;const token=epoch,generation=mapEpoch,host=root;loadTimer=setTimeout(()=>{if(epoch===token&&root===host&&!tileReady){tileError=true;mapLoading=false;mapDestroy();tileError=true;drawError()}},8000);
@@ -43,7 +44,7 @@
   layout();if(window.ResizeObserver){layoutObserver=new ResizeObserver(layout);layoutObserver.observe(b);for(const el of document.querySelectorAll('.nav,.bar'))layoutObserver.observe(el)}
  }
  function sync(){current();const wanted=eligible();if(!wanted){if(id||root)reset();return}if(wanted!==id){reset();id=wanted;create();ageTimer=setInterval(()=>{if(eligible()!==id){reset();return}if(point)draw()},60000)}
-  const summary=document.querySelector('.d6-order-summary');if(summary&&root){summary.after(root);map?.invalidateSize({pan:false})}draw();if(!busy&&!lastCall)request();
+  const host=document.getElementById('p1-courier-map');if(host&&root){host.appendChild(root);map?.invalidateSize({pan:false})}draw();if(!busy&&!lastCall)request();
  }
  const original=render;render=function(){const oldY=scrollY;if(root?.isConnected)root.remove();original.apply(this,arguments);basePadding=document.body.style.paddingBottom;sync();if(scrollY!==oldY)scrollTo(0,oldY)};
  document.addEventListener('visibilitychange',()=>{if(document.hidden){reset()}else sync()});window.addEventListener('pagehide',reset);window.addEventListener('pageshow',()=>{if(!document.hidden)sync()});window.addEventListener('resize',()=>{current();map?.invalidateSize({pan:false})});
