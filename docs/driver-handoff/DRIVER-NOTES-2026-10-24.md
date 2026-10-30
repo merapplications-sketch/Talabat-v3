@@ -605,3 +605,28 @@ Order: C-1, C-2, C-3, C-5 first (core only — no overlap) → T1 / T2 / T3 / T4
 **Server / data gaps (not in this scope)**: delay statement (needs a field or event + who sets it); order_events customer
 read if C-2 shows it closed (then one read RPC proposal). **Decisions kept separate (§30)**: merchant external delivery,
 company accounts / budgets, paid ads, refunds / substitutions — no activation.
+
+## 34. 30 Oct — core contracts C-1 / C-2 / C-3 / C-5 delivered (base 25225b8; views untouched)
+Only `talabat-core.js` changed (+ a check and a read-only query). Drag / location fix, C1 / C2, customer / merchant views,
+server, accounts and finance unchanged.
+- **C-1 `TLB.ordersHealth()`** → `{failing, failures, lastOkAt, lastFailAt}`. A failed orders refresh keeps the last loaded
+  orders untouched (amount `o.total`, status, driver, payment); the flag flips and the page repaints once on failure and on
+  recovery. The times are attempt times on this phone — never shown as an order time.
+- **C-2 `TLB.statusAt(id)`** → `{status, at, source:'event'|'placed'|null, state:'ok'|'loading'|'unreadable'|'none'}`.
+  `at` = latest `order_events` row whose kind = current status (server time); pending without its event = order placement
+  (`createdAt`). Reads the order's events on first call and again only when the status changes (error retry after 30 s).
+  No event → `at:null` (`none`); not readable → `unreadable`. Never the refresh time, the courier time or the phone clock.
+  Live customer permission on `order_events` UNKNOWN → owner runs `sql/verify_order_events_readonly.sql` (read-only; part 1
+  as postgres, part 2 impersonating the test customer). Query validated on a throw-away PostgreSQL 17 (both parts).
+- **C-3 `TLB.trackStatus(o)`** → `{restaurant:{key,label}, courier:{key,label}|null, ended, stale}`; RU / EN keys jr* / jc*:
+  pending «Ждёт подтверждения» / no courier card; preparing «Готовится», ready «Готов», pickedup «Передан курьеру»;
+  courier «Ищем курьера» (no driver), «Назначен» (driver, before pickup), «Везёт заказ» (pickedup), «Доставил»; while the
+  refresh fails «Назначен ранее» / «Нет обновления». Driver assigned never maps to «Готов». Also: ordersStale, statusAtL,
+  courierAtL, timeUnknown labels. No delay label (no source).
+- **C-5 `TLB.storeLink(storeId[, appUrl])`** → `<customer.html next to the current page>?store=<uuid>` or null; drops the
+  page's query / hash / session data; optional app URL. **`TLB.qrSvg(text)`** → Promise<SVG>, qrcode-generator@1.4.4
+  (MIT) from jsDelivr pinned with SRI sha384; loads on first use only.
+- Check: NEW `tools/core_contracts_check.py` 25/25 (Chromium, repo fixture): health flip + kept values + recovery; status
+  time = the event, re-read on change, none / unreadable without substitutes; mapping table; link without session data;
+  QR decoded back with jsQR = the link; tampered library refused (SRI); the link opens that store and clears the id.
+  Affected only: courier_position_check OK, address_picker_caller_check OK.

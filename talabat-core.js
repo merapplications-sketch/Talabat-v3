@@ -165,12 +165,27 @@
   }
 
   Object.assign(I.ru, {locMapFail:'Карта выбора места не загрузилась. Проверьте соединение и попробуйте снова.',locWaiting:'Определяем местоположение…',locFound:'Местоположение определено. Проверьте точку перед отправкой.',locTimeout:'Время ожидания геопозиции истекло. Повторите или выберите точку на карте.',locSecure:'Для геопозиции откройте страницу через HTTPS.'});
+  var qrLoad = null;
+  function loadQr() {
+    if (window.qrcode) return Promise.resolve(window.qrcode);
+    if (qrLoad) return qrLoad;
+    qrLoad = new Promise(function (ok, bad) {
+      var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
+      s.integrity = 'sha384-8FWZA6BGMXhsfO+BLtrJK0We6gg5o1JyO8xQm6peWDEUs17ACA5ziE/NIAkl9z2k'; s.crossOrigin = 'anonymous';
+      s.onload = function () { window.qrcode ? ok(window.qrcode) : bad(new Error('qr_unavailable')); };
+      s.onerror = function () { qrLoad = null; bad(new Error('qr_unavailable')); }; document.head.appendChild(s);
+    });
+    return qrLoad;
+  }
+  Object.assign(I.ru, {jrPending:'Ждёт подтверждения',jrPreparing:'Готовится',jrReady:'Готов',jrHanded:'Передан курьеру',jrEnded:'Заказ завершён',jcSearching:'Ищем курьера',jcAssigned:'Назначен',jcOnWay:'Везёт заказ',jcDelivered:'Доставил',jcAssignedEarlier:'Назначен ранее',jcNoUpdate:'Нет обновления',ordersStale:'Не удалось обновить заказ — показаны последние данные',statusAtL:'Статус заказа',courierAtL:'Геопозиция курьера',timeUnknown:'время неизвестно'});
+  Object.assign(I.en, {jrPending:'Awaiting confirmation',jrPreparing:'Preparing',jrReady:'Ready',jrHanded:'Handed to the courier',jrEnded:'Order closed',jcSearching:'Looking for a courier',jcAssigned:'Assigned',jcOnWay:'On the way',jcDelivered:'Delivered',jcAssignedEarlier:'Assigned earlier',jcNoUpdate:'No update',ordersStale:'Could not update the order — showing the last data',statusAtL:'Order status',courierAtL:'Courier location',timeUnknown:'time unknown'});
   Object.assign(I.en, {locMapFail:'The location picker could not load. Check your connection and try again.',locWaiting:'Finding your location…',locFound:'Location found. Check the pin before sending.',locTimeout:'Location request timed out. Retry or choose a point on the map.',locSecure:'Open the page over HTTPS to use location.'});
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
   var pagesSt = 'loading', pagesErr = '';
   var DB = { stores: [], items: [], orders: [], oitems: [], xorders: [], xitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
+  var secOk = {}, secFailAt = {}, evSt = {};   // C-1 orders health · C-2 status-event loads (27 Oct)
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, ptsSeq = 0, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   /* happy-hour windows running at a moment (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
   function hhOnNow(at) {
@@ -418,8 +433,8 @@
     var go = function () { return LOADERS[name](); };
     // a restaurant needs to know its own stores before it can ask for its orders
     var p = (name === 'orders' && ME.role === 'merchant' && !DB.stores.length) ? loadStat().then(go) : go();
-    secRun[name] = p.then(function (ch) { secFail[name] = 0; if (!secFail.stat && !secFail.orders) unbanner('tlb-err'); return !!ch; }, function (e) {
-      secFail[name] = (secFail[name] || 0) + 1; console.error(name, e); lastErr = String((e && e.message) || e);
+    secRun[name] = p.then(function (ch) { var was = secFail[name] > 0; secFail[name] = 0; secOk[name] = Date.now(); if (!secFail.stat && !secFail.orders) unbanner('tlb-err'); if (was && name === 'orders') fireSoon(); return !!ch; }, function (e) {
+      secFail[name] = (secFail[name] || 0) + 1; secFailAt[name] = Date.now(); if (name === 'orders' && secFail[name] === 1) fireSoon(); console.error(name, e); lastErr = String((e && e.message) || e);
       if (/failed to fetch|networkerror|load failed|network request failed/i.test(lastErr)) checkNet();
       if ((name === 'stat' && !DB.stores.length) || ((name === 'stat' || name === 'orders') && secFail[name] >= 2)) banner('tlb-err', t('loadFail') + ' \u00b7 ' + lastErr.slice(0, 90), '#1c1c21', 86);
       return false;
@@ -913,6 +928,62 @@
     setOpen: function (n, v) { var s = storeByName(n); return s ? rpc('set_store_open', { p_store: s.id, p_open: !!v }, true) : Promise.resolve({ error: 'generic' }); },
 
     order: function (id) { return ORD.find(function (o) { return o.id == id; }) || null; },
+    /* C-1 (27 Oct): health of the orders refresh, separate from the data. On a failed refresh the last loaded orders (amount,
+       status, driver) stay exactly as they were; this only says whether they are current.
+       -> { failing: bool, failures: n, lastOkAt: ms|null, lastFailAt: ms|null } (times = this phone's clock of the attempt;
+       never an order / status event time). */
+    ordersHealth: function () {
+      return { failing: (secFail.orders || 0) > 0, failures: secFail.orders || 0, lastOkAt: secOk.orders || null, lastFailAt: secFailAt.orders || null };
+    },
+    /* C-2 (27 Oct): time of the CURRENT status of an order, from order_events (kind = status name, at = server time).
+       Loads the order's events on first call and again when the status changes (errors retried after 30 s).
+       -> { status, at: ms|null, source: 'event' | 'placed' | null, state: 'ok' | 'loading' | 'unreadable' | 'none' }
+       'placed' = pending only: the order's own creation time (the pending event). Never the refresh time, the courier
+       position time or the phone clock. 'unreadable' = the events could not be read (e.g. no permission) -> show «unknown». */
+    statusAt: function (id) {
+      var o = ORD.find(function (x) { return x.id == id; }); if (!o) return { status: null, at: null, source: null, state: 'none' };
+      var st = evSt[o.id], now = Date.now();
+      if (sb && ME && (!st || (!st.busy && (st.status !== o.status || (st.err && now - st.t > 30000))))) {
+        var mark = evSt[o.id] = { status: o.status, t: now, busy: true, err: st ? st.err : false, loaded: st ? st.loaded : false };
+        sb.from('order_events').select('order_id,kind,at').eq('order_id', o.id).order('at').then(function (r) {
+          mark.busy = false; mark.t = Date.now();
+          if (r.error) { mark.err = true; }
+          else { mark.err = false; mark.loaded = true; DB.events = DB.events.filter(function (e) { return e.order_id !== o.id; }).concat(r.data || []); }
+          fireSoon();
+        }, function () { mark.busy = false; mark.err = true; mark.t = Date.now(); fireSoon(); });
+        st = mark;
+      }
+      var hit = null; DB.events.forEach(function (e) { if (e.order_id == o.id && e.kind === o.status) { var t = Date.parse(e.at); if (isFinite(t) && (hit === null || t > hit)) hit = t; } });
+      if (hit !== null) return { status: o.status, at: hit, source: 'event', state: 'ok' };
+      if (o.status === 'pending' && isFinite(o.createdAt)) return { status: o.status, at: o.createdAt, source: 'placed', state: 'ok' };
+      return { status: o.status, at: null, source: null, state: st && st.err ? 'unreadable' : st && (st.busy && !st.loaded) ? 'loading' : 'none' };
+    },
+    /* C-3 (27 Oct): short tracking states for the Restaurant / Courier cards (designer R1.1 wording). Order status and the
+       driver field only; a driver being assigned never means «ready». stale = the orders refresh is failing (C-1): the last
+       known states are kept and marked.
+       -> { restaurant: {key,label}, courier: {key,label}|null, ended: key|null, stale: bool } */
+    trackStatus: function (o) {
+      if (!o) return null;
+      var stale = (secFail.orders || 0) > 0, L = function (k) { return { key: k, label: t(k) }; };
+      if (['delivered', 'cancelled', 'rejected'].indexOf(o.status) >= 0) return { restaurant: L(o.status === 'delivered' ? 'jrHanded' : 'jrEnded'), courier: o.status === 'delivered' && o.driver ? L('jcDelivered') : null, ended: o.status, stale: stale };
+      var rest = { pending: 'jrPending', preparing: 'jrPreparing', ready: 'jrReady', pickedup: 'jrHanded' }[o.status] || 'jrPending';
+      var cour = o.status === 'pending' ? null : o.driver ? (stale ? 'jcAssignedEarlier' : o.status === 'pickedup' ? 'jcOnWay' : 'jcAssigned') : (stale ? 'jcNoUpdate' : 'jcSearching');
+      return { restaurant: L(rest), courier: cour ? L(cour) : null, ended: null, stale: stale };
+    },
+    /* C-5 (27 Oct): public link of a store = the customer app next to the current page + ?store=<uuid>. Only the store id
+       is carried: no query, hash, session, token or account data of the current page. base (optional) = the customer app
+       URL to use instead (e.g. the published one). -> string, or null for an invalid id / base. */
+    storeLink: function (storeId, base) {
+      var id = String(storeId || '').toLowerCase();
+      if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(id)) return null;
+      var u; try { u = new URL(base || 'customer.html', location.href); } catch (e) { return null; }
+      if (!/^https?:$|^file:$/.test(u.protocol) || u.username || u.password) return null;
+      u.search = ''; u.hash = ''; u.searchParams.set('store', id); return u.href;
+    },
+    /* QR of any text (the store link) as an SVG string. Generator loaded on first use from the pinned npm package
+       qrcode-generator@1.4.4 (MIT) on jsDelivr with Subresource Integrity; runs in the browser, no paid service.
+       -> Promise<string svg> (rejects if the library cannot load). */
+    qrSvg: function (text, cell) { return loadQr().then(function (qrcode) { var q = qrcode(0, 'M'); q.addData(String(text)); q.make(); return q.createSvgTag({ cellSize: cell || 6, margin: 4 }); }); },
     orders: function (fn) { return ORD.filter(function (o) { return !o._x && (!fn || fn(o)); }); },
     /* admin search over ALL orders (patch 35, server side, same permission as the orders list). Falls back to the loaded orders. */
     searchOrders: function (q, status) {
