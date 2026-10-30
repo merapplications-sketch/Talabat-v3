@@ -651,3 +651,17 @@ Read-only live check: verified project id `dzydscryrnahnneydnry` is Talabat, ACT
 Parallel owner request: opened both exact 25225b8 links (driver/customer) in cloud Chromium; both reached the existing sign-in form. No authenticated app session or actual iPhone available, so no new live drag/location success is claimed. Historical successful checks remain valid evidence and were not rerun; physical iPhone acceptance is still open. URLs and exact limitations are saved in `live-readonly-status.json`.
 
 Continuation: Claude integrates this single UI commit into tech/v82-int; no core contract changes needed. Verify Part 2 and authenticated live group/schedule/share/phone behavior, then owner iPhone acceptance. Branch-source preview is for review, not a deployed application update.
+
+## 36. 30 Oct 22:54 — T1–T4 4db506d integrated (base a417443 = branch head → fast-forward)
+- Review: views bind only the core contracts (trackStatus, statusAt, ordersHealth, storeLink, qrSvg); C1 keeps its
+  request / stop logic, only its mount point (courier card) and its time line («Геопозиция курьера: hh:mm» / unknown)
+  changed; composition moved into «Состав и чек»; chat, location pin, call, cancel (pending), help kept; group: existing
+  grp* handlers, host-only close / checkout, «Приём до» from expires_at; schedule: same slots, labelled selects; merchant:
+  link + QR + share / copy with failure states, QR failure leaves share / copy. No core, driver, server or finance change.
+- Affected checks only: core_contracts_check OK (customer view changed), address_picker_caller_check OK. Programmer's 119
+  Chromium checks ran on the identical tree — not repeated. WebKit / iPhone / live still open.
+- order_events part 1 (owner, admin connection): RLS on; one SELECT policy `events_read` to public using
+  can_see_order(order_id); authenticated holds table grants incl. INSERT / UPDATE / DELETE / TRUNCATE (no write policy →
+  RLS blocks API writes; TRUNCATE is not reachable through the API — same note as profiles §8; no change proposed); kinds =
+  every status + driver_assigned, at_store, at_customer. So C-2 has events for every status. Customer read is expected
+  through can_see_order but NOT proven: part 2 (impersonating the test customer) still to run.
