@@ -222,7 +222,7 @@ function mapUpd(a,force){const box=$('dmap');if(!a||!box)return;if(!window.L){if
   const sp=storePt(a),cp=a.lat!=null&&isFinite(+a.lat)?[+a.lat,+a.lng]:null,me=GEO.lat!=null?[GEO.lat,GEO.lng]:null,ot=a.status=='pickedup';
   const key=[a.id,stepOf(a),sp,cp].join('|');const ic=(c,h,cls)=>L.divIcon({className:'',html:`<div class="dmk ${cls||''}" style="background:${c}">${h||''}</div>`,iconSize:[30,30],iconAnchor:[15,15]});
   DM.__l.clearLayers();if(sp)L.marker(sp,{icon:ic(ot?'#9aa0aa':'#f1511b',ico('store',15))}).addTo(DM.__l);if(cp)L.marker(cp,{icon:ic(ot?'#1fa05a':'#9aa0aa',ico('home',15))}).addTo(DM.__l);
-  if(sp&&cp)L.polyline([sp,cp],{color:'#f1511b',weight:3,opacity:.5,dashArray:'6 8'}).addTo(DM.__l);if(me)L.marker(me,{icon:L.divIcon({className:'',html:'<div class="dmk me"></div>',iconSize:[20,20],iconAnchor:[10,10]})}).addTo(DM.__l);
+  /* 31 Oct: no straight connector between the pins — a straight line must not look like a road route. */if(me)L.marker(me,{icon:L.divIcon({className:'',html:'<div class="dmk me"></div>',iconSize:[20,20],iconAnchor:[10,10]})}).addTo(DM.__l);
   setTimeout(()=>{try{DM.invalidateSize()}catch(e){}},50);
   if(force||key!==DMK){DMK=key;const pts=[ot?cp:sp,me,ot?null:cp].filter(Boolean);const hd=document.querySelector('.hd'),sh=document.querySelector('.sht');
     if(pts.length)setTimeout(()=>{try{DM.fitBounds(pts,{paddingTopLeft:[40,(hd?hd.offsetHeight:90)+30],paddingBottomRight:[40,(sh?sh.offsetHeight:300)+70],maxZoom:16})}catch(e){}},80)}}

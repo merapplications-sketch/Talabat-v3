@@ -97,7 +97,8 @@
   function applyChrome() { ['tlb-lang', 'tlb-out'].forEach(function (id) { var e = $(id); if (e) e.style.display = chromeOn ? '' : 'none'; }); }
   function fmtMsg(txt) {
     var m = /^LOC:(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/.exec(String(txt));
-    if (m) return '<a href="https://www.google.com/maps?q=' + m[1] + ',' + m[2] + '" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline">📍 ' + esc(t('openMap')) + '</a>';
+    // 31 Oct: a shared point opens a choice of maps for exactly these coordinates (no provider forced)
+    if (m) return '<a href="#" role="button" onclick="return TLB.openPoint(' + (+m[1]) + ',' + (+m[2]) + ')" style="color:inherit;font-weight:700;text-decoration:underline">📍 ' + esc(t('openMap')) + '</a>';
     return esc(txt);
   }
   function loadLeaflet(cb, fail) {
@@ -165,6 +166,35 @@
   }
 
   Object.assign(I.ru, {locMapFail:'Карта выбора места не загрузилась. Проверьте соединение и попробуйте снова.',locWaiting:'Определяем местоположение…',locFound:'Местоположение определено. Проверьте точку перед отправкой.',locTimeout:'Время ожидания геопозиции истекло. Повторите или выберите точку на карте.',locSecure:'Для геопозиции откройте страницу через HTTPS.'});
+  /* Chooser for a point from the chat. The driver app has its own (route-layer, same server links); elsewhere a small sheet
+     with the same server links (Edge Function «route», op links). If the links cannot be loaded, the coordinates can be
+     copied — no provider is forced. */
+  function openPoint(lat, lng) {
+    lat = +lat; lng = +lng;
+    if (!isFinite(lat) || !isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return false;
+    if (typeof window.aNavigationOpenPoint === 'function' && window.aNavigationOpenPoint(lat, lng)) return false;
+    var old = document.getElementById('tlb-pt'); if (old) old.remove();
+    var ov = document.createElement('div'); ov.id = 'tlb-pt';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(23,36,60,.45);display:flex;align-items:flex-end;justify-content:center';
+    var ll = lat.toFixed(6) + ', ' + lng.toFixed(6);
+    var box = '<div role="dialog" aria-modal="true" aria-label="' + esc(t('ptTitle')) + '" style="background:#fff;width:min(430px,100%);border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));font-family:-apple-system,BlinkMacSystemFont,sans-serif;max-height:85dvh;overflow:auto">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:18px">' + esc(t('ptTitle')) + '</b><button id="tlb-pt-x" aria-label="' + esc(t('closeB') || 'Закрыть') + '" style="width:44px;height:44px;border:0;border-radius:12px;background:#f1f1f4;font-size:20px">×</button></div>' +
+      '<p style="margin:6px 0 12px;color:#536176;font-size:13px">' + esc(ll) + '</p><div id="tlb-pt-l" role="status">' + esc(t('ptLoading')) + '</div>' +
+      '<button id="tlb-pt-c" style="margin-top:12px;width:100%;min-height:44px;border:1px solid #E0E5EC;border-radius:12px;background:#fff">' + esc(t('ptCopy')) + '</button></div>';
+    ov.innerHTML = box; document.body.appendChild(ov);
+    var close = function () { ov.remove(); };
+    ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+    ov.querySelector('#tlb-pt-x').onclick = close;
+    ov.querySelector('#tlb-pt-c').onclick = function () { var b = this; try { navigator.clipboard.writeText(ll).then(function () { b.textContent = t('ptCopied'); }, function () { b.textContent = ll; }); } catch (e) { b.textContent = ll; } };
+    var ok = function (u) { return typeof u === 'string' && /^(https:\/\/(www\.google\.com\/maps\/dir\/|yandex\.ru\/maps\/|2gis\.ru\/directions\/)|yandexmaps:\/\/maps\.yandex\.(com|ru)\/)/.test(u); };
+    window.TLB.navigation({ op: 'links', to: [lat, lng] }).then(function (r) {
+      var el = ov.querySelector('#tlb-pt-l'); if (!el) return;
+      var list = (r && Array.isArray(r.links) ? r.links : []).filter(function (v) { return ok(v.app) && ok(v.web); });
+      if (!list.length) { el.textContent = t('ptNoLinks'); el.setAttribute('role', 'alert'); return; }
+      el.innerHTML = list.map(function (v) { return '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid #f0f2f5"><b>' + esc(v.name) + '</b><span style="display:flex;gap:6px"><a href="' + esc(v.app) + '" target="_blank" rel="noopener noreferrer" style="min-height:44px;display:inline-flex;align-items:center;padding:0 14px;border-radius:12px;background:#f1511b;color:#fff;text-decoration:none">' + esc(t('ptOpen')) + '</a><a href="' + esc(v.web) + '" target="_blank" rel="noopener noreferrer" style="min-height:44px;display:inline-flex;align-items:center;padding:0 8px;color:#536176">' + esc(t('ptWeb')) + '</a></span></div>'; }).join('');
+    }, function () { var el = ov.querySelector('#tlb-pt-l'); if (el) el.textContent = t('ptNoLinks'); });
+    return false;
+  }
   var qrLoad = null;
   function loadQr() {
     if (window.qrcode) return Promise.resolve(window.qrcode);
@@ -177,6 +207,8 @@
     });
     return qrLoad;
   }
+  Object.assign(I.ru, {ptTitle:'Открыть точку на карте',ptLoading:'Загружаем карты…',ptNoLinks:'Ссылки на карты недоступны. Скопируйте координаты.',ptCopy:'Скопировать координаты',ptCopied:'Скопировано',ptOpen:'Открыть',ptWeb:'Сайт'});
+  Object.assign(I.en, {ptTitle:'Open the point on a map',ptLoading:'Loading maps…',ptNoLinks:'Map links unavailable. Copy the coordinates.',ptCopy:'Copy coordinates',ptCopied:'Copied',ptOpen:'Open',ptWeb:'Website'});
   Object.assign(I.ru, {payWalletPart:'Из кошелька',payRestCash:'Наличными курьеру',payRestOther:'Остаток',payMixed:'Оплата частями'});
   Object.assign(I.en, {payWalletPart:'From the wallet',payRestCash:'Cash to the courier',payRestOther:'Remainder',payMixed:'Split payment'});
   Object.assign(I.ru, {jrPending:'Ждёт подтверждения',jrPreparing:'Готовится',jrReady:'Готов',jrHanded:'Передан курьеру',jrEnded:'Заказ завершён',jcSearching:'Ищем курьера',jcAssigned:'Назначен',jcOnWay:'Везёт заказ',jcDelivered:'Доставил',jcAssignedEarlier:'Назначен ранее',jcNoUpdate:'Нет обновления',ordersStale:'Не удалось обновить заказ — показаны последние данные',statusAtL:'Статус заказа',courierAtL:'Геопозиция курьера',timeUnknown:'время неизвестно'});
@@ -884,7 +916,7 @@
         .catch(function (e) { console.error(e); bootFail(e); });
     },
     reload: function () { return refresh(); },
-    me: me, logout: logout, toast: toast, beep: beep, ring: ring, audioReady: audioOk, unlockAudio: unlockNow, testSound: function () { unlockNow(); ringBeep(); }, fmtMsg: fmtMsg, pickLocation: pickLocation,
+    me: me, logout: logout, toast: toast, beep: beep, ring: ring, audioReady: audioOk, unlockAudio: unlockNow, testSound: function () { unlockNow(); ringBeep(); }, fmtMsg: fmtMsg, openPoint: openPoint, pickLocation: pickLocation,
     chrome: function (on) { chromeOn = !!on; applyChrome(); },
     isCash: function (o) { return /^(cash|Cash|Наличн)/.test((o && o.payment) || ''); },
     unread: function (id) { return unread[id] || 0; },

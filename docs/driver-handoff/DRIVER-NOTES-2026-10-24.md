@@ -741,3 +741,59 @@ Handoff to Claude: merge these narrow UI hunks; core, driver, C1/C2, SQL, server
   Programmer's mobile checks ran on the identical tree — not repeated. iPhone / WebKit open.
 - Observation for the designer (not changed): the driver details now name the wallet part three times (breakdown,
   invoice line, «Получите с клиента … из кошелька»).
+
+## 40. 31 Oct 20:36 — second iPhone round (orders 9116): findings, Claude's limited fixes, split (base 3592de7)
+**Owner results:** sizes improved. Grip DRAG FAILED on iPhone (tap on «Работа / Карта» only resizes) → real failure, to
+the ChatGPT programmer. External maps opened from the restaurant stage (Yandex, Google seen); at the customer stage the
+chooser showed «Дорожная навигация отключена» with no links; the chat point «Открыть на карте» opened Google directly.
+Customer location pin: picker + GPS OK. Customer tracking: «Передан курьеру», «Везёт заказ», courier map 20:20 OK.
+
+**Delivery fee audit (code; data query pending) — no pricing / finance change**
+- Source: `delivery_calc` (sql/schema_patch18.sql, unchanged since) via `delivery_quote` (shown before ordering) and again
+  inside `place_order` (patch 33: charged value; refuses `fee_changed` if it differs from the shown fee).
+- Distance = `dist_km(store, customer pin)` — a straight line between two points (function defined outside the repo;
+  definition requested in the query) × `delivery_road_factor` (app setting, default 1.3) = «≈ km по дороге» shown to the
+  customer. It is an ESTIMATE, not a road route; no distance / routing service is called, so there is no service failure
+  mode. Max `delivery_max_km` (15) → `too_far`.
+- Fee: base = stores.fee_base (0 if fee_type free); fee_type «distance» adds ceil((km − delivery_free_km)/delivery_step_km)
+  × delivery_step_price (platform settings; defaults 3 km / 0.5 km / 2 TJS). First-order free (free_first_delivery) and
+  the restaurant threshold (free_delivery_min → fee_waived, paid by the restaurant). Courier payout = fee_full + tip.
+- Findings: (1) stores.fee_per_km / fee_free_km are NOT used by this calculation (platform settings are). (2) A store
+  without coordinates gets the base fee only and no distance limit. (3) Quote failure: the customer app refuses to place
+  the order (no quote → error), the server recomputes anyway.
+- 9116 from the screens: total 188 = 180 − 2 (points) + fee + tip ⇒ fee + tip = 10; payout 10. 9115: fee + tip = 20.
+  Same restaurant — the split (base / extra / tip / waiver) and the km are in `sql/verify_delivery_fee_readonly.sql`
+  (read-only, validated on a throw-away PostgreSQL 17); result to be recorded.
+
+**Links audit:** server links (Edge Function) give the same coordinates to all three providers: Yandex `rtext=~lat,lng`,
+Google `destination=lat,lng`, 2GIS `|lng,lat` (provider order); destination = restaurant pin until pickup, customer pin
+after. Differences in the final point come from each app snapping the pin to a nearby address / entrance (Google «Nearby
+Address», Yandex road entrance), not from TALABOT. Chat point was a forced Google link.
+
+**Claude — limited fixes (this commit):**
+- core `fmtMsg` + `TLB.openPoint(lat,lng)`: a shared point opens a choice of maps for exactly that point — in the driver app
+  the same chooser (server links), in other apps a small sheet with the server links or, if unavailable, the coordinates to
+  copy. No provider forced.
+- route-layer: chooser shows «Проверяем навигацию…» while config / links load, an explicit failure + «Повторить» when they
+  fail; «Дорожная навигация отключена» only when links really are empty. Chat point mode (`aNavigationOpenPoint`),
+  returns to the chat on close; no internal-route offer for a chat point.
+- driver.html map: the dashed straight line between the restaurant and customer pins removed (a straight line must not look
+  like a road route); pins, own position and recenter unchanged.
+- Checks: NEW tools/map_points_check.py OK (loading / failure / retry, chat point = exact coordinates, back to chat, no
+  connector line, customer sheet without forced Google); navigation_attribution_check OK; driver_map_stability_check 18/0.
+  Consultant's navigation_ui_check (Chromium): stops at «disabled -> tracking … прибытия недоступно» — the SAME failure on
+  3592de7 before these changes (label text changed in 79af0bb); stale expectation, reported, not changed.
+
+**Notifications (diagnosis, nothing changed):** messages arrive by realtime / polling only while the page is open and
+visible: unread badge + `beep()` (Web Audio, needs one tap to unlock on iOS; the speaker icon = «sound not unlocked», not a
+mute of messages). No Notification API, no service worker, no Web Push → nothing while Safari is in the background, while
+the driver is in Google / Yandex Maps, or with the phone locked; the messages appear on return. System notifications would
+need Web Push (iOS 16.4+ only for an app added to the Home Screen) + a sending server function — a separate decision.
+
+**Address picker / 2GIS:** current picker = OSM tiles + pin + GPS (free). 2GIS MapGL / tiles: demo key one month with a
+request limit; production cost per request (tariffs on each API page / api@2gis.com); vector tiles only through MapGL JS;
+no activation. Free improvements possible without a provider: larger pin / labels, «my location» first, address search only
+with a geocoder decision (OSM Nominatim policy: 1 request/s, no autocomplete; or the existing Geoapify account).
+
+**Owner notes recorded:** store link / QR need a short explanation for the merchant; a raw.githack preview link is NOT
+for final printing (QR must be printed from the published app address).
