@@ -55,7 +55,7 @@ def page(b, geo='grant', tiles='ok', leaflet='ok', width=390, stores=None, me=No
     return ctx, pg, errs, net
 
 E = None
-def st(pg): return pg.evaluate("()=>({view:window.TALABOT_WAITING_MAP_UI.read(),geo:GEO.state,title:(document.querySelector('.w-title h1')||{}).textContent,"
+def st(pg): return pg.evaluate("()=>({view:window.TALABOT_WAITING_MAP_UI.read(),geo:GEO.state,title:(document.querySelector('.w-title h1,.k-wait-row b')||{}).textContent,"
                                  "rec:!!$('w-recentre')&&$('w-recentre').disabled,me:document.querySelectorAll('#w-map .dmk.me').length,"
                                  "storeMk:document.querySelectorAll('#w-map .leaflet-marker-icon .dmk:not(.me)').length,maps:document.querySelectorAll('#w-map .leaflet-container').length,"
                                  "scripts:document.querySelectorAll('script[src*=\"leaflet@1.9.4\"]').length,watch:window.__watch,lc:window.__lc})")
@@ -155,7 +155,7 @@ with sync_playwright() as p:
         ok(s['title'] == 'Ожидаем заказ' and pg.locator('.nav').is_visible() and pg.locator('#w-sheet').is_visible(), '[%d] panel, shift and navigation unchanged' % w)
         if w == 390:
             pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(1500)
-            ok(pg.evaluate("()=>TLB.offers().length") == 1 and pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route')"),
+            ok(pg.evaluate("()=>TLB.offers().length") == 1 and pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route,.k-offer')"),
                'with the map failed, a new offer still arrives (journey R1 offer panel, 26 Oct)')
             pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_timeout(1200)
             net['mode']['tiles'] = 'ok'; pg.click('#w-map .w-map-retry'); pg.wait_for_timeout(1500); s = st(pg)

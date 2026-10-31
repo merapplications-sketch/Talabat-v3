@@ -889,7 +889,7 @@ Claude's observe-only `assets/driver-tech/grip-debug.js` and core loader are ret
 
 **Remaining / handoff:** cherry-pick this UI commit onto the integration branch after checking newer overlaps in those five files. Do not cherry-pick older saved partial work separately. No main merge or app deployment performed. Real active-order iPhone repeated-drag acceptance and external-app launching remain device checks. Order-events live permissions remain unknown; no fallback timestamp introduced. Neither B1/B2 nor internal navigation/Geoapify enabled.
 
-## 44. 31 Oct 22:20 — programmer round 2 bce6061 integrated; live place_order threshold located
+## 45. 31 Oct 22:20 — programmer round 2 bce6061 integrated; live place_order threshold located
 **place_order (live, read-only result `docs/live/verify_place_order_2026-10-31.csv`):** ONE definition (13 arguments,
 165 lines). The free-delivery threshold is applied there: l.110 «subtotal − discounts ≥ stores.free_delivery_min and fee > 0»
 → l.111 fee_waived := fee, fee := 0; stored at l.126 (delivery_fee, fee_waived). Same lines as sql/schema_patch33.sql
@@ -908,3 +908,33 @@ l.279–282. Not in delivery_calc. Item closed. No change.
 - **Grip drag: FIXED IN CODE — iPhone acceptance OPEN** (owner to try during the offer view, after accepting, and after a
   data refresh). WebKit not available here.
 - Still pending from §41: distance wording «≈ … (оценка)» in customer / driver texts (not part of this delivery).
+
+## 46. 31 Oct 22:47 — owner decision: draggable panel replaced by a compact card (COMPACT-01)
+- **Drag requirement withdrawn by the owner.** The grip, the «Работа/Карта» toggle, the work/map states and the horizontal
+  swipe are no longer rendered; their binders are no-ops (driver-a.js layer COMPACT-01, CSS appended). The §45 status
+  «fixed in code — iPhone acceptance open» for the grip is closed as **superseded**, not as accepted.
+- GRIP DEBUG removed: loader deleted from talabat-core.js, assets/driver-tech/grip-debug.js deleted; `?debug=grip` now does
+  nothing.
+- Waiting: full map + small bottom bar (state, hint, geo / blocked alerts, cash on hand; red alert when over the limit).
+- Offer: compact card — earnings large, restaurant + address, destination, «≈ X км до ресторана · по прямой» (offer
+  dist_km, straight line) and «≈ Y км до клиента · оценка» (delivery_km = straight × 1.3), amount to collect;
+  «Отклонить» · «Детали» · «Принять заказ». No arrival time. Existing offer countdown / timeout unchanged.
+- Active order: fixed card — «Этап n из 4», stage name, restaurant or customer name, short address (2 lines), ready /
+  prep tag, amount to collect; «Навигация» (existing chooser) · «Позвонить» · «Чат» (existing chat, quick replies) ·
+  «Детали». Details = modal with close and its own scroll: stages, full addresses, gift / schedule / door / substitution
+  notes, cash breakdown, invoice, legs, next stop. The driver app has no separate help item to move.
+- One button per stage: accept / «Я в ресторане» / «Я у клиента» = one tap; «Заказ получен» and «Заказ доставлен» open an
+  explicit confirmation first (cash or leave-at-door delivery keeps the existing amount / photo confirmation). Same
+  handlers aRun / aDecline / deliverClick / finish, same aBlocked rules (pickup locked while preparing), AFlight / DLV
+  duplicate guards, server result awaited.
+- Not changed: accounts, tracking, coordinates, server, finance, map fixes (chooser, chat point, no straight connector),
+  both parties' messages, logo / colours / Russian texts. No proof photo addition, no Shop & Pay, no Uber data.
+- Checks (Chromium + iPhone UA, NOT WebKit, NOT a device): tools/driver_compact_check.py 40/0; map_points_check OK;
+  navigation_attribution_check OK; driver_payment_order_check OK; driver_map_stability_check 18/0; core_contracts_check OK;
+  driver_waiting_map_check 75/77 (the 2 failures are historical diffs against ab8fd6c, already failing on aed27ca); no
+  overflow at 320 / 360 / 390. Selectors in those tests updated to the new buttons (no assertion weakened).
+  Drag-only tests are superseded and not run: driver_grip_safari_check, grip_quick_check, driver_repeat_location_check
+  (driver part), driver_journey_r1_check / _edges / _layout, driver_map_chat_check (grip / swipe part),
+  driver_polish_touch_check. Consultant's navigation_ui_check left untouched (stale since 79af0bb, §28).
+- Screenshots 390: docs/driver-handoff/compact-20261031/ (waiting, offer, active, details, pickup confirmation).
+- **iPhone acceptance of the compact card: OPEN.**

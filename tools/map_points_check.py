@@ -28,7 +28,7 @@ with sync_playwright() as pw:
     ctx.route('**/*', route); pg = ctx.new_page(); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
     pg.goto((ROOT / 'driver.html').as_uri()); pg.wait_for_selector('#a-sheet')
     pg.wait_for_function("()=>typeof DM!=='undefined'&&DM&&DM!==1&&typeof DM.getCenter==='function'")
-    pg.evaluate("window.__navMode='disabled';window.__linksHold=true"); pg.locator('.a-navigation').click(); pg.wait_for_timeout(400)
+    pg.evaluate("window.__navMode='disabled';window.__linksHold=true"); pg.locator('.a-navigation,.k-act-nav').click(); pg.wait_for_timeout(400)
     t1 = pg.locator('.n-chooser').inner_text()
     ok('Загружаем' in t1 or 'Проверяем' in t1 or 'Загрузка' in t1 or pg.evaluate("t('nLoading')") in t1, 'links pending: «%s» shown, not «disabled»' % pg.evaluate("t('nLoading')"))
     ok(pg.evaluate("t('nDisabled')") not in t1, 'links pending: no «road navigation disabled» text')
