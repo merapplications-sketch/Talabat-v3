@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Оценка расстояния доставки</title>
+<style>
+:root{--ink:#17243c;--mut:#536176;--line:#e0e5ec;--o:#f1511b;--bg:#f6f7f9}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+main{max-width:860px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:8px 0}p,li{color:var(--mut)}
+textarea{width:100%;min-height:120px;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:10px;font:13px ui-monospace,monospace}
+label{display:block;margin:12px 0 4px;font-weight:600}input{border:1px solid var(--line);border-radius:10px;padding:8px;width:120px}
+button{min-height:44px;border:0;border-radius:12px;background:var(--o);color:#fff;font-weight:700;padding:0 18px;margin:12px 8px 0 0}
+button.s{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}td,th{border-bottom:1px solid var(--line);padding:6px;text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}
+.warn{color:#9a3412}
+</style></head><body><main>
+<h1>Оценка расстояния доставки: прямая × коэффициент против дороги</h1>
+<p>Инструмент только для проверки (31 окт.). Ничего не меняет в TALABOT. Сравнивает расчёт приложения
+(прямая линия × коэффициент, «≈ км») с расстоянием по дорогам из публичного демо-сервера OSRM.</p>
+<ul>
+<li>Точки клиентов НЕ используются: пары строятся от точки заведения к точкам на окружностях 1–8 км (8 направлений).</li>
+<li>Демо-сервер OSRM — только для тестов, не для работы приложения; запросы идут по одному в секунду.</li>
+<li>Точку, которая лежит далеко от дороги (более 200 м), в итог не включаем.</li>
+</ul>
+<div class="card">
+<label for="stores">Заведения: name,lat,lng (по строке). Выгрузка — только чтение:
+<code>select name, lat, lng from stores where is_active and lat is not null limit 5;</code></label>
+<textarea id="stores" placeholder="Romant Restaurant,38.5605,68.7889"></textarea>
+<label for="fac">Коэффициент дороги в приложении (delivery_road_factor)</label><input id="fac" type="number" step="0.05" value="1.3">
+<label for="rings">Радиусы, км</label><input id="rings" value="1,2,3,5,8" style="width:200px">
+<div><button id="go">Сравнить</button><button class="s" id="stop">Остановить</button><button class="s" id="csv">Скачать CSV</button></div>
+<p id="st" role="status"></p>
+</div>
+<div class="card" id="sum"></div>
+<div class="card"><table id="t"><thead><tr><th>Заведение</th><th>Направление</th><th>Прямая, км</th><th>Оценка, км</th><th>Дорога, км</th><th>Дорога / прямая</th><th>Ошибка оценки</th><th>Отступ от дороги, м</th></tr></thead><tbody></tbody></table></div>
+</main>
+<script>
+const R=6371,rad=d=>d*Math.PI/180,deg=r=>r*180/Math.PI;
+function hav(a,b){const h=Math.sin(rad(b[0]-a[0])/2)**2+Math.cos(rad(a[0]))*Math.cos(rad(b[0]))*Math.sin(rad(b[1]-a[1])/2)**2;return 2*R*Math.asin(Math.sqrt(Math.min(1,h)))}
+function dest(p,km,brg){const d=km/R,t=rad(brg),la=rad(p[0]),lo=rad(p[1]);const la2=Math.asin(Math.sin(la)*Math.cos(d)+Math.cos(la)*Math.sin(d)*Math.cos(t));
+ const lo2=lo+Math.atan2(Math.sin(t)*Math.sin(d)*Math.cos(la),Math.cos(d)-Math.sin(la)*Math.sin(la2));return [deg(la2),deg(lo2)]}
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let stop=false,rows=[];const DIRS=['С','СВ','В','ЮВ','Ю','ЮЗ','З','СЗ'];
+function parse(){return $('stores').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const p=l.split(',');const lng=+p.pop(),lat=+p.pop();return {name:p.join(',').trim(),p:[lat,lng]}})
+ .filter(s=>s.name&&Number.isFinite(s.p[0])&&Number.isFinite(s.p[1])&&Math.abs(s.p[0])<=90&&Math.abs(s.p[1])<=180).slice(0,5)}
+async function road(a,b){const u='https://router.project-osrm.org/route/v1/driving/'+a[1]+','+a[0]+';'+b[1]+','+b[0]+'?overview=false';
+ const r=await fetch(u);if(!r.ok)throw Error('HTTP '+r.status);const j=await r.json();if(j.code!=='Ok'||!j.routes?.length)throw Error(j.code||'no route');
+ return {km:j.routes[0].distance/1000,snap:Math.max(...(j.waypoints||[]).map(w=>w.distance||0))}}
+function stats(){const ok=rows.filter(r=>r.road!=null&&r.snap<=200);if(!ok.length){$('sum').textContent='Нет результатов.';return}
+ const q=a=>{const s=[...a].sort((x,y)=>x-y);return s[Math.floor(s.length/2)]},ratio=ok.map(r=>r.road/r.straight),err=ok.map(r=>(r.est-r.road)/r.road);
+ const under=err.filter(e=>e<-0.2).length,over=err.filter(e=>e>0.2).length;
+ $('sum').innerHTML='<b>Пар в итоге: '+ok.length+'</b> (исключено из-за отступа от дороги: '+rows.filter(r=>r.road!=null&&r.snap>200).length+', ошибок: '+rows.filter(r=>r.road==null).length+')<br>'+
+  'Медиана «дорога / прямая»: <b>'+q(ratio).toFixed(2)+'</b> (минимум '+Math.min(...ratio).toFixed(2)+', максимум '+Math.max(...ratio).toFixed(2)+')<br>'+
+  'Оценка приложения ниже дороги более чем на 20 %: <b>'+under+'</b>; выше более чем на 20 %: <b>'+over+'</b><br>'+
+  '<span class="warn">Это проверка точности, не новый тариф: коэффициент и цены не меняются этим инструментом.</span>'}
+function addRow(r){const tr=document.createElement('tr');tr.innerHTML='<td>'+esc(r.store)+'</td><td>'+r.ring+' км '+r.dir+'</td><td>'+r.straight.toFixed(2)+'</td><td>'+r.est.toFixed(2)+'</td><td>'+(r.road==null?esc(r.err):r.road.toFixed(2))+'</td><td>'+(r.road==null?'—':(r.road/r.straight).toFixed(2))+'</td><td>'+(r.road==null?'—':Math.round((r.est-r.road)/r.road*100)+' %')+'</td><td>'+(r.snap==null?'—':Math.round(r.snap))+'</td>';$('t').tBodies[0].appendChild(tr)}
+$('go').onclick=async()=>{stop=false;rows=[];$('t').tBodies[0].innerHTML='';const st=parse(),fac=+$('fac').value||1.3,rings=$('rings').value.split(',').map(Number).filter(v=>v>0&&v<=20);
+ if(!st.length){$('st').textContent='Добавьте хотя бы одно заведение: name,lat,lng';return}
+ const jobs=[];for(const s of st)for(const ring of rings)DIRS.forEach((dir,i)=>jobs.push({s,ring,dir,to:dest(s.p,ring,i*45)}));
+ for(let i=0;i<jobs.length&&!stop;i++){const j=jobs[i];$('st').textContent='Запрос '+(i+1)+' из '+jobs.length+'…';
+  const straight=hav(j.s.p,j.to),r={store:j.s.name,ring:j.ring,dir:j.dir,straight,est:straight*fac,road:null,snap:null,err:''};
+  try{const x=await road(j.s.p,j.to);r.road=x.km;r.snap=x.snap}catch(e){r.err=e.message}
+  rows.push(r);addRow(r);stats();await new Promise(z=>setTimeout(z,window.__fast?0:1100))}
+ $('st').textContent=stop?'Остановлено.':'Готово.'};
+$('stop').onclick=()=>{stop=true};
+$('csv').onclick=()=>{const h='store,ring_km,dir,straight_km,estimate_km,road_km,snap_m\n'+rows.map(r=>[JSON.stringify(r.store),r.ring,r.dir,r.straight.toFixed(3),r.est.toFixed(3),r.road==null?'':r.road.toFixed(3),r.snap==null?'':Math.round(r.snap)].join(',')).join('\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/csv'}));a.download='distance-compare.csv';a.click()};
+</script></body></html>

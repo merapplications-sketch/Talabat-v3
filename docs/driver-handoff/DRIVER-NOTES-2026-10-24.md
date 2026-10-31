@@ -797,3 +797,43 @@ with a geocoder decision (OSM Nominatim policy: 1 request/s, no autocomplete; or
 
 **Owner notes recorded:** store link / QR need a short explanation for the merchant; a raw.githack preview link is NOT
 for final printing (QR must be printed from the published app address).
+
+## 41. 31 Oct 20:48 — remaining audit items (proposals only; no pricing / finance / server change)
+1. **Store without coordinates** → `sql/proposed/patch41_delivery_store_location.sql` (NOT applied): `delivery_calc` raises
+   `store_location_missing` when the store has no lat / lng, so neither the shown fee (delivery_quote) nor the charged fee
+   (place_order) exists and the order cannot be confirmed. Rest of the body identical to patch 18. Proven on a throw-away
+   PostgreSQL 17 with the real patch 18 body: 4 sample pins give identical results before / after (10/1.3 km, 22/5.85,
+   42/10.98, too_far); the store without coordinates went from «fee 10, km null» to the error. Read-only list of affected
+   stores in the file header. Core already maps the error (`err_store_location_missing`, RU / EN); customer view to show it
+   (programmer). Admin already warns «Для расчёта по расстоянию укажите точку ресторана» (aNoLocW) — not a block.
+2. **fee_per_km / fee_free_km:** no editable field anywhere. Admin store form: the per-km input is no longer rendered; it shows
+   the note «Цена за км задаётся в общих тарифах доставки (вкладка «Магазины»)» (aKmOld) and saves the stored value
+   unchanged on edit (0 for a new store); fee_free_km is never shown or written by any app. Core only loads both columns.
+   Nothing misleading to disable; proposal: drop them from the admin save payload later (pure clean-up, no price effect).
+3. **Distance wording:** customer «≈ {km} км по дороге» (delivKm) and driver «{n} км до клиента» / «км до ресторана» present an
+   estimate as a road distance → rename to «≈ {km} км (оценка расстояния)» / «≈ {n} км до клиента (оценка)» (programmer,
+   texts only). Accuracy check: `tools/distance_compare.html` — store points (public) to sample points on 1–8 km rings,
+   straight × factor vs road distance from the public OSRM demo server (testing only, 1 request/s, no customer points sent,
+   points > 200 m from a road excluded); median road / straight, share of estimates off by > 20 %, CSV. Locally tested with
+   a mocked router (16 pairs); live result needs the owner's browser (this workspace cannot reach routing hosts).
+4. **External map destination:** sent coordinates identical (§40). Whether the app moves the final point is NOT verified:
+   method = for one order, read the point each app shows at the end (Google «what's here» / Yandex long-press / 2GIS point
+   card) and compare with the pin; cause stays open until then.
+5. **Web Push proposal (not enabled; background message delivery is an operating requirement)**
+   - iPhone: iOS / iPadOS 16.4+; only for the app added to the Home Screen (manifest `display: standalone`); permission asked
+     from a tap inside the installed app; every push must show a notification (no silent pushes). Android Chrome: browser or
+     installed. Each installed app (customer, driver) has its own subscription.
+   - Cost: none for keys (VAPID pair generated once) or the Apple / Google push services; Supabase Edge Function calls and
+     two small tables inside the current plan. No paid service.
+   - Files: per app `manifest-customer.webmanifest`, `manifest-driver.webmanifest`, icons; one `sw.js` (push → show
+     notification with tag `order-<id>`, click → open that order); core `TLB.push.enable() / disable() / state()`;
+     an «Уведомления» control with explanation (Home Screen requirement on iPhone).
+   - Server (proposed patch 42): `push_subscriptions(id, user_id, app, endpoint unique, p256dh, auth, created_at, last_ok_at)`
+     RLS own rows; RPC `push_register / push_unregister` (auth user only, endpoint must be https of a push service);
+     `push_sent(event_key, user_id) unique` for de-duplication; Edge Function `push` (VAPID secrets) called by database
+     webhooks on `order_chat` insert and order status change; recipients = the other party of that order only (customer /
+     assigned driver via the same rule as can_see_order), never the sender; payload = order number + short type («Новое
+     сообщение по заказу #…»), no message text or coordinates; drop subscriptions answering 404 / 410; per-order rate limit.
+   - Duplicates: one event key per chat row / status change → one push per user; tag per order replaces older ones on the
+     lock screen; the in-app beep stays for the visible page.
+   - Approval needed: patch 42, the function deploy, VAPID secrets, the Home Screen instruction for drivers.
