@@ -1,0 +1,25 @@
+{
+  "checks": 0,
+  "results": [],
+  "metrics": [
+    {
+      "name": "restaurant",
+      "width": 390,
+      "height": 716,
+      "rootWidth": 390,
+      "menuTop": 444,
+      "coverHeight": 172
+    },
+    {
+      "name": "merchant",
+      "width": 390,
+      "height": 716,
+      "rootWidth": 390
+    }
+  ],
+  "engine": "Chromium 133, isolated replies",
+  "webkit": "browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/webkit-2336/pw_run.sh",
+  "physicalIphone": false,
+  "browserReservation": "128px outside app (simulation)",
+  "base": "babae790464453f932c0a7585e68a1b6740dfc96"
+}

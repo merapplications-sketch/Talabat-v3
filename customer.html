@@ -1112,6 +1112,36 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 .p1-contact-help{margin:12px 0;border-radius:12px!important;min-height:48px}.p1-receipt>summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;min-height:44px;color:#b33c07;font-size:15px;list-style:none}.p1-receipt>summary::-webkit-details-marker{display:none}.p1-contact>h3{margin-bottom:12px;font-weight:700}.p1-contact .rg{flex-wrap:wrap}.p1-contact #ci{flex:1 1 160px;width:auto}.p1-contact .ib{flex:none;width:44px;height:44px}
 .p1-group{color:#17243C}.p1-group .card{margin-top:0}.p1-group-intro p{font-size:14px;line-height:20px;color:#536176;margin-top:12px}.p1-group .gl{gap:8px}.p1-group .gl .sm{overflow-wrap:anywhere}.p1-group .gl button{width:44px;height:44px}.p1-group .btn,.p1-group-dock .btn{border-radius:12px;min-height:48px;height:auto;padding:10px 12px;white-space:normal}.p1-group-dock{background:#fff;border-top:1px solid #E0E5EC;flex-wrap:wrap}.p1-group-dock .btn{flex:1 1 120px!important}.p1-schedule label{display:block;font-size:13px;line-height:19px;margin:14px 0 6px}.p1-schedule .tip{min-height:44px;border-radius:12px}.p1-schedule select{border:1px solid #E0E5EC;border-radius:12px;background:#f8f9fb;min-height:48px}
 @media(max-width:370px){.p1-group .pg{padding-left:12px;padding-right:12px}.p1-track-heading{font-size:22px}.p1-status{max-width:62%}}
+
+/* 31 Oct display correction: intrinsic reflow, no viewport scaling or new clipping. */
+#app .d6m .d6-cover{height:auto;min-height:calc(172px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:8px;padding:calc(12px + env(safe-area-inset-top,0px)) 12px 26px}
+#app .d6m .d6-act{position:relative;inset:auto;flex:none;min-height:44px}
+#app .d6m .d6-id{position:relative;inset:auto;margin-top:auto;min-width:0}
+#app .d6m .d6-id h1{display:block;-webkit-line-clamp:unset;overflow:visible;overflow-wrap:anywhere;font-size:20px;line-height:24px}
+#app .d6m .d6-tag{max-width:100%}
+#app .d6m .d68-earn{margin:6px 0}
+#app .d6m .d68-earn .d6-rw{min-height:36px;padding:6px 10px;margin-inline:16px;font-size:13px;line-height:18px}
+#app .d6m .d68-earn .d6-rw span{font-size:13px;line-height:18px;min-width:0;overflow-wrap:anywhere}
+#app .d6m .ui-ready-estimate-note{font-size:12px;line-height:17px;margin:4px 16px 0}
+#app .d6m .d6-ofs{padding:4px 0;gap:6px;margin-inline:16px}
+#app .d6m .d6-of{min-height:0;padding:8px 10px;border-radius:12px;gap:8px;max-width:min(272px,calc(100vw - 32px));white-space:normal}
+#app .d6m .d6-of>div{min-width:0;overflow-wrap:anywhere}
+#app .d6m .d6-of .ic{font-size:20px;line-height:24px}
+#app .d6m .d6-of b{font-size:13px;line-height:18px}
+#app .d6m .d6-of div>span{font-size:12px;line-height:17px}
+#app .d6m .d69-menu-nav{margin-top:6px}
+#app .d6m .d6-sb{margin-top:8px;margin-bottom:8px}
+#app .d6m .d6-list,#app .d6m .d6-rail{min-width:0}
+#app .d6m .d6-mi .d6-mc,#app .d6m .d6-mi .nm,#app .d6m .asheet{min-width:0;overflow-wrap:anywhere}
+#app .wallet-page .wallet-tabs{margin:0 0 14px}
+#app .wallet-page .wallet-tabs button{min-width:0;min-height:44px;overflow-wrap:anywhere}
+#app .wallet-page .dr{align-items:flex-start;flex-wrap:wrap;overflow-wrap:anywhere}
+#app .wallet-page .dr>div{flex:1 1 160px;min-width:0}
+#app .wallet-page .d6-rules{overflow-wrap:anywhere}
+#app .wallet-expiry{padding:8px 0}
+#app .chat .m{overflow-wrap:anywhere;white-space:normal;flex:none}
+#app .chat-repeat{font-size:12px;line-height:18px;color:var(--mut2)}
+#app .chat-repeat summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
 </style></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -1716,7 +1746,7 @@ window.addEventListener('scroll',()=>{if(!menuNavFrame&&S.v==='menu')menuNavFram
 /* points the customer gets for this restaurant (the current cart, or the rule) */
 TLB.addDict({v71RewardCart:'За блюда в корзине · начислим после доставки',v71RewardRate:'За покупки здесь · подробнее по нажатию'},{v71RewardCart:'For items in your cart · credited after delivery',v71RewardRate:'Earn on purchases here · tap for details'});
 function d6Earn(){const L=TLB.loyalty&&TLB.loyalty(),sd=ALLS.find(x=>x.n==S.store)||{},er=sd.er!=null?sd.er:(L?+L.earn_per_tjs||0:0);if(!L||!(er>0))return '';const c=S.cartStore==S.store&&cartCount()?calc():null;
-  return `<section class="d68-earn ui-ready-reward"><div class="d6-rw">${ico('star',16,1)} <span class="d71-reward-copy"><span>${c&&c.earn>0?t('ptsEarn').replace('{n}',fmtN(c.earn)):t('ptsEarnRule').replace('{n}',fmtN(er))}</span><small>${t(c&&c.earn>0?'v71RewardCart':'uiReadyRewardRate')}</small></span></div><p class="d6-rwn ui-ready-estimate-note">${t('ernNote')}</p></section>`}
+  return `<section class="d68-earn ui-ready-reward"><div class="d6-rw">${ico('star',16,1)} <span class="d71-reward-copy"><span>${c&&c.earn>0?t('ptsEarn').replace('{n}',fmtN(c.earn)):t('ptsEarnRule').replace('{n}',fmtN(er))}</span></span></div><p class="d6-rwn ui-ready-estimate-note">${t('ernNote')}</p></section>`}
 /* ---------- CART ---------- */
 function stepper(id,q){return `<div class="d6-q"><button aria-label="${q==1?t('removeI'):'−'}" onclick="${q==1?`delLine('${id}')`:`add('${id}',-1)`}">${ico(q==1?'trash':'minus')}</button><span>${q}</span><button aria-label="+" ${q>=50?'disabled':''} onclick="add('${id}',1)">${ico('plus')}</button></div>`}
 /* v06.1 cart: line cards (photo, options, the dish request, price, quantity with remove / «Вернуть»), suggestions, group order, comment */
@@ -1815,24 +1845,26 @@ const fmtN=n=>String(Math.round(+n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,'\u202f'
 function walletCard(c){if(!(c.bal>0))return '';
   return `<div class="card"><div class="rg" style="gap:12px"><span class="or">${ico('card',22)}</span><div style="flex:1;min-width:0"><b>${t('walUse')}</b><div class="xs mut" style="margin-top:2px">${t('walUseS').replace('{b}',c.bal)}</div></div><button class="wsw d76-wallet-toggle ${S.useWallet?'on':''}" onclick="S.useWallet=!S.useWallet;render()" aria-label="${t('walUse')}" role="switch" aria-checked="${!!S.useWallet}"><i></i></button></div>${S.useWallet&&c.w>0?`<div class="xs" style="color:var(--ok);margin-top:8px;font-weight:600">\u2212${c.w} TJS</div>`:''}</div>`}
 /* v06.1 wallet: balance, points (vouchers, progress to the next one, rules), wallet operations, points / cashback history */
+function walletTabSelect(key){S.walletPanel=key;render();document.getElementById('wallet-tab-'+key)?.focus({preventScroll:true})}
+function walletTabKey(e){if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();walletTabSelect(e.key==='Home'?'wallet':e.key==='End'?'points':S.walletPanel==='points'?'wallet':'points')}
 function vWallet(){const w=TLB.wallet();TLB.loadWallet();const L=TLB.loyalty&&TLB.loyalty(),on=!!(L&&+L.points_per_tjs>0);
   const who=e=>e.note?esc(e.note):e.kind=='refund'?(t('supT')+(e.ticketId?' #'+e.ticketId:'')):(e.orderId?t('supOrderL')+' #'+e.orderId:'');
   const wrow=e=>`<div class="dr"><div style="min-width:0"><b>${t('wk_'+e.kind)}</b><div class="xs mut" style="margin-top:2px">${who(e)} · ${fmtD(e.at)}</div></div><b style="color:${e.amount>0?'var(--ok)':'var(--bad)'};white-space:nowrap">${e.amount>0?'+':'−'}${Math.abs(e.amount)} TJS</b></div>`;
   let pts='';if(on){const b=+L.balance||0,vp=+L.voucher_points||1000,vv=Math.round(vp/(+L.points_per_tjs)*100)/100,nv=Math.floor(b/vp),left=vp-(b%vp),pc=Math.round((b%vp)/vp*100);
-    const exp=L.next_exp_at&&+L.next_exp_pts>0?`<div class="xs" style="margin-top:6px;color:var(--bad)">${t('ptsExp').replace('{n}',fmtN(L.next_exp_pts)).replace('{d}',fmtD(Date.parse(L.next_exp_at)))}</div>`:'';
+    const exp=L.next_exp_at&&+L.next_exp_pts>0?`<div class="xs wallet-expiry" style="margin-top:6px;color:var(--bad)">${t('ptsExp').replace('{n}',fmtN(L.next_exp_pts)).replace('{d}',fmtD(Date.parse(L.next_exp_at)))}</div>`:'';
     pts=`<h3 style="margin:20px 2px 10px;font-size:20px">${t('d6PtsT')}</h3><div class="card d6-pts"><div class="row"><div class="am">${fmtN(b)}<small>${t('ptsU')}</small></div><span class="cp">${t('d6Vch').replace('{n}',nv)}</span></div>
     <div class="sm" style="margin-top:4px;font-weight:600">${t('d6Rate').replace('{n}',fmtN(vp)).replace('{v}',vv)}</div><div class="d6-prog"><i style="width:${Math.max(2,pc)}%"></i></div>
     <div class="xs mut">${t('toNextV').replace('{n}',fmtN(left)).replace('{v}',vv)}</div>
-    <div class="d6-pts-help"><div class="d6-earn-rate">${t('v66EarnRate').replace('{n}',fmtN(L.earn_per_tjs))}</div><button class="d6-lnk" aria-label="${t('d6Rules')}" aria-expanded="${!!S.wRules}" onclick="S.wRules=!S.wRules;render()">${t('v66Details')}</button></div>${S.wRules?`<div class="d6-rules">${exp}<span>${t('ptsR1').replace('{n}',fmtN(L.earn_per_tjs))}</span><span>${t('ptsR2').replace('{n}',fmtN(vp)).replace('{v}',vv)}</span><span>${t('ptsR3').replace('{n}',fmtN(L.min_redeem)).replace('{m}',+L.min_order||0)}</span><span>${t('ptsR4').replace('{n}',L.expiry_days)}</span>${+L.cashback_pct>0?`<span>${t('ptsR5').replace('{n}',+L.cashback_pct)}</span>`:''}</div>`:''}</div>`}
-  const hist=(TLB.points&&TLB.points())||[],cb=w.entries.filter(e=>e.kind=='cashback'),tab=S.wTab=='cb'?'cb':'pts';
+    <div class="d6-pts-help"><div class="d6-earn-rate">${t('v66EarnRate').replace('{n}',fmtN(L.earn_per_tjs))}</div><button class="d6-lnk" aria-label="${t('d6Rules')}" aria-expanded="${!!S.wRules}" onclick="S.wRules=!S.wRules;render()">${t('v66Details')}</button></div>${exp}${S.wRules?`<div class="d6-rules"><span>${t('ptsR3').replace('{n}',fmtN(L.min_redeem)).replace('{m}',+L.min_order||0)}</span><span>${t('ptsR4').replace('{n}',L.expiry_days)}</span>${+L.cashback_pct>0?`<span>${t('ptsR5').replace('{n}',+L.cashback_pct)}</span>`:''}</div>`:''}</div>`}
+  const hist=(TLB.points&&TLB.points())||[],cb=w.entries.filter(e=>e.kind=='cashback'),tab='pts',pointsTab=on&&S.walletPanel==='points';
   const htab=tab=='pts'?(hist.length?`<div class="card" style="padding:2px 16px">${hist.slice(0,20).map(e=>`<div class="dr"><div style="min-width:0"><b>${t('pk_'+e.kind)}</b><div class="xs mut" style="margin-top:2px">${e.orderId?t('supOrderL')+' #'+e.orderId+' · ':''}${fmtD(e.at)}</div></div><b style="color:${e.points>0?'var(--ok)':'var(--bad)'};white-space:nowrap">${e.points>0?'+':'−'}${fmtN(Math.abs(e.points))}</b></div>`).join('')}</div>`:`<div class="card"><div class="sm mut">${t('d6NoPts')}</div></div>`)
     :(cb.length?`<div class="card" style="padding:2px 16px">${cb.map(wrow).join('')}</div>`:`<div class="card"><div class="sm mut">${t('d6NoCb')}</div></div>`);
-  return topbar(t('d6WalT'),'',"go('home')")+`<div class="pg">
+  return topbar(t('d6WalT'),'',"go('home')")+`<div class="pg wallet-page">
+  ${on?`<div class="d6-tabs wallet-tabs" role="tablist" aria-label="${t('d6WalT')}"><button id="wallet-tab-wallet" role="tab" aria-controls="wallet-panel" aria-selected="${!pointsTab}" class="${pointsTab?'':'on'}" tabindex="${pointsTab?-1:0}" onkeydown="walletTabKey(event)" onclick="walletTabSelect('wallet')">${t('walT')}</button><button id="wallet-tab-points" role="tab" aria-controls="points-panel" aria-selected="${!!pointsTab}" class="${pointsTab?'on':''}" tabindex="${pointsTab?0:-1}" onkeydown="walletTabKey(event)" onclick="walletTabSelect('points')">${t('ptsT')}</button></div>`:''}
+  ${pointsTab?`<section id="points-panel" role="tabpanel" aria-labelledby="wallet-tab-points">${pts}<h3 style="margin:20px 2px 10px;font-size:20px">${t('ptsHist')}</h3>${htab}</section>`:`<section id="wallet-panel" ${on?'role="tabpanel" aria-labelledby="wallet-tab-wallet"':''}>
   <div class="d6-bal d69-wallet"><div class="d69-wallet-head"><div class="lb">${t('d6BalL')}</div>${ico('card',24)}</div><div class="am">${w.balance}<small>TJS</small></div><p class="d69-wallet-copy">${t('walExp')}</p></div>
-  ${pts}
   <button class="d6-dis ${S.wOps?'on':''}" aria-expanded="${!!S.wOps}" onclick="S.wOps=!S.wOps;render()">${t('d6Ops')}${ico('down',18)}</button>
-  ${S.wOps?(w.entries.length?`<div class="card" style="padding:2px 16px;margin-top:-4px">${w.entries.map(wrow).join('')}</div>`:emptyV(t('walNone'),t('walNoneS'),'','card')):''}
-  ${on?`<h3 style="margin:20px 2px 10px;font-size:20px">${t('walHist')}</h3><div class="d6-tabs" role="tablist"><button role="tab" aria-selected="${tab=='pts'}" class="${tab=='pts'?'on':''}" onclick="S.wTab='pts';render()">${t('ptsHist')}</button><button role="tab" aria-selected="${tab=='cb'}" class="${tab=='cb'?'on':''}" onclick="S.wTab='cb';render()">${t('d6CbH')}</button></div>${htab}`:''}</div>`}
+  ${S.wOps?`<div class="d6-tabs" role="group" aria-label="${t('d6Ops')}"><button class="${S.wTab==='cb'?'':'on'}" aria-pressed="${S.wTab!=='cb'}" onclick="S.wTab='all';render()">${t('fAll')}</button><button class="${S.wTab==='cb'?'on':''}" aria-pressed="${S.wTab==='cb'}" onclick="S.wTab='cb';render()">${t('d6CbH')}</button></div>${(S.wTab==='cb'?cb:w.entries).length?`<div class="card" style="padding:4px 16px">${(S.wTab==='cb'?cb:w.entries).map(wrow).join('')}</div>`:emptyV(S.wTab==='cb'?t('d6NoCb'):t('walNone'),t('walNoneS'),'','card')}`:''}</section>`}</div>`}
 /* ---------- PAYMENT (address, method, tip, promo, summary) ---------- */
 function vPay(){const c=calc();if(!Object.keys(S.cart).length)return vCart();if(badKeys().length){S.v='cart';return vCart()}
   const sp=ALLS.find(x=>x.n==S.cartStore)||{},cashOnly=sp.po===false;if(cashOnly&&S.pay!='cash')S.pay='cash';   /* patch 38: a cash-only place shows no electronic method */
@@ -1989,6 +2021,8 @@ function trackCards(o){const st=TLB.trackStatus(o),event=TLB.statusAt(o.id),at=e
  return `${TLB.ordersHealth().failing?`<p class="p1-stale" role="status">${t('ordersStale')}</p>`:''}<section class="card p1-restaurant"><div class="p1-track-title"><h3>${t('p1Restaurant')}</h3><span class="p1-status">${esc(st.restaurant.label)}</span></div><div class="p1-progress" aria-hidden="true">${[0,1,2].map(i=>`<i class="${n>i?'done':n===i?'current':''}"></i>`).join('')}</div><p class="p1-time">${t('statusAtL')}: ${esc(at)}</p>${uiReadyCustomerPrep(o)}</section>${st.courier?`<section class="card p1-courier"><div class="p1-track-title"><h3>${t('courier')}</h3><span class="p1-status courier">${esc(st.courier.label)}</span></div>${o.driverName?`<p class="p1-driver-name">${esc(o.driverName)}</p>`:''}${o.status==='pickedup'?'<div id="p1-courier-map"></div>':''}</section>`:''}`}
 function trackReceipt(o,done){return `<details class="card p1-receipt"><summary>${t('p1Receipt')} ${ico('down',16)}</summary>${receipt(o,done)}</details>`}
 
+TLB.addDict({chatCopies:'Повторы: {n}'},{chatCopies:'Repeated entries: {n}'});
+function trackChat(o){const groups=[];for(const m of o.chat||[]){const g=groups[groups.length-1];if(g&&Number.isFinite(m.at)&&g.m.at===m.at&&g.m.s===m.s&&g.m.t===m.t)g.items.push(m);else groups.push({m,items:[m]})}const bubble=m=>`<div class="m ${m.s==='client'?'me':''}">${TLB.fmtMsg(m.t)}</div>`;return groups.map(g=>bubble(g.m)+(g.items.length>1?`<details class="chat-repeat"><summary>${t('chatCopies').replace('{n}',g.items.length)}</summary>${g.items.slice(1).map(bubble).join('')}</details>`:'')).join('')}
 function vTrack(){const o=TLB.order(S.tid);if(!o)return vOrders();const banner=S.fresh==o.id&&o.status=='pending'?`<div class="placed" onclick="S.fresh=null;render()"><span>${ico('check',20)}</span><b>${t('placedBanner')}</b></div>`:'';
   const dead=o.status=='rejected'||o.status=='cancelled',done=o.status=='delivered';
   if((done||dead)&&S.owl!==o.id&&TLB.orderWallet){S.owl=o.id;S.ow=null;const id=o.id;TLB.orderWallet(id).then(l=>{if(S.owl===id){S.ow=l===null?'err':l;render()}})}
@@ -1997,7 +2031,7 @@ function vTrack(){const o=TLB.order(S.tid);if(!o)return vOrders();const banner=S
   return `<div class="d6 d6p">`+topbar(`${t('orderN')} #${o.id}`,esc(o.store),"S.fresh=null;go('orders')")+`<div class="pg">${banner}${o.scheduledFor?`<div class="okb sch" style="margin:0 0 12px">${ico('clock',18)}<b>${t('schedAt').replace('{t}',fmtWhen(o.scheduledFor))}</b></div>`:''}${o.status=='pickedup'&&o.arrivedCustAt?`<div class="okb sch" style="margin:0 0 12px">${ico('bike',18)}<b>${t('courAtYou')}</b></div>`:['preparing','ready'].includes(o.status)&&o.arrivedStoreAt&&o.driver?`<div class="okb sch" style="margin:0 0 12px;background:#eef2ff;color:#3730a3">${ico('bike',18)}<b>${t('courAtRest')}</b></div>`:''}
   <h1 class="p1-track-heading">${t('trk_'+o.status)}</h1>${orderSummary(o)}${trackCards(o)}${trackReceipt(o,false)}
   ${o.driver?`<section class="card p1-contact"><h3>${t('p1Contact')}</h3><div class="cur-card"><div class="av">${o.driverName?esc(String(o.driverName).charAt(0).toUpperCase()):ico('bike',22)}</div><div style="flex:1;min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${o.driverName?esc(o.driverName):t('drvAssigned')}</b><div class="xs mut">${t('courier')}</div></div>${o.driverPhone&&live?`<a class="cbt call" style="width:44px;height:44px" href="${telH(o.driverPhone)}" aria-label="${t('callCourier')}" title="${t('callCourier')}">${ico('phone',20)}</a>`:''}</div>
-  <div class="chat" id="ch">${(o.chat||[]).map(m=>`<div class="m ${m.s=='client'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
+  <div class="chat" id="ch">${trackChat(o)}</div>
   ${live?`<div class="rg"><input class="fld" type="text" id="ci" maxlength="200" placeholder="${t('chatH')}" value="${esc(CD[o.id]||'')}" oninput="CD[S.tid]=this.value;CE[S.tid]=false"><button class="ib" style="box-shadow:none;background:#f1f1f4" onclick="sendLoc()" ${locShareBusy(o.id)?'disabled aria-busy="true"':''} aria-label="${t('sendLoc')}">${ico('pin',18)}</button><button class="btn sm" id="cisend" ${CS[o.id]?'disabled aria-busy="true"':''} onclick="sendChat()">${CS[o.id]?'…':t('send')}</button></div>${locShareFeedback(o.id)}${CE[o.id]?`<div class="xs" id="cierr" role="alert" style="color:var(--bad);font-weight:600;margin-top:6px">${t('chatFail')}</div>`:''}`:''}</section>`:`<button class="btn s big p1-contact-help" onclick="openRep(${esc(JSON.stringify(o.id))})">${ico('chat',18)} ${t('p1Contact')}</button>`}
 
   ${S.cxe&&S.cxe.id==o.id?`<div class="closedb" id="cxerr" role="alert" style="margin:0 0 12px;display:block">${esc(S.cxe.msg)}</div>`:''}${o.status=='pending'?`<button class="btn s big" id="cxbtn" ${S.cxb==o.id?'disabled aria-busy="true"':''} onclick="cancelO()">${S.cxb==o.id?t('cxBusy'):t('cancelO')}</button>`:''}${reportBtn(o)}</div></div>`}
@@ -2104,11 +2138,12 @@ function render(){
   const n=cartCount(),cc=n?calc():null,bar=n&&['home','menu','cat','fav','promo'].includes(S.v)&&!S.sh?`<div class="bar" onclick="goCart()" role="button" aria-label="${t('cartBarL')}"><span class="n">${n}</span><span class="l">${t('cartBarL')}</span><span class="p">${Math.round((cc.sub-cc.d-cc.h)*100)/100} TJS</span></div>`:'';
   const on=k=>S.v==k||(k=='home'&&['cat','menu'].includes(S.v))||(k=='orders'&&S.v=='track')||(k=='me'&&['support','settings','about','privacy'].includes(S.v))||(k=='promo'&&S.v=='offer');
   const navH=full?'':`<div class="nav">${nav.map(k=>`<div class="${on(k)?'on':''}" onclick="${k=='home'?"S.q='';":''}go('${k}')">${ico(ni[k],24)}${t(k=='promo'?'promoTab':k)}${k=='orders'&&un?`<span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
-  const a=document.activeElement,kid=a&&['ci','sq','cq','ph','pc','mq','nt','shn','rc','afs','afh','afe','aff','afa','afn','rpm','tkm','tmpn','gfn','gfp'].includes(a.id)?a.id:null,keep=kid?a.value:null;
+  const a=document.activeElement,walletFocus=a&&/^wallet-tab-(wallet|points)$/.test(a.id)?a.id:null,kid=a&&['ci','sq','cq','ph','pc','mq','nt','shn','rc','afs','afh','afe','aff','afa','afn','rpm','tkm','tmpn','gfn','gfp'].includes(a.id)?a.id:null,keep=kid?a.value:null;
   const _o=document.querySelector('.osh'),_ost=_o?_o.scrollTop:0,_osw=!!_o;
   const D6P=['pay','wallet','me','addrForm'].includes(S.v),D6W=D6P?'d6p':S.v=='home'?'d6h':S.v=='cat'?'d6l':'';$('app').innerHTML=(D6W?'<div class="d6 '+D6W+'">'+V+'</div>':V)+bar+navH+addrSheet()+roSheet()+repSheet()+cxnSheet()+(S.v=='home'?hfSheet()+ntfSheet():'');
   const _n=document.querySelector('.osh');if(_n&&_osw&&S.sh&&S.sh.keep)_n.scrollTop=_ost;document.documentElement.classList.toggle('shopen',!!S.sh);
   if(kid&&$(kid)){const e=$(kid);if(kid!=='ci')e.value=keep;e.focus();e.setSelectionRange(e.value.length,e.value.length)}   /* the chat field takes its text from the per-order draft (never another order's text) */
+  if(walletFocus)$(walletFocus)?.focus({preventScroll:true});
   dishViewport();const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();menuAfter();
   cartSave();if(['home','wallet','track'].includes(S.v))milestone();
   if(document.body&&document.body.style)document.body.style.paddingBottom=full?'0px':bar?'calc(150px + env(safe-area-inset-bottom,0px))':'calc(84px + env(safe-area-inset-bottom,0px))'}
