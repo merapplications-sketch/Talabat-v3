@@ -177,6 +177,8 @@
     });
     return qrLoad;
   }
+  Object.assign(I.ru, {payWalletPart:'Из кошелька',payRestCash:'Наличными курьеру',payRestOther:'Остаток',payMixed:'Оплата частями'});
+  Object.assign(I.en, {payWalletPart:'From the wallet',payRestCash:'Cash to the courier',payRestOther:'Remainder',payMixed:'Split payment'});
   Object.assign(I.ru, {jrPending:'Ждёт подтверждения',jrPreparing:'Готовится',jrReady:'Готов',jrHanded:'Передан курьеру',jrEnded:'Заказ завершён',jcSearching:'Ищем курьера',jcAssigned:'Назначен',jcOnWay:'Везёт заказ',jcDelivered:'Доставил',jcAssignedEarlier:'Назначен ранее',jcNoUpdate:'Нет обновления',ordersStale:'Не удалось обновить заказ — показаны последние данные',statusAtL:'Статус заказа',courierAtL:'Геопозиция курьера',timeUnknown:'время неизвестно'});
   Object.assign(I.en, {jrPending:'Awaiting confirmation',jrPreparing:'Preparing',jrReady:'Ready',jrHanded:'Handed to the courier',jrEnded:'Order closed',jcSearching:'Looking for a courier',jcAssigned:'Assigned',jcOnWay:'On the way',jcDelivered:'Delivered',jcAssignedEarlier:'Assigned earlier',jcNoUpdate:'No update',ordersStale:'Could not update the order — showing the last data',statusAtL:'Order status',courierAtL:'Courier location',timeUnknown:'time unknown'});
   Object.assign(I.en, {locMapFail:'The location picker could not load. Check your connection and try again.',locWaiting:'Finding your location…',locFound:'Location found. Check the pin before sending.',locTimeout:'Location request timed out. Retry or choose a point on the map.',locSecure:'Open the page over HTTPS to use location.'});
@@ -969,6 +971,16 @@
       var rest = { pending: 'jrPending', preparing: 'jrPreparing', ready: 'jrReady', pickedup: 'jrHanded' }[o.status] || 'jrPending';
       var cour = o.status === 'pending' ? null : o.driver ? (stale ? 'jcAssignedEarlier' : o.status === 'pickedup' ? 'jcOnWay' : 'jcAssigned') : (stale ? 'jcNoUpdate' : 'jcSearching');
       return { restaurant: L(rest), courier: cour ? L(cour) : null, ended: null, stale: stale };
+    },
+    /* C-6 (31 Oct): how an order is paid, from the stored order values only (no new calculation of prices, fees or
+       settlement). total = order total (server); wallet = amount the server took from the customer's wallet; rest = what is
+       left for the order's payment method (cash to the courier when the method is cash — same rule as the driver's due()).
+       -> { total, wallet, rest, method: 'cash'|'card'|'apple'|'wallet'|…, restCash: bool, mixed: bool, points } */
+    paymentParts: function (o) {
+      if (!o) return null;
+      var r2 = function (v) { return Math.round((+v || 0) * 100) / 100; }, total = r2(o.total), wallet = Math.min(total, Math.max(0, r2(o.walletUsed)));
+      var rest = r2(Math.max(0, total - wallet)), method = o.payment || (rest === 0 && wallet > 0 ? 'wallet' : '');
+      return { total: total, wallet: wallet, rest: rest, method: method, restCash: rest > 0 && /^(cash|Cash|Наличн)/.test(method), mixed: wallet > 0 && rest > 0, points: r2(o.pointsValue) };
     },
     /* C-5 (27 Oct): public link of a store = the customer app next to the current page + ?store=<uuid>. Only the store id
        is carried: no query, hash, session, token or account data of the current page. base (optional) = the customer app

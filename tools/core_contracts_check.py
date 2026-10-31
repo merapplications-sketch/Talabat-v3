@@ -79,6 +79,15 @@ with sync_playwright() as pw:
             'delivered/D': ['jrHanded', 'jcDelivered', 'delivered'], 'cancelled/-': ['jrEnded', None, 'cancelled']}
     ok(all(table[k] == v for k, v in want.items()), 'C-3 mapping (driver assigned never = ready): ' + json.dumps({k: table[k] for k in want}, ensure_ascii=False))
     ok(pg.evaluate("TLB.trackStatus({status:'preparing',driver:'d'}).courier.label") == 'Назначен', 'C-3 labels from the dictionary (RU)')
+    # ---------- C-6 payment parts (31 Oct): order 9115 values as seen on the phone; stored values only ----------
+    pp = pg.evaluate("TLB.paymentParts({total:315,walletUsed:153.52,payment:'cash',pointsValue:0})")
+    ok(pp == {'total': 315, 'wallet': 153.52, 'rest': 161.48, 'method': 'cash', 'restCash': True, 'mixed': True, 'points': 0},
+       'C-6 order 9115 shape: wallet 153.52 + cash to the courier 161.48 = total 315, mixed: %s' % pp)
+    drv = pg.evaluate("Math.max(0,Math.round(((315)-(153.52))*100)/100)")
+    ok(pp['rest'] == drv, 'C-6 rest equals the driver app due() rule (%s)' % drv)
+    full = pg.evaluate("TLB.paymentParts({total:120,walletUsed:120,payment:'wallet'})"); cash = pg.evaluate("TLB.paymentParts({total:120,walletUsed:0,payment:'cash'})")
+    ok(full['rest'] == 0 and not full['mixed'] and not full['restCash'] and cash['rest'] == 120 and not cash['mixed'] and cash['restCash'],
+       'C-6 wallet-only and cash-only orders are not «mixed»')
     # ---------- C-5 store link + QR ----------
     link = pg.evaluate('TLB.storeLink(%s)' % json.dumps(UUID.upper()))
     u = pg.evaluate('location.href')

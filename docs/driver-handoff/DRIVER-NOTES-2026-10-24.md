@@ -674,3 +674,32 @@ Continuation: Claude integrates this single UI commit into tech/v82-int; no core
 - Scope of the proof: this one test customer account, read only, 31 Oct. Matches the policy seen in part 1
   (`events_read` via can_see_order). C-2 `statusAt` therefore has a readable source for customers; no permission change,
   no re-run of checks. Still open: iPhone acceptance and the live journeys.
+
+## 38. 31 Oct 18:30 — first iPhone journey (owner) + display fixes split (base f138973)
+**Accepted — only what was tried:** one live order #9115 on iPhone Safari with the existing test accounts, placed
+31 Oct 18:08 and delivered 18:14 (customer store page → order with wallet + cash → merchant → driver mission → delivered;
+cashback 5.9 credited to the wallet 18:14). NOT closed by this round: group order, merchant link / QR, external navigation
+(open + return), customer location pin, customer tracking screen states, repeated grip drag — each needs its own result.
+
+**Claude — order 9115 reconciliation (source formulas vs the screens; no pricing / settlement change):**
+- Items 180 + 80 + 15 + 20 = 295 = subtotal (merchant «Блюда»). Commission 5 % × 295 = 14.75. Cashback = round(paid ×
+  store cashback_pct), paid = subtotal − discounts − promo − points = 295 → 5.9 ⇒ cashback_pct 2 (trg_loyalty, patch 33),
+  paid by the restaurant. Merchant «Вам» 295 − 14.75 − 5.9 = 274.35 ✔.
+- Customer wallet: −153.52 at 18:08 = wallet_used (place_order takes least(requested, balance, total)); driver «Получить
+  от клиента» 161.48 = total − wallet_used (driver due()) ⇒ total = 315.00. total = subtotal − discounts − promo − points +
+  delivery_fee + tip ⇒ fee + tip − discounts = 20; driver «Ваш заработок» 20 = driver_payout. Payment stays «cash» because
+  the wallet did not cover the total — a mixed payment.
+- Stored values to confirm: `sql/verify_order_9115_readonly.sql` (one read-only statement; validated on a throw-away
+  PostgreSQL 17) → delivery_fee / tip / discounts / payout and the wallet rows.
+- New core contract C-6 `TLB.paymentParts(o)` → {total, wallet, rest, method, restCash, mixed, points} from the stored values
+  (rest = driver due() rule) + labels payWalletPart / payRestCash / payRestOther / payMixed. core_contracts_check +3 → OK.
+
+**Claude — «Адрес ресторана не указан» (driver, Romant Restaurant):** code path is correct: stores are loaded with the
+`address` column for every role; the store row is visible to the driver (its pin is on the map); the text is the existing
+fallback when `stores.address` is empty. So the address is missing in the data — confirmed by the same query («store» rows).
+Fix = data: the restaurant (merchant app, store settings) or the admin fills the address. No code change, no data change
+by Claude.
+
+**ChatGPT programmer — display only (designs, drag, tracking and money logic unchanged):** see the assignment in the
+owner's chat of 31 Oct; covers top safe area on the store page, store-page loyalty text repeated, wallet rules repeated,
+chat repetition, merchant order sheet («Блюда» = «Сумма по блюдам» shown twice; mixed payment line via C-6).
