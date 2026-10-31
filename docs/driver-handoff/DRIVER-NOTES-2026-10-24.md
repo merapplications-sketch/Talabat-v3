@@ -857,3 +857,13 @@ Result: `docs/live/verify_delivery_fee_2026-10-31.csv`; live function texts save
   (295) and 9116 (180) the subtotal is below 350 → no waiver, consistent with fee_waived 0.
 - Still open (separate items): accuracy of the road estimate (tools/distance_compare.html), grip drag on iPhone,
   notifications / Web Push.
+
+## 43. 31 Oct 21:34 — grip diagnostics link + live place_order check prepared
+- `assets/driver-tech/grip-debug.js`, loaded by core only when the address has `?debug=grip`: passive capture listeners
+  and a pointer-events:none overlay (touch / pointer / click counts, prevented touchmoves, grip touch-action, snap, sheet
+  top, scrollY, visualViewport, lock class, last events). Observes only — drag result identical with and without it
+  (Chromium touch simulation: default → collapsed both). Screenshot docs/driver-handoff/grip-debug-chromium-390.png.
+  The programmer's debug item is covered by this; his drag fix stays his.
+- This workspace cannot read the live database. `sql/verify_place_order_readonly.sql` (one read-only statement, validated
+  locally with two overloads): one «definition i of N» row per place_order overload + every line with free_delivery_min /
+  fee_waived / v_waived and its line number.
