@@ -52,39 +52,45 @@ document.addEventListener('click',e=>{if(AClickBlock&&e.detail>0){e.preventDefau
 function aNotice(x){return AResult?.kind==='success'&&String(AResult.id)===String(x.id)&&AResult.at&&Date.now()-AResult.at<2300?`<div class="a-confirmed" role="status">${ico('check',16)} ${t('aSuccess')}</div>`:''}
 function aMetrics(){const panel=$('a-sheet'),dock=$('a-dock'),head=document.querySelector('.a-header'),body=$('a-sheet-body');if(!panel||!dock||!head||!body)return null;const bottom=$('app').getBoundingClientRect().bottom-dock.offsetHeight,header=head.getBoundingClientRect().bottom,cap=Math.max(80,bottom-header-44-48);body.style.maxHeight=cap+'px';const prior=body.style.height,was=panel.classList.contains('a-map-mode');body.style.height='';panel.classList.remove('a-map-mode');const work=Math.min(cap,body.scrollHeight);panel.classList.add('a-map-mode');const map=Math.min(cap,body.scrollHeight);panel.classList.toggle('a-map-mode',was);body.style.height=prior;return{bottom,expanded:bottom-44-work,default:bottom-44-work,collapsed:bottom-44-map,dock:dock.offsetHeight,cap}}
 
-function aPaint(top,drag=false){const m=aMetrics();if(!m)return;const panel=$('a-sheet'),body=$('a-sheet-body');panel.classList.toggle('a-dragging',drag);if(drag)body.style.height=Math.max(m.bottom-44-Math.max(m.expanded,m.collapsed),Math.min(m.bottom-44-Math.min(m.expanded,m.collapsed),m.bottom-44-top))+'px';else body.style.height='';panel.dataset.y=panel.getBoundingClientRect().top;const isMap=ASnap==='collapsed';$('a-grip').setAttribute('aria-expanded',String(!isMap));$('a-mode-toggle').setAttribute('aria-expanded',String(!isMap));$('a-mode-toggle').setAttribute('aria-label',t(isMap?'jToWork':'jToMap'));$('a-mode-name').textContent=t(isMap?'jMap':'jWork');$('a-mode-toggle').innerHTML=aJourneyIcon(isMap?'receipt':'map',16)+t(isMap?'jWork':'jMap');if(DM&&DM!==1)DM.invalidateSize?.({animate:false})}
+function aPaint(top,drag=false,metrics=null){const m=metrics||aMetrics();if(!m)return;const panel=$('a-sheet'),body=$('a-sheet-body');panel.classList.toggle('a-dragging',drag);if(drag)body.style.height=Math.max(m.bottom-44-Math.max(m.expanded,m.collapsed),Math.min(m.bottom-44-Math.min(m.expanded,m.collapsed),m.bottom-44-top))+'px';else body.style.height='';panel.dataset.y=panel.getBoundingClientRect().top;const isMap=ASnap==='collapsed';$('a-grip').setAttribute('aria-expanded',String(!isMap));$('a-mode-toggle').setAttribute('aria-expanded',String(!isMap));$('a-mode-toggle').setAttribute('aria-label',t(isMap?'jToWork':'jToMap'));$('a-mode-name').textContent=t(isMap?'jMap':'jWork');$('a-mode-toggle').innerHTML=aJourneyIcon(isMap?'receipt':'map',16)+t(isMap?'jWork':'jMap');if(DM&&DM!==1)DM.invalidateSize?.({animate:false})}
 function aSnap(name){ASnap=name==='collapsed'||name==='map'?'collapsed':'default';const panel=$('a-sheet');if(!panel)return;panel.classList.remove('a-collapsed');panel.classList.toggle('a-map-mode',ASnap==='collapsed');const m=aMetrics();if(m)aPaint(m[ASnap]);$('a-sheet-body').scrollTop=0}
 function aBindSheet(){
  const grip=$('a-grip');if(!grip)return;
  let gesture=null;
  function end(cancel,x,y){
   const g=gesture;if(!g)return;gesture=null;window.__drag=0;ASheetClickUntil=performance.now()+750;
-  if(g.source==='pointer'){try{if(grip.hasPointerCapture(g.id))grip.releasePointerCapture(g.id)}catch(_){}}
-  const dx=x-g.x,dy=y-g.y,moved=Math.max(Math.abs(dx),Math.abs(dy))>8;
+  g.clean?.();if(g.source==='pointer'){try{if(grip.hasPointerCapture(g.id))grip.releasePointerCapture(g.id)}catch(_){}}
+  const dx=x-g.x,dy=y-g.y;const moved=Math.max(Math.abs(dx),Math.abs(dy))>8;
   ASheetMoved=g.moved||moved;
   if(cancel)aSnap(g.stable);
   else if(g.axis==='y'&&Math.abs(dy)>=36&&Math.abs(dy)>Math.abs(dx)*1.3)aSnap(dy>0?'collapsed':'default');
   else if(!ASheetMoved)aJourneyToggle();
   else aSnap(g.stable);
+
   if(window.__rp){window.__rp=0;render()}
  }
- function begin(source,id,x,y){if(AFlight||gesture)return false;gesture={source,id,x,y,lastX:x,lastY:y,top:$('a-sheet').getBoundingClientRect().top,stable:ASnap,axis:null,moved:false};ASheetMoved=false;window.__drag=1;return true}
- function move(x,y){const g=gesture;if(!g)return;g.lastX=x;g.lastY=y;const dx=x-g.x,dy=y-g.y;if(!g.axis&&Math.max(Math.abs(dx),Math.abs(dy))>8)g.axis=Math.abs(dy)>Math.abs(dx)*1.3?'y':'cancel';if(g.axis)g.moved=true;if(g.axis==='y')aPaint(g.top+dy,true)}
- // Touch has its own lifecycle on iOS. Do not mix its compatibility pointer/click stream into the gesture.
- grip.addEventListener('touchstart',e=>{if(e.touches.length!==1){if(gesture)end(true,gesture.lastX,gesture.lastY);return}const q=e.touches[0];begin('touch',q.identifier,q.clientX,q.clientY)},{passive:true});
+ function begin(source,id,x,y){if(AFlight||gesture)return false;gesture={source,id,x,y,lastX:x,lastY:y,top:$('a-sheet').getBoundingClientRect().top,stable:ASnap,metrics:aMetrics(),axis:null,moved:false};ASheetMoved=false;window.__drag=1;return true}
+ function move(x,y){const g=gesture;if(!g)return;g.lastX=x;g.lastY=y;const dx=x-g.x,dy=y-g.y;if(!g.axis&&Math.max(Math.abs(dx),Math.abs(dy))>8)g.axis=Math.abs(dy)>Math.abs(dx)*1.3?'y':'cancel';if(g.axis)g.moved=true;if(g.axis==='y')aPaint(g.top+dy,true,g.metrics);}
+ // First delivered input stream owns the gesture; compatibility streams never start a second one.
+ grip.addEventListener('touchstart',e=>{if(e.touches.length!==1){if(gesture)end(true,gesture.lastX,gesture.lastY);return}if(e.cancelable)e.preventDefault();if(gesture)return;const q=e.touches[0];begin('touch',q.identifier,q.clientX,q.clientY)},{passive:false});
  grip.addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault();if(gesture?.source!=='touch')return;const q=[...e.touches].find(t=>t.identifier===gesture.id);if(q)move(q.clientX,q.clientY)},{passive:false});
- grip.addEventListener('touchend',e=>{if(gesture?.source!=='touch')return;const q=[...e.changedTouches].find(t=>t.identifier===gesture.id);if(q)end(false,q.clientX,q.clientY)},{passive:true});
+ grip.addEventListener('touchend',e=>{if(e.cancelable)e.preventDefault();if(gesture?.source!=='touch')return;const q=[...e.changedTouches].find(t=>t.identifier===gesture.id);if(q)end(false,q.clientX,q.clientY)},{passive:false});
  grip.addEventListener('touchcancel',()=>{if(gesture?.source==='touch')end(true,gesture.lastX,gesture.lastY)},{passive:true});
- grip.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.isPrimary===false||e.button!==0)return;if(begin('pointer',e.pointerId,e.clientX,e.clientY)){try{grip.setPointerCapture(e.pointerId)}catch(_){end(true,e.clientX,e.clientY)}}});
- grip.addEventListener('pointermove',e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId)move(e.clientX,e.clientY)});
- grip.addEventListener('pointerup',e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId)end(false,e.clientX,e.clientY)});
- for(const name of ['pointercancel','lostpointercapture'])grip.addEventListener(name,e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId)end(true,gesture.lastX,gesture.lastY)});
+ grip.addEventListener('pointerdown',e=>{if(e.isPrimary===false||e.button!==0)return;if(!begin('pointer',e.pointerId,e.clientX,e.clientY))return;
+  // Capture normally keeps the terminal events on the grip. Active-only document listeners cover capture failure.
+  const moved=e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId){move(e.clientX,e.clientY)}};
+  const up=e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId){end(false,e.clientX,e.clientY)}};
+  const stop=e=>{if(gesture?.source==='pointer'&&gesture.id===e.pointerId){end(true,gesture.lastX,gesture.lastY)}};
+  document.addEventListener('pointermove',moved,true);document.addEventListener('pointerup',up,true);document.addEventListener('pointercancel',stop,true);grip.addEventListener('lostpointercapture',stop);
+  gesture.clean=()=>{document.removeEventListener('pointermove',moved,true);document.removeEventListener('pointerup',up,true);document.removeEventListener('pointercancel',stop,true);grip.removeEventListener('lostpointercapture',stop)};
+  try{grip.setPointerCapture(e.pointerId)}catch(_){}
+ });
  const cancel=()=>{if(gesture)end(true,gesture.lastX,gesture.lastY)};AJourneyCancelDrag=cancel;
  // Bound to this node: no window listeners accumulate across the existing render loop.
- grip.addEventListener('blur',cancel);
+ // Element focus changes are not a cancelled drag. Window blur/pagehide/hidden still cancel below.
  grip.addEventListener('click',e=>{e.preventDefault();if(performance.now()<ASheetClickUntil||gesture)return;if(e.detail===0)aJourneyToggle()});
  grip.addEventListener('keydown',e=>{if(['Enter',' ','Home','End','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();if(e.repeat)return;cancel();ASheetClickUntil=performance.now()+750;if(e.key==='Enter'||e.key===' ')aJourneyToggle();else aSnap(e.key==='Home'||e.key==='ArrowUp'?'default':'collapsed')}});
- AObserver?.disconnect();AObserver=new ResizeObserver(aJourneyQueueLayout);AObserver.observe($('a-dock'));AObserver.observe(document.querySelector('.a-header'));aSnap(ASnap)
+ AObserver?.disconnect();AObserver=new ResizeObserver(aJourneyQueueLayout);AObserver.observe($('a-dock'));AObserver.observe(document.querySelector('.a-header'));aSnap(ASnap);
 }
 
 /* Existing real Leaflet map is retained. Never copy the package's SVG demo map/positions. */
@@ -100,7 +106,7 @@ if(DRV)render();
 /* Message draft/loading/error are presentation state; same TLB.chat service and payload. */
 const ADrafts={},AChatBusy={},AChatErrors={};
 async function aChatSend(id,text){if(AChatBusy[id])return;const typed=text==null,value=String(typed?(ADrafts[id]??''):text).trim();if(!value)return;AChatBusy[id]=true;AChatErrors[id]='';chatOpen=true;render();try{const r=await TLB.chat(id,'driver',value);if(!r||r.error)AChatErrors[id]=t('aFail');else if(typed&&String(ADrafts[id]??'').trim()===value)ADrafts[id]=''}catch(e){AChatErrors[id]=t('aFail')}finally{AChatBusy[id]=false;render()}}
-chatSheet=function(x){return `<div class="ov" onclick="chatOpen=false;render()"><div class="md a-chat-modal" role="dialog" aria-modal="true" aria-label="${t('chatT')}" onclick="event.stopPropagation()"><div class="row"><h3>${t('chatT')} · ${esc(x.client.name)}</h3>${aButton(ico('x',20),'chatOpen=false;render()','round',`aria-label="${t('closeB')}"`)}</div><div class="qrow">${[1,2,3,4,5,6,7].map(n=>aButton(esc(t('q'+n)),`aChatSend(${aId(x.id)},t('q${n}t'))`,'chip',AChatBusy[x.id]?'disabled':'')).join('')}</div><div class="chat" id="ch">${x.chat.map(m=>`<div class="m ${m.s==='driver'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div><label for="ci">${t('msgPh')}</label><input id="ci" type="text" maxlength="200" value="${esc(ADrafts[x.id]||'')}" placeholder="${t('msgPh')}" oninput="ADrafts[${aId(x.id)}]=this.value;AChatErrors[${aId(x.id)}]=''"><div class="row">${aButton(ico('pin',20),`sendLoc(${aId(x.id)})`,'round',`aria-label="${t('sendLoc')}"`)}${aButton(AChatBusy[x.id]?t('aCheck'):t('sendB'),`aChatSend(${aId(x.id)})`,'b',AChatBusy[x.id]?'disabled aria-busy="true"':'')}</div>${AChatErrors[x.id]?`<p class="a-error" role="alert">${esc(AChatErrors[x.id])}</p>`:''}</div></div>`};
+chatSheet=function(x){return `<div class="ov" onclick="chatOpen=false;render()"><div class="md a-chat-modal" role="dialog" aria-modal="true" aria-label="${t('chatT')}" onclick="event.stopPropagation()"><div class="row"><h3>${t('chatT')} · ${esc(x.client.name)}</h3>${aButton(ico('x',20),'chatOpen=false;render()','round',`aria-label="${t('closeB')}"`)}</div><div class="qrow">${driverQuickIds(x).map(n=>aButton(esc(t('q'+n)),`aChatSend(${aId(x.id)},t('q${n}t'))`,'chip',AChatBusy[x.id]?'disabled':'')).join('')}</div><div class="chat" id="ch">${x.chat.map(m=>`<div class="m ${m.s==='driver'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div><label for="ci">${t('msgPh')}</label><input id="ci" type="text" maxlength="200" value="${esc(ADrafts[x.id]||'')}" placeholder="${t('msgPh')}" oninput="ADrafts[${aId(x.id)}]=this.value;AChatErrors[${aId(x.id)}]=''"><div class="row">${aButton(ico('pin',20),`sendLoc(${aId(x.id)})`,'round',`aria-label="${t('sendLoc')}"`)}${aButton(AChatBusy[x.id]?t('aCheck'):t('sendB'),`aChatSend(${aId(x.id)})`,'b',AChatBusy[x.id]?'disabled aria-busy="true"':'')}</div>${AChatErrors[x.id]?`<p class="a-error" role="alert">${esc(AChatErrors[x.id])}</p>`:''}</div></div>`};
 function aFitVisible(x){if(!window.L||!DM||DM===1||!$('a-sheet'))return;const client=aTaskStage(x)>=3,sp=storePt(x),cp=x.lat!=null&&x.lng!=null&&Number.isFinite(+x.lat)&&Number.isFinite(+x.lng)?[+x.lat,+x.lng]:null,me=GEO.lat!=null&&GEO.lng!=null?[GEO.lat,GEO.lng]:null,target=client?cp:sp,pts=[target,me].filter(Boolean);const top=$('a-sheet').getBoundingClientRect().top;if(pts.length){try{DM.invalidateSize();DM.fitBounds(pts,{paddingTopLeft:[36,28],paddingBottomRight:[36,Math.max(0,innerHeight-top+12)],maxZoom:16})}catch(e){}}}
 const AMapWithState=mapUpd;mapUpd=function(x,force){AMapWithState(x,force);setTimeout(()=>{if(aTask()&&String(aTask().id)===String(x.id))aFitVisible(x)},110)};
 const APaintOriginal=aPaint;aPaint=function(top,drag=false){APaintOriginal(top,drag);if(!drag&&aTask())requestAnimationFrame(()=>aFitVisible(aTask()))};

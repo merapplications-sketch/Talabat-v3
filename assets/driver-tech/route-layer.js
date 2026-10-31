@@ -106,6 +106,6 @@
  window.addEventListener('pagehide',()=>reset());
  // Bounded lifecycle tick: stops provider requests off the mission; checks policy/staleness without creating a GPS watch.
  setInterval(()=>{const x=task();if(!x||document.hidden){if(currentKey)reset();return;}update(x);},1000);
- const css=document.createElement('style');css.textContent='.n-provider{margin:12px 0}.n-provider>div{display:flex;gap:8px;margin-top:6px}.n-provider a{min-height:44px;flex:1;font-size:13px}.a-map-state{max-width:calc(100% - 32px);white-space:normal}';document.head.appendChild(css);
+ const css=document.createElement('style');css.textContent='.n-chooser .n-provider{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 12px;margin:0;padding:8px 0}.n-chooser .n-provider>b{min-width:0;overflow-wrap:anywhere}.n-chooser .n-provider>div{display:grid;grid-template-columns:auto auto;align-items:center;gap:8px;margin:0}.n-chooser .n-provider .n-open{min-height:44px;font-size:13px}.n-chooser .n-provider .n-web{min-height:44px;font-size:11px;padding:0 4px;font-weight:400}.n-chooser .n-body{overflow-y:auto;overscroll-behavior:contain}@media(max-width:370px){.n-chooser .n-provider{gap:6px}.n-chooser .n-provider>div{gap:4px}.n-chooser .n-open{padding:0 10px}}.a-map-state{max-width:calc(100% - 32px);white-space:normal}';document.head.appendChild(css);
  window.__routeLayer={state:()=>({key:currentKey,hasRoute:!!route,mode,reason,inflight:!!flight,following}),refreshPolicy:()=>policy(true)};
 })();
