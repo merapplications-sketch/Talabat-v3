@@ -665,3 +665,12 @@ Continuation: Claude integrates this single UI commit into tech/v82-int; no core
   RLS blocks API writes; TRUNCATE is not reachable through the API — same note as profiles §8; no change proposed); kinds =
   every status + driver_assigned, at_store, at_customer. So C-2 has events for every status. Customer read is expected
   through can_see_order but NOT proven: part 2 (impersonating the test customer) still to run.
+
+## 37. 31 Oct 18:00 — order_events customer read verified (C-2 permission note closed for this scope)
+- Owner ran part 2 of `sql/verify_order_events_readonly.sql` in the SQL Editor impersonating the existing test customer
+  (role authenticated; `me` = 7c5cf358-…-eed30ab18fb9, profile role customer). Result: `docs/live/verify_order_events_part2_2026-10-31.csv`.
+- Read: the customer sees the events of his own orders (5 latest: 8 events each for delivered orders — every status +
+  driver_assigned / at_store / at_customer; 4 for the rejected one). Isolation: `foreign_events_visible = 0`.
+- Scope of the proof: this one test customer account, read only, 31 Oct. Matches the policy seen in part 1
+  (`events_read` via can_see_order). C-2 `statusAt` therefore has a readable source for customers; no permission change,
+  no re-run of checks. Still open: iPhone acceptance and the live journeys.

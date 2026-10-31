@@ -1,0 +1,8 @@
+item,value,detail
+me,7c5cf358-f276-411e-8d99-eed30ab18fb9,customer
+own_order 9114,delivered,"events_visible=8 kinds=at_customer,at_store,delivered,driver_assigned,pending,pickedup,preparing,ready"
+own_order 9113,rejected,"events_visible=4 kinds=driver_assigned,pending,preparing,rejected"
+own_order 9112,delivered,"events_visible=8 kinds=at_customer,at_store,delivered,driver_assigned,pending,pickedup,preparing,ready"
+own_order 9111,delivered,"events_visible=8 kinds=at_customer,at_store,delivered,driver_assigned,pending,pickedup,preparing,ready"
+own_order 9110,delivered,"events_visible=8 kinds=at_customer,at_store,delivered,driver_assigned,pending,pickedup,preparing,ready"
+foreign_events_visible,0,
