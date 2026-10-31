@@ -937,4 +937,51 @@ l.279–282. Not in delivery_calc. Item closed. No change.
   (driver part), driver_journey_r1_check / _edges / _layout, driver_map_chat_check (grip / swipe part),
   driver_polish_touch_check. Consultant's navigation_ui_check left untouched (stale since 79af0bb, §28).
 - Screenshots 390: docs/driver-handoff/compact-20261031/ (waiting, offer, active, details, pickup confirmation).
-- **iPhone acceptance of the compact card: OPEN.**
+- **Superseded by the integration in §48** (the programmer's parallel f1e725e was kept as the base; see §48).
+
+## 47. 31 Oct — programmer f1e725e: owner replaces panel gestures with compact fixed driver UI
+
+Decision supersedes the old grip requirement and its acceptance item. Independent branch `ui/driver-compact-20261031`, base **aed27caf5287ea1cf40bd056f95a2d2d0e74b0a1** (includes bce6061 and Claude's later integration notes). Original Russian logo, fonts and orange/navy/peach identity retained. Reference images used for composition only; no Uber content, Shop & Pay, new proof-photo flow or demo map/data copied into the app.
+
+- **Removed panel gestures:** no a-grip/w-grip nodes, Work/Map toggle, snap state, vertical gesture handlers or horizontal confirmation slider in the active view. Source bindSwipe hook is a no-op for compatibility. Map pan/zoom, its stable framing policy and existing technical providers stay intact. Geometry uses the actual visualViewport/dvh and safe areas; cards sit before the button footer in layout. No gesture diagnostic is loaded, even with an old `?debug=grip` URL. Core change is **exactly the two-line diagnostic-loader removal** requested by the owner; no contract or service change. Diagnostic source retained in repository history, not used by the app.
+- **Waiting:** map fills the available area; compact status strip above the existing navigation. Location/connectivity messages remain secondary/clear; a blocked/cash-limit warning remains visible without the large panel. Fixed a stacking issue caught in capture: the transparent app interaction layer is above the waiting map, so status/nav/recenter controls are visible and touchable while map touches pass through the empty area.
+- **Offer:** payout prominent from x.payout, restaurant and delivery destination, only supplied distances labelled «Оценка расстояния», supplied offer deadline, decline/details and direct «Принять заказ». No intermediate open-order action for the primary offer, no ETA invented. Other offers remain reachable from details. Availability/offer expiry/accept/decline handlers and rules unchanged.
+- **Active:** fixed compact card contains current step, restaurant/customer name, short address (full value in details), cash due from existing due(x) or paid-online label, navigation/call/chat/details controls. No repeated payout block. Invoice, original cash breakdown/item notes, full destinations, schedule/gift/delivery notes and earnings/distance breakdown are in a scrollable closeable details dialog. Help uses the existing supportInfo phone if provided; otherwise says the support contact is not supplied (no permission/fetch expansion). General order note is not exposed by current core; no new field/contract invented. Item notes remain in the source invoice.
+- **Step execution:** clear ordinary button. Accept calls current aRun directly. Other stages open explicit confirmation; confirmation is bound to task id + stage and re-checks readiness before calling aRun. A state change cannot turn an old confirmation into a different action. Pickup and delivery never show success before the response. Existing AFlight/DLV and source finish/confirmDeliver/cash-mismatch-note rules remain. The pre-existing leave-at-door proof condition remains in the original handler; no additional photography requirement introduced. Cancelled order notice, shift/menu/history/profile, all chat and map chooser states retained.
+
+**Files:** assets/driver-a/driver-a.js, assets/driver-a/driver-a.css; talabat-core.js diagnostic loader removal only; this existing log; tools/driver_compact_check.cjs and compact-20261031 evidence. driver.html, customer.html, merchant.html, route-layer/navigation-model/map-view/waiting-map and customer C1/C2 are byte-identical to the base. No accounts/finance/GPS coordinates/tracking/server/SQL changes.
+
+**Affected validation:** compact-20261031/results.json — **79 checks**, Chromium 133 local mobile/touch simulation, isolated existing fixture services. Layout at 360/390/430 and app heights 652/716/804, browser-space reservation transitions 128/68/128; no control behind footer, no horizontal overflow; native touch map pan and zoom; retained manual view; full long addresses/item notes and retained details scroll; no grip/mode/slider/diagnostic even with old query; cash warning hit-testing; offer accept pending/duplicate/success/expiry and decline; pickup explicit cancel/pending/failure/duplicate/readiness/success; customer arrival; delivery cash-note validation/pending/duplicate/server success; noncash explicit confirmation; stale confirmation rejection; protected-file equality and exact core delta. Initial test setup incorrectly mutated shaped copies rather than the underlying fixture; corrected to raw tables + TLB.reload for stress/expiry/stale cases. Map snapshot setup now disables Leaflet's animation before comparing settled coordinates. These were fixture corrections, not changes to app contracts. Checkpoints retained during execution so the closed earlier suites were not re-run.
+
+**Screenshots:** waiting-390.png, offer-390.png, active-390.png, details-390.png — actual application source with isolated fixtures. OSM tile responses are transparent test doubles, so the map background in these captures is blank; markers/controls/layout are real Leaflet, not a replacement map. Not live GPS, not an iPhone screenshot. WebKit executable remains unavailable (previous evidence; no redundant install/retry). Old grip tests are superseded by the owner's new decision, not labelled a successful physical fix. Actual iPhone acceptance of the new button/card interface remains OPEN, as does external-app launching on device. No unrelated closed suites repeated.
+
+**Claude handoff:** cherry-pick this compact UI commit after checking any newer overlaps; do not reapply the removed grip fix. Keep all current route/quick-reply changes. No main merge, app publish, server deploy or live operational writes performed. Remaining: review new composition and actual iPhone with Safari bars/keyboard/safe-area; verify real tiles/GPS and external provider launching through the already existing services. No new backend requirement introduced.
+
+## 48. 31 Oct 23:26 — integration: programmer f1e725e kept as the base, Claude's 88209be layer dropped, gaps ported
+- **Why f1e725e:** it removes the drag code in place (no dead grip / snap / swipe code left behind an override), binds every
+  confirmation to order id + stage (a confirmation opened for one stage cannot run after the order moved on), keeps the
+  details scroll across data renders and adds the support contact (TLB.supportInfo) in details. Claude's 88209be did the
+  same job as an override layer appended to driver-a.js / .css; that layer is **not** in the integration (not applied twice).
+- **Ported from 88209be into the programmer's functions (driver-a.js, 2 functions + 1 CSS line):**
+  - aStepClick: accept and the two «arrived» steps are one tap (owner: only pickup and delivery need an explicit
+    confirmation); cash or leave-at-door delivery goes straight to the existing amount / photo confirmation (it was
+    confirmed twice in f1e725e); online pickup / delivery keep the programmer's bound confirmation.
+  - aOfferDistance: one line per value, labelled by its source — «До ресторана: ≈ X км · по прямой» (offer dist_km,
+    straight line driver → restaurant) and «Ресторан → клиент: ≈ Y км · оценка» (delivery_km = straight × 1.3); numbers
+    formatted (1 decimal) instead of raw values; «Оценка расстояния» heading kept.
+- **Same wording elsewhere (dictionary only):** driver.html toTarget «≈ {n} км до цели · по прямой», restToCust «≈ {n} км до
+  клиента · оценка», kmToRest «… · по прямой»; customer.html delivKm «≈ {km} км · оценка» (was «по дороге» — wrong: it is
+  not a road distance). Restaurant-list km in customer.html (hKm) unchanged.
+- grip-debug.js stays deleted (unreferenced after both commits removed the loader).
+- Waiting strip difference accepted from f1e725e: the title stays «Ожидаем заказ» while the location loads (the loading hint
+  is shown under it); cash on hand is shown only as the red over-limit alert.
+- **Checks on the integrated tree (Chromium + iPhone UA, NOT WebKit, NOT a device):** tools/driver_compact_check.py 43/0
+  (retargeted to the programmer's DOM; adds arrive one-tap, cash single confirmation, decline once, stale confirmation);
+  programmer's tools/driver_compact_check.cjs: the offer / step / delivery / protected-files part 30/30 after act() tolerates
+  one-tap steps; its layout loop stops at «details scroll survives data render 430» **identically on f1e725e itself** in this
+  environment (not caused by the integration). map_points_check OK, navigation_attribution_check OK,
+  driver_payment_order_check OK, driver_map_stability_check 18/0 (snap churn → render churn), driver_waiting_map_check 75/77
+  (same 2 historical diffs vs ab8fd6c), core_contracts_check OK, no overflow at 320 / 360.
+- Screenshots 390 (integrated build): compact-20261031/waiting, offer, active, details, pickup-confirm. results.json there is
+  the programmer's own run on f1e725e.
+- **iPhone acceptance of the compact UI: OPEN.**

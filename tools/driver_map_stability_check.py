@@ -49,7 +49,8 @@ def churn(pg, ctx, sel_snap):
     for d in (0.02, 0.04, 0.06):   # ~2-7 km: visible as a marker move even at the wide Tashkent-Dushanbe zoom
         ctx.set_geolocation({'latitude': TAS['latitude'] + d, 'longitude': TAS['longitude'] + d, 'accuracy': 30}); pg.wait_for_timeout(700)
     pg.wait_for_timeout(2500)                                   # offer countdown / periodic sections
-    for snap in ('collapsed', 'expanded', 'default'): pg.evaluate(sel_snap % snap); pg.wait_for_timeout(450)
+    # compact card (31 Oct): no snap states any more — repeated renders stand in for the old panel snaps
+    for snap in ('collapsed', 'expanded', 'default'): pg.evaluate('()=>render()'); pg.wait_for_timeout(450)
     for h in (760, 700, 844): pg.set_viewport_size({'width': 390, 'height': h}); pg.wait_for_timeout(450)   # Safari toolbar shows / hides
 
 with sync_playwright() as p:
@@ -71,7 +72,7 @@ with sync_playwright() as p:
     pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_timeout(2500)
     # offer arrives while waiting: panel grows, view stays
     k = nviews(pg); pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(2500)
-    ok(pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route,.k-offer')") and not views(pg, k), 'waiting: an offer arrives -> journey offer panel (R1), 0 view changes (%s)' % views(pg, k))
+    ok(pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route,.a-new-offer')") and not views(pg, k), 'waiting: an offer arrives -> journey offer panel (R1), 0 view changes (%s)' % views(pg, k))
     # R1: the offer stays on the journey panel; withdraw it to return to the waiting map
     pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_selector('#w-map .leaflet-container'); pg.wait_for_timeout(1500)
     # user zoom (wheel) is kept through GPS / renders / resize; «my location» brings the driver back

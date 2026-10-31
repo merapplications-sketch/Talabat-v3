@@ -31,7 +31,7 @@ with sync_playwright() as pw:
         pg.goto((ROOT / 'driver.html').as_uri()); pg.wait_for_selector('#a-sheet')
         pg.wait_for_function("()=>typeof DM!=='undefined'&&DM&&DM!==1&&typeof DM.getCenter==='function'")
         pg.evaluate("()=>{const x=window.__UI_TABLES.orders.find(x=>x.id==='ord1');x.lat=40.27934;x.lng=69.6332017;Object.assign(GEO,{state:'ok',lat:38.56,lng:68.78,acc:10,at:Date.now()});TLB.reload()}")
-        pg.locator('.a-navigation,.k-act-nav').click(); pg.wait_for_selector('.n-provider')
+        pg.locator('.a-navigation').click(); pg.wait_for_selector('.n-provider')
         pg.get_by_role('button', name='Внутри TALABOT', exact=True).click()
         pg.wait_for_function("()=>__routeLayer.state().mode==='internal'", timeout=10000)
         a = pg.evaluate("""()=>{const l=[...document.querySelectorAll('#dmap .leaflet-control-attribution a')].find(a=>/Geoapify/.test(a.textContent));if(!l)return null;

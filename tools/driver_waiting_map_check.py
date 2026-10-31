@@ -55,7 +55,7 @@ def page(b, geo='grant', tiles='ok', leaflet='ok', width=390, stores=None, me=No
     return ctx, pg, errs, net
 
 E = None
-def st(pg): return pg.evaluate("()=>({view:window.TALABOT_WAITING_MAP_UI.read(),geo:GEO.state,title:(document.querySelector('.w-title h1,.k-wait-row b')||{}).textContent,"
+def st(pg): return pg.evaluate("()=>({view:window.TALABOT_WAITING_MAP_UI.read(),geo:GEO.state,title:(document.querySelector('.w-title h1,.w-title strong')||{}).textContent,"
                                  "rec:!!$('w-recentre')&&$('w-recentre').disabled,me:document.querySelectorAll('#w-map .dmk.me').length,"
                                  "storeMk:document.querySelectorAll('#w-map .leaflet-marker-icon .dmk:not(.me)').length,maps:document.querySelectorAll('#w-map .leaflet-container').length,"
                                  "scripts:document.querySelectorAll('script[src*=\"leaflet@1.9.4\"]').length,watch:window.__watch,lc:window.__lc})")
@@ -83,19 +83,19 @@ with sync_playwright() as p:
             inside = "()=>{const h=document.querySelector('.a-header').getBoundingClientRect().bottom,t=$('w-sheet').getBoundingClientRect().top;return [...document.querySelectorAll('#w-map .leaflet-marker-icon')].map(e=>{const r=e.getBoundingClientRect();return r.top>=h-2&&r.bottom<=t+2&&r.left>=0&&r.right<=innerWidth}).every(Boolean)}"
             ok(pg.evaluate(inside), 'first view: driver + every drawn restaurant inside the uncovered strip (header..panel), no radius applied')
             mpos = "()=>{const r=document.querySelector('#w-map .dmk.me').getBoundingClientRect();return [Math.round(r.left),Math.round(r.top)]}"
-            p0 = pg.evaluate(mpos); pg.evaluate("()=>wSnap('collapsed')"); pg.wait_for_timeout(700); p1 = pg.evaluate(mpos)
-            pg.evaluate("()=>wSnap('default')"); pg.wait_for_timeout(700); p2 = pg.evaluate(mpos)
+            p0 = pg.evaluate(mpos); pg.evaluate("()=>{render();wQueueLayout()}"); pg.wait_for_timeout(700); p1 = pg.evaluate(mpos)
+            pg.evaluate("()=>{render();wQueueLayout()}"); pg.wait_for_timeout(700); p2 = pg.evaluate(mpos)
             ok(p0 == p1 == p2, 'panel collapsed / back: map keeps centre and zoom, no re-framing (%s %s %s)' % (p0, p1, p2))
             m = pg.locator('#w-map'); bx = m.bounding_box(); pg.mouse.move(bx['x'] + 150, bx['y'] + 120); pg.mouse.down(); pg.mouse.move(bx['x'] + 40, bx['y'] + 20, steps=8); pg.mouse.up(); pg.wait_for_timeout(300)
             c2 = centred(); ok(abs(c2[0] - c2[1]) > 30, 'user pan moves the map away (%s)' % c2)
-            pg.evaluate("()=>wSnap('collapsed')"); pg.wait_for_timeout(700); pg.evaluate("()=>wSnap('default')"); pg.wait_for_timeout(700)
+            pg.evaluate("()=>{render();wQueueLayout()}"); pg.wait_for_timeout(700); pg.evaluate("()=>{render();wQueueLayout()}"); pg.wait_for_timeout(700)
             c2b = centred(); ok(abs(c2b[0] - c2[0]) <= 2, 'after a pan, panel moves do not pull the map back (%s)' % c2b)
             pg.evaluate("()=>render()"); pg.wait_for_timeout(300); c3 = centred()
             ok(abs(c3[0] - c2[0]) <= 2, 're-render / GEO update does not pull the map back after a pan (%s)' % c3)
             pg.click('#w-recentre'); pg.wait_for_timeout(400); c4 = centred()
             ok(abs(c4[0] - c4[1]) <= 12, '«my location» re-centres on the real position in the visible strip (%s)' % c4)
-            pg.evaluate("()=>wSnap('expanded')"); pg.wait_for_timeout(400); pg.click('#w-recentre', force=True) if not pg.locator('#w-recentre').is_disabled() else None
-            pg.evaluate("()=>wSnap('default')"); pg.wait_for_timeout(300)
+            pg.evaluate("()=>{render();wQueueLayout()}"); pg.wait_for_timeout(400); pg.click('#w-recentre', force=True) if not pg.locator('#w-recentre').is_disabled() else None
+            pg.evaluate("()=>{render();wQueueLayout()}"); pg.wait_for_timeout(300)
             # GEO update moves the marker (same marker, no new one)
             ctx.set_geolocation({'latitude': 38.58, 'longitude': 68.79, 'accuracy': 15}); pg.wait_for_timeout(1500)
             ll = pg.evaluate("()=>[GEO.lat,GEO.lng,document.querySelectorAll('#w-map .dmk.me').length]")
@@ -130,7 +130,7 @@ with sync_playwright() as p:
     ok(not errs, 'denied: no JS errors %s' % errs[:2]); ctx.close()
     # 5) location still loading
     ctx, pg, errs, net = page(b, geo='hang'); s = st(pg)
-    ok(s['geo'] == 'wait' and s['title'] == 'Определяем местоположение…' and s['me'] == 0 and s['rec'] and s['view']['nearby'] == 'loading',
+    ok(s['geo'] == 'wait' and (s['title'] == 'Определяем местоположение…' or (s['title'] == 'Ожидаем заказ' and 'Карта появится после определения позиции.' in pg.inner_text('#w-sheet'))) and s['me'] == 0 and s['rec'] and s['view']['nearby'] == 'loading',
        'location loading: loading state, no marker, nothing invented (%s)' % s)
     ctx.close()
     # 6) no restaurant with coordinates: until D-W1 nothing says «none nearby» (no radius exists)
@@ -155,7 +155,7 @@ with sync_playwright() as p:
         ok(s['title'] == 'Ожидаем заказ' and pg.locator('.nav').is_visible() and pg.locator('#w-sheet').is_visible(), '[%d] panel, shift and navigation unchanged' % w)
         if w == 390:
             pg.evaluate("()=>{window.__UI_OFFER=[{order_id:'ord1',mode:'broadcast',rank:1,dist_km:null,secs_left:3600}];TLB.reload()}"); pg.wait_for_timeout(1500)
-            ok(pg.evaluate("()=>TLB.offers().length") == 1 and pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route,.k-offer')"),
+            ok(pg.evaluate("()=>TLB.offers().length") == 1 and pg.evaluate("()=>!!document.querySelector('.a-journey-offer-route,.a-new-offer')"),
                'with the map failed, a new offer still arrives (journey R1 offer panel, 26 Oct)')
             pg.evaluate("()=>{window.__UI_OFFER=[];TLB.reload()}"); pg.wait_for_timeout(1200)
             net['mode']['tiles'] = 'ok'; pg.click('#w-map .w-map-retry'); pg.wait_for_timeout(1500); s = st(pg)
