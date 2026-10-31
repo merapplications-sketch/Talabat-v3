@@ -726,3 +726,18 @@ Evidence: `mobile-polish-20261031/index.html` pairs 390px screenshots from the a
 Run instructions (test-only dependencies outside repo): install Playwright plus Chromium executable and Leaflet 1.9.4. `python tools/ui_hc_fixture.py /tmp/polish-fixture`; `node tools/mobile_polish_check.cjs <chrome> <deps-directory>`; `EXTRA=1 node tools/mobile_polish_check.cjs <chrome> <deps-directory>`; `STORE_ONLY=1 node tools/mobile_polish_check.cjs <chrome> <deps-directory>`. Baseline pictures were taken once from a detached worktree at babae790 with `MODE=before` and that worktree path as argument 4. No production dependency was added.
 
 Handoff to Claude: merge these narrow UI hunks; core, driver, C1/C2, SQL, server config, accounts and money logic remain unchanged. Integrate the driver proposal only after scope permission. No main merge or app deployment.
+
+## 39. 31 Oct 20:06 — mobile display fixes 6e27629 integrated + driver details order (owner-requested display patch)
+- Correction to §38 (owner): the 20 TJS = total − items is arithmetic only; its split into delivery / tip / discounts stays
+  OPEN until `sql/verify_order_9115_readonly.sql` returns. The driver payout of 20 does not prove the delivery fee.
+- 6e27629 (base babae79 = branch head → fast-forward): store page safe area + intrinsic reflow (no zoom lock, no clipping),
+  shorter store offers block, wallet / points tabs restored with balance, history and expiry, repeated chat entries grouped
+  («Повторы: n», nothing dropped), merchant order sheet: one items row when there is no discount, payment block from
+  C-6 paymentParts. Core, drag, tracking and money logic unchanged.
+- Applied the programmer's display-only patch (owner request): `driver-a.js` details dialog shows aCashDetail before
+  invoice — one line, order of two existing blocks only. NEW tools/driver_payment_order_check.py OK (breakdown before the
+  invoice for a wallet + cash order, due 161.48 unchanged, grip / swipe present, no errors); screenshot
+  docs/driver-handoff/mobile-polish-20261031/after-driver-details-390.png. core_contracts_check OK (customer view changed).
+  Programmer's mobile checks ran on the identical tree — not repeated. iPhone / WebKit open.
+- Observation for the designer (not changed): the driver details now name the wallet part three times (breakdown,
+  invoice line, «Получите с клиента … из кошелька»).
