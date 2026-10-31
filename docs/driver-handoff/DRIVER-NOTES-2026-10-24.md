@@ -888,3 +888,23 @@ Claude's observe-only `assets/driver-tech/grip-debug.js` and core loader are ret
 **Protected:** core, Claude diagnostics, navigation-model, map-view, waiting-map and customer C1/C2 unchanged against 7f60ce3. Existing aRun/bindSwipe/finish/aJourneyMoney, chat handlers, coordinate services, pricing/accounts and server settings unchanged. No production dependencies. Files for integration: assets/driver-a/driver-a.js, assets/driver-tech/route-layer.js, customer.html, driver.html, merchant.html; tests and evidence in this same record/folder. driver-a.css needed no functional change.
 
 **Remaining / handoff:** cherry-pick this UI commit onto the integration branch after checking newer overlaps in those five files. Do not cherry-pick older saved partial work separately. No main merge or app deployment performed. Real active-order iPhone repeated-drag acceptance and external-app launching remain device checks. Order-events live permissions remain unknown; no fallback timestamp introduced. Neither B1/B2 nor internal navigation/Geoapify enabled.
+
+## 44. 31 Oct 22:20 — programmer round 2 bce6061 integrated; live place_order threshold located
+**place_order (live, read-only result `docs/live/verify_place_order_2026-10-31.csv`):** ONE definition (13 arguments,
+165 lines). The free-delivery threshold is applied there: l.110 «subtotal − discounts ≥ stores.free_delivery_min and fee > 0»
+→ l.111 fee_waived := fee, fee := 0; stored at l.126 (delivery_fee, fee_waived). Same lines as sql/schema_patch33.sql
+l.279–282. Not in delivery_calc. Item closed. No change.
+
+**bce6061 (base 7f60ce3 = branch head → fast-forward; f651887 and later Claude work kept):**
+- driver-a.js grip: the first input stream owns the gesture (touch with preventDefault on touchstart / touchend, or pointer
+  incl. touch pointers with document listeners active only during the gesture and capture as a bonus); metrics captured at
+  gesture start; element blur no longer cancels; tap still toggles; window blur / pagehide / hidden still cancel.
+- route-layer: chooser CSS only (one row per map, «Ссылка сайта» smaller); Claude's loading / failure / retry / chat-point
+  states unchanged. driver.html: stage quick replies (before pickup 7,2,6,4 · on the way 5,3,2,6 · at the customer 1,3,6,4),
+  emojis removed from chip labels, sent texts unchanged. customer.html: quick replies through the existing sendChat, only
+  while a driver is assigned and the order is live, draft guard. merchant.html: QR explanation + preview warning.
+- Programmer's 40 Chromium checks ran on the identical tree — not repeated. Affected by the merge only: map_points_check OK,
+  driver_map_stability_check 18/0, grip diagnostics (overlay loads with ?debug=grip, drag result identical with / without).
+- **Grip drag: FIXED IN CODE — iPhone acceptance OPEN** (owner to try during the offer view, after accepting, and after a
+  data refresh). WebKit not available here.
+- Still pending from §41: distance wording «≈ … (оценка)» in customer / driver texts (not part of this delivery).

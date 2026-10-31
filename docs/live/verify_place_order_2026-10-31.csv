@@ -1,0 +1,7 @@
+signature,line_no,line
+"place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",0,definition 1 of 1 · 165 lines
+"place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",11,"v_at timestamptz; v_waived numeric := 0; v_gid uuid; g group_orders;"
+"place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",109,"-- free delivery above the restaurant's own threshold (v51): the restaurant pays the waived fee (orders.fee_waived)"
+"place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",110,"if coalesce(s.free_delivery_min, 0) > 0 and v_sub - v_disc - v_hdisc >= s.free_delivery_min and v_fee > 0 then"
+"place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",111,"v_waived := v_fee; v_fee := 0;"
+"place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",126,"update orders set subtotal = v_sub, discount = v_disc + v_hdisc, delivery_fee = v_fee, fee_waived = v_waived, tip = v_tip,"
