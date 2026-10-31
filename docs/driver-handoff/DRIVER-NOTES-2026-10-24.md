@@ -985,3 +985,20 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - Screenshots 390 (integrated build): compact-20261031/waiting, offer, active, details, pickup-confirm. results.json there is
   the programmer's own run on f1e725e.
 - **iPhone acceptance of the compact UI: OPEN.**
+
+## 49. 1 Nov 01:59 — continuity reference saved (no execution)
+- Owner's continuity / consultant reference saved verbatim: **docs/continuity/TALABOT-CONTINUITY-2026-11-01.txt**
+  (745 lines; 1 Nov version). It is a context / decisions / plan file, not an execution order. The consultant assembles the
+  plan; any later execution gets one named owner (no parallel work). Nothing was changed, compared or re-tested for it.
+- Addenda from this log (the reference file itself is left unchanged; each item cites its source here):
+  - Ref. §19 / §23 «two independent compact versions, no evidence they were joined»: joined after the reference was
+    written — integration **11e2e4e** (§48): base f1e725e, 88209be layer dropped, two functions ported. Test link:
+    https://raw.githack.com/merapplications-sketch/Talabat-v3/11e2e4e7b72395fa45f54afde7faf278dad78714/driver.html
+    The owner's 9120 iPhone run (ref. §20) used the 88209be link, before 11e2e4e.
+  - Ref. §18 «no help section in the driver app»: f1e725e adds the support contact (TLB.supportInfo) in details (§47).
+  - Ref. §14 «review the other distance places, especially details»: wording unified by source in 11e2e4e — offer card,
+    details legs (driver.html toTarget / restToCust / kmToRest) and customer delivKm (was «по дороге») (§48). Customer
+    restaurant-list km (hKm) unchanged.
+  - Ref. §20 read-only 9120 diagnosis «requested from Claude, result not received»: no such request is recorded in this log
+    or in Claude's session; it is open and unassigned.
+- Head at saving: tech/v82-int = 11e2e4e; no local changes, no running operation.
