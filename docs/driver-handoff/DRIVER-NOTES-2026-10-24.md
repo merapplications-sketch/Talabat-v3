@@ -837,3 +837,23 @@ for final printing (QR must be printed from the published app address).
    - Duplicates: one event key per chat row / status change → one push per user; tag per order replaces older ones on the
      lock screen; the in-app beep stays for the visible page.
    - Approval needed: patch 42, the function deploy, VAPID secrets, the Home Screen instruction for drivers.
+
+## 42. 31 Oct 21:05 — live fee data: orders 9115 / 9116 reconciled (only this item closed)
+Result: `docs/live/verify_delivery_fee_2026-10-31.csv`; live function texts saved in `docs/live/delivery_calc_live_2026-10-31.sql`.
+- **9115:** items 295 + delivery 10 + tip 10 = total 315.00; wallet 153.52 + cash 161.48; driver payout 20 = fee 10 + tip 10;
+  discount / promo / points / waiver 0. **9116:** items 180 − points 2.00 + delivery 10 = 188.00; tip 0; payout 10.
+  Both: delivery_base 10, delivery_extra 0, delivery_km 0.47. The 9115 / 9116 amount split is CLOSED.
+- **Tariff correction (to §40 / §41):** live platform setting `delivery_free_km` = **2.5** km (3 is only the fallback when the
+  setting is missing); step 0.5 km, step price 2, max 15 km, road factor 1.3. Store Romant: fee_type distance, fee_base 10,
+  free_delivery_min 350, free_first_delivery false. No price changed.
+- **Distance:** live `dist_km` = haversine (straight line; 0.362 km for these pins, identical to the reference formula);
+  0.362 × 1.3 = 0.47 = stored delivery_km < 2.5 → extra 0 → fee = base 10. Estimate, not a measured road distance.
+- **Live delivery_calc = patch 18 body line for line** (30 / 30 body lines equal; only the header is printed differently by
+  PostgreSQL). Patch 41 (proposed) differs from the live body by exactly the added guard line + its comment — nothing else.
+- **Free delivery from 350 (free_delivery_min):** NOT in delivery_calc. In the repo it is applied in `place_order`
+  (sql/schema_patch33.sql l.279–282: subtotal − discounts ≥ free_delivery_min → fee 0, fee_waived = fee, paid by the
+  restaurant) and shown in the customer app (`calc()` → fw). Whether the LIVE place_order has the same lines is not read
+  (read-only check: `select pg_get_functiondef('public.place_order'::regproc)` and look for free_delivery_min). For 9115
+  (295) and 9116 (180) the subtotal is below 350 → no waiver, consistent with fee_waived 0.
+- Still open (separate items): accuracy of the road estimate (tools/distance_compare.html), grip drag on iPhone,
+  notifications / Web Push.

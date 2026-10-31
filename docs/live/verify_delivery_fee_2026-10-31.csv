@@ -1,0 +1,99 @@
+part,item,value
+order 9115,lat,38.566433
+order 9115,lng,68.780446
+order 9115,tip,10
+order 9115,total,315.00
+order 9115,status,delivered
+order 9115,payment,cash
+order 9115,discount,0.00
+order 9115,subtotal,295
+order 9115,created_at,2026-10-31T13:08:13.592801+00:00
+order 9115,fee_waived,0
+order 9115,delivery_km,0.47
+order 9115,wallet_used,153.52
+order 9115,delivery_fee,10
+order 9115,points_value,0
+order 9115,delivery_base,10
+order 9115,driver_payout,20
+order 9115,delivery_extra,0
+order 9115,promo_discount,0
+order 9116,lat,38.566433
+order 9116,lng,68.780446
+order 9116,tip,0
+order 9116,total,188.00
+order 9116,status,delivered
+order 9116,payment,cash
+order 9116,discount,0.00
+order 9116,subtotal,180
+order 9116,created_at,2026-10-31T15:13:34.129211+00:00
+order 9116,fee_waived,0
+order 9116,delivery_km,0.47
+order 9116,wallet_used,0
+order 9116,delivery_fee,10
+order 9116,points_value,2.00
+order 9116,delivery_base,10
+order 9116,driver_payout,10
+order 9116,delivery_extra,0
+order 9116,promo_discount,0
+store,lat,38.568181
+store,lng,68.783962
+store,name,Romant Restaurant
+store,fee_base,10
+store,fee_type,distance
+store,fee_per_km,1
+store,fee_free_km,3
+store,free_delivery_min,350.00
+store,free_first_delivery,false
+setting,delivery_free_km,2.5
+setting,delivery_step_km,0.5
+setting,delivery_step_price,2
+setting,delivery_max_km,15
+setting,delivery_road_factor,1.3
+distance 9115,"dist_km(store, customer) now",0.362
+distance 9116,"dist_km(store, customer) now",0.362
+distance 9115,haversine km (reference),0.362
+distance 9116,haversine km (reference),0.362
+function,"delivery_calc(uuid,double precision,double precision,uuid)","CREATE OR REPLACE FUNCTION public.delivery_calc(p_store uuid, p_lat double precision, p_lng double precision, p_uid uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare v_s stores; v_free numeric; v_step numeric; v_price numeric; v_max numeric; v_fac numeric;
+        v_straight float8; v_road numeric; v_steps int := 0; v_extra numeric := 0; v_base numeric; v_full numeric; v_fee numeric; v_first boolean := false;
+begin
+  if p_lat is null or p_lng is null or p_lat not between -90 and 90 or p_lng not between -180 and 180 then raise exception 'bad_value'; end if;
+  select * into v_s from stores where id = p_store and is_active;
+  if not found then raise exception 'store_unavailable'; end if;
+  select coalesce((select value from app_settings where key = 'delivery_free_km'), 3) into v_free;
+  select coalesce((select value from app_settings where key = 'delivery_step_km'), 0.5) into v_step;
+  select coalesce((select value from app_settings where key = 'delivery_step_price'), 2) into v_price;
+  select coalesce((select value from app_settings where key = 'delivery_max_km'), 15) into v_max;
+  select coalesce((select value from app_settings where key = 'delivery_road_factor'), 1.3) into v_fac;
+  v_base := case v_s.fee_type when 'free' then 0 else v_s.fee_base end;
+  if v_s.lat is not null and v_s.lng is not null then
+    v_straight := dist_km(v_s.lat, v_s.lng, p_lat, p_lng);
+    v_road := round((v_straight * v_fac)::numeric, 2);
+    if v_road > v_max then raise exception 'too_far'; end if;
+    if v_s.fee_type = 'distance' then
+      v_steps := ceil(round(greatest(0, v_road - v_free) / v_step, 6));
+      v_extra := v_steps * v_price;
+    end if;
+  end if;
+  v_full := v_base + v_extra;
+  v_fee := v_full;
+  if v_s.free_first_delivery and v_s.fee_type <> 'free' and p_uid is not null
+     and not exists (select 1 from orders where customer_id = p_uid and store_id = p_store and status not in ('rejected', 'cancelled')) then
+    v_first := true; v_fee := 0;
+  end if;
+  return jsonb_build_object('fee', v_fee, 'fee_full', v_full, 'base', v_base, 'extra', v_extra, 'steps', v_steps,
+    'km', v_road, 'km_straight', round(v_straight::numeric, 2), 'free_km', v_free, 'step_km', v_step, 'step_price', v_price,
+    'max_km', v_max, 'first_free', v_first, 'fee_type', v_s.fee_type);
+end $function$
+"
+function,"dist_km(double precision,double precision,double precision,double precision)","CREATE OR REPLACE FUNCTION public.dist_km(a1 double precision, o1 double precision, a2 double precision, o2 double precision)
+ RETURNS double precision
+ LANGUAGE sql
+ IMMUTABLE
+AS $function$ select 2*6371*asin(sqrt(power(sin(radians(a2-a1)/2),2) + cos(radians(a1))*cos(radians(a2))*power(sin(radians(o2-o1)/2),2))) $function$
+"
