@@ -195,6 +195,8 @@
     }, function () { var el = ov.querySelector('#tlb-pt-l'); if (el) el.textContent = t('ptNoLinks'); });
     return false;
   }
+  // 31 Oct: grip drag diagnostics, only when the address contains ?debug=grip (observes events; changes nothing)
+  try { if (/[?&]debug=grip(&|$)/.test(location.search)) { var gd = document.createElement('script'); gd.src = 'assets/driver-tech/grip-debug.js'; (document.head || document.documentElement).appendChild(gd); } } catch (e) { }
   var qrLoad = null;
   function loadQr() {
     if (window.qrcode) return Promise.resolve(window.qrcode);
