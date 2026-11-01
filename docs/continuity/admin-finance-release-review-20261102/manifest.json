@@ -1,0 +1,162 @@
+{
+  "status": "review_only_not_authorized_for_execution",
+  "prepared_date_dushanbe": "2026-11-02",
+  "repository": "merapplications-sketch/Talabat-v3",
+  "branch": "fix/admin-finance-20261101",
+  "approved_test_closure": "1e2249293c27e27c766e1273e81f205d15512e40",
+  "candidate_source_commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+  "target_database": {
+    "project_name": "Talabat",
+    "project_ref": "dzydscryrnahnneydnry",
+    "identity_source": "Saved 2026-11-01 inventory; revalidate before any authorized release",
+    "connected_or_queried_this_turn": false
+  },
+  "target_ui": {
+    "historical_provider": "GitHub Pages",
+    "historical_origin": "https://merapplications-sketch.github.io/Talabat-v3/",
+    "entry": "admin.html",
+    "current_published_artifact_commit": null,
+    "current_production_url_freshly_verified": false,
+    "rollback_artifact": null,
+    "repository_has_pages": true,
+    "provider_note": "Historical handoff and Oct27 comparison establish Pages, not current deployed bytes or publish ref. Owner-private synthetic Site is not application deployment target.",
+    "candidate_delivery": "Four fixed source files below integrated selectively with reviewed deployed base; no integration/deployment commit prepared or published in this task",
+    "shared_core_consumers": [
+      "customer.html",
+      "driver.html",
+      "merchant.html",
+      "admin.html"
+    ],
+    "static_cache_gate": "Current admin imports talabat-core.js?v=56 and unversioned finance assets. Verify all four served bytes after future release; never trust label v56."
+  },
+  "artifacts": [
+    {
+      "path": "admin.html",
+      "commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+      "git_blob": "95e6d03b8ab678bd777de8a8a39b478aef939f50"
+    },
+    {
+      "path": "talabat-core.js",
+      "commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+      "git_blob": "a6d265d7643e6086b1ca25d379c4cee0df6b09c7"
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.js",
+      "commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+      "git_blob": "29b6afea5d21a72bc003b2819d6984fc94b4c796"
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.css",
+      "commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+      "git_blob": "d1637bfd5319410cda1b144b3e1d913080a7c5f0"
+    },
+    {
+      "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+      "commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+      "git_blob": "6b19870cc1939094c761a255e26f1fd7c5658952",
+      "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259"
+    },
+    {
+      "path": "sql/proposed/admin_finance_safe_hold_20261101.sql",
+      "commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+      "git_blob": "045c9c440ce0ebbbbb1956f6b3bfcdd6dacff05a",
+      "sha256": "8a79af85de8fb037b19004029595dc253f7becfecfb400f2878fc583ae20f02d"
+    },
+    {
+      "path": "sql/proposed/admin_finance_preflight_readonly_20261101.sql",
+      "commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+      "git_blob": "0fff97e204e4965d169267ed51b08b1d00015047",
+      "sha256": "f7d0a187d3f8ce3a1c90e7eb60652d7869dbf6c02286972519b1686687bfbf32"
+    }
+  ],
+  "contract": {
+    "version": 2,
+    "capabilities": [
+      "commands",
+      "settlement_events"
+    ],
+    "write_authorization": "staff_members.user_id = auth.uid() AND active AND finance in perms",
+    "retired_endpoints": [
+      "settle_driver_cash(uuid)",
+      "wallet_adjust(uuid,numeric,text)"
+    ],
+    "legacy_response": "not_allowed for undelegated user; request_id_required for delegated accountant",
+    "no_legacy_fallback": true
+  },
+  "accountant": {
+    "status": "not_identified_in_saved_owner_decisions_or_project_evidence",
+    "person_name": null,
+    "email": null,
+    "auth_user_id": null,
+    "profile_id": null,
+    "requested_perms": [
+      "finance"
+    ],
+    "active_after_approved_release": true,
+    "existing_staff_count_at_saved_inventory": 0,
+    "actual_current_count": null,
+    "delegation_method": "Existing staff_set(text,text[],boolean), executed only later by separate authorized admin",
+    "constraints": [
+      "Existing real Auth user with matching profiles.id",
+      "Not profiles.role=admin; staff_set rejects admin/self",
+      "No demo UUID or legacy test account selected",
+      "No live account created, upgraded or delegated"
+    ],
+    "owner_decision": "Name the actual accountant/person to authorize; team resolves and verifies existing account without asking owner to handle SQL/UUIDs"
+  },
+  "release_order": [
+    "Approve named versions, exact accountant and destination/window after review",
+    "Team preflight current catalog/ACL/memberships/callers and pin actual published rollback artifact; no financial mutations",
+    "Close remaining actual Safari evidence on synthetic environment through team; preserve Chromium closure without rerun",
+    "Pause office settlement/manual wallet activity, settle status of in-flight commands, maintain operational delivery",
+    "Apply fixed proposal A atomically while no authorized finance member can write; stop if this assumption fails or ACL guard aborts",
+    "Read-verify contract/ACL/read endpoints and unchanged operational functions; keep financial opening blocked",
+    "Publish approved selectively integrated UI artifact and verify served bytes across fresh/existing sessions; old clients stay keyless-refused",
+    "Delegate named verified accountant as final opening step through existing staff governance, then check real session/read access only",
+    "Monitor release and use fixed safe-hold for containment if material failure; no auto resend/reversal"
+  ],
+  "activation_gates": [
+    "Explicit future approval for SQL/deployment/delegation; none granted here",
+    "Real accountant identity unresolved",
+    "Current target/published baseline/rollback pin not yet recorded",
+    "Fresh preflight drift and privileged external client review",
+    "Actual Safari validation owned by team, still open",
+    "Coordinated matched server/UI release and read-only accountant-session verification"
+  ],
+  "postactivation_policy": "No positive/negative mutation calls to live finance_execute or legacy mutation endpoints as smoke tests. Synthetic isolated write acceptance retained. Any real financial transaction acceptance requires a distinct explicit authorization.",
+  "rollback": {
+    "safe_hold_artifact": "sql/proposed/admin_finance_safe_hold_20261101.sql",
+    "preserve": [
+      "finance_private.commands",
+      "wallet_entries",
+      "orders.cash_settled_at",
+      "created_by",
+      "audit history",
+      "read/status endpoints"
+    ],
+    "never_restore": [
+      "old unsafe keyless writers",
+      "wide ACL",
+      "data snapshot over confirmed new transactions"
+    ],
+    "inflight": "Revoke does not cancel already-running transaction. Same actor status read; missing result not proof of rollback.",
+    "ui": "Restore pinned UI artifact only if needed with server hold retained; no database destructive rollback",
+    "reactivation": "Separate reviewed decision; do not restore EXECUTE/authorization ad hoc"
+  },
+  "independent_phase_not_current_fix_blockers": [
+    "Standalone settlement receipt writer and acknowledgement",
+    "Disbursement ledger/payment proof/net amount model",
+    "Persistent notification posting/read states"
+  ],
+  "excluded": [
+    "proposal B deployment",
+    "partial receipt/netting/new payout rules",
+    "SQL execution",
+    "account delegation",
+    "app or preview publication",
+    "main merge",
+    "new financial transaction"
+  ],
+  "tests_rerun": 0,
+  "optional_journal_export_retry": false
+}

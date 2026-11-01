@@ -1,0 +1,18 @@
+{
+  "prepared_date": "2026-11-02",
+  "status": "awaiting_owner_named_person_not_technical_steps",
+  "person_name": null,
+  "existing_email": null,
+  "auth_user_id": null,
+  "profile_id": null,
+  "requested_permissions": [
+    "finance"
+  ],
+  "requested_active": true,
+  "decision_needed": "اسم المحاسب الحقيقي المعتمد فقط؛ يتولى الفريق ربطه بحسابه الموجود والتحقق من الهوية قبل أي تفويض.",
+  "basis": "Saved owner decisions and project logs specify accountant-only policy but no actual named account. Saved Nov1 aggregate staff_members count zero.",
+  "excluded_demo_account": "30000000-0000-0000-0000-000000000002 is synthetic and must never be delegated as a live identity.",
+  "admin_self_delegation": "Not permitted by existing staff_set; do not modify role/guard.",
+  "granted": false,
+  "live_identity_query_performed": false
+}
