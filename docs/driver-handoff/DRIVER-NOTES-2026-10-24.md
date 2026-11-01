@@ -1002,3 +1002,12 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
   - Ref. §20 read-only 9120 diagnosis «requested from Claude, result not received»: no such request is recorded in this log
     or in Claude's session; it is open and unassigned.
 - Head at saving: tech/v82-int = 11e2e4e; no local changes, no running operation.
+
+
+## 50. 1 Nov — owner agreements persisted for continued work (documentation only)
+- Entry point: [docs/continuity/README.md](../continuity/README.md), also linked from repository README on this branch.
+- New approved fee agreements and corrections: [OWNER-DECISIONS-2026-11-01.md](../continuity/OWNER-DECISIONS-2026-11-01.md).
+- Independent marketplace/direct-order fee settings per subscriber; percentage OR fixed amount; time/count promotional waiver; driver compensation and reimbursement kept separate. Fee basis and prospective snapshots recorded as agreed in the owner conversation; no new operational rate set.
+- Historical continuity text kept unchanged; §48/49 integration corrections retained. Order 9120 diagnosis remains open/unassigned.
+- Cancellation and protection of money advanced by the courier researched from official sources and recorded as a PROPOSAL, not approved liability or executable policy. Owner decisions still needed before financial implementation.
+- No application code, runtime pricing, SQL, backend, main merge or application deployment performed. Documentation checks only; no previously passed suites re-run.
