@@ -1,0 +1,247 @@
+{
+  "method": "HTTPS Ubuntu noble indexes and SHA256-checked deb downloads; dpkg-deb -x to scratch only",
+  "system_package_install": false,
+  "sandbox_or_permission_change": false,
+  "packages": [
+    {
+      "name": "libgstreamer1.0-0",
+      "version": "1.24.2-1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/gstreamer1.0/libgstreamer1.0-0_1.24.2-1_amd64.deb",
+      "sha256": "90252639430f75720aa5d7e1d961053212130b1df6835a2eec54387fc8e12b75",
+      "bytes": 1164980,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgstreamer1.0-0_1.24.2-1_amd64.deb"
+    },
+    {
+      "name": "libdw1t64",
+      "version": "0.190-1.1build4",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/e/elfutils/libdw1t64_0.190-1.1build4_amd64.deb",
+      "sha256": "cdf86260db73ae9f61915fdb898d74a74654ff4b84deeac1c9fe9e5ab2ad83c6",
+      "bytes": 261178,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libdw1t64_0.190-1.1build4_amd64.deb"
+    },
+    {
+      "name": "libgtk-4-1",
+      "version": "4.14.2+ds-1ubuntu1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/gtk4/libgtk-4-1_4.14.2+ds-1ubuntu1_amd64.deb",
+      "sha256": "c427a750a8840708c6b93634fcd274a16416af6a2da58e8638dd207adf03d953",
+      "bytes": 3276858,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgtk-4-1_4.14.2+ds-1ubuntu1_amd64.deb"
+    },
+    {
+      "name": "libcairo-script-interpreter2",
+      "version": "1.18.0-3build1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/c/cairo/libcairo-script-interpreter2_1.18.0-3build1_amd64.deb",
+      "sha256": "e104466e7d816672a711db42746af528d210197231f12e3c712c06ac9a79b214",
+      "bytes": 60272,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libcairo-script-interpreter2_1.18.0-3build1_amd64.deb"
+    },
+    {
+      "name": "liblzo2-2",
+      "version": "2.10-2build4",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/l/lzo2/liblzo2-2_2.10-2build4_amd64.deb",
+      "sha256": "e0d13be155013138b8db4cfe68212b866080af661c78302c2eab0d2f9d0d454e",
+      "bytes": 54148,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/liblzo2-2_2.10-2build4_amd64.deb"
+    },
+    {
+      "name": "libgraphene-1.0-0",
+      "version": "1.10.8-3build2",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/graphene/libgraphene-1.0-0_1.10.8-3build2_amd64.deb",
+      "sha256": "5276c4173bff30bd2a368cce30639227089512aad85fc4af87c284456bafe8ff",
+      "bytes": 46224,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgraphene-1.0-0_1.10.8-3build2_amd64.deb"
+    },
+    {
+      "name": "libgtk-4-common",
+      "version": "4.14.2+ds-1ubuntu1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/gtk4/libgtk-4-common_4.14.2+ds-1ubuntu1_all.deb",
+      "sha256": "659799fa9570d3a72c2d32f5c4dc3b8d2b854834d6d7514c2ce23cf9e5233e7b",
+      "bytes": 1234698,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgtk-4-common_4.14.2+ds-1ubuntu1_all.deb"
+    },
+    {
+      "name": "libevent-2.1-7t64",
+      "version": "2.1.12-stable-9ubuntu2",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libe/libevent/libevent-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb",
+      "sha256": "f95eddfc9e9028567a21b8162a1cb8aae96b2fb168f149c0a5b01d72bfd42471",
+      "bytes": 144558,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libevent-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb"
+    },
+    {
+      "name": "libgstreamer-plugins-base1.0-0",
+      "version": "1.24.2-1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/gst-plugins-base1.0/libgstreamer-plugins-base1.0-0_1.24.2-1_amd64.deb",
+      "sha256": "e265685c7506306c59982b6289f9088b21084485b1a64d9a26a90a3b6b94cf64",
+      "bytes": 861744,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgstreamer-plugins-base1.0-0_1.24.2-1_amd64.deb"
+    },
+    {
+      "name": "liborc-0.4-0t64",
+      "version": "1:0.4.38-1build1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/o/orc/liborc-0.4-0t64_0.4.38-1build1_amd64.deb",
+      "sha256": "facde0deeeae78041d4b5ad9cea5d076ce6264a26d1ef927c6befe2d9eb3d6fb",
+      "bytes": 207322,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/liborc-0.4-0t64_0.4.38-1build1_amd64.deb"
+    },
+    {
+      "name": "iso-codes",
+      "version": "4.16.0-1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/i/iso-codes/iso-codes_4.16.0-1_all.deb",
+      "sha256": "cafca0a3a1f07b44fbba53ab7a1f1d9755e6b80cc041173afe2b52e53bed97a7",
+      "bytes": 3491500,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/iso-codes_4.16.0-1_all.deb"
+    },
+    {
+      "name": "libgstreamer-gl1.0-0",
+      "version": "1.24.2-1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/gst-plugins-base1.0/libgstreamer-gl1.0-0_1.24.2-1_amd64.deb",
+      "sha256": "f63c53c578aff2504da2c81a430047215ed8e73e3a2ca812b1fe84ec48b6b9ff",
+      "bytes": 213940,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgstreamer-gl1.0-0_1.24.2-1_amd64.deb"
+    },
+    {
+      "name": "libgstreamer-plugins-bad1.0-0",
+      "version": "1.24.2-1ubuntu4",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/g/gst-plugins-bad1.0/libgstreamer-plugins-bad1.0-0_1.24.2-1ubuntu4_amd64.deb",
+      "sha256": "6e8da41c0cbb2070f3477cf02360c2ce2eb55e825ba09e12b4270b3254e04f45",
+      "bytes": 797390,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgstreamer-plugins-bad1.0-0_1.24.2-1ubuntu4_amd64.deb"
+    },
+    {
+      "name": "libnice10",
+      "version": "0.1.21-2build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/libn/libnice/libnice10_0.1.21-2build3_amd64.deb",
+      "sha256": "fd24e18e0d9d9ead31e192d46df04473fab2d51390ccb2a4a62cf3b90bf6f311",
+      "bytes": 157152,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libnice10_0.1.21-2build3_amd64.deb"
+    },
+    {
+      "name": "libgupnp-igd-1.6-0",
+      "version": "1.6.0-3build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/g/gupnp-igd/libgupnp-igd-1.6-0_1.6.0-3build3_amd64.deb",
+      "sha256": "e71897a39779ffc327b704ca7baef4fe079cfc6a5e1bd56819ac2ad05f8f9b86",
+      "bytes": 16540,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgupnp-igd-1.6-0_1.6.0-3build3_amd64.deb"
+    },
+    {
+      "name": "libgssdp-1.6-0",
+      "version": "1.6.3-1build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/gssdp/libgssdp-1.6-0_1.6.3-1build3_amd64.deb",
+      "sha256": "49aa7c3eb2e75f55da069f5f18d3babc0376e4bf8f3bcbbf22a76d60d9f40f9e",
+      "bytes": 40374,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgssdp-1.6-0_1.6.3-1build3_amd64.deb"
+    },
+    {
+      "name": "libsoup-3.0-0",
+      "version": "3.4.4-5build2",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libs/libsoup3/libsoup-3.0-0_3.4.4-5build2_amd64.deb",
+      "sha256": "6380ee6d82fb06f9d60c53411cc350c38f6613615ecde7d5740eb87b24622d6d",
+      "bytes": 289090,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libsoup-3.0-0_3.4.4-5build2_amd64.deb"
+    },
+    {
+      "name": "libsoup-3.0-common",
+      "version": "3.4.4-5build2",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libs/libsoup3/libsoup-3.0-common_3.4.4-5build2_all.deb",
+      "sha256": "c446ff98dd3e13470fcd918c012643af323ff632c684dfd0407ba97a6813ef36",
+      "bytes": 10006,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libsoup-3.0-common_3.4.4-5build2_all.deb"
+    },
+    {
+      "name": "libgupnp-1.6-0",
+      "version": "1.6.6-1build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/g/gupnp/libgupnp-1.6-0_1.6.6-1build3_amd64.deb",
+      "sha256": "491670df1732d15ced827446e26bcea76326d3c9cfc4856b5806e9911dc4264f",
+      "bytes": 92722,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgupnp-1.6-0_1.6.6-1build3_amd64.deb"
+    },
+    {
+      "name": "libavif16",
+      "version": "1.0.4-1ubuntu3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/liba/libavif/libavif16_1.0.4-1ubuntu3_amd64.deb",
+      "sha256": "b295a9954a4b756af05ff381d9808f3c0c582a111b7e4c7678cfe13de9ae8818",
+      "bytes": 91250,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libavif16_1.0.4-1ubuntu3_amd64.deb"
+    },
+    {
+      "name": "libgav1-1",
+      "version": "0.18.0-1build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/libg/libgav1/libgav1-1_0.18.0-1build3_amd64.deb",
+      "sha256": "428f353f449e6b15cdcf5823215416e36adcfba75fe9f0fedc1cd132d68e6b3f",
+      "bytes": 357148,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgav1-1_0.18.0-1build3_amd64.deb"
+    },
+    {
+      "name": "libabsl20220623t64",
+      "version": "20220623.1-3.1ubuntu3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/a/abseil/libabsl20220623t64_20220623.1-3.1ubuntu3_amd64.deb",
+      "sha256": "eafc5f26ba910468a6d5d5f154ed8fcf4beed2d5bc45619907ea9f517cdaf401",
+      "bytes": 423164,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libabsl20220623t64_20220623.1-3.1ubuntu3_amd64.deb"
+    },
+    {
+      "name": "libyuv0",
+      "version": "0.0~git202401110.af6ac82-1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/liby/libyuv/libyuv0_0.0~git202401110.af6ac82-1_amd64.deb",
+      "sha256": "88bd472e50a7e45469e31f8e0ba232b4d8ed30322f5badb285c58cc1ba0d2176",
+      "bytes": 178208,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libyuv0_0.0~git202401110.af6ac82-1_amd64.deb"
+    },
+    {
+      "name": "libharfbuzz-icu0",
+      "version": "8.3.0-2build2",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/h/harfbuzz/libharfbuzz-icu0_8.3.0-2build2_amd64.deb",
+      "sha256": "9098670758e60b190d7edf367ad57e954bfc1b2a616def3f4e281062e036a843",
+      "bytes": 13310,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libharfbuzz-icu0_8.3.0-2build2_amd64.deb"
+    },
+    {
+      "name": "libwayland-server0",
+      "version": "1.22.0-2.1build1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/w/wayland/libwayland-server0_1.22.0-2.1build1_amd64.deb",
+      "sha256": "edbfa4b6857691ae922cc768a753fab230eee9e956aa2ce4f2eaa8d9ad777dca",
+      "bytes": 33928,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libwayland-server0_1.22.0-2.1build1_amd64.deb"
+    },
+    {
+      "name": "libmanette-0.2-0",
+      "version": "0.2.7-1build2",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libm/libmanette/libmanette-0.2-0_0.2.7-1build2_amd64.deb",
+      "sha256": "8fbb67e94abf563c01398ad7458df1a6824f19a0b4337f67d61c0889771805db",
+      "bytes": 30570,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libmanette-0.2-0_0.2.7-1build2_amd64.deb"
+    },
+    {
+      "name": "libhyphen0",
+      "version": "2.8.8-7build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/h/hyphen/libhyphen0_2.8.8-7build3_amd64.deb",
+      "sha256": "b508d3a5da168ddb2ae6e79ea0521ba64cd121285db0ece438d0bd56ba628556",
+      "bytes": 26516,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libhyphen0_2.8.8-7build3_amd64.deb"
+    },
+    {
+      "name": "libsecret-1-0",
+      "version": "0.21.4-1build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libs/libsecret/libsecret-1-0_0.21.4-1build3_amd64.deb",
+      "sha256": "7d7263ffc92c33042328f99c93433a846e8d9e549876dab18ba18606e6541ecd",
+      "bytes": 116332,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libsecret-1-0_0.21.4-1build3_amd64.deb"
+    },
+    {
+      "name": "libsecret-common",
+      "version": "0.21.4-1build3",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libs/libsecret/libsecret-common_0.21.4-1build3_all.deb",
+      "sha256": "41866e9026e451fd25a4cbe887fa56c43219f9f3eda88d1831452ba6d6b8bb5b",
+      "bytes": 4962,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libsecret-common_0.21.4-1build3_all.deb"
+    },
+    {
+      "name": "libgles2",
+      "version": "1.7.0-1build1",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libg/libglvnd/libgles2_1.7.0-1build1_amd64.deb",
+      "sha256": "9dec2d79a2eebb80522f7cce77995f7a8ded22f0e3916f13353d066c62f97fac",
+      "bytes": 17122,
+      "file": "/workspace/scratch/f74ead4100b8/webkit-followup-20261102/runtime-libs/debs/libgles2_1.7.0-1build1_amd64.deb"
+    }
+  ]
+}

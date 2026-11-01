@@ -1,0 +1,127 @@
+{
+  "key": "b262a6b9-dd7d-499d-9de7-bc6ec9baf11d",
+  "state": "unresolved",
+  "command": {
+    "state": "unresolved",
+    "key": "b262a6b9-dd7d-499d-9de7-bc6ec9baf11d",
+    "result": null
+  },
+  "calls": [
+    [
+      "my_perms",
+      null
+    ],
+    [
+      "finance_driver_orders",
+      null
+    ],
+    [
+      "finance_drivers",
+      null
+    ],
+    [
+      "finance_access",
+      null
+    ],
+    [
+      "cash_balances",
+      null
+    ],
+    [
+      "finance_settlement_events",
+      {
+        "p_order_ids": [
+          "ord4"
+        ]
+      }
+    ],
+    [
+      "finance_execute",
+      {
+        "p_request": "b262a6b9-dd7d-499d-9de7-bc6ec9baf11d",
+        "p_operation": "settle_cash",
+        "p_target": "30000000-0000-0000-0000-000000000004",
+        "p_amount": null,
+        "p_note": null
+      }
+    ],
+    [
+      "finance_actor_names",
+      {
+        "p_ids": [
+          "30000000-0000-0000-0000-000000000002"
+        ]
+      }
+    ],
+    [
+      "finance_driver_orders",
+      null
+    ],
+    [
+      "finance_drivers",
+      null
+    ],
+    [
+      "cash_balances",
+      null
+    ],
+    [
+      "finance_settlement_events",
+      {
+        "p_order_ids": [
+          "ord7"
+        ]
+      }
+    ],
+    [
+      "finance_actor_names",
+      {
+        "p_ids": [
+          "30000000-0000-0000-0000-000000000002"
+        ]
+      }
+    ],
+    [
+      "report_client_error",
+      {
+        "p_app": "admin",
+        "p_message": "Promise: Failed to start the audio device",
+        "p_context": "",
+        "p_ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15"
+      }
+    ],
+    [
+      "report_client_error",
+      {
+        "p_app": "admin",
+        "p_message": "Promise: Failed to start the audio device",
+        "p_context": "",
+        "p_ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15"
+      }
+    ],
+    [
+      "report_client_error",
+      {
+        "p_app": "admin",
+        "p_message": "Promise: Failed to start the audio device",
+        "p_context": "",
+        "p_ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15"
+      }
+    ]
+  ],
+  "effects": [
+    {
+      "request": "b262a6b9-dd7d-499d-9de7-bc6ec9baf11d",
+      "operation": "settle_cash",
+      "target": "30000000-0000-0000-0000-000000000004",
+      "amount": 57,
+      "orders": [
+        "ord7"
+      ],
+      "wallet_entry": null,
+      "actor": "30000000-0000-0000-0000-000000000002",
+      "at": "2026-11-01T21:33:01.463Z"
+    }
+  ],
+  "buttonDisabled": true
+}

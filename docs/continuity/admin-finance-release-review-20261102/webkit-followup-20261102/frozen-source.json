@@ -1,0 +1,11 @@
+{
+  "candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "production_hashes_still_match": {
+    "admin.html": true,
+    "talabat-core.js": true,
+    "assets/admin-finance/admin-finance.js": true,
+    "assets/admin-finance/admin-finance.css": true
+  },
+  "no_production_source_change": true,
+  "at_utc": "2026-11-01T21:34:28.668079+00:00"
+}

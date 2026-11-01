@@ -1,0 +1,17 @@
+{
+  "command": [
+    "timeout",
+    "-k",
+    "5",
+    "150",
+    "node",
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/cli.js",
+    "install-deps",
+    "webkit"
+  ],
+  "exit_code": 1,
+  "stdout": "Installing dependencies...\nReading package lists...\nFailed to install browser dependencies\nError: Installation process exited with code: 100\n",
+  "stderr": "E: setgroups 65534 failed - setgroups (1: Operation not permitted)\nE: setegid 65534 failed - setegid (22: Invalid argument)\nE: seteuid 42 failed - seteuid (22: Invalid argument)\nE: setgroups 0 failed - setgroups (1: Operation not permitted)\nrm: cannot remove '/var/cache/apt/archives/partial/*.deb': Permission denied\nW: chown to _apt:root of directory /var/lib/apt/lists/partial failed - SetupAPTPartialDirectory (22: Invalid argument)\nW: chown to _apt:root of directory /var/lib/apt/lists/auxfiles failed - SetupAPTPartialDirectory (22: Invalid argument)\nE: setgroups 65534 failed - setgroups (1: Operation not permitted)\nE: setegid 65534 failed - setegid (22: Invalid argument)\nE: seteuid 42 failed - seteuid (22: Invalid argument)\nE: setgroups 0 failed - setgroups (1: Operation not permitted)\nE: Method gave invalid 400 URI Failure message: Failed to setgroups - setgroups (1: Operation not permitted)\nE: Method https has died unexpectedly!\nE: Sub-process https returned an error code (112)\n",
+  "at_utc": "2026-11-01T21:29:05.244556+00:00",
+  "scope": "isolated test executor dependencies only; no app/DB/account/permission/deployment action"
+}

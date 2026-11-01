@@ -1,0 +1,22 @@
+{
+  "candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "preview_blob": "110bdab19ddfa769c7b563c0827d26a756ec1bef",
+  "engine": "26.5",
+  "environment": "Linux WPE WebKit; touchscreen emulation on loopback HTTP",
+  "financial_sequence": "PASS_WITH_ENVIRONMENT_LIMITS",
+  "financial_checks_passed": 8,
+  "generic_no_page_error_check": "FAIL: audio device start",
+  "runner_exit_code": 1,
+  "audio_control_reproduced_without_app": true,
+  "safari_iPhone_acceptance": "OPEN",
+  "chromium_or_closed_suites_rerun": false,
+  "activation_request_rebuilt": false,
+  "external_application_requests": [],
+  "production_source_changed": false,
+  "live_money": false,
+  "account_created": false,
+  "server_patch_applied": false,
+  "financial_permission_granted": false,
+  "published": false,
+  "limited_option": "Offline synthetic preview available; future new-client-only write blocking on old server is technically possible but not a server-wide read-only guarantee and loses new A-dependent reads."
+}

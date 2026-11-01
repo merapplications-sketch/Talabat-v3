@@ -1,0 +1,14 @@
+{
+  "candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "environment": "Linux / Playwright WebKit only",
+  "safari_iPhone_accepted": false,
+  "external_network": "blocked by route and existing CSP",
+  "steps": [],
+  "checks": [],
+  "live": false,
+  "previewBlob": "110bdab19ddfa769c7b563c0827d26a756ec1bef",
+  "executable": "/root/.cache/ms-playwright/webkit-2336/pw_run.sh",
+  "executableExists": true,
+  "outcome": "FAILED_OR_BLOCKED",
+  "error": "browserType.launch: \n╔══════════════════════════════════════════════════════╗\n║ Host system is missing dependencies to run browsers. ║\n║ Missing libraries:                                   ║\n║     libgstreamer-1.0.so.0                            ║\n║     libgtk-4.so.1                                    ║\n║     libgraphene-1.0.so.0                             ║\n║     libevent-2.1.so.7                                ║\n║     libgstallocators-1.0.so.0                        ║\n║     libgstapp-1.0.so.0                               ║\n║     libgstbase-1.0.so.0                              ║\n║     libgstpbutils-1.0.so.0                           ║\n║     libgstaudio-1.0.so.0                             ║\n║     libgsttag-1.0.so.0                               ║\n║     libgstvideo-1.0.so.0                             ║\n║     libgstgl-1.0.so.0                                ║\n║     libgstcodecparsers-1.0.so.0                      ║\n║     libgstfft-1.0.so.0                               ║\n║     libavif.so.16                                    ║\n║     libharfbuzz-icu.so.0                             ║\n║     libwayland-server.so.0                           ║\n║     libmanette-0.2.so.0                              ║\n║     libhyphen.so.0                                   ║\n║     libsecret-1.so.0                                 ║\n║     libGLESv2.so.2                                   ║\n╚══════════════════════════════════════════════════════╝"
+}

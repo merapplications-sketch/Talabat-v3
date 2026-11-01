@@ -1,0 +1,11 @@
+{
+  "control": "blank page, AudioContext resume after user gesture; no TALABOT code, no RPC",
+  "environment": "Linux WPE WebKit 26.5",
+  "audio": {
+    "ok": false,
+    "name": "InvalidStateError",
+    "message": "Failed to start the audio device"
+  },
+  "app_audio_source_unchanged": true,
+  "audio_source_sha256": "b209a65328c1f09e76160cd615354129dc18c4130767feba6ac88fa833d22688"
+}
