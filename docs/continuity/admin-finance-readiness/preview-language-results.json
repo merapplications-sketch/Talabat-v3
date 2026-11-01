@@ -1,0 +1,15 @@
+{
+  "checks": 7,
+  "results": [
+    "history 390 defaults to Russian",
+    "wallet 390 defaults to Russian",
+    "stale 390 defaults to Russian",
+    "unresolved 390 defaults to Russian",
+    "old-server 390 defaults to Russian",
+    "old-server fixture does not claim unrelated missing presence schema",
+    "wallet 844 defaults to Russian"
+  ],
+  "synthetic": true,
+  "live": false,
+  "scope": "Only default language and changed fixture presentation, recaptured screens; no prior attribution or finance tests repeated"
+}

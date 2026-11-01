@@ -1,0 +1,10 @@
+{
+  "checks": 4,
+  "results": [
+    "inherited write privilege aborts proposal with explicit conflict",
+    "failed deployment rolls capability change back atomically",
+    "failed deployment preserves existing command evidence",
+    "synthetic inherited grant removed; no residual client write"
+  ],
+  "live": false
+}

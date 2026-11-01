@@ -1,0 +1,8 @@
+{
+  "sql/proposed/admin_finance_integrity_20261101.sql": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259",
+  "sql/proposed/admin_finance_safe_hold_20261101.sql": "8a79af85de8fb037b19004029595dc253f7becfecfb400f2878fc583ae20f02d",
+  "tools/finance-fix/readiness_snapshot_lab.cjs": "f86ba205701fcd29ffc34d85b7fd0ff614f13dbae7906d3997e329c34b597dd0",
+  "tools/finance-fix/readiness_inheritance_delta.cjs": "72e89ef3765ebf9464ad52dfccd726b43f3929e54f7bbc6a5a5ad303b5bc32f4",
+  "tools/finance-fix/build_readiness_preview.cjs": "14f126fd8f8bfef819f3b68ce1e6c299881e56d0e5bacf4dc004551beb7f1fab",
+  "docs/continuity/admin-finance-readiness/iphone-isolated-preview.html": "76c3f71c61f9d4a4f9fafd565114924d8d86838178675d036573a6588c0cfcfa"
+}

@@ -1,0 +1,301 @@
+{
+  "project": "dzydscryrnahnneydnry",
+  "base_commit": "6d2132945743ad1b93ac2f830da66f0ea17bd45f",
+  "read_only_live": true,
+  "public_functions": 119,
+  "public_tables": 36,
+  "policies": 44,
+  "triggers": 34,
+  "constraints": 187,
+  "overloaded_names": [],
+  "finance_private_installed": false,
+  "active_delegation_records": 0,
+  "function_definition_catalog_md5": "ed917103ede328ad16f42a23f3c8f2e8",
+  "end_of_read_digest_matches": true,
+  "runtime_scope": "public and proposed finance_private; managed schemas inventoried; two hosted route functions reviewed without invocation; no cron.job present; no custom application schema found",
+  "external_limits": [
+    "Hosted Data API exposed-schema configuration is not returned by database role settings; no configuration change made",
+    "Untracked third-party clients and privileged direct database sessions cannot be inferred from catalog metadata",
+    "service_role/database owners remain trusted privileged operators, outside accountant-only client guarantees"
+  ],
+  "writer_inventory": [
+    {
+      "signature": "admin_assign_driver(bigint,uuid)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "8b2eaaf29236d8bc8dd8fd647217d11433b7ca2dbc2356db0e2af6c4c5b31385"
+    },
+    {
+      "signature": "admin_set_customer_phone(uuid,text,text)",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "d07d80290af5e477b3f96796fb05902ff8fafa6c9d030a733759721c7eca815c"
+    },
+    {
+      "signature": "apply_as_driver()",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "22fb8f68c4713d87ada63fc146ec80fc4b4e88a366fbb5193979cad9da936165"
+    },
+    {
+      "signature": "assign_owner(uuid,text)",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "369a3b15499879e59d368371f2884e6fffa053c49208d9b848396ecfb16b02db"
+    },
+    {
+      "signature": "deliver_order(bigint,numeric,text,text)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "9e47af10449405a7b2d48264774d1bb85b21040294b7721d44b93ed98e0da5df"
+    },
+    {
+      "signature": "driver_accept(bigint)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "799d74287a1d6109ddf4283cdd630fc000983cf38230c2cef7b055296527cce7"
+    },
+    {
+      "signature": "driver_arrived(bigint,text)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "a7558d7324ac7a28c9fcbc1e8b3704b93ad41ce7075d530450849a36ac8b322f"
+    },
+    {
+      "signature": "driver_location(double precision,double precision,double precision)",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "03ee77eb5f7d1f70dbd3f70c08b728a5a3e7ea4519cebc14e7937116fc8238d3"
+    },
+    {
+      "signature": "driver_ping(boolean)",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "ccbda0e88047d4b28959a47d016e6f8dd9ad4aabec58d725d4f07c6b4445901a"
+    },
+    {
+      "signature": "handle_new_user()",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "605adbf5d7f4e018ee971092efae0c141143b49be545285a10520492790344fe"
+    },
+    {
+      "signature": "loyalty_spend(uuid,integer,bigint)",
+      "writes": [
+        "loyalty_ledger",
+        "loyalty_lots"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "definition_sha256": "e3b7a459916b01405ab82c56e91f0c434813245038c6d975a36a4488caa04d0e"
+    },
+    {
+      "signature": "place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",
+      "writes": [
+        "orders",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "9e25130286f96b75945f3b42c4b1a39319839308b2625273aa5ef4b9db0a80d2"
+    },
+    {
+      "signature": "reject_order(bigint,text,text)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "555bd988f16f96bc91aff49ae9985ce0b56d6fd240c7f25b2783c6d238ab3cee"
+    },
+    {
+      "signature": "set_customer_ban(uuid,boolean,text)",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "04f1f4c94002861b073d87ecba6d2f5ee969197bf0665750161ed59e1eef081e"
+    },
+    {
+      "signature": "set_my_phone(text)",
+      "writes": [
+        "profiles"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "1cef27df618fdb9743520452d441cfcee3177b646c92fddcc5cab72615b7f90e"
+    },
+    {
+      "signature": "set_order_status(bigint,order_status)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "b8313afb1ad2b3823ff14fe7875c4b8306ca3273b6fbeb80d3d94c9dd374f399"
+    },
+    {
+      "signature": "set_prep_time(bigint,integer)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "2a1e1bd1e4c99448535ec31b3adf53ed4a2afda877b700cbe6a2f58b5e668fc5"
+    },
+    {
+      "signature": "settle_driver_cash(uuid)",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "8558f68080a806a99ca676c0f8774c9518bba91a01cb3a291e493d1d2db8ba6e"
+    },
+    {
+      "signature": "staff_remove(uuid)",
+      "writes": [
+        "staff_members"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "75aeeb53d616880c3af2706cb0f9e44311d78692aa1886cc5cd5a8833469fc63"
+    },
+    {
+      "signature": "staff_set(text,text[],boolean)",
+      "writes": [
+        "staff_members"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "344723aa2e1b6a1f5de4fa86e1f7423355ee1e1439d55c9a396f2cfceb139c7e"
+    },
+    {
+      "signature": "ticket_set_status(bigint,text,text,numeric)",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "84101418e859097e4764b3463bc35d3e0003c759b60b5379f9df336cdb6c6886"
+    },
+    {
+      "signature": "trg_loyalty()",
+      "writes": [
+        "loyalty_ledger",
+        "loyalty_lots",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "definition_sha256": "3c47faf28b9351a59ff50b9d7dda357b499e6ca2e34fb91eedd384d5501ec8a8"
+    },
+    {
+      "signature": "trg_rating_reward()",
+      "writes": [
+        "loyalty_ledger",
+        "loyalty_lots"
+      ],
+      "security_definer": true,
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "definition_sha256": "0025e8ed0f461119d052d2813c65a6b138de21c8e69bd31bde3bc32e1e47e23b"
+    },
+    {
+      "signature": "trg_wallet_return()",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "definition_sha256": "a5afd77643ba34830aaefe84d671126fb6bda9b1ca9e6eddfef7b0977cba6feb"
+    },
+    {
+      "signature": "wallet_adjust(uuid,numeric,text)",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "definition_sha256": "79d5fe7c0c2b94279e48e8176f1a14ac3e93062b2fb2efd4891242a050086905"
+    }
+  ],
+  "files": {
+    "auth-helper.json": "bc88e23b4ae3ee103ce7dde98112d89b056128752836416849beb3f9893da570",
+    "catalog-consistency.json": "9e45f17954cd4c471577c7fc551c1f25fc2ef3ef5f833e7e91fc5d9dad598cc3",
+    "columns.json": "884bd969f2ef571f0f3dfe1e38ce92aa5b0083abe0665525d9b67cf6e5d3eabc",
+    "delegation-counts.json": "9956bb11cec57eab8e4d0a8bbac2c765a653755e77afd1d3eedfee7dc49b385a",
+    "edge-scope.json": "b2441d3a353ea9244101e81d964212ad066b68a836d7eb85f59c437d72b4c894",
+    "effective-access.json": "d10588cde7ffce73a09da060d3d46af87df30939944992ed1a8dd8894b581ef5",
+    "enums.json": "f453dab24dd9ed12dc1db0df7a561ae9993a81cf7a26743b719a9b3da4c2c435",
+    "functions-0.json": "1e4c92f6392f81dc36d22fb5952b148cbf965ae72bab0b099d6684336e7d57f6",
+    "functions-1.json": "ebfae87bac46567a7ef0c20e8f9b94df33c5764a4ef9de4e223d8e964b40f6b6",
+    "functions-2.json": "8957fa53ab2c75b57d7f535a948b30772d0d48da95df02c9a34f7c2b01df2173",
+    "functions-3.json": "08bfbcee2a13ea571d1eb1012db2352d9eaf49171d3a80d5a38f243a7f940388",
+    "inheritance-delta-results.json": "c1227f35bba6098cba588554a5011c48273d7a3a24e68ac7d182acc5df609044",
+    "policies-triggers-constraints.json": "f8bde0b830713f36b0c637a35a4e1b66fed9b513653b8aa7db993d46e211eac0",
+    "preview-language-results.json": "6fb05099d7717c7daf28ff8f0fbddee3affd3babbbeb8fc126de7449545d83ec",
+    "preview-qa-results.json": "4f2374efc51eac9896551360965a22cde6d6d5b16e41213664f4c40186b9b009",
+    "preview-source-manifest.json": "75886b4a1c31793b16c35facc6112f720ba6b96d6cdf05a6d5e7ff33376d1e74",
+    "relations.json": "fc4f1dbfd5180f78ed2cd99c5eed90ca2f5319002cc32379928e8838bd5a391a",
+    "roles.json": "c582da6374bdaf489384b0e3ee6804b456d3fdf267f61b4b95d1139c65013e15",
+    "schema-scope.json": "92796c2005bef2a15c72e24fe105be8700073643b6249a9314dc851c8ce3c52e",
+    "snapshot-lab-checkpoint.json": "0a54b5ab1c8171a87ca573dd414b6a7fcd3cd60cfcdc4aa87050b23169653a19",
+    "snapshot-lab-results.json": "15592a79a267421a471c7c515f84850b5673e1db5d9e866ee226ec91b6ef7a86"
+  }
+}

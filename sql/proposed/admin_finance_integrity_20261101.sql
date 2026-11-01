@@ -70,6 +70,18 @@ begin if not finance_private.accountant() then raise exception 'not_allowed'; en
 -- No direct table path for clients. Operational SECURITY DEFINER deliver_order remains unchanged.
 revoke insert, update, delete on public.wallet_entries from public, anon, authenticated;
 revoke update on public.orders from public, anon, authenticated;
+-- Actual server snapshot: TRUNCATE bypasses RLS; client sequence UPDATE can reset identifiers.
+revoke truncate on public.orders, public.wallet_entries, public.audit_log from public, anon, authenticated;
+do $seq_acl$
+declare seq_name text; rel text;
+begin
+ foreach rel in array array['public.orders','public.wallet_entries','public.audit_log'] loop
+  seq_name:=pg_get_serial_sequence(rel,'id');
+  if seq_name is not null then
+   execute format('revoke update on sequence %s from public, anon, authenticated',seq_name::regclass);
+  end if;
+ end loop;
+end $seq_acl$;
 -- Table REVOKE alone leaves explicit column grants effective, including grants to PUBLIC.
 do $acl$
 declare col record;
@@ -134,4 +146,20 @@ $$;
 revoke all on all functions in schema finance_private from public,anon,authenticated;
 revoke all on function public.finance_settlement_events(text[]),public.finance_access(),public.finance_execute(uuid,text,uuid,numeric,text),public.finance_command_status(uuid),public.finance_drivers(),public.finance_driver_orders(),public.finance_customers(text,integer,integer),public.finance_audit(integer),public.finance_actor_names(uuid[]),public.settle_driver_cash(uuid),public.wallet_adjust(uuid,numeric,text) from public,anon;
 grant execute on function public.finance_settlement_events(text[]),public.finance_access(),public.finance_execute(uuid,text,uuid,numeric,text),public.finance_command_status(uuid),public.finance_drivers(),public.finance_driver_orders(),public.finance_customers(text,integer,integer),public.finance_audit(integer),public.finance_actor_names(uuid[]),public.settle_driver_cash(uuid),public.wallet_adjust(uuid,numeric,text) to authenticated;
+-- Abort atomically on inherited write grants not removed by the explicit client-role revokes.
+do $effective_acl$
+declare role_name text; rel text; seq_name text;
+begin
+ foreach role_name in array array['anon','authenticated'] loop
+  foreach rel in array array['public.orders','public.wallet_entries','public.audit_log'] loop
+   if has_table_privilege(role_name,rel,'TRUNCATE') then raise exception 'finance_inherited_acl_conflict'; end if;
+   seq_name:=pg_get_serial_sequence(rel,'id');
+   if seq_name is not null and has_sequence_privilege(role_name,seq_name,'UPDATE') then raise exception 'finance_inherited_acl_conflict'; end if;
+  end loop;
+  if has_any_column_privilege(role_name,'public.orders','UPDATE')
+   or has_any_column_privilege(role_name,'public.wallet_entries','INSERT')
+   or has_any_column_privilege(role_name,'public.wallet_entries','UPDATE')
+   or has_table_privilege(role_name,'public.wallet_entries','DELETE') then raise exception 'finance_inherited_acl_conflict'; end if;
+ end loop;
+end $effective_acl$;
 commit;
