@@ -251,7 +251,7 @@
         _x: !!xi[o.id], items: allItems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission || 0, commissionSet: o.commission != null && o.commission !== '', commissionPct: +o.commission_pct,
         payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, walletReturnedAt: o.wallet_returned_at ? Date.parse(o.wallet_returned_at) : null, pointsReturnedAt: o.points_returned_at ? Date.parse(o.points_returned_at) : null, arrivedStoreAt: o.arrived_store_at ? Date.parse(o.arrived_store_at) : null, arrivedCustAt: o.arrived_cust_at ? Date.parse(o.arrived_cust_at) : null, deliveryPhoto: o.delivery_photo || null, cancelReason: o.cancel_reason || null, cancelNote: o.cancel_note || '', cancelledBy: o.cancelled_by || null, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
-        cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
+        cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at, cashSettledAt: o.cash_settled_at || null,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
         createdAt: Date.parse(o.created_at), doneAt: o.done_at ? Date.parse(o.done_at) : null };
@@ -296,6 +296,20 @@
     b.style.background = bg; b.style.bottom = 'calc(' + (bottom || 86) + 'px + env(safe-area-inset-bottom,0px))'; b.textContent = text;
   }
   function unbanner(id) { var b = $(id); if (b) b.remove(); }
+  /* Admin finance read state. Successful snapshots survive read failures; no invented zero. */
+  var FIN = { cash: { known: false, state: 'idle', at: null }, drivers: { known: false, state: 'idle', at: null }, wallets: {}, audit: { known: false, state: 'idle', rows: [], at: null }, errors: { known: false, state: 'idle', rows: [], at: null }, actors: {}, access: { state: 'idle', execute: false }, commands: {} };
+  function financeRead() { return need === 'admin' && (ME.role === 'admin' || MYPERMS.indexOf('finance') >= 0); }
+  function financeOnly() { return need === 'admin' && ME.role !== 'admin' && MYPERMS.indexOf('finance') >= 0 && !MYPERMS.some(function(p){return p === 'orders' || p === 'support';}); }
+  function finState(st, ok) { st.state = ok ? 'ok' : 'error'; if (ok) { st.known = true; st.at = Date.now(); } }
+  function finSafe(p) { var timer;return Promise.race([Promise.resolve(p).catch(function(){return {error:{message:'transport'}};}),new Promise(function(resolve){timer=setTimeout(function(){resolve({error:{message:'transport_timeout'}});},15000);})]).finally(function(){clearTimeout(timer);}); }
+  function finEntry(e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at), created_by: e.created_by || null }; }
+  function finActors(ids) { ids = Array.from(new Set(ids.filter(Boolean))).slice(0,200); if (!ids.length) return Promise.resolve(); return finSafe(sb.rpc('finance_actor_names', { p_ids: ids })).then(function(r){if(!r.error)(r.data||[]).forEach(function(a){FIN.actors[a.id]={name:a.name||'',state:'ok'};});ids.forEach(function(id){if(!FIN.actors[id])FIN.actors[id]={name:'',state:'unknown'};});}); }
+  function finAccess() { if (!financeRead()) return Promise.resolve(FIN.access); return finSafe(sb.rpc('finance_access')).then(function(r){FIN.access={state:r.error?'error':'ok',execute:!r.error&&r.data&&r.data.execute===true};return FIN.access;}); }
+  function finLog(which,limit) { var st=FIN[which];if(st.flight)return st.flight;st.state='loading';var q=which==='audit'?(ME.role==='admin'?sb.from('audit_log').select('*').order('at',{ascending:false}).limit(Math.min(200,limit||100)):sb.rpc('finance_audit',{p_limit:Math.min(200,limit||100)})):sb.from('client_errors').select('*').order('at',{ascending:false}).limit(Math.min(200,limit||100));st.flight=finSafe(q).then(function(r){finState(st,!r.error&&Array.isArray(r.data));if(st.state==='ok')st.rows=r.data;return finActors(st.rows.map(function(x){return x.user_id;}));}).then(function(){return {rows:st.rows.slice(),known:st.known,state:st.state,at:st.at};}).finally(function(){st.flight=null;});return st.flight; }
+  function finSlot(op,target) { var k=op+':'+target;if(!FIN.commands[k]){try{FIN.commands[k]=JSON.parse(sessionStorage.getItem('tlb-fin:'+ME.id+':'+k)||'null');}catch(e){}if(!FIN.commands[k])FIN.commands[k]={state:'idle'};if(FIN.commands[k].state==='pending')FIN.commands[k].state='unresolved';}return FIN.commands[k]; }
+  function finPersist(op,target,st){try{sessionStorage.setItem('tlb-fin:'+ME.id+':'+op+':'+target,JSON.stringify({key:st.key,state:st.state}));return true;}catch(e){return false;}}
+  function finCommand(op,target,amount,note){var st=finSlot(op,target);if(st.state==='pending'||st.state==='unresolved')return Promise.resolve({error:st.state,unresolved:st.state==='unresolved'});if(!FIN.access.execute)return Promise.resolve({error:'finance_authorization_required'});try{st.key=crypto.randomUUID();}catch(e){return Promise.resolve({error:'storage_unavailable'});}st.state='pending';if(!finPersist(op,target,st)){st.state='error';return Promise.resolve({error:'storage_unavailable'});}fireSoon();return finSafe(Promise.resolve().then(function(){return sb.rpc('finance_execute',{p_request:st.key,p_operation:op,p_target:target,p_amount:amount==null?null:amount,p_note:note||null});})).then(function(r){if(r.error){var definite=/^(not_allowed|bad_value|not_found|insufficient_funds|request_conflict)$/.test(r.error.message||'');st.state=definite?'error':'unresolved';return {error:definite?r.error.message:'unresolved',unresolved:!definite};}if(!r.data||r.data.request!==st.key){st.state='unresolved';return {error:'unresolved',unresolved:true};}st.state='success';st.result=r.data;toast(t('saved'));return {ok:true,result:r.data};}).finally(function(){finPersist(op,target,st);fireSoon();});}
+  function finReconcile(op,target){var st=finSlot(op,target);if(!st.key||st.state!=='unresolved')return Promise.resolve({error:'bad_value'});return finSafe(sb.rpc('finance_command_status',{p_request:st.key})).then(function(r){/* Absence is not proof of rollback: the original transaction may still be running. */if(r.error||!r.data)return {error:'unresolved',unresolved:true};st.state='success';st.result=r.data;finPersist(op,target,st);fireSoon();return {ok:true,result:r.data};});}
   var LIMITS = { customer: 60, driver: 60, merchant: 200, admin: 300 };
   var EVERY = {
     customer: { orders: 25000, stat: 60000, misc: 40000 },
@@ -344,8 +358,9 @@
     });
   }
   function ordersQuery() {
+    if (financeOnly()) return sb.rpc('finance_driver_orders');
     var q = sb.from('orders').select('*').order('created_at', { ascending: false }).limit(LIMITS[ME.role] || 60);
-    if (ME.role === 'customer') q = q.eq('customer_id', ME.id);
+    if (ME.role === 'customer' && need !== 'admin') q = q.eq('customer_id', ME.id);
     else if (ME.role === 'driver') q = q.eq('driver_id', ME.id);
     else if (ME.role === 'merchant') {
       var ids = DB.stores.filter(function (x) { return x.owner_id === ME.id; }).map(function (x) { return x.id; });
@@ -366,37 +381,37 @@
       var ids = rows.map(function (o) { return o.id; });
       var live = rows.filter(function (o) { return ACTIVE.indexOf(o.status) >= 0 || extraOrders[o.id]; }).map(function (o) { return o.id; });
       return Promise.all([
-        ids.length ? sb.from('order_items').select('*').in('order_id', ids) : Promise.resolve({ data: [] }),
-        live.length ? sb.from('order_chat').select('*').in('order_id', live).order('created_at') : Promise.resolve({ data: [] }),
-        (ME.role === 'driver' || ME.role === 'admin') ? sb.rpc('cash_balances') : Promise.resolve({ data: [] }),
-        ME.role === 'admin' ? Promise.resolve({ data: null }) : sb.rpc('active_contacts'),
+        ids.length && !financeOnly() ? sb.from('order_items').select('*').in('order_id', ids) : Promise.resolve({ data: [] }),
+        live.length && !financeOnly() ? sb.from('order_chat').select('*').in('order_id', live).order('created_at') : Promise.resolve({ data: [] }),
+        (ME.role === 'driver' || ME.role === 'admin' || financeRead()) ? finSafe(sb.rpc('cash_balances')) : Promise.resolve({ data: [] }),
+        (ME.role === 'admin' || financeOnly()) ? Promise.resolve({ data: null }) : sb.rpc('active_contacts'),
         // gift recipients (patch 32): readable only by the customer, the courier of the order and staff
-        (ME.role !== 'merchant' && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] })
+        (ME.role !== 'merchant' && !financeOnly() && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] })
       ]).then(function (x) {
         if (x[0].error) throw x[0].error;
-        var cash = {}; if (!x[2].error) (x[2].data || []).forEach(function (c) { cash[c.driver_id] = +c.balance; });
+        var cash=DB.cash;if(ME.role==='driver'||financeRead()){finState(FIN.cash,!x[2].error&&Array.isArray(x[2].data));if(FIN.cash.state==='ok'){cash={};x[2].data.forEach(function(c){cash[c.driver_id]=+c.balance;});}}
         // chat of orders opened on demand (admin detail) that are no longer "live" stays in memory
         var keepChat = DB.chat.filter(function (c) { return live.indexOf(c.order_id) < 0 && extraOrders[c.order_id]; });
         var chat = (x[1].error ? [] : (x[1].data || [])).concat(keepChat);
         var contacts = {}; if (x[3] && !x[3].error) (x[3].data || []).forEach(function (c) { contacts[c.order_id] = { customer_phone: c.customer_phone || '', driver_phone: c.driver_phone || '' }; });
         if (ME.role === 'admin') contacts = DB.contacts;                       // the admin loads phones on demand (opened order, low ratings)
         var rcp = {}; if (x[4] && !x[4].error) (x[4].data || []).forEach(function (g) { rcp[g.order_id] = { name: g.name, phone: g.phone }; });
-        if (!changed('orders', [rows, x[0].data, chat, cash, contacts, rcp])) return false;
+        if (!changed('orders', [rows, x[0].data, chat, cash, contacts, rcp, FIN.cash.state])) return false;
         DB.recipients = rcp;
         DB.orders = rows; DB.oitems = x[0].data || []; DB.chat = chat; DB.cash = cash; DB.contacts = contacts;
         return true;
       });
-    });
+    }).catch(function(e){if(ME.role==='driver'||financeRead())finState(FIN.cash,false);throw e;});
   }
   function loadMisc() {
-    var admin = ME.role === 'admin', cust = ME.role === 'customer';
+    var admin = ME.role === 'admin', cust = ME.role === 'customer' && need !== 'admin';
     return Promise.all([
       sb.from('profiles').select('*').eq('id', ME.id).single(),
       sb.from('favorites').select('store_id').limit(300),
       (admin || cust) ? sb.from('ratings').select('*').order('created_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
       cust ? sb.from('addresses').select('*').order('created_at').limit(20) : Promise.resolve({ data: [] }),
       admin ? sb.from('promo_codes').select('*').order('created_at', { ascending: false }).limit(200) : Promise.resolve({ data: [] }),
-      admin ? sb.from('profiles').select('*').eq('role', 'driver').limit(1000) : Promise.resolve({ data: [] }),
+      admin ? finSafe(sb.from('profiles').select('*').eq('role', 'driver').limit(1000)) : financeRead() ? finSafe(sb.rpc('finance_drivers')) : Promise.resolve({data:[]}),
       admin ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
       (admin || cust) ? sb.from('app_settings').select('*') : Promise.resolve({ data: [] }),
       ME.role === 'driver' ? sb.rpc('my_rating') : Promise.resolve({ data: null }),
@@ -413,7 +428,9 @@
       cust ? sb.rpc('store_speed') : Promise.resolve({ data: [] })
     ]).then(function (r) {
       if (r[0].error && r[1].error) throw r[0].error;
-      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data, r[12].error ? null : r[12].data, r[13].error ? [] : r[13].data, r[14].error ? null : r[14].data, r[15].error ? [] : r[15].data, r[16].error ? [] : r[16].data];
+      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? DB.drivers : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data, r[12].error ? null : r[12].data, r[13].error ? [] : r[13].data, r[14].error ? null : r[14].data, r[15].error ? [] : r[15].data, r[16].error ? [] : r[16].data];
+      if(admin||financeRead())finState(FIN.drivers,!r[5].error&&Array.isArray(r[5].data));
+      pack.push(FIN.drivers.state);
       if (!changed('misc', pack)) return false;
       if (pack[0]) ME = Object.assign(ME, pack[0]);
       DB.favs = (pack[1] || []).map(function (x) { return x.store_id; });
@@ -798,7 +815,7 @@
         if (!ok) { bootHide(); return blocked('wrongRole'); }
         if (need === 'driver' && ME.driver_status !== 'approved') { bootHide(); return blocked('pendingApp'); }
         var o = $('tlb-ov'); if (o) o.remove();
-        return refresh().then(function () {
+        return Promise.all([refresh(), finAccess()]).then(function () {
           try { subscribeRealtime(); } catch (e) { console.error(e); }
           startScheduler();
           bootHide();
@@ -1278,7 +1295,7 @@
     },
     /* ---------- customers (admin) ---------- */
     customers: function (q, offset) {
-      return sb.rpc('admin_customers', { p_q: String(q || '').trim().slice(0, 60) || null, p_limit: 30, p_offset: Math.max(0, Math.floor(+offset || 0)) }).then(function (r) { return r.error ? { error: errKey(r.error), rows: [] } : { rows: r.data || [] }; }, function () { return { error: 'generic', rows: [] }; });
+      return sb.rpc(financeOnly()?'finance_customers':'admin_customers', { p_q: String(q || '').trim().slice(0, 60) || null, p_limit: 30, p_offset: Math.max(0, Math.floor(+offset || 0)) }).then(function (r) { return r.error ? { error: errKey(r.error), rows: [] } : { rows: r.data || [] }; }, function () { return { error: 'generic', rows: [] }; });
     },
     /* one account's orders (by customer id, newest first), 50 at a time; .total = how many this account has in all (null if unknown) */
     customerOrders: function (id, from) {
@@ -1385,22 +1402,19 @@
         DB.wallet.loadedAt = Date.now(); if (ch) fireSoon(); return ch;
       }, function () { return null; });
     },
-    walletOf: function (userId) {
-      return Promise.all([sb.rpc('wallet_balance', { p_user: userId }), sb.from('wallet_entries').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(30)]).then(function (r) {
-        return { balance: r[0].error ? 0 : Math.round(+r[0].data * 100) / 100, entries: r[1].error ? [] : (r[1].data || []).map(function (e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }; }) };
-      }, function () { return { balance: 0, entries: [] }; });
-    },
-    walletAdjust: function (userId, amount, note) {
-      var a = num(amount), n = String(note || '').trim();
-      if (isNaN(a) || a === 0 || Math.abs(a) > 100000 || n.length < 3 || n.length > 200) return Promise.resolve({ error: 'bad_value' });
-      return rpc('wallet_adjust', { p_user: userId, p_amount: Math.round(a * 100) / 100, p_note: n }, true);
-    },
-    audit: function (limit) {
-      return sb.from('audit_log').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
-    },
-    clientErrors: function (limit) {
-      return sb.from('client_errors').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
-    },
+    walletOf: function(userId){var st=FIN.wallets[userId]||(FIN.wallets[userId]={balance:null,entries:[],balanceKnown:false,entriesKnown:false,state:'idle'});if(st.flight)return st.flight;st.state='loading';st.flight=Promise.all([finSafe(sb.rpc('wallet_balance',{p_user:userId})),finSafe(sb.from('wallet_entries').select('*').eq('user_id',userId).order('created_at',{ascending:false}).limit(30))]).then(function(r){var goodB=!r[0].error&&r[0].data!=null&&Number.isFinite(+r[0].data),goodE=!r[1].error&&Array.isArray(r[1].data);if(goodB){st.balance=Math.round(+r[0].data*100)/100;st.balanceKnown=true;}if(goodE){st.entries=r[1].data.map(finEntry);st.entriesKnown=true;}st.state=goodB&&goodE?'ok':'error';if(st.state==='ok')st.at=Date.now();return finActors(st.entries.map(function(e){return e.created_by;}));}).then(function(){return {balance:st.balance,entries:st.entries.slice(),balanceKnown:st.balanceKnown,entriesKnown:st.entriesKnown,state:st.state,at:st.at};}).finally(function(){st.flight=null;});return st.flight;},
+    walletAdjust: function(userId,amount,note){var a=num(amount),n=String(note||'').trim();if(isNaN(a)||a===0||Math.abs(a)>100000||n.length<3||n.length>200)return Promise.resolve({error:'bad_value'});return finCommand('wallet_adjust',userId,Math.round(a*100)/100,n);},
+    audit: function(limit){return finLog('audit',limit);},
+    clientErrors: function(limit){return finLog('errors',limit);},
+    financeAccess: function(){return Object.assign({},FIN.access);},
+    financeRefreshAccess: finAccess,
+    financeOnly: financeOnly,
+    financeActor: function(id){return FIN.actors[id]||{name:'',state:'unknown'};},
+    financeSettlementActor: function(id,at){return FIN.audit.rows.find(function(r){return r.table_name==='orders'&&String(r.row_id)===String(id)&&r.details&&r.details.cash_settled_at&&Date.parse(r.details.cash_settled_at.to)===Date.parse(at);})||null;},
+    financeReconcile: finReconcile,
+    financeCommandState: function(op,target){return Object.assign({},finSlot(op,target));},
+    cashHealth: function(){return Object.assign({},FIN.cash);},
+    driversHealth: function(){return Object.assign({},FIN.drivers);},
     mapView: function (elId, points, center) {
       loadLeaflet(function () {
         var box = $(elId); if (!box) return;
@@ -1418,7 +1432,7 @@
       });
     },
     events: function (id) { return DB.events.filter(function (e) { return e.order_id == id; }); },
-    cash: function (driverId) { return DB.cash[driverId] || 0; },
+    cash: function(driverId){return FIN.cash.known?(DB.cash[driverId]||0):null;},
     myCash: function () { return ME ? (DB.cash[ME.id] || 0) : 0; },
     placeOrder: function (o) {
       var s = storeByName(o.store); if (!s) return Promise.resolve({ error: 'store_unavailable' });
@@ -1528,12 +1542,7 @@
     setMyPhone: function (p) { p = normPhone(p); if (!p) return Promise.resolve({ error: 'bad_phone' }); return rpc('set_my_phone', { p_phone: p }, true).then(function (r) { return r.error ? r : { ok: true, phone: p }; }); },
     setDriverBlocked: function (id, v) { return sb.from('profiles').update({ accept_blocked: !!v }).eq('id', id).then(done); },
     setDriverLimit: function (id, v) { v = +v; if (!isFinite(v) || v <= 0 || v > 1000000) return badStore(); return sb.from('profiles').update({ cash_limit: v }).eq('id', id).then(done); },
-    settleCash: function (driverId) {
-      return sb.rpc('settle_driver_cash', { p_driver: driverId }).then(function (r) {
-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
-        toast(t('saved') + ' (' + (+r.data || 0) + ' TJS)'); return refresh().then(function () { return { ok: true }; });
-      });
-    },
+    settleCash: function(driverId){return finCommand('settle_cash',driverId,null,null);},
 
     banners: function (all) { var now = Date.now(); return DB.banners.filter(function (b) { return all || (b.is_active && (!b.starts_at || Date.parse(b.starts_at) <= now) && (!b.ends_at || Date.parse(b.ends_at) > now)); }); },
     addBanner: function (f) { if (!validBanner(f)) return badBanner(); return sb.from('banners').insert(f).then(done); },

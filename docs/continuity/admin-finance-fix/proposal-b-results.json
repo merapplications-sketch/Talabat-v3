@@ -1,0 +1,15 @@
+{
+  "scope": "Proposal B schema and RLS only. No posting or payout rule implemented. Native PostgreSQL isolated fixtures.",
+  "checks": 8,
+  "results": [
+    "receipt visible to involved driver",
+    "unrelated customer cannot read receipt",
+    "accountant sees linked orders",
+    "persistent notice restricted to recipient",
+    "duplicate receipt notice prevented",
+    "clients cannot mutate receipt ledger",
+    "no earnings inferred as a recorded payout",
+    "record is not represented as counterpart acknowledgement"
+  ],
+  "live": false
+}

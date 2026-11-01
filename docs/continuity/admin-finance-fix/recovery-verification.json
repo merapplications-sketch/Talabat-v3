@@ -1,0 +1,215 @@
+{
+  "date": "2026-11-01",
+  "base_commit": "09ef07fd29fb5c5a3e323c23c7331e577567ab1e",
+  "recovered_branch": "fix/admin-finance-20261101",
+  "recovered_source_tree": "5fd9d6b3282f0f5ba80c8723fc56d2cb89779b73",
+  "recovered_tree_verified_locally": true,
+  "files": [
+    {
+      "path": "admin.html",
+      "git_blob": "6c463e51a67b0849215d9b56b304b6a55ff4565f",
+      "sha256": "eed4ebb6266eda821da56612bdf59aa5737d8d5c48abc16eec459921afab3118",
+      "size": 164815
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.css",
+      "git_blob": "b960dd93de59c0048ba9db90db4b1f0e2645524c",
+      "sha256": "415489b829f0190e70c50b7757085638a26cd62d883b293799af8bb8fe1751ac",
+      "size": 1216
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.js",
+      "git_blob": "19a2909afce235bb8c806a6af7cebdf038deb509",
+      "sha256": "190b5285f6b116ab5fd0c5eed8a8233f3d6bb36e7d83482260e836981f54ca90",
+      "size": 8542
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-AUDIT-RESULTS-2026-11-01.md",
+      "git_blob": "bfb7d0f6c0a108fac10fdadb29556c66659cd93d",
+      "sha256": "6de9a42be2c91e6adc78ae887df8c03e6bd303bef1fd3789b605c827bf69f58c",
+      "size": 14687
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-FIX-2026-11-01.md",
+      "git_blob": "6330770b03c32da3772c877401dcd99f19bc51cf",
+      "sha256": "58f8ff6abd0c434698b4969e4fb84d5baef0f32f3d4d5c2b6a2cf12e9d7359fb",
+      "size": 9422
+    },
+    {
+      "path": "docs/continuity/OWNER-DECISIONS-2026-11-01.md",
+      "git_blob": "fd9a1e0a9a2f46e696392b8487fcb2912d2dbe91",
+      "sha256": "789f96e6bb448428299de08a8782e23f126cfa12d120b8e515712ed10b8a294c",
+      "size": 22307
+    },
+    {
+      "path": "docs/continuity/README.md",
+      "git_blob": "854a1351fd6f355a4fb41bd22029abf912b4e42e",
+      "sha256": "1feca46ca2470099bd3ea9d915d89fd2f30ffc76b6de556eb87f79f8a56315cb",
+      "size": 5088
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/README.md",
+      "git_blob": "75b0fd41c317ab81d436fb9b4e8ad5f6831d1dd0",
+      "sha256": "867b9e5e1149ea32b38caf021e0ee9f5db01962c68beb220280422837d676ea6",
+      "size": 3811
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/RECEIPTS-LEDGER-SPEC.md",
+      "git_blob": "1549cee50265730525011ec3afce65ec5736e14d",
+      "sha256": "47a02b4c6df7dabeb53d3a07539a745eefa715943d21cb87d7788b3ddc46e452",
+      "size": 4203
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-audit-stale-1280.png",
+      "git_blob": "adf139864a55d40b8b4395df8268310d09a30076",
+      "sha256": "ab86d83caa6c5849c6714bfd261468acf43511304d303dfd4b0573b384cd7a78",
+      "size": 142275
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-audit-stale-390.png",
+      "git_blob": "321e79ba56ee5665212cd24b13d8b7c7aa9f6298",
+      "sha256": "f086fffc3e3b714c92dcdd1ea0f632c38f9cd532102443c41f3464eb2aeadd10",
+      "size": 82831
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-driver-1280.png",
+      "git_blob": "dd1f277d334497d876c0e76ce7c55e5a34accaea",
+      "sha256": "d02b581c5c4c9617245f530baf1abe0ef7f84368a0a7ed41c757999c4d2e77af",
+      "size": 157872
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-driver-390.png",
+      "git_blob": "d7c3324ee1605073514c0add6a44e4580c3ea4f6",
+      "sha256": "e20ac478e0eef8d7aa614e5b75a03013a30a7f12b8611faaa0940d305d750d31",
+      "size": 81945
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-driver-final-390.png",
+      "git_blob": "932cd591c17914c7bcdfb6a22985d20e1a970939",
+      "sha256": "a0fb1c2f438678b52eab07f95f3e1f804a38f476f0f7c1d03230f6c6bc86c39e",
+      "size": 157301
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-first-load-error-390.png",
+      "git_blob": "b5b76c5da5a8029fbd2cf3ca495236639a973bc4",
+      "sha256": "cb9582ca5d5685455f3dcbe007d56198535dca02024305b05e912f2320b98a58",
+      "size": 79946
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-unresolved-390.png",
+      "git_blob": "e52d9a7aa241fd50e5c41779f0414b1bf94ecd66",
+      "sha256": "b812131628a008906a0353b1146d266a8465eec775b458cd929a127e281dca1d",
+      "size": 83507
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-wallet-390.png",
+      "git_blob": "cb5456a50c4957d4d429fcc2b9cb37a250a64895",
+      "sha256": "20ea24cc6c0cc1e1f1780fa736c06997feca7297913e0629c09b0685162c5db2",
+      "size": 77406
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-wallet-final-1280.png",
+      "git_blob": "b4ce3e81494a12a41fa28ee0374e2cc1211857df",
+      "sha256": "d81c565960572d54d27b58cf4d3b39a8c6631489b5dfb4b4a626538ba6d45fdd",
+      "size": 91821
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/admin-wallet-final-390.png",
+      "git_blob": "736d1ada9b6bdf93d4b8d08e9012ce5353d9c326",
+      "sha256": "9e7bd47740f8e60ae9f20624209081c2b42f7b34c6bbcc3410112c95f1c22d23",
+      "size": 60799
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/postgres-results.json",
+      "git_blob": "996897dfab28d2515680bbe0742b09ce4fa1f944",
+      "sha256": "df87edfaa20ee6ca374959cabe3dfe19ea20c69de353e15ceceb5578a56f5c9f",
+      "size": 1843
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/proposal-b-results.json",
+      "git_blob": "932dfb4689f12ec6541dd42cc8a93d696cf7b342",
+      "sha256": "1d130b1bbbc3d49e5151fbfccdec4204f2d3bd859e485e5e004cb8d2cb037ff5",
+      "size": 548
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/ui-checkpoint.json",
+      "git_blob": "f8c85942ebf96c7f79352e351eb343c8f76f89a8",
+      "sha256": "47a9b51e665cc582d3cf2a521e387b8bbbd2e914424c78436a5a506041efade5",
+      "size": 2330
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/ui-results.json",
+      "git_blob": "ccc0781339fffd433fe7ef1bf607af706c8e9d5b",
+      "sha256": "ae1c1b59bb6f5eb8529799cfc3bf61b7636037506c3dd2c758e14ce807a976e4",
+      "size": 2827
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/validation-delta-results.json",
+      "git_blob": "cee2bc206cde9e157d472a871444ab5ee72b5496",
+      "sha256": "677482002041b5d2d8940eaeeb38563e963da07b8992da3b7cd16e9754bfbcad",
+      "size": 166
+    },
+    {
+      "path": "docs/driver-handoff/DRIVER-NOTES-2026-10-24.md",
+      "git_blob": "c936cf7a1c0867868c6e588e30fb9c36a72a0ad7",
+      "sha256": "c95b407dde4694d605f1a2737a2c68b52f32490181f9bc6371194fe4f27f5b82",
+      "size": 167184
+    },
+    {
+      "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+      "git_blob": "c6f390e5480324771e1efbf5538d39102f4eb5a1",
+      "sha256": "fd0fc398e26bd321e1a4e09e78f07f0efa57fd25492aa86bd4aadb80e3621e5b",
+      "size": 9478
+    },
+    {
+      "path": "sql/proposed/admin_finance_preflight_readonly_20261101.sql",
+      "git_blob": "48d68f35713175d8b2ed0df1e21bdd34bd01905d",
+      "sha256": "0bea2bc79155b7ad5320ef091a893eedd3137feacf70447fe413455b845bab13",
+      "size": 1573
+    },
+    {
+      "path": "sql/proposed/admin_finance_receipts_ledger_20261101.sql",
+      "git_blob": "4518476cf850e2595bfd13c47b2658b3d2722c05",
+      "sha256": "49c12929c7ccc18d1e6a47bb47f7f4a6ed37b4a4959ae13ff583a9eea9745bb3",
+      "size": 3358
+    },
+    {
+      "path": "talabat-core.js",
+      "git_blob": "9741a673f3933ced208ef585fdae580afbe19c12",
+      "sha256": "4ba3495c6c437c4feabc63787bc46c41691d624d4e05add93aa76cb80053ca55",
+      "size": 170650
+    },
+    {
+      "path": "tools/finance-fix/postgres_check.cjs",
+      "git_blob": "1c708157337f887670f5813d9d087d2a27f0caed",
+      "sha256": "6444abc73b2bc17626f88a58acff43303d846955b161b5a1e11088b467d4afbd",
+      "size": 10724
+    },
+    {
+      "path": "tools/finance-fix/proposal_b_check.cjs",
+      "git_blob": "60efccf92322f47fae0b82b89be273fc4de5c639",
+      "sha256": "d9a918f260c288e6ff2775d2fde172011fccc35cd05c8bdbb0dd717deec2b875",
+      "size": 3178
+    },
+    {
+      "path": "tools/finance-fix/runtime_identity.c",
+      "git_blob": "06a3f6c639c9e81c8993e5a969b2e2417b1d12dc",
+      "sha256": "15696cf80e0611e0f7d7565e496cc357fef6593d8460b63c345496806cc89361",
+      "size": 1875
+    },
+    {
+      "path": "tools/finance-fix/ui_check.cjs",
+      "git_blob": "bf24a162662ec63559c62c0ba09c43ec0b2de442",
+      "sha256": "54b093ff12081fefb2a07f88f0aea0b8b76c05b850225c28e5a7207df39bb5ef",
+      "size": 20109
+    },
+    {
+      "path": "tools/finance-fix/validation_delta.cjs",
+      "git_blob": "b46265f5ddbb98528b82f5fafdd6a222ec119659",
+      "sha256": "cf2085bb1b1a8db46a003c893737b9e7f1c68e42fd3f98b99a2b9f4401027863",
+      "size": 1482
+    }
+  ],
+  "prior_pg_running": false,
+  "method": "Recovered staged files, exact byte and git-blob comparison against original saved manifest. Existing financial/UI suites NOT rerun. Results are inherited local evidence reviewed against recovered test source, not a fresh independent execution."
+}
