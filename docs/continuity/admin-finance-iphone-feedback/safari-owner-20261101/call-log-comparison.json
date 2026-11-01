@@ -1,0 +1,38 @@
+{
+  "base": "fc1a197ddd8f06444ad8e0a2ac56cdda9a113e45",
+  "method": "Read existing source, saved traces and owner Safari screenshots only. No test executed.",
+  "safari_session_call_log": {
+    "available": false,
+    "reason": "All four submitted pictures show collapsed DEMO call journal. No session JSON/text found among available evidence.",
+    "execution_count": null,
+    "status_count": null,
+    "key_match": null,
+    "no_resend_proven_for_this_session": false
+  },
+  "existing_saved_trace": {
+    "path": "../call-traces.json",
+    "scenario": "mismatched-status-remains-blocked",
+    "engine": "Earlier isolated Chromium fixture, not owner Safari telemetry",
+    "finance_execute": 1,
+    "finance_command_status": 1,
+    "request": "028856f7-9286-4883-91c1-50f853dafa5a",
+    "status_request": "028856f7-9286-4883-91c1-50f853dafa5a",
+    "same_key": true,
+    "effects": 1,
+    "result": "Mismatched reply leaves unresolved; no second execution in this saved trace"
+  },
+  "source": {
+    "fCheck": "financeReconcile then read reload/cash refresh; no settleCash or finance_execute",
+    "finReconcile": "finance_command_status(p_request: st.key); response must match same key",
+    "fixture": "lost mode commits once then rejects response; balance queries sum unsettled delivered cash",
+    "scheduler": "Periodic successful loadOrders may refresh cash independently while command is unresolved"
+  },
+  "zero_before_confirmation": {
+    "screenshot": "IMG_6358.png",
+    "interpretation": "Consistent with committed synthetic effect and lost acknowledgment, followed by fresh balance read. Independent balance is not command receipt.",
+    "observed_exact_read_sequence": false
+  },
+  "new_checks_run": 0,
+  "prior_successful_checks_preserved": 35,
+  "live": false
+}

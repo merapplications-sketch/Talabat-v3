@@ -1,0 +1,38 @@
+{
+  "base": "fc1a197ddd8f06444ad8e0a2ac56cdda9a113e45",
+  "originals_location": "Existing native Library originals; exact bytes not duplicated in GitHub",
+  "files": [
+    {
+      "name": "IMG_6355.jpeg",
+      "id": "libfile_f4791c3339b48191a89ac8cc91f42acb",
+      "bytes": 389692,
+      "sha256": "ef64878b0bbfdd91e2207c15370bada44ed33bbf18ed36853e69ebab843f9e8c",
+      "observed": "Historical ord4 actor and settlement time visible; Details expanded. Clipboard success not shown.",
+      "url": "https://chatgpt.com/library?file_id=libfile_f4791c3339b48191a89ac8cc91f42acb&account_id=personal"
+    },
+    {
+      "name": "IMG_6356.jpeg",
+      "id": "libfile_3760c6980c88819181048aed3da0e26e",
+      "bytes": 428801,
+      "sha256": "aa3d73de273594f217f46ee5987e92367857cf3ac00dbb02fa627c021b2d93e6",
+      "observed": "Stale scenario shows recovery banner, historical actor/time and content in same screen; initial failed state and exact click sequence not captured in these new images.",
+      "url": "https://chatgpt.com/library?file_id=libfile_3760c6980c88819181048aed3da0e26e&account_id=personal"
+    },
+    {
+      "name": "IMG_6358.png",
+      "id": "libfile_9b2e3af429088191adc3bbee526b0812",
+      "bytes": 557114,
+      "sha256": "0c5fcab7bb812bb47da535c40603c1358d0879676c363f1b90eeb1c9096ec205",
+      "observed": "Unresolved scenario, zero current cash, grey blocked-until-check button. Call log collapsed.",
+      "url": "https://chatgpt.com/library?file_id=libfile_9b2e3af429088191adc3bbee526b0812&account_id=personal"
+    },
+    {
+      "name": "IMG_6359.png",
+      "id": "libfile_28efa78518f08191ad78ec1599658991",
+      "bytes": 1006904,
+      "sha256": "c7d3541f0bf1f4ea999353ed5538893f08148325fce9660e09e3b713c3048c13",
+      "observed": "Confirmed operation 57 TJS; current cash zero; receipt button grey. Unrelated phone notification overlays scenario selector; no redaction of original.",
+      "url": "https://chatgpt.com/library?file_id=libfile_28efa78518f08191ad78ec1599658991&account_id=personal"
+    }
+  ]
+}
