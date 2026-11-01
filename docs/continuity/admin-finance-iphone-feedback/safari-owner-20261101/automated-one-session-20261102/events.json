@@ -1,0 +1,179 @@
+[
+  {
+    "sequence": 1,
+    "at": "2026-11-01T19:58:21.354Z",
+    "action": "main_frame_navigation",
+    "url": "file:///workspace/scratch/f74ead4100b8/finance-one-session/source/iphone-isolated-preview.html?mode=unresolved"
+  },
+  {
+    "sequence": 2,
+    "at": "2026-11-01T19:58:21.593Z",
+    "action": "snapshot",
+    "name": "01-before-clicks",
+    "counts": {
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    "state": "unresolved",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 3,
+    "at": "2026-11-01T19:58:21.625Z",
+    "action": "receipt_press_attempt",
+    "number": 1,
+    "coordinates": {
+      "x": 155,
+      "y": 599.109375
+    },
+    "beforeState": "unresolved",
+    "beforeStatusReads": 0
+  },
+  {
+    "sequence": 4,
+    "at": "2026-11-01T19:58:21.630Z",
+    "action": "snapshot",
+    "name": "02-attempt-1",
+    "counts": {
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    "state": "unresolved",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 5,
+    "at": "2026-11-01T19:58:21.639Z",
+    "action": "receipt_press_attempt",
+    "number": 2,
+    "coordinates": {
+      "x": 155,
+      "y": 599.109375
+    },
+    "beforeState": "unresolved",
+    "beforeStatusReads": 0
+  },
+  {
+    "sequence": 6,
+    "at": "2026-11-01T19:58:21.645Z",
+    "action": "snapshot",
+    "name": "02-attempt-2",
+    "counts": {
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    "state": "unresolved",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 7,
+    "at": "2026-11-01T19:58:21.660Z",
+    "action": "receipt_press_attempt",
+    "number": 3,
+    "coordinates": {
+      "x": 155,
+      "y": 599.109375
+    },
+    "beforeState": "unresolved",
+    "beforeStatusReads": 0
+  },
+  {
+    "sequence": 8,
+    "at": "2026-11-01T19:58:21.664Z",
+    "action": "snapshot",
+    "name": "02-attempt-3",
+    "counts": {
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    "state": "unresolved",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 9,
+    "at": "2026-11-01T19:58:21.673Z",
+    "action": "receipt_press_attempt",
+    "number": 4,
+    "coordinates": {
+      "x": 155,
+      "y": 599.109375
+    },
+    "beforeState": "unresolved",
+    "beforeStatusReads": 0
+  },
+  {
+    "sequence": 10,
+    "at": "2026-11-01T19:58:21.678Z",
+    "action": "snapshot",
+    "name": "02-attempt-4",
+    "counts": {
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    "state": "unresolved",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 11,
+    "at": "2026-11-01T19:58:21.686Z",
+    "action": "receipt_press_attempt",
+    "number": 5,
+    "coordinates": {
+      "x": 155,
+      "y": 599.109375
+    },
+    "beforeState": "unresolved",
+    "beforeStatusReads": 0
+  },
+  {
+    "sequence": 12,
+    "at": "2026-11-01T19:58:21.689Z",
+    "action": "snapshot",
+    "name": "02-attempt-5",
+    "counts": {
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    "state": "unresolved",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 13,
+    "at": "2026-11-01T19:58:21.693Z",
+    "action": "snapshot",
+    "name": "03-after-five-before-status",
+    "counts": {
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    "state": "unresolved",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 14,
+    "at": "2026-11-01T19:58:21.710Z",
+    "action": "result_check_click",
+    "number": 1,
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  },
+  {
+    "sequence": 15,
+    "at": "2026-11-01T19:58:21.798Z",
+    "action": "snapshot",
+    "name": "04-after-one-status",
+    "counts": {
+      "execute": 1,
+      "status": 1,
+      "effects": 1
+    },
+    "state": "success",
+    "key": "f58f3f0e-d7a6-45c2-9256-ae72351952e5"
+  }
+]

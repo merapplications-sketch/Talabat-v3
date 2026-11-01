@@ -1,0 +1,54 @@
+[
+  {
+    "name": "actual command unresolved and disabled before any status",
+    "pass": true
+  },
+  {
+    "name": "baseline one execution zero status reads one effect",
+    "pass": true
+  },
+  {
+    "name": "attempt 1 remains unresolved with same key, no execute/status/effect added",
+    "pass": true
+  },
+  {
+    "name": "attempt 2 remains unresolved with same key, no execute/status/effect added",
+    "pass": true
+  },
+  {
+    "name": "attempt 3 remains unresolved with same key, no execute/status/effect added",
+    "pass": true
+  },
+  {
+    "name": "attempt 4 remains unresolved with same key, no execute/status/effect added",
+    "pass": true
+  },
+  {
+    "name": "attempt 5 remains unresolved with same key, no execute/status/effect added",
+    "pass": true
+  },
+  {
+    "name": "between baseline and five attempts only read-side scheduler calls allowed",
+    "pass": true
+  },
+  {
+    "name": "one result check leaves one execute, adds one status, preserves one effect",
+    "pass": true
+  },
+  {
+    "name": "request key matches command, execution, status, effect and successful result",
+    "pass": true
+  },
+  {
+    "name": "effect unchanged byte-for-byte across all snapshots",
+    "pass": true
+  },
+  {
+    "name": "result-check delta contains one same-key status and reads only",
+    "pass": true
+  },
+  {
+    "name": "successful result57 and refreshed cash0 remain distinct",
+    "pass": true
+  }
+]

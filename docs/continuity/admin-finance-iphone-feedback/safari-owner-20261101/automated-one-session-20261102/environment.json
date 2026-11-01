@@ -1,0 +1,32 @@
+{
+  "base": "0b228829e9772ec473072848f21d80f0d0aabc69",
+  "source": "docs/continuity/admin-finance-readiness/iphone-isolated-preview.html",
+  "sourceGitBlob": "e9727d1430d97b7c2891174d76864f631d5b31dc",
+  "sourceSha256": "c3167cf1c955af28c5a07ca251fce0c64a9877434b8fb4dff774dbed1303eaca",
+  "sourceModified": false,
+  "engine": "Chromium",
+  "version": "153.0.8010.0",
+  "availability": {
+    "webkit": {
+      "path": "/root/.cache/ms-playwright/webkit-2336/pw_run.sh",
+      "installed": false
+    },
+    "chromium": {
+      "path": "/tmp/smile-browser/chromium",
+      "installed": true
+    }
+  },
+  "platform": "linux",
+  "node": "v24.22.1",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "input": "Five physical mouse-input down/up clicks at disabled button center in a touch-enabled mobile viewport; not physical touch hardware",
+  "origin": "file:// exact self-contained GitHub artifact, mode=unresolved",
+  "network": "CSP connect-src none plus HTTP/HTTPS requests aborted",
+  "hosted_attempt": "Cloud Chrome reached private ChatGPT sign-in gate; no hosted session acceptance",
+  "scope": "Only missing unresolved five-click then one status sequence; no closed suites rerun",
+  "safariAcceptance": false,
+  "live": false
+}

@@ -1,0 +1,41 @@
+{
+  "status": "required_sequence_passed_optional_export_failed",
+  "base": "0b228829e9772ec473072848f21d80f0d0aabc69",
+  "checks_passed_before_optional_failure": 13,
+  "all_required_checks_passed": true,
+  "request": "f58f3f0e-d7a6-45c2-9256-ae72351952e5",
+  "sequence": [
+    {
+      "stage": "unresolved-before",
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    {
+      "stage": "unresolved-after-five",
+      "execute": 1,
+      "status": 0,
+      "effects": 1
+    },
+    {
+      "stage": "success-after-one-check",
+      "execute": 1,
+      "status": 1,
+      "effects": 1
+    }
+  ],
+  "attempt_count": 5,
+  "each_attempt_unresolved_and_zero_status": true,
+  "single_navigation": true,
+  "effect_unchanged": true,
+  "external_requests": 0,
+  "page_errors": 0,
+  "optional_harness_error": "SyntaxError: Unexpected end of JSON input",
+  "optional_harness_error_stage": "Parsing empty text from visible DEMO disclosure after required sequence finished; no rerun. Does not establish application failure. No final screenshot or visible journal export produced.",
+  "engine": "Chromium 153.0.8010.0, Linux, Playwright, 390x844, headless, mouse input on disabled control",
+  "source": "Exact unchanged saved self-contained GitHub HTML, file:// isolated fixture; not hosted authenticated site",
+  "safari_actual_acceptance": "open; WebKit not installed; no owner task assigned",
+  "live": false,
+  "prior_successful_checks_rerun": false,
+  "script_sha256": "c71fd8c7d7cf8ae0fc3e7a5449dc0609e485435430bc2497828910b6cad2c8e4"
+}

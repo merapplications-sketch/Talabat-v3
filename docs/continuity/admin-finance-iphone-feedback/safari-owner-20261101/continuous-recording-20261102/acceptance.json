@@ -2,7 +2,7 @@
   "base": "bcfb25f7bb80573d62f90420c3033cea26ed1f80",
   "prepared_date": "2026-11-02",
   "task": "One continuous Safari synthetic-session unresolved repeated-click acceptance",
-  "status": "partial_logs_verified_continuous_sequence_not_received",
+  "status": "functional_sequence_passed_chromium_isolated_safari_device_open",
   "recording_received": false,
   "new_session_request": "75e0ab7b-1bf7-4d33-891d-af14651a2ff3",
   "proof": {
@@ -25,8 +25,37 @@
   "application_changes": 0,
   "live_changes": 0,
   "server_patch": "unapplied",
-  "note": "Two journals and unresolved state received. Counts/key/effect matched; no continuous Safari recording received. Not whole-device/live acceptance.",
+  "note": "Latest functional result from new exact-source isolated Chromium session. Old owner journals preserved separately; no retroactive Safari closure or request to owner. Live release and server patch remain unapplied.",
   "latest_evidence_base": "cc4d7b859746fe49439b9708ae4410e19902fa51",
   "remaining": "Continuous linkage of unresolved state, five blocked attempts and first status. Existing matching recording sufficient; do not repeat closed checks.",
-  "evidence_directory": "request-75e0ab7b"
+  "evidence_directory": "request-75e0ab7b",
+  "latest_automated_base": "0b228829e9772ec473072848f21d80f0d0aabc69",
+  "automated_evidence": "../automated-one-session-20261102",
+  "automated_request": "f58f3f0e-d7a6-45c2-9256-ae72351952e5",
+  "automated_engine": "Chromium 153.0.8010.0, Linux, Playwright, 390x844, headless, mouse input on disabled control",
+  "required_sequence_proven": true,
+  "automated_proof": {
+    "five_attempts_each_unresolved": true,
+    "execute_counts": [
+      1,
+      1,
+      1
+    ],
+    "status_counts": [
+      0,
+      0,
+      1
+    ],
+    "effects": [
+      1,
+      1,
+      1
+    ],
+    "same_key": true,
+    "effect_unchanged": true,
+    "single_navigation": true
+  },
+  "optional_harness_export": "failed after required13checks; preserved failure; no rerun",
+  "owner_collection_required": false,
+  "safari_device_acceptance": "open; no Safari/WebKit runtime available"
 }
