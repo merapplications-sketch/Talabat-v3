@@ -1011,3 +1011,9 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - Historical continuity text kept unchanged; §48/49 integration corrections retained. Order 9120 diagnosis remains open/unassigned.
 - Cancellation and protection of money advanced by the courier researched from official sources and recorded as a PROPOSAL, not approved liability or executable policy. Owner decisions still needed before financial implementation.
 - No application code, runtime pricing, SQL, backend, main merge or application deployment performed. Documentation checks only; no previously passed suites re-run.
+
+
+## 51. 1 Nov — owner approves subscriber guarantee for direct orders (plan only)
+- Owner replied «تمام» to the specific recommendation: for subscriber-originated direct orders, the requesting subscriber guarantees the authorised goods amount advanced by the courier, subject to proof of payment and no courier fault; subscriber handles the recipient dispute.
+- Approval recorded in docs/continuity/OWNER-DECISIONS-2026-11-01.md. It does not extend to marketplace orders or approve the entire cancellation proposal.
+- Attempt/return compensation and funding, waiting period, proof/dispute procedures and marketplace protection remain unresolved. No financial code, live settlement, SQL, main merge or deployment performed.
