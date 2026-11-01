@@ -1,0 +1,44 @@
+{
+  "request_id": "AF-ACT-20261102-01",
+  "observed": {
+    "at_utc": "2026-11-01T21:21:47.344969+00:00",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+    "safaridriver": null,
+    "webkitdriver": null,
+    "webkit_launcher_installed": false,
+    "files": {
+      "admin.html": {
+        "sha256": "408493b7be736f024ecfdd5d4d49b4a631b283260c800a553460d4fc22fb95eb",
+        "matches": true
+      },
+      "talabat-core.js": {
+        "sha256": "3d5bb52a056f8949766250e12b3e68fd6389ef255525fee52ea1a552acbb7077",
+        "matches": true
+      },
+      "assets/admin-finance/admin-finance.js": {
+        "sha256": "17e30ac04bb2cab589b3b48dd3f2aa03b50686efdea8e9cb442d2cc5e452635b",
+        "matches": true
+      },
+      "assets/admin-finance/admin-finance.css": {
+        "sha256": "3cb9bd242c208264511120368be65a1ddf77264ea55fb477f8271ac658590dc0",
+        "matches": true
+      }
+    }
+  },
+  "connected_surfaces": {
+    "apps": [],
+    "browsers": [
+      {
+        "id": "1",
+        "name": "Chrome",
+        "type": "cdp"
+      }
+    ]
+  },
+  "available_tool_inventory": {
+    "remote_safari_or_apple_device_executor": false
+  },
+  "result": "Safari acceptance cannot be performed with currently exposed executors; OPEN for team, not passed, no owner technical task.",
+  "candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "previous_tests_repeated": false
+}
