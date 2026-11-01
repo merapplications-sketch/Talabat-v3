@@ -1,0 +1,33 @@
+{
+  "scope": "Isolated Node VM; exact function slices; no network or database; reproduced defects, not successful accounting actions",
+  "checks": [
+    {
+      "name": "wallet actor present in response is discarded",
+      "result": "REPRODUCED"
+    },
+    {
+      "name": "wallet transport failure becomes zero and empty history",
+      "result": "REPRODUCED"
+    },
+    {
+      "name": "audit permission/load error becomes empty history",
+      "result": "REPRODUCED"
+    },
+    {
+      "name": "accounting staff audit actor displays truncated UUID",
+      "result": "REPRODUCED"
+    },
+    {
+      "name": "cash load failure overwrites last known cash balance",
+      "result": "REPRODUCED"
+    },
+    {
+      "name": "delegated finance staff customer role skips cash RPC",
+      "result": "REPRODUCED"
+    },
+    {
+      "name": "two settlement clicks start two RPCs while first pending",
+      "result": "REPRODUCED"
+    }
+  ]
+}
