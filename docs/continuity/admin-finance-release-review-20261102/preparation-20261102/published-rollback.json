@@ -1,0 +1,933 @@
+{
+  "observed_date_dushanbe": "2026-11-02",
+  "provider": "GitHub Pages",
+  "origin": "https://merapplications-sketch.github.io/Talabat-v3/",
+  "published_source_commit": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+  "source_tree": "34881e0c7780fbdd52e46e718c0f45522eb4b363",
+  "latest_successful_workflow": {
+    "id": 39172212084,
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/39172212084",
+    "head_sha": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+    "conclusion": "success",
+    "created_at": "2026-10-18T22:26:11Z"
+  },
+  "served_files": [
+    {
+      "path": "admin.html",
+      "url": "https://merapplications-sketch.github.io/Talabat-v3/admin.html",
+      "status": 200,
+      "bytes": 131922,
+      "sha256": "6b461c61bc6702979d7442fba3c6ad225525bb72cda86fb44220fd49d3895fa0",
+      "git_blob": "bdcec1a020d5eb38633f519386997172ba5469e3",
+      "commit_blob": "bdcec1a020d5eb38633f519386997172ba5469e3",
+      "matches_commit": true
+    },
+    {
+      "path": "talabat-core.js",
+      "url": "https://merapplications-sketch.github.io/Talabat-v3/talabat-core.js",
+      "status": 200,
+      "bytes": 127018,
+      "sha256": "77796be799c4677cfcc24c6e2c1104366bebae6db42dffc886f28d985cc6ae15",
+      "git_blob": "2ebfb62f3bb2c964887d6a33834399e50c91ecc0",
+      "commit_blob": "2ebfb62f3bb2c964887d6a33834399e50c91ecc0",
+      "matches_commit": true
+    },
+    {
+      "path": "customer.html",
+      "url": "https://merapplications-sketch.github.io/Talabat-v3/customer.html",
+      "status": 200,
+      "bytes": 542715,
+      "sha256": "e599bf4403bd4c5e29a8b0120668e6964d97bf63c1bfe8f9bab25f0674f2d8ee",
+      "git_blob": "f7d72fa1f1cb1d834d36cc8bd5c65477d620d00b",
+      "commit_blob": "f7d72fa1f1cb1d834d36cc8bd5c65477d620d00b",
+      "matches_commit": true
+    },
+    {
+      "path": "driver.html",
+      "url": "https://merapplications-sketch.github.io/Talabat-v3/driver.html",
+      "status": 200,
+      "bytes": 62201,
+      "sha256": "08535c9d9d20ecf1ac9a6b68a6bbeb0f649e4c84306af9a980ecc81db5d2bb0a",
+      "git_blob": "3ffd2ccd192aa60533723a43fe0a81c87282de59",
+      "commit_blob": "3ffd2ccd192aa60533723a43fe0a81c87282de59",
+      "matches_commit": true
+    },
+    {
+      "path": "merchant.html",
+      "url": "https://merapplications-sketch.github.io/Talabat-v3/merchant.html",
+      "status": 200,
+      "bytes": 67780,
+      "sha256": "f33a5036b87404760a65091a9bff772fa86bee15d276ceffae1a93d8dc37637e",
+      "git_blob": "de3d678932a6f63ddddf1b8ebee7efc5abb7542a",
+      "commit_blob": "de3d678932a6f63ddddf1b8ebee7efc5abb7542a",
+      "matches_commit": true
+    }
+  ],
+  "core_query_variants": [
+    {
+      "url": "https://merapplications-sketch.github.io/Talabat-v3/talabat-core.js?v=52",
+      "status": 200,
+      "bytes": 127018,
+      "sha256": "77796be799c4677cfcc24c6e2c1104366bebae6db42dffc886f28d985cc6ae15",
+      "matches_plain_served": true
+    },
+    {
+      "url": "https://merapplications-sketch.github.io/Talabat-v3/talabat-core.js?v=56",
+      "status": 200,
+      "bytes": 127018,
+      "sha256": "77796be799c4677cfcc24c6e2c1104366bebae6db42dffc886f28d985cc6ae15",
+      "matches_plain_served": true
+    }
+  ],
+  "full_source_inventory": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c18dd8d83ceed1806b50b0aaa46beb7e335fff13",
+      "size": 13
+    },
+    {
+      "path": "CHANGES-v30.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4fdba464fa7b3243c5145c8aa919d0df71c08bd9",
+      "size": 1236
+    },
+    {
+      "path": "CHANGES-v31.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c258ea7cf35a1b428c3b95eea8b8318e5d95a418",
+      "size": 573
+    },
+    {
+      "path": "CHANGES-v32.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e75c316ca4bbf0b283d2321f22fb485df35e00b",
+      "size": 526
+    },
+    {
+      "path": "CHANGES-v33.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ca44e64bb9a6c6307518920e4d33bf89add20e0",
+      "size": 523
+    },
+    {
+      "path": "CHANGES-v34.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b88adc200ff0c164f8dda810e0567246c8f3d2d8",
+      "size": 1025
+    },
+    {
+      "path": "CHANGES-v35.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4eaa218188a296569f419aae02b5a0ad2b46f034",
+      "size": 674
+    },
+    {
+      "path": "CHANGES-v36.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f93682558b2aabdbce3b1cdd320ea56f6e6ca555",
+      "size": 923
+    },
+    {
+      "path": "CHANGES-v38.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98a6cb9e1ef0437387c112ccd1d9276019786327",
+      "size": 504
+    },
+    {
+      "path": "CHANGES-v40.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17ba46cbcd6c4b77480775e165a31056b44e7fe1",
+      "size": 1452
+    },
+    {
+      "path": "CHANGES-v42.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "afb256067d08d48bdafe1b09c05699bd0b119a4f",
+      "size": 2062
+    },
+    {
+      "path": "CHANGES-v43.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60cbf54dd0fa75fd064e55493cc5d00b18a18ec6",
+      "size": 2716
+    },
+    {
+      "path": "CHANGES-v44.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42a9b495c1a2d4fd5a4f65f200fc700e330c436d",
+      "size": 2510
+    },
+    {
+      "path": "CHANGES-v45.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e904e2405d07b702e67f2c9f19e32d3bd63ad076",
+      "size": 1616
+    },
+    {
+      "path": "CHANGES-v46.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8194034fd4a09ce21a3952d13e0ecca2b79b378",
+      "size": 3079
+    },
+    {
+      "path": "CHANGES-v47.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f2a2122b4187e927d34c7fc366e255edfb61904",
+      "size": 1091
+    },
+    {
+      "path": "CHANGES-v48.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91fd0645c0d635e4de33c4177da15a298676a890",
+      "size": 1444
+    },
+    {
+      "path": "CHANGES-v49.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4c3bc7e470ad463cf1d3dfb253e28101abffcd2",
+      "size": 1042
+    },
+    {
+      "path": "CHANGES-v50.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae053df5cd17324d24a8e33210e6f8995073f38d",
+      "size": 2628
+    },
+    {
+      "path": "CHANGES-v51.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "422a2ff097997ffde38726ee2ac574b5ce0f6864",
+      "size": 3826
+    },
+    {
+      "path": "CHANGES-v52.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61b7fd99361b1e14e3fc2e1a5004b4cbc8d81610",
+      "size": 2869
+    },
+    {
+      "path": "CHANGES-v53.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "027ff8863f67283c5dc20da5fc52657f5f1e2b1a",
+      "size": 4720
+    },
+    {
+      "path": "HANDOFF.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f1460c3c64ae1955d8aa72722759ae05f5c7cb9",
+      "size": 9748
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa52c59fdc1af7a3cdf22100a8af53a99e1ff440",
+      "size": 12
+    },
+    {
+      "path": "SCALING-AND-SECURITY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65ba6c4ad1d66500acb78318f88c0ddf10e72b6e",
+      "size": 2482
+    },
+    {
+      "path": "admin.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bdcec1a020d5eb38633f519386997172ba5469e3",
+      "size": 131922
+    },
+    {
+      "path": "assets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "356f3a7c919924cdb1639b1a1d8ad7ff05b2f20b"
+    },
+    {
+      "path": "assets/3d",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f1945c10b1b0d75f17963dbb1bb65e2dcb1e75c8"
+    },
+    {
+      "path": "assets/3d/LICENSE-fluentui-emoji.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e841e7a26e4eb057b24511e7b92d42b257a80e5",
+      "size": 1141
+    },
+    {
+      "path": "assets/3d/automobile.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa98f3790515f92e3395e7ec684a92ec78fcf487",
+      "size": 3942
+    },
+    {
+      "path": "assets/3d/avocado.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "697085de4dd31213aa631a255a2366edd5cf99bf",
+      "size": 5022
+    },
+    {
+      "path": "assets/3d/balloon.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cc0d498d24ed7161093b0909e4be62c5a55eb3e",
+      "size": 4396
+    },
+    {
+      "path": "assets/3d/basket.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3634dc346fc0b8a0b1f55d0aa3292ce6938ddaa",
+      "size": 4766
+    },
+    {
+      "path": "assets/3d/bell.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "97d3e86c8405bd1d5aaf2657cba300c0b471c5fd",
+      "size": 3638
+    },
+    {
+      "path": "assets/3d/birthday-cake.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3bf58842341e3054ee4f5124f94aea7f3b3362a2",
+      "size": 5810
+    },
+    {
+      "path": "assets/3d/bouquet.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a62b001e3b573b674e532c0c686be828dce5f6dd",
+      "size": 6034
+    },
+    {
+      "path": "assets/3d/bread.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9cc5da4090635996e5055df3ba12e66dcecf5916",
+      "size": 4104
+    },
+    {
+      "path": "assets/3d/carrot.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21cb7a73993a69622c13266ce654f5c5a32fd98f",
+      "size": 5390
+    },
+    {
+      "path": "assets/3d/cityscape-at-dusk.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82c1da0d5f18626ed5a40eaf79905a874c8dcfb4",
+      "size": 3160
+    },
+    {
+      "path": "assets/3d/coin.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "066607e2dd9dfd5d5936e7e09da2250f13fa87f2",
+      "size": 4090
+    },
+    {
+      "path": "assets/3d/couch-and-lamp.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c7fc1443197375909f9b3e756637111298fd12a",
+      "size": 3810
+    },
+    {
+      "path": "assets/3d/credit-card.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66d20e65b29cbfeee016386b8eae9c240720e89c",
+      "size": 1954
+    },
+    {
+      "path": "assets/3d/croissant.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "350c02f1a70e55a80a1c294cc4d32d6e97622dda",
+      "size": 4846
+    },
+    {
+      "path": "assets/3d/ear-of-corn.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa8c4eda3bfd8f6a59414ddadc083bb07798a034",
+      "size": 5276
+    },
+    {
+      "path": "assets/3d/fire.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ada7e5458f71cae34135f032ebb0963d31db2c94",
+      "size": 4088
+    },
+    {
+      "path": "assets/3d/flowers-gifts.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1ea567e9103ee96e56d4b2fcf4ffc783d2ae32f",
+      "size": 9428
+    },
+    {
+      "path": "assets/3d/french-fries.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff3577b410698e96aa25f2888e75de626d82bb11",
+      "size": 4758
+    },
+    {
+      "path": "assets/3d/gem-stone.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "818e029adb7a16c2ca31a5a568c47fbeaf2bffd6",
+      "size": 3118
+    },
+    {
+      "path": "assets/3d/hamburger.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa7a0ecbeb020cd81ce25d09e85cb5954c6565fe",
+      "size": 4266
+    },
+    {
+      "path": "assets/3d/headphone.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b60bffcd4ef907ce822626d1863cfd42eaa5fc77",
+      "size": 6514
+    },
+    {
+      "path": "assets/3d/high-voltage.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef14f281b8209fe5434c2af3661b44b04128cfd2",
+      "size": 2530
+    },
+    {
+      "path": "assets/3d/hospital.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "083bf268254cac464d28059aa5caf979681c54be",
+      "size": 2606
+    },
+    {
+      "path": "assets/3d/leafy-green.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31dde1c844c85075bf63a42765283410097934ae",
+      "size": 5748
+    },
+    {
+      "path": "assets/3d/lotion-bottle.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b103a17ad9f5e2711eaf20e8e283081746c2655b",
+      "size": 2470
+    },
+    {
+      "path": "assets/3d/mobile-phone.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "551e81c9203a71c3594af468e15374ede7c19851",
+      "size": 3000
+    },
+    {
+      "path": "assets/3d/motor-scooter.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87c3c5875e80c21fd72d6ad1f1b84d97b07f29c8",
+      "size": 4020
+    },
+    {
+      "path": "assets/3d/package.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "288e6c9c9ff96f268f77025d5b08671ebcae11d2",
+      "size": 3780
+    },
+    {
+      "path": "assets/3d/party-popper.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90b379f7903c080b80c34ca81e1130105fa6dc07",
+      "size": 8700
+    },
+    {
+      "path": "assets/3d/paw-prints.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9e7591f883f89e3833beac03e06f3239fde1159",
+      "size": 5912
+    },
+    {
+      "path": "assets/3d/pill.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a4ddbd2732b3ce633d18dd8e031e300b2800ead",
+      "size": 3794
+    },
+    {
+      "path": "assets/3d/pizza.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96ba1d53905213239f33f3d326f19b6be8f8b063",
+      "size": 4424
+    },
+    {
+      "path": "assets/3d/red-apple.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39a751d29747f5694be7c1af1677d108ba3454f5",
+      "size": 4496
+    },
+    {
+      "path": "assets/3d/red-heart.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d12bd365597a1dd1daac3543201bd337383d87ce",
+      "size": 4138
+    },
+    {
+      "path": "assets/3d/rose.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf90bdeaf795493514c19a03e4c932d1c9263b7f",
+      "size": 3870
+    },
+    {
+      "path": "assets/3d/round-pushpin.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a62fb807eaf4e72d1f4a80053e8af93675a21249",
+      "size": 2914
+    },
+    {
+      "path": "assets/3d/shopping-bags.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "859ab0dd68fb7d299d6d734d99ad6312c5f67903",
+      "size": 3366
+    },
+    {
+      "path": "assets/3d/shopping-cart.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92af61210e6bc4108f7567c5d27dc234b7b9f1e4",
+      "size": 7154
+    },
+    {
+      "path": "assets/3d/shortcake.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28e3e252e130716ff90151b83b2e976c6124602d",
+      "size": 5760
+    },
+    {
+      "path": "assets/3d/sparkles.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d6632890f75953760cd24379eafcb29526e635f",
+      "size": 5920
+    },
+    {
+      "path": "assets/3d/star.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5091ea91d1e817486c4317e41f9ce4c50f9b6346",
+      "size": 4344
+    },
+    {
+      "path": "assets/3d/sushi.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e923ff012e26f5c881712704d5c71ab0850b894d",
+      "size": 3884
+    },
+    {
+      "path": "assets/3d/teddy-bear.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3aa2d7b8474eee8c54440aeb02ddd2f02f213fe8",
+      "size": 6338
+    },
+    {
+      "path": "assets/3d/tulip.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "023ce3f4186bb6507745a66dafa27cdde49adca5",
+      "size": 4448
+    },
+    {
+      "path": "assets/3d/wrapped-gift.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "454a6f62f29837ef4ff37c52c9591f6990e5d92c",
+      "size": 3498
+    },
+    {
+      "path": "customer.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f7d72fa1f1cb1d834d36cc8bd5c65477d620d00b",
+      "size": 542715
+    },
+    {
+      "path": "driver.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ffd2ccd192aa60533723a43fe0a81c87282de59",
+      "size": 62201
+    },
+    {
+      "path": "merchant.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de3d678932a6f63ddddf1b8ebee7efc5abb7542a",
+      "size": 67780
+    },
+    {
+      "path": "migrate-images.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32897c3e963e3661c4b96845e187132dbe2dfed7",
+      "size": 6111
+    },
+    {
+      "path": "security-check.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d348a43fc32e415699b3c834858573d866ec9523",
+      "size": 38154
+    },
+    {
+      "path": "sql",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "082c31332786b20732359b7e277d8171f98e5b95"
+    },
+    {
+      "path": "sql/schema_patch17.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11f1bdea7e1c5c375c602995d5398bf140b56932",
+      "size": 22879
+    },
+    {
+      "path": "sql/schema_patch18.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e9958f2dd3566f88d14becd3835a937daee304d",
+      "size": 25292
+    },
+    {
+      "path": "sql/schema_patch19.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "edff05be29cec8233b11fc2ec68b5a998c4f4deb",
+      "size": 28855
+    },
+    {
+      "path": "sql/schema_patch20.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f678c7efcd320e6f95c4cfa11816ac9bac45b11d",
+      "size": 9471
+    },
+    {
+      "path": "sql/schema_patch21.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "736bbf58ed5a1fb6a5e9ecb75cd74998b96a3cbf",
+      "size": 17994
+    },
+    {
+      "path": "sql/schema_patch22.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d27ce310c9e34ce9c13fd8f7284b6f34c95198cd",
+      "size": 11687
+    },
+    {
+      "path": "sql/schema_patch23.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a2f9c7b0ed90dfe3ec62c70ddda3b5adfbbcef1",
+      "size": 2391
+    },
+    {
+      "path": "sql/schema_patch24.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39612d6144c2ee6b91e51995ef02a5e3ad704b8a",
+      "size": 7420
+    },
+    {
+      "path": "sql/schema_patch25.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9a6dbf624b06e699c35ea77133abb24a00b4d08",
+      "size": 6111
+    },
+    {
+      "path": "sql/schema_patch26.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a0091e499f63c5b09c36d47346d6aced16c0475",
+      "size": 28531
+    },
+    {
+      "path": "sql/schema_patch27.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "273b5922236a050f46c2ebfd96e37fb04b6a1755",
+      "size": 13165
+    },
+    {
+      "path": "sql/schema_patch28.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8af3283df2257ba7c81f25338cb179d17ab71914",
+      "size": 4245
+    },
+    {
+      "path": "sql/schema_patch29.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64135f5b7988960b5374a60c8a531fab3e613f83",
+      "size": 26372
+    },
+    {
+      "path": "sql/schema_patch30.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf6aba5c33601538f5ed32f395df6d6f7731fdf9",
+      "size": 4715
+    },
+    {
+      "path": "sql/schema_patch31.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49886aefe1be70bfb1d4b2de2670adf1c74df7c7",
+      "size": 12967
+    },
+    {
+      "path": "sql/schema_patch32.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e78bbeefe1d4ff258bab62b11402172b3d857f8e",
+      "size": 25325
+    },
+    {
+      "path": "sql/schema_patch33.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2adb670ba7857d6cfc4d4a90307406f179a5bdb6",
+      "size": 28586
+    },
+    {
+      "path": "sql/schema_patch34.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c969801b0d0e83d84bd704e12184dc4d1678b457",
+      "size": 7686
+    },
+    {
+      "path": "sql/test_patch26.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fb721e1531ddf1d1fbe86aa690aba7cc02a9ef7",
+      "size": 22442
+    },
+    {
+      "path": "sql/test_patch27.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e6fcc648db4a7b99d4dec00d7dd037dd44082aa",
+      "size": 15485
+    },
+    {
+      "path": "sql/test_patch28.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c391881c270f003c8fd93b435f4d52f0162485fe",
+      "size": 7713
+    },
+    {
+      "path": "sql/test_patch29.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99cff19a43b0e38a2bfe1bd94b9036a288d1720a",
+      "size": 17301
+    },
+    {
+      "path": "sql/test_patch30.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bcdb175fc835ce2533e6afaa7d8078632df0ff9",
+      "size": 1119
+    },
+    {
+      "path": "sql/test_patch30_case.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "892a213315891df5d62eb79eccce6d9cf279a3a7",
+      "size": 4462
+    },
+    {
+      "path": "sql/test_patch32.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4abb9b9dac666d590fabd9e70a74ee8b480096a8",
+      "size": 15936
+    },
+    {
+      "path": "sql/test_patch33.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8351d155b0c3fe7315442419fa57f9b49826b411",
+      "size": 16836
+    },
+    {
+      "path": "sql/test_patch34.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e3f06da4aee9723371aec7eadeab58e6f0adccd",
+      "size": 17565
+    },
+    {
+      "path": "talabat-core.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ebfb62f3bb2c964887d6a33834399e50c91ecc0",
+      "size": 127018
+    },
+    {
+      "path": "tools",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "56796a1c89fa7f27d6f0ee00fbb8afc07d22ae97"
+    },
+    {
+      "path": "tools/branch_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c66c5277f77b3e29f442cae09881b83c7c1debda",
+      "size": 1539
+    },
+    {
+      "path": "tools/cart_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd1e94c04b29d28119dcdb798d07d647288476d3",
+      "size": 10506
+    },
+    {
+      "path": "tools/courier_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "308fd1c130713d6a2f599bb06a7855fcb810ef85",
+      "size": 5590
+    },
+    {
+      "path": "tools/flow_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71ad2c753cf0142deb0b72b2e1bea4a61f0b72e9",
+      "size": 24368
+    },
+    {
+      "path": "tools/hdr_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5de1ad2a07f971c4854228d681f213d02f2acbb",
+      "size": 3028
+    },
+    {
+      "path": "tools/loyalty_parity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88ca9ac580e857e68f9a3d5312996162d6d92b87",
+      "size": 6191
+    },
+    {
+      "path": "tools/overflow.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72f9a139f04f887119c0a9f3e8018b3fc8ee723e",
+      "size": 1267
+    },
+    {
+      "path": "tools/overflow2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe24b020264730d13b945569e413c5e03b834627",
+      "size": 1376
+    },
+    {
+      "path": "tools/qa_all.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19a9643f3643364b48f8fa8ccd2dd5bafd22c6c4",
+      "size": 23482
+    },
+    {
+      "path": "tools/sheet_check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "496e3db787747c47c45b059055aea1686f7157fa",
+      "size": 1968
+    },
+    {
+      "path": "tools/smoke.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d65b9e64706167283c3b19a92eea1fc14c59047",
+      "size": 4081
+    }
+  ],
+  "rollback_reference": {
+    "commit": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/tree/ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+    "scope": "Whole immutable published source tree. Main four HTML and shared JS confirmed against live served bytes. Other assets inventoried by source Git tree, not all individually downloaded.",
+    "method": "Restore the approved exact source/artifact from pinned commit under a later authorized deployment; retain server safe hold after schema A. Never restore database data over new confirmed transactions.",
+    "source_tree": "34881e0c7780fbdd52e46e718c0f45522eb4b363"
+  },
+  "artifact_download": {
+    "workflow_artifacts": [],
+    "zip_created": false,
+    "reason": "No retained workflow artifacts; rollback pinned by exact durable Git source tree and verified served-file hashes."
+  },
+  "legacy_label_warning": "admin/driver/merchant import ?v=52 while customer imports ?v=56; both served core variants currently identical. Version label alone is not release evidence."
+}

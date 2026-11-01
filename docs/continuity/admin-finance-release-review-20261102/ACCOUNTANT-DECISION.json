@@ -1,6 +1,6 @@
 {
   "prepared_date": "2026-11-02",
-  "status": "awaiting_owner_named_person_not_technical_steps",
+  "status": "not_created_missing_real_contact",
   "person_name": null,
   "existing_email": null,
   "auth_user_id": null,
@@ -8,11 +8,20 @@
   "requested_permissions": [
     "finance"
   ],
-  "requested_active": true,
-  "decision_needed": "اسم المحاسب الحقيقي المعتمد فقط؛ يتولى الفريق ربطه بحسابه الموجود والتحقق من الهوية قبل أي تفويض.",
+  "requested_active": false,
+  "decision_needed": "بريد ورقم هاتف حقيقيان مخصصان للحساب؛ الاسم المؤقت معتمد. لا حاجة لبيانات اختبار أو UUID من المالك.",
   "basis": "Saved owner decisions and project logs specify accountant-only policy but no actual named account. Saved Nov1 aggregate staff_members count zero.",
   "excluded_demo_account": "30000000-0000-0000-0000-000000000002 is synthetic and must never be delegated as a live identity.",
   "admin_self_delegation": "Not permitted by existing staff_set; do not modify role/guard.",
   "granted": false,
-  "live_identity_query_performed": false
+  "live_identity_query_performed": true,
+  "approved_display_name": "محاسب TALABOT",
+  "display_name_temporary": true,
+  "created": false,
+  "duplicate_count": 0,
+  "identity_policy": "Display-name edits retain Auth UUID and attribution. Account handoff to a different person is not a rename; use separate identity/account and keep history tied to original UUID.",
+  "evidence": "preparation-20261102/account-preparation.json",
+  "actual_person_assigned": false,
+  "initial_staff_membership": "none",
+  "requested_active_note": "No staff membership initially; financial activation requires a separate future approval."
 }

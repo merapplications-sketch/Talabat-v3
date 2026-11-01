@@ -1,0 +1,37 @@
+{
+  "approved_display_name": "محاسب TALABOT",
+  "status": "not_created_missing_real_contact",
+  "created": false,
+  "user_id": null,
+  "profile_id": null,
+  "email": null,
+  "phone": null,
+  "financial_permissions_granted": false,
+  "membership_created": false,
+  "duplicate_check": {
+    "project": "dzydscryrnahnneydnry",
+    "query": "select u.id as user_id, p.id as profile_id, p.name as profile_name,\nu.raw_user_meta_data->>'name' as auth_display_name, p.role::text as profile_role,\nnullif(btrim(u.email),'') is not null as email_present,\nnullif(btrim(u.phone),'') is not null as auth_phone_present,\nu.created_at,\nexists(select 1 from public.staff_members s where s.user_id=u.id) as staff_membership_present,\nexists(select 1 from public.staff_members s where s.user_id=u.id and s.active and 'finance'=any(s.perms)) as active_finance\nfrom auth.users u left join public.profiles p on p.id=u.id\nwhere lower(btrim(coalesce(p.name,'')))=lower('محاسب TALABOT')\nor lower(btrim(coalesce(u.raw_user_meta_data->>'name','')))=lower('محاسب TALABOT');",
+    "matching_rows": [],
+    "match_count": 0,
+    "criteria": "Exact trimmed case-insensitive approved name in profiles.name or auth user metadata name; not all possible email/phone identities",
+    "query_type": "SELECT only"
+  },
+  "existing_registration": {
+    "entry": "Existing non-admin app signup; no direct auth-table insert or new auth mechanism",
+    "requires": [
+      "real email",
+      "real phone",
+      "password handled via secure auth flow, never GitHub/chat"
+    ],
+    "implementation": "showLogin signup validation + sb.auth.signUp({email,password,options:{data:{name,phone}}})",
+    "source_commit": "1e2249293c27e27c766e1273e81f205d15512e40",
+    "source_path": "talabat-core.js",
+    "staff_management": "staff_set attaches permissions to an existing Auth user; does not create an Auth account"
+  },
+  "contact_requirement": "A real email and phone assigned to this separate account are missing. No fictional contact, admin/demo/test account, password generation or live creation attempt used.",
+  "identity_policy": "Display-name edits retain Auth UUID and attribution. Account handoff to a different person is not a rename; use separate identity/account and keep history tied to original UUID.",
+  "active_finance_members_current": 0,
+  "secrets_saved": false,
+  "creation_request_sent": false,
+  "unresolved_creation": false
+}

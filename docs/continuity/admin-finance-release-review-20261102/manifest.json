@@ -15,12 +15,16 @@
     "historical_provider": "GitHub Pages",
     "historical_origin": "https://merapplications-sketch.github.io/Talabat-v3/",
     "entry": "admin.html",
-    "current_published_artifact_commit": null,
-    "current_production_url_freshly_verified": false,
-    "rollback_artifact": null,
+    "current_published_artifact_commit": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+    "current_production_url_freshly_verified": true,
+    "rollback_artifact": {
+      "commit": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+      "tree": "34881e0c7780fbdd52e46e718c0f45522eb4b363",
+      "manifest": "preparation-20261102/published-rollback.json"
+    },
     "repository_has_pages": true,
     "provider_note": "Historical handoff and Oct27 comparison establish Pages, not current deployed bytes or publish ref. Owner-private synthetic Site is not application deployment target.",
-    "candidate_delivery": "Four fixed source files below integrated selectively with reviewed deployed base; no integration/deployment commit prepared or published in this task",
+    "candidate_delivery": "BLOCKED direct application. Finance-only delta from09ef07fd does not apply to live ca8808dd; require selective preparation and changed-area acceptance before final production artifact.",
     "shared_core_consumers": [
       "customer.html",
       "driver.html",
@@ -84,7 +88,7 @@
     "no_legacy_fallback": true
   },
   "accountant": {
-    "status": "not_identified_in_saved_owner_decisions_or_project_evidence",
+    "status": "not_created_missing_real_contact",
     "person_name": null,
     "email": null,
     "auth_user_id": null,
@@ -102,7 +106,17 @@
       "No demo UUID or legacy test account selected",
       "No live account created, upgraded or delegated"
     ],
-    "owner_decision": "Name the actual accountant/person to authorize; team resolves and verifies existing account without asking owner to handle SQL/UUIDs"
+    "owner_decision": "Display name approved. Missing real email and phone required by existing signup; no credentials to be provided in chat.",
+    "approved_display_name": "محاسب TALABOT",
+    "phone": null,
+    "created": false,
+    "financial_permissions_granted": false,
+    "duplicate_check_count": 0,
+    "current_staff_members": 0,
+    "current_active_finance_members": 0,
+    "identity_transfer_by_rename": false,
+    "actual_person_assigned": false,
+    "initial_staff_membership": "none"
   },
   "release_order": [
     "Approve named versions, exact accountant and destination/window after review",
@@ -116,12 +130,10 @@
     "Monitor release and use fixed safe-hold for containment if material failure; no auto resend/reversal"
   ],
   "activation_gates": [
-    "Explicit future approval for SQL/deployment/delegation; none granted here",
-    "Real accountant identity unresolved",
-    "Current target/published baseline/rollback pin not yet recorded",
-    "Fresh preflight drift and privileged external client review",
-    "Actual Safari validation owned by team, still open",
-    "Coordinated matched server/UI release and read-only accountant-session verification"
+    "Real assigned email/phone to create independent nonfinancial account via existing registration; no invented contacts",
+    "Selective adaptation of finance UI to verified live baseca8808dd and final artifact pin; existing delta does not apply",
+    "Actual Safari validation owned by team, environment unavailable here",
+    "Explicit later approval for SQLA/deployment/finance delegation; no live financial mutation tests"
   ],
   "postactivation_policy": "No positive/negative mutation calls to live finance_execute or legacy mutation endpoints as smoke tests. Synthetic isolated write acceptance retained. Any real financial transaction acceptance requires a distinct explicit authorization.",
   "rollback": {
@@ -158,5 +170,19 @@
     "new financial transaction"
   ],
   "tests_rerun": 0,
-  "optional_journal_export_retry": false
+  "optional_journal_export_retry": false,
+  "latest_preparation": {
+    "date": "2026-11-02",
+    "source_commit": "1880dd11f38a625b673e1de719c8ab2c5c9de3f8",
+    "report": "preparation-20261102/README.md",
+    "closed_test_unchanged": "1e2249293c27e27c766e1273e81f205d15512e40"
+  },
+  "current_catalog_comparison": {
+    "date": "2026-11-02",
+    "function_count": 119,
+    "function_differences": 0,
+    "metadata_parts_equal": 7,
+    "server_patch_applied": false,
+    "proof": "preparation-20261102/catalog-compatibility.json"
+  }
 }

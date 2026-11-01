@@ -1,0 +1,377 @@
+diff --git a/admin.html b/admin.html
+--- a/admin.html
++++ b/admin.html
+@@ -80,6 +80,8 @@
+ <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+ <script src="talabat-core.js?v=56"></script>
++<link rel="stylesheet" href="assets/admin-finance/admin-finance.css">
++<script src="assets/admin-finance/admin-finance.js"></script>
+ <script>
+ TLB.addDict({uOrdLoad:'Загружаем заказ #{n}…',uOrdMissing:'Заказ #{n} не найден или нет доступа.'},{uOrdLoad:'Loading order #{n}…',uOrdMissing:'Order #{n} was not found or you have no access.'});
+ TLB.addDict({uCuShown:'Заказы этого аккаунта: показано {n} из {m}',uCuShown0:'Показано заказов: {n}'},{uCuShown:'Orders of this account: showing {n} of {m}',uCuShown0:'Orders shown: {n}'});
+@@ -196,10 +198,10 @@
+   const cur=OWN.row;if(cur&&cur.email&&cur.email.toLowerCase()!==e.toLowerCase()&&!confirm(t('aOwnConfirm').replace('{old}',cur.email).replace('{new}',e)))return;
+   const r=await TLB.assignOwner(E,e);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}
+   ED.owner='';OWN={sid:null,row:undefined};render()}
+-function openDrvEdit(id){const x=TLB.drivers().find(y=>y.id==id);if(!x)return;DE=id;DD={limit:+x.cash_limit||1000};render();window.scrollTo(0,0)}
++function openDrvEdit(id){const x=TLB.drivers().find(y=>y.id==id);if(!x)return;DE=id;DD={limit:+x.cash_limit||1000};fLoadSettlements(id,true);render();window.scrollTo(0,0)}
+ function dd(k,v){DD[k]=v}
+ function saveLimit(){const v=+DD.limit;if(!isFinite(v)||v<=0){alert(t('err_bad_value'));return}run(TLB.setDriverLimit(DE,v))}
+-function settle(id,bal){if(confirm(t('aSettleQ')+' '+bal.toFixed(2)+' TJS?'))run(TLB.settleCash(id))}
++function settle(id,bal){return fSettle(id,bal)}
+ 
+ let OQ='',OS={q:'',ids:null,busy:false,err:null,missing:false},OST=null,OY=0;
+ function oqSet(v){OQ=String(v||'');clearTimeout(OST);pgN=50;const q=OQ.trim();if(!q){OS={q:'',ids:null,busy:false,err:null,missing:false};render();return}OS={q:'',ids:null,busy:true,err:null,missing:false};render();OST=setTimeout(oqRun,350)}
+@@ -220,7 +222,7 @@
+ /* 4. what the data really shows about money for this order (nothing is assumed: an Apple Pay label is not a payment proof) */
+ function finBox(o){const cash=TLB.isCash(o),dl=o.status=='delivered',dead=o.status=='rejected'||o.status=='cancelled',wal=o.payment=='wallet',onl=!cash&&!wal,r=(k,v,c)=>`<div class="fr ${c||''}"><span>${k}</span><b>${v}</b></div>`;
+   let h=r(t('uFinM'),esc(t(o.payment)));
+-  if(cash)h+=dl?r(t('uFinGot'),o.cashCollected==null?'—':`${t('uFinCashOk')}: ${o.cashCollected.toFixed(2)} TJS`,'fo')+(o.cashNote?r(t('aCashNote'),esc(o.cashNote)):'')+r('',o.cashSettled?ic('check',14)+' '+t('aSettled'):ic('clock',14)+' '+t('aNotSet')):r(t('uFinGot'),dead?t('uFinCashNo'):t('uFinCashWait'),dead?'fm':'');
++  if(cash)h+=dl?r(t('uFinGot'),o.cashCollected==null?'—':`${t('uFinCashOk')}: ${o.cashCollected.toFixed(2)} TJS`,'fo')+(o.cashNote?r(t('aCashNote'),esc(o.cashNote)):'')+r('',o.cashSettled?ic('check',14)+' '+t('aSettled')+(o.cashSettledAt?' · '+fmt(Date.parse(o.cashSettledAt)):''):ic('clock',14)+' '+t('aNotSet')):r(t('uFinGot'),dead?t('uFinCashNo'):t('uFinCashWait'),dead?'fm':'');
+   else if(wal)h+=o.walletUsed>0?r(t('uFinGot'),`${t('uFinWal')}: ${o.walletUsed.toFixed(2)} TJS`,'fo'):r(t('uFinGot'),t('uFinWalPayNo'),'fw');
+   else h+=r(t('uFinGot'),t('uFinOnl'),'fw');
+   if(o.walletUsed>0&&!wal)h+=r(t('uFinWalUse'),`\u2212${o.walletUsed.toFixed(2)} TJS`);
+@@ -299,21 +301,20 @@
+ function vDrvEdit(){const x=TLB.drivers().find(y=>y.id==DE);if(!x){DE=null;return vDrivers()}
+ const bal=TLB.cash(x.id),lim=+x.cash_limit||1000,st=x.driver_status||'pending';
+ return `<button class="b g" onclick="DE=null;render()">← ${t('aBack')}</button>
+-<div class="card" style="margin-top:12px"><div class="row"><b>${ic('bike')} ${t('aEdD')}: ${esc(x.name||x.id.slice(0,8))}</b><span class="s ${st}">${st}</span></div>
++<div class="card" style="margin-top:12px"><div class="row"><b>${ic('bike')} ${t(TLB.financeOnly()?'fDriverInfo':'aEdD')}: ${esc(x.name||x.id.slice(0,8))}</b><span class="s ${st}">${st}</span></div>
+ <div class="l" style="margin:6px 0 10px"><span>${t('aDrvPh')}</span>${x.phone?tel(x.phone):`<small style="color:#d92d20">${t('aDrvNoPh')}</small>`}</div>
+-<div class="btns"><button class="b" onclick="run(TLB.setDriverStatus('${x.id}','approved'))">${t('aDrvA')}</button><button class="b r" onclick="run(TLB.setDriverStatus('${x.id}','suspended'))">${t('aDrvS')}</button></div></div>
+-<div class="card"><div class="l"><span>${ic('cash',14)} ${t('aCashH')}</span><b>${bal.toFixed(2)} / ${lim} TJS</b></div>
++${TLB.isSuper()||TLB.can('orders')?`<div class="btns"><button class="b" onclick="run(TLB.setDriverStatus('${x.id}','approved'))">${t('aDrvA')}</button><button class="b r" onclick="run(TLB.setDriverStatus('${x.id}','suspended'))">${t('aDrvS')}</button></div>`:''}</div>
++<div class="card"><div class="l"><span>${ic('cash',14)} ${t('fHeld')}</span><b>${(bal==null?t('fLoadFail'):bal.toFixed(2))} / ${lim} TJS</b></div>
+ ${bal>=lim?`<div class="warn">${t('aOver')}</div>`:''}${x.accept_blocked?`<div class="warn">${ic('ban',14)} ${t('aBlocked')}</div>`:''}
+-<small style="display:block;margin-top:10px">${t('aLimP')}</small><input type="number" min="1" value="${esc(String(DD.limit))}" oninput="dd('limit',this.value)"><button class="b g" onclick="saveLimit()">${t('aSv')}</button>
+-<div class="btns"><button class="b ${x.accept_blocked?'':'o'}" onclick="run(TLB.setDriverBlocked('${x.id}',${!x.accept_blocked}))">${x.accept_blocked?t('aAllow'):t('aBlock')}</button>
+-<button class="b" onclick="settle('${x.id}',${bal})" ${bal>0?'':'disabled style="opacity:.4"'}>${t('aSettle')}</button></div></div>${drvAct(x)}`}
+-function drvAct(x){const all=TLB.orders(o=>o.driver==x.id),dn=all.filter(o=>o.status=='delivered'),t0=new Date();t0.setHours(0,0,0,0);
++${TLB.isSuper()||TLB.can('orders')?`<small style="display:block;margin-top:10px">${t('aLimP')}</small><input type="number" min="1" value="${esc(String(DD.limit))}" oninput="dd('limit',this.value)"><button class="b g" onclick="saveLimit()">${t('aSv')}</button>
++<div class="btns"><button class="b ${x.accept_blocked?'':'o'}" onclick="run(TLB.setDriverBlocked('${x.id}',${!x.accept_blocked}))">${x.accept_blocked?t('aAllow'):t('aBlock')}</button></div>`:''}<div class="btns">${fWriteButton('settle_cash',x.id,bal>0&&TLB.cashHealth().state==='ok'&&!TLB.cashHealth().dirty,`settle('${x.id}',${bal})`,'aSettle')}</div>${fCommand('settle_cash',x.id)}${fCashRead()}${TLB.financeAccess().execute?'':`<p class="f-warning">${t('fDenied')}</p>`}</div>${drvAct(x)}`}
++function drvAct(x){fLoadSettlements(x.id,false);const all=TLB.orders(o=>o.driver==x.id),dn=all.filter(o=>o.status=='delivered'),t0=new Date();t0.setHours(0,0,0,0);
+   const td=dn.filter(o=>(o.doneAt||o.createdAt)>=t0.getTime()),earn=a=>a.reduce((s,o)=>s+(+o.payout||0),0).toFixed(2),rows=all.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,30);
+-  return `<div class="card"><b>${ic('clip')} ${t('aDrvAct')}</b>
++  return `<div class="card"><b>${ic('clip')} ${t('aDrvAct')}</b><p class="f-warning">${t('fEarnOnly')}</p>
+   <div class="l" style="margin-top:8px"><span>${t('aDrvToday')}</span><b>${td.length} · ${earn(td)} TJS</b></div>
+   <div class="l"><span>${t('aDrvAll')}</span><b>${dn.length} · ${earn(dn)} TJS</b></div>
+   <div class="l"><span>${t('aSeenL')}</span><b>${x.last_seen?ago(x.last_seen):'—'}</b></div></div>
+-  <div class="card"><b>${t('aDrvHist')}</b>${rows.length?rows.map(o=>`<div class="alr" style="cursor:pointer" onclick="openFrom(${esc(JSON.stringify(o.id))})"><span class="alt"><b>#${+o.id} · ${esc(o.store)}</b><small style="display:block">${fmt(o.createdAt)}</small></span><span style="text-align:right"><span class="s ${o.status}">${t(o.status)}</span><small style="display:block;margin-top:4px">${o.total} TJS</small></span></div>`).join(''):`<small style="display:block;margin-top:8px">${t('aDrvNoOrd')}</small>`}</div>`}
++  <div class="card"><b>${t('aDrvHist')}</b>${rows.length?rows.map(o=>`<div class="alr f-fin-history" style="cursor:pointer" ${TLB.isSuper()||TLB.can('orders')||TLB.can('support')?`onclick="openFrom(${esc(JSON.stringify(o.id))})"`:''}><span class="alt"><b>#${esc(o.id)} · ${esc(o.store)}</b><small style="display:block">${fmt(o.createdAt)}</small></span><span style="text-align:right"><span class="s ${o.status}">${t(o.status)}</span><small style="display:block;margin-top:4px">${o.total} TJS</small>${fSettlementInfo(o)}</span></div>`).join(''):`<small style="display:block;margin-top:8px">${t('aDrvNoOrd')}</small>`}</div>`}
+ const TARK=[['delivery_free_km','aTarFree','0.5'],['delivery_step_km','aTarStep','0.1'],['delivery_step_price','aTarPrice','0.5'],['delivery_max_km','aTarMax','1'],['delivery_road_factor','aTarFac','0.05']];
+ function tarOpen(){TAR=Object.assign({},TLB.settings());render()}
+ function tarSet(k,v){TAR[k]=v}
+@@ -341,15 +342,15 @@
+ <div class="btns"><button class="b" onclick="openStoreEdit('${s.id}')">${ic('edit')} ${t('aEdit')}</button></div></div>`).join('')}${ss.length?'':emptyA(t('aNoStores'))}
+ 
+ ${pend.length?`<h3>${t('aPend')}</h3>${pend.map(i=>`<div class="card row"><div><b>${esc(i.name)}</b><br><small>${esc(i.store)} • ${i.price} TJS</small></div><button class="b" onclick="run(TLB.approveItem('${i.id}'))">${t('aApp')}</button></div>`).join('')}`:''}`}
+-function vDrivers(){const all=TLB.drivers(),n={on:all.filter(isLive).length};n.off=all.length-n.on;const q=dq.trim().toLowerCase();
++function vDrivers(){if(TLB.financeOnly())return fDriverList();const all=TLB.drivers(),n={on:all.filter(isLive).length};n.off=all.length-n.on;const q=dq.trim().toLowerCase();
+   let d=all.filter(x=>(dfl=='all'||(dfl=='on'?isLive(x):!isLive(x)))&&(!q||String(x.name||'').toLowerCase().includes(q)));
+   d=d.sort((p,r)=>(isLive(r)-isLive(p))||String(p.name||'').localeCompare(String(r.name||'')));
+   const ch=(k,l,c)=>`<button class="chip ${dfl==k?'on':''}" onclick="dfl='${k}';render()">${t(l)} · ${c}</button>`;
+   const bar=`<div class="chips">${ch('on','fOn',n.on)}${ch('off','fOff',n.off)}${ch('all','fAllK',all.length)}</div><div class="row" style="gap:8px;margin-bottom:12px"><input id="dq" placeholder="${t('searchD')}" value="${esc(dq)}" oninput="dq=this.value;render()" style="margin:0;flex:1"><button class="b" style="flex-shrink:0" onclick="openMap()" style="display:inline-flex;align-items:center;gap:6px">${svgI('pin')}${t('aMapB')}</button></div>`;
+-  return bar+(d.length?d.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000,over=bal>=lim,stt=drvState(x),rt=drvAvg(x.id);
++  return fRead(TLB.driversHealth(),'fRefresh()')+fRead(TLB.cashHealth(),'fRefresh()')+bar+(d.length?d.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000,over=bal>=lim,stt=drvState(x),rt=drvAvg(x.id);
+   return `<div class="card"><div class="row" style="cursor:pointer" onclick="openDrvEdit('${x.id}')"><span style="display:flex;gap:8px;align-items:center;min-width:0"><span class="dt ${stt}"></span><b style="overflow:hidden;text-overflow:ellipsis">${esc(x.name||x.id.slice(0,8))}</b></span><span class="s ${x.driver_status||'pending'}">${x.driver_status||'pending'}</span></div>
+   <small style="display:block;margin-top:6px">${isLive(x)?`${stt=='busy'?'<span class="dt busy"></span> '+t('aBusy'):'<span class="dt free"></span> '+t('aOnlineL')}${locFresh(x)?` · ${ic('pin',13)} ${ago(x.loc_updated)}`:` · ${t('aNoLoc')}`}`:`<span class="dt off"></span> ${t('aOfflineL')}${x.last_seen?' · '+t('aSeenL')+' '+ago(x.last_seen):''}`}${rt?` · ★ ${rt.a.toFixed(1)} (${rt.n})`:''}</small>
+-  <div class="l" style="margin-top:8px"><span>${ic('cash',14)} ${t('aCashH')}</span><b>${bal.toFixed(2)} / ${lim} TJS</b></div>
++  <div class="l" style="margin-top:8px"><span>${ic('cash',14)} ${t('fHeld')}</span><b>${(bal==null?t('fLoadFail'):bal.toFixed(2))} / ${lim} TJS</b></div>
+   ${over?`<div class="warn">${t('aOver')}</div>`:''}${x.accept_blocked?`<div class="warn">${ic('ban',14)} ${t('aBlocked')}</div>`:''}
+   <div class="btns">${x.phone?tel(x.phone):`<small style="color:#d92d20;align-self:center">${t('aDrvNoPh')}</small>`}<button class="b" onclick="openDrvEdit('${x.id}')">${ic('edit')} ${t('aEdit')}</button></div></div>`}).join(''):emptyA(t('aNoD')))}
+ function bState(b){const n=Date.now();if(!b.is_active)return['suspended',t('aBOffS')];if(b.starts_at&&Date.parse(b.starts_at)>n)return['pending',t('aBSched')+' '+dShow(b.starts_at)];if(b.ends_at&&Date.parse(b.ends_at)<=n)return['rejected',t('aBExp')];return['approved',t('aBNow')]}
+@@ -383,7 +384,7 @@
+   <button class="b g" onclick="if(confirm('?')){const i=BE;BE=null;BD=null;run(TLB.deleteBanner(i))}">${t('aRm')}</button></div>
+   ${gone?'':`<button class="b" style="width:100%;padding:13px;margin-top:12px" onclick="bannerSave()">${ic('save')} ${t('uBSave')}</button>`}</div>`}
+ 
+-const TABP={o:['orders','support'],s:['stores'],d:['orders','finance'],u:['support'],h:['support'],g:['content'],r:['support'],b:['content'],c:['content'],y:null,l:null,f:null};
++const TABP={o:['orders','support'],s:['stores'],d:['orders','finance'],u:['support','finance'],h:['support'],g:['content'],r:['support'],b:['content'],c:['content'],y:null,l:['finance'],f:null};
+ const tabOk=k=>TLB.isSuper()||(Array.isArray(TABP[k])&&TABP[k].some(p=>TLB.can(p)));
+ const ic=(n,s,l)=>TLB.icon(n,s,l);
+ const TI={o:'doc',s:'store',d:'bike',u:'users',h:'help',g:'text',r:'star',b:'image',c:'tag',y:'award',l:'log',f:'shield'};
+@@ -475,7 +476,7 @@
+ const starsTxt=n=>'★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n));
+ const drvState=x=>!isLive(x)?'off':busyOf(x)?'busy':'free';
+ function goLive(k){D=null;E=null;DE=null;BE=null;if(k=='d'){tab='d';dfl='on';dq=''}else{tab='s';sfl='all';sq=''}render();window.scrollTo(0,0)}
+-function livePills(){const ds=TLB.drivers().filter(x=>x.driver_status=='approved'),on=ds.filter(isLive),busy=on.filter(busyOf).length,ss=TLB.stores(true).filter(s=>s.is_active),op=ss.filter(s=>s.is_open);
++function livePills(){if(TLB.financeOnly())return '';const ds=TLB.drivers().filter(x=>x.driver_status=='approved'),on=ds.filter(isLive),busy=on.filter(busyOf).length,ss=TLB.stores(true).filter(s=>s.is_active),op=ss.filter(s=>s.is_open);
+   const setup=TLB.drivers().length>0&&!TLB.drivers().some(x=>'online' in x);
+   return `<div class="pills"><button class="lp" onclick="goLive('d')" title="${on.length-busy} ${t('aFreeC')} · ${busy} ${t('aBusyN')}"><span class="ld ${on.length?'on':''}"></span><b>${on.length}</b><span class="lo">/${ds.length}</span><span class="lt">${t('aCourL')} ${t('aOnLine')}</span></button><button class="lp" onclick="goLive('s')"><span class="ld ${op.length?'on':''}"></span><b>${op.length}</b><span class="lo">/${ss.length}</span><span class="lt">${t('aStoreL2')} ${t('aOpenL')}</span></button></div>${setup?`<div class="setupw">${ic('alert',14)} ${t('aSetupW')}</div>`:''}`}
+ const STAR=on=>`<svg viewBox="0 0 24 24" width="16" height="16" fill="${on?'#f5a300':'none'}" stroke="${on?'#f5a300':'#c9ccd1'}" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>`;
+@@ -503,14 +504,9 @@
+   return `<div class="al red"><div class="alh"><span>${ic('star')} ${t('aLowRate')}</span><b>${l.length}</b></div><div class="alhelp">${t('aLowHelp')}</div>${l.slice(0,5).map(r=>{const o=TLB.order(r.order_id),dv=TLB.drivers().find(x=>x.id==r.driver_id),cp=cmtParts(r.comment),dl=r.driver_stars!=null&&r.driver_stars<=2;
+   return `<div class="alr2"><div class="alr2h"><b>#${r.order_id}</b><span class="alwho">${dl?ic('bike',13)+' '+t('aWhoC')+(dv?' · '+esc(dv.name||''):''):ic('store',13)+' '+t('aWhoS')}</span>${starsRow(dl?r.driver_stars:r.store_stars)}</div>${cp.tags.length||cp.text?`<div class="alsm">${cp.tags.length?esc(cp.tags.join(' · '))+(cp.text?' — ':''):''}${esc(cp.text).slice(0,120)}</div>`:''}${o?`<div class="alsm">${ic('user',13)} ${esc(o.client.name||'—')}${o.client.phone?' · '+esc(o.client.phone):''}</div>`:''}
+   <div class="alb2">${o&&o.client.phone?tel(o.client.phone,t('aCall')):''}<button class="b g" onclick="tab='r';rfl='need';render();window.scrollTo(0,0)">${t('aOpenO')}</button><button class="b o" onclick="RES={o:${esc(JSON.stringify(r.order_id))},n:''};render()">${ic('check')} ${t('aResolve')}</button></div></div>`}).join('')}${l.length>5?`<button class="b g" style="margin-top:8px" onclick="tab='r';rfl='need';render();window.scrollTo(0,0)">+${l.length-5} →</button>`:''}</div>`}
+-function loadLog(){TLB.audit(100).then(r=>{AUD=r;render()});TLB.clientErrors(100).then(r=>{ERR=r;render()})}
++function loadLog(){return fLoadLog()}
+ let logTab='a';
+-function vLog(){if(AUD===null||ERR===null){loadLog();return `<div class="card empty">…</div>`}
+-  const nm=id=>{const d=TLB.drivers().find(x=>x.id==id);return d?esc(d.name||id.slice(0,6)):(id?String(id).slice(0,8):'—')};
+-  const chg=d=>Object.keys(d||{}).map(k=>`<span class="tg2x"><b>${esc(k)}</b>: ${esc(String(d[k].from==null?'∅':d[k].from).slice(0,24))} → ${esc(String(d[k].to==null?'∅':d[k].to).slice(0,24))}</span>`).join('');
+-  return `<div class="chips"><button class="chip ${logTab=='a'?'on':''}" onclick="logTab='a';render()">${t('aTabAudit')} · ${AUD.length}</button><button class="chip ${logTab=='e'?'on':''}" onclick="logTab='e';render()">${t('aTabErr')} · ${ERR.length}</button><button class="b g" style="margin-left:auto" onclick="AUD=null;ERR=null;render()" aria-label="${t('uTxRetry')}">${ic('refresh')}</button></div>
+-  ${logTab=='a'?(AUD.length?AUD.map(r=>`<div class="card" style="padding:12px 14px"><div class="row"><b>${esc(r.table_name)} · ${esc(r.action)}</b><small>${fmt(Date.parse(r.at))}</small></div><small style="display:block;margin-top:2px">${t('aWho')}: ${nm(r.user_id)} · ${esc(String(r.row_id||'').slice(0,12))}</small><div style="margin-top:6px">${chg(r.details)}</div></div>`).join(''):emptyA(t('aNoAudit')))
+-  :(ERR.length?ERR.map(r=>`<div class="card" style="padding:12px 14px;border-left:5px solid #ef4444"><div class="row"><b>${esc(r.app||'?')}</b><small>${fmt(Date.parse(r.at))}</small></div><div style="margin-top:4px;font-size:13px;word-break:break-word">${esc(r.message||'')}</div><small style="display:block;margin-top:4px;color:#8b8f98;word-break:break-word">${esc(r.context||'')} · ${nm(r.user_id)} · ${esc(String(r.ua||'').slice(0,60))}</small></div>`).join(''):emptyA(t('aNoErr')))}`}
++function vLog(){return fLog()}
+ /* ---------- SUPPORT (tickets) ---------- */
+ const needsReply=k=>(k.status=='open'||k.status=='in_progress')&&(!k.last_staff_at||Date.parse(k.last_customer_at)>Date.parse(k.last_staff_at));
+ const tkChipA=s=>`<span class="s ${s=='resolved'?'approved':s=='rejected'?'suspended':'pending'}">${t('xs_'+s)}</span>`;
+@@ -554,10 +550,11 @@
+ /* older orders of the same account, 50 more each time; the page does not move */
+ function cuMore(){if(CU.ordBusy||!CU.orders)return;const id=CU.sel,n=CU.orders.length;CU.ordBusy=true;render();TLB.customerOrders(id,n).then(o=>{CU.ordBusy=false;if(CU.sel!=id)return;const seen=new Set(CU.orders.map(x=>String(x.id)));CU.orders=CU.orders.concat(o.filter(x=>!seen.has(String(x.id))));if(o.total!=null)CU.ordTot=o.total;render()})}
+ function cuOpen(id){CU.ph='';CU.phr='';CU.sel=id;CU.orders=null;CU.ordTot=null;CU.ordBusy=false;CU.wal=null;CU.wa='';CU.wn='';CU.reason='';render();window.scrollTo(0,0);TLB.customerOrders(id,0).then(o=>{if(CU.sel==id){CU.orders=o;CU.ordTot=o.total;render()}});TLB.walletOf(id).then(w=>{if(CU.sel==id){CU.wal=w;render()}})}
+-async function cuWal(){const r=await TLB.walletAdjust(CU.sel,CU.wa,CU.wn);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}CU.wa='';CU.wn='';const id=CU.sel;TLB.walletOf(id).then(w=>{if(CU.sel==id){CU.wal=w;render()}})}
++async function cuWal(){return fWalletWrite()}
++
+ async function cuBan(b){if(b&&!confirm(t('xBanQ')))return;const r=await TLB.setBan(CU.sel,b,CU.reason);if(r&&r.error){alert(t('err_'+r.error));return}const row=CU.rows.find(x=>x.id==CU.sel);if(row){row.banned_at=b?new Date().toISOString():null;row.banned_reason=b?CU.reason:null}CU.reason='';render()}
+ const money=n=>(+n||0).toFixed(2);
+-function vCustomers(){if(!CU.loaded&&!CU.busy){cuLoad(true);return `<div class="card empty">…</div>`}
++function vCustomers(){if(TLB.financeOnly())return fCustomers();if(!CU.loaded&&!CU.busy){cuLoad(true);return `<div class="card empty">…</div>`}
+   if(CU.sel){const x=CU.rows.find(r=>r.id==CU.sel);if(!x){CU.sel=null}else{
+     return `<button class="b g" onclick="CU.sel=null;render()">← ${t('aBack')}</button>
+     <div class="card" style="margin-top:12px"><div class="row"><b>${esc(x.name||'—')}</b>${x.banned_at?`<span class="s suspended">${t('xBanned')}</span>`:''}</div>
+@@ -567,10 +564,8 @@
+     <div class="card">${x.banned_at?`<div class="warn">${esc(x.banned_reason||'')}</div><button class="b" style="width:100%;padding:12px;margin-top:8px" onclick="cuBan(false)">${t('xUnban')}</button>`
+       :`<input id="cur" maxlength="200" placeholder="${t('xBanReason')}" value="${esc(CU.reason)}" oninput="CU.reason=this.value"><button class="b r" style="width:100%;padding:12px" onclick="cuBan(true)">${t('xBan')}</button>`}</div>
+     <div class="card"><b>${t('xPhChg')}</b><small style="display:block;margin:4px 0 8px;color:#8b8f98;line-height:1.4">${t('xPhS')}</small><input id="cuph" type="tel" placeholder="${t('xPhNew')}" value="${esc(CU.ph)}" oninput="CU.ph=this.value"><input id="cuphr" maxlength="200" placeholder="${t('xPhWhy')}" value="${esc(CU.phr)}" oninput="CU.phr=this.value"><button class="b" style="width:100%;padding:12px" onclick="cuPhone()">${t('xPhDo')}</button></div>
+-    <div class="card"><div class="row"><b>${t('xWalT')}</b><b style="font-size:20px">${CU.wal?CU.wal.balance:'…'} TJS</b></div>
+-    <small style="display:block;margin:10px 0 4px">${t('xWalAdj')}</small><input id="cuwa" type="number" step="0.5" placeholder="${t('xWalAmt')}" value="${esc(CU.wa)}" oninput="CU.wa=this.value"><input id="cuwn" maxlength="200" placeholder="${t('xWalNote')}" value="${esc(CU.wn)}" oninput="CU.wn=this.value"><button class="b" style="width:100%;padding:12px" onclick="cuWal()">${t('xWalDo')}</button>
+-    ${CU.wal&&CU.wal.entries.length?`<small style="display:block;margin:12px 0 4px;font-weight:700">${t('xWalHist')}</small>${CU.wal.entries.slice(0,8).map(e=>`<div class="row" style="padding:6px 0;border-top:1px solid #eeeef1"><span style="min-width:0"><small style="display:block">${t('wk_'+e.kind)}${e.orderId?' #'+e.orderId:''}${e.ticketId&&!e.orderId?' · #'+e.ticketId:''}</small>${e.note?`<small style="color:#8b8f98">${esc(e.note)}</small>`:''}<small style="display:block;color:#8b8f98">${fmt(e.at)}</small></span><b style="color:${e.amount>0?'#1fa05a':'#d92d20'}">${e.amount>0?'+':'\u2212'}${Math.abs(e.amount)}</b></div>`).join('')}`:(CU.wal?`<small style="display:block;margin-top:10px;color:#8b8f98">${t('xWalNone')}</small>`:'')}</div>
+-    <h3 style="margin:14px 4px 8px">${t('xCuHist')}</h3>${CU.orders===null?'<div class="card empty">…</div>':CU.orders.length?`<small class="kcap" style="display:block;margin:0 4px 8px">${CU.ordTot!=null?t('uCuShown').replace('{n}',CU.orders.length).replace('{m}',CU.ordTot):t('uCuShown0').replace('{n}',CU.orders.length)}</small>`+CU.orders.map(o=>`<div class="card" style="cursor:pointer;padding:12px 14px" onclick="openFrom(${esc(JSON.stringify(o.id))})"><div class="row"><b>#${o.id} · ${esc(o.store)}</b><span class="s ${o.status=='delivered'?'approved':['rejected','cancelled'].includes(o.status)?'suspended':'pending'}">${t(o.status)}</span></div><div class="row" style="margin-top:4px"><small>${fmt(o.createdAt)}</small><b>${money(o.total)} TJS</b></div></div>`).join('')+((CU.ordTot!=null?CU.orders.length<CU.ordTot:CU.orders.length%50===0)?`<button class="b g" style="width:100%;padding:12px" ${CU.ordBusy?'disabled':''} onclick="cuMore()">${CU.ordBusy?'…':t('xMore')}</button>`:''):emptyA(t('xNoHist'))}`}}
++    ${fWalletCard()}
++    <h3 style="margin:14px 4px 8px">${t('xCuHist')}</h3>${CU.orders===null?'<div class="card empty">…</div>':CU.orders.length?`<small class="kcap" style="display:block;margin:0 4px 8px">${CU.ordTot!=null?t('uCuShown').replace('{n}',CU.orders.length).replace('{m}',CU.ordTot):t('uCuShown0').replace('{n}',CU.orders.length)}</small>`+CU.orders.map(o=>`<div class="card" style="cursor:pointer;padding:12px 14px" ${TLB.isSuper()||TLB.can('orders')||TLB.can('support')?`onclick="openFrom(${esc(JSON.stringify(o.id))})"`:''}><div class="row"><b>#${o.id} · ${esc(o.store)}</b><span class="s ${o.status=='delivered'?'approved':['rejected','cancelled'].includes(o.status)?'suspended':'pending'}">${t(o.status)}</span></div><div class="row" style="margin-top:4px"><small>${fmt(o.createdAt)}</small><b>${money(o.total)} TJS</b></div></div>`).join('')+((CU.ordTot!=null?CU.orders.length<CU.ordTot:CU.orders.length%50===0)?`<button class="b g" style="width:100%;padding:12px" ${CU.ordBusy?'disabled':''} onclick="cuMore()">${CU.ordBusy?'…':t('xMore')}</button>`:''):emptyA(t('xNoHist'))}`}}
+   return `<div class="row" style="gap:8px;margin-bottom:12px"><input id="cuq" placeholder="${t('xCuSearch')}" value="${esc(CU.q)}" oninput="CU.q=this.value" onkeydown="if(event.key=='Enter')cuLoad(true)" style="margin:0;flex:1"><button class="b" style="flex-shrink:0" onclick="cuLoad(true)">${t('xFind')}</button></div>
+   ${CU.rows.length?CU.rows.map(x=>`<div class="card" style="cursor:pointer;${x.banned_at?'border-left:5px solid #ef4444':''}" onclick="cuOpen('${x.id}')"><div class="row"><b>${esc(x.name||'—')}</b>${x.banned_at?`<span class="s suspended">${t('xBanned')}</span>`:`<small>${x.orders_count} ${t('xCuOrders').toLowerCase()} · ${money(x.total_spent)} TJS</small>`}</div><div class="row" style="margin-top:4px"><small>${esc(x.phone||'—')}</small><small>${fmt(Date.parse(x.created_at))}</small></div></div>`).join(''):(CU.busy?'<div class="card empty">…</div>':emptyA(t('xCuNone')))}
+   ${CU.rows.length&&!CU.end?`<button class="b g" style="width:100%;margin:6px 0 14px;padding:12px" onclick="cuLoad(false)">${t('xMore')}</button>`:''}`}
+@@ -622,7 +617,7 @@ <h3 style="margin:14px 4px 8px">${t('xCuHist')}</h3>${CU.orders===null?'<div cla
+ function mapModal(){if(!MAPO)return '';return `<div class="ovl" style="align-items:stretch"><div class="mdl" style="max-width:none;width:100%;border-radius:0;display:flex;flex-direction:column;height:100%;padding:12px"><div class="row" style="margin-bottom:8px"><b>${t('aMapT')}</b><button class="b g" onclick="MAPO=false;render()">${t('aClose2')}</button></div><small style="margin-bottom:8px">${t('aLegend')}</small><div id="adm-map" style="flex:1;min-height:300px;border-radius:14px"></div></div></div>`}
+ function openMap(){MAPO=true;render();const pts=[];TLB.drivers().filter(x=>isLive(x)&&locFresh(x)).forEach(x=>pts.push({lat:x.lat,lng:x.lng,kind:'driver',busy:busyOf(x),label:x.name||x.id.slice(0,6)}));TLB.stores(true).filter(s=>s.is_active&&s.lat!=null).forEach(s=>pts.push({lat:s.lat,lng:s.lng,kind:'store',open:s.is_open,label:s.name}));TLB.mapView('adm-map',pts)}
+ function alerts(){const ov=TLB.drivers().filter(x=>TLB.cash(x.id)>=(+x.cash_limit||1000));if(!ov.length)return lowAlert()+noCourier();
+-return lowAlert()+noCourier()+`<div class="al red"><div class="alh"><span>${ic('cash')} ${t('aOver')}</span><b>${ov.length}</b></div>${ov.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000;return `<div class="row" style="margin-top:8px"><span>${ic('bike',14)} ${esc(x.name||x.id.slice(0,8))} <small>${bal.toFixed(2)} / ${lim} TJS</small></span>${x.accept_blocked?`<span class="s suspended">${ic('ban',12)} ${t('aBlocked')}</span>`:`<button class="b o" onclick="run(TLB.setDriverBlocked('${x.id}',true))">${t('aBlock')}</button>`}</div>`}).join('')}<button class="b g" style="margin-top:10px" onclick="tab='d';D=null;E=null;DE=null;render()">${t('tD')} →</button></div>`}
++return lowAlert()+noCourier()+`<div class="al red"><div class="alh"><span>${ic('cash')} ${t('aOver')}</span><b>${ov.length}</b></div>${ov.map(x=>{const bal=TLB.cash(x.id),lim=+x.cash_limit||1000;return `<div class="row" style="margin-top:8px"><span>${ic('bike',14)} ${esc(x.name||x.id.slice(0,8))} <small>${(bal==null?t('fLoadFail'):bal.toFixed(2))} / ${lim} TJS</small></span>${x.accept_blocked?`<span class="s suspended">${ic('ban',12)} ${t('aBlocked')}</span>`:`<button class="b o" onclick="run(TLB.setDriverBlocked('${x.id}',true))">${t('aBlock')}</button>`}</div>`}).join('')}<button class="b g" style="margin-top:10px" onclick="tab='d';D=null;E=null;DE=null;render()">${t('tD')} →</button></div>`}
+ const kDay=ts=>new Date(ts).toLocaleString(TLB.lang()=='ru'?'ru-RU':'en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Dushanbe'});
+ function render0(){if(!tabOk(tab)){const k=TABS.find(x=>tabOk(x[0]));if(k)tab=k[0]}
+ 
+@@ -637,7 +632,7 @@ <h3 style="margin:14px 4px 8px">${t('xCuHist')}</h3>${CU.orders===null?'<div cla
+   const tkN=TLB.adminTickets().filter(needsReply).length,srN=TLB.storeRequests().filter(q=>isBranch(q)?q.status=='pending':q.status=='new').length,badge=x=>x=='d'&&ovN?`<em>${ovN}</em>`:x=='r'&&needN?`<em>${needN}</em>`:x=='h'&&tkN?`<em>${tkN}</em>`:x=='s'&&srN?`<em>${srN}</em>`:'';
+   const H=`<div class="top"><div class="tph"><div><div class="tpt">${t('aT')}</div></div></div>${livePills()}</div>
+   ${tkBar}${alerts()}${tab=='o'&&!D?`<div class="grid">${kp('box',all.length,t('aKOrd'))}${kp('cash',del.reduce((s,o)=>s+o.total,0).toFixed(2)+' TJS',t('aKRev'))}${kp('percent',del.reduce((s,o)=>s+o.commission,0).toFixed(2)+' TJS',t('aKCom'))}${kp('clock',act.length,t('aKAct'))}</div><div class="kcap">${t('uKCap').replace('{n}',all.length).replace('{k}',del.length).replace('{d}',all.length?kDay(Math.min(...all.map(o=>o.createdAt))):'—').replace('{e}',all.length?kDay(Math.max(...all.map(o=>o.createdAt))):'—')}</div>`:''}
+-  <nav class="side" aria-label="${t('aT')}"><div class="sbrand"><i>${ic('bag',20)}</i><div>TALABOT<small>${t('aT')}</small></div></div><div class="tabs">${TABS.filter(x=>tabOk(x[0])).map(x=>`<button class="${tab==x[0]?'on':''}" onclick="const _t=tabTop();BACKO=null;tab='${x[0]}';D=null;E=null;DE=null;BE=null;pgN=50;TK.sel=null;CU.sel=null;if(tab=='l'){AUD=null;ERR=null}if(tab=='f')STF.list=null;if(tab=='u'&&!CU.loaded)cuLoad(true);if(tab=='g'){PGE={};TLB.loadPages(true)}render();tabKeep(_t)">${ic(TI[x[0]],18)}<span>${t(x[1])}</span>${badge(x[0])}</button>`).join('')}</div></nav>`+body+assignModal()+mapModal()+resModal();
++  <nav class="side" aria-label="${t('aT')}"><div class="sbrand"><i>${ic('bag',20)}</i><div>TALABOT<small>${t('aT')}</small></div></div><div class="tabs">${TABS.filter(x=>tabOk(x[0])).map(x=>`<button class="${tab==x[0]?'on':''}" onclick="const _t=tabTop();BACKO=null;tab='${x[0]}';D=null;E=null;DE=null;BE=null;pgN=50;TK.sel=null;CU.sel=null;if(tab=='l'){fLoadLog()}if(tab=='f')STF.list=null;if(tab=='u'&&!CU.loaded)cuLoad(true);if(tab=='g'){PGE={};TLB.loadPages(true)}render();tabKeep(_t)">${ic(TI[x[0]],18)}<span>${t(x[1])}</span>${badge(x[0])}</button>`).join('')}</div></nav>`+body+assignModal()+mapModal()+resModal();
+   if(AUTO&&H===LASTH)return 'same';LASTH=H;paint(H);
+   if(kid&&$(kid)){const e=$(kid);e.value=keep;try{e.focus({preventScroll:true})}catch(_){}try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}}
+ ['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{lastAct=Date.now()},{passive:true}));
+diff --git a/talabat-core.js b/talabat-core.js
+--- a/talabat-core.js
++++ b/talabat-core.js
+@@ -251,7 +251,7 @@
+         _x: !!xi[o.id], items: allItems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
+         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission || 0, commissionSet: o.commission != null && o.commission !== '', commissionPct: +o.commission_pct,
+         payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, walletReturnedAt: o.wallet_returned_at ? Date.parse(o.wallet_returned_at) : null, pointsReturnedAt: o.points_returned_at ? Date.parse(o.points_returned_at) : null, arrivedStoreAt: o.arrived_store_at ? Date.parse(o.arrived_store_at) : null, arrivedCustAt: o.arrived_cust_at ? Date.parse(o.arrived_cust_at) : null, deliveryPhoto: o.delivery_photo || null, cancelReason: o.cancel_reason || null, cancelNote: o.cancel_note || '', cancelledBy: o.cancelled_by || null, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+-        cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at,
++        cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at, cashSettledAt: o.cash_settled_at || null,
+         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
+         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
+         createdAt: Date.parse(o.created_at), doneAt: o.done_at ? Date.parse(o.done_at) : null };
+@@ -296,6 +296,42 @@
+     b.style.background = bg; b.style.bottom = 'calc(' + (bottom || 86) + 'px + env(safe-area-inset-bottom,0px))'; b.textContent = text;
+   }
+   function unbanner(id) { var b = $(id); if (b) b.remove(); }
++  /* Admin finance read state. Successful snapshots survive read failures; no invented zero. */
++  var FIN = { cash: { known: false, state: 'idle', at: null }, drivers: { known: false, state: 'idle', at: null }, wallets: {}, audit: { known: false, state: 'idle', rows: [], at: null }, errors: { known: false, state: 'idle', rows: [], at: null }, actors: {}, settlements: {}, access: { state: 'idle', execute: false }, commands: {} };
++  function financeRead() { return need === 'admin' && (ME.role === 'admin' || MYPERMS.indexOf('finance') >= 0); }
++  function financeOnly() { return need === 'admin' && ME.role !== 'admin' && MYPERMS.indexOf('finance') >= 0 && !MYPERMS.some(function(p){return p === 'orders' || p === 'support';}); }
++  function finState(st, ok) { st.state = ok ? 'ok' : 'error'; if (ok) { st.known = true; st.at = Date.now(); } }
++  function finSafe(p) { var timer;return Promise.race([Promise.resolve(p).catch(function(){return {error:{message:'transport'}};}),new Promise(function(resolve){timer=setTimeout(function(){resolve({error:{message:'transport_timeout'}});},15000);})]).finally(function(){clearTimeout(timer);}); }
++  // A post-command read must start after confirmation, not join an older orders read.
++  function finRefreshCash() {
++    var epoch=FIN.cash.epoch||0;FIN.cash.state='loading';fireSoon();
++    return finSafe(sb.rpc('cash_balances')).then(function(r){
++      if(epoch!==(FIN.cash.epoch||0))return;
++      finState(FIN.cash,!r.error&&Array.isArray(r.data));
++      if(FIN.cash.state==='ok'){var cash={};r.data.forEach(function(c){cash[c.driver_id]=+c.balance;});DB.cash=cash;FIN.cash.dirty=false;}
++    }).finally(fireSoon);
++  }
++  function finEntry(e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at), created_by: e.created_by || null }; }
++  function finActors(ids) { ids = Array.from(new Set(ids.filter(Boolean))).slice(0,200); if (!ids.length) return Promise.resolve(); return finSafe(sb.rpc('finance_actor_names', { p_ids: ids })).then(function(r){if(!r.error)(r.data||[]).forEach(function(a){FIN.actors[a.id]={name:a.name||'',state:'ok'};});ids.forEach(function(id){if(!FIN.actors[id])FIN.actors[id]={name:'',state:'unknown'};});}); }
++  function finAccess() { if (!financeRead()) return Promise.resolve(FIN.access); return finSafe(sb.rpc('finance_access')).then(function(r){FIN.access={state:r.error?'error':'ok',execute:!r.error&&r.data&&r.data.execute===true&&r.data.version===2&&Array.isArray(r.data.capabilities)&&['commands','settlement_events'].every(function(c){return r.data.capabilities.indexOf(c)>=0;})};return FIN.access;}); }
++  function finLog(which,limit) { var st=FIN[which];if(st.flight)return st.flight;st.state='loading';var q=which==='audit'?(ME.role==='admin'?sb.from('audit_log').select('*').order('at',{ascending:false}).limit(Math.min(200,limit||100)):sb.rpc('finance_audit',{p_limit:Math.min(200,limit||100)})):sb.from('client_errors').select('*').order('at',{ascending:false}).limit(Math.min(200,limit||100));st.flight=finSafe(q).then(function(r){finState(st,!r.error&&Array.isArray(r.data));if(st.state==='ok')st.rows=r.data;return finActors(st.rows.map(function(x){return x.user_id;}));}).then(function(){return {rows:st.rows.slice(),known:st.known,state:st.state,at:st.at};}).finally(function(){st.flight=null;});return st.flight; }
++  function finSettlementKey(o) { return String(o.id)+':'+String(o.cashSettledAt); }
++  function finSettlementState(o) { var k=finSettlementKey(o);return FIN.settlements[k]||(FIN.settlements[k]={state:'idle',known:false,at:null,row:null}); }
++  function finSettlements(orders,force) {
++    var rows=orders.filter(function(o){return o.cashSettledAt;}).slice(0,30),todo=rows.filter(function(o){var st=finSettlementState(o);return !st.flight&&(force||st.state==='idle'||(st.state==='ok'&&Date.now()-st.at>60000));});
++    if(!todo.length)return Promise.all(rows.map(function(o){return finSettlementState(o).flight;}).filter(Boolean));
++    todo.forEach(function(o){finSettlementState(o).state='loading';});
++    var flight=finSafe(Promise.resolve().then(function(){return sb.rpc('finance_settlement_events',{p_order_ids:todo.map(function(o){return String(o.id);})});})).then(function(r){
++      var good=!r.error&&Array.isArray(r.data);
++      todo.forEach(function(o){var st=finSettlementState(o);finState(st,good);if(good)st.row=r.data.find(function(a){return a.table_name==='orders'&&String(a.row_id)===String(o.id)&&a.details&&a.details.cash_settled_at&&Date.parse(a.details.cash_settled_at.to)===Date.parse(o.cashSettledAt);})||null;});
++      return finActors(todo.map(function(o){var row=finSettlementState(o).row;return row&&row.user_id;}));
++    }).finally(function(){todo.forEach(function(o){finSettlementState(o).flight=null;});fireSoon();});
++    todo.forEach(function(o){finSettlementState(o).flight=flight;});return flight;
++  }
++  function finSlot(op,target) { var k=op+':'+target;if(!FIN.commands[k]){try{FIN.commands[k]=JSON.parse(sessionStorage.getItem('tlb-fin:'+ME.id+':'+k)||'null');}catch(e){}if(!FIN.commands[k])FIN.commands[k]={state:'idle'};if(FIN.commands[k].state==='pending')FIN.commands[k].state='unresolved';}return FIN.commands[k]; }
++  function finPersist(op,target,st){try{sessionStorage.setItem('tlb-fin:'+ME.id+':'+op+':'+target,JSON.stringify({key:st.key,state:st.state}));return true;}catch(e){return false;}}
++  function finCommand(op,target,amount,note){var st=finSlot(op,target);if(st.state==='pending'||st.state==='unresolved')return Promise.resolve({error:st.state,unresolved:st.state==='unresolved'});if(!FIN.access.execute)return Promise.resolve({error:'finance_authorization_required'});try{st.key=crypto.randomUUID();}catch(e){return Promise.resolve({error:'storage_unavailable'});}st.state='pending';st.result=null;if(!finPersist(op,target,st)){st.state='error';return Promise.resolve({error:'storage_unavailable'});}if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}fireSoon();return finSafe(Promise.resolve().then(function(){return sb.rpc('finance_execute',{p_request:st.key,p_operation:op,p_target:target,p_amount:amount==null?null:amount,p_note:note||null});})).then(function(r){if(r.error){var definite=/^(not_allowed|bad_value|not_found|insufficient_funds|request_conflict)$/.test(r.error.message||'');st.state=definite?'error':'unresolved';return {error:definite?r.error.message:'unresolved',unresolved:!definite};}if(!r.data||r.data.request!==st.key){st.state='unresolved';return {error:'unresolved',unresolved:true};}st.state='success';st.result=r.data;if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}toast(t('saved'));return {ok:true,result:r.data};}).finally(function(){finPersist(op,target,st);fireSoon();});}
++  function finReconcile(op,target){var st=finSlot(op,target);if(!st.key||st.state!=='unresolved')return Promise.resolve({error:'bad_value'});return finSafe(sb.rpc('finance_command_status',{p_request:st.key})).then(function(r){/* Absence is not proof of rollback: the original transaction may still be running. */if(r.error||!r.data||r.data.request!==st.key)return {error:'unresolved',unresolved:true};st.state='success';st.result=r.data;if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}finPersist(op,target,st);fireSoon();return {ok:true,result:r.data};});}
+   var LIMITS = { customer: 60, driver: 60, merchant: 200, admin: 300 };
+   var EVERY = {
+     customer: { orders: 25000, stat: 60000, misc: 40000 },
+@@ -344,8 +380,9 @@
+     });
+   }
+   function ordersQuery() {
++    if (financeOnly()) return sb.rpc('finance_driver_orders');
+     var q = sb.from('orders').select('*').order('created_at', { ascending: false }).limit(LIMITS[ME.role] || 60);
+-    if (ME.role === 'customer') q = q.eq('customer_id', ME.id);
++    if (ME.role === 'customer' && need !== 'admin') q = q.eq('customer_id', ME.id);
+     else if (ME.role === 'driver') q = q.eq('driver_id', ME.id);
+     else if (ME.role === 'merchant') {
+       var ids = DB.stores.filter(function (x) { return x.owner_id === ME.id; }).map(function (x) { return x.id; });
+@@ -355,6 +392,7 @@
+     return q;
+   }
+   function loadOrders() {
++    var cashEpoch=FIN.cash.epoch||0;
+     var q = ordersQuery();
+     var offerIds = ME.role === 'driver' ? DB.myOffers.map(function (f) { return f.order_id; }) : [];
+     var qs = [q ? q : Promise.resolve({ data: [] }), offerIds.length ? sb.from('orders').select('*').in('id', offerIds) : Promise.resolve({ data: [] })];
+@@ -366,37 +404,37 @@
+       var ids = rows.map(function (o) { return o.id; });
+       var live = rows.filter(function (o) { return ACTIVE.indexOf(o.status) >= 0 || extraOrders[o.id]; }).map(function (o) { return o.id; });
+       return Promise.all([
+-        ids.length ? sb.from('order_items').select('*').in('order_id', ids) : Promise.resolve({ data: [] }),
+-        live.length ? sb.from('order_chat').select('*').in('order_id', live).order('created_at') : Promise.resolve({ data: [] }),
+-        (ME.role === 'driver' || ME.role === 'admin') ? sb.rpc('cash_balances') : Promise.resolve({ data: [] }),
+-        ME.role === 'admin' ? Promise.resolve({ data: null }) : sb.rpc('active_contacts'),
++        ids.length && !financeOnly() ? sb.from('order_items').select('*').in('order_id', ids) : Promise.resolve({ data: [] }),
++        live.length && !financeOnly() ? sb.from('order_chat').select('*').in('order_id', live).order('created_at') : Promise.resolve({ data: [] }),
++        (ME.role === 'driver' || ME.role === 'admin' || financeRead()) ? finSafe(sb.rpc('cash_balances')) : Promise.resolve({ data: [] }),
++        (ME.role === 'admin' || financeOnly()) ? Promise.resolve({ data: null }) : sb.rpc('active_contacts'),
+         // gift recipients (patch 32): readable only by the customer, the courier of the order and staff
+-        (ME.role !== 'merchant' && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] })
++        (ME.role !== 'merchant' && !financeOnly() && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] })
+       ]).then(function (x) {
+         if (x[0].error) throw x[0].error;
+-        var cash = {}; if (!x[2].error) (x[2].data || []).forEach(function (c) { cash[c.driver_id] = +c.balance; });
++        var cash=DB.cash;if((ME.role==='driver'||financeRead())&&cashEpoch===(FIN.cash.epoch||0)){finState(FIN.cash,!x[2].error&&Array.isArray(x[2].data));if(FIN.cash.state==='ok'){FIN.cash.dirty=false;cash={};x[2].data.forEach(function(c){cash[c.driver_id]=+c.balance;});}}
+         // chat of orders opened on demand (admin detail) that are no longer "live" stays in memory
+         var keepChat = DB.chat.filter(function (c) { return live.indexOf(c.order_id) < 0 && extraOrders[c.order_id]; });
+         var chat = (x[1].error ? [] : (x[1].data || [])).concat(keepChat);
+         var contacts = {}; if (x[3] && !x[3].error) (x[3].data || []).forEach(function (c) { contacts[c.order_id] = { customer_phone: c.customer_phone || '', driver_phone: c.driver_phone || '' }; });
+         if (ME.role === 'admin') contacts = DB.contacts;                       // the admin loads phones on demand (opened order, low ratings)
+         var rcp = {}; if (x[4] && !x[4].error) (x[4].data || []).forEach(function (g) { rcp[g.order_id] = { name: g.name, phone: g.phone }; });
+-        if (!changed('orders', [rows, x[0].data, chat, cash, contacts, rcp])) return false;
++        if (!changed('orders', [rows, x[0].data, chat, cash, contacts, rcp, FIN.cash.state])) return false;
+         DB.recipients = rcp;
+         DB.orders = rows; DB.oitems = x[0].data || []; DB.chat = chat; DB.cash = cash; DB.contacts = contacts;
+         return true;
+       });
+-    });
++    }).catch(function(e){if(ME.role==='driver'||financeRead())finState(FIN.cash,false);throw e;});
+   }
+   function loadMisc() {
+-    var admin = ME.role === 'admin', cust = ME.role === 'customer';
++    var admin = ME.role === 'admin', cust = ME.role === 'customer' && need !== 'admin';
+     return Promise.all([
+       sb.from('profiles').select('*').eq('id', ME.id).single(),
+       sb.from('favorites').select('store_id').limit(300),
+       (admin || cust) ? sb.from('ratings').select('*').order('created_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
+       cust ? sb.from('addresses').select('*').order('created_at').limit(20) : Promise.resolve({ data: [] }),
+       admin ? sb.from('promo_codes').select('*').order('created_at', { ascending: false }).limit(200) : Promise.resolve({ data: [] }),
+-      admin ? sb.from('profiles').select('*').eq('role', 'driver').limit(1000) : Promise.resolve({ data: [] }),
++      admin ? finSafe(sb.from('profiles').select('*').eq('role', 'driver').limit(1000)) : financeRead() ? finSafe(sb.rpc('finance_drivers')) : Promise.resolve({data:[]}),
+       admin ? sb.from('order_offers').select('*').order('offered_at', { ascending: false }).limit(300) : Promise.resolve({ data: [] }),
+       (admin || cust) ? sb.from('app_settings').select('*') : Promise.resolve({ data: [] }),
+       ME.role === 'driver' ? sb.rpc('my_rating') : Promise.resolve({ data: null }),
+@@ -413,7 +451,9 @@
+       cust ? sb.rpc('store_speed') : Promise.resolve({ data: [] })
+     ]).then(function (r) {
+       if (r[0].error && r[1].error) throw r[0].error;
+-      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? [] : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data, r[12].error ? null : r[12].data, r[13].error ? [] : r[13].data, r[14].error ? null : r[14].data, r[15].error ? [] : r[15].data, r[16].error ? [] : r[16].data];
++      var pack = [r[0].data, r[1].error ? [] : r[1].data, r[2].error ? [] : r[2].data, r[3].error ? [] : r[3].data, r[4].error ? [] : r[4].data, r[5].error ? DB.drivers : r[5].data, r[6].error ? [] : r[6].data, r[7].error ? [] : r[7].data, r[8].error ? null : r[8].data, r[9].error ? [] : r[9].data, r[10].error ? [] : r[10].data, r[11].error ? [] : r[11].data, r[12].error ? null : r[12].data, r[13].error ? [] : r[13].data, r[14].error ? null : r[14].data, r[15].error ? [] : r[15].data, r[16].error ? [] : r[16].data];
++      if(admin||financeRead())finState(FIN.drivers,!r[5].error&&Array.isArray(r[5].data));
++      pack.push(FIN.drivers.state);
+       if (!changed('misc', pack)) return false;
+       if (pack[0]) ME = Object.assign(ME, pack[0]);
+       DB.favs = (pack[1] || []).map(function (x) { return x.store_id; });
+@@ -798,7 +838,7 @@
+         if (!ok) { bootHide(); return blocked('wrongRole'); }
+         if (need === 'driver' && ME.driver_status !== 'approved') { bootHide(); return blocked('pendingApp'); }
+         var o = $('tlb-ov'); if (o) o.remove();
+-        return refresh().then(function () {
++        return Promise.all([refresh(), finAccess()]).then(function () {
+           try { subscribeRealtime(); } catch (e) { console.error(e); }
+           startScheduler();
+           bootHide();
+@@ -1278,7 +1318,7 @@
+     },
+     /* ---------- customers (admin) ---------- */
+     customers: function (q, offset) {
+-      return sb.rpc('admin_customers', { p_q: String(q || '').trim().slice(0, 60) || null, p_limit: 30, p_offset: Math.max(0, Math.floor(+offset || 0)) }).then(function (r) { return r.error ? { error: errKey(r.error), rows: [] } : { rows: r.data || [] }; }, function () { return { error: 'generic', rows: [] }; });
++      return sb.rpc(financeOnly()?'finance_customers':'admin_customers', { p_q: String(q || '').trim().slice(0, 60) || null, p_limit: 30, p_offset: Math.max(0, Math.floor(+offset || 0)) }).then(function (r) { return r.error ? { error: errKey(r.error), rows: [] } : { rows: r.data || [] }; }, function () { return { error: 'generic', rows: [] }; });
+     },
+     /* one account's orders (by customer id, newest first), 50 at a time; .total = how many this account has in all (null if unknown) */
+     customerOrders: function (id, from) {
+@@ -1385,22 +1425,22 @@
+         DB.wallet.loadedAt = Date.now(); if (ch) fireSoon(); return ch;
+       }, function () { return null; });
+     },
+-    walletOf: function (userId) {
+-      return Promise.all([sb.rpc('wallet_balance', { p_user: userId }), sb.from('wallet_entries').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(30)]).then(function (r) {
+-        return { balance: r[0].error ? 0 : Math.round(+r[0].data * 100) / 100, entries: r[1].error ? [] : (r[1].data || []).map(function (e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at) }; }) };
+-      }, function () { return { balance: 0, entries: [] }; });
+-    },
+-    walletAdjust: function (userId, amount, note) {
+-      var a = num(amount), n = String(note || '').trim();
+-      if (isNaN(a) || a === 0 || Math.abs(a) > 100000 || n.length < 3 || n.length > 200) return Promise.resolve({ error: 'bad_value' });
+-      return rpc('wallet_adjust', { p_user: userId, p_amount: Math.round(a * 100) / 100, p_note: n }, true);
+-    },
+-    audit: function (limit) {
+-      return sb.from('audit_log').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
+-    },
+-    clientErrors: function (limit) {
+-      return sb.from('client_errors').select('*').order('at', { ascending: false }).limit(Math.min(200, limit || 100)).then(function (r) { return r.error ? [] : (r.data || []); });
+-    },
++    walletOf: function(userId){var st=FIN.wallets[userId]||(FIN.wallets[userId]={balance:null,entries:[],balanceKnown:false,entriesKnown:false,state:'idle'});if(st.flight)return st.flight;st.state='loading';st.flight=Promise.all([finSafe(sb.rpc('wallet_balance',{p_user:userId})),finSafe(sb.from('wallet_entries').select('*').eq('user_id',userId).order('created_at',{ascending:false}).limit(30))]).then(function(r){var goodB=!r[0].error&&r[0].data!=null&&Number.isFinite(+r[0].data),goodE=!r[1].error&&Array.isArray(r[1].data);if(goodB){st.balance=Math.round(+r[0].data*100)/100;st.balanceKnown=true;}if(goodE){st.entries=r[1].data.map(finEntry);st.entriesKnown=true;}st.state=goodB&&goodE?'ok':'error';if(st.state==='ok')st.at=Date.now();return finActors(st.entries.map(function(e){return e.created_by;}));}).then(function(){return {balance:st.balance,entries:st.entries.slice(),balanceKnown:st.balanceKnown,entriesKnown:st.entriesKnown,state:st.state,at:st.at};}).finally(function(){st.flight=null;});return st.flight;},
++    walletAdjust: function(userId,amount,note){var a=num(amount),n=String(note||'').trim();if(isNaN(a)||a===0||Math.abs(a)>100000||n.length<3||n.length>200)return Promise.resolve({error:'bad_value'});return finCommand('wallet_adjust',userId,Math.round(a*100)/100,n);},
++    audit: function(limit){return finLog('audit',limit);},
++    clientErrors: function(limit){return finLog('errors',limit);},
++    financeAccess: function(){return Object.assign({},FIN.access);},
++    financeRefreshAccess: finAccess,
++    financeOnly: financeOnly,
++    financeActor: function(id){return FIN.actors[id]||{name:'',state:'unknown'};},
++    financeLoadSettlements: finSettlements,
++    financeSettlementHealth: function(o){var st=finSettlementState(o);return {state:st.state,known:st.known,at:st.at};},
++    financeSettlementActor: function(id,at){return finSettlementState({id:id,cashSettledAt:at}).row;},
++    financeReconcile: finReconcile,
++    financeCommandState: function(op,target){return Object.assign({},finSlot(op,target));},
++    financeRefreshCash: finRefreshCash,
++    cashHealth: function(){return Object.assign({},FIN.cash);},
++    driversHealth: function(){return Object.assign({},FIN.drivers);},
+     mapView: function (elId, points, center) {
+       loadLeaflet(function () {
+         var box = $(elId); if (!box) return;
+@@ -1418,7 +1458,7 @@
+       });
+     },
+     events: function (id) { return DB.events.filter(function (e) { return e.order_id == id; }); },
+-    cash: function (driverId) { return DB.cash[driverId] || 0; },
++    cash: function(driverId){return FIN.cash.known?(DB.cash[driverId]||0):null;},
+     myCash: function () { return ME ? (DB.cash[ME.id] || 0) : 0; },
+     placeOrder: function (o) {
+       var s = storeByName(o.store); if (!s) return Promise.resolve({ error: 'store_unavailable' });
+@@ -1528,12 +1568,7 @@
+     setMyPhone: function (p) { p = normPhone(p); if (!p) return Promise.resolve({ error: 'bad_phone' }); return rpc('set_my_phone', { p_phone: p }, true).then(function (r) { return r.error ? r : { ok: true, phone: p }; }); },
+     setDriverBlocked: function (id, v) { return sb.from('profiles').update({ accept_blocked: !!v }).eq('id', id).then(done); },
+     setDriverLimit: function (id, v) { v = +v; if (!isFinite(v) || v <= 0 || v > 1000000) return badStore(); return sb.from('profiles').update({ cash_limit: v }).eq('id', id).then(done); },
+-    settleCash: function (driverId) {
+-      return sb.rpc('settle_driver_cash', { p_driver: driverId }).then(function (r) {
+-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
+-        toast(t('saved') + ' (' + (+r.data || 0) + ' TJS)'); return refresh().then(function () { return { ok: true }; });
+-      });
+-    },
++    settleCash: function(driverId){return finCommand('settle_cash',driverId,null,null);},
+ 
+     banners: function (all) { var now = Date.now(); return DB.banners.filter(function (b) { return all || (b.is_active && (!b.starts_at || Date.parse(b.starts_at) <= now) && (!b.ends_at || Date.parse(b.ends_at) > now)); }); },
+     addBanner: function (f) { if (!validBanner(f)) return badBanner(); return sb.from('banners').insert(f).then(done); },
+

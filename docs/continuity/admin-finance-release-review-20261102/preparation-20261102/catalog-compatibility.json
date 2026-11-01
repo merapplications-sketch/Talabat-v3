@@ -1,0 +1,718 @@
+{
+  "project": "dzydscryrnahnneydnry",
+  "date_dushanbe": "2026-11-02",
+  "read_only": true,
+  "scope": "Current catalog drift comparison and proposed patch applicability, not rerun of closed functional tests",
+  "function_count": 119,
+  "function_differences": [],
+  "metadata_comparisons": [
+    {
+      "name": "columns.json",
+      "old_rows": 342,
+      "current_rows": 342,
+      "equal_after_unordered_metadata_array_normalization": true
+    },
+    {
+      "name": "roles.json",
+      "old_rows": 1,
+      "current_rows": 1,
+      "equal_after_unordered_metadata_array_normalization": true
+    },
+    {
+      "name": "relations.json",
+      "old_rows": 50,
+      "current_rows": 50,
+      "equal_after_unordered_metadata_array_normalization": true
+    },
+    {
+      "name": "policies-triggers-constraints.json",
+      "old_rows": 1,
+      "current_rows": 1,
+      "equal_after_unordered_metadata_array_normalization": true
+    },
+    {
+      "name": "effective-access.json",
+      "old_rows": 108,
+      "current_rows": 108,
+      "equal_after_unordered_metadata_array_normalization": true
+    },
+    {
+      "name": "schema-scope.json",
+      "old_rows": 1,
+      "current_rows": 1,
+      "equal_after_unordered_metadata_array_normalization": true
+    },
+    {
+      "name": "auth-helper.json",
+      "old_rows": 1,
+      "current_rows": 1,
+      "equal_after_unordered_metadata_array_normalization": true
+    }
+  ],
+  "digests": {
+    "parts": [
+      {
+        "name": "columns.json",
+        "old_sha256": "bebcd6d069c56bb275bbc36f3910e88aaddeac920669212476a6ad3e0759d41f",
+        "current_sha256": "bebcd6d069c56bb275bbc36f3910e88aaddeac920669212476a6ad3e0759d41f",
+        "equal": true
+      },
+      {
+        "name": "roles.json",
+        "old_sha256": "87155d92d4ffba8f6036739b18b96e0f92c88f383dff02abf842d675995bebb7",
+        "current_sha256": "87155d92d4ffba8f6036739b18b96e0f92c88f383dff02abf842d675995bebb7",
+        "equal": true
+      },
+      {
+        "name": "relations.json",
+        "old_sha256": "6ca08c97e67093245988da65642bcf934d90cb416491c995dfe0bd23f26dc2a2",
+        "current_sha256": "6ca08c97e67093245988da65642bcf934d90cb416491c995dfe0bd23f26dc2a2",
+        "equal": true
+      },
+      {
+        "name": "policies-triggers-constraints.json",
+        "old_sha256": "3b5bf6bb86a33ddbc762a89bc86b830c4df807b923978a67622f6a7d5d75a47f",
+        "current_sha256": "3b5bf6bb86a33ddbc762a89bc86b830c4df807b923978a67622f6a7d5d75a47f",
+        "equal": true
+      },
+      {
+        "name": "effective-access.json",
+        "old_sha256": "6b1fffce1a5a853d6b85d83f578826376c5b1a1ced03244e9e9caef661d7595c",
+        "current_sha256": "6b1fffce1a5a853d6b85d83f578826376c5b1a1ced03244e9e9caef661d7595c",
+        "equal": true
+      },
+      {
+        "name": "schema-scope.json",
+        "old_sha256": "491bd023304070efa86b362f1198860e9114ad148fb88a1d364fddd906f7f7f4",
+        "current_sha256": "491bd023304070efa86b362f1198860e9114ad148fb88a1d364fddd906f7f7f4",
+        "equal": true
+      },
+      {
+        "name": "auth-helper.json",
+        "old_sha256": "75c0b8ac4cdc4793c125f3146e0a680a6f71f5fa5311712ba7c7ecf39c1f873e",
+        "current_sha256": "75c0b8ac4cdc4793c125f3146e0a680a6f71f5fa5311712ba7c7ecf39c1f873e",
+        "equal": true
+      }
+    ],
+    "functions": [
+      {
+        "signature": "active_contacts()",
+        "definition_sha256": "fdcbc8bd7925658dea4d52b3f8ac1fa2ddf255d0aa5b42c3b0a45c03ed23577a"
+      },
+      {
+        "signature": "addr_after_delete()",
+        "definition_sha256": "8e2c4933ce559c798cecc756745fa663fb064eac7dcc4b8df3e02f10e8458dbf"
+      },
+      {
+        "signature": "addr_before_insert()",
+        "definition_sha256": "3ce535fc2b91f74455a561aa6c118efd06e237a34183c104618cbf02d9405897"
+      },
+      {
+        "signature": "admin_assign_driver(bigint,uuid)",
+        "definition_sha256": "8b2eaaf29236d8bc8dd8fd647217d11433b7ca2dbc2356db0e2af6c4c5b31385"
+      },
+      {
+        "signature": "admin_customers(text,integer,integer)",
+        "definition_sha256": "86a0ee91312bf0019b132c25d8e6915286937fdcd6268c28cdf789b765b802a5"
+      },
+      {
+        "signature": "admin_set_customer_phone(uuid,text,text)",
+        "definition_sha256": "d07d80290af5e477b3f96796fb05902ff8fafa6c9d030a733759721c7eca815c"
+      },
+      {
+        "signature": "apply_as_driver()",
+        "definition_sha256": "22fb8f68c4713d87ada63fc146ec80fc4b4e88a366fbb5193979cad9da936165"
+      },
+      {
+        "signature": "assign_owner(uuid,text)",
+        "definition_sha256": "369a3b15499879e59d368371f2884e6fffa053c49208d9b848396ecfb16b02db"
+      },
+      {
+        "signature": "audit_changes()",
+        "definition_sha256": "49333e70512240fb0a58dce55238089c292c60e4c43b7f5220932f63b3261ed1"
+      },
+      {
+        "signature": "best_dishes(uuid,integer)",
+        "definition_sha256": "e5dc26873c4bcec1539841248445cceafab948468300959c7ae810327016d192"
+      },
+      {
+        "signature": "branch_create(uuid,text,text,double precision,double precision,text)",
+        "definition_sha256": "0d598d78da1a0da1eabb8bdf11e0b3b98e00d12777093f5fe56ebfa5bab56f49"
+      },
+      {
+        "signature": "brand_attach(uuid,uuid,text)",
+        "definition_sha256": "9ac31e8acdca2fe04f90e592c5638d459227cea507da6ebeb6bb3d6e77e8d694"
+      },
+      {
+        "signature": "brand_create(text,text)",
+        "definition_sha256": "d2e76836c92bcb2d94d9953c919b76d8dc452d027cfcff1e10335c62dd98fdbd"
+      },
+      {
+        "signature": "brand_detach(uuid)",
+        "definition_sha256": "3deec6e592a2b004ac3b03e15d1f5d8fe7cbacd84935c7046ffbbf12a98bd3cb"
+      },
+      {
+        "signature": "brand_route(uuid,double precision,double precision,text[])",
+        "definition_sha256": "046578aaf1e3f4cb0889994a7d8c5c80c82395e614c987a7d01ef87331bbc446"
+      },
+      {
+        "signature": "brand_stats(uuid,integer)",
+        "definition_sha256": "6f1a8b875792f0863a87880ebc770f205d9ec52eac536e10c63d1263d7d710e3"
+      },
+      {
+        "signature": "brand_sync_menu(uuid,uuid)",
+        "definition_sha256": "a7774bff16698a4a899fd180f514221b908add765fd1fa7d9a9ef0a55886726d"
+      },
+      {
+        "signature": "can_see_order(bigint)",
+        "definition_sha256": "6e5ef51480126138406cb30bea27979c3dd44fe53ae6aafbfd09b85c7253c748"
+      },
+      {
+        "signature": "cap_options()",
+        "definition_sha256": "815e8fc88f2edc8cfd4cf745854e739ccad9b7dc627f8154d1065adfe863078f"
+      },
+      {
+        "signature": "cash_balances()",
+        "definition_sha256": "3ba9929e73aa275e032bcc581b1eca7a0edc88a6ffba251ccac6dcf2e6be091c"
+      },
+      {
+        "signature": "check_image_url(text)",
+        "definition_sha256": "65aa6e6c23f2808dd0d46af569e6fb5153ca2b1db6048e14c381d50e68543e6c"
+      },
+      {
+        "signature": "check_promo(text,uuid,jsonb)",
+        "definition_sha256": "40db80fd87ead259bfe3a41a8e2d1a1f4e9c2f1747ee5e1756b68be35c36a1ae"
+      },
+      {
+        "signature": "check_promo_base(text,uuid,jsonb)",
+        "definition_sha256": "feb6f8e5af3330307b5c10519958e18fe33fa74e6ec5e44c23a379b56c234c85"
+      },
+      {
+        "signature": "contacts_for(bigint[])",
+        "definition_sha256": "ac8a461b1fe122d78fb5dbcae289ac71fdadd1b895ac614a6a73b85d9e7941b6"
+      },
+      {
+        "signature": "copy_menu(uuid,uuid,boolean)",
+        "definition_sha256": "9bab1a7410bfcdb152197efadce36d97ba96ec2d24bfd480bfd8de1f392898f1"
+      },
+      {
+        "signature": "courier_steps_version()",
+        "definition_sha256": "789a19cb0cfb6e0fca966195bec53f945490826a0d28d7f0c7a1d261738096ee"
+      },
+      {
+        "signature": "create_ticket(bigint,text,text)",
+        "definition_sha256": "b4e8af1d4fd8c497b4933d3d084c599f1f3e9837395d708a18957a9016ed1afa"
+      },
+      {
+        "signature": "decide_store_request(uuid,boolean,text)",
+        "definition_sha256": "29dc6fa48bc4a308cae399f62b59ae0c5725a2c8ed16680ace3a52a3a57b9028"
+      },
+      {
+        "signature": "deliver_order(bigint,numeric,text,text)",
+        "definition_sha256": "9e47af10449405a7b2d48264774d1bb85b21040294b7721d44b93ed98e0da5df"
+      },
+      {
+        "signature": "delivery_calc(uuid,double precision,double precision,uuid)",
+        "definition_sha256": "1ee9b1589149f6cd2c67e83c76a708c59e6662f7f6709f0759f313809dc53f6d"
+      },
+      {
+        "signature": "delivery_quote(uuid,double precision,double precision)",
+        "definition_sha256": "bc8501a7a9b6020e0c4a90ae0f0b251875893eb1b429465d057bf72b9e37b656"
+      },
+      {
+        "signature": "dispatch_next(bigint)",
+        "definition_sha256": "2ae6a420f5d52080106e680c3136c312daa32c1c531d8905a4a19260ba8cbd8d"
+      },
+      {
+        "signature": "dispatch_tick()",
+        "definition_sha256": "ec84cd74275e8da542ed00335f95582977f4c57d0fcac086d5d49ab19cb3d1ab"
+      },
+      {
+        "signature": "dist_km(double precision,double precision,double precision,double precision)",
+        "definition_sha256": "099d44ab580cebcc8a37914186d8e99bcc3e39cc2103bcf1010af3de958fc3a0"
+      },
+      {
+        "signature": "driver_accept(bigint)",
+        "definition_sha256": "799d74287a1d6109ddf4283cdd630fc000983cf38230c2cef7b055296527cce7"
+      },
+      {
+        "signature": "driver_arrived(bigint,text)",
+        "definition_sha256": "a7558d7324ac7a28c9fcbc1e8b3704b93ad41ce7075d530450849a36ac8b322f"
+      },
+      {
+        "signature": "driver_decline(bigint)",
+        "definition_sha256": "20f620e2d3315abc09250b1e4e459ad9ec4b7deb58c67adb4da9c68a12355649"
+      },
+      {
+        "signature": "driver_location(double precision,double precision,double precision)",
+        "definition_sha256": "03ee77eb5f7d1f70dbd3f70c08b728a5a3e7ea4519cebc14e7937116fc8238d3"
+      },
+      {
+        "signature": "driver_ping(boolean)",
+        "definition_sha256": "ccbda0e88047d4b28959a47d016e6f8dd9ad4aabec58d725d4f07c6b4445901a"
+      },
+      {
+        "signature": "eligible_couriers(bigint,boolean)",
+        "definition_sha256": "41a97e18380e38278a3f1607351a6545aa88f577c947a21c9fa5432cff3fe80d"
+      },
+      {
+        "signature": "group_add(uuid,uuid,integer,jsonb,text)",
+        "definition_sha256": "8337aee20efc4d071d32df1c4de70ebd6c7e32260804b3e476720bc57fbb2cd3"
+      },
+      {
+        "signature": "group_create(uuid)",
+        "definition_sha256": "4d31f133e1a6abad945d44448169ba05c46b19619fd42db2862ea4768a7fbd61"
+      },
+      {
+        "signature": "group_get(uuid)",
+        "definition_sha256": "67672911ee2d8ace05e31863fdcfe9d095f9c7b1a10d63e93c2b8d3036fa4639"
+      },
+      {
+        "signature": "group_json(uuid)",
+        "definition_sha256": "7432efe6c5daa516af0a30148fe0cc4485397dc706fd81a80357116c3423e86b"
+      },
+      {
+        "signature": "group_remove(bigint)",
+        "definition_sha256": "801b35b5960a08e04629b9761912c05840657546aa0bc030c31666a17a7784f6"
+      },
+      {
+        "signature": "group_set(uuid,text)",
+        "definition_sha256": "8ebffbeb79d277c18a65bfd5f5f526d4285f7bc8dc30d89ea968d434a7eff04e"
+      },
+      {
+        "signature": "guard_item_approval()",
+        "definition_sha256": "11fda03bc04ede9ec8d1b81c1951b0b60a1e0cffa60005705a5b80f99b2b9440"
+      },
+      {
+        "signature": "guard_profile()",
+        "definition_sha256": "ea10c2dd44a0950dbab6e39c0ab01b75a94f3a902fd1ad1e59e613bdb4087cf8"
+      },
+      {
+        "signature": "handle_new_user()",
+        "definition_sha256": "605adbf5d7f4e018ee971092efae0c141143b49be545285a10520492790344fe"
+      },
+      {
+        "signature": "happy_hour_pct(uuid,timestamp with time zone)",
+        "definition_sha256": "4d85a92ff33533a47d13dc2cf83e8da08952fa9920b6172942c470d705f01321"
+      },
+      {
+        "signature": "has_perm(text)",
+        "definition_sha256": "229892453a70ce5bac883c6d9d160d9d728270c0c974883c963177765400ff4d"
+      },
+      {
+        "signature": "is_admin()",
+        "definition_sha256": "f2fdac4016a2005779caa64c85cf34270d26ad65a63d4df6c52fa9d124b2e58c"
+      },
+      {
+        "signature": "item_approval()",
+        "definition_sha256": "160ed8508f67e409e769f3fa4f7f8a3c8fdcb877d042077d242734b9b70cc8f8"
+      },
+      {
+        "signature": "log_order_event()",
+        "definition_sha256": "d46a494a983388e84900ccae362e48cb0aab7a5c8b0aed081da2306b84529215"
+      },
+      {
+        "signature": "loyalty_balance(uuid)",
+        "definition_sha256": "1f7bc66d47628c5487c520a8221b9a61ed4e7deb21f7702f48a35fb7c2f9a10c"
+      },
+      {
+        "signature": "loyalty_setting(text)",
+        "definition_sha256": "f2828343b62eff92084e108af228d2bfe2e532a0d838ea3ece23ac4ac7402175"
+      },
+      {
+        "signature": "loyalty_spend(uuid,integer,bigint)",
+        "definition_sha256": "e3b7a459916b01405ab82c56e91f0c434813245038c6d975a36a4488caa04d0e"
+      },
+      {
+        "signature": "loyalty_summary()",
+        "definition_sha256": "c18e69bf3b48ac150117e91f2915252c35bcea2ce49b98092cc10a67696c8aa9"
+      },
+      {
+        "signature": "my_offers()",
+        "definition_sha256": "8deda47c0da99a4687434353e3fec9b0c40cb4688f8adc6e5728e416ce80be81"
+      },
+      {
+        "signature": "my_perms()",
+        "definition_sha256": "5a0abe05455ea1875d81c3c774a682ee0e8c0c8227fbd2b615b65f1a15cd7647"
+      },
+      {
+        "signature": "my_rating()",
+        "definition_sha256": "238b674e32bb26061139f5798703cedb8d670bafffceabb7922f7c512a837b03"
+      },
+      {
+        "signature": "norm_phone(text)",
+        "definition_sha256": "7e8c15a473e69373adeca48667ec70427b4f370c1745f7062a91218addabe9ad"
+      },
+      {
+        "signature": "order_contacts(bigint)",
+        "definition_sha256": "a70d8205a1c5b3e9ee67e90df4f55a42e3ce7c4e26e32c76be3c2b854eac9a9e"
+      },
+      {
+        "signature": "order_courier_position(bigint)",
+        "definition_sha256": "63fbf0e9709068f2fae5c60063a2468e0bea25d8f60af8f6bcc113fd92937e21"
+      },
+      {
+        "signature": "owns_store(uuid)",
+        "definition_sha256": "0eeb9e676ecfe9ca522faf59a8d8699e9ad86e4de40a745caa68729ccaa62871"
+      },
+      {
+        "signature": "place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",
+        "definition_sha256": "9e25130286f96b75945f3b42c4b1a39319839308b2625273aa5ef4b9db0a80d2"
+      },
+      {
+        "signature": "price_line(uuid,jsonb)",
+        "definition_sha256": "d7b452c1f50c28419544527242c9d46990123581dc70620412e11c6559f9ba2d"
+      },
+      {
+        "signature": "promo_eval(text,numeric,uuid,boolean,numeric)",
+        "definition_sha256": "02f02ddc46500dee295a780f72aab72c6e5f53f1626576f92b50538166cc3b9a"
+      },
+      {
+        "signature": "promo_guard_version()",
+        "definition_sha256": "dac71f1724c38ac40bdd0e47c1014a9b0d69216fef07f880a3df62013249c0ce"
+      },
+      {
+        "signature": "rate_order(bigint,integer,integer,text)",
+        "definition_sha256": "7e0e5ef84638abed9444c46979033352f6bbd59e9b13531c4cbbe81f15b2e26a"
+      },
+      {
+        "signature": "reject_order(bigint,text,text)",
+        "definition_sha256": "555bd988f16f96bc91aff49ae9985ce0b56d6fd240c7f25b2783c6d238ab3cee"
+      },
+      {
+        "signature": "reopen_rating(bigint)",
+        "definition_sha256": "661646e67740f86e26119ac39d5e41cb55313a45ee9313ef61010032d74e7256"
+      },
+      {
+        "signature": "report_client_error(text,text,text,text)",
+        "definition_sha256": "b473ada3883696c042f685e2f4c3a436c4fb4e9098e7d2d69a2cadf48f3ca0a3"
+      },
+      {
+        "signature": "request_store(text,text,text,text,double precision,double precision,text)",
+        "definition_sha256": "69dd5baf964da38a20658bb39f871e5bb526a19e9e5106b1ac478b8ff1dc0a53"
+      },
+      {
+        "signature": "resolve_rating(bigint,text)",
+        "definition_sha256": "75cc1967b12cfc4dc091ac236ca88cee05f9ec31862283aa9501e7d4633164c2"
+      },
+      {
+        "signature": "set_customer_ban(uuid,boolean,text)",
+        "definition_sha256": "04f1f4c94002861b073d87ecba6d2f5ee969197bf0665750161ed59e1eef081e"
+      },
+      {
+        "signature": "set_default_address(uuid)",
+        "definition_sha256": "8dcc567d52fa1242e44c983c97c7a913af7baf1a7d6ec2a0f126bb5945da7cc5"
+      },
+      {
+        "signature": "set_my_cashback(uuid,numeric)",
+        "definition_sha256": "44ed8354de658e3ace2e7cbe4c5a22d3714309989870a22a162896d62b40eedb"
+      },
+      {
+        "signature": "set_my_discount(text,numeric)",
+        "definition_sha256": "ca5391f1f324338f99db8c55689d497d00dbc89f57e22bfb65d4a888a214e23d"
+      },
+      {
+        "signature": "set_my_free_delivery(uuid,numeric)",
+        "definition_sha256": "182e8053284fcc4f9e49f74b6ff1a2f5308f6a6ec5c50206369f95dd2f78f5d7"
+      },
+      {
+        "signature": "set_my_phone(text)",
+        "definition_sha256": "1cef27df618fdb9743520452d441cfcee3177b646c92fddcc5cab72615b7f90e"
+      },
+      {
+        "signature": "set_order_status(bigint,order_status)",
+        "definition_sha256": "b8313afb1ad2b3823ff14fe7875c4b8306ca3273b6fbeb80d3d94c9dd374f399"
+      },
+      {
+        "signature": "set_page(text,text,text)",
+        "definition_sha256": "dd7cd8b9f9ca514c6ddcf8419f798678b282589ff99e10dea6bbbc3b75e1e1e7"
+      },
+      {
+        "signature": "set_prep_time(bigint,integer)",
+        "definition_sha256": "2a1e1bd1e4c99448535ec31b3adf53ed4a2afda877b700cbe6a2f58b5e668fc5"
+      },
+      {
+        "signature": "set_setting(text,numeric)",
+        "definition_sha256": "baa3a985f000c5d75ab096864b024fc50dddf4cdf3cfc499048c0809adf9709f"
+      },
+      {
+        "signature": "set_store_earn(uuid,numeric)",
+        "definition_sha256": "da954a2cc5a66020ae40a9e7f2005b61cba0bcaa775534e11558703f6f12bfa4"
+      },
+      {
+        "signature": "set_store_free_delivery(uuid,numeric)",
+        "definition_sha256": "ba42f19b8c2a6fc815d2496ecc4c37489d82c1da94057d8c58e658ad8dd0630d"
+      },
+      {
+        "signature": "set_store_loyalty(uuid,numeric,numeric)",
+        "definition_sha256": "96ef281530082cf3e54f80ddf15c721fc8d4baa3f1f43a9f76a1cc20a948a8e0"
+      },
+      {
+        "signature": "set_store_open(uuid,boolean)",
+        "definition_sha256": "a7a5c94bafe68a7b264391496725534bdedb341a70a04ac9a5fa209a31cb2c04"
+      },
+      {
+        "signature": "set_text_setting(text,text)",
+        "definition_sha256": "4c1e474500f2511553d9fe4604ff9ad25096f85100d041161a83f443c81e8431"
+      },
+      {
+        "signature": "settle_driver_cash(uuid)",
+        "definition_sha256": "8558f68080a806a99ca676c0f8774c9518bba91a01cb3a291e493d1d2db8ba6e"
+      },
+      {
+        "signature": "staff_list()",
+        "definition_sha256": "19ecb54cbe6238046d7ad8a2e37c2a1210ebf04f922b1b363cec58f50bb02839"
+      },
+      {
+        "signature": "staff_remove(uuid)",
+        "definition_sha256": "75aeeb53d616880c3af2706cb0f9e44311d78692aa1886cc5cd5a8833469fc63"
+      },
+      {
+        "signature": "staff_set(text,text[],boolean)",
+        "definition_sha256": "344723aa2e1b6a1f5de4fa86e1f7423355ee1e1439d55c9a396f2cfceb139c7e"
+      },
+      {
+        "signature": "store_owner_info(uuid)",
+        "definition_sha256": "5f79519dad020c09ef055cac09a835cce492c56030bfa3cf9fa246aabbdf5a92"
+      },
+      {
+        "signature": "store_private()",
+        "definition_sha256": "48b7a40ce9864d3dbbb2c2895d2d97940df353d4f5f127afb44a455bfbc61e65"
+      },
+      {
+        "signature": "store_speed()",
+        "definition_sha256": "ee481ce24c7ea69a93d47780621e635c1d42ea4e64fa7858e24a201640e9c772"
+      },
+      {
+        "signature": "ticket_reason_ok(text,text,boolean)",
+        "definition_sha256": "07ff825fa325228f5019164086198a3d76cda66ed50707e40aa41b599707adca"
+      },
+      {
+        "signature": "ticket_refund_room(bigint)",
+        "definition_sha256": "78f7f147768b7f852938afcb2633bc38cef911a4f228a1f6ae528f98bd2d02ae"
+      },
+      {
+        "signature": "ticket_reply(bigint,text)",
+        "definition_sha256": "7ea64b76d065c9ee9bea307e1e03f5c387ac1cafe03dc6867240e26a0f54f81b"
+      },
+      {
+        "signature": "ticket_seen(bigint)",
+        "definition_sha256": "33cd9cefd26077a089339b016da7f1c7533c0c6ccc9b21f7bb865c4bed51301a"
+      },
+      {
+        "signature": "ticket_set_status(bigint,text,text,numeric)",
+        "definition_sha256": "84101418e859097e4764b3463bc35d3e0003c759b60b5379f9df336cdb6c6886"
+      },
+      {
+        "signature": "ticket_staff_reply(bigint,text)",
+        "definition_sha256": "c85fea3e963fa031a25c8fe8918f5de6bb53977b218f16c6c02e62e46b282582"
+      },
+      {
+        "signature": "trg_chat_limit()",
+        "definition_sha256": "86fc0dec9e7cf79fb68bbcd231dad2007dd182a38e5e8d9d22bdcdcc0f2dea20"
+      },
+      {
+        "signature": "trg_check_images()",
+        "definition_sha256": "cd43f0ca6a8ecc24acb4e7d7668a52f2787de07dcc3d7f33fd2b5cc167646ba6"
+      },
+      {
+        "signature": "trg_dispatch()",
+        "definition_sha256": "5dd73a579cbd867ff791d8812595c8b28762c61993c1e80d55fabd9fe328447c"
+      },
+      {
+        "signature": "trg_fav_limit()",
+        "definition_sha256": "9be9c3cb2d7b73a374b773c906ae3bc30b072fdf2daec542b647cc41f5b280f7"
+      },
+      {
+        "signature": "trg_loyalty()",
+        "definition_sha256": "3c47faf28b9351a59ff50b9d7dda357b499e6ca2e34fb91eedd384d5501ec8a8"
+      },
+      {
+        "signature": "trg_profile_phone()",
+        "definition_sha256": "10a73e6f3ce2337c0bfd6f63e2f3b7bcab4a4c1b20db2b8e8de6179f765c5775"
+      },
+      {
+        "signature": "trg_rating_aggregate()",
+        "definition_sha256": "1d4091b038eaee7ea964429f192ad3bc9719c8806ac94901185a37c0147e8dc2"
+      },
+      {
+        "signature": "trg_rating_reward()",
+        "definition_sha256": "0025e8ed0f461119d052d2813c65a6b138de21c8e69bd31bde3bc32e1e47e23b"
+      },
+      {
+        "signature": "trg_store_phone()",
+        "definition_sha256": "4ba865e974601d873d1e8dc4bd5254d8b3021ff5d7a60285c60f030e66f22ffb"
+      },
+      {
+        "signature": "trg_wallet_immutable()",
+        "definition_sha256": "e10bd0cbe3b5afbdffef7802cfe11c2aa083f8030111324e0aff05ca36483ae7"
+      },
+      {
+        "signature": "trg_wallet_return()",
+        "definition_sha256": "a5afd77643ba34830aaefe84d671126fb6bda9b1ca9e6eddfef7b0977cba6feb"
+      },
+      {
+        "signature": "update_my_store(uuid,text,text,text)",
+        "definition_sha256": "529abb38714d6c789b13bbff9e4c83afc0cd4db84fb2ff13d84329d0dde88e22"
+      },
+      {
+        "signature": "validate_item()",
+        "definition_sha256": "b38048c1e50b47abfad87c8ade8c0a466b21f7e387836523d609a9cab7fc62cf"
+      },
+      {
+        "signature": "validate_store()",
+        "definition_sha256": "a6f5c72b0507d763d1fa4927387825a15da9b8ccaaf1188621d06e68b13437c9"
+      },
+      {
+        "signature": "wallet_adjust(uuid,numeric,text)",
+        "definition_sha256": "79d5fe7c0c2b94279e48e8176f1a14ac3e93062b2fb2efd4891242a050086905"
+      },
+      {
+        "signature": "wallet_balance(uuid)",
+        "definition_sha256": "7c55e242a7918931a8b35587147a6cb2a9dbd8af07b3b7f694ca6ca50ba8c953"
+      }
+    ],
+    "all_definitions_match": true
+  },
+  "current_extra": {
+    "project": "dzydscryrnahnneydnry",
+    "read_only": true,
+    "collected_at": "2026-11-01T20:43:40.827Z",
+    "query": "select jsonb_build_object(\n'project_database',current_database(),'server_version',current_setting('server_version'),\n'staff_members',(select count(*) from public.staff_members),\n'active_finance_members',(select count(*) from public.staff_members where active and 'finance'=any(perms)),\n'private_schema_exists',to_regnamespace('finance_private') is not null,\n'commands_table_exists',to_regclass('finance_private.commands') is not null,\n'function_definition_digest',(select md5(string_agg(pg_get_functiondef(p.oid),E'\\n' order by p.proname,p.oid)) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prokind='f'),\n'client_special_grants',(select jsonb_agg(jsonb_build_object('role',r.rolname,'relation',c.oid::regclass::text,'truncate',has_table_privilege(r.oid,c.oid,'TRUNCATE'),'sequence',pg_get_serial_sequence(c.oid::regclass::text,'id'),'sequence_update',case when pg_get_serial_sequence(c.oid::regclass::text,'id') is null then false else has_sequence_privilege(r.oid,pg_get_serial_sequence(c.oid::regclass::text,'id'),'UPDATE') end)) from pg_roles r cross join pg_class c join pg_namespace n on n.oid=c.relnamespace where r.rolname in ('anon','authenticated') and n.nspname='public' and c.relname in ('orders','wallet_entries','audit_log'))\n) metadata;",
+    "rows": [
+      {
+        "metadata": {
+          "staff_members": 0,
+          "server_version": "17.11",
+          "project_database": "postgres",
+          "client_special_grants": [
+            {
+              "role": "authenticated",
+              "relation": "audit_log",
+              "sequence": "public.audit_log_id_seq",
+              "truncate": true,
+              "sequence_update": true
+            },
+            {
+              "role": "anon",
+              "relation": "audit_log",
+              "sequence": "public.audit_log_id_seq",
+              "truncate": false,
+              "sequence_update": true
+            },
+            {
+              "role": "authenticated",
+              "relation": "orders",
+              "sequence": "public.orders_id_seq",
+              "truncate": true,
+              "sequence_update": true
+            },
+            {
+              "role": "anon",
+              "relation": "orders",
+              "sequence": "public.orders_id_seq",
+              "truncate": false,
+              "sequence_update": false
+            },
+            {
+              "role": "authenticated",
+              "relation": "wallet_entries",
+              "sequence": "public.wallet_entries_id_seq",
+              "truncate": true,
+              "sequence_update": true
+            },
+            {
+              "role": "anon",
+              "relation": "wallet_entries",
+              "sequence": "public.wallet_entries_id_seq",
+              "truncate": false,
+              "sequence_update": true
+            }
+          ],
+          "commands_table_exists": false,
+          "private_schema_exists": false,
+          "active_finance_members": 0,
+          "function_definition_digest": "4ac5d337ee99082cba36c402b3add414"
+        }
+      }
+    ]
+  },
+  "queries": [
+    {
+      "name": "columns.json",
+      "query": "select c.oid::regclass::text relation,a.attname column_name,format_type(a.atttypid,a.atttypmod) data_type,a.attnotnull not_null,a.attidentity identity,pg_get_expr(d.adbin,d.adrelid) default_value,a.attacl::text column_acl from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where n.nspname in ('public','finance_private') and c.relkind in ('r','p') and a.attnum>0 and not a.attisdropped order by relation,a.attnum;"
+    },
+    {
+      "name": "roles.json",
+      "query": "select jsonb_build_object('roles',(select jsonb_agg(jsonb_build_object('name',rolname,'inherit',rolinherit,'bypassrls',rolbypassrls,'superuser',rolsuper,'canlogin',rolcanlogin)) from pg_roles),'memberships',(select jsonb_agg(jsonb_build_object('role',pg_get_userbyid(roleid),'member',pg_get_userbyid(member),'admin',admin_option,'inherit',inherit_option,'set',set_option)) from pg_auth_members),'schema_acl',(select jsonb_agg(jsonb_build_object('schema',nspname,'owner',pg_get_userbyid(nspowner),'acl',nspacl::text)) from pg_namespace where nspname in ('public','finance_private')),'default_acl',(select jsonb_agg(jsonb_build_object('owner',pg_get_userbyid(d.defaclrole),'schema',n.nspname,'object_type',d.defaclobjtype,'acl',d.defaclacl::text)) from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace)) metadata;"
+    },
+    {
+      "name": "relations.json",
+      "query": "select c.oid::regclass::text relation,c.relkind,c.relrowsecurity rls,c.relforcerowsecurity force_rls,pg_get_userbyid(c.relowner) owner,c.relacl::text acl,(select jsonb_agg(jsonb_build_object('grantee',case when x.grantee=0 then 'PUBLIC' else pg_get_userbyid(x.grantee) end,'grantor',pg_get_userbyid(x.grantor),'privilege',x.privilege_type,'grantable',x.is_grantable)) from aclexplode(coalesce(c.relacl,acldefault(case when c.relkind='S' then 'S'::\"char\" else 'r'::\"char\" end,c.relowner))) x) grants from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in ('public','finance_private') and c.relkind in ('r','p','v','m','S') order by relation;"
+    },
+    {
+      "name": "policies-triggers-constraints.json",
+      "query": "select jsonb_build_object('policies',(select jsonb_agg(to_jsonb(p)) from pg_policies p where schemaname in ('public','finance_private')),'triggers',(select jsonb_agg(jsonb_build_object('relation',c.oid::regclass::text,'name',t.tgname,'enabled',t.tgenabled,'definition',pg_get_triggerdef(t.oid))) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname in ('public','finance_private') and not t.tgisinternal),'constraints',(select jsonb_agg(jsonb_build_object('relation',c.oid::regclass::text,'name',k.conname,'definition',pg_get_constraintdef(k.oid))) from pg_constraint k join pg_class c on c.oid=k.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='public'),'views',(select jsonb_agg(jsonb_build_object('name',c.oid::regclass::text,'options',c.reloptions,'definition',pg_get_viewdef(c.oid,true))) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('v','m')),'indexes',(select jsonb_agg(to_jsonb(i)) from pg_indexes i where schemaname='public')) metadata;"
+    },
+    {
+      "name": "effective-access.json",
+      "query": "select r.rolname,c.oid::regclass::text relation,jsonb_build_object('select',has_table_privilege(r.oid,c.oid,'SELECT'),'insert',has_table_privilege(r.oid,c.oid,'INSERT'),'update',has_table_privilege(r.oid,c.oid,'UPDATE'),'delete',has_table_privilege(r.oid,c.oid,'DELETE')) table_privileges,(select jsonb_agg(jsonb_build_object('name',a.attname,'select',has_column_privilege(r.oid,c.oid,a.attnum,'SELECT'),'insert',has_column_privilege(r.oid,c.oid,a.attnum,'INSERT'),'update',has_column_privilege(r.oid,c.oid,a.attnum,'UPDATE'))) from pg_attribute a where a.attrelid=c.oid and a.attnum>0 and not a.attisdropped) columns from pg_roles r cross join pg_class c join pg_namespace n on n.oid=c.relnamespace where r.rolname in ('anon','authenticated','service_role') and n.nspname='public' and c.relkind in ('r','p') order by r.rolname,relation;"
+    },
+    {
+      "name": "schema-scope.json",
+      "query": "select jsonb_build_object('schemas',(select jsonb_agg(jsonb_build_object('name',n.nspname,'owner',pg_get_userbyid(n.nspowner),'functions',(select count(*) from pg_proc p where p.pronamespace=n.oid and p.prokind='f'))) from pg_namespace n where n.nspname !~ '^pg_' and n.nspname<>'information_schema'),'pgrst_schema_setting',current_setting('pgrst.db_schemas',true),'role_schema_settings',(select jsonb_agg(jsonb_build_object('role',case when d.setrole=0 then 'ALL' else pg_get_userbyid(d.setrole) end,'setting',s)) from pg_db_role_setting d cross join lateral unnest(d.setconfig) s where s like 'pgrst.db_schemas=%'),'cron_table',to_regclass('cron.job')::text) metadata;"
+    },
+    {
+      "name": "auth-helper.json",
+      "query": "select pg_get_functiondef('auth.uid()'::regprocedure) definition;"
+    },
+    {
+      "name": "functions-current.json",
+      "query": "select n.nspname schema,p.oid::regprocedure::text signature,pg_get_function_identity_arguments(p.oid) identity_arguments,pg_get_function_arguments(p.oid) arguments,pg_get_function_result(p.oid) result,pg_get_userbyid(p.proowner) owner,p.prosecdef security_definer,p.proconfig config,p.proacl::text acl,l.lanname language,pg_get_functiondef(p.oid) definition,has_function_privilege('anon',p.oid,'EXECUTE') anon_execute,has_function_privilege('authenticated',p.oid,'EXECUTE') authenticated_execute from pg_proc p join pg_namespace n on n.oid=p.pronamespace join pg_language l on l.oid=p.prolang where n.nspname in ('public','finance_private') and p.prokind='f' order by n.nspname,p.proname,p.oid;"
+    },
+    {
+      "name": "readiness-extra.json",
+      "query": "select jsonb_build_object(\n'project_database',current_database(),'server_version',current_setting('server_version'),\n'staff_members',(select count(*) from public.staff_members),\n'active_finance_members',(select count(*) from public.staff_members where active and 'finance'=any(perms)),\n'private_schema_exists',to_regnamespace('finance_private') is not null,\n'commands_table_exists',to_regclass('finance_private.commands') is not null,\n'function_definition_digest',(select md5(string_agg(pg_get_functiondef(p.oid),E'\\n' order by p.proname,p.oid)) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prokind='f'),\n'client_special_grants',(select jsonb_agg(jsonb_build_object('role',r.rolname,'relation',c.oid::regclass::text,'truncate',has_table_privilege(r.oid,c.oid,'TRUNCATE'),'sequence',pg_get_serial_sequence(c.oid::regclass::text,'id'),'sequence_update',case when pg_get_serial_sequence(c.oid::regclass::text,'id') is null then false else has_sequence_privilege(r.oid,pg_get_serial_sequence(c.oid::regclass::text,'id'),'UPDATE') end)) from pg_roles r cross join pg_class c join pg_namespace n on n.oid=c.relnamespace where r.rolname in ('anon','authenticated') and n.nspname='public' and c.relname in ('orders','wallet_entries','audit_log'))\n) metadata;"
+    }
+  ],
+  "collection_boundary": "Multiple read-only queries, not one transaction snapshot. Exact per-object function comparison and normalized metadata arrays match the prior saved inventory.",
+  "historical_digest_note": "Current string_agg MD5 uses specified ordering/delimiter and is not compared to the differently constructed old aggregate; per-definition hashes and exact fields are comparison basis.",
+  "tooling_note": "Initial read batch returned results but local wrapper parser captured introductory untrusted-data text incorrectly. Metadata-only reads were repeated with corrected parser; no mutation or functional suite rerun.",
+  "frontend_applicability": {
+    "deployed_base": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+    "candidate_source": "1e2249293c27e27c766e1273e81f205d15512e40",
+    "finance_delta_base": "09ef07fd29fb5c5a3e323c23c7331e577567ab1e",
+    "check": "git apply --check --directory=pre-release-baseline finance-only-review.patch",
+    "exit_code": 1,
+    "failures": [
+      "admin.html:80",
+      "talabat-core.js:251"
+    ],
+    "applied": false,
+    "candidate_vs_deployed": [
+      {
+        "path": "admin.html",
+        "added": 317,
+        "removed": 148,
+        "hunks": 84
+      },
+      {
+        "path": "talabat-core.js",
+        "added": 483,
+        "removed": 91,
+        "hunks": 59
+      }
+    ],
+    "conclusion": "Live Pages is older than repair integration base. The finance-only delta is not directly applicable; copying full candidate core/admin would also carry unrelated unpublished features. Need reviewed selective integration/adaptation before a production artifact can be approved. No app files merged or changed."
+  },
+  "server_patch_status": "unapplied; finance_private and commands absent",
+  "safari": {
+    "webkit_installed": false,
+    "webkit_path": "/root/.cache/ms-playwright/webkit-2336/pw_run.sh",
+    "actual_safari_test_performed": false,
+    "required_owner_action": false,
+    "team_owned_open_item": true
+  },
+  "new_financial_operations": 0,
+  "regression_tests_rerun": 0
+}
