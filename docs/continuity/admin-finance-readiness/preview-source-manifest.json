@@ -1,15 +1,16 @@
 {
-  "base": "6d2132945743ad1b93ac2f830da66f0ea17bd45f",
+  "base": "151bc3e699fc6364848c358f41c205ed1c7f71b6",
   "artifact": "iphone-isolated-preview.html",
   "synthetic": true,
   "network": "CSP connect-src none; fetch blocked; Supabase URL/key replaced; CDN removed",
   "frame_busting": "Removed in isolated artifact only; production source unchanged",
   "sources": {
-    "admin.html": "45027ec5bdb06a96b94eab8371357b8982632ad0314d68c684cc07e85d2f9477",
-    "talabat-core.js": "4d24b6491b8a699561d56a5c169fbb52d27a99abea982d817ba7fdb1a7ac5147",
-    "assets/admin-finance/admin-finance.js": "f60c688abd13a1301ad5adeab416d632f0718cda2c65b750b5b418d8966d0c9d",
-    "assets/admin-finance/admin-finance.css": "415489b829f0190e70c50b7757085638a26cd62d883b293799af8bb8fe1751ac",
+    "admin.html": "f72476ded1c8f29b76443376efff5ff817aa6a5e941a648f8e791b2f7ab6c20d",
+    "talabat-core.js": "9108c48cf2edb16020ba5e0109b97b2e4ef5d1ca813de66c70b85d5a87058290",
+    "assets/admin-finance/admin-finance.js": "17e30ac04bb2cab589b3b48dd3f2aa03b50686efdea8e9cb442d2cc5e452635b",
+    "assets/admin-finance/admin-finance.css": "3cb9bd242c208264511120368be65a1ddf77264ea55fb477f8271ac658590dc0",
     "tools/qa_all.py": "f2ff15674872de081873b1a97dd63841c2e7b97e46bf3cde80bc3c708222c2e3",
-    "tools/finance-fix/ui_check.cjs": "54b093ff12081fefb2a07f88f0aea0b8b76c05b850225c28e5a7207df39bb5ef"
+    "tools/finance-fix/ui_check.cjs": "54b093ff12081fefb2a07f88f0aea0b8b76c05b850225c28e5a7207df39bb5ef",
+    "tools/finance-fix/iphone_feedback_fixture.cjs": "0b2815f5915f526cac636e6b8a773b865d79887e150b7c5147ab5839cfca4b31"
   }
 }

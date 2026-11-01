@@ -1,0 +1,55 @@
+{
+  "source": "Owner supplied physical iPhone screenshots; not generated browser QA",
+  "images": [
+    {
+      "file": "owner-01.png",
+      "original": "IMG_6328(1).png",
+      "sha256": "d1b34fedd974df1198c0c065c5f62aa753892b652098e70b1ed68416e3b47d4a"
+    },
+    {
+      "file": "owner-02.png",
+      "original": "IMG_6329(1).png",
+      "sha256": "b45acd66d11f246e86deae7a7272bb12d50f8b0b01fb79866cb1ebaaca206f6b"
+    },
+    {
+      "file": "owner-03.png",
+      "original": "IMG_6330(1).png",
+      "sha256": "b591fde106418983ca0ce4611fe8f2341e2533010f37466b6ee43889290d03b6"
+    },
+    {
+      "file": "owner-04.png",
+      "original": "IMG_6331(1).png",
+      "sha256": "16c5cea6837dd1fee68b46e3de4b30158e7e6b45304acd955129a6c9516031e3"
+    },
+    {
+      "file": "owner-05.png",
+      "original": "IMG_6332(1).png",
+      "sha256": "96ae7eca9275a96b1e59fbc57d06ee252acffcf0bf3f79a53483de367f7f456b"
+    },
+    {
+      "file": "owner-06.png",
+      "original": "IMG_6334(1).png",
+      "sha256": "ab469ed3480d9c0bc086fc796d448775c1df03229e3c7601c6e43e7c8a57b118"
+    },
+    {
+      "file": "owner-07.png",
+      "original": "IMG_6336.png",
+      "sha256": "29a326cc9f4d6335a884d3b20aa022aff9711098073b6bb79f8903b18d9a4306"
+    },
+    {
+      "file": "owner-08.png",
+      "original": "IMG_6337.png",
+      "sha256": "e4a8d5c1b63ca4efe05aa98255f661ec138539f08464d2197eae946949f98b4e"
+    },
+    {
+      "file": "owner-09.png",
+      "original": "IMG_6340(1).png",
+      "sha256": "dbbac29b198ad61890c842092fa30a9c57da97335d525c1886b20a3a5184676c"
+    },
+    {
+      "file": "owner-10.png",
+      "original": "IMG_6341(1).png",
+      "sha256": "3f693cd264002c678c1f24b0213f264f38b90a60d5d827d2310587c2e57af19b"
+    }
+  ]
+}

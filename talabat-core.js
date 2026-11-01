@@ -302,6 +302,15 @@
   function financeOnly() { return need === 'admin' && ME.role !== 'admin' && MYPERMS.indexOf('finance') >= 0 && !MYPERMS.some(function(p){return p === 'orders' || p === 'support';}); }
   function finState(st, ok) { st.state = ok ? 'ok' : 'error'; if (ok) { st.known = true; st.at = Date.now(); } }
   function finSafe(p) { var timer;return Promise.race([Promise.resolve(p).catch(function(){return {error:{message:'transport'}};}),new Promise(function(resolve){timer=setTimeout(function(){resolve({error:{message:'transport_timeout'}});},15000);})]).finally(function(){clearTimeout(timer);}); }
+  // A post-command read must start after confirmation, not join an older orders read.
+  function finRefreshCash() {
+    var epoch=FIN.cash.epoch||0;FIN.cash.state='loading';fireSoon();
+    return finSafe(sb.rpc('cash_balances')).then(function(r){
+      if(epoch!==(FIN.cash.epoch||0))return;
+      finState(FIN.cash,!r.error&&Array.isArray(r.data));
+      if(FIN.cash.state==='ok'){var cash={};r.data.forEach(function(c){cash[c.driver_id]=+c.balance;});DB.cash=cash;FIN.cash.dirty=false;}
+    }).finally(fireSoon);
+  }
   function finEntry(e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at), created_by: e.created_by || null }; }
   function finActors(ids) { ids = Array.from(new Set(ids.filter(Boolean))).slice(0,200); if (!ids.length) return Promise.resolve(); return finSafe(sb.rpc('finance_actor_names', { p_ids: ids })).then(function(r){if(!r.error)(r.data||[]).forEach(function(a){FIN.actors[a.id]={name:a.name||'',state:'ok'};});ids.forEach(function(id){if(!FIN.actors[id])FIN.actors[id]={name:'',state:'unknown'};});}); }
   function finAccess() { if (!financeRead()) return Promise.resolve(FIN.access); return finSafe(sb.rpc('finance_access')).then(function(r){FIN.access={state:r.error?'error':'ok',execute:!r.error&&r.data&&r.data.execute===true&&r.data.version===2&&Array.isArray(r.data.capabilities)&&['commands','settlement_events'].every(function(c){return r.data.capabilities.indexOf(c)>=0;})};return FIN.access;}); }
@@ -321,8 +330,8 @@
   }
   function finSlot(op,target) { var k=op+':'+target;if(!FIN.commands[k]){try{FIN.commands[k]=JSON.parse(sessionStorage.getItem('tlb-fin:'+ME.id+':'+k)||'null');}catch(e){}if(!FIN.commands[k])FIN.commands[k]={state:'idle'};if(FIN.commands[k].state==='pending')FIN.commands[k].state='unresolved';}return FIN.commands[k]; }
   function finPersist(op,target,st){try{sessionStorage.setItem('tlb-fin:'+ME.id+':'+op+':'+target,JSON.stringify({key:st.key,state:st.state}));return true;}catch(e){return false;}}
-  function finCommand(op,target,amount,note){var st=finSlot(op,target);if(st.state==='pending'||st.state==='unresolved')return Promise.resolve({error:st.state,unresolved:st.state==='unresolved'});if(!FIN.access.execute)return Promise.resolve({error:'finance_authorization_required'});try{st.key=crypto.randomUUID();}catch(e){return Promise.resolve({error:'storage_unavailable'});}st.state='pending';if(!finPersist(op,target,st)){st.state='error';return Promise.resolve({error:'storage_unavailable'});}fireSoon();return finSafe(Promise.resolve().then(function(){return sb.rpc('finance_execute',{p_request:st.key,p_operation:op,p_target:target,p_amount:amount==null?null:amount,p_note:note||null});})).then(function(r){if(r.error){var definite=/^(not_allowed|bad_value|not_found|insufficient_funds|request_conflict)$/.test(r.error.message||'');st.state=definite?'error':'unresolved';return {error:definite?r.error.message:'unresolved',unresolved:!definite};}if(!r.data||r.data.request!==st.key){st.state='unresolved';return {error:'unresolved',unresolved:true};}st.state='success';st.result=r.data;toast(t('saved'));return {ok:true,result:r.data};}).finally(function(){finPersist(op,target,st);fireSoon();});}
-  function finReconcile(op,target){var st=finSlot(op,target);if(!st.key||st.state!=='unresolved')return Promise.resolve({error:'bad_value'});return finSafe(sb.rpc('finance_command_status',{p_request:st.key})).then(function(r){/* Absence is not proof of rollback: the original transaction may still be running. */if(r.error||!r.data)return {error:'unresolved',unresolved:true};st.state='success';st.result=r.data;finPersist(op,target,st);fireSoon();return {ok:true,result:r.data};});}
+  function finCommand(op,target,amount,note){var st=finSlot(op,target);if(st.state==='pending'||st.state==='unresolved')return Promise.resolve({error:st.state,unresolved:st.state==='unresolved'});if(!FIN.access.execute)return Promise.resolve({error:'finance_authorization_required'});try{st.key=crypto.randomUUID();}catch(e){return Promise.resolve({error:'storage_unavailable'});}st.state='pending';st.result=null;if(!finPersist(op,target,st)){st.state='error';return Promise.resolve({error:'storage_unavailable'});}if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}fireSoon();return finSafe(Promise.resolve().then(function(){return sb.rpc('finance_execute',{p_request:st.key,p_operation:op,p_target:target,p_amount:amount==null?null:amount,p_note:note||null});})).then(function(r){if(r.error){var definite=/^(not_allowed|bad_value|not_found|insufficient_funds|request_conflict)$/.test(r.error.message||'');st.state=definite?'error':'unresolved';return {error:definite?r.error.message:'unresolved',unresolved:!definite};}if(!r.data||r.data.request!==st.key){st.state='unresolved';return {error:'unresolved',unresolved:true};}st.state='success';st.result=r.data;if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}toast(t('saved'));return {ok:true,result:r.data};}).finally(function(){finPersist(op,target,st);fireSoon();});}
+  function finReconcile(op,target){var st=finSlot(op,target);if(!st.key||st.state!=='unresolved')return Promise.resolve({error:'bad_value'});return finSafe(sb.rpc('finance_command_status',{p_request:st.key})).then(function(r){/* Absence is not proof of rollback: the original transaction may still be running. */if(r.error||!r.data||r.data.request!==st.key)return {error:'unresolved',unresolved:true};st.state='success';st.result=r.data;if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}finPersist(op,target,st);fireSoon();return {ok:true,result:r.data};});}
   var LIMITS = { customer: 60, driver: 60, merchant: 200, admin: 300 };
   var EVERY = {
     customer: { orders: 25000, stat: 60000, misc: 40000 },
@@ -383,6 +392,7 @@
     return q;
   }
   function loadOrders() {
+    var cashEpoch=FIN.cash.epoch||0;
     var q = ordersQuery();
     var offerIds = ME.role === 'driver' ? DB.myOffers.map(function (f) { return f.order_id; }) : [];
     var qs = [q ? q : Promise.resolve({ data: [] }), offerIds.length ? sb.from('orders').select('*').in('id', offerIds) : Promise.resolve({ data: [] })];
@@ -402,7 +412,7 @@
         (ME.role !== 'merchant' && !financeOnly() && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] })
       ]).then(function (x) {
         if (x[0].error) throw x[0].error;
-        var cash=DB.cash;if(ME.role==='driver'||financeRead()){finState(FIN.cash,!x[2].error&&Array.isArray(x[2].data));if(FIN.cash.state==='ok'){cash={};x[2].data.forEach(function(c){cash[c.driver_id]=+c.balance;});}}
+        var cash=DB.cash;if((ME.role==='driver'||financeRead())&&cashEpoch===(FIN.cash.epoch||0)){finState(FIN.cash,!x[2].error&&Array.isArray(x[2].data));if(FIN.cash.state==='ok'){FIN.cash.dirty=false;cash={};x[2].data.forEach(function(c){cash[c.driver_id]=+c.balance;});}}
         // chat of orders opened on demand (admin detail) that are no longer "live" stays in memory
         var keepChat = DB.chat.filter(function (c) { return live.indexOf(c.order_id) < 0 && extraOrders[c.order_id]; });
         var chat = (x[1].error ? [] : (x[1].data || [])).concat(keepChat);
@@ -1428,6 +1438,7 @@
     financeSettlementActor: function(id,at){return finSettlementState({id:id,cashSettledAt:at}).row;},
     financeReconcile: finReconcile,
     financeCommandState: function(op,target){return Object.assign({},finSlot(op,target));},
+    financeRefreshCash: finRefreshCash,
     cashHealth: function(){return Object.assign({},FIN.cash);},
     driversHealth: function(){return Object.assign({},FIN.drivers);},
     mapView: function (elId, points, center) {

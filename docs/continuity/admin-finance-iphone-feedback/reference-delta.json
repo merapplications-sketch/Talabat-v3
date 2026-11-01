@@ -1,0 +1,11 @@
+{
+  "checks": 2,
+  "result": {
+    "firstKey": "31f630d5-b361-4cb5-8e11-9182f406a5ea",
+    "nextKey": "65afdf29-55b0-4ea2-ad30-ba47408a7126",
+    "previousResultCleared": true,
+    "pending": true
+  },
+  "live": false,
+  "scope": "Only new-request previous-result clearing; earlier 32 checks not rerun"
+}

@@ -1,0 +1,73 @@
+[
+  {
+    "name": "history-inline-recovery",
+    "calls": [
+      [
+        "cash_balances",
+        null
+      ]
+    ],
+    "effects": [],
+    "command": {
+      "state": "idle"
+    },
+    "cash": 57,
+    "cashHealth": {
+      "known": true,
+      "state": "ok",
+      "at": 1793546062923,
+      "dirty": false
+    }
+  },
+  {
+    "name": "mismatched-status-remains-blocked",
+    "calls": [
+      [
+        "cash_balances",
+        null
+      ],
+      [
+        "finance_execute",
+        {
+          "p_request": "028856f7-9286-4883-91c1-50f853dafa5a",
+          "p_operation": "settle_cash",
+          "p_target": "30000000-0000-0000-0000-000000000004",
+          "p_amount": null,
+          "p_note": null
+        }
+      ],
+      [
+        "finance_command_status",
+        {
+          "p_request": "028856f7-9286-4883-91c1-50f853dafa5a"
+        }
+      ]
+    ],
+    "effects": [
+      {
+        "request": "028856f7-9286-4883-91c1-50f853dafa5a",
+        "operation": "settle_cash",
+        "target": "30000000-0000-0000-0000-000000000004",
+        "amount": 57,
+        "orders": [
+          "ord7"
+        ],
+        "wallet_entry": null,
+        "actor": "30000000-0000-0000-0000-000000000002",
+        "at": "2026-11-01T15:14:24.709Z"
+      }
+    ],
+    "command": {
+      "state": "unresolved",
+      "key": "028856f7-9286-4883-91c1-50f853dafa5a"
+    },
+    "cash": 57,
+    "cashHealth": {
+      "known": true,
+      "state": "ok",
+      "at": 1793546064627,
+      "dirty": true,
+      "epoch": 1
+    }
+  }
+]

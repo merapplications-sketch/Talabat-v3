@@ -1,0 +1,47 @@
+{
+  "checks": 1,
+  "result": "controlled pending demo completes through fSettle and refreshes cash to zero with one execution/effect",
+  "trace": {
+    "calls": [
+      [
+        "cash_balances",
+        null
+      ],
+      [
+        "finance_execute",
+        {
+          "p_request": "b40a58c9-040a-4d51-ba70-6effb46f8f87",
+          "p_operation": "settle_cash",
+          "p_target": "30000000-0000-0000-0000-000000000004",
+          "p_amount": null,
+          "p_note": null
+        }
+      ],
+      [
+        "cash_balances",
+        null
+      ],
+      [
+        "cash_balances",
+        null
+      ]
+    ],
+    "effects": [
+      {
+        "request": "b40a58c9-040a-4d51-ba70-6effb46f8f87",
+        "operation": "settle_cash",
+        "target": "30000000-0000-0000-0000-000000000004",
+        "amount": 57,
+        "orders": [
+          "ord7"
+        ],
+        "wallet_entry": null,
+        "actor": "30000000-0000-0000-0000-000000000002",
+        "at": "2026-11-01T15:32:07.266Z"
+      }
+    ],
+    "cash": 0
+  },
+  "live": false,
+  "staging_limit": "CUA HTTP terminal.local cannot generate crypto.randomUUID; secure file origin used for this source test"
+}

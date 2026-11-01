@@ -1,0 +1,33 @@
+{
+  "source": "Observed stdout of iphone_feedback_delta.cjs initial run; 26 assertions passed before a UI-render synchronization assertion failed. Earlier successes were not repeated.",
+  "passed": [
+    "driver settlement shows recorded actor/time; full identifiers are collapsed",
+    "audit uses Russian movement type and order",
+    "audit does not invent movement amount from order total",
+    "JSON and full actor identifiers hidden initially",
+    "Details reveals exact original JSON and identifiers",
+    "Details copy contains exact record including actor",
+    "pending cash button explicitly disabled and labelled",
+    "pending has distinct disabled styling and busy semantics",
+    "eight DOM/handler/core repeat attempts produce one execution call",
+    "confirmed cash updates from 57 to zero from one recorded synthetic effect",
+    "changed history/log/pending journey has no JS error or external request",
+    "uncertain result has distinct blocked label",
+    "uncertain repeat attempts cannot create another execution or effect",
+    "failed post-reconciliation read retains previous cash and stale state",
+    "previous cash is explicitly labelled stale after successful reconciliation",
+    "previous balance cannot enable another receipt",
+    "same-screen cash retry restores fresh zero",
+    "reconciliation uses same request key, one status read and no second mutation",
+    "uncertain/match/cash recovery has no JS error or external request",
+    "failed read after direct success also keeps known balance stale",
+    "pre-command in-flight orders read cannot overwrite post-command cash",
+    "wallet waiting action uses explicit disabled semantics",
+    "synthetic wallet reflects one adjustment with preserved actor",
+    "audit shows available explicit movement amount",
+    "changed wallet journey has no JS error or external request",
+    "failed settlement read preserves last recorded actor"
+  ],
+  "interruption": "history retry recovers inside same screen and scenario: asserted immediately after core state changed, before scheduled render. Resume waits for displayed recovery, without rerunning prior successful assertions.",
+  "trace_limitation": "Detailed new-run call arrays were held in process memory and lost when the harness exited on that assertion. Baseline traces are saved separately. Mutation/status/effect counts and key match were asserted successfully above; do not represent baseline arrays as updated-run traces."
+}
