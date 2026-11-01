@@ -1,0 +1,467 @@
+{
+  "observedDate": "2026-11-01",
+  "project": "dzydscryrnahnneydnry",
+  "scope": "Read-only metadata only; no financial records or operations",
+  "sourceBlobs": [
+    {
+      "path": "admin.html",
+      "sha": "ac3ffb5b3d874da8f30f59acf5a11cf88d34dc55"
+    },
+    {
+      "path": "talabat-core.js",
+      "sha": "41034f64fc27ae6323499d0f28e29716aeb66498"
+    },
+    {
+      "path": "sql/schema_patch26.sql",
+      "sha": "2a0091e499f63c5b09c36d47346d6aced16c0475"
+    },
+    {
+      "path": "sql/schema_patch17.sql",
+      "sha": "11f1bdea7e1c5c375c602995d5398bf140b56932"
+    }
+  ],
+  "functions": [
+    {
+      "proname": "audit_changes",
+      "definition": "CREATE OR REPLACE FUNCTION public.audit_changes()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\r\ndeclare v_n jsonb; v_o jsonb; v_d jsonb := '{}'::jsonb; v_k text; v_id text;\r\nbegin\r\n  if tg_op = 'INSERT' then v_n := to_jsonb(new); v_id := v_n->>coalesce(tg_argv[0], 'id');\r\n    insert into audit_log(user_id, action, table_name, row_id, details) values (auth.uid(), 'INSERT', tg_table_name, v_id, '{}'::jsonb);\r\n    return new;\r\n  elsif tg_op = 'DELETE' then v_o := to_jsonb(old); v_id := v_o->>coalesce(tg_argv[0], 'id');\r\n    insert into audit_log(user_id, action, table_name, row_id, details) values (auth.uid(), 'DELETE', tg_table_name, v_id, '{}'::jsonb);\r\n    return old;\r\n  end if;\r\n  v_n := to_jsonb(new); v_o := to_jsonb(old); v_id := v_n->>coalesce(tg_argv[0], 'id');\r\n  foreach v_k in array tg_argv[1:] loop\r\n    if (v_n->v_k) is distinct from (v_o->v_k) then v_d := v_d || jsonb_build_object(v_k, jsonb_build_object('from', v_o->v_k, 'to', v_n->v_k)); end if;\r\n  end loop;\r\n  if v_d <> '{}'::jsonb then\r\n    insert into audit_log(user_id, action, table_name, row_id, details) values (auth.uid(), 'UPDATE', tg_table_name, v_id, v_d);\r\n  end if;\r\n  return new;\r\nend $function$\n"
+    },
+    {
+      "proname": "cash_balances",
+      "definition": "CREATE OR REPLACE FUNCTION public.cash_balances()\n RETURNS TABLE(driver_id uuid, balance numeric)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\r\n  select o.driver_id, coalesce(sum(o.cash_collected), 0)::numeric\r\n    from orders o\r\n   where o.status = 'delivered' and o.cash_collected is not null and o.cash_settled_at is null\r\n     and o.driver_id is not null and (has_perm('finance') or o.driver_id = auth.uid())\r\n   group by o.driver_id\r\n$function$\n"
+    },
+    {
+      "proname": "deliver_order",
+      "definition": "CREATE OR REPLACE FUNCTION public.deliver_order(p_id bigint, p_cash numeric DEFAULT NULL::numeric, p_note text DEFAULT NULL::text, p_photo text DEFAULT NULL::text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\r\ndeclare o orders; iscash boolean;\r\nbegin\r\n  select * into o from orders where id = p_id for update;\r\n  if not found then raise exception 'not_found'; end if;\r\n  if o.driver_id is distinct from auth.uid() or o.status <> 'pickedup' then raise exception 'bad_transition'; end if;\r\n  -- the photo must be in this courier's folder for this order: <courier id>/<order id>/<file>.jpg\r\n  if p_photo is not null and p_photo !~ ('^' || auth.uid()::text || '/' || p_id::text || '/[A-Za-z0-9_-]{8,64}\\.jpg$') then raise exception 'bad_value'; end if;\r\n  if coalesce(o.leave_at_door, false) and p_photo is null then raise exception 'photo_required'; end if;\r\n  iscash := o.payment ~ '^(cash|Cash|Наличн)';\r\n  if iscash then\r\n    if p_cash is null or p_cash < 0 then raise exception 'cash_required'; end if;\r\n    if p_cash <> (o.total - coalesce(o.wallet_used, 0)) and coalesce(trim(p_note), '') = '' then raise exception 'note_required'; end if;\r\n  end if;\r\n  update orders set status = 'delivered', done_at = now(),\r\n    cash_collected = case when iscash then p_cash end,\r\n    cash_note = case when iscash then left(p_note, 200) end,\r\n    delivery_photo = p_photo,\r\n    arrived_cust_at = coalesce(arrived_cust_at, now())\r\n  where id = p_id;\r\nend $function$\n"
+    },
+    {
+      "proname": "has_perm",
+      "definition": "CREATE OR REPLACE FUNCTION public.has_perm(p text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\r\n  select auth.uid() is not null and (\r\n    exists(select 1 from profiles where id = auth.uid() and role = 'admin')\r\n    or exists(select 1 from staff_members s where s.user_id = auth.uid() and s.active and p = any(s.perms)))\r\n$function$\n"
+    },
+    {
+      "proname": "settle_driver_cash",
+      "definition": "CREATE OR REPLACE FUNCTION public.settle_driver_cash(p_driver uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\r\ndeclare tot numeric;\r\nbegin\r\n  if not has_perm('finance') then raise exception 'not_allowed'; end if;\r\n  select coalesce(sum(cash_collected), 0) into tot from orders\r\n   where driver_id = p_driver and status = 'delivered' and cash_collected is not null and cash_settled_at is null;\r\n  update orders set cash_settled_at = now()\r\n   where driver_id = p_driver and status = 'delivered' and cash_collected is not null and cash_settled_at is null;\r\n  return tot;\r\nend $function$\n"
+    },
+    {
+      "proname": "wallet_adjust",
+      "definition": "CREATE OR REPLACE FUNCTION public.wallet_adjust(p_user uuid, p_amount numeric, p_note text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\r\ndeclare v_a numeric := round(coalesce(p_amount, 0), 2); v_note text := btrim(coalesce(p_note, ''));\r\nbegin\r\n  if not has_perm('finance') then raise exception 'not_allowed'; end if;\r\n  if v_a = 0 or abs(v_a) > 100000 or char_length(v_note) < 3 or char_length(v_note) > 200 then raise exception 'bad_value'; end if;\r\n  perform 1 from profiles where id = p_user and role = 'customer' for update;\r\n  if not found then raise exception 'not_found'; end if;\r\n  if v_a < 0 and wallet_balance(p_user) + v_a < 0 then raise exception 'insufficient_funds'; end if;\r\n  insert into wallet_entries(user_id, amount, kind, note, created_by) values (p_user, v_a, 'adjust', v_note, auth.uid());\r\nend $function$\n"
+    }
+  ],
+  "inventory": [
+    {
+      "kind": "column",
+      "name": "audit_log.action",
+      "definition": "text default "
+    },
+    {
+      "kind": "column",
+      "name": "audit_log.at",
+      "definition": "timestamp with time zone default now()"
+    },
+    {
+      "kind": "column",
+      "name": "audit_log.details",
+      "definition": "jsonb default '{}'::jsonb"
+    },
+    {
+      "kind": "column",
+      "name": "audit_log.id",
+      "definition": "bigint default "
+    },
+    {
+      "kind": "column",
+      "name": "audit_log.row_id",
+      "definition": "text default "
+    },
+    {
+      "kind": "column",
+      "name": "audit_log.table_name",
+      "definition": "text default "
+    },
+    {
+      "kind": "column",
+      "name": "audit_log.user_id",
+      "definition": "uuid default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.cash_collected",
+      "definition": "numeric default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.cash_note",
+      "definition": "text default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.cash_settled_at",
+      "definition": "timestamp with time zone default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.cashback",
+      "definition": "numeric default 0"
+    },
+    {
+      "kind": "column",
+      "name": "orders.delivery_base",
+      "definition": "numeric default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.delivery_extra",
+      "definition": "numeric default 0"
+    },
+    {
+      "kind": "column",
+      "name": "orders.delivery_fee",
+      "definition": "numeric default 0"
+    },
+    {
+      "kind": "column",
+      "name": "orders.delivery_km",
+      "definition": "numeric default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.delivery_photo",
+      "definition": "text default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.done_at",
+      "definition": "timestamp with time zone default "
+    },
+    {
+      "kind": "column",
+      "name": "orders.driver_payout",
+      "definition": "numeric default 0"
+    },
+    {
+      "kind": "column",
+      "name": "orders.loyalty_done_at",
+      "definition": "timestamp with time zone default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.amount",
+      "definition": "numeric default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.created_at",
+      "definition": "timestamp with time zone default now()"
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.created_by",
+      "definition": "uuid default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.id",
+      "definition": "bigint default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.kind",
+      "definition": "text default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.note",
+      "definition": "text default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.order_id",
+      "definition": "bigint default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.ticket_id",
+      "definition": "bigint default "
+    },
+    {
+      "kind": "column",
+      "name": "wallet_entries.user_id",
+      "definition": "uuid default "
+    },
+    {
+      "kind": "function_inventory",
+      "name": "cash_balances()",
+      "definition": "anon_execute=f; authenticated_execute=t"
+    },
+    {
+      "kind": "function_inventory",
+      "name": "deliver_order(bigint,numeric,text,text)",
+      "definition": "anon_execute=f; authenticated_execute=t"
+    },
+    {
+      "kind": "function_inventory",
+      "name": "set_my_cashback(uuid,numeric)",
+      "definition": "anon_execute=f; authenticated_execute=t"
+    },
+    {
+      "kind": "function_inventory",
+      "name": "settle_driver_cash(uuid)",
+      "definition": "anon_execute=f; authenticated_execute=t"
+    },
+    {
+      "kind": "function_inventory",
+      "name": "wallet_adjust(uuid,numeric,text)",
+      "definition": "anon_execute=f; authenticated_execute=t"
+    },
+    {
+      "kind": "policy",
+      "name": "audit_log.audit_read",
+      "definition": "SELECT USING is_admin() CHECK "
+    },
+    {
+      "kind": "policy",
+      "name": "orders.orders_read",
+      "definition": "SELECT USING can_see_order(id) CHECK "
+    },
+    {
+      "kind": "policy",
+      "name": "wallet_entries.wallet_read",
+      "definition": "SELECT USING ((user_id = auth.uid()) OR (has_perm('support'::text) OR has_perm('finance'::text))) CHECK "
+    },
+    {
+      "kind": "trigger",
+      "name": "orders.trg_audit_orders",
+      "definition": "CREATE TRIGGER trg_audit_orders AFTER UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION audit_changes('id', 'driver_id', 'cash_settled_at')"
+    },
+    {
+      "kind": "trigger",
+      "name": "orders.trg_order_dispatch",
+      "definition": "CREATE TRIGGER trg_order_dispatch AFTER UPDATE OF status ON public.orders FOR EACH ROW EXECUTE FUNCTION trg_dispatch()"
+    },
+    {
+      "kind": "trigger",
+      "name": "orders.trg_order_events",
+      "definition": "CREATE TRIGGER trg_order_events AFTER INSERT OR UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION log_order_event()"
+    },
+    {
+      "kind": "trigger",
+      "name": "orders.trg_orders_loyalty",
+      "definition": "CREATE TRIGGER trg_orders_loyalty BEFORE UPDATE OF status ON public.orders FOR EACH ROW EXECUTE FUNCTION trg_loyalty()"
+    },
+    {
+      "kind": "trigger",
+      "name": "orders.trg_orders_wallet_return",
+      "definition": "CREATE TRIGGER trg_orders_wallet_return BEFORE UPDATE OF status ON public.orders FOR EACH ROW EXECUTE FUNCTION trg_wallet_return()"
+    },
+    {
+      "kind": "trigger",
+      "name": "wallet_entries.trg_wallet_no_update",
+      "definition": "CREATE TRIGGER trg_wallet_no_update BEFORE UPDATE ON public.wallet_entries FOR EACH ROW EXECUTE FUNCTION trg_wallet_immutable()"
+    }
+  ],
+  "eventsAndTables": [
+    {
+      "kind": "function",
+      "name": "is_admin()",
+      "definition": "CREATE OR REPLACE FUNCTION public.is_admin()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$ select exists(select 1 from profiles where id = auth.uid() and role = 'admin') $function$\n"
+    },
+    {
+      "kind": "function",
+      "name": "log_order_event()",
+      "definition": "CREATE OR REPLACE FUNCTION public.log_order_event()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\r\nbegin\r\n  if tg_op = 'INSERT' then\r\n    insert into order_events(order_id, kind) values (new.id, 'pending');\r\n  else\r\n    if new.status is distinct from old.status then\r\n      insert into order_events(order_id, kind) values (new.id, new.status::text);\r\n    end if;\r\n    if old.driver_id is null and new.driver_id is not null then\r\n      insert into order_events(order_id, kind) values (new.id, 'driver_assigned');\r\n    end if;\r\n  end if;\r\n  return null;\r\nend $function$\n"
+    },
+    {
+      "kind": "table",
+      "name": "addresses",
+      "definition": "id, user_id, label, street, details, lat, lng, is_default, created_at, house, entrance, floor, apartment, note"
+    },
+    {
+      "kind": "table",
+      "name": "app_pages",
+      "definition": "slug, body_ru, body_en, updated_at, updated_by"
+    },
+    {
+      "kind": "table",
+      "name": "app_settings",
+      "definition": "key, value, updated_at, updated_by"
+    },
+    {
+      "kind": "table",
+      "name": "app_texts",
+      "definition": "key, value, updated_at, updated_by"
+    },
+    {
+      "kind": "table",
+      "name": "audit_log",
+      "definition": "id, at, user_id, action, table_name, row_id, details"
+    },
+    {
+      "kind": "table",
+      "name": "banners",
+      "definition": "id, title, image_url, link_type, link_value, sort, is_active, starts_at, ends_at, created_at, placement"
+    },
+    {
+      "kind": "table",
+      "name": "brands",
+      "definition": "id, name, owner_id, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "client_errors",
+      "definition": "id, at, user_id, app, message, context, ua"
+    },
+    {
+      "kind": "table",
+      "name": "favorites",
+      "definition": "user_id, store_id, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "group_items",
+      "definition": "id, group_id, user_id, user_name, item_id, qty, options, note, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "group_orders",
+      "definition": "id, store_id, host_id, status, order_id, created_at, expires_at, closed_at"
+    },
+    {
+      "kind": "table",
+      "name": "happy_hours",
+      "definition": "id, title, store_id, days, start_time, end_time, discount_pct, active, created_at, created_by"
+    },
+    {
+      "kind": "table",
+      "name": "item_option_groups",
+      "definition": "id, item_id, name, required, max_sel, sort, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "item_options",
+      "definition": "id, group_id, name, price_delta, available, sort"
+    },
+    {
+      "kind": "table",
+      "name": "loyalty_ledger",
+      "definition": "id, user_id, points, kind, order_id, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "loyalty_lots",
+      "definition": "id, user_id, points, points_left, expires_at, order_id, kind, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "menu_items",
+      "definition": "id, store_id, name, price, image_url, popular, available, approved, created_at, section, discount_pct"
+    },
+    {
+      "kind": "table",
+      "name": "order_chat",
+      "definition": "id, order_id, sender_id, body, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "order_customer_phone",
+      "definition": "order_id, phone"
+    },
+    {
+      "kind": "table",
+      "name": "order_driver_phone",
+      "definition": "order_id, phone"
+    },
+    {
+      "kind": "table",
+      "name": "order_events",
+      "definition": "id, order_id, kind, at"
+    },
+    {
+      "kind": "table",
+      "name": "order_items",
+      "definition": "id, order_id, item_id, name, price, qty, note, options"
+    },
+    {
+      "kind": "table",
+      "name": "order_offers",
+      "definition": "id, order_id, driver_id, state, mode, rank, dist_km, offered_at, expires_at"
+    },
+    {
+      "kind": "table",
+      "name": "order_recipient",
+      "definition": "order_id, name, phone"
+    },
+    {
+      "kind": "table",
+      "name": "orders",
+      "definition": "id, store_id, customer_id, driver_id, customer_name, customer_phone, driver_name, status, subtotal, discount, delivery_fee, tip, total, commission_pct, commission, driver_payout, payment, address, lat, lng, prep_time, created_at, done_at, cash_collected, cash_note, cash_settled_at, promo_code, promo_discount, client_key, delivery_base, delivery_extra, delivery_km, wallet_used, wallet_returned_at, hh_discount, hh_pct, points_used, points_value, points_earned, cashback, loyalty_done_at, points_returned_at, leave_at_door, substitution, is_gift, fee_waived, scheduled_for, group_id, arrived_store_at, arrived_cust_at, delivery_photo, cancel_reason, cancel_note, cancelled_by"
+    },
+    {
+      "kind": "table",
+      "name": "profiles",
+      "definition": "id, role, name, phone, lang, driver_status, cash_limit, created_at, accept_blocked, online, last_seen, lat, lng, loc_acc, loc_updated, banned_at, banned_reason, phone_changed_at"
+    },
+    {
+      "kind": "table",
+      "name": "promo_attempts",
+      "definition": "user_id, at, ok, code"
+    },
+    {
+      "kind": "table",
+      "name": "promo_codes",
+      "definition": "id, code, kind, value, min_order, max_uses, starts_at, ends_at, is_active, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "promo_guess",
+      "definition": "id, user_id, at, bad"
+    },
+    {
+      "kind": "table",
+      "name": "ratings",
+      "definition": "order_id, customer_id, store_id, driver_id, store_stars, driver_stars, comment, created_at, handled_at, handled_by, handled_note"
+    },
+    {
+      "kind": "table",
+      "name": "staff_members",
+      "definition": "user_id, perms, active, created_by, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "store_requests",
+      "definition": "id, user_id, name, category, phone, address, lat, lng, note, status, admin_note, store_id, created_at, decided_at, decided_by"
+    },
+    {
+      "kind": "table",
+      "name": "stores",
+      "definition": "id, owner_id, name, category, description, logo_url, cover_url, address, lat, lng, commission_pct, fee_type, fee_base, fee_per_km, fee_free_km, discount_pct, is_open, is_active, is_featured, created_at, phone, max_discount_pct, free_first_delivery, google_place_id, rating, rating_count, rating_updated_at, app_rating, app_rating_count, brand_id, branch_name, points_min_order, cashback_pct, free_delivery_min, earn_per_tjs"
+    },
+    {
+      "kind": "table",
+      "name": "support_tickets",
+      "definition": "id, customer_id, order_id, reason, status, refund_amount, admin_note, created_at, updated_at, last_customer_at, last_staff_at, customer_seen_at, closed_at, handled_by"
+    },
+    {
+      "kind": "table",
+      "name": "ticket_messages",
+      "definition": "id, ticket_id, from_staff, sender_id, body, created_at"
+    },
+    {
+      "kind": "table",
+      "name": "wallet_entries",
+      "definition": "id, user_id, amount, kind, order_id, ticket_id, note, created_by, created_at"
+    }
+  ],
+  "aggregateCounts": [
+    {
+      "kind": "cash_settlement_audit",
+      "records": 18,
+      "missing_actor": 0,
+      "missing_time": 0
+    },
+    {
+      "kind": "wallet_manual_adjust",
+      "records": 0,
+      "missing_actor": 0,
+      "missing_time": 0
+    }
+  ]
+}
