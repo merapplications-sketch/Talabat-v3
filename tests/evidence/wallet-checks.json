@@ -1,0 +1,10 @@
+[
+  {
+    "name": "wallet command uses request contract and preserves attribution; no legacy write",
+    "pass": true
+  },
+  {
+    "name": "wallet stale failure preserves known balance",
+    "pass": true
+  }
+]

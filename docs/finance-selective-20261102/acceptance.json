@@ -1,0 +1,61 @@
+{
+  "candidate_functional_acceptance": "PASS within isolated Chromium and strict A projection; not live or Safari acceptance",
+  "sequence": {
+    "request": "ae9178f5-8a89-477b-b00d-bd6f6093915b",
+    "before": {
+      "finance_execute": 1,
+      "finance_command_status": 0,
+      "effects": 1
+    },
+    "five_attempts": [
+      {
+        "finance_execute": 1,
+        "finance_command_status": 0,
+        "effects": 1
+      },
+      {
+        "finance_execute": 1,
+        "finance_command_status": 0,
+        "effects": 1
+      },
+      {
+        "finance_execute": 1,
+        "finance_command_status": 0,
+        "effects": 1
+      },
+      {
+        "finance_execute": 1,
+        "finance_command_status": 0,
+        "effects": 1
+      },
+      {
+        "finance_execute": 1,
+        "finance_command_status": 0,
+        "effects": 1
+      }
+    ],
+    "after": {
+      "finance_execute": 1,
+      "finance_command_status": 1,
+      "effects": 1
+    },
+    "effect_identical": true,
+    "new_session": true,
+    "old_sessions_retroactively_accepted": false
+  },
+  "checks": {
+    "initial_run_passed": 17,
+    "initial_run_exit": 1,
+    "initial_failure": "wallet expectation in intentionally lost-response fixture; harness setup issue, not an app fix",
+    "fresh_wallet_checks": 2,
+    "operational_checks": 5,
+    "strict_A_contract_checks": 11,
+    "shared_role_smokes": 4,
+    "existing_TLB_methods_unchanged": 173,
+    "financial_TLB_methods_changed": 7,
+    "unrelated_admin_functions_unchanged": 61
+  },
+  "harness_limits": "Initial detached-node scroll failure corrected in harness; subsequent remaining phases used fresh fixtures, selected already-passed checks were not rerun. Full suite not claimed as one clean exit. Only saved function checks and snapshots support assertions. Terminal newline normalized to original asset blobs after testing; no semantic change.",
+  "safari": "OPEN; WebKit and Safari unavailable. Team-owned device/browser verification; no owner technical collection request.",
+  "live": false
+}

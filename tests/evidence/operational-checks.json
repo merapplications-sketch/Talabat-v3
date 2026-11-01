@@ -1,0 +1,22 @@
+[
+  {
+    "name": "old server fails closed",
+    "pass": true
+  },
+  {
+    "name": "old server has no legacy fallback or financial send",
+    "pass": true
+  },
+  {
+    "name": "deployed full-admin operational views still render",
+    "pass": true
+  },
+  {
+    "name": "full admin keeps operational controls without implicit finance authorization",
+    "pass": true
+  },
+  {
+    "name": "no remaining candidate page exceptions",
+    "pass": true
+  }
+]

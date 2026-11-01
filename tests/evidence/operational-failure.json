@@ -1,0 +1,4 @@
+{
+  "message": "page.evaluate: SecurityError: Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+  "stack": "page.evaluate: SecurityError: Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at /workspace/scratch/f74ead4100b8/finance-selective-candidate/tests/resume-remaining.cjs:16:12"
+}

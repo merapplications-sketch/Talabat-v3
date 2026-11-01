@@ -1,0 +1,69 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "finance_access exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_execute exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_command_status exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_driver_orders exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_drivers exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_actor_names exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_settlement_events exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_customers exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "finance_audit exact named arguments",
+      "pass": true
+    },
+    {
+      "name": "A redacted response still renders financial history",
+      "pass": true
+    },
+    {
+      "name": "A argument and projection runtime checks pass",
+      "pass": true
+    }
+  ],
+  "live": false,
+  "errors": [],
+  "projection": [
+    "id",
+    "store_id",
+    "driver_id",
+    "status",
+    "subtotal",
+    "discount",
+    "delivery_fee",
+    "tip",
+    "total",
+    "commission",
+    "driver_payout",
+    "payment",
+    "cash_collected",
+    "cash_settled_at",
+    "done_at",
+    "created_at"
+  ]
+}

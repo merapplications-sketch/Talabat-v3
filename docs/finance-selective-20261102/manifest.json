@@ -1,0 +1,54 @@
+{
+  "basis": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+  "base_tree": "34881e0c7780fbdd52e46e718c0f45522eb4b363",
+  "continuity": "122369b9d680f1b03092e9543966505c3ee97b4d",
+  "closure": "1e2249293c27e27c766e1273e81f205d15512e40",
+  "release_plan": "1880dd11f38a625b673e1de719c8ab2c5c9de3f8",
+  "deployment": false,
+  "server_patch_applied": false,
+  "account": {
+    "name": "محاسب TALABOT",
+    "uuid": null,
+    "state": "pending_real_contact_data",
+    "financial_permissions_granted": false
+  },
+  "production_files": {
+    "admin.html": {
+      "git_blob": "676da53113f69fa25f2fd8849f4ba0d43ff97987",
+      "sha256": "408493b7be736f024ecfdd5d4d49b4a631b283260c800a553460d4fc22fb95eb",
+      "bytes": 129630
+    },
+    "talabat-core.js": {
+      "git_blob": "c8a919e4d95c22ea60d525ba35c36c58da8fc531",
+      "sha256": "3d5bb52a056f8949766250e12b3e68fd6389ef255525fee52ea1a552acbb7077",
+      "bytes": 135774
+    },
+    "assets/admin-finance/admin-finance.js": {
+      "git_blob": "29b6afea5d21a72bc003b2819d6984fc94b4c796",
+      "sha256": "17e30ac04bb2cab589b3b48dd3f2aa03b50686efdea8e9cb442d2cc5e452635b",
+      "bytes": 12797
+    },
+    "assets/admin-finance/admin-finance.css": {
+      "git_blob": "d1637bfd5319410cda1b144b3e1d913080a7c5f0",
+      "sha256": "3cb9bd242c208264511120368be65a1ddf77264ea55fb477f8271ac658590dc0",
+      "bytes": 1927
+    }
+  },
+  "server_proposals": {
+    "sql/proposed/admin_finance_integrity_20261101.sql": {
+      "git_blob": "6b19870cc1939094c761a255e26f1fd7c5658952",
+      "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259",
+      "applied": false
+    },
+    "sql/proposed/admin_finance_preflight_readonly_20261101.sql": {
+      "git_blob": "0fff97e204e4965d169267ed51b08b1d00015047",
+      "sha256": "f7d0a187d3f8ce3a1c90e7eb60652d7869dbf6c02286972519b1686687bfbf32",
+      "applied": false
+    },
+    "sql/proposed/admin_finance_safe_hold_20261101.sql": {
+      "git_blob": "045c9c440ce0ebbbbb1956f6b3bfcdd6dacff05a",
+      "sha256": "8a79af85de8fb037b19004029595dc253f7becfecfb400f2878fc583ae20f02d",
+      "applied": false
+    }
+  }
+}

@@ -1,0 +1,1654 @@
+{
+  "roles": [
+    {
+      "role": "customer",
+      "pass": true,
+      "baseline": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "customer@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 45.5
+      },
+      "candidate": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "customer@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 45.5
+      },
+      "errors": []
+    },
+    {
+      "role": "driver",
+      "pass": true,
+      "baseline": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "driver@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 0
+      },
+      "candidate": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "driver@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 0
+      },
+      "errors": []
+    },
+    {
+      "role": "merchant",
+      "pass": true,
+      "baseline": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "merchant@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 0
+      },
+      "candidate": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "merchant@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 0
+      },
+      "errors": []
+    },
+    {
+      "role": "admin",
+      "pass": true,
+      "baseline": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "admin@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 0
+      },
+      "candidate": {
+        "me": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Муаммад ибни Абдуллоҳ аз Душанбе",
+          "email": "admin@test.com",
+          "phone": "+992900000000",
+          "cashLimit": 1000,
+          "blocked": false,
+          "banned": false,
+          "bannedReason": ""
+        },
+        "orders": 8,
+        "stores": 4,
+        "wallet": 0
+      },
+      "errors": []
+    }
+  ],
+  "api": [
+    {
+      "name": "version",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8",
+      "candidate": "473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8"
+    },
+    {
+      "name": "loadFailed",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "957e3db32f88c07db54c85eaf1c0e037322a3256897a689ffa975f42883fc8c6",
+      "candidate": "957e3db32f88c07db54c85eaf1c0e037322a3256897a689ffa975f42883fc8c6"
+    },
+    {
+      "name": "normPhone",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "2d414fe9ee3b7ad3f9cb0ea7159e6630a397a63f189a9c3fad6cf7cdcb0803e6",
+      "candidate": "2d414fe9ee3b7ad3f9cb0ea7159e6630a397a63f189a9c3fad6cf7cdcb0803e6"
+    },
+    {
+      "name": "t",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "658531ee3ea790b0b02430d8c62a2e8bc5b1d9af99c22151b20552463da77e5b",
+      "candidate": "658531ee3ea790b0b02430d8c62a2e8bc5b1d9af99c22151b20552463da77e5b"
+    },
+    {
+      "name": "esc",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "334b586a1d343a0b5607f6052402659672b7926b7d2e6ded9d778b6e3b7ed2f0",
+      "candidate": "334b586a1d343a0b5607f6052402659672b7926b7d2e6ded9d778b6e3b7ed2f0"
+    },
+    {
+      "name": "applyI18n",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e08159293d4624a70b34671c21d780b76d866ce1e70621ed68162ebed6e83115",
+      "candidate": "e08159293d4624a70b34671c21d780b76d866ce1e70621ed68162ebed6e83115"
+    },
+    {
+      "name": "setLang",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "da0a95cb0b705382b9969c48e0a470a25c8b833642ce7c0057c1b535a54e5f54",
+      "candidate": "da0a95cb0b705382b9969c48e0a470a25c8b833642ce7c0057c1b535a54e5f54"
+    },
+    {
+      "name": "lang",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "f3e5cf43f94b9c75a835e4018dee69f0355bce81c656667b557dad704fa961c6",
+      "candidate": "f3e5cf43f94b9c75a835e4018dee69f0355bce81c656667b557dad704fa961c6"
+    },
+    {
+      "name": "addDict",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "30dc33d9d2953bc2071b3a702adacb6663e52465f159eed4d61d7b765bbef71d",
+      "candidate": "30dc33d9d2953bc2071b3a702adacb6663e52465f159eed4d61d7b765bbef71d"
+    },
+    {
+      "name": "on",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "9a36f6d55f9b6076c0c8e0e1d132184efa3c2779534c6f33c2212dfca34b0b41",
+      "candidate": "9a36f6d55f9b6076c0c8e0e1d132184efa3c2779534c6f33c2212dfca34b0b41"
+    },
+    {
+      "name": "start",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "9650d715fd184afe62a0aa84c9bfbe0478457bf00903c6d754442bb1f8f69250",
+      "candidate": "9650d715fd184afe62a0aa84c9bfbe0478457bf00903c6d754442bb1f8f69250"
+    },
+    {
+      "name": "reload",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "11dcb9ce14409c776bf025a63b9d177838fbf636795257fdae0d86593a5c5fa2",
+      "candidate": "11dcb9ce14409c776bf025a63b9d177838fbf636795257fdae0d86593a5c5fa2"
+    },
+    {
+      "name": "me",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "42104dbbca3230e4d1ad3579e4a413fa812ab6c561b921e0d2d7cd235d4071e5",
+      "candidate": "42104dbbca3230e4d1ad3579e4a413fa812ab6c561b921e0d2d7cd235d4071e5"
+    },
+    {
+      "name": "logout",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "59f4ce40fb98b617ab5f53224667ae511c9de4960348c4ace698cdae7123c769",
+      "candidate": "59f4ce40fb98b617ab5f53224667ae511c9de4960348c4ace698cdae7123c769"
+    },
+    {
+      "name": "toast",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8beebc266f245b39b25485b03584c2a06b7dd550ef849b2b4119507fcdec6f8f",
+      "candidate": "8beebc266f245b39b25485b03584c2a06b7dd550ef849b2b4119507fcdec6f8f"
+    },
+    {
+      "name": "beep",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "1ab2c3e2569c50477da636b3bac6d35043fef1cdab86285deab055baadefe513",
+      "candidate": "1ab2c3e2569c50477da636b3bac6d35043fef1cdab86285deab055baadefe513"
+    },
+    {
+      "name": "ring",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e8c4bd4a3c3b63d191dbad0566fc489957fc47c70db6116ac0f0ef890e258034",
+      "candidate": "e8c4bd4a3c3b63d191dbad0566fc489957fc47c70db6116ac0f0ef890e258034"
+    },
+    {
+      "name": "audioReady",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "b4d10a9b876642416ff56e839ed4f7f3c0429d30531ff77278c2b9b973e33c14",
+      "candidate": "b4d10a9b876642416ff56e839ed4f7f3c0429d30531ff77278c2b9b973e33c14"
+    },
+    {
+      "name": "unlockAudio",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "3c00753596eb4df1ade9ad0f41a489d3fdd790648bb9a48ac600adc7f88382d4",
+      "candidate": "3c00753596eb4df1ade9ad0f41a489d3fdd790648bb9a48ac600adc7f88382d4"
+    },
+    {
+      "name": "testSound",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "0d7af491884f6097df856ea67f9f61291c033ff85cca35e014a7238175c8456a",
+      "candidate": "0d7af491884f6097df856ea67f9f61291c033ff85cca35e014a7238175c8456a"
+    },
+    {
+      "name": "fmtMsg",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "b83f120bc77f5b9694ba58d18c2c52930be9906d657711dbbff06e7c1a278fea",
+      "candidate": "b83f120bc77f5b9694ba58d18c2c52930be9906d657711dbbff06e7c1a278fea"
+    },
+    {
+      "name": "pickLocation",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c2164e7c49ccc62ff8e5577bc193a4b0230ac4be592bc6b445c646155e16bb66",
+      "candidate": "c2164e7c49ccc62ff8e5577bc193a4b0230ac4be592bc6b445c646155e16bb66"
+    },
+    {
+      "name": "chrome",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "041f5faa8b835fe46ea69e8d69f464cf799d0e9dffd1dc44e753bc18ef7dd16a",
+      "candidate": "041f5faa8b835fe46ea69e8d69f464cf799d0e9dffd1dc44e753bc18ef7dd16a"
+    },
+    {
+      "name": "isCash",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "d25a84aa083f104506cd430eb210ea85662eb3650a44ea7a3dd972216c6c4d2a",
+      "candidate": "d25a84aa083f104506cd430eb210ea85662eb3650a44ea7a3dd972216c6c4d2a"
+    },
+    {
+      "name": "unread",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "81e647a5a33769991c41ac667cc227cc8898948cadbefa03eaa62e0119c3f144",
+      "candidate": "81e647a5a33769991c41ac667cc227cc8898948cadbefa03eaa62e0119c3f144"
+    },
+    {
+      "name": "totalUnread",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8d8684ba89c5d4ba5409728094731eade5c6325970dde4ab32568f13da8609d9",
+      "candidate": "8d8684ba89c5d4ba5409728094731eade5c6325970dde4ab32568f13da8609d9"
+    },
+    {
+      "name": "markRead",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e0dd094041a43e47e9439e6d04d7d9f42b1d798c274b4939ac6c1583d052ed7f",
+      "candidate": "e0dd094041a43e47e9439e6d04d7d9f42b1d798c274b4939ac6c1583d052ed7f"
+    },
+    {
+      "name": "stores",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "65729544b3bcde9a77d9adf2b1c8482e5014f4af8980628f51069b10f4aed654",
+      "candidate": "65729544b3bcde9a77d9adf2b1c8482e5014f4af8980628f51069b10f4aed654"
+    },
+    {
+      "name": "myStores",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "87e49086d916a673ae854db883881bdb564b9e08c7b71b3f4626a067ce2b395c",
+      "candidate": "87e49086d916a673ae854db883881bdb564b9e08c7b71b3f4626a067ce2b395c"
+    },
+    {
+      "name": "drivers",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "baf312d8f93762fcdbefa9a08873ea70803d298555ec97b4af7d84a40193d16c",
+      "candidate": "baf312d8f93762fcdbefa9a08873ea70803d298555ec97b4af7d84a40193d16c"
+    },
+    {
+      "name": "pendingItems",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "d34ade418ac41a406289e0f987746d1ed89d11ba15805221885d8a266d4f5104",
+      "candidate": "d34ade418ac41a406289e0f987746d1ed89d11ba15805221885d8a266d4f5104"
+    },
+    {
+      "name": "allMenus",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "a7b32a74cefa079b933ed62eba136d582dd34b9a9090f1b4d8fca68a8caf8c59",
+      "candidate": "a7b32a74cefa079b933ed62eba136d582dd34b9a9090f1b4d8fca68a8caf8c59"
+    },
+    {
+      "name": "optionsOf",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8d55a2aeda82d80618428f9bab77692336d5361bcd0d01213a86ba6262157b19",
+      "candidate": "8d55a2aeda82d80618428f9bab77692336d5361bcd0d01213a86ba6262157b19"
+    },
+    {
+      "name": "addGroup",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e3920be5730a0b9ae143706cae02c70f44012f92a857d277b2372c1efd1d46cf",
+      "candidate": "e3920be5730a0b9ae143706cae02c70f44012f92a857d277b2372c1efd1d46cf"
+    },
+    {
+      "name": "updateGroup",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "5e1de505716034a4b6983ea1f602337a6139f09c838bc76cd2c1083c2e1364f6",
+      "candidate": "5e1de505716034a4b6983ea1f602337a6139f09c838bc76cd2c1083c2e1364f6"
+    },
+    {
+      "name": "deleteGroup",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "66eb3bb0b2dc7b761662c3ed3156ceb5bfa6ab7672d27a01983b16d29e2831e6",
+      "candidate": "66eb3bb0b2dc7b761662c3ed3156ceb5bfa6ab7672d27a01983b16d29e2831e6"
+    },
+    {
+      "name": "addOption",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8fa39e3bf21865b97faadbbd4371c71fbe15fdb2ebde05b84be5e2c07e79a1b8",
+      "candidate": "8fa39e3bf21865b97faadbbd4371c71fbe15fdb2ebde05b84be5e2c07e79a1b8"
+    },
+    {
+      "name": "updateOption",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "56e6b06b740802f5bf669f541639fc4f0c7ac2f1349d20cfd1082ab6caa73f46",
+      "candidate": "56e6b06b740802f5bf669f541639fc4f0c7ac2f1349d20cfd1082ab6caa73f46"
+    },
+    {
+      "name": "deleteOption",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "f4b17844df8a18cb19ea86bae21832ce84e05ed371967d273548bbe7999d983c",
+      "candidate": "f4b17844df8a18cb19ea86bae21832ce84e05ed371967d273548bbe7999d983c"
+    },
+    {
+      "name": "addresses",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "81627ce4386e2ca9ab00865a82e076ee470eb62db5e7f236b5ff6998811e5dc0",
+      "candidate": "81627ce4386e2ca9ab00865a82e076ee470eb62db5e7f236b5ff6998811e5dc0"
+    },
+    {
+      "name": "addAddress",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "7524057734ec919ee7588bee11811ca5f47c124091534276a12b9b950ef63a57",
+      "candidate": "7524057734ec919ee7588bee11811ca5f47c124091534276a12b9b950ef63a57"
+    },
+    {
+      "name": "updateAddress",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "21021ade91e7466fd42bb41446e19941a0f9ef0bdc48782336b06642235e2019",
+      "candidate": "21021ade91e7466fd42bb41446e19941a0f9ef0bdc48782336b06642235e2019"
+    },
+    {
+      "name": "deleteAddress",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "39c8994d10f427691959d6ae3aa8c42a8a13c8bcefefbce1f24a6a0305e42156",
+      "candidate": "39c8994d10f427691959d6ae3aa8c42a8a13c8bcefefbce1f24a6a0305e42156"
+    },
+    {
+      "name": "setDefaultAddress",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "2223bb5a54bc22c38a71f8e6dd82f69ed9c560e29d78ff6b45afc5002bfceee5",
+      "candidate": "2223bb5a54bc22c38a71f8e6dd82f69ed9c560e29d78ff6b45afc5002bfceee5"
+    },
+    {
+      "name": "quote",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "86944de2ae5be5cda4a69856e95130b14e4a3cfedeafe57457a94ed28a8f2b7c",
+      "candidate": "86944de2ae5be5cda4a69856e95130b14e4a3cfedeafe57457a94ed28a8f2b7c"
+    },
+    {
+      "name": "getMenu",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8eb84b3abbd6bef903d612ae2116f2406f76f8644b73167db3bc3fc35eeac7ef",
+      "candidate": "8eb84b3abbd6bef903d612ae2116f2406f76f8644b73167db3bc3fc35eeac7ef"
+    },
+    {
+      "name": "ping",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "2e60a267265693afaab0a9c07961170c4170ee999e567bf2a21e3766c76b438e",
+      "candidate": "2e60a267265693afaab0a9c07961170c4170ee999e567bf2a21e3766c76b438e"
+    },
+    {
+      "name": "isOpen",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "0b7076d3d86f559dd815db75df35da7d18da895042f64813cd90391fda44c213",
+      "candidate": "0b7076d3d86f559dd815db75df35da7d18da895042f64813cd90391fda44c213"
+    },
+    {
+      "name": "setOpen",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "6fefde1b4dd212c261f3d2e95a9a09ad1d935fbd1c52ef512ddc71780dec9c28",
+      "candidate": "6fefde1b4dd212c261f3d2e95a9a09ad1d935fbd1c52ef512ddc71780dec9c28"
+    },
+    {
+      "name": "order",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "6e9c981d52d89b36fcd52832dd572e5d1c563cf50128cb3da50d5743e7cbced3",
+      "candidate": "6e9c981d52d89b36fcd52832dd572e5d1c563cf50128cb3da50d5743e7cbced3"
+    },
+    {
+      "name": "orders",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "5863fbb7b37483eaaff8c6d4a2ee7e0c99a519f060c0130a1fc5fc21d4b1df00",
+      "candidate": "5863fbb7b37483eaaff8c6d4a2ee7e0c99a519f060c0130a1fc5fc21d4b1df00"
+    },
+    {
+      "name": "offers",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "078e25a1bed567c18594bd0d439118d1167f71eb9282e21e2a5130f6c073f155",
+      "candidate": "078e25a1bed567c18594bd0d439118d1167f71eb9282e21e2a5130f6c073f155"
+    },
+    {
+      "name": "decline",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "b6b3b7da2ec8ba566b4d3562a7dd8fc89961d2006ed018d71dfbe2cacf39ea11",
+      "candidate": "b6b3b7da2ec8ba566b4d3562a7dd8fc89961d2006ed018d71dfbe2cacf39ea11"
+    },
+    {
+      "name": "sendLocation",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "89c958a366af5acedf4456f5f4ef7dcedbcad5b8cd3bcd65c8a9703f459f46c0",
+      "candidate": "89c958a366af5acedf4456f5f4ef7dcedbcad5b8cd3bcd65c8a9703f459f46c0"
+    },
+    {
+      "name": "assignDriver",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "2217067cd5f553b3321640227db4ee0c2bf33cabb455f8cfbffaeea0b3c32bbd",
+      "candidate": "2217067cd5f553b3321640227db4ee0c2bf33cabb455f8cfbffaeea0b3c32bbd"
+    },
+    {
+      "name": "allOffers",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "4118816ad88c05896d18dc2a963b5d64ecc9fccf9e2ade39b9e75ede31e31606",
+      "candidate": "4118816ad88c05896d18dc2a963b5d64ecc9fccf9e2ade39b9e75ede31e31606"
+    },
+    {
+      "name": "ratings",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e863e20dc2d5044360e394b7ee3eda50218fb8d41c9093263c91d3d59cd1c728",
+      "candidate": "e863e20dc2d5044360e394b7ee3eda50218fb8d41c9093263c91d3d59cd1c728"
+    },
+    {
+      "name": "resolveRating",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "d0866b6aff15e78d81ca1b5233da1fe4f38ea6b27932cbca2da414221c220bd0",
+      "candidate": "d0866b6aff15e78d81ca1b5233da1fe4f38ea6b27932cbca2da414221c220bd0"
+    },
+    {
+      "name": "reopenRating",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c9b657ded0ef43f3bd7166a269510c31d900fd63a05fd6f8461e7097822eea3e",
+      "candidate": "c9b657ded0ef43f3bd7166a269510c31d900fd63a05fd6f8461e7097822eea3e"
+    },
+    {
+      "name": "lowRatings",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "a1664cc8e2d832465da756801512eaec4d53fd0831e1448576d28c0cf5e65105",
+      "candidate": "a1664cc8e2d832465da756801512eaec4d53fd0831e1448576d28c0cf5e65105"
+    },
+    {
+      "name": "ratingOf",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8b7e08b3aee7d9895e3d35b1af560fe7cb62e6d9ec3b6042c7f04ca55c641d94",
+      "candidate": "8b7e08b3aee7d9895e3d35b1af560fe7cb62e6d9ec3b6042c7f04ca55c641d94"
+    },
+    {
+      "name": "rateOrder",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e140038ff150b09592f3a36e4e3d542308fb17e5cf32c2f4eba8f35e0417c299",
+      "candidate": "e140038ff150b09592f3a36e4e3d542308fb17e5cf32c2f4eba8f35e0417c299"
+    },
+    {
+      "name": "uploadImage",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "ee99299402cf1c5fad6d165393483eb6a1f92acf0ce37d044007f2e8e8ada731",
+      "candidate": "ee99299402cf1c5fad6d165393483eb6a1f92acf0ce37d044007f2e8e8ada731"
+    },
+    {
+      "name": "reportError",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "0d0d03a58ccdf3f9113e438b24d510b13bca7168754ab59c10387db95475ee4b",
+      "candidate": "0d0d03a58ccdf3f9113e438b24d510b13bca7168754ab59c10387db95475ee4b"
+    },
+    {
+      "name": "loadOrderExtra",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "0632050a3d013d792953554980d67795887b34634e0c9a808acc34fe61d8450c",
+      "candidate": "0632050a3d013d792953554980d67795887b34634e0c9a808acc34fe61d8450c"
+    },
+    {
+      "name": "pages",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "385bc50b3b23293ac13ac783de268e0e56a9bcaa524bd93ddc6969727007ddb8",
+      "candidate": "385bc50b3b23293ac13ac783de268e0e56a9bcaa524bd93ddc6969727007ddb8"
+    },
+    {
+      "name": "loadPages",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "2e42021904595694a568e980757a03c3dfe39aa2640e498a074623d1b5d9a07b",
+      "candidate": "2e42021904595694a568e980757a03c3dfe39aa2640e498a074623d1b5d9a07b"
+    },
+    {
+      "name": "setPage",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "5015ca7b1bd76f3a9b5fef2b98d7833b84d31d3fe72d4b658244a768adba1e8e",
+      "candidate": "5015ca7b1bd76f3a9b5fef2b98d7833b84d31d3fe72d4b658244a768adba1e8e"
+    },
+    {
+      "name": "refundRoom",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "dad73daf1ac474cb39c9f0599428d9f620a0ec1c84a6ce592e3d12e95464e469",
+      "candidate": "dad73daf1ac474cb39c9f0599428d9f620a0ec1c84a6ce592e3d12e95464e469"
+    },
+    {
+      "name": "setCustomerPhone",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "d1a9d7b96813b7acf433d49b1b8aedae33913df74f2d523a1e14ae69b7f3aa73",
+      "candidate": "d1a9d7b96813b7acf433d49b1b8aedae33913df74f2d523a1e14ae69b7f3aa73"
+    },
+    {
+      "name": "ownerInfo",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "477897557e3ffd37e24667a967461db7ac134e5ca403bad90d1b165f3b181ec2",
+      "candidate": "477897557e3ffd37e24667a967461db7ac134e5ca403bad90d1b165f3b181ec2"
+    },
+    {
+      "name": "contactsOf",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "d2d5a9bbb76f251ee6b2c6dc44d15b47b3c7f514149a035c9784180fb2361fea",
+      "candidate": "d2d5a9bbb76f251ee6b2c6dc44d15b47b3c7f514149a035c9784180fb2361fea"
+    },
+    {
+      "name": "settings",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "b0628e14de7bfc5536d88ae60e2ac02a5bfe65f58a3835a2681647d25faeaf6e",
+      "candidate": "b0628e14de7bfc5536d88ae60e2ac02a5bfe65f58a3835a2681647d25faeaf6e"
+    },
+    {
+      "name": "setSetting",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "0c9f46403edaa61ac6800e50c93d90d443fb02d9fa1c83d1b31fac48a2ced15b",
+      "candidate": "0c9f46403edaa61ac6800e50c93d90d443fb02d9fa1c83d1b31fac48a2ced15b"
+    },
+    {
+      "name": "myRating",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "3bea0baa1e5b0591953ad60740019df2359d545d9e2753ebe921bf54ee94f0df",
+      "candidate": "3bea0baa1e5b0591953ad60740019df2359d545d9e2753ebe921bf54ee94f0df"
+    },
+    {
+      "name": "wantSupport",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "02141ee2e2ac9f4ac39e2fcbd56db223980060b586f6975236d1ca3aabe1f4f9",
+      "candidate": "02141ee2e2ac9f4ac39e2fcbd56db223980060b586f6975236d1ca3aabe1f4f9"
+    },
+    {
+      "name": "supportInfo",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "6257105ffacf93191d3c4255e1ea9de0ff4fac01f0334966167db9ce8f6b18fd",
+      "candidate": "6257105ffacf93191d3c4255e1ea9de0ff4fac01f0334966167db9ce8f6b18fd"
+    },
+    {
+      "name": "tickets",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e03fb1105f08c0abfced7cbd57b016ed488d14156436c2e4a3a083d2dfc428b7",
+      "candidate": "e03fb1105f08c0abfced7cbd57b016ed488d14156436c2e4a3a083d2dfc428b7"
+    },
+    {
+      "name": "ticketUnread",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "f276efcee10c41a67042bdefd3e05d72f5cb7d3310faae8cb04f0ce8b5946632",
+      "candidate": "f276efcee10c41a67042bdefd3e05d72f5cb7d3310faae8cb04f0ce8b5946632"
+    },
+    {
+      "name": "ticketMessages",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "2ca725b6d66c3a846964e3931c9466c490fc1c1db748fab33e777c17f95992f0",
+      "candidate": "2ca725b6d66c3a846964e3931c9466c490fc1c1db748fab33e777c17f95992f0"
+    },
+    {
+      "name": "loadTicket",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "cdeadad14137cbc813d031ac8e9327933fb1cdf2ceb2af313c8a2b53abada151",
+      "candidate": "cdeadad14137cbc813d031ac8e9327933fb1cdf2ceb2af313c8a2b53abada151"
+    },
+    {
+      "name": "ticketSeen",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c5002ad1f72027d42391f39149f6ff23025440d0eb45e84b983674df6697583d",
+      "candidate": "c5002ad1f72027d42391f39149f6ff23025440d0eb45e84b983674df6697583d"
+    },
+    {
+      "name": "createTicket",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "68b5c096bdff1be43012ca342f8b30b8d6809c90da8243d3b09d2d410cbd3ecc",
+      "candidate": "68b5c096bdff1be43012ca342f8b30b8d6809c90da8243d3b09d2d410cbd3ecc"
+    },
+    {
+      "name": "ticketReply",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "b3520badb9f786ee5a43ed19aeb6d51993f62a59c7c9d44a62afdc8920006158",
+      "candidate": "b3520badb9f786ee5a43ed19aeb6d51993f62a59c7c9d44a62afdc8920006158"
+    },
+    {
+      "name": "person",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "0565af1b8a41056e1161d917aeb5567eaa46dc858912fd6ade7bd75b11c6a145",
+      "candidate": "0565af1b8a41056e1161d917aeb5567eaa46dc858912fd6ade7bd75b11c6a145"
+    },
+    {
+      "name": "adminTickets",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "fe3c221e04d29677f7434b0c0af20cd6542edf256a3e8d75ffecb666dc967769",
+      "candidate": "fe3c221e04d29677f7434b0c0af20cd6542edf256a3e8d75ffecb666dc967769"
+    },
+    {
+      "name": "ticketStaffReply",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "6ef92cd02ba5ba6aeafebb04d0debe5aa3b51670b4121fd005a9baa8032995f7",
+      "candidate": "6ef92cd02ba5ba6aeafebb04d0debe5aa3b51670b4121fd005a9baa8032995f7"
+    },
+    {
+      "name": "ticketSetStatus",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "361c11b82f339f46f7341234ab3f2541f094eb2c1080540f1c63b7f6a1ea9a29",
+      "candidate": "361c11b82f339f46f7341234ab3f2541f094eb2c1080540f1c63b7f6a1ea9a29"
+    },
+    {
+      "name": "setText",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "7f82d24b17b942d053bb40d9dd5fe9751a9f99af31156a1e56edee2493d94db5",
+      "candidate": "7f82d24b17b942d053bb40d9dd5fe9751a9f99af31156a1e56edee2493d94db5"
+    },
+    {
+      "name": "myStoreRequests",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "116af41d286eccc5a4c2b4414d15b4fc81cc2acdc1f6034757e1409014f00d9b",
+      "candidate": "116af41d286eccc5a4c2b4414d15b4fc81cc2acdc1f6034757e1409014f00d9b"
+    },
+    {
+      "name": "storeRequests",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "ba80afe68f7afe3e8397fca14c167fd5a5f83976aa619898fdc6d0a876424216",
+      "candidate": "ba80afe68f7afe3e8397fca14c167fd5a5f83976aa619898fdc6d0a876424216"
+    },
+    {
+      "name": "requestStore",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "9c8793ad4a5e12473c91ee10f1ea5f67de3d53fdc63b32ab5ca6edcde4a5cec4",
+      "candidate": "9c8793ad4a5e12473c91ee10f1ea5f67de3d53fdc63b32ab5ca6edcde4a5cec4"
+    },
+    {
+      "name": "decideStoreRequest",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "eacc50b7994ef6d1a50efc11922677e3750c65468fbb8b65ab301f2d61694848",
+      "candidate": "eacc50b7994ef6d1a50efc11922677e3750c65468fbb8b65ab301f2d61694848"
+    },
+    {
+      "name": "customers",
+      "unchanged": false,
+      "financialChangeAllowed": true,
+      "baseline": "757e2dff9ff65ef6359d8a46aa23eb676d58a5524c2605a1cbc9b72f57d8a152",
+      "candidate": "21abc7eccfd0088d813a6dd371e2f1112d58ebdab708b6a9e2d351cfdcb98683"
+    },
+    {
+      "name": "customerOrders",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "eeb63a3b8ed00a5346a2fbde1a542716c1e13430d13e14086b552edc9a4d3e03",
+      "candidate": "eeb63a3b8ed00a5346a2fbde1a542716c1e13430d13e14086b552edc9a4d3e03"
+    },
+    {
+      "name": "setBan",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "930bb6b7d029ccedcf374f8a19a4f71c180f99304ec68bed27eb5bf4333398bf",
+      "candidate": "930bb6b7d029ccedcf374f8a19a4f71c180f99304ec68bed27eb5bf4333398bf"
+    },
+    {
+      "name": "wallet",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "9497cd7591b5430552e9348b096a0174bdb7fd756034af9539d6c593b0a0bfde",
+      "candidate": "9497cd7591b5430552e9348b096a0174bdb7fd756034af9539d6c593b0a0bfde"
+    },
+    {
+      "name": "loyalty",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "dc772c4e5e6216283d157621a615f767602b2eb66042e037ffbf85376c290945",
+      "candidate": "dc772c4e5e6216283d157621a615f767602b2eb66042e037ffbf85376c290945"
+    },
+    {
+      "name": "points",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c93c98f722c7780409d39ce9c10054ddd0964ba1bedc69ec625e6017df14f2e8",
+      "candidate": "c93c98f722c7780409d39ce9c10054ddd0964ba1bedc69ec625e6017df14f2e8"
+    },
+    {
+      "name": "loadPoints",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "96c4773629e0e4d36b9fb85b4ae7e4747cec9ad978c45a7c7e17bb3ef3093829",
+      "candidate": "96c4773629e0e4d36b9fb85b4ae7e4747cec9ad978c45a7c7e17bb3ef3093829"
+    },
+    {
+      "name": "happyHours",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "52d24ccc1f449fb1ad4d06b45186ebd44a0e5d50da4f8552f3926988befb8817",
+      "candidate": "52d24ccc1f449fb1ad4d06b45186ebd44a0e5d50da4f8552f3926988befb8817"
+    },
+    {
+      "name": "bestDishes",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "7c072cb0525fa70ac9f72c0ee54d203f71d2e954a4f0fe97159f1bc03e3e574b",
+      "candidate": "7c072cb0525fa70ac9f72c0ee54d203f71d2e954a4f0fe97159f1bc03e3e574b"
+    },
+    {
+      "name": "speed",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "cfc4828fa68e925f46e3cda2f9a8f7eaf27c195fa9265be988a057da0583071d",
+      "candidate": "cfc4828fa68e925f46e3cda2f9a8f7eaf27c195fa9265be988a057da0583071d"
+    },
+    {
+      "name": "isExpress",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "a3f29381b4725a9cf3dc790f33fa656f16f684aa660a0c5fe540fd030d0408b9",
+      "candidate": "a3f29381b4725a9cf3dc790f33fa656f16f684aa660a0c5fe540fd030d0408b9"
+    },
+    {
+      "name": "setMyCashback",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "53e858bf1955328bc097b28906d5464f3cb61fa354a64cd4a5b5e098998163ee",
+      "candidate": "53e858bf1955328bc097b28906d5464f3cb61fa354a64cd4a5b5e098998163ee"
+    },
+    {
+      "name": "setMyFreeDelivery",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "660ea429782e8fed65441911200b48ccb578fd1e2b6fc1a9e907500d145bf9aa",
+      "candidate": "660ea429782e8fed65441911200b48ccb578fd1e2b6fc1a9e907500d145bf9aa"
+    },
+    {
+      "name": "setStoreEarn",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "0ac37f5a341b2c58433b884b3bf50d01f465030995ba847a0e8c029543c267cf",
+      "candidate": "0ac37f5a341b2c58433b884b3bf50d01f465030995ba847a0e8c029543c267cf"
+    },
+    {
+      "name": "setStoreFreeDelivery",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c391ff685bea6dfc3f1d50932750708e871ac6d4425277eea9a203804ec2a291",
+      "candidate": "c391ff685bea6dfc3f1d50932750708e871ac6d4425277eea9a203804ec2a291"
+    },
+    {
+      "name": "groupCreate",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "049a6a6256fd5801871f1ee8bf34ba8eac37a0d59df2defe005e1c218c917970",
+      "candidate": "049a6a6256fd5801871f1ee8bf34ba8eac37a0d59df2defe005e1c218c917970"
+    },
+    {
+      "name": "groupGet",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "7c310450283ac65fc032b355d517945962732562e8877e78d4cb2a4cfb3faff5",
+      "candidate": "7c310450283ac65fc032b355d517945962732562e8877e78d4cb2a4cfb3faff5"
+    },
+    {
+      "name": "groupAdd",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "3a36a3d96d0b077d721c21ed38b80916186cefa1d7768a5a713968c9b1cfcdc8",
+      "candidate": "3a36a3d96d0b077d721c21ed38b80916186cefa1d7768a5a713968c9b1cfcdc8"
+    },
+    {
+      "name": "groupRemove",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "6ff05da9a72a51ab98394afd0ceb6c8a2d76c89e8afbb5ffd9eeb2eea8948bd8",
+      "candidate": "6ff05da9a72a51ab98394afd0ceb6c8a2d76c89e8afbb5ffd9eeb2eea8948bd8"
+    },
+    {
+      "name": "groupSet",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "54f45b11f12ca10d687ec97f9b472081ef0aa73d4f57cf8aac1a1a4c4a9d1735",
+      "candidate": "54f45b11f12ca10d687ec97f9b472081ef0aa73d4f57cf8aac1a1a4c4a9d1735"
+    },
+    {
+      "name": "setStoreLoyalty",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c6c163a0301ac8af3f8fe10af4ec33039c36cfdc150c87b49a893956de4097e5",
+      "candidate": "c6c163a0301ac8af3f8fe10af4ec33039c36cfdc150c87b49a893956de4097e5"
+    },
+    {
+      "name": "hhPct",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "26531fd97cee626c769356ab6e761e544703501fee51a306bb5bc37485aaa1ef",
+      "candidate": "26531fd97cee626c769356ab6e761e544703501fee51a306bb5bc37485aaa1ef"
+    },
+    {
+      "name": "hhActive",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "159b126a41c6583ad14838b356d1b1ba41e7daad125a4aaf19af9a1a0045a45f",
+      "candidate": "159b126a41c6583ad14838b356d1b1ba41e7daad125a4aaf19af9a1a0045a45f"
+    },
+    {
+      "name": "hhEnd",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "74f516aaa543f88f8a1ccb96485aa9d9ad9769f3e04ccd290d291ee137df5df6",
+      "candidate": "74f516aaa543f88f8a1ccb96485aa9d9ad9769f3e04ccd290d291ee137df5df6"
+    },
+    {
+      "name": "saveHH",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "540570219f7fcf2924e03302159524e9c6794767e444c7b9bc1adaf2f46049c9",
+      "candidate": "540570219f7fcf2924e03302159524e9c6794767e444c7b9bc1adaf2f46049c9"
+    },
+    {
+      "name": "setHHActive",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "7def6c7ccaef4588a29346070a478a0cb425d64bba6be43e6403db2bf03849f4",
+      "candidate": "7def6c7ccaef4588a29346070a478a0cb425d64bba6be43e6403db2bf03849f4"
+    },
+    {
+      "name": "deleteHH",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "f9e2d6b8e4821bf160ea0821b8e420b38f8bdbc83ecab91a4de3676d3f74c14e",
+      "candidate": "f9e2d6b8e4821bf160ea0821b8e420b38f8bdbc83ecab91a4de3676d3f74c14e"
+    },
+    {
+      "name": "loadWallet",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "919f61d1a07da5f26310e1fdcf2526cabf6f94df2f6ad431e8ecfaa61e81344d",
+      "candidate": "919f61d1a07da5f26310e1fdcf2526cabf6f94df2f6ad431e8ecfaa61e81344d"
+    },
+    {
+      "name": "walletOf",
+      "unchanged": false,
+      "financialChangeAllowed": true,
+      "baseline": "a3cb92eb6be56d35b2239b2365a02ec82dfc9f38a07985c668cde61dbfe1fed0",
+      "candidate": "6d587949a4179c80ff2d764b7554d2b0659259e2372603caa118fb02dc82d16a"
+    },
+    {
+      "name": "walletAdjust",
+      "unchanged": false,
+      "financialChangeAllowed": true,
+      "baseline": "2afef855d24dfa4a547ecac370b4acfa51e9ec6f6db2e68e51af89005889127b",
+      "candidate": "869ddcb3be6af063f4a29a482d24272f101679338f562ab7e652d97083e5bf45"
+    },
+    {
+      "name": "audit",
+      "unchanged": false,
+      "financialChangeAllowed": true,
+      "baseline": "7ea32a77567d7048b6b4d2d44604794d7ee9fe02068ee8efa971aa6198fecdb1",
+      "candidate": "240046c3674f8742b8e86fb0f2e562fe62a9cfded8bac44a6cdd4740f21498a1"
+    },
+    {
+      "name": "clientErrors",
+      "unchanged": false,
+      "financialChangeAllowed": true,
+      "baseline": "1256cf8a09449eb9901d0b3c95b0c197d5cd58bd6d0ad845b7cf4e106fc89a1f",
+      "candidate": "448c8d75b82195a8d78869b437f1688e793289dda7b37e327e905f1917a3e985"
+    },
+    {
+      "name": "mapView",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "74522a43c7fa90ffb44330880e92dd895fa31e2927c13bd3323868e01ce86546",
+      "candidate": "74522a43c7fa90ffb44330880e92dd895fa31e2927c13bd3323868e01ce86546"
+    },
+    {
+      "name": "events",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "d5ff28871dc136a13fcf14028344deaa0d4bb1dd33a81b080d1732ff8a36595a",
+      "candidate": "d5ff28871dc136a13fcf14028344deaa0d4bb1dd33a81b080d1732ff8a36595a"
+    },
+    {
+      "name": "cash",
+      "unchanged": false,
+      "financialChangeAllowed": true,
+      "baseline": "29b88a64b573c7acfc5f39caae414b8adeaf3f1593f77192b35b59a87f0ce85f",
+      "candidate": "f9e072ca45ec846d6abd89637f3581b17204a08d38009470aa78aa5f0f03e9fb"
+    },
+    {
+      "name": "myCash",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "90ad75208465cd732e0e2509e776d3e607573731da5c81b214ee67e985b961a3",
+      "candidate": "90ad75208465cd732e0e2509e776d3e607573731da5c81b214ee67e985b961a3"
+    },
+    {
+      "name": "placeOrder",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "fd81f5aa21e112c5c604bb1eed6aec02a12cfb90bce6eb006a3d2ac47b396bbc",
+      "candidate": "fd81f5aa21e112c5c604bb1eed6aec02a12cfb90bce6eb006a3d2ac47b396bbc"
+    },
+    {
+      "name": "checkPromo",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c80ccc37c03335b604197dc9a9c2f60762a9a4559f5ba9e8e787488b6e56656e",
+      "candidate": "c80ccc37c03335b604197dc9a9c2f60762a9a4559f5ba9e8e787488b6e56656e"
+    },
+    {
+      "name": "setStatus",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "4a957bdaa378a138741b5f64b138fb2b6552089cb54bbbe1fd0231a5ce21a5f7",
+      "candidate": "4a957bdaa378a138741b5f64b138fb2b6552089cb54bbbe1fd0231a5ce21a5f7"
+    },
+    {
+      "name": "patch",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "6ab321db662d068e6c5c8f43ee1ec162e19806ea2a884486d74d0dc30ace1121",
+      "candidate": "6ab321db662d068e6c5c8f43ee1ec162e19806ea2a884486d74d0dc30ace1121"
+    },
+    {
+      "name": "driverAccept",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "cbb0d3ee32967df798905449a5b1f821745842b54c36bb14c1cde4b05db528ad",
+      "candidate": "cbb0d3ee32967df798905449a5b1f821745842b54c36bb14c1cde4b05db528ad"
+    },
+    {
+      "name": "deliver",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "a9afe671ef58097222c0f0523e15c3b03dc2d4ad9f9569f2dc321e6982f69b35",
+      "candidate": "a9afe671ef58097222c0f0523e15c3b03dc2d4ad9f9569f2dc321e6982f69b35"
+    },
+    {
+      "name": "driverArrived",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "cb87c3d1578cae6a7d14f77d750e01c20c0ad6077d7d02c67f195f7cf49f09d8",
+      "candidate": "cb87c3d1578cae6a7d14f77d750e01c20c0ad6077d7d02c67f195f7cf49f09d8"
+    },
+    {
+      "name": "rejectOrder",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c8c882800de17a0031ec8b74f56e2ea12957a4d9605d8ccea76a1a30f0aba393",
+      "candidate": "c8c882800de17a0031ec8b74f56e2ea12957a4d9605d8ccea76a1a30f0aba393"
+    },
+    {
+      "name": "uploadProof",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "98c640f38e85e8c8ff2b2cfe27920d250d438036b9a1d0f387264134429d306d",
+      "candidate": "98c640f38e85e8c8ff2b2cfe27920d250d438036b9a1d0f387264134429d306d"
+    },
+    {
+      "name": "proofUrl",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8495af0a6d2a1507373d43bb304f57fda57420150211c7eb157b78a7b3eb493f",
+      "candidate": "8495af0a6d2a1507373d43bb304f57fda57420150211c7eb157b78a7b3eb493f"
+    },
+    {
+      "name": "leaflet",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "5f195bc89a6374a2c79089f492ca2dcf466973fd1dbeadb1ae277e9f540539ad",
+      "candidate": "5f195bc89a6374a2c79089f492ca2dcf466973fd1dbeadb1ae277e9f540539ad"
+    },
+    {
+      "name": "chat",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e5403ad26c2ebef2804baedbd51b4a90bab6eb6982d06c37e0ed44c0e7bea038",
+      "candidate": "e5403ad26c2ebef2804baedbd51b4a90bab6eb6982d06c37e0ed44c0e7bea038"
+    },
+    {
+      "name": "addItem",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "7e77e8591ab1fca4be1c7fd2fbc7f0480a29f560fefb34a484cde66520a63aaf",
+      "candidate": "7e77e8591ab1fca4be1c7fd2fbc7f0480a29f560fefb34a484cde66520a63aaf"
+    },
+    {
+      "name": "updateItem",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "3740d16371c5d9f54a6456ed08e36c8c02b095bcb0e3727a4a60b3bb949f984a",
+      "candidate": "3740d16371c5d9f54a6456ed08e36c8c02b095bcb0e3727a4a60b3bb949f984a"
+    },
+    {
+      "name": "deleteItem",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "1148a22c82a6a63fe5cdcaf3579705b97243075696dffdd0394f97d5e337b63b",
+      "candidate": "1148a22c82a6a63fe5cdcaf3579705b97243075696dffdd0394f97d5e337b63b"
+    },
+    {
+      "name": "approveItem",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "606994deb743ed353315c024b1bc9a86153e144b7c22bbcfa002ebbaa5032ad1",
+      "candidate": "606994deb743ed353315c024b1bc9a86153e144b7c22bbcfa002ebbaa5032ad1"
+    },
+    {
+      "name": "addStore",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "1b7d7d9a67ad7e74f79bd8b1c0087876e2ded4a0f2e1255852342c53cd942ecc",
+      "candidate": "1b7d7d9a67ad7e74f79bd8b1c0087876e2ded4a0f2e1255852342c53cd942ecc"
+    },
+    {
+      "name": "updateStore",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e8f55c972b9556592520c91a0504132de85f3598e3bde913d3f7e1d96adb5668",
+      "candidate": "e8f55c972b9556592520c91a0504132de85f3598e3bde913d3f7e1d96adb5668"
+    },
+    {
+      "name": "refreshRating",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "9b4e6b40907a07fb152135e9bc78b4f7e0f6383b5d9d900b93f0c33c414dc0e3",
+      "candidate": "9b4e6b40907a07fb152135e9bc78b4f7e0f6383b5d9d900b93f0c33c414dc0e3"
+    },
+    {
+      "name": "setMyDiscount",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "752b8127863c41563444a9e5785a396c2d07b55e8e13438fa6c36cd3b4ae58f8",
+      "candidate": "752b8127863c41563444a9e5785a396c2d07b55e8e13438fa6c36cd3b4ae58f8"
+    },
+    {
+      "name": "updateMyStore",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "788cf487f82b165986309bb42673e0aefce62078dd4a69c47f43aa11e8d579fa",
+      "candidate": "788cf487f82b165986309bb42673e0aefce62078dd4a69c47f43aa11e8d579fa"
+    },
+    {
+      "name": "perms",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8a548bc85859d2bdc3be109106ec9f8e51aad0e09972f467decdfc5257906883",
+      "candidate": "8a548bc85859d2bdc3be109106ec9f8e51aad0e09972f467decdfc5257906883"
+    },
+    {
+      "name": "isSuper",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "861bfa69fd79ed05266e227305cd0f773183182e8e2e1f3efe8bbd844bee5788",
+      "candidate": "861bfa69fd79ed05266e227305cd0f773183182e8e2e1f3efe8bbd844bee5788"
+    },
+    {
+      "name": "can",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "1710ce257638f1285ea2de1701c004c149b9c9acebed4ac5a7ab66179aa770f1",
+      "candidate": "1710ce257638f1285ea2de1701c004c149b9c9acebed4ac5a7ab66179aa770f1"
+    },
+    {
+      "name": "staffList",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "83178cc3d0a8dcbae5be03552cdd7578993e24ffddc3ee0019b4e8fdc8637d49",
+      "candidate": "83178cc3d0a8dcbae5be03552cdd7578993e24ffddc3ee0019b4e8fdc8637d49"
+    },
+    {
+      "name": "staffSet",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "a18f0edb6fb90b239cbf216b981a480e796707d7c094c68fa337959196d9034f",
+      "candidate": "a18f0edb6fb90b239cbf216b981a480e796707d7c094c68fa337959196d9034f"
+    },
+    {
+      "name": "brandRoute",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "c414be65468d156823ffd426e1d3beb4e66337c653a580cbdf5c582d7e8c073e",
+      "candidate": "c414be65468d156823ffd426e1d3beb4e66337c653a580cbdf5c582d7e8c073e"
+    },
+    {
+      "name": "brandStats",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "7819de24c2b9ab71c29624bf2492adde62636617f1bfb57f2457599121233442",
+      "candidate": "7819de24c2b9ab71c29624bf2492adde62636617f1bfb57f2457599121233442"
+    },
+    {
+      "name": "brandCreate",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "caf68f0bd6ff2783e82d7ab0575c462f40d0c1cb16a8f4f8ad2c6149335db17e",
+      "candidate": "caf68f0bd6ff2783e82d7ab0575c462f40d0c1cb16a8f4f8ad2c6149335db17e"
+    },
+    {
+      "name": "brandAttach",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "f73c8298aa1032350b9c720befd4ea3ad58bac0bc3251ce2000a3259df1697f8",
+      "candidate": "f73c8298aa1032350b9c720befd4ea3ad58bac0bc3251ce2000a3259df1697f8"
+    },
+    {
+      "name": "brandDetach",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "a43c67ae4b782c6ad6906f798f734d9264f2a9a0939a08d82286f58487d97e33",
+      "candidate": "a43c67ae4b782c6ad6906f798f734d9264f2a9a0939a08d82286f58487d97e33"
+    },
+    {
+      "name": "branchCreate",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "4f86a21da3a4334ed455e194ac95991671fc246d537a3b1d933cb7aa8a5ef7aa",
+      "candidate": "4f86a21da3a4334ed455e194ac95991671fc246d537a3b1d933cb7aa8a5ef7aa"
+    },
+    {
+      "name": "brandSyncMenu",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e170e0b3fc04ab173708ee7c9e439da2403b97bcca58e665dbe9624b5f56dea9",
+      "candidate": "e170e0b3fc04ab173708ee7c9e439da2403b97bcca58e665dbe9624b5f56dea9"
+    },
+    {
+      "name": "brands",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "5a62f1158ba244e0816b88177c472ecd08d545cf4fb0c02ab6e843776a7924f6",
+      "candidate": "5a62f1158ba244e0816b88177c472ecd08d545cf4fb0c02ab6e843776a7924f6"
+    },
+    {
+      "name": "staffRemove",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "8aabdaedb9a0f9054b57943dfbf6ad5c5e0ca67afa94e7aa1a82d5b2f58b340e",
+      "candidate": "8aabdaedb9a0f9054b57943dfbf6ad5c5e0ca67afa94e7aa1a82d5b2f58b340e"
+    },
+    {
+      "name": "assignOwner",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "ffaba3249dfe0d739b92a8d1a1d5fbcf1772bfa7b1f8574c3b4b7fdff745a89b",
+      "candidate": "ffaba3249dfe0d739b92a8d1a1d5fbcf1772bfa7b1f8574c3b4b7fdff745a89b"
+    },
+    {
+      "name": "setDriverStatus",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "64c610721ac334f3a123e20215dd521332b0adbc80e9ec4b46a3309bf6c47e34",
+      "candidate": "64c610721ac334f3a123e20215dd521332b0adbc80e9ec4b46a3309bf6c47e34"
+    },
+    {
+      "name": "setMyPhone",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "32773fdbd3764e886ba53ca7461e72909c607513f493f82279787fde1b2a23f0",
+      "candidate": "32773fdbd3764e886ba53ca7461e72909c607513f493f82279787fde1b2a23f0"
+    },
+    {
+      "name": "setDriverBlocked",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "6566c3202989d528c6e1dcb24707e26b33970ba2ffa973034da0f646595849c4",
+      "candidate": "6566c3202989d528c6e1dcb24707e26b33970ba2ffa973034da0f646595849c4"
+    },
+    {
+      "name": "setDriverLimit",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "f8546ae1f8a7c9edba14136eb435255d5a38b216b5668e27cb773bbdb90ea001",
+      "candidate": "f8546ae1f8a7c9edba14136eb435255d5a38b216b5668e27cb773bbdb90ea001"
+    },
+    {
+      "name": "settleCash",
+      "unchanged": false,
+      "financialChangeAllowed": true,
+      "baseline": "4384b451d0b61355f99a7aa79509fcc378a425e5604ecb28f185419e00501831",
+      "candidate": "106337be06a71036a7945fd44f23de584dca17938825ab855f6b7c4c9f5787e9"
+    },
+    {
+      "name": "banners",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "1df0acb2d9056757be2962a4cbde6e416a1bc3423d1b69f8dd67424f5b918004",
+      "candidate": "1df0acb2d9056757be2962a4cbde6e416a1bc3423d1b69f8dd67424f5b918004"
+    },
+    {
+      "name": "addBanner",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "afa6372e004ea70a846e278d476719c413b3533584ea6c3c904723ff9acbd442",
+      "candidate": "afa6372e004ea70a846e278d476719c413b3533584ea6c3c904723ff9acbd442"
+    },
+    {
+      "name": "updateBanner",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "26a7b2cc664edd51aa3163eb35b4a015794ac6b05f31bdb4dd87e79c88bef450",
+      "candidate": "26a7b2cc664edd51aa3163eb35b4a015794ac6b05f31bdb4dd87e79c88bef450"
+    },
+    {
+      "name": "deleteBanner",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "56636c0aa2b2ab685f85a2a3c7e4ddd6d3a6e3446e536548d4dd1caf4cce0984",
+      "candidate": "56636c0aa2b2ab685f85a2a3c7e4ddd6d3a6e3446e536548d4dd1caf4cce0984"
+    },
+    {
+      "name": "promos",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "e5f0d5703408959af683f1411e424498ca6e5699dd325fec704570f240d620e4",
+      "candidate": "e5f0d5703408959af683f1411e424498ca6e5699dd325fec704570f240d620e4"
+    },
+    {
+      "name": "addPromo",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "cf62110a3b4cdb21088f18bb3fce19ca27b30dbc09a230f0f7e04c03f399d84f",
+      "candidate": "cf62110a3b4cdb21088f18bb3fce19ca27b30dbc09a230f0f7e04c03f399d84f"
+    },
+    {
+      "name": "updatePromo",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "cdcb0c88edbf6011dde30cab3b72b02085447269aead8aada0589e2ebee7dd3f",
+      "candidate": "cdcb0c88edbf6011dde30cab3b72b02085447269aead8aada0589e2ebee7dd3f"
+    },
+    {
+      "name": "deletePromo",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "2fba5405158018fb064803391e4000c4686f0f1c5bd472912aaf02bdf5bde74c",
+      "candidate": "2fba5405158018fb064803391e4000c4686f0f1c5bd472912aaf02bdf5bde74c"
+    },
+    {
+      "name": "isFav",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "5bad4fdd03ca14c11afddcab2353cc230a4ae2c45c15edbad4bf0dabf1386d96",
+      "candidate": "5bad4fdd03ca14c11afddcab2353cc230a4ae2c45c15edbad4bf0dabf1386d96"
+    },
+    {
+      "name": "toggleFav",
+      "unchanged": true,
+      "financialChangeAllowed": false,
+      "baseline": "be254e981c77d5fc469b7afc8caa39e7d0727e97d057fbaaa7da101c522c5eb3",
+      "candidate": "be254e981c77d5fc469b7afc8caa39e7d0727e97d057fbaaa7da101c522c5eb3"
+    }
+  ],
+  "unrelatedAdmin": [
+    {
+      "name": "resizeImg",
+      "unchanged": true
+    },
+    {
+      "name": "addStore",
+      "unchanged": true
+    },
+    {
+      "name": "pickB",
+      "unchanged": true
+    },
+    {
+      "name": "linkLabel",
+      "unchanged": true
+    },
+    {
+      "name": "pickLink",
+      "unchanged": true
+    },
+    {
+      "name": "addBanner",
+      "unchanged": true
+    },
+    {
+      "name": "openBE",
+      "unchanged": true
+    },
+    {
+      "name": "bd",
+      "unchanged": true
+    },
+    {
+      "name": "bannerImg",
+      "unchanged": true
+    },
+    {
+      "name": "bannerLink",
+      "unchanged": true
+    },
+    {
+      "name": "bannerSave",
+      "unchanged": true
+    },
+    {
+      "name": "openStoreEdit",
+      "unchanged": true
+    },
+    {
+      "name": "ed",
+      "unchanged": true
+    },
+    {
+      "name": "edLogo",
+      "unchanged": true
+    },
+    {
+      "name": "edCover",
+      "unchanged": true
+    },
+    {
+      "name": "edLoc",
+      "unchanged": true
+    },
+    {
+      "name": "edLocClr",
+      "unchanged": true
+    },
+    {
+      "name": "edRating",
+      "unchanged": true
+    },
+    {
+      "name": "ownerLine",
+      "unchanged": true
+    },
+    {
+      "name": "dd",
+      "unchanged": true
+    },
+    {
+      "name": "saveLimit",
+      "unchanged": true
+    },
+    {
+      "name": "vOrders",
+      "unchanged": true
+    },
+    {
+      "name": "vDetail",
+      "unchanged": true
+    },
+    {
+      "name": "brCard",
+      "unchanged": true
+    },
+    {
+      "name": "vStoreEdit",
+      "unchanged": true
+    },
+    {
+      "name": "tarOpen",
+      "unchanged": true
+    },
+    {
+      "name": "tarSet",
+      "unchanged": true
+    },
+    {
+      "name": "tarCard",
+      "unchanged": true
+    },
+    {
+      "name": "vStores",
+      "unchanged": true
+    },
+    {
+      "name": "bState",
+      "unchanged": true
+    },
+    {
+      "name": "vBanners",
+      "unchanged": true
+    },
+    {
+      "name": "vBannerEdit",
+      "unchanged": true
+    },
+    {
+      "name": "stfTog",
+      "unchanged": true
+    },
+    {
+      "name": "vStaff",
+      "unchanged": true
+    },
+    {
+      "name": "addPromo",
+      "unchanged": true
+    },
+    {
+      "name": "promoUsed",
+      "unchanged": true
+    },
+    {
+      "name": "heOpen",
+      "unchanged": true
+    },
+    {
+      "name": "storeLoy",
+      "unchanged": true
+    },
+    {
+      "name": "vLoyalty",
+      "unchanged": true
+    },
+    {
+      "name": "vPromos",
+      "unchanged": true
+    },
+    {
+      "name": "goLive",
+      "unchanged": true
+    },
+    {
+      "name": "cmtParts",
+      "unchanged": true
+    },
+    {
+      "name": "ratingBlock",
+      "unchanged": true
+    },
+    {
+      "name": "resModal",
+      "unchanged": true
+    },
+    {
+      "name": "vRatings",
+      "unchanged": true
+    },
+    {
+      "name": "lowAlert",
+      "unchanged": true
+    },
+    {
+      "name": "supCard",
+      "unchanged": true
+    },
+    {
+      "name": "vSupportA",
+      "unchanged": true
+    },
+    {
+      "name": "vTicketA",
+      "unchanged": true
+    },
+    {
+      "name": "refundBox",
+      "unchanged": true
+    },
+    {
+      "name": "tkRoomChk",
+      "unchanged": true
+    },
+    {
+      "name": "cuOpen",
+      "unchanged": true
+    },
+    {
+      "name": "srqCard",
+      "unchanged": true
+    },
+    {
+      "name": "pgVal",
+      "unchanged": true
+    },
+    {
+      "name": "pgSet",
+      "unchanged": true
+    },
+    {
+      "name": "vTexts",
+      "unchanged": true
+    },
+    {
+      "name": "noCourier",
+      "unchanged": true
+    },
+    {
+      "name": "assignModal",
+      "unchanged": true
+    },
+    {
+      "name": "mapModal",
+      "unchanged": true
+    },
+    {
+      "name": "openMap",
+      "unchanged": true
+    },
+    {
+      "name": "render",
+      "unchanged": true
+    }
+  ],
+  "live": false,
+  "pass": true
+}

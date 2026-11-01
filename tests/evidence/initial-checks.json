@@ -1,0 +1,74 @@
+[
+  {
+    "name": "finance-only tabs and operational controls excluded",
+    "pass": true
+  },
+  {
+    "name": "targeted historic actor and settlement time rendered inside driver history",
+    "pass": true
+  },
+  {
+    "name": "history read failure preserves last actor and exposes retry",
+    "pass": true
+  },
+  {
+    "name": "history read recovers inside same screen",
+    "pass": true
+  },
+  {
+    "name": "successful settlement refreshes fresh zero cash",
+    "pass": true
+  },
+  {
+    "name": "new candidate session begins unresolved with one execute, zero status, one effect",
+    "pass": true
+  },
+  {
+    "name": "cash read may show committed zero while original response is lost; zero does not confirm command",
+    "pass": true
+  },
+  {
+    "name": "disabled receipt attempt 1 adds no execution or status",
+    "pass": true
+  },
+  {
+    "name": "disabled receipt attempt 2 adds no execution or status",
+    "pass": true
+  },
+  {
+    "name": "disabled receipt attempt 3 adds no execution or status",
+    "pass": true
+  },
+  {
+    "name": "disabled receipt attempt 4 adds no execution or status",
+    "pass": true
+  },
+  {
+    "name": "disabled receipt attempt 5 adds no execution or status",
+    "pass": true
+  },
+  {
+    "name": "single result check adds reads only and leaves one execute/effect",
+    "pass": true
+  },
+  {
+    "name": "same request through command, execute, status, result, effect",
+    "pass": true
+  },
+  {
+    "name": "append-only call trace and byte-identical effect",
+    "pass": true
+  },
+  {
+    "name": "audit summary does not invent amount from settlement row",
+    "pass": true
+  },
+  {
+    "name": "first wallet read failure does not invent zero or empty history",
+    "pass": true
+  },
+  {
+    "name": "wallet command uses request contract and preserves attribution; no legacy write",
+    "pass": false
+  }
+]

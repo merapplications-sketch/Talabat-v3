@@ -1,0 +1,4 @@
+{
+  "message": "wallet command uses request contract and preserves attribution; no legacy write",
+  "stack": "AssertionError [ERR_ASSERTION]: wallet command uses request contract and preserves attribution; no legacy write\n    at ok (/workspace/scratch/f74ead4100b8/finance-selective-candidate/tests/port-regression.cjs:6:71)\n    at /workspace/scratch/f74ead4100b8/finance-selective-candidate/tests/port-regression.cjs:48:1"
+}

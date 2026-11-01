@@ -1,0 +1,4 @@
+{
+  "message": "page.evaluate: TypeError: Cannot read properties of null (reading 'disabled')\n    at eval (eval at evaluate (:311:30), <anonymous>:1:69)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+  "stack": "page.evaluate: TypeError: Cannot read properties of null (reading 'disabled')\n    at eval (eval at evaluate (:311:30), <anonymous>:1:69)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at /workspace/scratch/f74ead4100b8/finance-selective-candidate/tests/resume-remaining.cjs:22:15"
+}
