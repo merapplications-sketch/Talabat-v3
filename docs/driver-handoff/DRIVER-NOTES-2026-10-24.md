@@ -1017,3 +1017,11 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - Owner replied «تمام» to the specific recommendation: for subscriber-originated direct orders, the requesting subscriber guarantees the authorised goods amount advanced by the courier, subject to proof of payment and no courier fault; subscriber handles the recipient dispute.
 - Approval recorded in docs/continuity/OWNER-DECISIONS-2026-11-01.md. It does not extend to marketplace orders or approve the entire cancellation proposal.
 - Attempt/return compensation and funding, waiting period, proof/dispute procedures and marketplace protection remain unresolved. No financial code, live settlement, SQL, main merge or deployment performed.
+
+
+## 52. 1 Nov — owner restores missing discovery / dine-out / reservations / advertising scope (plan only)
+- Owner explicitly requires customer restaurant discovery map inspired by the supplied 2GIS images, Dine Out, table reservations, and advertising across app placements including AFTER order completion. These were omitted from the assistant's incomplete outstanding-items list, not withdrawn by the owner.
+- Requirements and evidence boundaries added to docs/continuity/OWNER-DECISIONS-2026-11-01.md and the continuity index. Obtain Claude's earlier detailed agreements from existing records before implementation; no invented payment/deposit/reservation policy.
+- §29 already records partial banner infrastructure; reuse it. Existing ordersAd alone does not prove post-completion placement. Paid campaign purchase/billing/impression-click-conversion reporting were not established by that inventory.
+- 2GIS is a discovery/composition reference, not provider activation, licensed data import, paid subscription or copied branding.
+- Documentation only: no app/server/SQL/pricing changes, no main merge or publish, no repeated test suites.
