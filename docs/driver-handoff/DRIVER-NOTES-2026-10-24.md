@@ -1033,3 +1033,11 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - Official Uber/DoorDash timing/PIN and Square/Apple printing sources researched; Alif acquiring is an option to investigate, not a selected gateway.
 - Driver GPS is not automatically the recipient's saved address. Offline evidence is not server-confirmed delivery/payment. No silent historical fee/coordinate changes. Implementation proposals remain unapproved.
 - Existing discovery/Dine Out/reservations/advertising scope retained. Documentation only; no application/SQL/backend/finance change, main merge or deployment; no closed tests repeated.
+
+
+## 54. 1 Nov — owner requests admin money attribution / accountant-only settlement audit
+- Administrative driver cash collection and payouts are to be restricted to authorised accounting staff on the server, distinguished from the courier's operational collection from customers.
+- Owner cannot readily identify who received a customer payment; may exist elsewhere. Missing UI visibility is not evidence of absent database attribution.
+- Audit handoff: docs/continuity/ADMIN-FINANCE-ATTRIBUTION-AUDIT-2026-11-01.md; inspect actors, counterparties, cash held/owed, receipts, role enforcement, concurrent/retried mutations, navigation and necessary notifications.
+- Intended executor: consultant review first; owner must deliver the handoff to that session. No other session was messaged or started here. No parallel programmer task.
+- Documentation only here. Authorised subsequent audit is read-only plus isolated synthetic tests; no live transfers, SQL writes, financial-policy changes, frozen finance activation, main merge or deployment.
