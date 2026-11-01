@@ -1089,3 +1089,11 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - Report docs/continuity/ADMIN-FINANCE-ATTRIBUTION-FIX-2026-11-01.md; current screenshots/results and compatibility-inventory.json in admin-finance-fix/. Static writer inventory identifies 30 historical definitions and 8 direct runtime read calls; no direct runtime financial mutation in inspected files. Not a live/indirect-writer completeness proof.
 - Compatibility matrix/source review completed with explicit live blockers: full current overload/SECURITY DEFINER/ACL/RLS/external-caller inventory absent from saved six-function metadata. Extended SELECT-only preflight remains unexecuted live. New UI + old/A-v1 server is intentionally not an available financial release. Current v2 UI + A source aligns, conditional on deployment review.
 - No live SQL, roles, money, deployment or main merge. Receipt/disbursement/notification posting and iPhone acceptance remain open; pricing/maps/tracking/chat and frozen finance untouched.
+
+
+## 60. 1 Nov — consultant review of 622fc10 attribution delta
+- Compared 81c067c..622fc1084d4aeb919f886e73c5ce4191f3b9fc29 and reviewed current source/new UI14 and PG13 evidence/harnesses without rerunning successful checks. One source commit; unrelated app surfaces unchanged in the comparison.
+- CLOSE the corrected §58 attribution/recovery gap within source/local evidence scope: targeted visible-order reader, exact server settlement-time matching, narrow projection, per-order/time snapshots, explicit retry and reopen recovery, no global audit-window dependency or error retry loop.
+- v2/commands/settlement_events capability gating and PUBLIC/column ACL revokes accepted as source repairs in the UNAPPLIED patch. New UI+old/A-v1 server refuses financial execution; old UI+new patch fails keyless calls. New UI+current patch aligns in source, not a live release approval.
+- Full actual server writer/overload/ACL/inheritance/RLS/caller inventory and iPhone/accountant acceptance remain open. Receipts/payout ledger/permanent notification posting incomplete. Do not reopen closed attribution work without a new affecting change/failure.
+- Updated docs/continuity/ADMIN-FINANCE-CONSULTANT-REVIEW-2026-11-01.md and continuity index. No app implementation, live SQL/permissions/money, main merge or deployment.
