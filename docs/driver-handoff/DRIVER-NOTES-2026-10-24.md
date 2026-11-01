@@ -1149,3 +1149,11 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - B17 calls: execute1/status1/effect1, same key441dcd37-8cf4-47d5-97e2-98a5324501a9; pasted Details success57 fully matches effect. Closes same-key result check without second send withinB and actual Details copy/paste.
 - A keya7fb833e differs fromB; effect times differ373.882s. Contexts cannot be joined into one before/after session; exact tab/reload transition unproven. A already includes status before recorded repeat clicks, so repeated clicks specifically while unresolved remain unproven. scenario label is not command state.
 - Preserve previous visual closures, no retroactive closure of old screenshot session, no whole-device acceptance. No prior tests rerun, application/preview edits, SQL, permissions, money, deployment or main merge. Server patch still unapplied; separate receipt/ledger/notifications unchanged.
+
+
+## 67. 2 Nov — sole remaining continuous Safari recording, preparation only
+- Verified branch headbcfb25f7bb80573d62f90420c3033cea26ed1f80. Preserved §66 closures; no tests rerun.
+- Prepared concise owner recording steps and exact same-key execute/status/effect-prefix criteria under ../continuity/admin-finance-iphone-feedback/safari-owner-20261101/continuous-recording-20261102/.
+- Executor cannot operate/record owner's physical iPhone Safari. Recording and three log snapshots for this new attempt not supplied; acceptance.json explicitly pending with null results. No video, trace, device pass or closure fabricated.
+- Expected new session1/0/1 before and after blocked clicks while actual unresolved state visible, then1/1/1 after one result check; same key, unchanged effect and prefix calls. Preserve interruption/mismatched keys as incomplete evidence, not join sessions.
+- Synthetic preview acceptance remains bounded/partial. Live coordinated server/UI release, explicit accountant delegation and acceptance remain separate; server patch unapplied and independent receipt/ledger/permanent notifications incomplete. No app/preview edits, SQL, permissions, money, deployment or main merge.

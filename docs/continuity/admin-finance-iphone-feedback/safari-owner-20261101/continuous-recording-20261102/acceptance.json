@@ -1,0 +1,21 @@
+{
+  "base": "bcfb25f7bb80573d62f90420c3033cea26ed1f80",
+  "prepared_date": "2026-11-02",
+  "task": "One continuous Safari synthetic-session unresolved repeated-click acceptance",
+  "status": "awaiting_owner_recording_and_three_same_key_logs",
+  "recording_received": false,
+  "new_session_request": null,
+  "proof": {
+    "unresolved_visible_at_clicks": null,
+    "execute_counts": null,
+    "status_counts": null,
+    "same_key": null,
+    "effect_unchanged": null
+  },
+  "prior_acceptances_preserved": true,
+  "previous_tests_rerun": 0,
+  "application_changes": 0,
+  "live_changes": 0,
+  "server_patch": "unapplied",
+  "note": "No recording or runtime result created; owner iPhone Safari unavailable to executor. Do not treat preparation as test completion."
+}
