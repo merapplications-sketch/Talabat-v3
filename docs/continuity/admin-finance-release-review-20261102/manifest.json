@@ -184,5 +184,17 @@
     "metadata_parts_equal": 7,
     "server_patch_applied": false,
     "proof": "preparation-20261102/catalog-compatibility.json"
+  },
+  "selective_candidate": {
+    "commit": "24a153c846ad1b122527e9245e1081dde4207930",
+    "branch": "candidate/admin-finance-ca8808dd-20261101",
+    "base_commit": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+    "report": "https://github.com/merapplications-sketch/Talabat-v3/blob/24a153c846ad1b122527e9245e1081dde4207930/docs/finance-selective-20261102/README.md",
+    "production_manifest": "https://github.com/merapplications-sketch/Talabat-v3/blob/24a153c846ad1b122527e9245e1081dde4207930/docs/finance-selective-20261102/manifest.json",
+    "status": "source adapted and isolated affected checks accepted; unpublished",
+    "supersedes": "UI source selection for the pending release; does not reopen previous closure",
+    "server_patch_applied": false,
+    "account_creation": "pending real contact data",
+    "safari": "open; team-owned"
   }
 }
