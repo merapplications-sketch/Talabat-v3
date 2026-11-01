@@ -1,0 +1,34 @@
+{
+  "scenario": "unresolved",
+  "calls": [
+    ["my_perms", null],
+    ["finance_driver_orders", null],
+    ["finance_drivers", null],
+    ["finance_access", null],
+    ["cash_balances", null],
+    ["finance_customers", {"p_q": null, "p_limit": 30, "p_offset": 0}],
+    ["finance_settlement_events", {"p_order_ids": ["ord4"]}],
+    ["finance_actor_names", {"p_ids": ["30000000-0000-0000-0000-000000000002"]}],
+    ["finance_access", null],
+    ["finance_execute", {"p_request": "441dcd37-8cf4-47d5-97e2-98a5324501a9", "p_operation": "settle_cash", "p_target": "30000000-0000-0000-0000-000000000004", "p_amount": null, "p_note": null}],
+    ["finance_command_status", {"p_request": "441dcd37-8cf4-47d5-97e2-98a5324501a9"}],
+    ["finance_driver_orders", null],
+    ["finance_drivers", null],
+    ["cash_balances", null],
+    ["cash_balances", null],
+    ["finance_settlement_events", {"p_order_ids": ["ord7"]}],
+    ["finance_actor_names", {"p_ids": ["30000000-0000-0000-0000-000000000002"]}]
+  ],
+  "effects": [
+    {
+      "request": "441dcd37-8cf4-47d5-97e2-98a5324501a9",
+      "operation": "settle_cash",
+      "target": "30000000-0000-0000-0000-000000000004",
+      "amount": 57,
+      "orders": ["ord7"],
+      "wallet_entry": null,
+      "actor": "30000000-0000-0000-0000-000000000002",
+      "at": "2026-11-01T19:30:37.517Z"
+    }
+  ]
+}

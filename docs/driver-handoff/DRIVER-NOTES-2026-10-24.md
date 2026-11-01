@@ -1141,3 +1141,11 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - Previous Safari session trace not received; permanent loss on owner's device not asserted. Preserve original open-page trace if available; otherwise use a labelled new synthetic session, never retroactive proof of old session.
 - Capture pasted journal before/after five blocked receipt clicks, then after one result check. Reopen journal to refresh snapshot. New clean unresolved fixture expects execute1/status0/effect1 before and after receipt clicks, then execute1/status1/effect1; same request key throughout. Paste operation Details JSON to prove actual clipboard flow.
 - Acceptance remains pending supplied Safari logs/pastes; no device action performed or success invented. Zero prior tests rerun; no code, server, permission, money, deployment or main changes. Server patch remains unapplied.
+
+
+## 66. 2 Nov — owner-pasted Safari journal and actual Details paste
+- Received four owner payloads; archived values/order with whitespace compaction, retained malformed second effects block without silent repair, and saved computed comparison under ../continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/.
+- A initial22 calls / after-click30: exact prefix; additions are8 reads (orders3/drivers2/cash3), execute remains1/status1. Textual effect unchanged; complete after-click JSON invalid due missing orders closing bracket. No new execute during observed repeat-click interval.
+- B17 calls: execute1/status1/effect1, same key441dcd37-8cf4-47d5-97e2-98a5324501a9; pasted Details success57 fully matches effect. Closes same-key result check without second send withinB and actual Details copy/paste.
+- A keya7fb833e differs fromB; effect times differ373.882s. Contexts cannot be joined into one before/after session; exact tab/reload transition unproven. A already includes status before recorded repeat clicks, so repeated clicks specifically while unresolved remain unproven. scenario label is not command state.
+- Preserve previous visual closures, no retroactive closure of old screenshot session, no whole-device acceptance. No prior tests rerun, application/preview edits, SQL, permissions, money, deployment or main merge. Server patch still unapplied; separate receipt/ledger/notifications unchanged.

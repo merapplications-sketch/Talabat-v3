@@ -1,0 +1,14 @@
+{
+  "request": "441dcd37-8cf4-47d5-97e2-98a5324501a9",
+  "state": "success",
+  "result": {
+    "request": "441dcd37-8cf4-47d5-97e2-98a5324501a9",
+    "operation": "settle_cash",
+    "target": "30000000-0000-0000-0000-000000000004",
+    "amount": 57,
+    "orders": ["ord7"],
+    "wallet_entry": null,
+    "actor": "30000000-0000-0000-0000-000000000002",
+    "at": "2026-11-01T19:30:37.517Z"
+  }
+}

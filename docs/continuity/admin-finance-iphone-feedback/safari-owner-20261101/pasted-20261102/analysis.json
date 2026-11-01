@@ -1,0 +1,120 @@
+{
+  "received_date_dushanbe": "2026-11-02",
+  "base": "5cee0e1d2fed0612ef1b66b29142e12e8a9b5209",
+  "source": "User-pasted Safari DEMO evidence; whitespace-only compaction of call arrays for storage; second malformed effects block deliberately retained.",
+  "A": {
+    "label": "first unlabelled snapshot",
+    "request": "a7fb833e-5aaa-4615-beba-dd0bcece6f88",
+    "at": "2026-11-01T19:24:23.635Z",
+    "total_calls": 22,
+    "counts": {
+      "my_perms": 1,
+      "finance_driver_orders": 4,
+      "finance_drivers": 4,
+      "finance_access": 2,
+      "cash_balances": 5,
+      "finance_settlement_events": 2,
+      "finance_actor_names": 2,
+      "finance_execute": 1,
+      "finance_command_status": 1
+    },
+    "effects": 1,
+    "has_status_already": true
+  },
+  "A_after_repeated_clicks": {
+    "json_valid": false,
+    "error": "SyntaxError: Expected ',' or ']' after array element in JSON at position 1606 (line 43 column 7)",
+    "total_calls": 30,
+    "counts": {
+      "my_perms": 1,
+      "finance_driver_orders": 7,
+      "finance_drivers": 6,
+      "finance_access": 2,
+      "cash_balances": 8,
+      "finance_settlement_events": 2,
+      "finance_actor_names": 2,
+      "finance_execute": 1,
+      "finance_command_status": 1
+    },
+    "previous_calls_exact_prefix": true,
+    "added_calls": [
+      [
+        "finance_driver_orders",
+        null
+      ],
+      [
+        "cash_balances",
+        null
+      ],
+      [
+        "finance_driver_orders",
+        null
+      ],
+      [
+        "finance_drivers",
+        null
+      ],
+      [
+        "cash_balances",
+        null
+      ],
+      [
+        "finance_driver_orders",
+        null
+      ],
+      [
+        "finance_drivers",
+        null
+      ],
+      [
+        "cash_balances",
+        null
+      ]
+    ],
+    "effects_claim": "Text visibly shows the same single effect, key, amount and timestamp; full block not machine-parseable, not silently repaired.",
+    "conclusion": "No additional execute or status in complete calls array. No-resend evidenced over this interval; unresolved-state timing of repeated clicks not proven because first snapshot already includes status."
+  },
+  "B_after_check": {
+    "request": "441dcd37-8cf4-47d5-97e2-98a5324501a9",
+    "at": "2026-11-01T19:30:37.517Z",
+    "total_calls": 17,
+    "counts": {
+      "my_perms": 1,
+      "finance_driver_orders": 2,
+      "finance_drivers": 2,
+      "finance_access": 2,
+      "cash_balances": 3,
+      "finance_customers": 1,
+      "finance_settlement_events": 2,
+      "finance_actor_names": 2,
+      "finance_execute": 1,
+      "finance_command_status": 1
+    },
+    "effects": 1,
+    "key_match": true,
+    "result_matches_effect": true,
+    "result_state": "success",
+    "amount": 57,
+    "conclusion": "One execute followed by one same-key status read, one effect; status did not produce a second execute in this provided trace. Details pasted successfully."
+  },
+  "cross_context": {
+    "same_request": false,
+    "seconds_between_effects": 373.882,
+    "conclusion": "Different request keys, different effect timestamps and restarted/different call list; cannot treat these as a continuous same-session before/after trace. Exact reload/tab/scenario action not established. Do not sum the two independent contexts to claim duplicate live collection."
+  },
+  "acceptance": {
+    "closed": [
+      "No second execute in A observed repeat-click interval",
+      "B same-key result check without second execute, one synthetic effect",
+      "Actual operation Details copy/paste with matching successful result"
+    ],
+    "open": [
+      "A full JSON export has malformed effects; exact loss/copy cause unknown",
+      "Repeated clicking specifically while still unresolved: first provided snapshot already contains status; state at click time not captured",
+      "Old Safari screenshot-session identity not proven; new traces do not retroactively close it",
+      "Other device items outside supplied traces remain unchanged"
+    ]
+  },
+  "prior_checks_rerun": 0,
+  "live_actions": 0
+}
