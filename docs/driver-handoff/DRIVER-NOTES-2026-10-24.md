@@ -1025,3 +1025,11 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - §29 already records partial banner infrastructure; reuse it. Existing ordersAd alone does not prove post-completion placement. Paid campaign purchase/billing/impression-click-conversion reporting were not established by that inventory.
 - 2GIS is a discovery/composition reference, not provider activation, licensed data import, paid subscription or copied branding.
 - Documentation only: no app/server/SQL/pricing changes, no main merge or publish, no repeated test suites.
+
+
+## 53. 1 Nov — owner field-operation requirements and future merchant POS (planning only)
+- New reference: docs/continuity/FIELD-OPERATIONS-AND-MERCHANT-POS-2026-11-01.md. Owner requires reusable corrected delivery location, recipient/offline/cost-aware PIN design, preparation-aware dispatch, more payment methods, and future in-store table orders/invoices/accounts/phone-iPad printing.
+- Code reading confirms the existing driver.html leaveAtDoor photo path: deliverClick -> takePhoto/TLB.uploadProof -> confirmDeliver photo guard -> finish/TLB.deliver. Not a new feature to rebuild; no new live/device/upload acceptance.
+- Official Uber/DoorDash timing/PIN and Square/Apple printing sources researched; Alif acquiring is an option to investigate, not a selected gateway.
+- Driver GPS is not automatically the recipient's saved address. Offline evidence is not server-confirmed delivery/payment. No silent historical fee/coordinate changes. Implementation proposals remain unapproved.
+- Existing discovery/Dine Out/reservations/advertising scope retained. Documentation only; no application/SQL/backend/finance change, main merge or deployment; no closed tests repeated.
