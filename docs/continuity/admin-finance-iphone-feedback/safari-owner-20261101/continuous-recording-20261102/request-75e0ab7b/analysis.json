@@ -1,0 +1,82 @@
+{
+  "base": "cc4d7b859746fe49439b9708ae4410e19902fa51",
+  "received_date": "2026-11-02",
+  "source": "Owner-pasted Safari DEMO state and two cumulative journals, identical content repeated in two user messages; archived once. JSON reserialized without changing values or order.",
+  "request": "75e0ab7b-1bf7-4d33-891d-af14651a2ff3",
+  "pre_press_state": {
+    "request": "75e0ab7b-1bf7-4d33-891d-af14651a2ff3",
+    "state": "unresolved",
+    "result": null
+  },
+  "first": {
+    "total_calls": 29,
+    "counts": {
+      "my_perms": 1,
+      "finance_driver_orders": 6,
+      "finance_drivers": 5,
+      "finance_access": 2,
+      "cash_balances": 7,
+      "finance_settlement_events": 3,
+      "finance_actor_names": 3,
+      "finance_execute": 1,
+      "finance_command_status": 1
+    },
+    "effects": 1
+  },
+  "second": {
+    "total_calls": 32,
+    "counts": {
+      "my_perms": 1,
+      "finance_driver_orders": 7,
+      "finance_drivers": 6,
+      "finance_access": 2,
+      "cash_balances": 8,
+      "finance_settlement_events": 3,
+      "finance_actor_names": 3,
+      "finance_execute": 1,
+      "finance_command_status": 1
+    },
+    "effects": 1
+  },
+  "first_is_exact_prefix": true,
+  "added_calls": [
+    [
+      "finance_driver_orders",
+      null
+    ],
+    [
+      "finance_drivers",
+      null
+    ],
+    [
+      "cash_balances",
+      null
+    ]
+  ],
+  "effect_unchanged": true,
+  "execute_status_effect_key_match": true,
+  "recording_received": false,
+  "chronology": {
+    "state_label": "قبل الضغط",
+    "journal_labels": "No individual phase labels attached to these two journals",
+    "status_already_in_first_journal": true,
+    "status_index_1based": 23,
+    "missing": "Continuous recording or a cumulative before-check journal without status linked to the visible unresolved state and five attempts",
+    "no_state_failure_inferred": true
+  },
+  "verdict": {
+    "confirmed": [
+      "One execute, one status, one unchanged57 effect with same key across both journals",
+      "Only orders/drivers/cash reads added between journals",
+      "Owner state excerpt shows unresolved with same key at copy time"
+    ],
+    "closed_scope": "No additional receipt execution in the supplied cumulative context; same-key status and unchanged effect supported",
+    "remaining": "Exact five repeated attempts while state still unresolved before first status, as a continuous device sequence, remains unproven",
+    "old_session_retroactive_acceptance": false,
+    "overall_preview": "partial synthetic acceptance; prior closures preserved",
+    "server_patch": "unapplied"
+  },
+  "tests_rerun": 0,
+  "application_changes": 0,
+  "live_actions": 0
+}
