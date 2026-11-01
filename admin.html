@@ -198,7 +198,7 @@ async function edOwner(){const e=String(ED.owner||'').trim();if(!/^[^@\s]+@[^@\s
   const cur=OWN.row;if(cur&&cur.email&&cur.email.toLowerCase()!==e.toLowerCase()&&!confirm(t('aOwnConfirm').replace('{old}',cur.email).replace('{new}',e)))return;
   const r=await TLB.assignOwner(E,e);if(r&&r.error&&!r.toasted){alert(t('err_'+r.error));return}
   ED.owner='';OWN={sid:null,row:undefined};render()}
-function openDrvEdit(id){if(!AUD)fLoadLog();const x=TLB.drivers().find(y=>y.id==id);if(!x)return;DE=id;DD={limit:+x.cash_limit||1000};render();window.scrollTo(0,0)}
+function openDrvEdit(id){const x=TLB.drivers().find(y=>y.id==id);if(!x)return;DE=id;DD={limit:+x.cash_limit||1000};fLoadSettlements(id,true);render();window.scrollTo(0,0)}
 function dd(k,v){DD[k]=v}
 function saveLimit(){const v=+DD.limit;if(!isFinite(v)||v<=0){alert(t('err_bad_value'));return}run(TLB.setDriverLimit(DE,v))}
 function settle(id,bal){return fSettle(id,bal)}
@@ -308,7 +308,7 @@ ${TLB.isSuper()||TLB.can('orders')?`<div class="btns"><button class="b" onclick=
 ${bal>=lim?`<div class="warn">${t('aOver')}</div>`:''}${x.accept_blocked?`<div class="warn">${ic('ban',14)} ${t('aBlocked')}</div>`:''}
 ${TLB.isSuper()||TLB.can('orders')?`<small style="display:block;margin-top:10px">${t('aLimP')}</small><input type="number" min="1" value="${esc(String(DD.limit))}" oninput="dd('limit',this.value)"><button class="b g" onclick="saveLimit()">${t('aSv')}</button>
 <div class="btns"><button class="b ${x.accept_blocked?'':'o'}" onclick="run(TLB.setDriverBlocked('${x.id}',${!x.accept_blocked}))">${x.accept_blocked?t('aAllow'):t('aBlock')}</button></div>`:''}<div class="btns"><button class="b" onclick="settle('${x.id}',${bal})" ${bal>0&&TLB.cashHealth().state==='ok'&&fCanWrite('settle_cash',x.id)?'':'disabled'}>${t('aSettle')}</button></div>${fCommand('settle_cash',x.id)}${fRead(TLB.cashHealth(),'fRefresh()')}${TLB.financeAccess().execute?'':`<p class="f-warning">${t('fDenied')}</p>`}</div>${drvAct(x)}`}
-function drvAct(x){const all=TLB.orders(o=>o.driver==x.id),dn=all.filter(o=>o.status=='delivered'),t0=new Date();t0.setHours(0,0,0,0);
+function drvAct(x){fLoadSettlements(x.id,false);const all=TLB.orders(o=>o.driver==x.id),dn=all.filter(o=>o.status=='delivered'),t0=new Date();t0.setHours(0,0,0,0);
   const td=dn.filter(o=>(o.doneAt||o.createdAt)>=t0.getTime()),earn=a=>a.reduce((s,o)=>s+(+o.payout||0),0).toFixed(2),rows=all.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,30);
   return `<div class="card"><b>${ic('clip')} ${t('aDrvAct')}</b><p class="f-warning">${t('fEarnOnly')}</p>
   <div class="l" style="margin-top:8px"><span>${t('aDrvToday')}</span><b>${td.length} · ${earn(td)} TJS</b></div>

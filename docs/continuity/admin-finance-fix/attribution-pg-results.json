@@ -1,0 +1,21 @@
+{
+  "checks": 13,
+  "results": [
+    "old event outside global window found for displayed order",
+    "timezone and microsecond exact matching chooses actual recorded event",
+    "attribution projection excludes unrelated historical details",
+    "missing event is empty without inventing actor",
+    "request restricted to first 30 displayed order ids",
+    "v2 contract identifies delegated accountant and changed reader",
+    "unprivileged customer cannot read settlement actor",
+    "admin role alone still cannot execute with v2",
+    "admin read-only history remains available",
+    "anon cannot bypass through PUBLIC table or column ACL",
+    "authenticated cannot bypass through PUBLIC table or column ACL",
+    "anonymous settlement reader execute denied",
+    "private parsing helper not exposed"
+  ],
+  "version": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0, 64-bit",
+  "live": false,
+  "scope": "Changed reader/capability/ACL on retained local synthetic PG fixture only. Prior 28 checks not rerun."
+}

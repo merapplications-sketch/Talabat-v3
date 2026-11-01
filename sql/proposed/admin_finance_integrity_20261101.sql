@@ -17,7 +17,7 @@ language sql stable security definer set search_path=pg_catalog,public as $$
 $$;
 create or replace function public.finance_access() returns jsonb
 language sql stable security definer set search_path=pg_catalog,public as $$
- select jsonb_build_object('execute',finance_private.accountant())
+ select jsonb_build_object('execute',finance_private.accountant(),'version',2,'capabilities',jsonb_build_array('commands','settlement_events'))
 $$;
 create or replace function public.finance_execute(p_request uuid,p_operation text,p_target uuid,p_amount numeric default null,p_note text default null)
 returns jsonb language plpgsql security definer set search_path=pg_catalog,public as $$
@@ -68,11 +68,19 @@ create or replace function public.wallet_adjust(p_user uuid,p_amount numeric,p_n
 language plpgsql security definer set search_path=pg_catalog,public as $$
 begin if not finance_private.accountant() then raise exception 'not_allowed'; end if; raise exception 'request_id_required'; end $$;
 -- No direct table path for clients. Operational SECURITY DEFINER deliver_order remains unchanged.
-revoke insert, update, delete on public.wallet_entries from anon, authenticated;
--- Column ACLs never override table UPDATE grants: remove the table grant and restore only
--- explicitly permitted nonfinancial columns through existing RPCs; source inventory has no client order UPDATE path.
-revoke update on public.orders from anon, authenticated;
-revoke update(cash_settled_at,cash_collected) on public.orders from anon, authenticated;
+revoke insert, update, delete on public.wallet_entries from public, anon, authenticated;
+revoke update on public.orders from public, anon, authenticated;
+-- Table REVOKE alone leaves explicit column grants effective, including grants to PUBLIC.
+do $acl$
+declare col record;
+begin
+ for col in select attname from pg_attribute where attrelid='public.orders'::regclass and attnum>0 and not attisdropped loop
+  execute format('revoke update (%I) on public.orders from public, anon, authenticated',col.attname);
+ end loop;
+ for col in select attname from pg_attribute where attrelid='public.wallet_entries'::regclass and attnum>0 and not attisdropped loop
+  execute format('revoke insert (%I), update (%I) on public.wallet_entries from public, anon, authenticated',col.attname,col.attname);
+ end loop;
+end $acl$;
 
 create or replace function finance_private.reader() returns boolean
 language sql stable security definer set search_path=pg_catalog,public as $$ select public.is_admin() or finance_private.accountant() $$;
@@ -102,8 +110,28 @@ language sql stable security definer set search_path=pg_catalog,public as $$
   (exists(select 1 from public.wallet_entries w where w.created_by=p.id)
    or exists(select 1 from public.audit_log a where a.user_id=p.id and a.table_name='orders' and a.details ? 'cash_settled_at'))))
 $$;
+-- Match the recorded settlement timestamp, not the latest global audit window.
+-- Invalid historical metadata cannot abort every visible row or manufacture an actor.
+create or replace function finance_private.settlement_time(p_value text) returns timestamptz
+language plpgsql stable strict set search_path=pg_catalog as $$
+begin return p_value::timestamptz;
+exception when invalid_datetime_format or datetime_field_overflow then return null;
+end $$;
+create or replace function public.finance_settlement_events(p_order_ids text[])
+returns table(id bigint,user_id uuid,at timestamptz,table_name text,row_id text,details jsonb)
+language sql stable security definer set search_path=pg_catalog,public as $$
+ select a.id,a.user_id,a.at,'orders'::text,a.row_id,
+ jsonb_build_object('cash_settled_at',a.details->'cash_settled_at')
+ from public.orders o cross join lateral (
+  select l.id,l.user_id,l.at,l.row_id,l.details from public.audit_log l
+  where l.table_name='orders' and l.row_id=o.id::text
+   and finance_private.settlement_time(l.details->'cash_settled_at'->>'to')=o.cash_settled_at
+  order by l.at desc,l.id desc limit 1
+ ) a
+ where finance_private.reader() and o.id::text=any(p_order_ids[1:30]) and o.cash_settled_at is not null
+$$;
 -- Functions are not PUBLIC APIs by default: explicit authenticated grants, auth checks inside.
 revoke all on all functions in schema finance_private from public,anon,authenticated;
-revoke all on function public.finance_access(),public.finance_execute(uuid,text,uuid,numeric,text),public.finance_command_status(uuid),public.finance_drivers(),public.finance_driver_orders(),public.finance_customers(text,integer,integer),public.finance_audit(integer),public.finance_actor_names(uuid[]),public.settle_driver_cash(uuid),public.wallet_adjust(uuid,numeric,text) from public,anon;
-grant execute on function public.finance_access(),public.finance_execute(uuid,text,uuid,numeric,text),public.finance_command_status(uuid),public.finance_drivers(),public.finance_driver_orders(),public.finance_customers(text,integer,integer),public.finance_audit(integer),public.finance_actor_names(uuid[]),public.settle_driver_cash(uuid),public.wallet_adjust(uuid,numeric,text) to authenticated;
+revoke all on function public.finance_settlement_events(text[]),public.finance_access(),public.finance_execute(uuid,text,uuid,numeric,text),public.finance_command_status(uuid),public.finance_drivers(),public.finance_driver_orders(),public.finance_customers(text,integer,integer),public.finance_audit(integer),public.finance_actor_names(uuid[]),public.settle_driver_cash(uuid),public.wallet_adjust(uuid,numeric,text) from public,anon;
+grant execute on function public.finance_settlement_events(text[]),public.finance_access(),public.finance_execute(uuid,text,uuid,numeric,text),public.finance_command_status(uuid),public.finance_drivers(),public.finance_driver_orders(),public.finance_customers(text,integer,integer),public.finance_audit(integer),public.finance_actor_names(uuid[]),public.settle_driver_cash(uuid),public.wallet_adjust(uuid,numeric,text) to authenticated;
 commit;

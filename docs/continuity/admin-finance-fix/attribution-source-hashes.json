@@ -1,0 +1,10 @@
+{
+  "admin.html": "45027ec5bdb06a96b94eab8371357b8982632ad0314d68c684cc07e85d2f9477",
+  "talabat-core.js": "4d24b6491b8a699561d56a5c169fbb52d27a99abea982d817ba7fdb1a7ac5147",
+  "assets/admin-finance/admin-finance.js": "f60c688abd13a1301ad5adeab416d632f0718cda2c65b750b5b418d8966d0c9d",
+  "sql/proposed/admin_finance_integrity_20261101.sql": "417515a0bfbd8929e630a071579f0f2a86c728d6fca2c35e66507dc9d048fa49",
+  "tools/finance-fix/attribution_delta.cjs": "d2a49d4591a0e1e806d98433b1f1c89202841a61ceb18fe4d8b629b5844236a4",
+  "tools/finance-fix/attribution_pg_delta.cjs": "c1eb361646cb679bda5681def74a3fec2e2c6c37cd35fb4e8270e8b0951f05dd",
+  "docs/continuity/admin-finance-fix/attribution-ui-results.json": "f6e7a2e067e8bec4ddab9895da72c62081e440dde2f27bd4ba1cbf28ae364faa",
+  "docs/continuity/admin-finance-fix/attribution-pg-results.json": "fc9b132ec7f84192d1f38f3551be5417b19d54d399f7627a25382487283ec25d"
+}

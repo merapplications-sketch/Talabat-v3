@@ -297,15 +297,28 @@
   }
   function unbanner(id) { var b = $(id); if (b) b.remove(); }
   /* Admin finance read state. Successful snapshots survive read failures; no invented zero. */
-  var FIN = { cash: { known: false, state: 'idle', at: null }, drivers: { known: false, state: 'idle', at: null }, wallets: {}, audit: { known: false, state: 'idle', rows: [], at: null }, errors: { known: false, state: 'idle', rows: [], at: null }, actors: {}, access: { state: 'idle', execute: false }, commands: {} };
+  var FIN = { cash: { known: false, state: 'idle', at: null }, drivers: { known: false, state: 'idle', at: null }, wallets: {}, audit: { known: false, state: 'idle', rows: [], at: null }, errors: { known: false, state: 'idle', rows: [], at: null }, actors: {}, settlements: {}, access: { state: 'idle', execute: false }, commands: {} };
   function financeRead() { return need === 'admin' && (ME.role === 'admin' || MYPERMS.indexOf('finance') >= 0); }
   function financeOnly() { return need === 'admin' && ME.role !== 'admin' && MYPERMS.indexOf('finance') >= 0 && !MYPERMS.some(function(p){return p === 'orders' || p === 'support';}); }
   function finState(st, ok) { st.state = ok ? 'ok' : 'error'; if (ok) { st.known = true; st.at = Date.now(); } }
   function finSafe(p) { var timer;return Promise.race([Promise.resolve(p).catch(function(){return {error:{message:'transport'}};}),new Promise(function(resolve){timer=setTimeout(function(){resolve({error:{message:'transport_timeout'}});},15000);})]).finally(function(){clearTimeout(timer);}); }
   function finEntry(e) { return { id: e.id, amount: +e.amount, kind: e.kind, orderId: e.order_id, ticketId: e.ticket_id, note: e.note || '', at: Date.parse(e.created_at), created_by: e.created_by || null }; }
   function finActors(ids) { ids = Array.from(new Set(ids.filter(Boolean))).slice(0,200); if (!ids.length) return Promise.resolve(); return finSafe(sb.rpc('finance_actor_names', { p_ids: ids })).then(function(r){if(!r.error)(r.data||[]).forEach(function(a){FIN.actors[a.id]={name:a.name||'',state:'ok'};});ids.forEach(function(id){if(!FIN.actors[id])FIN.actors[id]={name:'',state:'unknown'};});}); }
-  function finAccess() { if (!financeRead()) return Promise.resolve(FIN.access); return finSafe(sb.rpc('finance_access')).then(function(r){FIN.access={state:r.error?'error':'ok',execute:!r.error&&r.data&&r.data.execute===true};return FIN.access;}); }
+  function finAccess() { if (!financeRead()) return Promise.resolve(FIN.access); return finSafe(sb.rpc('finance_access')).then(function(r){FIN.access={state:r.error?'error':'ok',execute:!r.error&&r.data&&r.data.execute===true&&r.data.version===2&&Array.isArray(r.data.capabilities)&&['commands','settlement_events'].every(function(c){return r.data.capabilities.indexOf(c)>=0;})};return FIN.access;}); }
   function finLog(which,limit) { var st=FIN[which];if(st.flight)return st.flight;st.state='loading';var q=which==='audit'?(ME.role==='admin'?sb.from('audit_log').select('*').order('at',{ascending:false}).limit(Math.min(200,limit||100)):sb.rpc('finance_audit',{p_limit:Math.min(200,limit||100)})):sb.from('client_errors').select('*').order('at',{ascending:false}).limit(Math.min(200,limit||100));st.flight=finSafe(q).then(function(r){finState(st,!r.error&&Array.isArray(r.data));if(st.state==='ok')st.rows=r.data;return finActors(st.rows.map(function(x){return x.user_id;}));}).then(function(){return {rows:st.rows.slice(),known:st.known,state:st.state,at:st.at};}).finally(function(){st.flight=null;});return st.flight; }
+  function finSettlementKey(o) { return String(o.id)+':'+String(o.cashSettledAt); }
+  function finSettlementState(o) { var k=finSettlementKey(o);return FIN.settlements[k]||(FIN.settlements[k]={state:'idle',known:false,at:null,row:null}); }
+  function finSettlements(orders,force) {
+    var rows=orders.filter(function(o){return o.cashSettledAt;}).slice(0,30),todo=rows.filter(function(o){var st=finSettlementState(o);return !st.flight&&(force||st.state==='idle'||(st.state==='ok'&&Date.now()-st.at>60000));});
+    if(!todo.length)return Promise.all(rows.map(function(o){return finSettlementState(o).flight;}).filter(Boolean));
+    todo.forEach(function(o){finSettlementState(o).state='loading';});
+    var flight=finSafe(Promise.resolve().then(function(){return sb.rpc('finance_settlement_events',{p_order_ids:todo.map(function(o){return String(o.id);})});})).then(function(r){
+      var good=!r.error&&Array.isArray(r.data);
+      todo.forEach(function(o){var st=finSettlementState(o);finState(st,good);if(good)st.row=r.data.find(function(a){return a.table_name==='orders'&&String(a.row_id)===String(o.id)&&a.details&&a.details.cash_settled_at&&Date.parse(a.details.cash_settled_at.to)===Date.parse(o.cashSettledAt);})||null;});
+      return finActors(todo.map(function(o){var row=finSettlementState(o).row;return row&&row.user_id;}));
+    }).finally(function(){todo.forEach(function(o){finSettlementState(o).flight=null;});fireSoon();});
+    todo.forEach(function(o){finSettlementState(o).flight=flight;});return flight;
+  }
   function finSlot(op,target) { var k=op+':'+target;if(!FIN.commands[k]){try{FIN.commands[k]=JSON.parse(sessionStorage.getItem('tlb-fin:'+ME.id+':'+k)||'null');}catch(e){}if(!FIN.commands[k])FIN.commands[k]={state:'idle'};if(FIN.commands[k].state==='pending')FIN.commands[k].state='unresolved';}return FIN.commands[k]; }
   function finPersist(op,target,st){try{sessionStorage.setItem('tlb-fin:'+ME.id+':'+op+':'+target,JSON.stringify({key:st.key,state:st.state}));return true;}catch(e){return false;}}
   function finCommand(op,target,amount,note){var st=finSlot(op,target);if(st.state==='pending'||st.state==='unresolved')return Promise.resolve({error:st.state,unresolved:st.state==='unresolved'});if(!FIN.access.execute)return Promise.resolve({error:'finance_authorization_required'});try{st.key=crypto.randomUUID();}catch(e){return Promise.resolve({error:'storage_unavailable'});}st.state='pending';if(!finPersist(op,target,st)){st.state='error';return Promise.resolve({error:'storage_unavailable'});}fireSoon();return finSafe(Promise.resolve().then(function(){return sb.rpc('finance_execute',{p_request:st.key,p_operation:op,p_target:target,p_amount:amount==null?null:amount,p_note:note||null});})).then(function(r){if(r.error){var definite=/^(not_allowed|bad_value|not_found|insufficient_funds|request_conflict)$/.test(r.error.message||'');st.state=definite?'error':'unresolved';return {error:definite?r.error.message:'unresolved',unresolved:!definite};}if(!r.data||r.data.request!==st.key){st.state='unresolved';return {error:'unresolved',unresolved:true};}st.state='success';st.result=r.data;toast(t('saved'));return {ok:true,result:r.data};}).finally(function(){finPersist(op,target,st);fireSoon();});}
@@ -1410,7 +1423,9 @@
     financeRefreshAccess: finAccess,
     financeOnly: financeOnly,
     financeActor: function(id){return FIN.actors[id]||{name:'',state:'unknown'};},
-    financeSettlementActor: function(id,at){return FIN.audit.rows.find(function(r){return r.table_name==='orders'&&String(r.row_id)===String(id)&&r.details&&r.details.cash_settled_at&&Date.parse(r.details.cash_settled_at.to)===Date.parse(at);})||null;},
+    financeLoadSettlements: finSettlements,
+    financeSettlementHealth: function(o){var st=finSettlementState(o);return {state:st.state,known:st.known,at:st.at};},
+    financeSettlementActor: function(id,at){return finSettlementState({id:id,cashSettledAt:at}).row;},
     financeReconcile: finReconcile,
     financeCommandState: function(op,target){return Object.assign({},finSlot(op,target));},
     cashHealth: function(){return Object.assign({},FIN.cash);},

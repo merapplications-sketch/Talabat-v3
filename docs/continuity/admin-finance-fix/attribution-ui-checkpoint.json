@@ -1,0 +1,16 @@
+[
+  "direct history opening resolves event outside latest 100 audit rows",
+  "only displayed settled order ids fetched; no global audit prefetch",
+  "failed targeted read preserves trusted attribution and marks stale",
+  "stale attribution warning displayed beside history",
+  "error rendering does not create an automatic retry loop",
+  "reopening with failed audit retries targeted attribution successfully",
+  "concurrent opens coalesce into one targeted read",
+  "confirmed absent event clears old attribution without inventing actor",
+  "mismatched settlement timestamp never receives an actor",
+  "old capability response disables writes",
+  "reviewed v2 capability enables explicitly delegated fixture",
+  "no application JavaScript errors in changed journey",
+  "first attribution failure is explicit without successful empty history",
+  "inline retry recovers first failed attribution read"
+]

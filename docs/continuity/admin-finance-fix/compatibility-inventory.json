@@ -1,0 +1,485 @@
+{
+  "base": "81c067c6f3697b805f4db2df05511a397a027abe",
+  "scope": "Static schema_patch17..34 and runtime direct table-call inventory, not complete live schema; regex may omit dynamic/indirect SQL. Historical versions are listed, not assumed installed.",
+  "historical_function_writers": [
+    {
+      "file": "sql/schema_patch17.sql",
+      "line": 225,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch18.sql",
+      "line": 138,
+      "function": "driver_accept",
+      "arguments": "p_id bigint",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": true
+    },
+    {
+      "file": "sql/schema_patch18.sql",
+      "line": 166,
+      "function": "admin_assign_driver",
+      "arguments": "p_order bigint, p_driver uuid",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch18.sql",
+      "line": 275,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch19.sql",
+      "line": 339,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch21.sql",
+      "line": 56,
+      "function": "wallet_adjust",
+      "arguments": "p_user uuid, p_amount numeric, p_note text",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch21.sql",
+      "line": 77,
+      "function": "trg_wallet_return",
+      "arguments": "",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch21.sql",
+      "line": 93,
+      "function": "deliver_order",
+      "arguments": "p_id bigint, p_cash numeric default null, p_note text default null",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": true
+    },
+    {
+      "file": "sql/schema_patch21.sql",
+      "line": 116,
+      "function": "ticket_set_status",
+      "arguments": "p_ticket bigint, p_status text, p_note text default null, p_refund numeric default null",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch21.sql",
+      "line": 154,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null, p_wallet numeric default null",
+      "writes": [
+        "orders",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch22.sql",
+      "line": 64,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null, p_wallet numeric default null",
+      "writes": [
+        "orders",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch24.sql",
+      "line": 27,
+      "function": "ticket_set_status",
+      "arguments": "p_ticket bigint, p_status text, p_note text default null, p_refund numeric default null",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch26.sql",
+      "line": 109,
+      "function": "public.ticket_set_status",
+      "arguments": "p_ticket bigint, p_status text, p_note text DEFAULT NULL::text, p_refund numeric DEFAULT NULL::numeric",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": true,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch26.sql",
+      "line": 227,
+      "function": "public.admin_assign_driver",
+      "arguments": "p_order bigint, p_driver uuid",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch26.sql",
+      "line": 249,
+      "function": "public.set_prep_time",
+      "arguments": "p_id bigint, p_min integer",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch26.sql",
+      "line": 278,
+      "function": "public.settle_driver_cash",
+      "arguments": "p_driver uuid",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": true,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch26.sql",
+      "line": 295,
+      "function": "public.wallet_adjust",
+      "arguments": "p_user uuid, p_amount numeric, p_note text",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": true,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch26.sql",
+      "line": 481,
+      "function": "public.set_order_status",
+      "arguments": "p_id bigint, p_to order_status",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": true
+    },
+    {
+      "file": "sql/schema_patch29.sql",
+      "line": 186,
+      "function": "trg_loyalty",
+      "arguments": "",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch29.sql",
+      "line": 220,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null, p_wallet numeric default null, p_points integer default null",
+      "writes": [
+        "orders",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch31.sql",
+      "line": 13,
+      "function": "trg_loyalty",
+      "arguments": "",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch31.sql",
+      "line": 45,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null, p_wallet numeric default null, p_points integer default null",
+      "writes": [
+        "orders",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch32.sql",
+      "line": 165,
+      "function": "trg_loyalty",
+      "arguments": "",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch32.sql",
+      "line": 200,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null, p_wallet numeric default null, p_points integer default null, p_extra jsonb default null",
+      "writes": [
+        "orders",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch33.sql",
+      "line": 146,
+      "function": "public.set_order_status",
+      "arguments": "p_id bigint, p_to order_status",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": true
+    },
+    {
+      "file": "sql/schema_patch33.sql",
+      "line": 174,
+      "function": "place_order",
+      "arguments": "p_store uuid, p_items jsonb, p_tip numeric default 0, p_payment text default 'cash', p_address text default '', p_lat float8 default null, p_lng float8 default null, p_promo text default null, p_key text default null, p_fee numeric default null, p_wallet numeric default null, p_points integer default null, p_extra jsonb default null",
+      "writes": [
+        "orders",
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch33.sql",
+      "line": 380,
+      "function": "trg_loyalty",
+      "arguments": "",
+      "writes": [
+        "wallet_entries"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    },
+    {
+      "file": "sql/schema_patch34.sql",
+      "line": 20,
+      "function": "driver_arrived",
+      "arguments": "p_id bigint, p_where text",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": true
+    },
+    {
+      "file": "sql/schema_patch34.sql",
+      "line": 47,
+      "function": "deliver_order",
+      "arguments": "p_id bigint, p_cash numeric default null, p_note text default null, p_photo text default null",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": true
+    },
+    {
+      "file": "sql/schema_patch34.sql",
+      "line": 73,
+      "function": "reject_order",
+      "arguments": "p_id bigint, p_reason text, p_note text default null",
+      "writes": [
+        "orders"
+      ],
+      "security_definer": true,
+      "finance_guard": false,
+      "support_guard": false,
+      "assigned_driver_guard": false
+    }
+  ],
+  "runtime_direct_calls": [
+    {
+      "file": "talabat-core.js",
+      "line": 375,
+      "table": "orders",
+      "first_operation": "select"
+    },
+    {
+      "file": "talabat-core.js",
+      "line": 388,
+      "table": "orders",
+      "first_operation": "select"
+    },
+    {
+      "file": "talabat-core.js",
+      "line": 1071,
+      "table": "orders",
+      "first_operation": "select"
+    },
+    {
+      "file": "talabat-core.js",
+      "line": 1082,
+      "table": "orders",
+      "first_operation": "select"
+    },
+    {
+      "file": "talabat-core.js",
+      "line": 1316,
+      "table": "orders",
+      "first_operation": "select"
+    },
+    {
+      "file": "talabat-core.js",
+      "line": 1410,
+      "table": "wallet_entries",
+      "first_operation": "select"
+    },
+    {
+      "file": "talabat-core.js",
+      "line": 1418,
+      "table": "wallet_entries",
+      "first_operation": "select"
+    },
+    {
+      "file": "talabat-core.js",
+      "line": 1507,
+      "table": "wallet_entries",
+      "first_operation": "select"
+    }
+  ],
+  "live_snapshot_definitions": [
+    "audit_changes",
+    "cash_balances",
+    "deliver_order",
+    "has_perm",
+    "settle_driver_cash",
+    "wallet_adjust"
+  ],
+  "live_blockers": [
+    "Complete current pg_proc signatures/overloads and SECURITY DEFINER bodies absent from saved metadata",
+    "Current effective PUBLIC/role-inheritance/table/column ACLs and complete RLS absent",
+    "External/legacy client dependencies and frozen schema presence unverified"
+  ],
+  "sha256": {
+    "sql/schema_patch25.sql": "906d771fa8d381f543163b67d8e32f8b6ee10f7ea9182d8a5d1bb4ebfdea1e87",
+    "sql/schema_patch34.sql": "69cbeb461d196456cafb46e2c84f7b7b5066949dc944348096ba6fc1c69a957b",
+    "sql/schema_patch23.sql": "9bd7e0e8d5fa0b4390967220e6b7156dac5235483fc699bc7f8543efa09e93a4",
+    "sql/schema_patch29.sql": "263ef84db54c5600c3c941fef0fc7db661c2d805811565458720ee03a13016ab",
+    "sql/schema_patch17.sql": "42142550a86befe95e89bb2df95e0145ca162f5446dfb2f3caa093cf9f48604f",
+    "sql/schema_patch19.sql": "fbcac2c3b6b03004068984d886f92792a31e25bb6cf2768db6ee86f2df2175d4",
+    "sql/schema_patch18.sql": "7fc967137e32ce29535f229e4a05f0a0d248055b40d27c73ee370353898182f4",
+    "sql/schema_patch21.sql": "22229f72f3a85ab0ddc8c79acaed7f2f0a06fa83df49d34cee2845ca5272fc3e",
+    "sql/schema_patch22.sql": "8ec1de0d73cd63e96f47500b7b0a4a01e488c0a113db5fe737b72351c805747b",
+    "sql/schema_patch28.sql": "e1da81a92f6863993abe9e5a8ebfe5b86a593e5ad26dc0eec14fa0c321db56d9",
+    "sql/schema_patch30.sql": "22b5c1a6cd670d20d7a53f8916ef4de99db90bdefd44b55036c769d8f8d6ad67",
+    "sql/schema_patch27.sql": "338d504ce1d91c94d711f525468f47ea8d37aa6ff75609dcc97a2222cf172806",
+    "sql/schema_patch32.sql": "8befde193e08e09fffefc01f5e7b3a537357c26812b7793acca2aabf59d17a3e",
+    "sql/schema_patch31.sql": "cb8794820bfbbd5b194b6be5434613380e7f77135bbbaa3705aa5a2dc58af21f",
+    "sql/schema_patch26.sql": "a398cd604a762f900499dbf12b6c77b8c5a3741d12ff2e422562ec0ca082bd5f",
+    "sql/schema_patch33.sql": "5c0420052e758407da341c964f921084364b18b2ad287f590f6e6c2e9e142e2e",
+    "sql/schema_patch20.sql": "2016132ca2135674e533cd209caa7055274653121d9816913df45d47bdd2aa7e",
+    "sql/schema_patch24.sql": "8bd89fd87831f4bedcd4b15ee6e5e5a557474e310fb3fdf04e9382f969640633"
+  }
+}
