@@ -1134,3 +1134,10 @@ Decision supersedes the old grip requirement and its acceptance item. Independen
 - Compared existing saved trace: one execute/one same-key status read/one effect in earlier mismatched-status Chromium scenario. Source fCheck/finReconcile is read-only toward settlement commands. Owner Safari call journal is collapsed and no session JSON was found, so session-specific no-resend remains OPEN; no fabricated keys or reused Chromium telemetry attributed to Safari.
 - Zero before confirmation is consistent with lost-response fixture committing synthetic57 then rejecting acknowledgment and subsequent independent balance polling reading0. Not proof of command success or duplicate receipt; exact Safari polling sequence unavailable.
 - No new tests, code/preview changes, SQL, authorization, money, deployment or main merge. Prior35 checks preserved; independent receipt/ledger/notifications and unapplied server patch remain unchanged. Report documents exact remaining device evidence.
+
+
+## 65. 1 Nov — remaining Safari evidence protocol, no new device result
+- Resumed37e981fd1809b38167676abb240cebe13f26b507; existing closures retained. Saved short owner steps in ../continuity/admin-finance-iphone-feedback/safari-owner-20261101/SAFARI-REMAINING-STEPS-AR.md.
+- Previous Safari session trace not received; permanent loss on owner's device not asserted. Preserve original open-page trace if available; otherwise use a labelled new synthetic session, never retroactive proof of old session.
+- Capture pasted journal before/after five blocked receipt clicks, then after one result check. Reopen journal to refresh snapshot. New clean unresolved fixture expects execute1/status0/effect1 before and after receipt clicks, then execute1/status1/effect1; same request key throughout. Paste operation Details JSON to prove actual clipboard flow.
+- Acceptance remains pending supplied Safari logs/pastes; no device action performed or success invented. Zero prior tests rerun; no code, server, permission, money, deployment or main changes. Server patch remains unapplied.
