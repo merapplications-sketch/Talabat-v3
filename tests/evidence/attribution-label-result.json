@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "new receipt history uses immutable actor name snapshot after profile rename",
+      "pass": true
+    },
+    {
+      "name": "legacy settlement keeps known audit actor without inventing snapshot",
+      "pass": true
+    }
+  ],
+  "live": false
+}

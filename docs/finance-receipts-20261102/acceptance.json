@@ -29,9 +29,14 @@
       "pass": true,
       "checks": 3,
       "evidence": "tests/evidence/version-gate-result.json"
+    },
+    "attribution_label": {
+      "pass": true,
+      "checks": 2,
+      "evidence": "tests/evidence/attribution-label-result.json"
     }
   },
-  "total_checks": 51,
+  "total_checks": 53,
   "engine": "PostgreSQL 17.5 WASM / PGlite 0.3.14 / Node 24 / JSDOM",
   "scope": "new receipt functionality and affected integration only",
   "native_concurrent_connections_tested": false,

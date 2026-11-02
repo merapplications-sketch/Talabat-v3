@@ -21,9 +21,9 @@
       "bytes": 137317
     },
     "assets/admin-finance/admin-finance.js": {
-      "sha256": "12558be12d4802839923395338594bf3870574fcf1ea0fc75b83394a98face73",
-      "git_blob": "8d901562601342f3a2aa387ac6ba52515396dc87",
-      "bytes": 12990
+      "sha256": "e904817b14e19fd691b61a7a0a45cbe7fb9c360076d7b722f2101802fe90c9d5",
+      "git_blob": "96e590ac37b367c24bece683a852abb6f23c7e1f",
+      "bytes": 13065
     },
     "assets/finance-receipt/receipt.js": {
       "sha256": "2f8024fcd1b52e990331e63b9d9265b40ae52fa2e94f0c8361a15aa7022c6d60",
