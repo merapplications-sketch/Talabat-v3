@@ -1,0 +1,57 @@
+{
+  "review_date": "2026-11-02",
+  "repository": "merapplications-sketch/Talabat-v3",
+  "visibility_observed": "public",
+  "concurrency_closure_commit": "b30105bab2a3bfbc6764b17d620f4e6ad1a963b9",
+  "closure_preserved": true,
+  "financial_tests_rerun": false,
+  "main_observed": "148cfae50000e983af2221a96057c507edac6d69",
+  "latest_pages_deployment": {
+    "run_id": 39172212084,
+    "sha": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+    "branch": "integration/customer-v80-current"
+  },
+  "http_observation": {
+    "url": "https://merapplications-sketch.github.io/Talabat-v3/customer.html",
+    "status": 200,
+    "is_deployment_or_full_acceptance_test": false
+  },
+  "raw_githack_sample": {
+    "status": 403,
+    "scope": "one sample only; no conclusion about all historical links"
+  },
+  "connected_cloudflare_pages_projects": 0,
+  "existing_independent_sites_lab": {
+    "project_id": "appgprj_6ae89780be308191b60e2938754c7d5b",
+    "version": 2,
+    "access_mode": "custom",
+    "status": "active",
+    "contains_R1": false
+  },
+  "actions_breakage": "anonymous git fetch in native PostgreSQL workflow fails after private; ephemeral authenticated checkout required before future runs",
+  "recommended_hosting": "Cloudflare Pages Free, static-only manual Direct Upload of approved immutable artifacts, no auto deployment",
+  "new_monthly_subscription_required": false,
+  "incremental_target_cost_USD": 0,
+  "cost_guarantee_current_settings": false,
+  "unknown": [
+    "GitHub account plan/current included compute balance and excess-usage stop",
+    "programmer collaborator roster and private clone permissions",
+    "installed GitHub Apps private repository selection",
+    "detailed Pages settings/custom domains beyond saved metadata",
+    "complete inventory of links sent outside repository"
+  ],
+  "approval_blockers": [
+    "working approved replacement hosting and updated client links",
+    "team collaborator and connector access confirmed",
+    "Actions excess-spend blocked or no Actions runs after private"
+  ],
+  "no_changes": {
+    "visibility": true,
+    "publication": true,
+    "access_grants": true,
+    "application": true,
+    "SQL_live": true,
+    "paid_resources": true,
+    "main_merge": true
+  }
+}
