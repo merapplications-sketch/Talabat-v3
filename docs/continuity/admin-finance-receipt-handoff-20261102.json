@@ -24,13 +24,23 @@
   "open": [
     "actual Safari/iPhone",
     "native print dialog",
-    "hosted Auth/PostgREST and native multi-connection receipt concurrency",
-    "real accountant identity/contact and later activation approval"
+    "real accountant identity/contact and later activation approval",
+    "hosted Auth/PostgREST (still open; native DB contention closed only for ten tested READ COMMITTED scenarios)"
   ],
   "excluded": [
     "offsetting",
     "partial cash collection",
     "payout ledger"
   ],
-  "previous_closures_preserved": true
+  "previous_closures_preserved": true,
+  "native_postgres_followup": {
+    "evidence_commit": "b30105bab2a3bfbc6764b17d620f4e6ad1a963b9",
+    "cases": 10,
+    "pass": true,
+    "run_id": 41492343783,
+    "scope": "PostgreSQL 17.6 native / READ COMMITTED / independent backend sessions",
+    "report": "https://github.com/merapplications-sketch/Talabat-v3/blob/b30105bab2a3bfbc6764b17d620f4e6ad1a963b9/docs/finance-receipts-20261102/native-postgres/README.md",
+    "previous_53_rerun": false,
+    "application_and_SQL_unchanged": true
+  }
 }
