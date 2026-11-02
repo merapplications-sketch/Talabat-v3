@@ -40,7 +40,7 @@ def connect(database='postgres', name='native-observer'):
                            application_name=name, autocommit=True, connect_timeout=5)
 
 
-def one(c, query, params=()):
+def one(c, query, params=None):
     return c.execute(query, params).fetchone()[0]
 
 

@@ -1,0 +1,44 @@
+{
+  "pass": false,
+  "scope": "new native multi-connection tests only",
+  "old_53_rerun": false,
+  "live": false,
+  "published": false,
+  "environment": {
+    "server": "PostgreSQL 17.6 (Debian 17.6-2.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+    "server_version_num": "170006",
+    "driver": "psycopg 3.2.10",
+    "isolation": "read committed; separate native backend PIDs; disposable local databases",
+    "host": "127.0.0.1",
+    "runner": "Linux"
+  },
+  "scenarios": [],
+  "open": [
+    "actual iPhone Safari",
+    "native print dialog",
+    "hosted Auth/PostgREST"
+  ],
+  "source_sha": "12382e751742b427485e5abbecb92f4939aea163",
+  "inputs": {
+    "bootstrap": {
+      "path": "tests/base-lab/web/bootstrap.sql",
+      "sha256": "7f840b0e09f25ac8134c9115a3bf23f559278ab8a63835ba16228625939682c4"
+    },
+    "seed": {
+      "path": "tests/base-lab/web/seed.sql",
+      "sha256": "2b7af718eb70dc1c298326b3268cb53f9e7016fe256243c2b963d394c38c9d6b"
+    },
+    "A": {
+      "path": "tests/base-lab/web/patch-a.sql",
+      "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259"
+    },
+    "R1": {
+      "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+      "sha256": "240727cdbb9416af093f36209de0ea690c9822ef39c16710e94e1692f62dcf82"
+    }
+  },
+  "failure": {
+    "message": "only '%s', '%b', '%t' are allowed as placeholders, got '%''",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/native-postgres/contention.py\", line 243, in <module>\n    main()\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/native-postgres/contention.py\", line 222, in main\n    assert one(control, \"select count(*) from pg_database where datname like 'talabot_native_%'\") == 0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/native-postgres/contention.py\", line 44, in one\n    return c.execute(query, params).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/.local/lib/python3.12/site-packages/psycopg/connection.py\", line 269, in execute\n    raise ex.with_traceback(None)\npsycopg.ProgrammingError: only '%s', '%b', '%t' are allowed as placeholders, got '%''\n"
+  }
+}
