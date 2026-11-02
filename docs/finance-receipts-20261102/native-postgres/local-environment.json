@@ -1,0 +1,13 @@
+{
+  "postgres": null,
+  "initdb": null,
+  "psql": null,
+  "docker": null,
+  "podman": null,
+  "uid_map": "0          0          1",
+  "gid_map": "0          0          1",
+  "uid_probe_error": "setpriv: setresuid failed: Invalid argument",
+  "local_native_test_executed": false,
+  "bypass_attempted": false,
+  "alternative": "standard public GitHub-hosted runner, temporary native PostgreSQL 17.6 service"
+}

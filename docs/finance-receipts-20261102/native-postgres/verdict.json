@@ -1,0 +1,35 @@
+{
+  "pass": true,
+  "native_cases": 10,
+  "previous_53_rerun": false,
+  "implementation_commit": "0651830fa96a776f435688a92cd4400824e7e504",
+  "test_source_commit": "cdeda46b1e5938bb54d53e9debc2561127db716c",
+  "run_id": 41492343783,
+  "job_id": 125438303620,
+  "run_conclusion": "success",
+  "run_url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/41492343783",
+  "closed": [
+    "native multi-connection same-request settlement",
+    "native multi-connection distinct requests for same driver",
+    "rollback under contention at command/receipt/order-link persistence",
+    "receipt and order and audit exact-effect matching in those cases"
+  ],
+  "scope": "PostgreSQL 17.6 native / READ COMMITTED / two independent authenticated backend sessions plus observer; 10 controlled scenarios",
+  "open": [
+    "actual iPhone Safari",
+    "native print dialog",
+    "hosted Auth/PostgREST",
+    "real accountant identity/contact",
+    "later coordinated activation approval"
+  ],
+  "source_application_changed": false,
+  "patch_A_changed": false,
+  "patch_R1_changed": false,
+  "live": false,
+  "published": false,
+  "real_grants": false,
+  "main_merged": false,
+  "paid_service_created": false,
+  "local_environment_evidence": "local-environment.json",
+  "result_sha256": "5e847ce548cae2ed07e3345bf355f696019022a27d08e4f70837379ea0041e08"
+}

@@ -39,10 +39,18 @@
   "total_checks": 53,
   "engine": "PostgreSQL 17.5 WASM / PGlite 0.3.14 / Node 24 / JSDOM",
   "scope": "new receipt functionality and affected integration only",
-  "native_concurrent_connections_tested": false,
+  "native_concurrent_connections_tested": true,
   "hosted_Auth_REST_tested": false,
   "native_printer_or_iPhone_Safari_tested": false,
   "old_suites_rerun": false,
   "published": false,
-  "live": false
+  "live": false,
+  "native_followup": {
+    "cases": 10,
+    "pass": true,
+    "engine": "PostgreSQL 17.6 native / psycopg 3.2.10 / GitHub standard Ubuntu runner",
+    "evidence": "native-postgres/result.json",
+    "verdict": "native-postgres/verdict.json",
+    "original_53_rerun": false
+  }
 }

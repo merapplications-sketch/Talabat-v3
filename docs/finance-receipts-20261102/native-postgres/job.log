@@ -1,0 +1,304 @@
+﻿2026-11-02T17:33:56.4094868Z Current runner version: '2.338.2'
+2026-11-02T17:33:56.4119247Z ##[group]Runner Image Provisioner
+2026-11-02T17:33:56.4120003Z Hosted Compute Agent
+2026-11-02T17:33:56.4120603Z Version: 20261021.618
+2026-11-02T17:33:56.4121184Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-02T17:33:56.4121884Z Build Date: 2026-10-21T00:45:21Z
+2026-11-02T17:33:56.4122476Z Worker ID: {6849411e-9d8a-4de8-91c2-454f4cb48037}
+2026-11-02T17:33:56.4123062Z Region: westus3
+2026-11-02T17:33:56.4123611Z Cloud: Azure
+2026-11-02T17:33:56.4124123Z ##[endgroup]
+2026-11-02T17:33:56.4125349Z ##[group]Operating System
+2026-11-02T17:33:56.4125939Z Ubuntu
+2026-11-02T17:33:56.4126402Z 24.04.5
+2026-11-02T17:33:56.4126900Z LTS
+2026-11-02T17:33:56.4127608Z ##[endgroup]
+2026-11-02T17:33:56.4128488Z ##[group]Runner Image
+2026-11-02T17:33:56.4129035Z Image: ubuntu-24.04
+2026-11-02T17:33:56.4129542Z Version: 20261025.353.1
+2026-11-02T17:33:56.4130735Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-02T17:33:56.4132029Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-11-02T17:33:56.4132857Z ##[endgroup]
+2026-11-02T17:33:56.4133773Z ##[group]GITHUB_TOKEN Permissions
+2026-11-02T17:33:56.4135939Z Contents: read
+2026-11-02T17:33:56.4136461Z Metadata: read
+2026-11-02T17:33:56.4137166Z ##[endgroup]
+2026-11-02T17:33:56.4139216Z Secret source: Actions
+2026-11-02T17:33:56.4140132Z Cache mode: write
+2026-11-02T17:33:56.4140957Z Prepare workflow directory
+2026-11-02T17:33:56.4505536Z Prepare all required actions
+2026-11-02T17:33:56.6754472Z Complete job name: contention
+2026-11-02T17:33:56.7482791Z ##[group]Checking docker version
+2026-11-02T17:33:56.7494124Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+2026-11-02T17:33:57.3485118Z '1.48'
+2026-11-02T17:33:57.3501976Z Docker daemon API version: '1.48'
+2026-11-02T17:33:57.3502859Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+2026-11-02T17:33:57.3760583Z '1.48'
+2026-11-02T17:33:57.3777668Z Docker client API version: '1.48'
+2026-11-02T17:33:57.3783091Z ##[endgroup]
+2026-11-02T17:33:57.3785118Z ##[group]Clean up resources from previous jobs
+2026-11-02T17:33:57.3789863Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=48530a"
+2026-11-02T17:33:57.3965089Z ##[command]/usr/bin/docker network prune --force --filter "label=48530a"
+2026-11-02T17:33:57.4113163Z ##[endgroup]
+2026-11-02T17:33:57.4113675Z ##[group]Create local container network
+2026-11-02T17:33:57.4122596Z ##[command]/usr/bin/docker network create --label 48530a github_network_8c48cdf2c20b4c6b90001776427a29b8
+2026-11-02T17:33:57.5314651Z 4538500e664b2f98fb61c8b5cc4b91c8d30fb272b719c7fa8355b6fedbc6810e
+2026-11-02T17:33:57.5337622Z ##[endgroup]
+2026-11-02T17:33:57.5359951Z ##[group]Starting postgres service container
+2026-11-02T17:33:57.5378699Z ##[command]/usr/bin/docker pull postgres:17.6@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+2026-11-02T17:33:58.4317224Z docker.io/library/postgres@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929: Pulling from library/postgres
+2026-11-02T17:33:58.6967509Z d7ecded7702a: Pulling fs layer
+2026-11-02T17:33:58.6968133Z d95a46ea6a60: Pulling fs layer
+2026-11-02T17:33:58.6968521Z df684e12be42: Pulling fs layer
+2026-11-02T17:33:58.6968914Z baf316c053aa: Pulling fs layer
+2026-11-02T17:33:58.6969267Z b3ec056f36c4: Pulling fs layer
+2026-11-02T17:33:58.6969646Z f9f6c3699755: Pulling fs layer
+2026-11-02T17:33:58.6970036Z 30854ed26966: Pulling fs layer
+2026-11-02T17:33:58.6970471Z 639bc10553ca: Pulling fs layer
+2026-11-02T17:33:58.6970813Z 5d95d2afb8ab: Pulling fs layer
+2026-11-02T17:33:58.6971059Z 0424836d8a95: Pulling fs layer
+2026-11-02T17:33:58.6971298Z 4b0b164c9bcd: Pulling fs layer
+2026-11-02T17:33:58.6971553Z 36e0cf935aa6: Pulling fs layer
+2026-11-02T17:33:58.6971840Z 36b8b7af114e: Pulling fs layer
+2026-11-02T17:33:58.6972189Z 5df7a8bf57f1: Pulling fs layer
+2026-11-02T17:33:58.6972467Z baf316c053aa: Waiting
+2026-11-02T17:33:58.6973072Z b3ec056f36c4: Waiting
+2026-11-02T17:33:58.6973296Z f9f6c3699755: Waiting
+2026-11-02T17:33:58.6973527Z 30854ed26966: Waiting
+2026-11-02T17:33:58.6973741Z 639bc10553ca: Waiting
+2026-11-02T17:33:58.6973955Z 5d95d2afb8ab: Waiting
+2026-11-02T17:33:58.6974263Z 0424836d8a95: Waiting
+2026-11-02T17:33:58.6974572Z 4b0b164c9bcd: Waiting
+2026-11-02T17:33:58.6974796Z 36e0cf935aa6: Waiting
+2026-11-02T17:33:58.6975104Z 36b8b7af114e: Waiting
+2026-11-02T17:33:58.6975340Z 5df7a8bf57f1: Waiting
+2026-11-02T17:33:58.8758515Z d95a46ea6a60: Verifying Checksum
+2026-11-02T17:33:58.8759060Z d95a46ea6a60: Download complete
+2026-11-02T17:33:58.8958846Z df684e12be42: Verifying Checksum
+2026-11-02T17:33:58.8959358Z df684e12be42: Download complete
+2026-11-02T17:33:58.9857867Z d7ecded7702a: Verifying Checksum
+2026-11-02T17:33:58.9858263Z d7ecded7702a: Download complete
+2026-11-02T17:33:59.0785545Z baf316c053aa: Verifying Checksum
+2026-11-02T17:33:59.0785871Z baf316c053aa: Download complete
+2026-11-02T17:33:59.1005548Z b3ec056f36c4: Verifying Checksum
+2026-11-02T17:33:59.1006000Z b3ec056f36c4: Download complete
+2026-11-02T17:33:59.1744615Z f9f6c3699755: Verifying Checksum
+2026-11-02T17:33:59.1745129Z f9f6c3699755: Download complete
+2026-11-02T17:33:59.2782471Z 30854ed26966: Download complete
+2026-11-02T17:33:59.2895220Z 639bc10553ca: Download complete
+2026-11-02T17:33:59.4524073Z 0424836d8a95: Verifying Checksum
+2026-11-02T17:33:59.4525582Z 0424836d8a95: Download complete
+2026-11-02T17:33:59.4710961Z 4b0b164c9bcd: Download complete
+2026-11-02T17:33:59.6533240Z 36e0cf935aa6: Verifying Checksum
+2026-11-02T17:33:59.6535154Z 36e0cf935aa6: Download complete
+2026-11-02T17:33:59.6701409Z 36b8b7af114e: Verifying Checksum
+2026-11-02T17:33:59.7052567Z 5d95d2afb8ab: Verifying Checksum
+2026-11-02T17:33:59.7052919Z 5d95d2afb8ab: Download complete
+2026-11-02T17:33:59.8418243Z 5df7a8bf57f1: Verifying Checksum
+2026-11-02T17:33:59.8418719Z 5df7a8bf57f1: Download complete
+2026-11-02T17:34:00.0012147Z d7ecded7702a: Pull complete
+2026-11-02T17:34:03.3009268Z d95a46ea6a60: Pull complete
+2026-11-02T17:34:03.6442861Z df684e12be42: Pull complete
+2026-11-02T17:34:03.7023814Z baf316c053aa: Pull complete
+2026-11-02T17:34:04.1599005Z b3ec056f36c4: Pull complete
+2026-11-02T17:34:04.2215732Z f9f6c3699755: Pull complete
+2026-11-02T17:34:04.2386870Z 30854ed26966: Pull complete
+2026-11-02T17:34:04.2479177Z 639bc10553ca: Pull complete
+2026-11-02T17:34:08.0261285Z 5d95d2afb8ab: Pull complete
+2026-11-02T17:34:08.0360784Z 0424836d8a95: Pull complete
+2026-11-02T17:34:08.0501187Z 4b0b164c9bcd: Pull complete
+2026-11-02T17:34:08.0612204Z 36e0cf935aa6: Pull complete
+2026-11-02T17:34:08.0678249Z 36b8b7af114e: Pull complete
+2026-11-02T17:34:08.0833247Z 5df7a8bf57f1: Pull complete
+2026-11-02T17:34:08.0863589Z Digest: sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+2026-11-02T17:34:08.0869755Z Status: Downloaded newer image for postgres@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+2026-11-02T17:34:08.0877630Z docker.io/library/postgres:17.6@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+2026-11-02T17:34:08.0944230Z ##[command]/usr/bin/docker create --name 56f2803841fd4f32a0b015a33587e375_postgres176sha25600bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929_4ccb4c --label 48530a --network github_network_8c48cdf2c20b4c6b90001776427a29b8 --network-alias postgres -p 127.0.0.1:5432:5432 --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 12 -e "POSTGRES_PASSWORD=synthetic-local-only" -e "POSTGRES_DB=postgres" -e GITHUB_ACTIONS=true -e CI=true postgres:17.6@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+2026-11-02T17:34:08.1196561Z 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:08.1224924Z ##[command]/usr/bin/docker start 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:08.3464505Z 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:08.3489674Z ##[command]/usr/bin/docker ps --all --filter id=68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+2026-11-02T17:34:08.3638555Z 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a Up Less than a second (health: starting)
+2026-11-02T17:34:08.3655384Z ##[command]/usr/bin/docker port 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:08.3795221Z 5432/tcp -> 127.0.0.1:5432
+2026-11-02T17:34:08.3845252Z ##[endgroup]
+2026-11-02T17:34:08.3852612Z ##[group]Waiting for all services to be ready
+2026-11-02T17:34:08.3864214Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:08.4003139Z starting
+2026-11-02T17:34:08.4027766Z postgres service is starting, waiting 2 seconds before checking again.
+2026-11-02T17:34:10.4034780Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:10.4167806Z starting
+2026-11-02T17:34:10.4182982Z postgres service is starting, waiting 4 seconds before checking again.
+2026-11-02T17:34:14.6178908Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:14.6305659Z healthy
+2026-11-02T17:34:14.6325452Z postgres service is healthy.
+2026-11-02T17:34:14.6326183Z ##[endgroup]
+2026-11-02T17:34:14.6540114Z ##[group]Run [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+2026-11-02T17:34:14.6540473Z [36;1m[[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]][0m
+2026-11-02T17:34:14.6540713Z [36;1mgit init .[0m
+2026-11-02T17:34:14.6541081Z [36;1mgit remote add origin https://github.com/merapplications-sketch/Talabat-v3.git[0m
+2026-11-02T17:34:14.6541482Z [36;1mgit fetch --depth=1 origin "$SOURCE_SHA"[0m
+2026-11-02T17:34:14.6541772Z [36;1mgit checkout --detach FETCH_HEAD[0m
+2026-11-02T17:34:14.6542032Z [36;1mtest "$(git rev-parse HEAD)" = "$SOURCE_SHA"[0m
+2026-11-02T17:34:14.6563192Z shell: /usr/bin/bash -e {0}
+2026-11-02T17:34:14.6563566Z env:
+2026-11-02T17:34:14.6563779Z   SOURCE_SHA: cdeda46b1e5938bb54d53e9debc2561127db716c
+2026-11-02T17:34:14.6564035Z ##[endgroup]
+2026-11-02T17:34:14.7415147Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-02T17:34:14.7415587Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-02T17:34:14.7416050Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-02T17:34:14.7416364Z hint: call:
+2026-11-02T17:34:14.7416534Z hint:
+2026-11-02T17:34:14.7416803Z hint: 	git config --global init.defaultBranch <name>
+2026-11-02T17:34:14.7417325Z hint:
+2026-11-02T17:34:14.7417564Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-02T17:34:14.7417965Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-02T17:34:14.7418263Z hint:
+2026-11-02T17:34:14.7418430Z hint: 	git branch -m <name>
+2026-11-02T17:34:14.7418614Z hint:
+2026-11-02T17:34:14.7418876Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-02T17:34:14.7437819Z Initialized empty Git repository in /home/runner/work/Talabat-v3/Talabat-v3/.git/
+2026-11-02T17:34:15.9508082Z From https://github.com/merapplications-sketch/Talabat-v3
+2026-11-02T17:34:15.9508715Z  * branch            cdeda46b1e5938bb54d53e9debc2561127db716c -> FETCH_HEAD
+2026-11-02T17:34:16.0330402Z HEAD is now at cdeda46 Fix native harness query parameter mode before first scenario
+2026-11-02T17:34:16.0495870Z ##[group]Run python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
+2026-11-02T17:34:16.0496528Z [36;1mpython3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'[0m
+2026-11-02T17:34:16.0514806Z shell: /usr/bin/bash -e {0}
+2026-11-02T17:34:16.0515023Z ##[endgroup]
+2026-11-02T17:34:19.8012016Z Defaulting to user installation because normal site-packages is not writeable
+2026-11-02T17:34:22.5669773Z Collecting psycopg==3.2.10 (from psycopg[binary]==3.2.10)
+2026-11-02T17:34:22.5925154Z   Downloading psycopg-3.2.10-py3-none-any.whl.metadata (4.6 kB)
+2026-11-02T17:34:22.6526600Z Collecting typing_extensions==4.15.0
+2026-11-02T17:34:22.6559446Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-02T17:34:22.8242272Z Collecting psycopg-binary==3.2.10 (from psycopg[binary]==3.2.10)
+2026-11-02T17:34:22.8275331Z   Downloading psycopg_binary-3.2.10-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.0 kB)
+2026-11-02T17:34:22.8399418Z Downloading psycopg-3.2.10-py3-none-any.whl (206 kB)
+2026-11-02T17:34:22.8575055Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 206.6/206.6 kB 27.1 MB/s eta 0:00:00
+2026-11-02T17:34:22.8575728Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2026-11-02T17:34:22.8855348Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 1.1 MB/s eta 0:00:00
+2026-11-02T17:34:22.8909543Z Downloading psycopg_binary-3.2.10-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.4 MB)
+2026-11-02T17:34:23.0793925Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 23.5 MB/s eta 0:00:00
+2026-11-02T17:34:23.3339917Z Installing collected packages: typing_extensions, psycopg-binary, psycopg
+2026-11-02T17:34:23.6278663Z Successfully installed psycopg-3.2.10 psycopg-binary-3.2.10 typing_extensions-4.15.0
+2026-11-02T17:34:23.7387494Z ##[group]Run python3 tests/native-postgres/contention.py
+2026-11-02T17:34:23.7387874Z [36;1mpython3 tests/native-postgres/contention.py[0m
+2026-11-02T17:34:23.7405383Z shell: /usr/bin/bash -e {0}
+2026-11-02T17:34:23.7405592Z env:
+2026-11-02T17:34:23.7405753Z   PGHOST: 127.0.0.1
+2026-11-02T17:34:23.7405929Z   PGPORT: 5432
+2026-11-02T17:34:23.7406115Z   PGUSER: postgres
+2026-11-02T17:34:23.7406305Z   PGPASSWORD: synthetic-local-only
+2026-11-02T17:34:23.7406518Z ##[endgroup]
+2026-11-02T17:34:25.0196745Z PASS A-same-key-success
+2026-11-02T17:34:25.1804812Z PASS A-same-key-command
+2026-11-02T17:34:25.7619503Z PASS A-different-keys-success
+2026-11-02T17:34:25.9245612Z PASS A-different-keys-command
+2026-11-02T17:34:26.0702831Z PASS R1-same-key-success
+2026-11-02T17:34:26.3489481Z PASS R1-same-key-receipt
+2026-11-02T17:34:26.5552651Z PASS R1-same-key-link
+2026-11-02T17:34:26.6834120Z PASS R1-different-keys-success
+2026-11-02T17:34:27.0064230Z PASS R1-different-keys-receipt
+2026-11-02T17:34:27.2518842Z PASS R1-different-keys-link
+2026-11-02T17:34:27.2588781Z NATIVE_RESULT_ZLIB_BASE64=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
+2026-11-02T17:34:27.2874813Z Print service container logs: 56f2803841fd4f32a0b015a33587e375_postgres176sha25600bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929_4ccb4c
+2026-11-02T17:34:27.2878960Z ##[command]/usr/bin/docker logs --details 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:27.3018085Z  The files belonging to this database system will be owned by user "postgres".
+2026-11-02T17:34:27.3018691Z  This user must also own the server process.
+2026-11-02T17:34:27.3021829Z  initdb: warning: enabling "trust" authentication for local connections
+2026-11-02T17:34:27.3022729Z  initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2026-11-02T17:34:27.3023913Z  2026-11-02 17:34:09.741 UTC [1] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+2026-11-02T17:34:27.3024549Z  2026-11-02 17:34:09.742 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-11-02T17:34:27.3024920Z  2026-11-02 17:34:09.742 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-11-02T17:34:27.3025336Z  2026-11-02 17:34:09.743 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-11-02T17:34:27.3025763Z  2026-11-02 17:34:09.745 UTC [62] LOG:  database system was shut down at 2026-11-02 17:34:09 UTC
+2026-11-02T17:34:27.3026144Z  2026-11-02 17:34:09.749 UTC [1] LOG:  database system is ready to accept connections
+2026-11-02T17:34:27.3026477Z  2026-11-02 17:34:25.146 UTC [97] ERROR:  synthetic_native_failure
+2026-11-02T17:34:27.3026864Z  2026-11-02 17:34:25.146 UTC [97] CONTEXT:  PL/pgSQL function finance_private.native_fail() line 1 at RAISE
+2026-11-02T17:34:27.3028093Z  	SQL statement "insert into finance_private.commands(request,actor,operation,target,amount_input,note_input,result) values(p_request,auth.uid(),p_operation,p_target,p_amount,p_note,reply)"
+2026-11-02T17:34:27.3028824Z  	PL/pgSQL function finance_execute(uuid,text,uuid,numeric,text) line 34 at SQL statement
+2026-11-02T17:34:27.3029281Z  2026-11-02 17:34:25.146 UTC [97] STATEMENT:  select finance_execute($1,'settle_cash',$2,null,null)
+2026-11-02T17:34:27.3029593Z  
+2026-11-02T17:34:27.3029811Z  The database cluster will be initialized with locale "en_US.utf8".
+2026-11-02T17:34:27.3030141Z  The default database encoding has accordingly been set to "UTF8".
+2026-11-02T17:34:27.3030460Z  The default text search configuration will be set to "english".
+2026-11-02T17:34:27.3030718Z  
+2026-11-02T17:34:27.3030874Z  Data page checksums are disabled.
+2026-11-02T17:34:27.3031070Z  
+2026-11-02T17:34:27.3031321Z  fixing permissions on existing directory /var/lib/postgresql/data ... ok
+2026-11-02T17:34:27.3031615Z  creating subdirectories ... ok
+2026-11-02T17:34:27.3113980Z  selecting dynamic shared memory implementation ... posix
+2026-11-02T17:34:27.3114428Z  selecting default "max_connections" ... 100
+2026-11-02T17:34:27.3114827Z  selecting default "shared_buffers" ... 128MB
+2026-11-02T17:34:27.3115191Z  selecting default time zone ... Etc/UTC
+2026-11-02T17:34:27.3115516Z  creating configuration files ... ok
+2026-11-02T17:34:27.3115737Z  running bootstrap script ... ok
+2026-11-02T17:34:27.3116081Z  performing post-bootstrap initialization ... ok
+2026-11-02T17:34:27.3116357Z  syncing data to disk ... ok
+2026-11-02T17:34:27.3116547Z  
+2026-11-02T17:34:27.3116687Z  
+2026-11-02T17:34:27.3116878Z  Success. You can now start the database server using:
+2026-11-02T17:34:27.3117291Z  
+2026-11-02T17:34:27.3117508Z      pg_ctl -D /var/lib/postgresql/data -l logfile start
+2026-11-02T17:34:27.3117875Z  2026-11-02 17:34:25.891 UTC [103] ERROR:  synthetic_native_failure
+2026-11-02T17:34:27.3118308Z  2026-11-02 17:34:25.891 UTC [103] CONTEXT:  PL/pgSQL function finance_private.native_fail() line 1 at RAISE
+2026-11-02T17:34:27.3119445Z  	SQL statement "insert into finance_private.commands(request,actor,operation,target,amount_input,note_input,result) values(p_request,auth.uid(),p_operation,p_target,p_amount,p_note,reply)"
+2026-11-02T17:34:27.3120188Z  	PL/pgSQL function finance_execute(uuid,text,uuid,numeric,text) line 34 at SQL statement
+2026-11-02T17:34:27.3120651Z  2026-11-02 17:34:25.891 UTC [103] STATEMENT:  select finance_execute($1,'settle_cash',$2,null,null)
+2026-11-02T17:34:27.3121036Z  2026-11-02 17:34:26.312 UTC [109] ERROR:  synthetic_native_failure
+2026-11-02T17:34:27.3121425Z  2026-11-02 17:34:26.312 UTC [109] CONTEXT:  PL/pgSQL function finance_private.native_fail() line 1 at RAISE
+2026-11-02T17:34:27.3122007Z  	SQL statement "insert into finance_private.settlement_receipts(request,driver,driver_name,actor,actor_name,amount,currency,at)
+2026-11-02T17:34:27.3122800Z  	  values(p_request,p_target,coalesce((select name from profiles where id=p_target),p_target::text),auth.uid(),
+2026-11-02T17:34:27.3123361Z  	   coalesce((select name from profiles where id=auth.uid()),auth.uid()::text),total,'TJS',now()) returning id"
+2026-11-02T17:34:27.3123859Z  	PL/pgSQL function finance_execute(uuid,text,uuid,numeric,text) line 37 at SQL statement
+2026-11-02T17:34:27.3124320Z  2026-11-02 17:34:26.312 UTC [109] STATEMENT:  select finance_execute($1,'settle_cash',$2,null,null)
+2026-11-02T17:34:27.3124700Z  2026-11-02 17:34:26.519 UTC [112] ERROR:  synthetic_native_failure
+2026-11-02T17:34:27.3125099Z  2026-11-02 17:34:26.519 UTC [112] CONTEXT:  PL/pgSQL function finance_private.native_fail() line 1 at RAISE
+2026-11-02T17:34:27.3125584Z  	SQL statement "insert into finance_private.settlement_receipt_orders(order_id,receipt_id,amount)
+2026-11-02T17:34:27.3126036Z  	   select id,receipt_id,cash_collected from public.orders where id=any(ids)"
+2026-11-02T17:34:27.3126455Z  	PL/pgSQL function finance_execute(uuid,text,uuid,numeric,text) line 40 at SQL statement
+2026-11-02T17:34:27.3126895Z  2026-11-02 17:34:26.519 UTC [112] STATEMENT:  select finance_execute($1,'settle_cash',$2,null,null)
+2026-11-02T17:34:27.3127457Z  2026-11-02 17:34:26.677 UTC [116] ERROR:  nothing_to_settle
+2026-11-02T17:34:27.3127890Z  2026-11-02 17:34:26.677 UTC [116] CONTEXT:  PL/pgSQL function finance_execute(uuid,text,uuid,numeric,text) line 25 at RAISE
+2026-11-02T17:34:27.3128389Z  2026-11-02 17:34:26.677 UTC [116] STATEMENT:  select finance_execute($1,'settle_cash',$2,null,null)
+2026-11-02T17:34:27.3128758Z  2026-11-02 17:34:26.970 UTC [118] ERROR:  synthetic_native_failure
+2026-11-02T17:34:27.3129140Z  2026-11-02 17:34:26.970 UTC [118] CONTEXT:  PL/pgSQL function finance_private.native_fail() line 1 at RAISE
+2026-11-02T17:34:27.3129722Z  	SQL statement "insert into finance_private.settlement_receipts(request,driver,driver_name,actor,actor_name,amount,currency,at)
+2026-11-02T17:34:27.3130336Z  	  values(p_request,p_target,coalesce((select name from profiles where id=p_target),p_target::text),auth.uid(),
+2026-11-02T17:34:27.3130867Z  	   coalesce((select name from profiles where id=auth.uid()),auth.uid()::text),total,'TJS',now()) returning id"
+2026-11-02T17:34:27.3131369Z  	PL/pgSQL function finance_execute(uuid,text,uuid,numeric,text) line 37 at SQL statement
+2026-11-02T17:34:27.3131813Z  2026-11-02 17:34:26.970 UTC [118] STATEMENT:  select finance_execute($1,'settle_cash',$2,null,null)
+2026-11-02T17:34:27.3132222Z  2026-11-02 17:34:27.154 UTC [121] ERROR:  synthetic_native_failure
+2026-11-02T17:34:27.3132620Z  2026-11-02 17:34:27.154 UTC [121] CONTEXT:  PL/pgSQL function finance_private.native_fail() line 1 at RAISE
+2026-11-02T17:34:27.3133118Z  	SQL statement "insert into finance_private.settlement_receipt_orders(order_id,receipt_id,amount)
+2026-11-02T17:34:27.3133558Z  	   select id,receipt_id,cash_collected from public.orders where id=any(ids)"
+2026-11-02T17:34:27.3133980Z  	PL/pgSQL function finance_execute(uuid,text,uuid,numeric,text) line 40 at SQL statement
+2026-11-02T17:34:27.3134434Z  2026-11-02 17:34:27.154 UTC [121] STATEMENT:  select finance_execute($1,'settle_cash',$2,null,null)
+2026-11-02T17:34:27.3134752Z  
+2026-11-02T17:34:27.3135383Z  waiting for server to start....2026-11-02 17:34:09.222 UTC [48] LOG:  starting PostgreSQL 17.6 (Debian 17.6-2.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+2026-11-02T17:34:27.3136039Z  2026-11-02 17:34:09.223 UTC [48] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-11-02T17:34:27.3136477Z  2026-11-02 17:34:09.225 UTC [51] LOG:  database system was shut down at 2026-11-02 17:34:08 UTC
+2026-11-02T17:34:27.3136869Z  2026-11-02 17:34:09.228 UTC [48] LOG:  database system is ready to accept connections
+2026-11-02T17:34:27.3137331Z   done
+2026-11-02T17:34:27.3137491Z  server started
+2026-11-02T17:34:27.3137647Z  
+2026-11-02T17:34:27.3137901Z  /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+2026-11-02T17:34:27.3138508Z  
+2026-11-02T17:34:27.3138769Z  2026-11-02 17:34:09.336 UTC [48] LOG:  received fast shutdown request
+2026-11-02T17:34:27.3139421Z  waiting for server to shut down....2026-11-02 17:34:09.337 UTC [48] LOG:  aborting any active transactions
+2026-11-02T17:34:27.3140090Z  2026-11-02 17:34:09.338 UTC [48] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
+2026-11-02T17:34:27.3140539Z  2026-11-02 17:34:09.339 UTC [49] LOG:  shutting down
+2026-11-02T17:34:27.3140888Z  2026-11-02 17:34:09.340 UTC [49] LOG:  checkpoint starting: shutdown immediate
+2026-11-02T17:34:27.3141717Z  2026-11-02 17:34:09.342 UTC [49] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/14ED7B8, redo lsn=0/14ED7B8
+2026-11-02T17:34:27.3142489Z  2026-11-02 17:34:09.345 UTC [48] LOG:  database system is shut down
+2026-11-02T17:34:27.3142748Z   done
+2026-11-02T17:34:27.3142904Z  server stopped
+2026-11-02T17:34:27.3143084Z  
+2026-11-02T17:34:27.3143286Z  PostgreSQL init process complete; ready for start up.
+2026-11-02T17:34:27.3143521Z  
+2026-11-02T17:34:27.3147954Z Stop and remove container: 56f2803841fd4f32a0b015a33587e375_postgres176sha25600bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929_4ccb4c
+2026-11-02T17:34:27.3152893Z ##[command]/usr/bin/docker rm --force 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:27.9595133Z 68d8b6cb1a5cb607ecb819866c47a26a8063c1e17a042b9c731031ef2a6eae2a
+2026-11-02T17:34:27.9622512Z Remove container network: github_network_8c48cdf2c20b4c6b90001776427a29b8
+2026-11-02T17:34:27.9625860Z ##[command]/usr/bin/docker network rm github_network_8c48cdf2c20b4c6b90001776427a29b8
+2026-11-02T17:34:28.0540268Z github_network_8c48cdf2c20b4c6b90001776427a29b8
+2026-11-02T17:34:28.0611925Z Cleaning up orphan processes
