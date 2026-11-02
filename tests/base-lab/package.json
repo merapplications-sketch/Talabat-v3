@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@electric-sql/pglite": "0.3.14",
+    "esbuild": "0.25.12",
+    "jsdom": "26.1.0"
+  },
+  "type": "module"
+}

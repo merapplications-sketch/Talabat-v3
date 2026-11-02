@@ -1,0 +1,48 @@
+{
+  "base_candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "continuity": "ca0c31c90475539941fe2a0de5692d075fd407c5",
+  "owner_decision_commit": "bcff6c50ba9d21b243313bf5a69516fe770b88cb",
+  "branch": "fix/admin-finance-receipts-20261102",
+  "patch_A_unchanged_sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259",
+  "files": {
+    "admin.html": {
+      "sha256": "4b2b9f19990034c7a306f44041dc4364e6fc28ad11f41cea26765dec6ad22dca",
+      "git_blob": "5374fabb7ee217e515a0ec1d8b5f3cad292960d6",
+      "bytes": 129758
+    },
+    "driver.html": {
+      "sha256": "679eae3fd5f4086d635ca07d5958d99e0b2e4b4dfc246cb5261147ded0a5e997",
+      "git_blob": "97df4369bf45c1ea6dd4bc5a7adb0f7ea7841695",
+      "bytes": 62405
+    },
+    "talabat-core.js": {
+      "sha256": "8063b6e62e0a4963a6e1ac1d1111e676ff33132c25466e5a2ff3906b4c197aaf",
+      "git_blob": "45a2bf9489094149eef9931443f66d0521d5c7b1",
+      "bytes": 137317
+    },
+    "assets/admin-finance/admin-finance.js": {
+      "sha256": "12558be12d4802839923395338594bf3870574fcf1ea0fc75b83394a98face73",
+      "git_blob": "8d901562601342f3a2aa387ac6ba52515396dc87",
+      "bytes": 12990
+    },
+    "assets/finance-receipt/receipt.js": {
+      "sha256": "2f8024fcd1b52e990331e63b9d9265b40ae52fa2e94f0c8361a15aa7022c6d60",
+      "git_blob": "5e146d61d267c1d272a7fa760f3723d7a527fe56",
+      "bytes": 5105
+    },
+    "assets/finance-receipt/receipt.css": {
+      "sha256": "9bdc2cddb30924ac0bca206de51008a50c5ede0f7af5bb4c4cf97c7e06b4455b",
+      "git_blob": "3f0eca9d962dd23ed3f2633c5ef2dce2179f50f5",
+      "bytes": 796
+    },
+    "sql/proposed/admin_finance_receipts_20261102.sql": {
+      "sha256": "240727cdbb9416af093f36209de0ea690c9822ef39c16710e94e1692f62dcf82",
+      "git_blob": "76f0d8106739ab19a656ee419d829b064fa78487",
+      "bytes": 7522
+    }
+  },
+  "live_sql": false,
+  "published": false,
+  "main_merged": false,
+  "real_account_or_grant_created": false
+}

@@ -69,9 +69,11 @@ small{color:var(--mut)}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=finance-selective-1"></script>
+<script src="talabat-core.js?v=finance-receipt-1"></script>
+<link rel="stylesheet" href="assets/finance-receipt/receipt.css?v=1">
+<script src="assets/finance-receipt/receipt.js?v=1"></script>
 <link rel="stylesheet" href="assets/admin-finance/admin-finance.css?v=finance-selective-1">
-<script src="assets/admin-finance/admin-finance.js?v=finance-selective-1"></script>
+<script src="assets/admin-finance/admin-finance.js?v=finance-receipt-1"></script>
 <script>
 TLB.addDict({zRj:'Причина отмены',zAtS:'Курьер в ресторане',zAtC:'Курьер у клиента',zPh:'Фото у двери',zPhO:'Открыть фото'},{zRj:'Cancel reason',zAtS:'Courier at the restaurant',zAtC:'Courier at the customer',zPh:'Photo at the door',zPhO:'Open the photo'});
 TLB.addDict({yEarnS:'Баллов за 1 TJS',yFd:'Беспл. доставка от, TJS',ySched:'Доставка к',yGrp:'групповой заказ',yFw:'Доставка бесплатно (за счёт ресторана)'},{yEarnS:'Points per 1 TJS',yFd:'Free delivery from, TJS',ySched:'Delivery at',yGrp:'group order',yFw:'Free delivery (paid by the restaurant)'});

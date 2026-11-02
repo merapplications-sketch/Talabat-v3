@@ -1,0 +1,43 @@
+{
+  "results": {
+    "sql": {
+      "pass": true,
+      "checks": 17,
+      "evidence": "tests/evidence/sql-result.json"
+    },
+    "group": {
+      "pass": true,
+      "checks": 5,
+      "evidence": "tests/evidence/group-result.json"
+    },
+    "ui": {
+      "pass": true,
+      "checks": 15,
+      "evidence": "tests/evidence/ui/result.json"
+    },
+    "presentation": {
+      "pass": true,
+      "checks": 8,
+      "evidence": "tests/evidence/presentation-result.json"
+    },
+    "legacy_command": {
+      "pass": true,
+      "checks": 3,
+      "evidence": "tests/evidence/legacy-command-result.json"
+    },
+    "version_gate": {
+      "pass": true,
+      "checks": 3,
+      "evidence": "tests/evidence/version-gate-result.json"
+    }
+  },
+  "total_checks": 51,
+  "engine": "PostgreSQL 17.5 WASM / PGlite 0.3.14 / Node 24 / JSDOM",
+  "scope": "new receipt functionality and affected integration only",
+  "native_concurrent_connections_tested": false,
+  "hosted_Auth_REST_tested": false,
+  "native_printer_or_iPhone_Safari_tested": false,
+  "old_suites_rerun": false,
+  "published": false,
+  "live": false
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "real SQL denies accountant capability before delegation",
+    "pass": true
+  },
+  {
+    "name": "admin staff_set persists exact synthetic accountant membership",
+    "pass": true
+  },
+  {
+    "name": "real SQL cash balance 57 reaches candidate UI",
+    "pass": true
+  },
+  {
+    "name": "stored receipt renders in successful command",
+    "pass": true
+  },
+  {
+    "name": "candidate click commits one actual SQL command and settlement",
+    "pass": true
+  },
+  {
+    "name": "SQL audit actor and recorded timestamp render inside driver history",
+    "pass": true
+  },
+  {
+    "name": "old settlement explicitly remains without receipt",
+    "pass": true
+  },
+  {
+    "name": "print/download document contains server receipt fields",
+    "pass": true
+  },
+  {
+    "name": "download emits named standalone HTML file",
+    "pass": true
+  },
+  {
+    "name": "print invokes printer with the exact receipt document",
+    "pass": true
+  },
+  {
+    "name": "second SQL transaction committed before adapter loses response; UI unresolved and disabled",
+    "pass": true
+  },
+  {
+    "name": "lost-response status restores stored receipt in UI",
+    "pass": true
+  },
+  {
+    "name": "result check adds same-key SQL status and reads, no execute",
+    "pass": true
+  },
+  {
+    "name": "reconcile preserves SQL commands, audit and order effects byte-for-byte",
+    "pass": true
+  },
+  {
+    "name": "two separate operations each have one command and one settlement event",
+    "pass": true
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "actual download control produces exact UTF-8 receipt document",
+      "pass": true
+    },
+    {
+      "name": "download in history does not navigate to order",
+      "pass": true
+    },
+    {
+      "name": "actual print control prints exact receipt without history navigation",
+      "pass": true
+    },
+    {
+      "name": "receipt snapshots escaped in downloadable/printable HTML",
+      "pass": true
+    },
+    {
+      "name": "read failure never labels an unverified record as legacy",
+      "pass": true
+    },
+    {
+      "name": "verified historical row without receipt has explicit legacy label",
+      "pass": true
+    },
+    {
+      "name": "actual driver history renderer includes receipt and actions",
+      "pass": true
+    },
+    {
+      "name": "driver history loads receipt read path only",
+      "pass": true
+    }
+  ],
+  "native_print_dialog_tested": false,
+  "safari_iPhone_tested": false,
+  "live": false
+}

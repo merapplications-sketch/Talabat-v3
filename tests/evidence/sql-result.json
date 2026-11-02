@@ -1,0 +1,165 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "R1 creates no historical receipts",
+      "pass": true
+    },
+    {
+      "name": "receipt has unique number, exact amount, currency, driver, actor and request",
+      "pass": true
+    },
+    {
+      "name": "receipt snapshots exact included orders and command server timestamp",
+      "pass": true
+    },
+    {
+      "name": "same key replay and status return identical stored receipt",
+      "pass": true
+    },
+    {
+      "name": "replay adds no receipt or command",
+      "pass": true
+    },
+    {
+      "name": "receipt storage failure propagates",
+      "pass": true
+    },
+    {
+      "name": "storage failure rolls back settlement, command and receipt atomically",
+      "pass": true
+    },
+    {
+      "name": "retry after rollback produces one unique receipt and one link per order; number gaps allowed",
+      "pass": true
+    },
+    {
+      "name": "driver can read only issued own receipts; old settlement has none",
+      "pass": true
+    },
+    {
+      "name": "other person cannot read driver receipts",
+      "pass": true
+    },
+    {
+      "name": "private receipt storage/helper not exposed: select * from finance_private.settlement_receipts",
+      "pass": true
+    },
+    {
+      "name": "private receipt storage/helper not exposed: select finance_private.receipt_json(1)",
+      "pass": true
+    },
+    {
+      "name": "issued receipt immutable even through owner SQL mutation",
+      "pass": true
+    },
+    {
+      "name": "rename/revocation preserves receipt name snapshot, historical actor and content",
+      "pass": true
+    },
+    {
+      "name": "grant and withdrawal record authorized actor and server time",
+      "pass": true
+    },
+    {
+      "name": "unauthorized person cannot grant finance",
+      "pass": true
+    },
+    {
+      "name": "legacy settlement timestamp remains untouched",
+      "pass": true
+    }
+  ],
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "first": {
+    "at": "2026-11-02T15:18:56.011+00:00",
+    "actor": "a0000000-0000-4000-8000-000000000002",
+    "amount": 57,
+    "driver": "a0000000-0000-4000-8000-000000000003",
+    "number": "TS-000000000001",
+    "orders": [
+      {
+        "id": "7001",
+        "amount": 57
+      }
+    ],
+    "request": "b0000000-0000-4000-8000-000000000001",
+    "currency": "TJS",
+    "actor_name": "ДЕМО — Бухгалтер TALABOT",
+    "driver_name": "ДЕМО — driver"
+  },
+  "second": {
+    "at": "2026-11-02T15:18:56.037+00:00",
+    "actor": "a0000000-0000-4000-8000-000000000002",
+    "amount": 43,
+    "driver": "a0000000-0000-4000-8000-000000000003",
+    "number": "TS-000000000003",
+    "orders": [
+      {
+        "id": "7002",
+        "amount": 43
+      }
+    ],
+    "request": "b0000000-0000-4000-8000-000000000002",
+    "currency": "TJS",
+    "actor_name": "ДЕМО — Бухгалтер TALABOT",
+    "driver_name": "ДЕМО — driver"
+  },
+  "history": [
+    {
+      "order_id": "7001",
+      "cash_settled_at": "2026-11-02T15:18:56.011Z",
+      "receipt": {
+        "at": "2026-11-02T15:18:56.011+00:00",
+        "actor": "a0000000-0000-4000-8000-000000000002",
+        "amount": 57,
+        "driver": "a0000000-0000-4000-8000-000000000003",
+        "number": "TS-000000000001",
+        "orders": [
+          {
+            "id": "7001",
+            "amount": 57
+          }
+        ],
+        "request": "b0000000-0000-4000-8000-000000000001",
+        "currency": "TJS",
+        "actor_name": "ДЕМО — Бухгалтер TALABOT",
+        "driver_name": "ДЕМО — driver"
+      }
+    },
+    {
+      "order_id": "7002",
+      "cash_settled_at": "2026-11-02T15:18:56.037Z",
+      "receipt": {
+        "at": "2026-11-02T15:18:56.037+00:00",
+        "actor": "a0000000-0000-4000-8000-000000000002",
+        "amount": 43,
+        "driver": "a0000000-0000-4000-8000-000000000003",
+        "number": "TS-000000000003",
+        "orders": [
+          {
+            "id": "7002",
+            "amount": 43
+          }
+        ],
+        "request": "b0000000-0000-4000-8000-000000000002",
+        "currency": "TJS",
+        "actor_name": "ДЕМО — Бухгалтер TALABOT",
+        "driver_name": "ДЕМО — driver"
+      }
+    }
+  ],
+  "delegation": [
+    {
+      "user_id": "a0000000-0000-4000-8000-000000000001",
+      "at": "2026-11-02T15:18:55.990Z",
+      "action": "STAFF_SET"
+    },
+    {
+      "user_id": "a0000000-0000-4000-8000-000000000001",
+      "at": "2026-11-02T15:18:56.058Z",
+      "action": "STAFF_SET"
+    }
+  ],
+  "live": false
+}

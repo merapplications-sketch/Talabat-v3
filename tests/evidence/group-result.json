@@ -1,0 +1,64 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "whole eligible order group has one exact 100 TJS receipt",
+      "pass": true
+    },
+    {
+      "name": "both history rows resolve the same receipt",
+      "pass": true
+    },
+    {
+      "name": "empty group cannot manufacture a receipt",
+      "pass": true
+    },
+    {
+      "name": "child-order storage failure rolls back receipt and cash update",
+      "pass": true
+    },
+    {
+      "name": "receipt number remains unique beyond twelve digits",
+      "pass": true
+    }
+  ],
+  "group": {
+    "at": "2026-11-02T15:22:47.604+00:00",
+    "actor": "a0000000-0000-4000-8000-000000000002",
+    "amount": 100,
+    "driver": "a0000000-0000-4000-8000-000000000003",
+    "number": "TS-000000000001",
+    "orders": [
+      {
+        "id": "7001",
+        "amount": 57
+      },
+      {
+        "id": "7002",
+        "amount": 43
+      }
+    ],
+    "request": "c0000000-0000-4000-8000-000000000001",
+    "currency": "TJS",
+    "actor_name": "ДЕМО — Бухгалтер TALABOT",
+    "driver_name": "ДЕМО — driver"
+  },
+  "high": {
+    "at": "2026-11-02T15:22:47.638+00:00",
+    "actor": "a0000000-0000-4000-8000-000000000002",
+    "amount": 10,
+    "driver": "a0000000-0000-4000-8000-000000000003",
+    "number": "TS-1000000000001",
+    "orders": [
+      {
+        "id": "7003",
+        "amount": 10
+      }
+    ],
+    "request": "c0000000-0000-4000-8000-000000000003",
+    "currency": "TJS",
+    "actor_name": "ДЕМО — Бухгалтер TALABOT",
+    "driver_name": "ДЕМО — driver"
+  },
+  "live": false
+}

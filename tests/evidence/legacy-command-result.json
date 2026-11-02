@@ -1,0 +1,54 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "pre-R1 command replay remains identical without manufactured receipt",
+      "pass": true
+    },
+    {
+      "name": "status of pre-R1 command never backfills a receipt",
+      "pass": true
+    },
+    {
+      "name": "pre-R1 settled order and command stay receipt-free",
+      "pass": true
+    }
+  ],
+  "old": {
+    "at": "2026-11-02T15:26:25.043+00:00",
+    "actor": "a0000000-0000-4000-8000-000000000002",
+    "amount": 57,
+    "orders": [
+      7001
+    ],
+    "target": "a0000000-0000-4000-8000-000000000003",
+    "request": "d0000000-0000-4000-8000-000000000001",
+    "operation": "settle_cash",
+    "wallet_entry": null
+  },
+  "replay": {
+    "at": "2026-11-02T15:26:25.043+00:00",
+    "actor": "a0000000-0000-4000-8000-000000000002",
+    "amount": 57,
+    "orders": [
+      7001
+    ],
+    "target": "a0000000-0000-4000-8000-000000000003",
+    "request": "d0000000-0000-4000-8000-000000000001",
+    "operation": "settle_cash",
+    "wallet_entry": null
+  },
+  "status": {
+    "at": "2026-11-02T15:26:25.043+00:00",
+    "actor": "a0000000-0000-4000-8000-000000000002",
+    "amount": 57,
+    "orders": [
+      7001
+    ],
+    "target": "a0000000-0000-4000-8000-000000000003",
+    "request": "d0000000-0000-4000-8000-000000000001",
+    "operation": "settle_cash",
+    "wallet_entry": null
+  },
+  "live": false
+}

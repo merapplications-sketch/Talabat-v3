@@ -1,0 +1,35 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "version": 2,
+      "capabilities": [
+        "commands",
+        "settlement_events"
+      ],
+      "receiptSupported": false,
+      "pass": true
+    },
+    {
+      "version": 3,
+      "capabilities": [
+        "commands",
+        "settlement_events",
+        "settlement_receipts"
+      ],
+      "receiptSupported": true,
+      "pass": true
+    },
+    {
+      "version": 3,
+      "capabilities": [
+        "commands",
+        "settlement_events"
+      ],
+      "receiptSupported": false,
+      "pass": true
+    }
+  ],
+  "scope": "unit test of actual client functions using capability responses; not provider integration",
+  "live": false
+}

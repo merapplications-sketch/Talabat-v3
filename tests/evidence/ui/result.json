@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "checks": 15,
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "environment": "Node 24 + JSDOM + browser-compatible PGlite 0.3.14, PostgreSQL 17.5 WASM; no hosted Auth/PostgREST",
+  "candidate": "receipt extension of 24a153c846ad1b122527e9245e1081dde4207930",
+  "secondRequest": "a2ee96bf-592d-42d7-a38f-2a69c70cf37e",
+  "executions": 2,
+  "statusReads": 1,
+  "commands": 2,
+  "auditEvents": 2,
+  "errors": [
+    "Not implemented: navigation (except hash changes)",
+    "Not implemented: navigation (except hash changes)"
+  ],
+  "live": false
+}

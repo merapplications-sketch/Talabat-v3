@@ -1,0 +1,475 @@
+{
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "calls": [
+    {
+      "sequence": 1,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_access",
+      "args": {},
+      "at": "2026-11-02T15:20:40.271Z",
+      "committed": true,
+      "result": {
+        "execute": false,
+        "version": 3,
+        "capabilities": [
+          "commands",
+          "settlement_events",
+          "settlement_receipts"
+        ]
+      }
+    },
+    {
+      "sequence": 2,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "my_perms",
+      "args": {},
+      "at": "2026-11-02T15:20:40.438Z",
+      "committed": true,
+      "result": null
+    },
+    {
+      "sequence": 3,
+      "actor": "a0000000-0000-4000-8000-000000000001",
+      "name": "staff_set",
+      "args": {
+        "p_email": "accountant@synthetic.invalid",
+        "p_perms": [
+          "finance"
+        ],
+        "p_active": true
+      },
+      "at": "2026-11-02T15:20:40.459Z",
+      "committed": true,
+      "result": ""
+    },
+    {
+      "sequence": 4,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_access",
+      "args": {},
+      "at": "2026-11-02T15:20:40.470Z",
+      "committed": true,
+      "result": {
+        "execute": true,
+        "version": 3,
+        "capabilities": [
+          "commands",
+          "settlement_events",
+          "settlement_receipts"
+        ]
+      }
+    },
+    {
+      "sequence": 5,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "my_perms",
+      "args": {},
+      "at": "2026-11-02T15:20:40.568Z",
+      "committed": true,
+      "result": [
+        "finance"
+      ]
+    },
+    {
+      "sequence": 6,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_driver_orders",
+      "args": {},
+      "at": "2026-11-02T15:20:40.574Z",
+      "committed": true,
+      "result": [
+        {
+          "id": 7001,
+          "tip": 0,
+          "total": 157,
+          "status": "delivered",
+          "done_at": "2026-11-02T15:20:40.226+00:00",
+          "payment": "cash",
+          "discount": 0,
+          "store_id": "a0000000-0000-4000-8000-000000000005",
+          "subtotal": 100,
+          "driver_id": "a0000000-0000-4000-8000-000000000003",
+          "commission": 0,
+          "created_at": "2026-11-02T15:20:40.226+00:00",
+          "delivery_fee": 0,
+          "driver_payout": 20,
+          "cash_collected": 57,
+          "cash_settled_at": null
+        },
+        {
+          "id": 7000,
+          "tip": 0,
+          "total": 0,
+          "status": "delivered",
+          "done_at": "2026-11-02T15:20:40.226+00:00",
+          "payment": "cash",
+          "discount": 0,
+          "store_id": "a0000000-0000-4000-8000-000000000005",
+          "subtotal": 0,
+          "driver_id": "a0000000-0000-4000-8000-000000000003",
+          "commission": 0,
+          "created_at": "2026-11-02T15:20:40.226+00:00",
+          "delivery_fee": 0,
+          "driver_payout": 0,
+          "cash_collected": 19,
+          "cash_settled_at": "2026-11-01T10:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "sequence": 7,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_drivers",
+      "args": {},
+      "at": "2026-11-02T15:20:40.574Z",
+      "committed": true,
+      "result": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000003",
+          "name": "ДЕМО — driver",
+          "phone": "+992000000002",
+          "driver_status": "approved",
+          "cash_limit": "1000",
+          "accept_blocked": false,
+          "last_seen": null
+        }
+      ]
+    },
+    {
+      "sequence": 8,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_access",
+      "args": {},
+      "at": "2026-11-02T15:20:40.575Z",
+      "committed": true,
+      "result": {
+        "execute": true,
+        "version": 3,
+        "capabilities": [
+          "commands",
+          "settlement_events",
+          "settlement_receipts"
+        ]
+      }
+    },
+    {
+      "sequence": 9,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "cash_balances",
+      "args": {},
+      "at": "2026-11-02T15:20:40.587Z",
+      "committed": true,
+      "result": [
+        {
+          "driver_id": "a0000000-0000-4000-8000-000000000003",
+          "balance": "57"
+        }
+      ]
+    },
+    {
+      "sequence": 10,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_settlement_receipts",
+      "args": {
+        "p_order_ids": [
+          "7000"
+        ]
+      },
+      "at": "2026-11-02T15:20:40.644Z",
+      "committed": true,
+      "result": []
+    },
+    {
+      "sequence": 11,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_settlement_events",
+      "args": {
+        "p_order_ids": [
+          "7000"
+        ]
+      },
+      "at": "2026-11-02T15:20:40.681Z",
+      "committed": true,
+      "result": []
+    },
+    {
+      "sequence": 12,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_execute",
+      "args": {
+        "p_request": "ff72bf93-0a95-4830-ba29-58c5daac3131",
+        "p_operation": "settle_cash",
+        "p_target": "a0000000-0000-4000-8000-000000000003",
+        "p_amount": null,
+        "p_note": null
+      },
+      "at": "2026-11-02T15:20:40.698Z",
+      "committed": true,
+      "result": {
+        "at": "2026-11-02T15:20:40.715+00:00",
+        "actor": "a0000000-0000-4000-8000-000000000002",
+        "amount": 57,
+        "orders": [
+          7001
+        ],
+        "target": "a0000000-0000-4000-8000-000000000003",
+        "receipt": {
+          "at": "2026-11-02T15:20:40.715+00:00",
+          "actor": "a0000000-0000-4000-8000-000000000002",
+          "amount": 57,
+          "driver": "a0000000-0000-4000-8000-000000000003",
+          "number": "TS-000000000001",
+          "orders": [
+            {
+              "id": "7001",
+              "amount": 57
+            }
+          ],
+          "request": "ff72bf93-0a95-4830-ba29-58c5daac3131",
+          "currency": "TJS",
+          "actor_name": "ДЕМО — Бухгалтер TALABOT",
+          "driver_name": "ДЕМО — driver"
+        },
+        "request": "ff72bf93-0a95-4830-ba29-58c5daac3131",
+        "operation": "settle_cash",
+        "wallet_entry": null
+      }
+    },
+    {
+      "sequence": 13,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_driver_orders",
+      "args": {},
+      "at": "2026-11-02T15:20:40.731Z",
+      "committed": true,
+      "result": [
+        {
+          "id": 7001,
+          "tip": 0,
+          "total": 157,
+          "status": "delivered",
+          "done_at": "2026-11-02T15:20:40.226+00:00",
+          "payment": "cash",
+          "discount": 0,
+          "store_id": "a0000000-0000-4000-8000-000000000005",
+          "subtotal": 100,
+          "driver_id": "a0000000-0000-4000-8000-000000000003",
+          "commission": 0,
+          "created_at": "2026-11-02T15:20:40.226+00:00",
+          "delivery_fee": 0,
+          "driver_payout": 20,
+          "cash_collected": 57,
+          "cash_settled_at": "2026-11-02T15:20:40.715+00:00"
+        },
+        {
+          "id": 7000,
+          "tip": 0,
+          "total": 0,
+          "status": "delivered",
+          "done_at": "2026-11-02T15:20:40.226+00:00",
+          "payment": "cash",
+          "discount": 0,
+          "store_id": "a0000000-0000-4000-8000-000000000005",
+          "subtotal": 0,
+          "driver_id": "a0000000-0000-4000-8000-000000000003",
+          "commission": 0,
+          "created_at": "2026-11-02T15:20:40.226+00:00",
+          "delivery_fee": 0,
+          "driver_payout": 0,
+          "cash_collected": 19,
+          "cash_settled_at": "2026-11-01T10:00:00+00:00"
+        }
+      ]
+    },
+    {
+      "sequence": 14,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_drivers",
+      "args": {},
+      "at": "2026-11-02T15:20:40.731Z",
+      "committed": true,
+      "result": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000003",
+          "name": "ДЕМО — driver",
+          "phone": "+992000000002",
+          "driver_status": "approved",
+          "cash_limit": "1000",
+          "accept_blocked": false,
+          "last_seen": null
+        }
+      ]
+    },
+    {
+      "sequence": 15,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "cash_balances",
+      "args": {},
+      "at": "2026-11-02T15:20:40.757Z",
+      "committed": true,
+      "result": []
+    },
+    {
+      "sequence": 16,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "cash_balances",
+      "args": {},
+      "at": "2026-11-02T15:20:40.826Z",
+      "committed": true,
+      "result": []
+    },
+    {
+      "sequence": 17,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_settlement_receipts",
+      "args": {
+        "p_order_ids": [
+          "7001"
+        ]
+      },
+      "at": "2026-11-02T15:20:40.835Z",
+      "committed": true,
+      "result": [
+        {
+          "order_id": "7001",
+          "cash_settled_at": "2026-11-02T15:20:40.715Z",
+          "receipt": {
+            "at": "2026-11-02T15:20:40.715+00:00",
+            "actor": "a0000000-0000-4000-8000-000000000002",
+            "amount": 57,
+            "driver": "a0000000-0000-4000-8000-000000000003",
+            "number": "TS-000000000001",
+            "orders": [
+              {
+                "id": "7001",
+                "amount": 57
+              }
+            ],
+            "request": "ff72bf93-0a95-4830-ba29-58c5daac3131",
+            "currency": "TJS",
+            "actor_name": "ДЕМО — Бухгалтер TALABOT",
+            "driver_name": "ДЕМО — driver"
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 18,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_settlement_events",
+      "args": {
+        "p_order_ids": [
+          "7001"
+        ]
+      },
+      "at": "2026-11-02T15:20:40.855Z",
+      "committed": true,
+      "result": [
+        {
+          "id": 3,
+          "user_id": "a0000000-0000-4000-8000-000000000002",
+          "at": "2026-11-02T15:20:40.715Z",
+          "table_name": "orders",
+          "row_id": "7001",
+          "details": {
+            "cash_settled_at": {
+              "to": "2026-11-02T15:20:40.715+00:00",
+              "from": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 19,
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "name": "finance_actor_names",
+      "args": {
+        "p_ids": [
+          "a0000000-0000-4000-8000-000000000002"
+        ]
+      },
+      "at": "2026-11-02T15:20:40.875Z",
+      "committed": true,
+      "result": [
+        {
+          "id": "a0000000-0000-4000-8000-000000000002",
+          "name": "ДЕМО — Бухгалтер TALABOT"
+        }
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "request": "ff72bf93-0a95-4830-ba29-58c5daac3131",
+      "actor": "a0000000-0000-4000-8000-000000000002",
+      "operation": "settle_cash",
+      "target": "a0000000-0000-4000-8000-000000000003",
+      "result": {
+        "at": "2026-11-02T15:20:40.715+00:00",
+        "actor": "a0000000-0000-4000-8000-000000000002",
+        "amount": 57,
+        "orders": [
+          7001
+        ],
+        "target": "a0000000-0000-4000-8000-000000000003",
+        "receipt": {
+          "at": "2026-11-02T15:20:40.715+00:00",
+          "actor": "a0000000-0000-4000-8000-000000000002",
+          "amount": 57,
+          "driver": "a0000000-0000-4000-8000-000000000003",
+          "number": "TS-000000000001",
+          "orders": [
+            {
+              "id": "7001",
+              "amount": 57
+            }
+          ],
+          "request": "ff72bf93-0a95-4830-ba29-58c5daac3131",
+          "currency": "TJS",
+          "actor_name": "ДЕМО — Бухгалтер TALABOT",
+          "driver_name": "ДЕМО — driver"
+        },
+        "request": "ff72bf93-0a95-4830-ba29-58c5daac3131",
+        "operation": "settle_cash",
+        "wallet_entry": null
+      }
+    }
+  ],
+  "orders": [
+    {
+      "id": 7000,
+      "cash_collected": "19",
+      "cash_settled_at": "2026-11-01T10:00:00.000Z"
+    },
+    {
+      "id": 7001,
+      "cash_collected": "57",
+      "cash_settled_at": "2026-11-02T15:20:40.715Z"
+    }
+  ],
+  "audit": [
+    {
+      "id": 3,
+      "user_id": "a0000000-0000-4000-8000-000000000002",
+      "name": "ДЕМО — Бухгалтер TALABOT",
+      "row_id": "7001",
+      "at": "2026-11-02T15:20:40.715Z",
+      "details": {
+        "cash_settled_at": {
+          "to": "2026-11-02T15:20:40.715+00:00",
+          "from": null
+        }
+      }
+    }
+  ],
+  "staff": [
+    {
+      "user_id": "a0000000-0000-4000-8000-000000000002",
+      "perms": [
+        "finance"
+      ],
+      "active": true
+    }
+  ]
+}
