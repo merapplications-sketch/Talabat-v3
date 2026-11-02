@@ -1,0 +1,36 @@
+{
+  "decision_commit": "bcff6c50ba9d21b243313bf5a69516fe770b88cb",
+  "implementation_branch": "fix/admin-finance-receipts-20261102",
+  "implementation_commit": "0651830fa96a776f435688a92cd4400824e7e504",
+  "base_candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "continuity_source": "ca0c31c90475539941fe2a0de5692d075fd407c5",
+  "report": "https://github.com/merapplications-sketch/Talabat-v3/blob/0651830fa96a776f435688a92cd4400824e7e504/docs/finance-receipts-20261102/README.md",
+  "test_count": 53,
+  "environment": "isolated free PostgreSQL 17.5 WASM / PGlite 0.3.14 / JSDOM",
+  "features": [
+    "atomic immutable cash settlement receipt and included orders",
+    "same-key/status return stored receipt",
+    "admin and own-driver history",
+    "print and standalone UTF-8 HTML download",
+    "legacy receipt-free records remain unchanged"
+  ],
+  "receipt_proposal": "R1, depends on unchanged A; not prior experimental B",
+  "live_sql_executed": false,
+  "real_account_created": false,
+  "real_grants": false,
+  "published": false,
+  "main_merged": false,
+  "accountant_identity": "one independent account per person; authorized grant/withdrawal audit; historical attribution unchanged",
+  "open": [
+    "actual Safari/iPhone",
+    "native print dialog",
+    "hosted Auth/PostgREST and native multi-connection receipt concurrency",
+    "real accountant identity/contact and later activation approval"
+  ],
+  "excluded": [
+    "offsetting",
+    "partial cash collection",
+    "payout ledger"
+  ],
+  "previous_closures_preserved": true
+}
