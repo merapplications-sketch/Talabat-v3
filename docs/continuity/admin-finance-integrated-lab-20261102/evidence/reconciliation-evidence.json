@@ -1,0 +1,41 @@
+{
+  "candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "request": "49398577-cb76-40b4-9c4e-2983f03a3d0c",
+  "before": {
+    "execute": 2,
+    "status": 0,
+    "commands": 2,
+    "settlement_events": 2
+  },
+  "after": {
+    "execute": 2,
+    "status": 1,
+    "commands": 2,
+    "settlement_events": 2
+  },
+  "delta_names": [
+    "finance_command_status",
+    "finance_driver_orders",
+    "finance_drivers",
+    "cash_balances",
+    "cash_balances"
+  ],
+  "status_key_matches": true,
+  "unchanged_hashes": {
+    "commands": {
+      "before": "1e44c801ea83081ee12b97b1e11f737e0a7c704ea550851b69a65ba4ded8fa4e",
+      "after": "1e44c801ea83081ee12b97b1e11f737e0a7c704ea550851b69a65ba4ded8fa4e",
+      "equal": true
+    },
+    "orders": {
+      "before": "167ffecaf3d5e3027ce455470aefbf8c2e6878c127a615f3074de6cc5925db0a",
+      "after": "167ffecaf3d5e3027ce455470aefbf8c2e6878c127a615f3074de6cc5925db0a",
+      "equal": true
+    },
+    "audit": {
+      "before": "b3e742897e34a6e22a5b6433b7eed8a5c827ca14585e6baf1a9019999187a5de",
+      "after": "b3e742897e34a6e22a5b6433b7eed8a5c827ca14585e6baf1a9019999187a5de",
+      "equal": true
+    }
+  }
+}

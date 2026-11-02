@@ -1,0 +1,15 @@
+{
+  "site_project_id": "appgprj_6ae89780be308191b60e2938754c7d5b",
+  "site_deployment_id": "appgdep_6ae89a8ca8e08191a1b3b4581a8b5eba",
+  "site_version_id": "appgprj_6ae89780be308191b60e2938754c7d5b~appgver_fcdc89685b5c8191bd168a618780929a",
+  "status": "succeeded",
+  "url": "https://talabot-finance-sql-lab-20261102.alwarikahtan.chatgpt.site",
+  "site_source_commit": "c42d1be9bd4f04f19bbf8f1327fe01b628d7787e",
+  "audience": "owner-private; unchanged since creation",
+  "provider": "Sites static assets; SQL executes in each visitor browser",
+  "live_talabot_deployed": false,
+  "subscription_created": false,
+  "supabase_project_created": false,
+  "browser_verification": "Private-site ChatGPT sign-in was auto-review rejected. No bypass. Integration verified independently using local DOM and actual same SQL engine."
+}
+

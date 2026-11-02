@@ -1,0 +1,8 @@
+{
+  "message": "SQL audit actor and recorded timestamp render inside driver history",
+  "stack": "AssertionError [ERR_ASSERTION]: SQL audit actor and recorded timestamp render inside driver history\n    at ok (/workspace/scratch/f74ead4100b8/integrated-finance-lab/integration-dom.cjs:4:71)\n    at /workspace/scratch/f74ead4100b8/integrated-finance-lab/integration-dom.cjs:20:136",
+  "errors": [
+    "Not implemented: navigation (except hash changes)",
+    "Not implemented: navigation (except hash changes)"
+  ]
+}

@@ -1,0 +1,10 @@
+insert into auth.users(id,email) values('a0000000-0000-4000-8000-000000000001','admin@synthetic.invalid');
+insert into public.profiles(id,role,name,phone,driver_status) values('a0000000-0000-4000-8000-000000000001','admin','ДЕМО — admin','+992000000000',null);
+insert into auth.users(id,email) values('a0000000-0000-4000-8000-000000000002','accountant@synthetic.invalid');
+insert into public.profiles(id,role,name,phone,driver_status) values('a0000000-0000-4000-8000-000000000002','customer','ДЕМО — Бухгалтер TALABOT','+992000000001',null);
+insert into auth.users(id,email) values('a0000000-0000-4000-8000-000000000003','driver@synthetic.invalid');
+insert into public.profiles(id,role,name,phone,driver_status) values('a0000000-0000-4000-8000-000000000003','driver','ДЕМО — driver','+992000000002','approved');
+insert into auth.users(id,email) values('a0000000-0000-4000-8000-000000000004','customer@synthetic.invalid');
+insert into public.profiles(id,role,name,phone,driver_status) values('a0000000-0000-4000-8000-000000000004','customer','ДЕМО — customer','+992000000003',null);
+insert into stores(id,name,category) values('a0000000-0000-4000-8000-000000000005','ДЕМО — ресторан','rest');
+insert into orders(id,store_id,customer_id,driver_id,status,payment,subtotal,total,driver_payout,cash_collected,done_at) overriding system value values(7001,'a0000000-0000-4000-8000-000000000005','a0000000-0000-4000-8000-000000000004','a0000000-0000-4000-8000-000000000003','delivered','cash',100,157,20,57,now());

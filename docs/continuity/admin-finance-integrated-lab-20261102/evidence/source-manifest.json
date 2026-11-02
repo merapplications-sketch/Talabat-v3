@@ -1,0 +1,19 @@
+{
+  "candidate": "24a153c846ad1b122527e9245e1081dde4207930",
+  "patch_a_sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259",
+  "schema_catalog_source": "1d394957b664138c185f0debc306684aa50929e5:docs/continuity/admin-finance-readiness",
+  "production_source_changed": false,
+  "synthetic_ids": {
+    "admin": "a0000000-0000-4000-8000-000000000001",
+    "accountant": "a0000000-0000-4000-8000-000000000002",
+    "driver": "a0000000-0000-4000-8000-000000000003",
+    "customer": "a0000000-0000-4000-8000-000000000004",
+    "store": "a0000000-0000-4000-8000-000000000005"
+  },
+  "adapter": "Supabase-shaped local adapter executing actual PostgreSQL SQL, transaction scoped SET LOCAL ROLE authenticated and auth.uid claim; no canned finance responses",
+  "auth_limit": "auth.users is a synthetic schema stub; no GoTrue password/JWT validation or PostgREST HTTP service",
+  "engine": "PGlite 0.3.14 / PostgreSQL 17.5 WASM",
+  "live_project_touched": false,
+  "subscription_created": false,
+  "new_paid_supabase_project": false
+}
