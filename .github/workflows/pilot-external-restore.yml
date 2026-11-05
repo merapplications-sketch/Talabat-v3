@@ -7,7 +7,8 @@ permissions:
   actions: read
 jobs:
   recipient:
-    if: github.event.head_commit.message == 'test(pilot): external acceptance'
+    if: >-
+      github.event.head_commit.message == 'test(pilot): external acceptance'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
@@ -44,7 +45,8 @@ jobs:
           docker compose --profile restore --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml down -v --remove-orphans
           rm -rf tests/pilot/.runtime-offsite
   source:
-    if: github.event.head_commit.message == 'test(pilot): external acceptance'
+    if: >-
+      github.event.head_commit.message == 'test(pilot): external acceptance'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
