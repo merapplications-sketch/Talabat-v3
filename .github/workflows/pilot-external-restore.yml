@@ -73,7 +73,7 @@ jobs:
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d rest
           python3 tests/pilot/storage.py prepare
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d storage
-      - name: New zero-advance feasibility check and encrypted snapshot
+      - name: Encrypted snapshot; prior zero-advance acceptance preserved
         run: python3 tests/pilot/external-restore.py source
       - name: Store only encrypted backup and bounded manifest
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

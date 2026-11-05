@@ -112,7 +112,7 @@ def snapshot():
             result[schema + '.' + table] = {'sha256': hashlib.sha256(content.encode()).hexdigest(),
                                           'rows': lab.q(database, 'select count(*) from "' + schema + '"."' + table + '"')}
         definitions = database.execute("""
-            select n.nspname,p.oid::regprocedure::text,pg_get_functiondef(p.oid),p.proacl::text
+            select n.nspname,p.oid::regprocedure::text,pg_get_functiondef(p.oid),array(select a::text from unnest(coalesce(p.proacl,acldefault('f',p.proowner))) a order by 1)
             from pg_proc p join pg_namespace n on n.oid=p.pronamespace
             where n.nspname=any(%s) and p.prokind='f' order by 1,2
         """, (SCHEMAS,)).fetchall()
@@ -129,12 +129,26 @@ def snapshot():
         """, (SCHEMAS,)).fetchall()
         result['policies'] = hashlib.sha256(json.dumps(policies).encode()).hexdigest()
         permissions = database.execute("""
-            select n.nspname,c.relname,c.relrowsecurity,c.relacl::text
+            select n.nspname,c.relname,c.relrowsecurity,array(select a::text from unnest(coalesce(c.relacl,acldefault(case when c.relkind='S' then 's'::"char" else 'r'::"char" end,c.relowner))) a order by 1)
             from pg_class c join pg_namespace n on n.oid=c.relnamespace
             where n.nspname=any(%s) and c.relkind in ('r','S') order by 1,2
         """, (SCHEMAS,)).fetchall()
         result['table_sequence_grants_and_rls'] = hashlib.sha256(json.dumps(permissions).encode()).hexdigest()
     return result
+
+
+def raw_acls():
+    with lab.db() as database:
+        rows = database.execute("""
+            select 'function:'||n.nspname||'.'||p.oid::regprocedure::text,p.proacl::text
+            from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+            where n.nspname=any(%s) and p.prokind='f'
+            union all
+            select 'relation:'||n.nspname||'.'||c.relname,c.relacl::text
+            from pg_class c join pg_namespace n on n.oid=c.relnamespace
+            where n.nspname=any(%s) and c.relkind in ('r','S')
+        """, (SCHEMAS, SCHEMAS)).fetchall()
+    return dict(rows)
 
 
 def recipient():
@@ -164,7 +178,7 @@ def source():
         assert lab.q(database, 'select count(*) from orders where cash_collected is not null') == 0
     manifest = {
         'source': os.environ['GITHUB_SHA'], 'run': os.environ['GITHUB_RUN_ID'],
-        'snapshot_at': time.time(), 'signature': snapshot(), 'object_key': key,
+        'snapshot_at': time.time(), 'signature': snapshot(), 'raw_acls': raw_acls(), 'object_key': key,
         'object_sha256': hashlib.sha256(storage.JPEG).hexdigest(),
         'source_machine': hashlib.sha256(Path('/proc/sys/kernel/random/boot_id').read_bytes()).hexdigest(),
     }
@@ -221,6 +235,9 @@ def restore():
     with (WORK / 'database.dump').open('rb') as source_dump:
         subprocess.run(COMPOSE + ['exec', '-T', 'db', 'pg_restore', '-U', 'postgres', '-d', 'talabot_pilot',
                                  '--clean', '--if-exists', '--exit-on-error'], stdin=source_dump, check=True)
+    restored_acls = raw_acls()
+    RESULT['raw_acl_representation_differences'] = {key: {'before': value, 'after': restored_acls.get(key)}
+        for key, value in manifest['raw_acls'].items() if value != restored_acls.get(key)}
     restored = snapshot()
     RESULT['snapshot_differences'] = {key: {'expected': manifest['signature'].get(key), 'actual': restored.get(key)}
                                       for key in set(restored) | set(manifest['signature'])
