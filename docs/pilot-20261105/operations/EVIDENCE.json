@@ -1,0 +1,146 @@
+{
+  "base_candidate": "cd5f771f657f0cb16d4c5c288e81e88d499221f4",
+  "published_archive": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+  "closed_tests_reexecuted": false,
+  "verified_existing_screen_actions": {
+    "run_id": 42099678741,
+    "job_id": 127498877087,
+    "result": "success",
+    "physical_device": false,
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42099678741"
+  },
+  "host": {
+    "provider_management": {
+      "status": "ACTIVE_HEALTHY",
+      "region": "ap-south-1",
+      "postgresql": "17.11.0.002"
+    },
+    "http_gets_with_public_key_where_required": {
+      "at_utc": "2026-11-05T20:20:36+00:00",
+      "request": "GET",
+      "results": {
+        "pages_customer": {
+          "http": 200,
+          "type": "text/html",
+          "sha256": "e599bf4403bd4c5e29a8b0120668e6964d97bf63c1bfe8f9bab25f0674f2d8ee",
+          "matches_candidate_file": false,
+          "elapsed_ms": 7994,
+          "matches_published_archive": true
+        },
+        "pages_driver": {
+          "http": 200,
+          "type": "text/html",
+          "sha256": "08535c9d9d20ecf1ac9a6b68a6bbeb0f649e4c84306af9a980ecc81db5d2bb0a",
+          "matches_candidate_file": false,
+          "elapsed_ms": 7932,
+          "matches_published_archive": true
+        },
+        "pages_merchant": {
+          "http": 200,
+          "type": "text/html",
+          "sha256": "f33a5036b87404760a65091a9bff772fa86bee15d276ceffae1a93d8dc37637e",
+          "matches_candidate_file": false,
+          "elapsed_ms": 7941,
+          "matches_published_archive": true
+        },
+        "pages_admin": {
+          "http": 200,
+          "type": "text/html",
+          "sha256": "6b461c61bc6702979d7442fba3c6ad225525bb72cda86fb44220fd49d3895fa0",
+          "matches_candidate_file": false,
+          "elapsed_ms": 7947,
+          "matches_published_archive": true
+        },
+        "pages_core": {
+          "http": 200,
+          "type": "application/javascript",
+          "sha256": "77796be799c4677cfcc24c6e2c1104366bebae6db42dffc886f28d985cc6ae15",
+          "matches_candidate_file": false,
+          "elapsed_ms": 7889,
+          "matches_published_archive": true
+        },
+        "auth_health": {
+          "http": 200,
+          "type": "application/json",
+          "elapsed_ms": 7641
+        },
+        "auth_settings": {
+          "http": 200,
+          "type": "application/json",
+          "email_provider_enabled": true,
+          "anonymous_users_enabled": null,
+          "disable_signup": false,
+          "elapsed_ms": 7642
+        },
+        "postgrest_root": {
+          "http": 401,
+          "elapsed_ms": 6634
+        },
+        "storage_status": {
+          "http": 200,
+          "type": "text/plain",
+          "elapsed_ms": 7462
+        }
+      }
+    },
+    "realtime_http_upgrade_diagnostic": {
+      "at_utc": "2026-11-05T20:22:22+00:00",
+      "result": {
+        "http": 500,
+        "valid_upgrade_accept": false
+      },
+      "channel_join_attempted": false,
+      "events_written": false
+    },
+    "realtime_websocket_client": {
+      "at_utc": "2026-11-05T20:24:26+00:00",
+      "client": "websockets 16.0",
+      "result": {
+        "http": 101,
+        "handshake_verified_by_client": true
+      },
+      "channel_join_attempted": false
+    },
+    "authenticated_role_permissions_or_schema_checked": false,
+    "smtp_delivery_checked": false,
+    "live_sql_executed": false
+  },
+  "physical_devices": {
+    "iphone_safari": "blocked_no_device",
+    "android_chrome": "blocked_no_device",
+    "printer": "blocked_no_printer"
+  },
+  "watchdog_outbox_fault_injection": {
+    "at_utc": "2026-11-05T20:24:39+00:00",
+    "scope": "local fault injection against unmodified watchdog",
+    "outbox_failure": "IsADirectoryError",
+    "unhealthy_state_persisted_before_outbox": true,
+    "next_cycle_events_written": 0,
+    "transition_loss_reproduced": true,
+    "actual_delivery_tested": false
+  },
+  "recovery_envelope_drill": {
+    "at_utc": "2026-11-05T20:21:58+00:00",
+    "result": "pass",
+    "encryption": "CMS AES-256-GCM with RSA-3072 recovery certificate",
+    "source_type": "synthetic SQLite database and binary object",
+    "provider_type": "separate directories on same scratch host",
+    "external_provider": false,
+    "source_removed_before_restore": true,
+    "decrypt_without_private_key_rejected": true,
+    "ciphertext_digest_verified": true,
+    "corrupted_ciphertext_rejected": true,
+    "database_integrity_and_row_verified": true,
+    "restored_binary_digest_verified": true,
+    "local_fixture_restore_ms": 23,
+    "real_rpo_rto_measured": false,
+    "production_data_used": false
+  },
+  "scope": {
+    "application_code_changed": false,
+    "deployed": false,
+    "real_alert_sent": false,
+    "real_backup_created_or_exported": false,
+    "financial_activity": false
+  }
+}

@@ -38,5 +38,13 @@
     "region": "ap-south-1",
     "postgresql": "17.11.0.002"
   },
-  "physical_devices_host_runtime_and_on_call_delivery": "open"
+  "physical_devices_host_runtime_and_on_call_delivery": "open",
+  "operations_followup": {
+    "readiness": "../operations/READINESS.md",
+    "evidence": "../operations/EVIDENCE.json",
+    "public_host_connectivity": "partially_verified",
+    "physical_devices": "open",
+    "real_on_call_delivery": "open",
+    "external_backup_restore": "open"
+  }
 }

@@ -26,4 +26,4 @@
 
 [التسليم قبل التنفيذ محفوظ](https://github.com/merapplications-sketch/Talabat-v3/blob/bef1b76ebe4adb0bf87eb6f49240881dc4cf3d0d/docs/pilot-20261105/README.md). [سجل المتطلبات والقرارات](REQUIREMENTS-DECISIONS.md) · [جرد الميزات](FEATURE-MATRIX.md) · [133 مرجعاً سابقاً](previous-reference-index.json). Private مؤجل وتعديل انضمام السائقين مفتوح. A وR1 وجميع الرقع غير مطبقة حياً.
 
-[مسار إرجاع الوجبة ومطالبة السائق والأدلة وجدول المسؤوليات](returns/HANDOFF.md). إغلاق أول كاش مثبت عند `6502ed8831b636f137d9e1d30de2613b1f45645a`.
+[مسار إرجاع الوجبة ومطالبة السائق والأدلة وجدول المسؤوليات](returns/HANDOFF.md). [قبول التشغيل والمضيف والأجهزة والقرارات المفتوحة](operations/READINESS.md) · [أدلة القبول التشغيلي](operations/EVIDENCE.json). إغلاق أول كاش مثبت عند `6502ed8831b636f137d9e1d30de2613b1f45645a`.
