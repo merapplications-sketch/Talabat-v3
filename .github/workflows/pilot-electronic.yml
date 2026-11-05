@@ -1,0 +1,48 @@
+name: Isolated electronic order journey
+on:
+  push:
+    branches: [candidate/pilot-readiness-20261105]
+permissions:
+  contents: read
+jobs:
+  journey:
+    if: >-
+      github.event.head_commit.message == 'test(pilot): electronic journey'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PILOT_PATCH_STAGE: full
+      PILOT_DRIVER_RETURNS: '1'
+    steps:
+      - name: Exact candidate
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git init .
+          git remote add origin https://github.com/merapplications-sketch/Talabat-v3.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+          pip install 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0' 'playwright==1.55.0'
+          python -m playwright install --with-deps chromium
+      - name: Disposable native services
+        run: |
+          python tests/pilot/lab.py env
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d db
+          python tests/pilot/lab.py db
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d auth
+          python tests/pilot/lab.py app
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d rest
+      - name: Payment and four role browser acceptance
+        run: python tests/pilot/electronic/test.py
+      - name: Evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: electronic-journey-evidence
+          path: |
+            tests/pilot/electronic/result.json
+            tests/pilot/electronic/journey-*.png
+          retention-days: 7
+      - name: Destroy isolated services
+        if: always()
+        run: docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml down -v --remove-orphans
