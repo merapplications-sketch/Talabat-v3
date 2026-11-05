@@ -30,7 +30,8 @@
     "run": 42095617807,
     "acceptance_evidence": false,
     "reason": "Older source reproduces the startup fault on the separate diagnostic run. Only the corrected browser run establishes screen acceptance.",
-    "actions": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42095617807"
+    "actions": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42095617807",
+    "result": "cancelled"
   },
   "host_management_metadata_only": {
     "status": "ACTIVE_HEALTHY",
