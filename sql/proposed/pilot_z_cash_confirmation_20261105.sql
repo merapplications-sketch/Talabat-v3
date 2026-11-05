@@ -71,7 +71,7 @@ language plpgsql security definer set search_path=public as $$
 declare a fulfillment_private.order_approvals;internal_write boolean;ox text;
 begin
  select * into a from fulfillment_private.order_approvals where order_id=old.id;
- internal_write:=coalesce(current_setting('talabot.approval_write',true),'')=old.id::text;
+ internal_write:=coalesce(current_setting('talabot.approval_write',true),'')=old.id::text or coalesce(current_setting('talabot.order_building',true),'')=old.id::text;
  select xmin::text into ox from orders where id=old.id;
  if not internal_write and (a.order_id is not null or ox<>pg_current_xact_id()::text)then
   if row(new.total,new.subtotal,new.wallet_used,new.points_used,new.points_value,new.address,new.lat,new.lng)
@@ -89,7 +89,7 @@ create or replace function fulfillment_private.guard_lines()returns trigger
 language plpgsql security definer set search_path=public as $$
 declare oid bigint;ox text;begin
  oid:=case when tg_op='DELETE'then old.order_id else new.order_id end;
- if coalesce(current_setting('talabot.approval_write',true),'')=oid::text then
+ if coalesce(current_setting('talabot.approval_write',true),'')=oid::text or coalesce(current_setting('talabot.order_building',true),'')=oid::text then
   if tg_op='DELETE'then return old;else return new;end if;end if;
  select xmin::text into ox from orders where id=oid;
  if exists(select 1 from fulfillment_private.order_approvals where order_id=oid)or ox<>pg_current_xact_id()::text then
@@ -258,7 +258,7 @@ CREATE OR REPLACE FUNCTION public.place_order(p_store uuid, p_items jsonb, p_tip
  SECURITY DEFINER
  SET search_path TO 'public'
 AS $function$
-declare s stores; pr profiles; it record; v_item menu_items; pl jsonb; v_id bigint; v_sub numeric; v_fee numeric; v_pay numeric; v_disc numeric; v_base numeric; v_gate numeric;
+declare v_build_prev text; s stores; pr profiles; it record; v_item menu_items; pl jsonb; v_id bigint; v_sub numeric; v_fee numeric; v_pay numeric; v_disc numeric; v_base numeric; v_gate numeric;
         v_promo numeric := 0; v_tip numeric; v_km float8; v_code text := null; v_dq jsonb; v_cphone text; v_total numeric; v_bal numeric; v_w numeric;
         v_hh int := 0; v_all numeric; v_hdisc numeric := 0; v_rate numeric; v_min numeric; v_lb int; v_pts int := 0; v_pval numeric := 0; v_cap numeric;
         v_step numeric; v_mo numeric; v_subst text; v_door boolean; v_gn text; v_gp text;
@@ -337,6 +337,8 @@ begin
     select o.id into v_id from orders o where o.customer_id = auth.uid() and o.client_key = p_key;
     return v_id;
   end;
+  v_build_prev:=current_setting('talabot.order_building',true);
+  perform set_config('talabot.order_building',v_id::text,true);
   insert into order_customer_phone(order_id, phone) values (v_id, v_cphone);
   if v_gn is not null then insert into order_recipient(order_id, name, phone) values (v_id, v_gn, v_gp); end if;
 
@@ -418,6 +420,7 @@ begin
     update orders set wallet_used = v_w, payment = case when v_w >= v_total then 'wallet' else payment end where id = v_id;
   end if;
   if v_gid is not null then update group_orders set status = 'placed', order_id = v_id, closed_at = coalesce(closed_at, now()) where id = v_gid; end if;
+  perform set_config('talabot.order_building',coalesce(v_build_prev,''),true);
   perform fulfillment_private.register_order(v_id);
   return v_id;
 end $function$
