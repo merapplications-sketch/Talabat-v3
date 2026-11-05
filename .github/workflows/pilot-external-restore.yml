@@ -1,0 +1,90 @@
+name: Encrypted external pilot restore
+on:
+  push:
+    branches: [candidate/pilot-readiness-20261105]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  recipient:
+    if: github.event.head_commit.message == 'test(pilot): external acceptance'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Exact candidate source
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git init .
+          git remote add origin https://github.com/merapplications-sketch/Talabat-v3.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+          python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
+      - name: Keep private recovery key on this runner
+        run: python3 tests/pilot/external-restore.py recipient
+      - name: Share public recipient certificate only
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pilot-recipient-${{ github.run_attempt }}
+          path: tests/pilot/offsite-recipient.pem
+          retention-days: 1
+          if-no-files-found: error
+      - name: Empty independent restore database
+        run: |
+          python3 tests/pilot/lab.py env
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d db
+          python3 tests/pilot/lab.py db
+      - name: Restore encrypted external backup after source teardown
+        run: python3 tests/pilot/external-restore.py restore
+      - name: Destroy restore services and recipient private key
+        if: always()
+        run: |
+          docker compose --profile restore --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml down -v --remove-orphans
+          rm -rf tests/pilot/.runtime-offsite
+  source:
+    if: github.event.head_commit.message == 'test(pilot): external acceptance'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PILOT_PATCH_STAGE: full
+      PILOT_DRIVER_RETURNS: '1'
+    steps:
+      - name: Exact candidate source
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git init .
+          git remote add origin https://github.com/merapplications-sketch/Talabat-v3.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+          python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
+      - name: Synthetic database and Storage source
+        run: |
+          python3 tests/pilot/lab.py env
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d db
+          python3 tests/pilot/lab.py db
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d auth
+          python3 tests/pilot/lab.py app
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d rest
+          python3 tests/pilot/storage.py prepare
+          docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d storage
+      - name: New zero-advance feasibility check and encrypted snapshot
+        run: python3 tests/pilot/external-restore.py source
+      - name: Store only encrypted backup and bounded manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pilot-encrypted-backup-${{ github.run_attempt }}
+          path: |
+            tests/pilot/offsite-encrypted.cms
+            tests/pilot/offsite-envelope.json
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 0
+      - name: Destroy source services and unencrypted backup
+        if: always()
+        run: |
+          docker compose --profile restore --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml down -v --remove-orphans
+          rm -rf tests/pilot/.runtime-offsite
