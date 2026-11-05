@@ -1,0 +1,40 @@
+{
+  "baseline": "b30105bab2a3bfbc6764b17d620f4e6ad1a963b9",
+  "selective_changes": {
+    "customer.html": {
+      "changed": true,
+      "added_lines": 3,
+      "removed_lines": 3
+    },
+    "driver.html": {
+      "changed": true,
+      "added_lines": 4,
+      "removed_lines": 8
+    },
+    "merchant.html": {
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "admin.html": {
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "talabat-core.js": {
+      "changed": true,
+      "added_lines": 2,
+      "removed_lines": 0
+    }
+  },
+  "compatibility": [
+    "A and R1 bytes unchanged",
+    "merchant/admin unchanged from receipt candidate",
+    "cash guard after existing-key recovery, before new order writes; real wallet debit logic preserved",
+    "refund policy/cap unchanged; ticket/order locking only",
+    "driver claim existing busy rule serialized by profile lock",
+    "driver tap actions use original transition and cash confirmation APIs",
+    "old clients claiming card/apple/wallet without provider fail closed; no historical payment rewrite"
+  ],
+  "live_or_hosted_drift_proven": false
+}

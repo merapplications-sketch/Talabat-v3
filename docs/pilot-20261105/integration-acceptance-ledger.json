@@ -1,0 +1,364 @@
+{
+  "completed_new_cases": {
+    "auth_signup_login_refresh_and_forgery": {
+      "run_attempt": 2,
+      "source": "33e72a572f054049d49d4c20af8787ed88c9b603",
+      "evidence": {
+        "real_signup_password_refresh": true,
+        "untrusted_metadata_admin_ignored": true,
+        "forged_JWT_rejected": true,
+        "SMTP_tested": false
+      }
+    },
+    "address_RLS": {
+      "run_attempt": 2,
+      "source": "33e72a572f054049d49d4c20af8787ed88c9b603",
+      "evidence": {
+        "own_write": true,
+        "cross_identity_read_write_denied": true
+      }
+    },
+    "current_driver_joining_gate": {
+      "run_attempt": 3,
+      "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+      "evidence": {
+        "current_flow": "email/password customer identity -> apply_as_driver -> same UUID driver pending -> admin approval",
+        "pending_cannot_accept": true
+      }
+    },
+    "catalog_prices_availability_and_atomic_refusal": {
+      "run_attempt": 3,
+      "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+      "evidence": {
+        "availability_and_open_checked_by_server": true,
+        "failed_order_has_no_partial_rows": true
+      }
+    },
+    "order_creation_retry_and_reconnect": {
+      "run_attempt": 3,
+      "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+      "evidence": {
+        "key": "pilot_retry_8e9700bdbe0e4601985d0f48fd5d74ce",
+        "order": 6,
+        "concurrent_and_after_reconnect": true
+      }
+    },
+    "REST_role_and_order_privacy": {
+      "run_attempt": 3,
+      "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+      "evidence": {
+        "anonymous_and_cross_customer_rows_hidden": true,
+        "ungranted_command_and_transition_denied": true
+      }
+    },
+    "cancel_reject_wallet_recovery": {
+      "run_attempt": 3,
+      "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+      "evidence": {
+        "pending_cancel_wallet_return_once": true,
+        "merchant_rejection_reason_persisted": true,
+        "driver_advance_compensation_policy": "open_not_invented"
+      }
+    },
+    "client_error_monitoring_store": {
+      "run_attempt": 3,
+      "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+      "evidence": {
+        "error_log_persists_and_is_private": true,
+        "external_uptime_alert_receiver_configured": false
+      }
+    },
+    "unsupported_payment_refusal": {
+      "run_attempt": 4,
+      "source": "6fe666cc84cf9eda0c8ca630bd340aab44f438e3",
+      "evidence": [
+        {
+          "method": "card",
+          "status": 400,
+          "result": {
+            "code": "P0001",
+            "details": null,
+            "hint": null,
+            "message": "payment_not_configured"
+          }
+        },
+        {
+          "method": "apple",
+          "status": 400,
+          "result": {
+            "code": "P0001",
+            "details": null,
+            "hint": null,
+            "message": "payment_not_configured"
+          }
+        },
+        {
+          "method": "wallet",
+          "status": 400,
+          "result": {
+            "code": "P0001",
+            "details": null,
+            "hint": null,
+            "message": "payment_not_configured"
+          }
+        }
+      ]
+    },
+    "real_REST_order_to_receipt_and_lost_body": {
+      "run_attempt": 4,
+      "source": "6fe666cc84cf9eda0c8ca630bd340aab44f438e3",
+      "evidence": {
+        "order": 2,
+        "driver": "driver1",
+        "race": [
+          [
+            "driver1",
+            [
+              200,
+              true
+            ]
+          ],
+          [
+            "driver2",
+            [
+              400,
+              {
+                "code": "P0001",
+                "details": null,
+                "hint": null,
+                "message": "no_offer"
+              }
+            ]
+          ]
+        ],
+        "totals": [
+          50.0,
+          65.0,
+          10.0,
+          15.0,
+          65.0,
+          "delivered",
+          12
+        ],
+        "stored_receipt": {
+          "at": "2026-11-05T12:23:05.821092+00:00",
+          "actor": "0d5d940b-1449-448e-b346-b540c886fad2",
+          "amount": 65,
+          "driver": "ba56076f-fa34-4dd2-8c8d-1f82fa6de710",
+          "number": "TS-000000000001",
+          "orders": [
+            {
+              "id": "2",
+              "amount": 65
+            }
+          ],
+          "request": "ae405c63-1680-4a3a-b2de-e7809f19308c",
+          "currency": "TJS",
+          "actor_name": "DEMO accountant",
+          "driver_name": "DEMO driver1"
+        },
+        "lost_response_body_status_read_only": true
+      }
+    },
+    "cross_ticket_refund_cap_under_contention": {
+      "run_attempt": 5,
+      "source": "5d0043c6a0d4b70ef280b9809d21a7d6acb8f800",
+      "evidence": {
+        "order_total": 65,
+        "refund_requested_each": 40,
+        "responses": [
+          [
+            204,
+            null
+          ],
+          [
+            400,
+            {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "refund_too_high"
+            }
+          ]
+        ],
+        "refund_total": "40.00",
+        "locks": [
+          [
+            239,
+            "Lock",
+            "advisory",
+            [
+              240
+            ]
+          ],
+          [
+            241,
+            "Lock",
+            "transactionid",
+            [
+              239
+            ]
+          ]
+        ]
+      }
+    },
+    "refund_storage_failure_atomicity": {
+      "run_attempt": 5,
+      "source": "5d0043c6a0d4b70ef280b9809d21a7d6acb8f800",
+      "evidence": {
+        "ticket_close_and_refund_rolled_back_together": true
+      }
+    },
+    "merchant_driver_and_direct_write_isolation": {
+      "run_attempt": 6,
+      "source": "d2ced57d1068cf9b0bcc666b4c87da420d1b40c2",
+      "evidence": [
+        {
+          "actor": "outsider",
+          "resource": "/orders?select=id,address&id=eq.1",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "outsider",
+          "resource": "/order_items?select=*&order_id=eq.1",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "merchant2",
+          "resource": "/orders?select=id,address&id=eq.1",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "merchant2",
+          "resource": "/order_items?select=*&order_id=eq.1",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "driver2",
+          "resource": "/orders?select=id,address&id=eq.1",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "driver2",
+          "resource": "/order_items?select=*&order_id=eq.1",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "merchant",
+          "resource": "/addresses?select=*&user_id=eq.1c59f037-fcde-4a4c-9fcd-283fb7683a3f",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "merchant2",
+          "resource": "/addresses?select=*&user_id=eq.1c59f037-fcde-4a4c-9fcd-283fb7683a3f",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "driver2",
+          "resource": "/addresses?select=*&user_id=eq.1c59f037-fcde-4a4c-9fcd-283fb7683a3f",
+          "status": 200,
+          "hidden": true
+        },
+        {
+          "actor": "customer",
+          "resource": "/stores?select=owner_id,commission_pct",
+          "status": 403,
+          "hidden": true
+        },
+        {
+          "driver_role_self_escalation_denied": true
+        },
+        {
+          "admin_without_finance_grant_denied_through_real_REST": true
+        },
+        {
+          "direct_order_write_denied": true
+        }
+      ]
+    },
+    "one_driver_cannot_accept_two_active_orders": {
+      "run_attempt": 8,
+      "source": "bcc81b9cfc4d8a4e396a86b31c603b96e194e23b",
+      "evidence": {
+        "orders": [
+          1,
+          2
+        ],
+        "assigned_to_same_driver": 1,
+        "responses": [
+          [
+            200,
+            true
+          ],
+          [
+            400,
+            {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "busy"
+            }
+          ]
+        ],
+        "locks": [
+          [
+            231,
+            "Lock",
+            "transactionid",
+            [
+              232
+            ]
+          ],
+          [
+            234,
+            "Lock",
+            "transactionid",
+            [
+              231
+            ]
+          ]
+        ]
+      }
+    },
+    "driver_claim_two_drivers_one_order_after_profile_lock": {
+      "run_attempt": 8,
+      "source": "bcc81b9cfc4d8a4e396a86b31c603b96e194e23b",
+      "evidence": {
+        "order": 3,
+        "responses": [
+          [
+            "driver1",
+            [
+              200,
+              false
+            ]
+          ],
+          [
+            "driver2",
+            [
+              200,
+              true
+            ]
+          ]
+        ],
+        "one_assigned_driver_and_accepted_offer": true
+      }
+    }
+  },
+  "baseline_53_and_10_rerun": false,
+  "open": [
+    "actual Safari/iPhone and Android hardware",
+    "native print dialog/printer",
+    "hosted configuration and SMTP/Realtime/Storage",
+    "live backup restore and operational alert delivery",
+    "pilot operating policy and enforced scope"
+  ]
+}

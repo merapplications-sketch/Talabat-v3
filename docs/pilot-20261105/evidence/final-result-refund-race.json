@@ -1,0 +1,38 @@
+{
+  "order_total": 65,
+  "refund_requested_each": 40,
+  "responses": [
+    [
+      204,
+      null
+    ],
+    [
+      400,
+      {
+        "code": "P0001",
+        "details": null,
+        "hint": null,
+        "message": "refund_too_high"
+      }
+    ]
+  ],
+  "refund_total": "40.00",
+  "locks": [
+    [
+      239,
+      "Lock",
+      "advisory",
+      [
+        240
+      ]
+    ],
+    [
+      241,
+      "Lock",
+      "transactionid",
+      [
+        239
+      ]
+    ]
+  ]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "attempt": 1,
+    "run_id": 42024868479,
+    "source_sha": "3bd7880204979848f226071b80a41eecbcf97ab9",
+    "result": "setup failed; auth search_path, not app",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42024868479"
+  },
+  {
+    "attempt": 2,
+    "run_id": 42025240831,
+    "source_sha": "33e72a572f054049d49d4c20af8787ed88c9b603",
+    "result": "partial auth/address passed; harness HTTP expectations",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42025240831"
+  },
+  {
+    "attempt": 3,
+    "run_id": 42025536699,
+    "source_sha": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+    "result": "payment defect proved; load/restore passed",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42025536699"
+  },
+  {
+    "attempt": 4,
+    "run_id": 42026603088,
+    "source_sha": "6fe666cc84cf9eda0c8ca630bd340aab44f438e3",
+    "result": "payment/receipt/browser/load/restore passed; refund defect proved",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42026603088"
+  },
+  {
+    "attempt": 5,
+    "run_id": 42027190221,
+    "source_sha": "5d0043c6a0d4b70ef280b9809d21a7d6acb8f800",
+    "result": "success: affected refund/driver/restore",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42027190221"
+  },
+  {
+    "attempt": 6,
+    "run_id": 42027748589,
+    "source_sha": "d2ced57d1068cf9b0bcc666b4c87da420d1b40c2",
+    "result": "role isolation passed; same-driver race inconclusive observer snapshot",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42027748589"
+  },
+  {
+    "attempt": 7,
+    "run_id": 42028512196,
+    "source_sha": "3640d745999e445cc1ae898cafe6cb454ba00ea6",
+    "result": "same-driver race proved two assignments; no application fix yet",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42028512196"
+  },
+  {
+    "attempt": 8,
+    "run_id": 42029003285,
+    "source_sha": "bcc81b9cfc4d8a4e396a86b31c603b96e194e23b",
+    "result": "success: affected two claim shapes and changed-function restore",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42029003285"
+  }
+]

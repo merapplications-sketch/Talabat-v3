@@ -1,0 +1,136 @@
+{
+  "source": "bcc81b9cfc4d8a4e396a86b31c603b96e194e23b",
+  "engine": "native PostgreSQL + real GoTrue and PostgREST; synthetic only",
+  "old_53_or_ten_concurrency_rerun": false,
+  "checks": [
+    {
+      "name": "auth_signup_login_refresh_and_forgery",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "current_driver_joining_gate",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "address_RLS",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "catalog_prices_availability_and_atomic_refusal",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "unsupported_payment_refusal",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "real_REST_order_to_receipt_and_lost_body",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "order_creation_retry_and_reconnect",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "REST_role_and_order_privacy",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "cancel_reject_wallet_recovery",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "client_error_monitoring_store",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "cross_ticket_refund_cap_under_contention",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "refund_storage_failure_atomicity",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "merchant_driver_and_direct_write_isolation",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "one_driver_cannot_accept_two_active_orders",
+      "pass": true,
+      "evidence": {
+        "orders": [
+          1,
+          2
+        ],
+        "assigned_to_same_driver": 1,
+        "responses": [
+          [
+            200,
+            true
+          ],
+          [
+            400,
+            {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "busy"
+            }
+          ]
+        ],
+        "locks": [
+          [
+            231,
+            "Lock",
+            "transactionid",
+            [
+              232
+            ]
+          ],
+          [
+            234,
+            "Lock",
+            "transactionid",
+            [
+              231
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "name": "driver_claim_two_drivers_one_order_after_profile_lock",
+      "pass": true,
+      "evidence": {
+        "order": 3,
+        "responses": [
+          [
+            "driver1",
+            [
+              200,
+              false
+            ]
+          ],
+          [
+            "driver2",
+            [
+              200,
+              true
+            ]
+          ]
+        ],
+        "one_assigned_driver_and_accepted_offer": true
+      }
+    }
+  ],
+  "live": false,
+  "open": [
+    "actual hardware Safari/Android",
+    "native printer",
+    "real SMTP/SMS",
+    "Realtime websocket service",
+    "hosted deployment configuration"
+  ],
+  "pass": true
+}

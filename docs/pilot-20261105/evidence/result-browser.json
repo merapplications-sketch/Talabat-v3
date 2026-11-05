@@ -1,0 +1,46 @@
+{
+  "environment": "Playwright Chromium on Linux; actual candidate HTML and Supabase JS to local real GoTrue/PostgREST through path bridge",
+  "real_iPhone_Safari": false,
+  "native_printer": false,
+  "checks": [
+    {
+      "name": "actual app login and restaurant bootstrap through Auth/REST",
+      "pass": true
+    },
+    {
+      "name": "unconfigured digital payments not offered or restored from preference",
+      "pass": true
+    },
+    {
+      "name": "offline state visible and cart retained",
+      "pass": true
+    },
+    {
+      "name": "actual server committed order before simulated response-body loss",
+      "pass": true
+    },
+    {
+      "name": "pending order key persisted before response and retained after loss",
+      "pass": true
+    },
+    {
+      "name": "close and reopen restores original attempt key",
+      "pass": true
+    },
+    {
+      "name": "retry after reopen retrieves the same order with same key",
+      "pass": true
+    },
+    {
+      "name": "receipt rendered by Chromium PDF print engine; no native print-dialog claim",
+      "pass": true
+    }
+  ],
+  "live": false,
+  "order": 4,
+  "request_key": "c90ff1c02d7056078b2316c76c5400cfc",
+  "place_attempts": 2,
+  "external_origins_blocked": [],
+  "receipt_pdf_sha256": "656ab01501c1984aede031673554158e818c9979a0b9ad097a8e3027f9cc71fa",
+  "pass": true
+}

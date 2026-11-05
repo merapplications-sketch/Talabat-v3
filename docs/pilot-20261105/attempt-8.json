@@ -1,0 +1,315 @@
+{
+  "result-integration.json": {
+    "source": "bcc81b9cfc4d8a4e396a86b31c603b96e194e23b",
+    "engine": "native PostgreSQL + real GoTrue and PostgREST; synthetic only",
+    "old_53_or_ten_concurrency_rerun": false,
+    "checks": [
+      {
+        "name": "auth_signup_login_refresh_and_forgery",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "current_driver_joining_gate",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "address_RLS",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "catalog_prices_availability_and_atomic_refusal",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "unsupported_payment_refusal",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "real_REST_order_to_receipt_and_lost_body",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "order_creation_retry_and_reconnect",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "REST_role_and_order_privacy",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "cancel_reject_wallet_recovery",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "client_error_monitoring_store",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "cross_ticket_refund_cap_under_contention",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "refund_storage_failure_atomicity",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "merchant_driver_and_direct_write_isolation",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "one_driver_cannot_accept_two_active_orders",
+        "pass": true,
+        "evidence": {
+          "orders": [
+            1,
+            2
+          ],
+          "assigned_to_same_driver": 1,
+          "responses": [
+            [
+              200,
+              true
+            ],
+            [
+              400,
+              {
+                "code": "P0001",
+                "details": null,
+                "hint": null,
+                "message": "busy"
+              }
+            ]
+          ],
+          "locks": [
+            [
+              231,
+              "Lock",
+              "transactionid",
+              [
+                232
+              ]
+            ],
+            [
+              234,
+              "Lock",
+              "transactionid",
+              [
+                231
+              ]
+            ]
+          ]
+        }
+      },
+      {
+        "name": "driver_claim_two_drivers_one_order_after_profile_lock",
+        "pass": true,
+        "evidence": {
+          "order": 3,
+          "responses": [
+            [
+              "driver1",
+              [
+                200,
+                false
+              ]
+            ],
+            [
+              "driver2",
+              [
+                200,
+                true
+              ]
+            ]
+          ],
+          "one_assigned_driver_and_accepted_offer": true
+        }
+      }
+    ],
+    "live": false,
+    "open": [
+      "actual hardware Safari/Android",
+      "native printer",
+      "real SMTP/SMS",
+      "Realtime websocket service",
+      "hosted deployment configuration"
+    ],
+    "pass": true
+  },
+  "result-restore.json": {
+    "pass": true,
+    "scope": "isolated native logical pg_dump/pg_restore including actual auth schema and receipt rows",
+    "tables": {
+      "talabot_pilot": {
+        "profiles": {
+          "rows": 8,
+          "sha256": "d6ef6d1c080399591ff20acccd153ae263002607f9b45737531e506728423bb8"
+        },
+        "stores": {
+          "rows": 1,
+          "sha256": "0b368a7cfdc66b614a8e51e7f6d0241165bdb52f6852d84645d16b7b4be7095b"
+        },
+        "menu_items": {
+          "rows": 1,
+          "sha256": "dc0678ed14df29b506a270bad589d7a7693e5397f27bb797bebb620452975cce"
+        },
+        "orders": {
+          "rows": 3,
+          "sha256": "e8c2ea6e6130cea3d26191fbd8917902bf8281ee1a5f90388c0a5202eb64b09a"
+        },
+        "order_items": {
+          "rows": 3,
+          "sha256": "c084e0fc4926a5faf6ccf3a474c3ae797a71f171906a62b3d535b63e467047ff"
+        },
+        "order_events": {
+          "rows": 11,
+          "sha256": "b512d4e1d61ed64a1bb76eb446e48a645e9ac44209ed346619347a21d3b03ffd"
+        },
+        "audit_log": {
+          "rows": 7,
+          "sha256": "b54e11231baa975fad0dfc9d145b79fdeaa4793b3ee927ea66c2bb709a9403a6"
+        },
+        "wallet_entries": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "loyalty_ledger": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.commands": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipts": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipt_orders": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.users": {
+          "rows": 8,
+          "sha256": "182d58cc6fa41c902fb5172244a4ab900f5505d81f205d64ef149e38aae751dc"
+        },
+        "function_definitions": {
+          "count": 141,
+          "sha256": "e7dfeb8fd72f624adc08038c79f1c4aa361065959d79c8c424df5d35fbee1fcc"
+        }
+      },
+      "talabot_pilot_restore": {
+        "profiles": {
+          "rows": 8,
+          "sha256": "d6ef6d1c080399591ff20acccd153ae263002607f9b45737531e506728423bb8"
+        },
+        "stores": {
+          "rows": 1,
+          "sha256": "0b368a7cfdc66b614a8e51e7f6d0241165bdb52f6852d84645d16b7b4be7095b"
+        },
+        "menu_items": {
+          "rows": 1,
+          "sha256": "dc0678ed14df29b506a270bad589d7a7693e5397f27bb797bebb620452975cce"
+        },
+        "orders": {
+          "rows": 3,
+          "sha256": "e8c2ea6e6130cea3d26191fbd8917902bf8281ee1a5f90388c0a5202eb64b09a"
+        },
+        "order_items": {
+          "rows": 3,
+          "sha256": "c084e0fc4926a5faf6ccf3a474c3ae797a71f171906a62b3d535b63e467047ff"
+        },
+        "order_events": {
+          "rows": 11,
+          "sha256": "b512d4e1d61ed64a1bb76eb446e48a645e9ac44209ed346619347a21d3b03ffd"
+        },
+        "audit_log": {
+          "rows": 7,
+          "sha256": "b54e11231baa975fad0dfc9d145b79fdeaa4793b3ee927ea66c2bb709a9403a6"
+        },
+        "wallet_entries": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "loyalty_ledger": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.commands": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipts": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipt_orders": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.users": {
+          "rows": 8,
+          "sha256": "182d58cc6fa41c902fb5172244a4ab900f5505d81f205d64ef149e38aae751dc"
+        },
+        "function_definitions": {
+          "count": 141,
+          "sha256": "e7dfeb8fd72f624adc08038c79f1c4aa361065959d79c8c424df5d35fbee1fcc"
+        }
+      }
+    },
+    "backup_bytes": 484726,
+    "live_backup_or_R2_storage_tested": false,
+    "backup_exported": false
+  },
+  "result-driver-race.json": {
+    "orders": [
+      1,
+      2
+    ],
+    "assigned_to_same_driver": 1,
+    "responses": [
+      [
+        200,
+        true
+      ],
+      [
+        400,
+        {
+          "code": "P0001",
+          "details": null,
+          "hint": null,
+          "message": "busy"
+        }
+      ]
+    ],
+    "locks": [
+      [
+        231,
+        "Lock",
+        "transactionid",
+        [
+          232
+        ]
+      ],
+      [
+        234,
+        "Lock",
+        "transactionid",
+        [
+          231
+        ]
+      ]
+    ]
+  },
+  "source_sha": "bcc81b9cfc4d8a4e396a86b31c603b96e194e23b",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:36ffe93f119df4dde5737e96fd5fe21e93f9ed8f0851bbb8344d685747fbbd40",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:e2c27ef4403bda921331fd3be5da297fd2865fcf42e2b2aba7d6b4c34073acdd",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:9c7f242f6dec2d7d7b55d4c9e07872d59b85377c6cb3de46c915a5d1ffb91442",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:acc55719d3816ebba2af7393d13bc72c690ddedf4e3ec74340104e3e0bda6b4d",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:82243f9dd22d1586d11ec6719395c10e6f266cfaf338a0380d09c62873805ac8",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

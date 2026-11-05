@@ -1,0 +1,35 @@
+{
+  "observations": [
+    {
+      "method": "card",
+      "status": 400,
+      "result": {
+        "code": "P0001",
+        "details": null,
+        "hint": null,
+        "message": "payment_not_configured"
+      }
+    },
+    {
+      "method": "apple",
+      "status": 400,
+      "result": {
+        "code": "P0001",
+        "details": null,
+        "hint": null,
+        "message": "payment_not_configured"
+      }
+    },
+    {
+      "method": "wallet",
+      "status": 400,
+      "result": {
+        "code": "P0001",
+        "details": null,
+        "hint": null,
+        "message": "payment_not_configured"
+      }
+    }
+  ],
+  "live": false
+}

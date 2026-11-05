@@ -1,0 +1,119 @@
+{
+  "source": "6fe666cc84cf9eda0c8ca630bd340aab44f438e3",
+  "live": false,
+  "engine": "native PostgreSQL17.6 + GoTrue2.197 + PostgREST14.18 / GitHub Linux VM",
+  "scope": "50 single-order journeys; concurrency [50]; no real WAN, Realtime or device",
+  "stages": [
+    {
+      "concurrency": 50,
+      "journeys_completed": 50,
+      "journey_failures": [],
+      "duration_s": 6.86,
+      "requests": 750,
+      "rps": 109.38,
+      "http_error_rate": 0.0,
+      "p50_ms": 28.8,
+      "p95_ms": 150.26,
+      "p99_ms": 228.2,
+      "max_ms": 293.33
+    }
+  ],
+  "db_top_queries": [
+    {
+      "calls": 50,
+      "total_ms": "1790.68",
+      "mean_ms": "35.814",
+      "rows": 50,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_store\", \"p_items\", \"p_payment\", \"p_address\", \"p_lat\", \"p_lng\", \"p_key\", \"p_fee\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_store\" uuid, \"p_items\" jsonb, \"p_payment\" text, \"p"
+    },
+    {
+      "calls": 150,
+      "total_ms": "1414.07",
+      "mean_ms": "9.427",
+      "rows": 150,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_to\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_id\" bigint, \"p_to\" public.order_status) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"set_order_status\"(\"p_id\" := p"
+    },
+    {
+      "calls": 50,
+      "total_ms": "479.93",
+      "mean_ms": "9.599",
+      "rows": 50,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\", \"p_driver\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_order\" bigint, \"p_driver\" uuid) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"admin_assign_driver\"(\"p_order\""
+    },
+    {
+      "calls": 150,
+      "total_ms": "220.72",
+      "mean_ms": "1.471",
+      "rows": 150,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_lat\", \"p_lng\", \"p_acc\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_lat\" double precision, \"p_lng\" double precision, \"p_acc\" double precision) LIMIT $4) pgrst_body , LATERAL ("
+    },
+    {
+      "calls": 50,
+      "total_ms": "181.01",
+      "mean_ms": "3.620",
+      "rows": 50,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_cash\", \"p_note\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_id\" bigint, \"p_cash\" numeric, \"p_note\" text) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"deliver_orde"
+    },
+    {
+      "calls": 50,
+      "total_ms": "162.57",
+      "mean_ms": "3.251",
+      "rows": 50,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_min\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_id\" bigint, \"p_min\" integer) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"set_prep_time\"(\"p_id\" := pgrst_body.\"p_"
+    },
+    {
+      "calls": 50,
+      "total_ms": "123.17",
+      "mean_ms": "2.463",
+      "rows": 50,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_online\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_online\" boolean) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"driver_ping\"(\"p_online\" := pgrst_body.\"p_online\") pgrst_"
+    },
+    {
+      "calls": 50,
+      "total_ms": "118.16",
+      "mean_ms": "2.363",
+      "rows": 50,
+      "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_store\", \"p_lat\", \"p_lng\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_store\" uuid, \"p_lat\" double precision, \"p_lng\" double precision) LIMIT $4) pgrst_body , LATERAL (SELECT \""
+    },
+    {
+      "calls": 150,
+      "total_ms": "117.37",
+      "mean_ms": "0.782",
+      "rows": 150,
+      "normalized_query": "WITH pgrst_source AS (SELECT \"pgrst_call\".* FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_order\" bigint) LIMIT $4) pgrst_body , LATERAL \"public\".\"order_courier_position\"(\"p_order\" := pgrst_body.\"p_order\") pgrst_call) SELEC"
+    },
+    {
+      "calls": 750,
+      "total_ms": "16.62",
+      "mean_ms": "0.022",
+      "rows": 750,
+      "normalized_query": "select set_config('search_path', $1, true), set_config('role', $2, true), set_config('request.jwt.claims', $3, true), set_config('request.method', $4, true), set_config('request.path', $5, true), set_config('request.headers', $6, true), set_config('request.cookies', $7, true)"
+    },
+    {
+      "calls": 14,
+      "total_ms": "0.31",
+      "mean_ms": "0.022",
+      "rows": 0,
+      "normalized_query": "SET client_encoding = 'UTF8'"
+    },
+    {
+      "calls": 16,
+      "total_ms": "0.14",
+      "mean_ms": "0.009",
+      "rows": 0,
+      "normalized_query": "BEGIN ISOLATION LEVEL READ COMMITTED READ WRITE"
+    }
+  ],
+  "db_counters": {
+    "commits": 3156,
+    "rollbacks": 6,
+    "blocks_read": 799,
+    "blocks_hit": 1242164,
+    "deadlocks": 0,
+    "temp_bytes": 0
+  },
+  "confirmed_delivered": 50,
+  "driver_double_active": 0,
+  "pass": true,
+  "production_capacity_claim": false
+}

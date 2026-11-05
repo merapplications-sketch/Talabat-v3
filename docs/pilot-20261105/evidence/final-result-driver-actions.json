@@ -1,0 +1,56 @@
+{
+  "environment": "Chromium Linux, actual candidate driver and Auth/REST",
+  "actual_iPhone": false,
+  "live": false,
+  "checks": [
+    {
+      "name": "cancelled ordinary-action confirmation sends no transition",
+      "pass": true
+    },
+    {
+      "name": "tap confirms arrival at restaurant without dragging",
+      "pass": true
+    },
+    {
+      "name": "pickup remains unavailable while restaurant prepares",
+      "pass": true
+    },
+    {
+      "name": "ready order picked up with confirmed tap",
+      "pass": true
+    },
+    {
+      "name": "customer arrival confirmed by tap",
+      "pass": true
+    },
+    {
+      "name": "delivery opens existing cash confirmation without closing order",
+      "pass": true
+    },
+    {
+      "name": "cash-confirmed delivery completes through original server guard",
+      "pass": true
+    }
+  ],
+  "order": 3,
+  "transitions": [
+    {
+      "p_id": 3,
+      "p_where": "store"
+    },
+    {
+      "p_id": 3,
+      "p_to": "pickedup"
+    },
+    {
+      "p_id": 3,
+      "p_where": "customer"
+    },
+    {
+      "p_id": 3,
+      "p_cash": 65,
+      "p_note": null
+    }
+  ],
+  "pass": true
+}

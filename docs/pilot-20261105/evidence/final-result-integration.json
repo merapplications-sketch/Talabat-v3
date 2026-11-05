@@ -1,0 +1,105 @@
+{
+  "source": "5d0043c6a0d4b70ef280b9809d21a7d6acb8f800",
+  "engine": "native PostgreSQL + real GoTrue and PostgREST; synthetic only",
+  "old_53_or_ten_concurrency_rerun": false,
+  "checks": [
+    {
+      "name": "auth_signup_login_refresh_and_forgery",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "current_driver_joining_gate",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "address_RLS",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "catalog_prices_availability_and_atomic_refusal",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "unsupported_payment_refusal",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "real_REST_order_to_receipt_and_lost_body",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "order_creation_retry_and_reconnect",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "REST_role_and_order_privacy",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "cancel_reject_wallet_recovery",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "client_error_monitoring_store",
+      "status": "previously_passed_not_rerun"
+    },
+    {
+      "name": "cross_ticket_refund_cap_under_contention",
+      "pass": true,
+      "evidence": {
+        "order_total": 65,
+        "refund_requested_each": 40,
+        "responses": [
+          [
+            204,
+            null
+          ],
+          [
+            400,
+            {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "refund_too_high"
+            }
+          ]
+        ],
+        "refund_total": "40.00",
+        "locks": [
+          [
+            239,
+            "Lock",
+            "advisory",
+            [
+              240
+            ]
+          ],
+          [
+            241,
+            "Lock",
+            "transactionid",
+            [
+              239
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "name": "refund_storage_failure_atomicity",
+      "pass": true,
+      "evidence": {
+        "ticket_close_and_refund_rolled_back_together": true
+      }
+    }
+  ],
+  "live": false,
+  "open": [
+    "actual hardware Safari/Android",
+    "native printer",
+    "real SMTP/SMS",
+    "Realtime websocket service",
+    "hosted deployment configuration"
+  ],
+  "pass": true
+}

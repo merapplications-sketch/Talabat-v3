@@ -1,0 +1,40 @@
+{
+  "orders": [
+    1,
+    2
+  ],
+  "assigned_to_same_driver": 1,
+  "responses": [
+    [
+      200,
+      true
+    ],
+    [
+      400,
+      {
+        "code": "P0001",
+        "details": null,
+        "hint": null,
+        "message": "busy"
+      }
+    ]
+  ],
+  "locks": [
+    [
+      231,
+      "Lock",
+      "transactionid",
+      [
+        232
+      ]
+    ],
+    [
+      234,
+      "Lock",
+      "transactionid",
+      [
+        231
+      ]
+    ]
+  ]
+}

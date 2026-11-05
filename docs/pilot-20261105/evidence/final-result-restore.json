@@ -1,0 +1,125 @@
+{
+  "pass": true,
+  "scope": "isolated native logical pg_dump/pg_restore including actual auth schema and receipt rows",
+  "tables": {
+    "talabot_pilot": {
+      "profiles": {
+        "rows": 8,
+        "sha256": "6ad5488eebb6bcd2fd9f1a8cd6387627319c0070d4931ce03b3c2c1baef44b36"
+      },
+      "stores": {
+        "rows": 1,
+        "sha256": "5af9aa3666480878d332b5744ce9c121386d85a2f92fb2a28fafa4c7216670a6"
+      },
+      "menu_items": {
+        "rows": 1,
+        "sha256": "12ec2db6bb0f25e84eb24f12bcfea60750a7a9e4177a11c3e7231244472d38aa"
+      },
+      "orders": {
+        "rows": 3,
+        "sha256": "77fde3c5465c656681cfdd1af98803632941940911b35cfb202978f450a3d4fa"
+      },
+      "order_items": {
+        "rows": 3,
+        "sha256": "91f9bc9a2f99100bdd9b3a5a54edeb78a60091dbdada44a84ac1465463331f1a"
+      },
+      "order_events": {
+        "rows": 12,
+        "sha256": "175683392e495da42548e5075277036bba1a4ed6dc5f4880d39d9cf04d449c43"
+      },
+      "audit_log": {
+        "rows": 7,
+        "sha256": "c790d953d09916b3ea8d164503868e94788280ce170c813dba60ac689e319ed3"
+      },
+      "wallet_entries": {
+        "rows": 1,
+        "sha256": "8b42dc4eded5606a889eab8ab72e7865dce3b48568ca545665969770bb718b25"
+      },
+      "loyalty_ledger": {
+        "rows": 3,
+        "sha256": "f800c986827ecb61ca17f5ec056f64a174480541d08b0332cb04cd1379acb9d0"
+      },
+      "finance_private.commands": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "finance_private.settlement_receipts": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "finance_private.settlement_receipt_orders": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth.users": {
+        "rows": 8,
+        "sha256": "5c2fdc7df6ea345b72df2a084871bff2f3287a30cf111354063e4bcf6d922268"
+      },
+      "function_definitions": {
+        "count": 141,
+        "sha256": "a164360129ba358884bbeeff8fab98130a243efe667d44ce272bc27f84db52f6"
+      }
+    },
+    "talabot_pilot_restore": {
+      "profiles": {
+        "rows": 8,
+        "sha256": "6ad5488eebb6bcd2fd9f1a8cd6387627319c0070d4931ce03b3c2c1baef44b36"
+      },
+      "stores": {
+        "rows": 1,
+        "sha256": "5af9aa3666480878d332b5744ce9c121386d85a2f92fb2a28fafa4c7216670a6"
+      },
+      "menu_items": {
+        "rows": 1,
+        "sha256": "12ec2db6bb0f25e84eb24f12bcfea60750a7a9e4177a11c3e7231244472d38aa"
+      },
+      "orders": {
+        "rows": 3,
+        "sha256": "77fde3c5465c656681cfdd1af98803632941940911b35cfb202978f450a3d4fa"
+      },
+      "order_items": {
+        "rows": 3,
+        "sha256": "91f9bc9a2f99100bdd9b3a5a54edeb78a60091dbdada44a84ac1465463331f1a"
+      },
+      "order_events": {
+        "rows": 12,
+        "sha256": "175683392e495da42548e5075277036bba1a4ed6dc5f4880d39d9cf04d449c43"
+      },
+      "audit_log": {
+        "rows": 7,
+        "sha256": "c790d953d09916b3ea8d164503868e94788280ce170c813dba60ac689e319ed3"
+      },
+      "wallet_entries": {
+        "rows": 1,
+        "sha256": "8b42dc4eded5606a889eab8ab72e7865dce3b48568ca545665969770bb718b25"
+      },
+      "loyalty_ledger": {
+        "rows": 3,
+        "sha256": "f800c986827ecb61ca17f5ec056f64a174480541d08b0332cb04cd1379acb9d0"
+      },
+      "finance_private.commands": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "finance_private.settlement_receipts": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "finance_private.settlement_receipt_orders": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth.users": {
+        "rows": 8,
+        "sha256": "5c2fdc7df6ea345b72df2a084871bff2f3287a30cf111354063e4bcf6d922268"
+      },
+      "function_definitions": {
+        "count": 141,
+        "sha256": "a164360129ba358884bbeeff8fab98130a243efe667d44ce272bc27f84db52f6"
+      }
+    }
+  },
+  "backup_bytes": 485463,
+  "live_backup_or_R2_storage_tested": false,
+  "backup_exported": false
+}
