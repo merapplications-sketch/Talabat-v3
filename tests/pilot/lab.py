@@ -394,8 +394,31 @@ def integration():
             evidence = {'order_total': 65, 'refund_requested_each': 40, 'responses': responses, 'refund_total': total, 'locks': locks}
             save(HERE / 'result-refund-race.json', evidence)
             assert total <= 65, json.dumps(evidence, default=str)
+            assert total == 40 and sum(code in (200,204) for code, _ in responses) == 1
+            assert any(code >= 400 and value.get('message') == 'refund_too_high' for code,value in responses)
+            # Same ticket retry is also forbidden by the preserved existing rule.
+            winner = tickets[next(i for i,(code,_) in enumerate(responses) if code in (200,204))]
+            code,value = request(3000, '/rpc/ticket_set_status', {'p_ticket':winner,'p_status':'resolved','p_note':'synthetic retry','p_refund':40}, bearer('admin'))
+            assert code >= 400 and value['message'] == 'already_refunded'
         return evidence
     case('cross_ticket_refund_cap_under_contention', refund_race)
+
+    def refund_failure():
+        oid = order(bearer('outsider'))
+        with db() as c:
+            c.execute("update orders set status='delivered',done_at=now() where id=%s", (oid,))
+            ticket = q(c,"insert into support_tickets(customer_id,order_id,reason) values(%s,%s,'missing_items') returning id",(uid('outsider'),oid))
+            c.execute("create function public.pilot_refund_fail() returns trigger language plpgsql as $$begin if new.kind='refund' then raise exception 'synthetic_refund_store_failure';end if;return new;end$$;create trigger pilot_refund_fail before insert on wallet_entries for each row execute function public.pilot_refund_fail()")
+            try:
+                code,value=request(3000,'/rpc/ticket_set_status',{'p_ticket':ticket,'p_status':'resolved','p_note':'synthetic storage failure','p_refund':10},bearer('admin'))
+                assert code >= 400 and value['message']=='synthetic_refund_store_failure'
+                assert c.execute('select status,refund_amount from support_tickets where id=%s',(ticket,)).fetchone()==('open',None)
+                assert q(c,'select count(*) from wallet_entries where ticket_id=%s',(ticket,))==0
+                assert q(c,"select count(*) from audit_log where table_name='support_tickets' and row_id=%s",(str(ticket),))==0
+            finally:
+                c.execute('drop trigger pilot_refund_fail on wallet_entries;drop function public.pilot_refund_fail()')
+        return {'ticket_close_and_refund_rolled_back_together':True}
+    case('refund_storage_failure_atomicity',refund_failure)
     result['pass'] = all(x.get('pass', x.get('status') == 'previously_passed_not_rerun') for x in result['checks'])
     save(HERE / 'result-integration.json', result)
     if not result['pass']:
@@ -500,6 +523,14 @@ def restore():
     print('PASS backup_restore_exact_table_hashes', flush=True)
 
 
+def driver_fixture():
+    wait(lambda:request(3000,'/')[0]==200,'rest')
+    oid=order(bearer('outsider'))
+    rpc(bearer('merchant'),'set_order_status',{'p_id':oid,'p_to':'preparing'})
+    rpc(bearer('admin'),'admin_assign_driver',{'p_order':oid,'p_driver':uid('driver1')})
+    save(HERE/'.runtime-driver-order.json',{'id':oid})
+
+
 def export():
     data = {p.name: json.loads(p.read_text()) for p in HERE.glob('result*.json')}
     data['source_sha'] = os.environ.get('GITHUB_SHA')
@@ -528,7 +559,7 @@ def export():
 
 
 if __name__ == '__main__':
-    functions = {'env': prepare_env, 'db': prepare_db, 'app': prepare_app, 'integration': integration, 'load': load, 'restore': restore, 'export': export}
+    functions = {'env': prepare_env, 'db': prepare_db, 'app': prepare_app, 'integration': integration, 'load': load, 'restore': restore, 'driver_fixture':driver_fixture, 'export': export}
     try:
         functions[sys.argv[1]]()
     except Exception as e:

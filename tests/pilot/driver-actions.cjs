@@ -1,0 +1,18 @@
+const fs=require('fs'),path=require('path'),assert=require('assert');const {chromium}=require('playwright');
+const s=JSON.parse(fs.readFileSync(path.join(__dirname,'.runtime.json'))),oid=JSON.parse(fs.readFileSync(path.join(__dirname,'.runtime-driver-order.json'))).id;
+const result={environment:'Chromium Linux, actual candidate driver and Auth/REST',actual_iPhone:false,live:false,checks:[]};
+const ok=(v,n)=>{assert(v,n);result.checks.push({name:n,pass:true});console.log('PASS driver '+n)};
+(async()=>{let browser;try{browser=await chromium.launch();const context=await browser.newContext({viewport:{width:390,height:844}});
+await context.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());
+const page=await context.newPage();let accept=false,mutations=[];page.on('dialog',d=>accept?d.accept():d.dismiss());page.on('request',r=>{if(r.url().includes('/rpc/driver_arrived')||r.url().includes('/rpc/set_order_status')||r.url().includes('/rpc/deliver_order'))mutations.push(r.postDataJSON())});
+await page.goto('http://127.0.0.1:8080/driver.html');await page.fill('#tlb-em',s.accounts.driver1.email);await page.fill('#tlb-pw',s.accounts.driver1.password);await page.click('#tlb-go');await page.waitForFunction(id=>typeof TLB!=='undefined'&&TLB.order(id)?.id===id,oid);
+await page.locator('#swk').click();ok(mutations.length===0,'cancelled ordinary-action confirmation sends no transition');accept=true;
+await page.locator('#swk').click();await page.waitForFunction(id=>!!TLB.order(id)?.arrivedStoreAt,oid);ok(true,'tap confirms arrival at restaurant without dragging');
+ok(await page.locator('#swp').getAttribute('role')==='status','pickup remains unavailable while restaurant prepares');
+const response=await fetch('http://127.0.0.1:3000/rpc/set_order_status',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.accounts.merchant.access_token},body:JSON.stringify({p_id:oid,p_to:'ready'})});assert([200,204].includes(response.status));
+await page.evaluate(()=>TLB.reload());await page.locator('#swk').click();await page.waitForFunction(id=>TLB.order(id)?.status==='pickedup',oid);ok(true,'ready order picked up with confirmed tap');
+await page.locator('#swk').click();await page.waitForFunction(id=>!!TLB.order(id)?.arrivedCustAt,oid);ok(true,'customer arrival confirmed by tap');
+const before=mutations.filter(x=>Object.hasOwn(x,'p_cash')).length;await page.locator('#swk').click();await page.waitForSelector('#cashAmt');ok(mutations.filter(x=>Object.hasOwn(x,'p_cash')).length===before,'delivery opens existing cash confirmation without closing order');
+await page.locator('button[onclick="confirmDeliver()"]').click();await page.waitForFunction(id=>TLB.order(id)?.status==='delivered',oid);ok(true,'cash-confirmed delivery completes through original server guard');
+result.order=oid;result.transitions=mutations;result.pass=true;
+}catch(e){result.pass=false;result.error=String(e.stack||e);for(const a of Object.values(s.accounts))for(const k of ['password','access_token','refresh_token'])if(a[k])result.error=result.error.split(a[k]).join('[REDACTED]');console.error(result.error);process.exitCode=1}finally{if(browser)await browser.close();fs.writeFileSync(path.join(__dirname,'result-driver-actions.json'),JSON.stringify(result,null,2)+'\n')}})();

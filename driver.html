@@ -150,7 +150,7 @@ async function confirmDeliver(){if(!DV||DV.up)return;if(DV.photo&&!DV.ph){TLB.to
     if(!(amt>=0)){TLB.toast(t('err_cash_required'),true);return}
     if(Math.abs(amt-DV.total)>0.004&&!DV.note.trim()){TLB.toast(t('err_note_required'),true);return}}
   if(await finish(DV.id,amt,DV.cash?DV.note:null,DV.ph?DV.ph.path:null)){DV=null;render()}}
-/* the 4 steps of a delivery, each confirmed with a swipe */
+/* Approved owner decision: ordinary actions and confirmation, no swipe gesture. */
 const stepOf=a=>a.status=='pickedup'?(a.arrivedCustAt?4:3):(a.arrivedStoreAt?2:1);
 async function swDo(){const a=mine();if(!a||SWB)return;const n=stepOf(a);if(n==2&&a.status!='ready')return;SWB=1;render();let r=null;
   try{if(n==1)r=await TLB.driverArrived(a.id,'store');
@@ -159,15 +159,11 @@ async function swDo(){const a=mine();if(!a||SWB)return;const n=stepOf(a);if(n==2
     else{SWB=0;deliverClick(a.id);return}
     if(r&&r.error)alert(t('err_'+r.error)||t('trans'));else{SHF=false;DMK=''}}
   finally{SWB=0;render()}}
-function bindSwipe(){const w=$('swp'),k=$('swk');if(!w||!k||w.classList.contains('off'))return;let x0=null,dx=0;const max=()=>w.clientWidth-k.offsetWidth-8;
-  const mv=e=>{if(x0==null)return;dx=Math.max(0,Math.min(max(),(e.clientX||0)-x0));k.style.transform='translateX('+dx+'px)'};
-  const up=()=>{if(x0==null)return;x0=null;window.__drag=0;setTimeout(()=>{if(window.__rp&&!SWB){window.__rp=0;render()}},250);k.style.transition='transform .2s';const ok=dx>=max()-6;k.style.transform=ok?'translateX('+max()+'px)':'';dx=0;if(ok){try{navigator.vibrate&&navigator.vibrate(40)}catch(e){}swDo()}};
-  k.addEventListener('pointerdown',e=>{if(SWB)return;window.__drag=1;x0=(e.clientX||0);k.style.transition='none';try{k.setPointerCapture(e.pointerId)}catch(_){}});
-  k.addEventListener('pointermove',mv);k.addEventListener('pointerup',up);k.addEventListener('pointercancel',up);
-  k.addEventListener('keydown',e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();swDo()}})}
+function requestStep(){const a=mine();if(!a||SWB)return;const n=stepOf(a);if(n==2&&a.status!='ready')return;if(n==4){deliverClick(a.id);return}if(confirm(t('sw'+n)+'?'))swDo()}
+function bindSwipe(){const k=$('swk');if(k)k.onclick=requestStep}
 function swipeH(a){const n=stepOf(a),wait=n==2&&a.status!='ready';
   if(wait)return `<div class="swp off" id="swp" role="status"><div class="swt">⏳ ${t('swWait')}</div></div>`;
-  return `<div class="swp ${n==4?'g':''} ${SWB?'busy':''}" id="swp"><button class="swk" id="swk" aria-label="${t('sw'+n)} · ${t('swHint')}">${ico(n==4?'check':'nav',22)}</button><div class="swt"><span>${t('sw'+n)}</span> ››</div></div>`}
+  return `<div id="swp"><button class="b ${n==4?'g':''}" id="swk" type="button" ${SWB?'disabled':''}>${t('sw'+n)}</button></div>`}
 const storeLL=n=>{const st=TLB.stores(true).find(x=>x.name==n);return st&&st.lat!=null&&st.lng!=null&&isFinite(+st.lat)&&isFinite(+st.lng)?(+st.lat)+','+(+st.lng):null};
 const map=q=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q+' Душанбе')}`;
 const pt=o=>o&&o.lat!=null&&o.lng!=null&&isFinite(+o.lat)&&isFinite(+o.lng)?`https://www.google.com/maps/search/?api=1&query=${+o.lat},${+o.lng}`:null;
