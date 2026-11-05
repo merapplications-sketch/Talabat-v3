@@ -455,7 +455,9 @@ def integration():
             pool=concurrent.futures.ThreadPoolExecutor(max_workers=2)
             futures=[pool.submit(request,3000,'/rpc/driver_accept',{'p_id':oid},bearer('driver2'))for oid in orders]
             try:
-                wait(lambda:q(c,"select count(*) from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and query like 'WITH pgrst_source%%'")>=2,'same_driver_two_accepts',15)
+                # Independent autocommit observer avoids PostgreSQL's transaction-cached activity snapshot.
+                with db() as observer:
+                    wait(lambda:q(observer,"select count(*) from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and query like 'WITH pgrst_source%%'")>=2,'same_driver_two_accepts',15)
                 locks=c.execute("select pid,wait_event_type,wait_event,pg_blocking_pids(pid) from pg_stat_activity where datname=current_database() and wait_event_type='Lock'").fetchall()
             finally:c.execute('commit')
             replies=[f.result(timeout=20)for f in futures];pool.shutdown()

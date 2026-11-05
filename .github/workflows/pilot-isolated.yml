@@ -33,7 +33,7 @@ jobs:
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d rest
       - name: New pilot journey and security checks only
         env:
-          PILOT_SKIP: auth_signup_login_refresh_and_forgery,address_RLS,current_driver_joining_gate,catalog_prices_availability_and_atomic_refusal,order_creation_retry_and_reconnect,REST_role_and_order_privacy,cancel_reject_wallet_recovery,client_error_monitoring_store,unsupported_payment_refusal,real_REST_order_to_receipt_and_lost_body,cross_ticket_refund_cap_under_contention,refund_storage_failure_atomicity
+          PILOT_SKIP: auth_signup_login_refresh_and_forgery,address_RLS,current_driver_joining_gate,catalog_prices_availability_and_atomic_refusal,order_creation_retry_and_reconnect,REST_role_and_order_privacy,cancel_reject_wallet_recovery,client_error_monitoring_store,unsupported_payment_refusal,real_REST_order_to_receipt_and_lost_body,cross_ticket_refund_cap_under_contention,refund_storage_failure_atomicity,merchant_driver_and_direct_write_isolation
         run: python3 tests/pilot/lab.py integration
       - name: New driver tap actions on actual Auth REST
         if: ${{ false }}
