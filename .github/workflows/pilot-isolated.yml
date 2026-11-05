@@ -94,8 +94,21 @@ jobs:
       - name: New first cash and changed-revision server contract
         if: ${{ steps.services.outcome == 'success' }}
         env:
-          CONFIRM_REMAINING: '1'
+          CONFIRM_UI_FIXTURE: '1'
         run: python3 tests/pilot/confirmation.py
+      - name: New approval UI on actual isolated Auth REST
+        run: |
+          npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
+          cd tests/pilot
+          if command -v google-chrome >/dev/null; then
+            export PILOT_CHROMIUM_PATH="$(command -v google-chrome)"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+          python3 gateway.py >.runtime-gateway.log 2>&1 &
+          GATEWAY_PID=$!
+          trap 'kill "$GATEWAY_PID"' EXIT
+          node confirmation-ui.cjs
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export

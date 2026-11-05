@@ -1,0 +1,39 @@
+{
+  "result-confirmation.json": {
+    "source": "352a94f963d7c8c967262ea73dc14b38ef019a53",
+    "live": false,
+    "engine": "native PostgreSQL17.6 + GoTrue2.197 + PostgREST14.18",
+    "checks": [
+      {
+        "name": "numeric policies default to NULL/unapproved; proposals are not activated",
+        "pass": true,
+        "evidence": {
+          "enabled": true,
+          "version": 1,
+          "updated_at": "2026-11-05T14:36:12.641197+00:00",
+          "delay_approved": false,
+          "timeout_seconds": null,
+          "timeout_approved": false,
+          "material_delay_minutes": null,
+          "proposed_timeout_seconds": 120,
+          "proposed_material_delay_minutes": 10
+        }
+      }
+    ],
+    "pass": false,
+    "error": "place_order: HTTP 400 {'code': 'P0001', 'details': None, 'hint': None, 'message': 'order_change_requires_confirmation'}",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/confirmation.py\", line 27, in main\n    c=fresh('confirmcustomer',600);oid=lab.order(c)\n                                       ^^^^^^^^^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 163, in order\n    return rpc(token, 'place_order', {'p_store': STORE, 'p_items': [{'item_id': ITEM, 'qty': qty, 'options': []}],\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 78, in rpc\n    raise AssertionError(fn + ': HTTP ' + str(code) + ' ' + str(value)[:350])\nAssertionError: place_order: HTTP 400 {'code': 'P0001', 'details': None, 'hint': None, 'message': 'order_change_requires_confirmation'}\n"
+  },
+  "source_sha": "352a94f963d7c8c967262ea73dc14b38ef019a53",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:921e50aed7b2a67265f42ab03c7d54a32c641922cc64f0875a5ae2bcb8b37532",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:f36a9fc78aef0509ed5fa280819848cbdf099f60d7b338455ea54a5def18d6b1",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:3719f62df6229fc6670098c3df6d7ff792a7a67ddf9c7e016a5653f39b72e1a4",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:57ad85c77c5f48eeb75f4e75497bb59ea3952f16107aec618947f0bf3cae584d",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:34260cb89ea5d6d55b93ce13a5fe1772dbe8e1592e1200370160b7f5a0bd2ecd",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

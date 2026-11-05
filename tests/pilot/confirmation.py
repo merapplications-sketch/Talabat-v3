@@ -91,4 +91,8 @@ def main():
  except Exception as e:
   RESULT['pass']=False;RESULT['error']=str(e)[:400];RESULT['traceback']=traceback.format_exc();save();raise
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+ if os.environ.get('CONFIRM_UI_FIXTURE'):
+  lab.wait(lambda:lab.request(3000,'/')[0]==200,'rest');ui=fresh('confirmationui',601);oid=lab.order(ui)
+  lab.save(lab.HERE/'.runtime-confirmation-ui.json',{'order':oid,'account':'confirmationui'})
+ else:main()

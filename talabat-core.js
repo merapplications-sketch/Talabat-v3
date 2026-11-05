@@ -145,7 +145,7 @@
 
   /* ---------- Supabase runtime ---------- */
   var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
-  var DB = { stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
+  var DB = { approvals: {}, approvalReady: false, stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
   var seenChat = {}, lastStatus = {}, unread = {};
   var walletStale = true, wantTix = false, tixHold = false, sigs = {}, secRun = {}, secT0 = {}, secFail = {}, extraLoaded = {}, extraOrders = {}, kicks = {}, offlineNow = false, lastProbe = 0, lastTick = 0, fireT = null, errSent = 0;
   /* happy-hour windows running at a moment (Dushanbe = UTC+5, no daylight saving) — same rule as happy_hour_pct() in SQL */
@@ -172,6 +172,7 @@
         items: DB.oitems.filter(function (i) { return i.order_id === o.id; }).map(function (i) { return { id: i.item_id, name: i.name, price: +i.price, qty: i.qty, note: i.note || '', opts: Array.isArray(i.options) ? i.options.map(function (x) { return { id: x.id, g: String(x.g || ''), n: String(x.n || ''), p: +x.p || 0 }; }) : [] }; }),
         subtotal: +o.subtotal, discount: +o.discount, promoDiscount: +o.promo_discount || 0, promoCode: o.promo_code || '', delivery: +o.delivery_fee, tip: +o.tip, total: +o.total, commission: +o.commission, commissionPct: +o.commission_pct,
         payment: o.payment || '', address: o.address, deliveryBase: o.delivery_base == null ? null : +o.delivery_base, deliveryExtra: +o.delivery_extra || 0, deliveryKm: o.delivery_km == null ? null : +o.delivery_km, walletUsed: +o.wallet_used || 0, arrivedStoreAt: o.arrived_store_at ? Date.parse(o.arrived_store_at) : null, arrivedCustAt: o.arrived_cust_at ? Date.parse(o.arrived_cust_at) : null, deliveryPhoto: o.delivery_photo || null, cancelReason: o.cancel_reason || null, cancelNote: o.cancel_note || '', cancelledBy: o.cancelled_by || null, hhDiscount: +o.hh_discount || 0, leaveAtDoor: !!o.leave_at_door, scheduledFor: o.scheduled_for ? Date.parse(o.scheduled_for) : null, feeWaived: +o.fee_waived || 0, groupId: o.group_id || null, substitution: o.substitution || 'call', isGift: !!o.is_gift, recipient: DB.recipients[o.id] || null, hhPct: +o.hh_pct || 0, pointsUsed: +o.points_used || 0, pointsValue: +o.points_value || 0, pointsEarned: +o.points_earned || 0, cashback: +o.cashback || 0, lat: o.lat == null ? null : +o.lat, lng: o.lng == null ? null : +o.lng, prepTime: o.prep_time, driver: o.driver_id, driverName: o.driver_name || '', payout: +o.driver_payout,
+        approval: DB.approvals[o.id] || null, approvalReady: DB.approvalReady,
         cashCollected: o.cash_collected == null ? null : +o.cash_collected, cashNote: o.cash_note || '', cashSettled: !!o.cash_settled_at, cashSettledAt: o.cash_settled_at || null,
         client: { name: o.customer_name || '', phone: ((DB.contacts[o.id] || {}).customer_phone) || '' }, driverPhone: ((DB.contacts[o.id] || {}).driver_phone) || '', customerId: o.customer_id,
         chat: DB.chat.filter(function (c) { return c.order_id === o.id; }).map(function (c) { return { s: c.sender_id === o.customer_id ? 'client' : 'driver', t: c.body, at: Date.parse(c.created_at) }; }),
@@ -332,7 +333,8 @@
         (ME.role === 'driver' || ME.role === 'admin' || financeRead()) ? finSafe(sb.rpc('cash_balances')) : Promise.resolve({ data: [] }),
         (ME.role === 'admin' || financeOnly()) ? Promise.resolve({ data: null }) : sb.rpc('active_contacts'),
         // gift recipients (patch 32): readable only by the customer, the courier of the order and staff
-        (ME.role !== 'merchant' && !financeOnly() && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] })
+        (ME.role !== 'merchant' && !financeOnly() && live.length) ? sb.from('order_recipient').select('*').in('order_id', live) : Promise.resolve({ data: [] }),
+        sb.rpc('order_approval_states', { p_order_ids: ids.slice(0, 300) })
       ]).then(function (x) {
         if (x[0].error) throw x[0].error;
         var cash=DB.cash;if((ME.role==='driver'||financeRead())&&cashEpoch===(FIN.cash.epoch||0)){finState(FIN.cash,!x[2].error&&Array.isArray(x[2].data));if(FIN.cash.state==='ok'){FIN.cash.dirty=false;cash={};x[2].data.forEach(function(c){cash[c.driver_id]=+c.balance;});}}
@@ -342,7 +344,10 @@
         var contacts = {}; if (x[3] && !x[3].error) (x[3].data || []).forEach(function (c) { contacts[c.order_id] = { customer_phone: c.customer_phone || '', driver_phone: c.driver_phone || '' }; });
         if (ME.role === 'admin') contacts = DB.contacts;                       // the admin loads phones on demand (opened order, low ratings)
         var rcp = {}; if (x[4] && !x[4].error) (x[4].data || []).forEach(function (g) { rcp[g.order_id] = { name: g.name, phone: g.phone }; });
-        if (!changed('orders', [rows, x[0].data, chat, cash, contacts, rcp, FIN.cash.state])) return false;
+        var approvals = {}, approvalReady = !!(x[5] && !x[5].error && Array.isArray(x[5].data));
+        if (approvalReady) x[5].data.forEach(function (a) { approvals[a.order_id] = a; });
+        if (!changed('orders', [rows, x[0].data, chat, cash, contacts, rcp, FIN.cash.state, approvals, approvalReady])) return false;
+        DB.approvals = approvals; DB.approvalReady = approvalReady;
         DB.recipients = rcp;
         DB.orders = rows; DB.oitems = x[0].data || []; DB.chat = chat; DB.cash = cash; DB.contacts = contacts;
         return true;
@@ -523,9 +528,24 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_not_found', 'photo_service_unavailable', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['approval_unavailable', 'approval_changed', 'confirmation_expired', 'customer_confirmation_required', 'order_change_requires_confirmation', 'first_cash_pending', 'change_requires_support', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_not_found', 'photo_service_unavailable', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
+  }
+  /* Versioned fulfillment consent, independent of financial settlement commands. */
+  function approvalWrite(name, args, revision) {
+    if (!ME || !DB.approvalReady) return Promise.resolve({ error: 'approval_unavailable' });
+    var original = JSON.stringify(args), key;
+    try {
+      key = 'tlb-approval:' + ME.id + ':' + name + ':' + revision + ':' + original;
+      var request = localStorage.getItem(key);
+      if (!UUID.test(request || '')) { request = crypto.randomUUID(); localStorage.setItem(key, request); }
+      args.p_request = request;
+    } catch (e) { return Promise.resolve({ error: 'storage_unavailable' }); }
+    return sb.rpc(name, args).then(function (r) {
+      if (r.error) return { error: errKey(r.error) };
+      return refresh('orders').then(function () { return { data: r.data }; });
+    }, function () { return { error: 'approval_unavailable' }; });
   }
   function rpc(name, args, okToast) {
     return sb.rpc(name, args).then(function (r) {
@@ -666,6 +686,8 @@
   Object.assign(I.en, { resetTitle:'Reset password', resetExplain:'Enter your account email.', resetSend:'Send reset link', resetSent:'If the account exists, an email has been sent. Check your inbox and Spam folder.', resetNewTitle:'New password', resetNew:'New password (at least 8 characters)', resetConfirm:'Confirm new password', resetSave:'Save password', resetMismatch:'Passwords do not match.', resetDone:'Password changed. Sign in with your new password.', resetExpired:'The link is invalid or expired. Request a new one.', resetForgot:'Forgot password?' });
   Object.assign(I.ru, { err_photo_not_found:'Фото не найдено в хранилище. Загрузите его снова перед завершением заказа.', err_photo_service_unavailable:'Не удалось проверить фото. Заказ не завершён; обратитесь в поддержку.' });
   Object.assign(I.en, { err_photo_not_found:'The photo was not found in storage. Upload it again before completing delivery.', err_photo_service_unavailable:'The photo could not be checked. Delivery remains open; contact support.' });
+  Object.assign(I.ru, { err_approval_unavailable:'Не удалось проверить подтверждение заказа. Обновите данные.', err_approval_changed:'Условия заказа изменились. Проверьте новую версию.', err_confirmation_expired:'Срок подтверждения истёк. Ресторан должен отправить условия заново.', err_customer_confirmation_required:'Заказ ожидает подтверждения клиента. Готовить и оплачивать его пока нельзя.', err_order_change_requires_confirmation:'Изменение нужно предложить клиенту и получить подтверждение.', err_first_cash_pending:'Сначала подтвердите или отмените ваш первый заказ за наличные.', err_change_requires_support:'Это изменение требует поддержки. Оплата и согласованные условия не изменены.' });
+  Object.assign(I.en, { err_approval_unavailable:'Order confirmation could not be checked. Refresh the data.', err_approval_changed:'The order terms changed. Review the latest version.', err_confirmation_expired:'Confirmation expired. The restaurant must send a new review.', err_customer_confirmation_required:'Waiting for customer confirmation. Do not prepare or pay for this order yet.', err_order_change_requires_confirmation:'Propose this change and obtain customer confirmation first.', err_first_cash_pending:'Confirm or cancel your first cash order first.', err_change_requires_support:'This change requires support. Payment and agreed terms remain unchanged.' });
   var recoveryPending = false;
   function authReturnUrl() { return location.origin + location.pathname; }
   function showResetRequest() {
@@ -1181,6 +1203,7 @@
     cash: function(driverId){return FIN.cash.known?(DB.cash[driverId]||0):null;},
     myCash: function () { return ME ? (DB.cash[ME.id] || 0) : 0; },
     placeOrder: function (o) {
+      if (!DB.approvalReady) return Promise.resolve({ error: 'approval_unavailable' });
       var s = storeByName(o.store); if (!s) return Promise.resolve({ error: 'store_unavailable' });
       var items = linesOf(o.lines || o.cart, o.notes);
       if (!items) return Promise.resolve({ error: 'bad_value' });
@@ -1201,7 +1224,14 @@
       });
     },
     setStatus: function (id, to) { return rpc('set_order_status', { p_id: id, p_to: to }); },
-    patch: function (id, f) { return rpc('set_prep_time', { p_id: id, p_min: f.prepTime }, true); },
+    patch: function (id, f) { var o = ORD.find(function (x) { return x.id === id; });
+      if (ME.role === 'merchant' && o && o.approval && o.approval.state !== 'awaiting_merchant') return window.TLB.reviewOrder(id, f.prepTime, null, 'time update');
+      return rpc('set_prep_time', { p_id: id, p_min: f.prepTime }, true); },
+    reviewOrder: function (id, minutes, items, note) { var o = ORD.find(function (x) { return x.id === id; });
+      return approvalWrite('merchant_review_order', { p_order: id, p_minutes: minutes, p_items: items || null, p_note: note || null }, o && o.approval ? o.approval.revision : 0); },
+    confirmOrder: function (id, revision) { return approvalWrite('customer_confirm_order', { p_order: id, p_revision: revision }, revision); },
+    quoteOrderChange: function (id, items) { return sb.rpc('order_change_quote', { p_order: id, p_items: items }).then(function (r) { return r.error ? { error: errKey(r.error) } : { data: r.data }; }); },
+    confirmationSettings: function () { return sb.rpc('order_confirmation_settings').then(function (r) { return r.error ? null : r.data; }); },
     driverAccept: function (id) { return rpc('driver_accept', { p_id: id }).then(function (r) { return r.error ? r : (r.data === true ? { ok: true } : { error: 'taken' }); }); },
     deliver: function (id, cash, note, photo) { var a = { p_id: id, p_cash: cash, p_note: note || null }; if (photo) a.p_photo = photo; return rpc('deliver_order', a); },
     /* batch 2 (patch 34): courier arrival steps, photo proof (private bucket), restaurant cancel with a reason */
