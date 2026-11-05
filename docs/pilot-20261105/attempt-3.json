@@ -1,0 +1,397 @@
+{
+  "result-payment-guard.json": {
+    "observations": [
+      {
+        "method": "card",
+        "status": 200,
+        "result": 2,
+        "stored": [
+          "card",
+          "0",
+          "40.00"
+        ]
+      },
+      {
+        "method": "apple",
+        "status": 200,
+        "result": 3,
+        "stored": [
+          "apple",
+          "0",
+          "40.00"
+        ]
+      },
+      {
+        "method": "wallet",
+        "status": 200,
+        "result": 4,
+        "stored": [
+          "wallet",
+          "0",
+          "40.00"
+        ]
+      }
+    ],
+    "live": false
+  },
+  "result-integration.json": {
+    "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+    "engine": "native PostgreSQL + real GoTrue and PostgREST; synthetic only",
+    "old_53_or_ten_concurrency_rerun": false,
+    "checks": [
+      {
+        "name": "auth_signup_login_refresh_and_forgery",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "current_driver_joining_gate",
+        "pass": true,
+        "evidence": {
+          "current_flow": "email/password customer identity -> apply_as_driver -> same UUID driver pending -> admin approval",
+          "pending_cannot_accept": true
+        }
+      },
+      {
+        "name": "address_RLS",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "catalog_prices_availability_and_atomic_refusal",
+        "pass": true,
+        "evidence": {
+          "availability_and_open_checked_by_server": true,
+          "failed_order_has_no_partial_rows": true
+        }
+      },
+      {
+        "name": "unsupported_payment_refusal",
+        "pass": false,
+        "error": "unsupported payments accepted without debit: [{\"method\": \"card\", \"status\": 200, \"result\": 2, \"stored\": [\"card\", \"0\", \"40.00\"]}, {\"method\": \"apple\", \"status\": 200, \"result\": 3, \"stored\": [\"apple\", \"0\", \"40.00\"]}, {\"method\": \"wallet\", \"status\": 200, \"result\": 4, \"stored\": [\"wallet\", \"0\", \"40.00\"]}]",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 285, in unsupported_payment\n    assert all(o['status'] >= 400 and o['result'].get('message') == 'payment_not_configured' for o in observations), 'unsupported payments accepted without debit: ' + json.dumps(observations, default=str)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: unsupported payments accepted without debit: [{\"method\": \"card\", \"status\": 200, \"result\": 2, \"stored\": [\"card\", \"0\", \"40.00\"]}, {\"method\": \"apple\", \"status\": 200, \"result\": 3, \"stored\": [\"apple\", \"0\", \"40.00\"]}, {\"method\": \"wallet\", \"status\": 200, \"result\": 4, \"stored\": [\"wallet\", \"0\", \"40.00\"]}]\n"
+      },
+      {
+        "name": "real_REST_order_to_receipt_and_lost_body",
+        "pass": false,
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 299, in main_journey\n    assert response.status == 200\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+      },
+      {
+        "name": "order_creation_retry_and_reconnect",
+        "pass": true,
+        "evidence": {
+          "key": "pilot_retry_8e9700bdbe0e4601985d0f48fd5d74ce",
+          "order": 6,
+          "concurrent_and_after_reconnect": true
+        }
+      },
+      {
+        "name": "REST_role_and_order_privacy",
+        "pass": true,
+        "evidence": {
+          "anonymous_and_cross_customer_rows_hidden": true,
+          "ungranted_command_and_transition_denied": true
+        }
+      },
+      {
+        "name": "cancel_reject_wallet_recovery",
+        "pass": true,
+        "evidence": {
+          "pending_cancel_wallet_return_once": true,
+          "merchant_rejection_reason_persisted": true,
+          "driver_advance_compensation_policy": "open_not_invented"
+        }
+      },
+      {
+        "name": "client_error_monitoring_store",
+        "pass": true,
+        "evidence": {
+          "error_log_persists_and_is_private": true,
+          "external_uptime_alert_receiver_configured": false
+        }
+      }
+    ],
+    "live": false,
+    "open": [
+      "actual hardware Safari/Android",
+      "native printer",
+      "real SMTP/SMS",
+      "Realtime websocket service",
+      "hosted deployment configuration"
+    ],
+    "pass": false
+  },
+  "result-restore.json": {
+    "pass": true,
+    "scope": "isolated native logical pg_dump/pg_restore including actual auth schema and receipt rows",
+    "tables": {
+      "talabot_pilot": {
+        "profiles": {
+          "rows": 178,
+          "sha256": "7c6e8d70683ed0ef34afe06d3ed1360c18fd7ec1f670c80be2e2182f9ded7a87"
+        },
+        "stores": {
+          "rows": 1,
+          "sha256": "bbf8f0af1ebe4fe9607fa3ec69e043ead29a5c01005042698c1fd7b45e1e4925"
+        },
+        "menu_items": {
+          "rows": 1,
+          "sha256": "acf7f076408500b5c3c08fa564d66b0d263b9088a31d7ce47e7f431c24692d7e"
+        },
+        "orders": {
+          "rows": 10092,
+          "sha256": "422b784d06be94013d480f7251abbdf3995c1d04fe7c4ae54db65e0a4e105030"
+        },
+        "order_items": {
+          "rows": 92,
+          "sha256": "c86d1e14a14320d3a4f9d64cfcb7be0e45353862b69583d33ea2c36a717a1472"
+        },
+        "order_events": {
+          "rows": 10528,
+          "sha256": "b8b8bdca5f5d2ce5383d4c03ed520aaa271af18a002afd02ccba48a8091a55ee"
+        },
+        "audit_log": {
+          "rows": 181,
+          "sha256": "3f68af2c445c3c16502dd44e2436f82bfc65f5d811752c0e9a50e80454e44fe4"
+        },
+        "wallet_entries": {
+          "rows": 3,
+          "sha256": "bdf818a0e158c7b02ce09ac84a6b22935a4e391739caa2f0da6808e0e657a5e7"
+        },
+        "loyalty_ledger": {
+          "rows": 86,
+          "sha256": "853c6d1e9aad9997a630bd9e3362d670e26115b7e314d39739bb09886c2ed828"
+        },
+        "finance_private.commands": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipts": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipt_orders": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.users": {
+          "rows": 178,
+          "sha256": "8bd0d62ea149f7331f3d4e44da5589c5c2b10da5cce25438a27e8144d54ebec1"
+        }
+      },
+      "talabot_pilot_restore": {
+        "profiles": {
+          "rows": 178,
+          "sha256": "7c6e8d70683ed0ef34afe06d3ed1360c18fd7ec1f670c80be2e2182f9ded7a87"
+        },
+        "stores": {
+          "rows": 1,
+          "sha256": "bbf8f0af1ebe4fe9607fa3ec69e043ead29a5c01005042698c1fd7b45e1e4925"
+        },
+        "menu_items": {
+          "rows": 1,
+          "sha256": "acf7f076408500b5c3c08fa564d66b0d263b9088a31d7ce47e7f431c24692d7e"
+        },
+        "orders": {
+          "rows": 10092,
+          "sha256": "422b784d06be94013d480f7251abbdf3995c1d04fe7c4ae54db65e0a4e105030"
+        },
+        "order_items": {
+          "rows": 92,
+          "sha256": "c86d1e14a14320d3a4f9d64cfcb7be0e45353862b69583d33ea2c36a717a1472"
+        },
+        "order_events": {
+          "rows": 10528,
+          "sha256": "b8b8bdca5f5d2ce5383d4c03ed520aaa271af18a002afd02ccba48a8091a55ee"
+        },
+        "audit_log": {
+          "rows": 181,
+          "sha256": "3f68af2c445c3c16502dd44e2436f82bfc65f5d811752c0e9a50e80454e44fe4"
+        },
+        "wallet_entries": {
+          "rows": 3,
+          "sha256": "bdf818a0e158c7b02ce09ac84a6b22935a4e391739caa2f0da6808e0e657a5e7"
+        },
+        "loyalty_ledger": {
+          "rows": 86,
+          "sha256": "853c6d1e9aad9997a630bd9e3362d670e26115b7e314d39739bb09886c2ed828"
+        },
+        "finance_private.commands": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipts": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "finance_private.settlement_receipt_orders": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth.users": {
+          "rows": 178,
+          "sha256": "8bd0d62ea149f7331f3d4e44da5589c5c2b10da5cce25438a27e8144d54ebec1"
+        }
+      }
+    },
+    "backup_bytes": 682365,
+    "live_backup_or_R2_storage_tested": false,
+    "backup_exported": false
+  },
+  "result-load.json": {
+    "source": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+    "live": false,
+    "engine": "native PostgreSQL17.6 + GoTrue2.197 + PostgREST14.18 / GitHub Linux VM",
+    "scope": "85 single-order journeys; 10,25,50 concurrent virtual journeys; no real WAN, Realtime or device",
+    "stages": [
+      {
+        "concurrency": 10,
+        "journeys_completed": 10,
+        "journey_failures": [],
+        "duration_s": 6.34,
+        "requests": 150,
+        "rps": 23.67,
+        "http_error_rate": 0.0,
+        "p50_ms": 5.05,
+        "p95_ms": 67.54,
+        "p99_ms": 103.14,
+        "max_ms": 116.37
+      },
+      {
+        "concurrency": 25,
+        "journeys_completed": 25,
+        "journey_failures": [],
+        "duration_s": 6.57,
+        "requests": 375,
+        "rps": 57.04,
+        "http_error_rate": 0.0,
+        "p50_ms": 9.93,
+        "p95_ms": 115.16,
+        "p99_ms": 162.96,
+        "max_ms": 173.64
+      },
+      {
+        "concurrency": 50,
+        "journeys_completed": 50,
+        "journey_failures": [],
+        "duration_s": 6.69,
+        "requests": 750,
+        "rps": 112.04,
+        "http_error_rate": 0.0,
+        "p50_ms": 21.42,
+        "p95_ms": 64.92,
+        "p99_ms": 83.03,
+        "max_ms": 97.73
+      }
+    ],
+    "db_top_queries": [
+      {
+        "calls": 255,
+        "total_ms": "1135.18",
+        "mean_ms": "4.452",
+        "rows": 255,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_to\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_id\" bigint, \"p_to\" public.order_status) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"set_order_status\"(\"p_id\" := p"
+      },
+      {
+        "calls": 85,
+        "total_ms": "597.17",
+        "mean_ms": "7.026",
+        "rows": 85,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_store\", \"p_items\", \"p_payment\", \"p_address\", \"p_lat\", \"p_lng\", \"p_key\", \"p_fee\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_store\" uuid, \"p_items\" jsonb, \"p_payment\" text, \"p"
+      },
+      {
+        "calls": 255,
+        "total_ms": "470.37",
+        "mean_ms": "1.845",
+        "rows": 255,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_lat\", \"p_lng\", \"p_acc\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_lat\" double precision, \"p_lng\" double precision, \"p_acc\" double precision) LIMIT $4) pgrst_body , LATERAL ("
+      },
+      {
+        "calls": 85,
+        "total_ms": "430.71",
+        "mean_ms": "5.067",
+        "rows": 85,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\", \"p_driver\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_order\" bigint, \"p_driver\" uuid) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"admin_assign_driver\"(\"p_order\""
+      },
+      {
+        "calls": 255,
+        "total_ms": "249.56",
+        "mean_ms": "0.979",
+        "rows": 255,
+        "normalized_query": "WITH pgrst_source AS (SELECT \"pgrst_call\".* FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_order\" bigint) LIMIT $4) pgrst_body , LATERAL \"public\".\"order_courier_position\"(\"p_order\" := pgrst_body.\"p_order\") pgrst_call) SELEC"
+      },
+      {
+        "calls": 85,
+        "total_ms": "208.19",
+        "mean_ms": "2.449",
+        "rows": 85,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_cash\", \"p_note\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_id\" bigint, \"p_cash\" numeric, \"p_note\" text) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"deliver_orde"
+      },
+      {
+        "calls": 85,
+        "total_ms": "185.34",
+        "mean_ms": "2.180",
+        "rows": 85,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_online\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_online\" boolean) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"driver_ping\"(\"p_online\" := pgrst_body.\"p_online\") pgrst_"
+      },
+      {
+        "calls": 85,
+        "total_ms": "125.98",
+        "mean_ms": "1.482",
+        "rows": 85,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_store\", \"p_lat\", \"p_lng\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_store\" uuid, \"p_lat\" double precision, \"p_lng\" double precision) LIMIT $4) pgrst_body , LATERAL (SELECT \""
+      },
+      {
+        "calls": 85,
+        "total_ms": "100.13",
+        "mean_ms": "1.178",
+        "rows": 85,
+        "normalized_query": "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_min\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p_id\" bigint, \"p_min\" integer) LIMIT $4) pgrst_body , LATERAL (SELECT \"public\".\"set_prep_time\"(\"p_id\" := pgrst_body.\"p_"
+      },
+      {
+        "calls": 1275,
+        "total_ms": "26.01",
+        "mean_ms": "0.020",
+        "rows": 1275,
+        "normalized_query": "select set_config('search_path', $1, true), set_config('role', $2, true), set_config('request.jwt.claims', $3, true), set_config('request.method', $4, true), set_config('request.path', $5, true), set_config('request.headers', $6, true), set_config('request.cookies', $7, true)"
+      },
+      {
+        "calls": 20,
+        "total_ms": "0.14",
+        "mean_ms": "0.007",
+        "rows": 0,
+        "normalized_query": "SET client_encoding = 'UTF8'"
+      },
+      {
+        "calls": 20,
+        "total_ms": "0.13",
+        "mean_ms": "0.007",
+        "rows": 0,
+        "normalized_query": "BEGIN ISOLATION LEVEL READ COMMITTED READ ONLY"
+      }
+    ],
+    "db_counters": {
+      "commits": 4916,
+      "rollbacks": 10,
+      "blocks_read": 775,
+      "blocks_hit": 1543711,
+      "deadlocks": 0,
+      "temp_bytes": 0
+    },
+    "confirmed_delivered": 85,
+    "driver_double_active": 0,
+    "pass": true,
+    "production_capacity_claim": false
+  },
+  "source_sha": "ece345eee5fdd163ed1369d1ff58a403910271fb",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:36ffe93f119df4dde5737e96fd5fe21e93f9ed8f0851bbb8344d685747fbbd40",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:e2c27ef4403bda921331fd3be5da297fd2865fcf42e2b2aba7d6b4c34073acdd",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:9c7f242f6dec2d7d7b55d4c9e07872d59b85377c6cb3de46c915a5d1ffb91442",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:acc55719d3816ebba2af7393d13bc72c690ddedf4e3ec74340104e3e0bda6b4d",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:82243f9dd22d1586d11ec6719395c10e6f266cfaf338a0380d09c62873805ac8",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

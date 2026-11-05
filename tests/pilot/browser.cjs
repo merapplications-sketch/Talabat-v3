@@ -1,0 +1,52 @@
+const fs=require('fs'),path=require('path'),assert=require('assert');
+const {chromium}=require('playwright');
+const here=__dirname, state=JSON.parse(fs.readFileSync(path.join(here,'.runtime.json')));
+const result={environment:'Playwright Chromium on Linux; actual candidate HTML and Supabase JS to local real GoTrue/PostgREST through path bridge',real_iPhone_Safari:false,native_printer:false,checks:[],live:false};
+const ok=(v,n)=>{assert(v,n);result.checks.push({name:n,pass:true});console.log('PASS browser '+n)};
+(async()=>{let browser;try{
+ browser=await chromium.launch({headless:true});
+ const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:1});
+ const external=[];
+ await context.route('**/*',async route=>{const u=new URL(route.request().url());if(['127.0.0.1','localhost'].includes(u.hostname))return route.continue();external.push(u.origin);return route.abort()});
+ let page=await context.newPage();page.on('dialog',d=>d.dismiss());
+ const account=state.accounts.customer;
+ await page.goto('http://127.0.0.1:8080/customer.html?lang=ru');
+ await page.locator('#tlb-em').fill(account.email);await page.locator('#tlb-pw').fill(account.password);await page.locator('#tlb-go').click();
+ await page.waitForFunction(()=>typeof ALLS!=='undefined'&&ALLS.length>0&&TLB.me()?.id,{timeout:25000});
+ ok(true,'actual app login and restaurant bootstrap through Auth/REST');
+ await page.evaluate(()=>{S.tmp={street:'DEMO Rudaki',house:'1',lat:38.5598,lng:68.787};S.useTmp=true;S.cartStore=ALLS[0].n;S.store=S.cartStore;S.cart={'a0000000-0000-4000-8000-000000000006':1};S.pay='apple';S.v='pay';render();quoteNow()});
+ await page.waitForFunction(()=>S.quote&&S.quote.fee===15);
+ ok(await page.evaluate(()=>S.pay==='cash'&&document.querySelectorAll('.pay').length===1),'unconfigured digital payments not offered or restored from preference');
+ await context.setOffline(true);await page.evaluate(()=>window.dispatchEvent(new Event('offline')));
+ await page.waitForSelector('#tlb-off',{timeout:12000});
+ ok(await page.evaluate(()=>Object.keys(S.cart).length===1),'offline state visible and cart retained');
+ await context.setOffline(false);await page.evaluate(()=>window.dispatchEvent(new Event('online')));
+ await page.waitForFunction(()=>!document.querySelector('#tlb-off'),{timeout:12000});
+ let dropped=null,keys=[];
+ await page.route('**/rest/v1/rpc/place_order',async route=>{keys.push(route.request().postDataJSON().p_key);const response=await route.fetch();if(!dropped&&response.status()===200){dropped=await response.json();return route.abort('connectionreset')}return route.fulfill({response})});
+ await page.evaluate(()=>place());
+ ok(!!dropped,'actual server committed order before simulated response-body loss');
+ const key=await page.evaluate(()=>S.okey),stored=await page.evaluate(()=>JSON.parse(localStorage.getItem(CK())).key);
+ ok(key===stored&&!!key,'pending order key persisted before response and retained after loss');
+ await page.close();page=await context.newPage();page.on('dialog',d=>d.dismiss());
+ await page.goto('http://127.0.0.1:8080/customer.html');
+ await page.waitForFunction(()=>typeof ALLS!=='undefined'&&ALLS.length>0&&typeof S!=='undefined'&&S.okey,{timeout:25000});
+ ok(await page.evaluate(k=>S.okey===k,key),'close and reopen restores original attempt key');
+ await page.route('**/rest/v1/rpc/place_order',async route=>{keys.push(route.request().postDataJSON().p_key);return route.continue()});
+ await page.evaluate(()=>{S.tmp={street:'DEMO Rudaki',house:'1',lat:38.5598,lng:68.787};S.useTmp=true;S.v='pay';render()});
+ await page.evaluate(()=>place());await page.waitForFunction(()=>S.v==='track');
+ ok(await page.evaluate(id=>S.tid===id,dropped)&&keys.length>=2&&keys.every(k=>k===key),'retry after reopen retrieves the same order with same key');
+ result.order=dropped;result.request_key=key;result.place_attempts=keys.length;result.external_origins_blocked=[...new Set(external)];
+ const integ=JSON.parse(fs.readFileSync(path.join(here,'result-integration.json')));
+ const receipt=integ.checks.find(x=>x.name==='real_REST_order_to_receipt_and_lost_body')?.evidence?.stored_receipt;
+ if(receipt){
+  const printPage=await context.newPage();await printPage.goto('http://127.0.0.1:8080/driver.html');
+  await printPage.waitForFunction(()=>typeof FinanceReceipt!=='undefined');
+  const html=await printPage.evaluate(r=>FinanceReceipt.documentHTML(r),receipt);
+  await printPage.setContent(html);const pdf=await printPage.pdf({format:'A4',printBackground:true});
+  ok(pdf.subarray(0,5).toString()==='%PDF-'&&pdf.length>1000,'receipt rendered by Chromium PDF print engine; no native print-dialog claim');
+  result.receipt_pdf_sha256=require('crypto').createHash('sha256').update(pdf).digest('hex');
+ }
+ result.pass=true;
+}catch(e){let message=e.stack||String(e);for(const a of Object.values(state.accounts))for(const k of ['password','access_token','refresh_token'])if(a[k])message=message.split(a[k]).join('[REDACTED]');result.pass=false;result.error=message;console.error(message);process.exitCode=1}
+finally{if(browser)await browser.close();fs.writeFileSync(path.join(here,'result-browser.json'),JSON.stringify(result,null,2)+'\n')}})();

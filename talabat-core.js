@@ -22,6 +22,8 @@
   };
   var lang = 'ru';
   try { lang = localStorage.getItem(LK) || ((navigator.language || '').indexOf('en') === 0 ? 'en' : 'ru'); } catch (e) {}
+  I.ru.err_payment_not_configured = 'Этот способ оплаты пока недоступен. Выберите наличные.';
+  I.en.err_payment_not_configured = 'This payment method is not available yet. Choose cash.';
   function t(k) { return (I[lang] && I[lang][k]) || I.ru[k] || k; }
   function applyI18n() {
     document.documentElement.lang = lang;

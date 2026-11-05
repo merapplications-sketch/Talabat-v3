@@ -1,0 +1,17 @@
+{
+  "name": "pilot",
+  "version": "1.0.0",
+  "description": "Pinned isolated pilot browser clients",
+  "scripts": {
+    "test": "node browser.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.2",
+    "playwright": "1.56.1"
+  },
+  "private": true
+}

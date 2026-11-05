@@ -283,20 +283,24 @@ def integration():
             observations.append(row)
         save(HERE / 'result-payment-guard.json', {'observations': observations, 'live': False})
         assert all(o['status'] >= 400 and o['result'].get('message') == 'payment_not_configured' for o in observations), 'unsupported payments accepted without debit: ' + json.dumps(observations, default=str)
+        with db() as c:
+            old = q(c, "insert into orders(store_id,customer_id,payment,client_key,status,total) values(%s,%s,'card','legacy_payment_key','cancelled',40) returning id", (STORE, uid('outsider')))
+        code, recovered = request(3000, '/rpc/place_order', {'p_store': STORE, 'p_items': [], 'p_key': 'legacy_payment_key', 'p_payment': 'card'}, bearer('outsider'))
+        assert code == 200 and recovered == old
         return observations
     case('unsupported_payment_refusal', unsupported_payment)
 
     def main_journey():
         value = journey(race=True)
         oid = value['order']
-        key = 'pilot-receipt-' + str(uuid.uuid4())
+        key = str(uuid.uuid4())
         # Receive headers (SQL COMMIT completed), drop the response body, then
         # recover through a separate authenticated status request over REST.
         cn = http.client.HTTPConnection('127.0.0.1', 3000, timeout=20)
         payload = {'p_request': key, 'p_operation': 'settle_cash', 'p_target': uid(value['driver']), 'p_amount': None, 'p_note': None}
         cn.request('POST', '/rpc/finance_execute', json.dumps(payload), {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + bearer('accountant')})
         response = cn.getresponse()
-        assert response.status == 200
+        assert response.status == 200, ('finance_execute_headers', response.status, response.read().decode()[:250])
         cn.close()  # body intentionally never decoded by submitting client
         stored = rpc(bearer('accountant'), 'finance_command_status', {'p_request': key})
         assert stored['receipt']['request'] == key and stored['amount'] == 65
@@ -364,6 +368,34 @@ def integration():
         assert request(3000, '/client_errors?select=message', token=bearer('admin'))[1]
         return {'error_log_persists_and_is_private': True, 'external_uptime_alert_receiver_configured': False}
     case('client_error_monitoring_store', client_monitor)
+
+    def refund_race():
+        # Distinct closed tickets on one delivered order: there is no duplicate
+        # ticket uniqueness conflict to conceal a cross-ticket refund cap race.
+        oid = order(bearer('outsider'))
+        with db() as c:
+            c.execute("update orders set status='delivered',done_at=now() where id=%s", (oid,))
+            tickets = [q(c, "insert into support_tickets(customer_id,order_id,reason,status) values(%s,%s,'missing_items','resolved') returning id", (uid('outsider'), oid)) for _ in range(2)]
+            c.execute("create function public.pilot_refund_barrier() returns trigger language plpgsql as $$begin if new.kind='refund' then perform pg_advisory_xact_lock(517551);end if;return new;end$$;create trigger pilot_refund_barrier before insert on wallet_entries for each row execute function public.pilot_refund_barrier()")
+            c.execute('select pg_advisory_lock(517551)')
+            pool = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+            futures = [pool.submit(request, 3000, '/rpc/ticket_set_status', {'p_ticket': ticket, 'p_status': 'resolved', 'p_note': 'synthetic cap race', 'p_refund': 40}, bearer('admin')) for ticket in tickets]
+            # With missing order lock both transactions reach the insert gate;
+            # with the fix one waits on the order, while one waits at this gate.
+            try:
+                wait(lambda: q(c, "select count(*) from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and query like 'WITH pgrst_source%%'") >= 2, 'two_refund_requests_waiting', 15)
+                locks = c.execute("select pid,wait_event_type,wait_event,pg_blocking_pids(pid) from pg_stat_activity where datname=current_database() and wait_event_type='Lock'").fetchall()
+            finally:
+                c.execute('select pg_advisory_unlock(517551)')
+            responses = [f.result(timeout=20) for f in futures]
+            pool.shutdown()
+            total = q(c, "select coalesce(sum(amount),0) from wallet_entries where order_id=%s and kind='refund'", (oid,))
+            c.execute('drop trigger pilot_refund_barrier on wallet_entries;drop function public.pilot_refund_barrier()')
+            evidence = {'order_total': 65, 'refund_requested_each': 40, 'responses': responses, 'refund_total': total, 'locks': locks}
+            save(HERE / 'result-refund-race.json', evidence)
+            assert total <= 65, json.dumps(evidence, default=str)
+        return evidence
+    case('cross_ticket_refund_cap_under_contention', refund_race)
     result['pass'] = all(x.get('pass', x.get('status') == 'previously_passed_not_rerun') for x in result['checks'])
     save(HERE / 'result-integration.json', result)
     if not result['pass']:
@@ -371,17 +403,20 @@ def integration():
 
 
 def load():
+    stages = [int(n) for n in os.environ.get('PILOT_LOAD_STAGES', '10,25,50').split(',')]
+    total_journeys = sum(stages)
+    assert stages in ([10,25,50], [50])
     result = {'source': os.environ.get('GITHUB_SHA'), 'live': False, 'engine': 'native PostgreSQL17.6 + GoTrue2.197 + PostgREST14.18 / GitHub Linux VM',
-              'scope': '85 single-order journeys; 10,25,50 concurrent virtual journeys; no real WAN, Realtime or device', 'stages': []}
+              'scope': str(total_journeys) + ' single-order journeys; concurrency ' + str(stages) + '; no real WAN, Realtime or device', 'stages': []}
     metrics, metric_lock = [], threading.Lock()
     s = state()
-    for i in range(85):
+    for i in range(total_journeys):
         for kind in ['loadc', 'loadd']:
             name = kind + str(i)
             s['accounts'][name] = register(name, 100 + i + (1000 if kind == 'loadd' else 0), admin=True)
         save(STATE, s)
     with db() as c:
-        c.execute("update profiles set role='driver',driver_status='approved',online=false where id=any(%s::uuid[])", ([uid('loadd' + str(i)) for i in range(85)],))
+        c.execute("update profiles set role='driver',driver_status='approved',online=false where id=any(%s::uuid[])", ([uid('loadd' + str(i)) for i in range(total_journeys)],))
         # A realistic retained catalogue/history size, isolated only. Historical
         # orders are >48h old and settled; they never enter this lab's finance.
         c.execute("insert into orders(store_id,customer_id,status,payment,subtotal,total,created_at,done_at,cash_collected,cash_settled_at) select %s,%s,'delivered','cash',25,40,now()-interval '3 days',now()-interval '3 days',0,now()-interval '3 days' from generate_series(1,10000)", (STORE, uid('outsider')))
@@ -416,7 +451,7 @@ def load():
         values = sorted(values)
         return round(values[min(len(values) - 1, int((len(values) - 1) * p))], 2) if values else None
     offset = 0
-    for concurrency in [10, 25, 50]:
+    for concurrency in stages:
         t = time.perf_counter()
         start = len(metrics)
         successes, failures = [], []
@@ -440,7 +475,7 @@ def load():
         result['db_counters'] = dict(zip(['commits', 'rollbacks', 'blocks_read', 'blocks_hit', 'deadlocks', 'temp_bytes'], c.execute("select xact_commit,xact_rollback,blks_read,blks_hit,deadlocks,temp_bytes from pg_stat_database where datname=current_database()").fetchone()))
         result['confirmed_delivered'] = q(c, "select count(*) from orders where client_key like 'load_order_%%' and status='delivered'")
         result['driver_double_active'] = q(c, "select count(*) from (select driver_id from orders where status in ('preparing','ready','pickedup') and driver_id is not null group by driver_id having count(*)>1) x")
-    result['pass'] = result['confirmed_delivered'] == 85 and all(not x['journey_failures'] and x['http_error_rate'] == 0 for x in result['stages'])
+    result['pass'] = result['confirmed_delivered'] == total_journeys and all(not x['journey_failures'] and x['http_error_rate'] == 0 for x in result['stages'])
     result['production_capacity_claim'] = False
     save(HERE / 'result-load.json', result)
     if not result['pass']:
@@ -457,6 +492,8 @@ def restore():
                 # Hash sensitive auth rows inside the isolated runtime, never export them.
                 value = q(c, 'select coalesce(jsonb_agg(v order by v::text)::text,\'[]\') from (select to_jsonb(t) v from ' + table + ' t) x')
                 hashes[name][table] = {'rows': q(c, 'select count(*) from ' + table), 'sha256': hashlib.sha256(value.encode()).hexdigest()}
+            definitions = c.execute("select p.oid::regprocedure::text,pg_get_functiondef(p.oid) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','finance_private','auth') and p.prokind='f' order by p.oid::regprocedure::text").fetchall()
+            hashes[name]['function_definitions'] = {'count': len(definitions), 'sha256': hashlib.sha256(json.dumps(definitions).encode()).hexdigest()}
     assert hashes['talabot_pilot'] == hashes['talabot_pilot_restore']
     value = {'pass': True, 'scope': 'isolated native logical pg_dump/pg_restore including actual auth schema and receipt rows', 'tables': hashes, 'backup_bytes': (HERE / 'backup.dump').stat().st_size, 'live_backup_or_R2_storage_tested': False, 'backup_exported': False}
     save(HERE / 'result-restore.json', value)
@@ -479,7 +516,14 @@ def export():
                 data['auth_relations'] = c.execute("select schemaname,tablename from pg_tables where schemaname='auth' order by tablename").fetchall()
         except Exception:
             pass
-    raw = json.dumps(data, ensure_ascii=False, default=str).encode()
+    raw_text = json.dumps(data, ensure_ascii=False, default=str)
+    if STATE.exists():
+        runtime = state()
+        values = [runtime['password'], runtime['jwt']]
+        values.extend(v for a in runtime['accounts'].values() for k,v in a.items() if k in ('password','access_token','refresh_token'))
+        for value in values:
+            raw_text = raw_text.replace(value, '[REDACTED]')
+    raw = raw_text.encode()
     print('PILOT_RESULT_ZLIB_BASE64=' + base64.b64encode(zlib.compress(raw)).decode(), flush=True)
 
 
