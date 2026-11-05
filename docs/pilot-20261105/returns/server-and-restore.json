@@ -1,0 +1,160 @@
+{
+  "result-driver-returns-restore.json": {
+    "pass": true,
+    "live": false,
+    "signature": {
+      "agreements": "576d18c9bb3b5f981aaacbce7ebe0e0c639fe8cc0805e34af7f2dc7840d87f43",
+      "cases": "3027e04ac2cc3173d0b62bcda6809d3e361f1fa627081bbe66addc7de7fe0a66",
+      "refunds": "54db6811556adaec1c9c818f7d33d7a074b3caeeee872d771b45d030f3edde1f",
+      "delivery_due": "20d986443431dcf198eb3495e5ada983dfb5370b68d8c14ca8e40865f728c0d1",
+      "commands": "ce33f166675870351f7ad25a160dd5b4c548a636fdce34e481f107fecd899231",
+      "guards": [
+        [
+          "return_order_guard",
+          "CREATE TRIGGER return_order_guard BEFORE UPDATE OF status, store_id, driver_id, customer_id ON public.orders FOR EACH ROW EXECUTE FUNCTION return_private.guard_case_order()",
+          "O"
+        ]
+      ],
+      "rls": [
+        [
+          "agreements",
+          true
+        ],
+        [
+          "cases",
+          true
+        ],
+        [
+          "commands",
+          true
+        ],
+        [
+          "delivery_due",
+          true
+        ],
+        [
+          "refunds",
+          true
+        ]
+      ],
+      "functions": [
+        [
+          "order_return_action(bigint,uuid,text,text,numeric,text)",
+          "6075679da1b45c239c05b4d9d5dd4e53",
+          "{postgres=X/postgres,authenticated=X/postgres}"
+        ],
+        [
+          "order_return_status(bigint)",
+          "8abb00eed13178d834c7bd55da20e353",
+          "{postgres=X/postgres,authenticated=X/postgres}"
+        ],
+        [
+          "record_return_agreement(uuid,uuid,boolean,text)",
+          "b45ac22d5e92e63adae41ef7d4f71081",
+          "{postgres=X/postgres,authenticated=X/postgres}"
+        ],
+        [
+          "return_private.guard_case_order()",
+          "cc30d771d8553dfe94cd5c7bddd5b912",
+          "{postgres=X/postgres}"
+        ],
+        [
+          "return_private.view_case(bigint,boolean)",
+          "d836194703ea92737036025dff466c90",
+          "{postgres=X/postgres}"
+        ]
+      ]
+    },
+    "dump_exported": false
+  },
+  "result-driver-returns.json": {
+    "source": "cd768e0ed2b71667e294097b9bec52b6e3daebf3",
+    "live": false,
+    "checks": [
+      {
+        "name": "existing orders cannot gain a retroactive agreement or bypass departure",
+        "evidence": null,
+        "pass": true
+      },
+      {
+        "name": "actual driver prepayment differs from order subtotal; platform delivery recorded once",
+        "evidence": {
+          "paid": 47.0,
+          "pending": null,
+          "currency": "TJS",
+          "open_claim": 47.0,
+          "refused_at": null,
+          "departed_at": "2026-11-05T19:32:26.427074+00:00",
+          "received_at": null,
+          "cancelled_at": "2026-11-05T19:32:26.431097+00:00",
+          "delivery_due": 15.0,
+          "order_status": "cancelled",
+          "confirmed_refund": 0,
+          "can_document_departure": false
+        },
+        "pass": true
+      },
+      {
+        "name": "receipt, role isolation and customer redaction enforced",
+        "evidence": null,
+        "pass": true
+      },
+      {
+        "name": "full refund closes only meal claim; concurrent replay cannot duplicate it",
+        "evidence": {
+          "paid": 47.0,
+          "pending": null,
+          "currency": "TJS",
+          "open_claim": 0.0,
+          "refused_at": null,
+          "departed_at": "2026-11-05T19:32:26.427074+00:00",
+          "received_at": "2026-11-05T19:32:26.454088+00:00",
+          "cancelled_at": "2026-11-05T19:32:26.431097+00:00",
+          "delivery_due": 15.0,
+          "order_status": "cancelled",
+          "confirmed_refund": 47.0,
+          "can_document_departure": false
+        },
+        "pass": true
+      },
+      {
+        "name": "partial or disputed amount remains an open claim; reused references and excess denied",
+        "evidence": {
+          "paid": 47.0,
+          "pending": null,
+          "currency": "TJS",
+          "open_claim": 27.0,
+          "refused_at": "2026-11-05T19:32:26.596441+00:00",
+          "departed_at": "2026-11-05T19:32:26.55729+00:00",
+          "received_at": "2026-11-05T19:32:26.569476+00:00",
+          "cancelled_at": "2026-11-05T19:32:26.560708+00:00",
+          "delivery_due": 15.0,
+          "order_status": "cancelled",
+          "confirmed_refund": 20.0,
+          "can_document_departure": false
+        },
+        "pass": true
+      },
+      {
+        "name": "refusal preserves full claim; one delivery entitlement per case and no cash, wallet or settlement effects",
+        "evidence": {
+          "paid": 47.0,
+          "pending": null,
+          "currency": "TJS",
+          "open_claim": 47.0,
+          "refused_at": "2026-11-05T19:32:26.652067+00:00",
+          "departed_at": "2026-11-05T19:32:26.639238+00:00",
+          "received_at": "2026-11-05T19:32:26.649349+00:00",
+          "cancelled_at": "2026-11-05T19:32:26.642457+00:00",
+          "delivery_due": 15.0,
+          "order_status": "cancelled",
+          "confirmed_refund": 0,
+          "can_document_departure": false
+        },
+        "pass": true
+      }
+    ],
+    "pass": true
+  },
+  "source_sha": "cd768e0ed2b71667e294097b9bec52b6e3daebf3"
+}

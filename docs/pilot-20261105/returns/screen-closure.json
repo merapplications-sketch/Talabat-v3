@@ -1,0 +1,28 @@
+{
+  "result-driver-returns-guard-chromium.json": {
+    "source": "c16ecf4e12cf1643d287675dbfede297e49a8bec",
+    "live": false,
+    "engine": "chromium",
+    "profile": "Pixel 7",
+    "physical": false,
+    "checks": [
+      "pickup alone does not expose cancellation, a refund, or an open claim"
+    ],
+    "pass": true
+  },
+  "result-driver-returns-ui-chromium.json": {
+    "source": "c16ecf4e12cf1643d287675dbfede297e49a8bec",
+    "live": false,
+    "engine": "chromium",
+    "profile": "Pixel 7",
+    "physical": false,
+    "checks": [
+      "customer cancellation and redacted return status",
+      "meal receipt and unconfirmed refund do not reduce claim",
+      "lost reply recovered by reading; partial claim and platform delivery distinct",
+      "all three return panels fit mobile viewport"
+    ],
+    "pass": true
+  },
+  "source_sha": "c16ecf4e12cf1643d287675dbfede297e49a8bec"
+}

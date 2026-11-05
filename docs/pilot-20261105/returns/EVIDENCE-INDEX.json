@@ -1,0 +1,41 @@
+{
+  "first_cash_closure": "6502ed8831b636f137d9e1d30de2613b1f45645a",
+  "live": false,
+  "server_and_restore": {
+    "source": "cd768e0ed2b71667e294097b9bec52b6e3daebf3",
+    "run": 42094784484,
+    "result": "pass",
+    "evidence": "server-and-restore.json",
+    "actions": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42094784484"
+  },
+  "startup_diagnosis": {
+    "source": "598aa27bfa93b220efbc48b5012ca03af76c5660",
+    "run": 42099394630,
+    "result": "startup_failure",
+    "cause": "RU and EN bindings did not exist. The existing dictionaries are I.ru and I.en.",
+    "evidence": "pickup-guard-diagnostic.json",
+    "actions": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42099394630"
+  },
+  "screens_and_pickup_guard": {
+    "source": "c16ecf4e12cf1643d287675dbfede297e49a8bec",
+    "run": 42099678741,
+    "result": "pass",
+    "evidence": "screen-closure.json",
+    "engine": "Chromium / Pixel 7 emulation",
+    "physical_device": false,
+    "actions": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42099678741"
+  },
+  "initial_combined_browser_run": {
+    "source": "1387980f872ff51e4ea2149ba766c197586fd72e",
+    "run": 42095617807,
+    "acceptance_evidence": false,
+    "reason": "Older source reproduces the startup fault on the separate diagnostic run. Only the corrected browser run establishes screen acceptance.",
+    "actions": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42095617807"
+  },
+  "host_management_metadata_only": {
+    "status": "ACTIVE_HEALTHY",
+    "region": "ap-south-1",
+    "postgresql": "17.11.0.002"
+  },
+  "physical_devices_host_runtime_and_on_call_delivery": "open"
+}
