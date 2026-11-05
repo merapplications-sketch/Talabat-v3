@@ -14,8 +14,23 @@ async function login(browser, role, account = role) {
   await context.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1'
     ? route.continue() : route.abort());
   const page = await context.newPage();
+  const errors = [];
+  const scripts = [];
+  page.on('pageerror', error => errors.push(error.message.slice(0, 180)));
+  page.on('response', response => {
+    if (response.request().resourceType() === 'script') {
+      scripts.push([new URL(response.url()).pathname, response.status()]);
+    }
+  });
   await page.goto('http://127.0.0.1:8080/' + role + '.html?lang=en');
-  await page.locator('#tlb-em').fill(runtime.accounts[account].email);
+  try {
+    await page.locator('#tlb-em').fill(runtime.accounts[account].email, { timeout: 12000 });
+  } catch (error) {
+    result.startup = { role, scripts, errors, globals: await page.evaluate(() => ({
+      sdk: typeof window.supabase, core: typeof window.TLB, returns: typeof window.DriverReturns
+    })) };
+    throw error;
+  }
   await page.locator('#tlb-pw').fill(runtime.accounts[account].password);
   await page.locator('#tlb-go').click();
   await page.waitForFunction(id => TLB.order(id)?.status === 'pickedup', order);
