@@ -93,6 +93,8 @@ jobs:
         run: python3 tests/pilot/storage.py restore
       - name: New first cash and changed-revision server contract
         if: ${{ steps.services.outcome == 'success' }}
+        env:
+          CONFIRM_REMAINING: '1'
         run: python3 tests/pilot/confirmation.py
       - name: Export bounded evidence without tokens or backups
         if: always()

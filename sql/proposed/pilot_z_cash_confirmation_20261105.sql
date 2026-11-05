@@ -78,7 +78,8 @@ begin
    is distinct from row(old.total,old.subtotal,old.wallet_used,old.points_used,old.points_value,old.address,old.lat,old.lng)then
    raise exception 'order_change_requires_confirmation';end if;
   if new.prep_time is distinct from old.prep_time and old.prep_time is not null
-   and coalesce(a.state,'legacy')<>'awaiting_merchant' then raise exception 'order_change_requires_confirmation';end if;
+   and coalesce(a.state,'legacy')<>'awaiting_merchant'
+   and not(a.state='checkout_accepted'and a.merchant_at is null and old.status='pending') then raise exception 'order_change_requires_confirmation';end if;
  end if;
  if a.state in('awaiting_merchant','awaiting_customer') and
   ((new.status is distinct from old.status and new.status in('preparing','ready','pickedup','delivered'))
