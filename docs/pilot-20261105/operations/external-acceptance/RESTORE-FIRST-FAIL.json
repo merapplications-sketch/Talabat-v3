@@ -1,0 +1,11 @@
+{
+  "source": "c5ffd941eba60b596fca205076615403444c813a",
+  "live": false,
+  "synthetic_only": true,
+  "checks": [],
+  "source_job_completed_before_download": true,
+  "backup_artifact_id": 13454270835,
+  "pass": false,
+  "error_type": "AssertionError",
+  "failed_check": "restore runner has a different machine identity"
+}

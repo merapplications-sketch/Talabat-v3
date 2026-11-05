@@ -1,0 +1,17 @@
+{
+  "source": "21492dc77cb8dca7654d420376ef2852077350d2",
+  "live": false,
+  "synthetic_only": true,
+  "checks": [
+    {
+      "name": "restore runner has a different kernel boot identity",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "source_job_completed_before_download": true,
+  "backup_artifact_id": 13454296163,
+  "pass": false,
+  "error_type": "AssertionError",
+  "failed_check": "external PostgreSQL snapshot restores rows functions grants policies triggers and RLS"
+}

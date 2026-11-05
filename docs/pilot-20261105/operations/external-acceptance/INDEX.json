@@ -1,0 +1,72 @@
+{
+  "base_commit": "104e76c967f5e6a3304098741649d955bca1de9b",
+  "candidate_branch": "candidate/pilot-readiness-20261105",
+  "real_pilot_ready": false,
+  "closed_suites_reexecuted": false,
+  "application_logic_changed": false,
+  "host_metadata": "ACCESS-EVIDENCE.json",
+  "zero_advance_compatibility": {
+    "pass": true,
+    "current_contract_accepts_zero": false,
+    "evidence": "SOURCE-FIRST-PASS.json",
+    "run": 42110177122,
+    "job": 127535342961
+  },
+  "attempts": [
+    {
+      "run": 42109850720,
+      "result": "workflow_parse_failure_before_jobs",
+      "cause": "unquoted colon in inline YAML condition",
+      "fix": "folded scalar condition"
+    },
+    {
+      "run": 42110177122,
+      "source": "success",
+      "restore": "failure",
+      "evidence": "RESTORE-FIRST-FAIL.json",
+      "cause": "image machine-id not unique; replaced with kernel boot identity"
+    },
+    {
+      "run": 42110778759,
+      "source": "success",
+      "restore": "failure",
+      "evidence": "RESTORE-SECOND-FAIL.json",
+      "cause": "snapshot ACL representation difference; strict gate stopped acceptance"
+    },
+    {
+      "run": 42111105560,
+      "source": "success",
+      "restore": "failure",
+      "evidence": "RESTORE-THIRD-FAIL.json",
+      "cause": "diagnostics isolate function and relation ACLs; table data policies triggers match"
+    }
+  ],
+  "requests": "ACCESS-REQUEST.md",
+  "commercial_review": "NO-ADVANCE-REVIEW.md",
+  "handoff": "HANDOFF.md",
+  "boundaries": {
+    "deployment": false,
+    "live_sql": false,
+    "real_grants": false,
+    "financial_transactions": false,
+    "main_merge": false,
+    "visibility_change": false
+  },
+  "external_restore": {
+    "result": "pass_synthetic_external_only",
+    "tested_commit": "6216cb570375705a764ed488c4ffd0f0dbec5c41",
+    "run": 42111418834,
+    "source_job": 127539660970,
+    "restore_job": 127539660599,
+    "source_evidence": "SOURCE-PASS.json",
+    "restore_evidence": "RESTORE-PASS.json",
+    "tables_matched": 62,
+    "source_destroyed_before_download": true,
+    "independent_kernel_boot_ids": true,
+    "external_storage": "GitHub Actions encrypted artifact 13455151933",
+    "operational_backup_schedule_or_key_custody_accepted": false,
+    "production_rpo_rto_accepted": false,
+    "acl_method": "Compare sorted complete ACL items, expanding PostgreSQL default ACLs; retain all 37 raw representation differences. Semantic signatures match exactly.",
+    "negative_storage_limit": "Unrelated authenticated customer did not receive HTTP 200. Exact error status was not exported; no claim of full restored role matrix."
+  }
+}

@@ -157,5 +157,19 @@
     "real_on_call_acceptance": false,
     "external_restore_acceptance": false,
     "supabase_development_branches_at_followup": []
+  },
+  "followup_external_acceptance": {
+    "index": "external-acceptance/INDEX.json",
+    "handoff": "external-acceptance/HANDOFF.md",
+    "access_requests": "external-acceptance/ACCESS-REQUEST.md",
+    "no_advance_review": "external-acceptance/NO-ADVANCE-REVIEW.md",
+    "prior_closed_suites_reexecuted": false,
+    "synthetic_external_restore_pass": true,
+    "run": 42111418834,
+    "real_oncall_acceptance": false,
+    "physical_device_acceptance": false,
+    "external_mail_acceptance": false,
+    "actual_host_matches_candidate": false,
+    "operational_backup_acceptance": false
   }
 }

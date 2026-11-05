@@ -1,5 +1,7 @@
 # TALABOT | قبول تشغيل التجربة المحدودة
 
+**آخر تحديث:** [نتيجة القبول الخارجي وقيوده](external-acceptance/HANDOFF.md) · [الفهرس](external-acceptance/INDEX.json) · [المتطلبات الموحدة](external-acceptance/ACCESS-REQUEST.md) · [خيار المطاعم بلا مقدم](external-acceptance/NO-ADVANCE-REVIEW.md). التفاصيل التالية تحفظ الدليل التاريخي؛ آخر تحديث هو المرجع لتطور الاستعادة وفحص المضيف.
+
 **الحكم: المرشح صالح للمراجعة المعزولة. التجربة الحقيقية غير جاهزة.** نقطة الاستئناف المثبتة على الفرع كانت `cd5f771f657f0cb16d4c5c288e81e88d499221f4`. إغلاق أول كاش `6502ed8831b636f137d9e1d30de2613b1f45645a`. قبول شاشات الإرجاع من `c16ecf4e12cf1643d287675dbfede297e49a8bec` موثق بتشغيل [42099678741](https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42099678741). روجع الفهرس ونتيجة الوظيفة دون إعادة الاختبارات المغلقة. [فهرس الإرجاع](../returns/EVIDENCE-INDEX.json) · [أدلة هذه الدفعة](EVIDENCE.json)
 
 [تحديث الإصلاح وقبول المعمل عند 606da113](alert-repair/HANDOFF.md) · [تجهيز الأجهزة والقناة والاستعادة الخارجية](alert-repair/REMAINING-CHECKS.md)

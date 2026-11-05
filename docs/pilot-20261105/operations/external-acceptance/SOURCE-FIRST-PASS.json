@@ -1,0 +1,28 @@
+{
+  "source": "c5ffd941eba60b596fca205076615403444c813a",
+  "live": false,
+  "synthetic_only": true,
+  "checks": [
+    {
+      "name": "zero driver advance is rejected by current departure contract without partial writes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "PostgreSQL dump and actual Storage file encrypted for separate recipient",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "recipient_artifact_id": 13452634874,
+  "no_advance_option": {
+    "current_departure_accepts_zero": false,
+    "error": "bad_value",
+    "owner_policy_approved": false,
+    "financial_effect_created": false
+  },
+  "encrypted_bytes": 727627,
+  "encrypted_sha256": "f93ca5b544963377ca00878ac90a03afd90de499668a02cbf8ac3c25b315f9a9",
+  "snapshot_at": 1793913083.408692,
+  "pass": true
+}

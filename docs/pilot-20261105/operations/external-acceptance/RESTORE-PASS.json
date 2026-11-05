@@ -1,0 +1,192 @@
+{
+  "source": "6216cb570375705a764ed488c4ffd0f0dbec5c41",
+  "live": false,
+  "synthetic_only": true,
+  "checks": [
+    {
+      "name": "restore runner has a different kernel boot identity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "external PostgreSQL snapshot restores rows functions grants policies triggers and RLS",
+      "pass": true,
+      "detail": {
+        "tables": 62
+      }
+    },
+    {
+      "name": "restored authorized customer receives identical actual Storage bytes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "restored Storage rejects unrelated customer",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "damaged external capsule rejected",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "source_job_completed_before_download": true,
+  "backup_artifact_id": 13455151933,
+  "raw_acl_representation_differences": {
+    "function:public.addr_after_delete()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.addr_before_insert()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_fav_limit()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.cap_options()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.courier_steps_version()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.happy_hour_pct(uuid,timestamp with time zone)": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.has_perm(text)": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres,anon=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres,anon=X/postgres}"
+    },
+    "function:public.my_perms()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres,anon=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres,anon=X/postgres}"
+    },
+    "function:public.promo_guard_version()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_dispatch()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_chat_limit()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_check_images()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_loyalty()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_profile_phone()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_rating_aggregate()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_rating_reward()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_store_phone()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_wallet_immutable()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.trg_wallet_return()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "function:public.validate_item()": {
+      "before": "{postgres=X/postgres,=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "after": "{=X/postgres,postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}"
+    },
+    "relation:pilot_private.config_events": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:pilot_private.admissions": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:fulfillment_private.order_approvals": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:fulfillment_private.approval_requests": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:fulfillment_private.approval_events": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:fulfillment_private.confirmation_config": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:fulfillment_private.config_events": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:pilot_private.config": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:return_private.agreements": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:return_private.cases": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:return_private.refunds": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:return_private.delivery_due": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:return_private.commands": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:finance_private.settlement_receipt_orders": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:finance_private.settlement_receipts_id_seq": {
+      "before": "{postgres=rwU/postgres}",
+      "after": null
+    },
+    "relation:finance_private.commands": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    },
+    "relation:finance_private.settlement_receipts": {
+      "before": "{postgres=arwdDxtm/postgres}",
+      "after": null
+    }
+  },
+  "snapshot_differences": {},
+  "recovery_seconds_including_wait_for_source_teardown": 82.45,
+  "snapshot_age_at_acceptance_seconds": 44.827,
+  "key_exported": false,
+  "production_rpo_rto_accepted": false,
+  "pass": true
+}

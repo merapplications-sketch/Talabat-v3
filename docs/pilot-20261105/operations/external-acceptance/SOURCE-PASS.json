@@ -1,0 +1,18 @@
+{
+  "source": "6216cb570375705a764ed488c4ffd0f0dbec5c41",
+  "live": false,
+  "synthetic_only": true,
+  "checks": [
+    {
+      "name": "PostgreSQL dump and actual Storage file encrypted for separate recipient",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "recipient_artifact_id": 13454722463,
+  "no_advance_previous_pass": "42110177122/127535342961; SOURCE-FIRST-PASS.json",
+  "encrypted_bytes": 758347,
+  "encrypted_sha256": "20a10e63dc6a09a4ccab0781fb8d92156afa1349a4c1a572ae9339cf8a45ee64",
+  "snapshot_at": 1793913561.546828,
+  "pass": true
+}

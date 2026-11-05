@@ -1,0 +1,188 @@
+{
+  "base_commit": "104e76c967f5e6a3304098741649d955bca1de9b",
+  "host_metadata": {
+    "method": "Supabase list_tables metadata only",
+    "project": "dzydscryrnahnneydnry",
+    "private_schemas": [
+      "finance_private",
+      "fulfillment_private",
+      "pilot_private",
+      "return_private"
+    ],
+    "private_tables": [],
+    "public_tables": [
+      {
+        "name": "public.profiles",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.stores",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.menu_items",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.orders",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.order_items",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.order_chat",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.banners",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.favorites",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.order_events",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.promo_codes",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.promo_attempts",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.order_offers",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.ratings",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.item_option_groups",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.item_options",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.addresses",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.audit_log",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.client_errors",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.order_customer_phone",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.order_driver_phone",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.app_settings",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.app_texts",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.support_tickets",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.ticket_messages",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.store_requests",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.wallet_entries",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.app_pages",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.staff_members",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.promo_guess",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.happy_hours",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.loyalty_lots",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.loyalty_ledger",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.brands",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.order_recipient",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.group_orders",
+        "rls_enabled": true
+      },
+      {
+        "name": "public.group_items",
+        "rls_enabled": true
+      }
+    ],
+    "expected_private_table_count_in_candidate": 16,
+    "policy_or_function_bodies_read": false
+  },
+  "resource_inventory": [
+    {
+      "resource": "talabot_named_buckets",
+      "names": []
+    },
+    {
+      "resource": "webhook_destinations",
+      "names": []
+    }
+  ],
+  "local_test_endpoint_variables_found": [],
+  "actual_devices_attached": false,
+  "printer_available": false,
+  "scope_limits": {
+    "cloudflare_inventory": "TALABOT-named R2 buckets and configured webhook destinations in connected account",
+    "cloudflare_account_id_recorded_in_public_evidence": false,
+    "raw_sql_commands_executed": false,
+    "device_or_mailbox_access_available": false,
+    "provider_schema_match": "candidate has private tables absent from returned host metadata"
+  },
+  "local_restore_runner_limit": {
+    "postgresql_binaries_present": false,
+    "container_runtime_present": false,
+    "non_root_process_available": false,
+    "apt_attempt": "failed due to unavailable UID switching; used existing isolated GitHub runners instead"
+  }
+}

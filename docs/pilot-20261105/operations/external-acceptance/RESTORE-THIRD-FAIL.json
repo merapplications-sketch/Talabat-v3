@@ -1,0 +1,27 @@
+{
+  "source": "5d47d62fa16d87aa4e6c3dfe4f8f61976c668d41",
+  "live": false,
+  "synthetic_only": true,
+  "checks": [
+    {
+      "name": "restore runner has a different kernel boot identity",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "source_job_completed_before_download": true,
+  "backup_artifact_id": 13453696828,
+  "snapshot_differences": {
+    "table_sequence_grants_and_rls": {
+      "expected": "749f1dd31b955b57ef777eb88ba50454aca2c43a35369e7c6c658c247dcd0352",
+      "actual": "1dbb070bdbaff25644fe2ea2ef4a38ec65eeae524f6bd1b132fc08e728f1a9f5"
+    },
+    "functions_and_grants": {
+      "expected": "b34c735a6f2994b1bceb4386cbfe3c0275fc6fdd605df651a863d10905686e34",
+      "actual": "2b6b6ca7680ea003e4443f9db6f2cdd72534e27158beda5fd37667226540f7de"
+    }
+  },
+  "pass": false,
+  "error_type": "AssertionError",
+  "failed_check": "external PostgreSQL snapshot restores rows functions grants policies triggers and RLS"
+}
