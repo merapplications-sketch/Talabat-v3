@@ -1,0 +1,671 @@
+{
+  "preserved_without_overwrite": true,
+  "scope": "All available durable docs indexed, not a claim to recover every chat",
+  "references": [
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-ATTRIBUTION-AUDIT-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-ATTRIBUTION-AUDIT-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-ATTRIBUTION-FIX-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-ATTRIBUTION-FIX-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-AUDIT-RESULTS-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-AUDIT-RESULTS-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-CONSULTANT-REVIEW-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-CONSULTANT-REVIEW-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-FIX-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-FIX-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-IPHONE-FEEDBACK-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-IPHONE-FEEDBACK-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-READINESS-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-READINESS-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/ADMIN-FINANCE-RECOVERY-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/ADMIN-FINANCE-RECOVERY-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/FIELD-OPERATIONS-AND-MERCHANT-POS-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/FIELD-OPERATIONS-AND-MERCHANT-POS-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md"
+    },
+    {
+      "path": "docs/continuity/OWNER-DECISIONS-2026-11-01.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/OWNER-DECISIONS-2026-11-01.md"
+    },
+    {
+      "path": "docs/continuity/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/README.md"
+    },
+    {
+      "path": "docs/continuity/TALABOT-CONTINUITY-2026-11-01.txt",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/TALABOT-CONTINUITY-2026-11-01.txt"
+    },
+    {
+      "path": "docs/continuity/admin-finance-audit/audit-parts.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-audit/audit-parts.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-audit/live-metadata.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-audit/live-metadata.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-audit/results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-audit/results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/README.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/RECEIPTS-LEDGER-SPEC.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/RECEIPTS-LEDGER-SPEC.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/attribution-pg-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/attribution-pg-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/attribution-source-hashes.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/attribution-source-hashes.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/attribution-ui-checkpoint.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/attribution-ui-checkpoint.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/attribution-ui-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/attribution-ui-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/compatibility-inventory.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/compatibility-inventory.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/postgres-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/postgres-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/proposal-b-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/proposal-b-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/recovery-verification.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/recovery-verification.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/ui-checkpoint.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/ui-checkpoint.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/ui-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/ui-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-fix/validation-delta-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-fix/validation-delta-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/.openai/hosting.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/.openai/hosting.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/README.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/auth-helper.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/auth-helper.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/columns.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/columns.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/enums.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/enums.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-0.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-0.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-1.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-1.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-2.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-2.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-3.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/functions-3.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/policies-triggers-constraints.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/policies-triggers-constraints.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/catalog/relations.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/catalog/relations.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/package-lock.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/package-lock.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/package.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/package.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-integrated-lab-20261102/web/ids.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-integrated-lab-20261102/web/ids.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/baseline-call-traces.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/baseline-call-traces.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/call-traces.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/call-traces.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/checkpoint.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/checkpoint.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/first-run-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/first-run-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/pending-demo-delta.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/pending-demo-delta.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/reference-delta.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/reference-delta.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/README.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/SAFARI-REMAINING-STEPS-AR.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/SAFARI-REMAINING-STEPS-AR.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/call-log-comparison.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/call-log-comparison.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/evidence-manifest.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/evidence-manifest.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/README.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/analysis.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/analysis.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/operation-B-details.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/operation-B-details.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/trace-A-after-clicks.txt",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/trace-A-after-clicks.txt"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/trace-A-initial.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/trace-A-initial.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/trace-B-after-status.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-iphone-feedback/safari-owner-20261101/pasted-20261102/trace-B-after-status.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/IPHONE-ACCEPTANCE-AR.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/IPHONE-ACCEPTANCE-AR.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/README.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/RELEASE-ROLLBACK-AR.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/RELEASE-ROLLBACK-AR.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/auth-helper.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/auth-helper.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/catalog-consistency.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/catalog-consistency.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/columns.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/columns.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/delegation-counts.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/delegation-counts.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/edge-scope.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/edge-scope.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/effective-access.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/effective-access.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/enums.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/enums.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/functions-0.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/functions-0.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/functions-1.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/functions-1.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/functions-2.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/functions-2.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/functions-3.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/functions-3.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/inheritance-delta-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/inheritance-delta-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/inventory-manifest.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/inventory-manifest.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/policies-triggers-constraints.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/policies-triggers-constraints.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/preview-language-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/preview-language-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/preview-qa-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/preview-qa-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/preview-source-manifest.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/preview-source-manifest.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/relations.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/relations.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/release-source-hashes.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/release-source-hashes.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/roles.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/roles.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/schema-scope.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/schema-scope.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/snapshot-lab-checkpoint.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/snapshot-lab-checkpoint.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-readiness/snapshot-lab-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-readiness/snapshot-lab-results.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-receipt-handoff-20261102.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-receipt-handoff-20261102.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/ACCOUNTANT-DECISION.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/ACCOUNTANT-DECISION.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/README.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/REQUEST-AR.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/REQUEST-AR.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/TEAM-SAFARI.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/TEAM-SAFARI.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/request.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/request.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/safari-environment.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/activation-request-20261102/safari-environment.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/manifest.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/manifest.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/preparation-20261102/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/preparation-20261102/README.md"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/preparation-20261102/account-preparation.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/preparation-20261102/account-preparation.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/preparation-20261102/catalog-compatibility.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/preparation-20261102/catalog-compatibility.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/preparation-20261102/published-rollback.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/preparation-20261102/published-rollback.json"
+    },
+    {
+      "path": "docs/continuity/admin-finance-release-review-20261102/selective-candidate-20261102.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/admin-finance-release-review-20261102/selective-candidate-20261102.json"
+    },
+    {
+      "path": "docs/continuity/talabot-private-readiness-20261102/PRIVATE-READINESS-AR.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/talabot-private-readiness-20261102/PRIVATE-READINESS-AR.md"
+    },
+    {
+      "path": "docs/continuity/talabot-private-readiness-20261102/assessment.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/continuity/talabot-private-readiness-20261102/assessment.json"
+    },
+    {
+      "path": "docs/driver-a-v06/CLAUDE-LINK-REQUIREMENTS-AR.txt",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-a-v06/CLAUDE-LINK-REQUIREMENTS-AR.txt"
+    },
+    {
+      "path": "docs/driver-a-v06/H-V82-APPLICATION-AR.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-a-v06/H-V82-APPLICATION-AR.md"
+    },
+    {
+      "path": "docs/driver-a-v06/H-V82-TARGETED-QA.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-a-v06/H-V82-TARGETED-QA.json"
+    },
+    {
+      "path": "docs/driver-a-v06/README.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-a-v06/README.md"
+    },
+    {
+      "path": "docs/driver-handoff/DRIVER-NOTES-2026-10-24.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/DRIVER-NOTES-2026-10-24.md"
+    },
+    {
+      "path": "docs/driver-handoff/H-C-C-QA.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/H-C-C-QA.json"
+    },
+    {
+      "path": "docs/driver-handoff/H-C-H-QA.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/H-C-H-QA.json"
+    },
+    {
+      "path": "docs/driver-handoff/H-C-PREVIEW-QA.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/H-C-PREVIEW-QA.json"
+    },
+    {
+      "path": "docs/driver-handoff/H-C1-C2-IMPLEMENTATION-2026-10-24.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/H-C1-C2-IMPLEMENTATION-2026-10-24.md"
+    },
+    {
+      "path": "docs/driver-handoff/NAVIGATION-QA-2026-10-25.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/NAVIGATION-QA-2026-10-25.json"
+    },
+    {
+      "path": "docs/driver-handoff/UI-PACK-2026-10-24.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/UI-PACK-2026-10-24.md"
+    },
+    {
+      "path": "docs/driver-handoff/compact-20261031/results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/compact-20261031/results.json"
+    },
+    {
+      "path": "docs/driver-handoff/grip-quick-20261031/results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/grip-quick-20261031/results.json"
+    },
+    {
+      "path": "docs/driver-handoff/grip-quick-20261031/saved-68-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/grip-quick-20261031/saved-68-results.json"
+    },
+    {
+      "path": "docs/driver-handoff/grip-safari-20261026/results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/grip-safari-20261026/results.json"
+    },
+    {
+      "path": "docs/driver-handoff/mobile-polish-20261031/after-intrinsic-stress.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/mobile-polish-20261031/after-intrinsic-stress.json"
+    },
+    {
+      "path": "docs/driver-handoff/mobile-polish-20261031/after-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/mobile-polish-20261031/after-results.json"
+    },
+    {
+      "path": "docs/driver-handoff/mobile-polish-20261031/before-intrinsic-stress.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/mobile-polish-20261031/before-intrinsic-stress.json"
+    },
+    {
+      "path": "docs/driver-handoff/mobile-polish-20261031/before-results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/mobile-polish-20261031/before-results.json"
+    },
+    {
+      "path": "docs/driver-handoff/phase1-t1-t4-20261030/checks.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/phase1-t1-t4-20261030/checks.json"
+    },
+    {
+      "path": "docs/driver-handoff/phase1-t1-t4-20261030/live-readonly-status.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/phase1-t1-t4-20261030/live-readonly-status.json"
+    },
+    {
+      "path": "docs/driver-handoff/repeat-location-20261027/pages-comparison.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/repeat-location-20261027/pages-comparison.json"
+    },
+    {
+      "path": "docs/driver-handoff/repeat-location-20261027/results.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-handoff/repeat-location-20261027/results.json"
+    },
+    {
+      "path": "docs/driver-waiting/CLAUDE-WAITING-MAP-REQUIREMENTS-AR.txt",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-waiting/CLAUDE-WAITING-MAP-REQUIREMENTS-AR.txt"
+    },
+    {
+      "path": "docs/driver-waiting/IMPLEMENTATION-AR.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-waiting/IMPLEMENTATION-AR.md"
+    },
+    {
+      "path": "docs/driver-waiting/OFFLINE-RESIZE-QA.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-waiting/OFFLINE-RESIZE-QA.json"
+    },
+    {
+      "path": "docs/driver-waiting/PREVIEW-QA.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-waiting/PREVIEW-QA.json"
+    },
+    {
+      "path": "docs/driver-waiting/WAITING-TARGETED-QA.json",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/driver-waiting/WAITING-TARGETED-QA.json"
+    },
+    {
+      "path": "docs/live/T1-RESULT.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/live/T1-RESULT.md"
+    },
+    {
+      "path": "docs/plan/B-C-REVIEW.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/plan/B-C-REVIEW.md"
+    },
+    {
+      "path": "docs/plan/DELIVERY-TRACKING-PLAN.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/plan/DELIVERY-TRACKING-PLAN.md"
+    },
+    {
+      "path": "docs/plan/PRIVACY-NAVIGATION-DIFF.md",
+      "ref": "1e211a531ebbc370fe36c84cbb5ce4665bb03c3a",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/1e211a531ebbc370fe36c84cbb5ce4665bb03c3a/docs/plan/PRIVACY-NAVIGATION-DIFF.md"
+    }
+  ]
+}
