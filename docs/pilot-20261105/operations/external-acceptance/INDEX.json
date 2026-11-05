@@ -68,5 +68,17 @@
     "production_rpo_rto_accepted": false,
     "acl_method": "Compare sorted complete ACL items, expanding PostgreSQL default ACLs; retain all 37 raw representation differences. Semantic signatures match exactly.",
     "negative_storage_limit": "Unrelated authenticated customer did not receive HTTP 200. Exact error status was not exported; no claim of full restored role matrix."
+  },
+  "final_acceptance_review": {
+    "date_dushanbe": "2026-11-06",
+    "base_commit": "39c7a74005809299f1b153c388ad9fffce5c0dda",
+    "verdict": "not_ready_for_limited_pilot_operating_approval",
+    "handoff": "FINAL-READINESS.md",
+    "approval_option": "OWNER-APPROVAL.md",
+    "host_types": "HOST-TYPES.ts",
+    "host_diff": "HOST-CONTRACT-DIFF.json",
+    "host_advisors": "HOST-ADVISORS.json",
+    "resources": "RESOURCE-AVAILABILITY.json",
+    "closed_tests_reexecuted": false
   }
 }

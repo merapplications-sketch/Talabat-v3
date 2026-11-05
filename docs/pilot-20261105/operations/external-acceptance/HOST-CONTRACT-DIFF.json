@@ -1,0 +1,72 @@
+{
+  "host_types_sha256": "1ea7e85311459d034d7b4127c2e1191e46d7cef8c011b26762ead03f470c01e1",
+  "returned_public_functions": 97,
+  "candidate_proposed_public_functions_missing_from_host_types": {
+    "configure_pilot_admission": [
+      "sql/proposed/pilot_zz_admission_20261105.sql"
+    ],
+    "finance_access": [
+      "sql/proposed/admin_finance_safe_hold_20261101.sql",
+      "sql/proposed/admin_finance_receipts_20261102.sql",
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "record_return_agreement": [
+      "sql/proposed/pilot_zzz_driver_returns_20261106.sql"
+    ],
+    "order_return_status": [
+      "sql/proposed/pilot_zzz_driver_returns_20261106.sql"
+    ],
+    "order_return_action": [
+      "sql/proposed/pilot_zzz_driver_returns_20261106.sql"
+    ],
+    "finance_settlement_receipts": [
+      "sql/proposed/admin_finance_receipts_20261102.sql"
+    ],
+    "finance_execute": [
+      "sql/proposed/admin_finance_receipts_20261102.sql",
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "finance_command_status": [
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "finance_drivers": [
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "finance_driver_orders": [
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "finance_customers": [
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "finance_audit": [
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "finance_actor_names": [
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "finance_settlement_events": [
+      "sql/proposed/admin_finance_integrity_20261101.sql"
+    ],
+    "order_confirmation_settings": [
+      "sql/proposed/pilot_z_cash_confirmation_20261105.sql"
+    ],
+    "configure_order_confirmation": [
+      "sql/proposed/pilot_z_cash_confirmation_20261105.sql"
+    ],
+    "order_approval_states": [
+      "sql/proposed/pilot_z_cash_confirmation_20261105.sql"
+    ],
+    "order_change_quote": [
+      "sql/proposed/pilot_z_cash_confirmation_20261105.sql"
+    ],
+    "merchant_review_order": [
+      "sql/proposed/pilot_z_cash_confirmation_20261105.sql"
+    ],
+    "customer_confirm_order": [
+      "sql/proposed/pilot_z_cash_confirmation_20261105.sql"
+    ]
+  },
+  "candidate_matches_host": false,
+  "rpc_executed": false,
+  "scope": "public function names only; signature and bodies not certified"
+}

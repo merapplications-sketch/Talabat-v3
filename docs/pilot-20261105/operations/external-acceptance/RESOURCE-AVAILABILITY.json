@@ -1,0 +1,13 @@
+{
+  "checked_date_dushanbe": "2026-11-06",
+  "device_tools": {
+    "adb": false,
+    "idevice_id": false,
+    "lpstat": false
+  },
+  "test_endpoint_variable_names": [],
+  "test_channel_or_named_recipients_supplied_in_current_request": false,
+  "external_mailbox_credentials_supplied": false,
+  "new_device_or_backup_access_supplied": false,
+  "scope": "Available local tools and supplied resources only; not a claim about all resources owned by the organization"
+}
