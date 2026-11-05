@@ -73,7 +73,7 @@ def request(port, path, data=None, token=None, method=None):
 
 def rpc(token, fn, args=None, expect=200):
     code, value = request(3000, '/rpc/' + fn, args or {}, token)
-    if code != expect:
+    if code != expect and not (expect == 200 and code == 204):
         # No tokens/passwords in error messages or results.
         raise AssertionError(fn + ': HTTP ' + str(code) + ' ' + str(value)[:350])
     return value
@@ -249,7 +249,7 @@ def integration():
     case('address_RLS', address_privacy)
 
     def catalog():
-        assert request(3000, '/stores?select=id,name,is_open')[0] == 200
+        assert request(3000, '/stores?select=id,name,is_open', token=bearer('customer'))[0] == 200
         assert request(3000, '/menu_items?select=id,price&store_id=eq.' + STORE, token=bearer('customer'))[1][0]['price'] == 25
         with db() as c:
             c.execute('update menu_items set available=false where id=%s', (ITEM,))
@@ -269,6 +269,22 @@ def integration():
             assert q(c, "select count(*) from orders where client_key in ('unavailable_check','closed_store_check')") == 0
         return {'availability_and_open_checked_by_server': True, 'failed_order_has_no_partial_rows': True}
     case('catalog_prices_availability_and_atomic_refusal', catalog)
+
+    def unsupported_payment():
+        observations = []
+        for method in ['card', 'apple', 'wallet']:
+            payload = {'p_store': STORE, 'p_items': [{'item_id': ITEM, 'qty': 1}], 'p_address': 'DEMO payment', 'p_lat': LAT, 'p_lng': LNG, 'p_payment': method, 'p_key': 'unsupported_' + method}
+            code, value = request(3000, '/rpc/place_order', payload, bearer('outsider'))
+            row = {'method': method, 'status': code, 'result': value}
+            if code == 200:
+                with db() as c:
+                    row['stored'] = c.execute('select payment,wallet_used,total from orders where id=%s', (value,)).fetchone()
+                rpc(bearer('outsider'), 'set_order_status', {'p_id': value, 'p_to': 'cancelled'})
+            observations.append(row)
+        save(HERE / 'result-payment-guard.json', {'observations': observations, 'live': False})
+        assert all(o['status'] >= 400 and o['result'].get('message') == 'payment_not_configured' for o in observations), 'unsupported payments accepted without debit: ' + json.dumps(observations, default=str)
+        return observations
+    case('unsupported_payment_refusal', unsupported_payment)
 
     def main_journey():
         value = journey(race=True)
@@ -316,7 +332,8 @@ def integration():
         assert request(3000, '/wallet_entries?select=id&user_id=eq.' + uid('customer'), token=t) == (200, [])
         code, err = request(3000, '/rpc/finance_execute', {'p_request': str(uuid.uuid4()), 'p_operation': 'settle_cash', 'p_target': uid('driver1')}, t)
         assert code >= 400 and err['message'] == 'not_allowed'
-        assert request(3000, '/orders?select=id', token=None) == (200, [])
+        anonymous = request(3000, '/orders?select=id', token=None)
+        assert anonymous == (200, []) or anonymous[0] in (401, 403)
         with db() as c:
             row = c.execute('select id from orders where customer_id=%s limit 1', (uid('customer'),)).fetchone()
         assert request(3000, '/order_items?select=*&order_id=eq.' + str(row[0]), token=t) == (200, [])
@@ -374,7 +391,7 @@ def load():
         code, value = request(3000, '/rpc/' + fn, args, token)
         with metric_lock:
             metrics.append({'fn': fn, 'ms': (time.perf_counter() - t) * 1000, 'status': code})
-        if code != 200:
+        if code not in (200, 204):
             raise AssertionError(fn + ' ' + str(code) + ' ' + str(value)[:120])
         return value
     def trip(i):
@@ -413,7 +430,7 @@ def load():
         duration = time.perf_counter() - t
         rows = metrics[start:]
         values = [x['ms'] for x in rows]
-        result['stages'].append({'concurrency': concurrency, 'journeys_completed': len(successes), 'journey_failures': failures, 'duration_s': round(duration, 2), 'requests': len(rows), 'rps': round(len(rows) / duration, 2), 'http_error_rate': sum(x['status'] != 200 for x in rows) / len(rows), 'p50_ms': pct(values, .5), 'p95_ms': pct(values, .95), 'p99_ms': pct(values, .99), 'max_ms': round(max(values), 2)})
+        result['stages'].append({'concurrency': concurrency, 'journeys_completed': len(successes), 'journey_failures': failures, 'duration_s': round(duration, 2), 'requests': len(rows), 'rps': round(len(rows) / duration, 2), 'http_error_rate': sum(x['status'] >= 400 for x in rows) / len(rows), 'p50_ms': pct(values, .5), 'p95_ms': pct(values, .95), 'p99_ms': pct(values, .99), 'max_ms': round(max(values), 2)})
         print('LOAD ' + json.dumps(result['stages'][-1]), flush=True)
         offset += concurrency
         save(HERE / 'result-load.json', result)

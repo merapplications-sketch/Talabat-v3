@@ -1,0 +1,90 @@
+{
+  "result-integration.json": {
+    "source": "33e72a572f054049d49d4c20af8787ed88c9b603",
+    "engine": "native PostgreSQL + real GoTrue and PostgREST; synthetic only",
+    "old_53_or_ten_concurrency_rerun": false,
+    "checks": [
+      {
+        "name": "auth_signup_login_refresh_and_forgery",
+        "pass": true,
+        "evidence": {
+          "real_signup_password_refresh": true,
+          "untrusted_metadata_admin_ignored": true,
+          "forged_JWT_rejected": true,
+          "SMTP_tested": false
+        }
+      },
+      {
+        "name": "current_driver_joining_gate",
+        "pass": false,
+        "error": "apply_as_driver: HTTP 204 None",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 234, in onboarding\n    rpc(bearer('joiner'), 'apply_as_driver')\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 78, in rpc\n    raise AssertionError(fn + ': HTTP ' + str(code) + ' ' + str(value)[:350])\nAssertionError: apply_as_driver: HTTP 204 None\n"
+      },
+      {
+        "name": "address_RLS",
+        "pass": true,
+        "evidence": {
+          "own_write": true,
+          "cross_identity_read_write_denied": true
+        }
+      },
+      {
+        "name": "catalog_prices_availability_and_atomic_refusal",
+        "pass": false,
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 252, in catalog\n    assert request(3000, '/stores?select=id,name,is_open')[0] == 200\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+      },
+      {
+        "name": "real_REST_order_to_receipt_and_lost_body",
+        "pass": false,
+        "error": "set_prep_time: HTTP 204 None",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 274, in main_journey\n    value = journey(race=True)\n            ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 172, in journey\n    rpc(m, 'set_prep_time', {'p_id': oid, 'p_min': 12})\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 78, in rpc\n    raise AssertionError(fn + ': HTTP ' + str(code) + ' ' + str(value)[:350])\nAssertionError: set_prep_time: HTTP 204 None\n"
+      },
+      {
+        "name": "order_creation_retry_and_reconnect",
+        "pass": false,
+        "error": "set_order_status: HTTP 204 None",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 308, in order_idempotency\n    rpc(bearer('customer'), 'set_order_status', {'p_id': ids[0], 'p_to': 'cancelled'})\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 78, in rpc\n    raise AssertionError(fn + ': HTTP ' + str(code) + ' ' + str(value)[:350])\nAssertionError: set_order_status: HTTP 204 None\n"
+      },
+      {
+        "name": "REST_role_and_order_privacy",
+        "pass": false,
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 319, in role_privacy\n    assert request(3000, '/orders?select=id', token=None) == (200, [])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+      },
+      {
+        "name": "cancel_reject_wallet_recovery",
+        "pass": false,
+        "error": "set_order_status: HTTP 204 None",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 333, in cancellation\n    rpc(bearer('customer'), 'set_order_status', {'p_id': oid, 'p_to': 'cancelled'})\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 78, in rpc\n    raise AssertionError(fn + ': HTTP ' + str(code) + ' ' + str(value)[:350])\nAssertionError: set_order_status: HTTP 204 None\n"
+      },
+      {
+        "name": "client_error_monitoring_store",
+        "pass": false,
+        "error": "report_client_error: HTTP 204 None",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 345, in client_monitor\n    rpc(bearer('customer'), 'report_client_error', {'p_app': 'customer', 'p_message': 'SYNTHETIC outage probe', 'p_context': 'pilot', 'p_ua': 'lab'})\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 78, in rpc\n    raise AssertionError(fn + ': HTTP ' + str(code) + ' ' + str(value)[:350])\nAssertionError: report_client_error: HTTP 204 None\n"
+      }
+    ],
+    "live": false,
+    "open": [
+      "actual hardware Safari/Android",
+      "native printer",
+      "real SMTP/SMS",
+      "Realtime websocket service",
+      "hosted deployment configuration"
+    ],
+    "pass": false
+  },
+  "source_sha": "33e72a572f054049d49d4c20af8787ed88c9b603",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:921e50aed7b2a67265f42ab03c7d54a32c641922cc64f0875a5ae2bcb8b37532",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:f36a9fc78aef0509ed5fa280819848cbdf099f60d7b338455ea54a5def18d6b1",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:3719f62df6229fc6670098c3df6d7ff792a7a67ddf9c7e016a5653f39b72e1a4",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:57ad85c77c5f48eeb75f4e75497bb59ea3952f16107aec618947f0bf3cae584d",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:34260cb89ea5d6d55b93ce13a5fe1772dbe8e1592e1200370160b7f5a0bd2ecd",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}
