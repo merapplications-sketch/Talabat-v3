@@ -1,0 +1,107 @@
+{
+  "source": "56e541a5e13e40d9a4229873fd65b03333ff786d",
+  "environment": "native Safari WebDriver on standard GitHub macOS15 runner; synthetic SDK only",
+  "actual_iPhone": false,
+  "actual_Auth_PostgREST": false,
+  "live": false,
+  "checks": [
+    {
+      "name": "customer retains separate role session key and recovery entry",
+      "pass": true
+    },
+    {
+      "name": "customer original inline styles remain active under unmodified app CSP",
+      "pass": true
+    },
+    {
+      "name": "customer reset targets the same app; one SDK request",
+      "pass": true
+    },
+    {
+      "name": "customer recovery screen fits narrow desktop window",
+      "pass": true
+    },
+    {
+      "name": "merchant retains separate role session key and recovery entry",
+      "pass": true
+    },
+    {
+      "name": "merchant original inline styles remain active under unmodified app CSP",
+      "pass": true
+    },
+    {
+      "name": "merchant reset targets the same app; one SDK request",
+      "pass": true
+    },
+    {
+      "name": "merchant recovery screen fits narrow desktop window",
+      "pass": true
+    },
+    {
+      "name": "driver retains separate role session key and recovery entry",
+      "pass": true
+    },
+    {
+      "name": "driver original inline styles remain active under unmodified app CSP",
+      "pass": true
+    },
+    {
+      "name": "driver reset targets the same app; one SDK request",
+      "pass": true
+    },
+    {
+      "name": "driver recovery screen fits narrow desktop window",
+      "pass": true
+    },
+    {
+      "name": "admin retains separate role session key and recovery entry",
+      "pass": true
+    },
+    {
+      "name": "admin original inline styles remain active under unmodified app CSP",
+      "pass": true
+    },
+    {
+      "name": "admin reset targets the same app; one SDK request",
+      "pass": true
+    },
+    {
+      "name": "admin recovery screen fits narrow desktop window",
+      "pass": true
+    },
+    {
+      "name": "recovery marker without session cannot open password update form",
+      "pass": true
+    },
+    {
+      "name": "untrusted recovery marker cannot target an existing signed-in fixture identity",
+      "pass": true
+    }
+  ],
+  "stage": "application_navigation",
+  "capabilities": {
+    "safari:platformVersion": "15.8.2",
+    "safari:automaticInspection": false,
+    "webkit:WebRTC": {
+      "DisableICECandidateFiltering": false,
+      "DisableInsecureMediaCapture": false
+    },
+    "webkit:alwaysAllowAutoplay": false,
+    "browserVersion": "27.2",
+    "strictFileInteractability": false,
+    "browserName": "Safari",
+    "safari:useSimulator": false,
+    "safari:automaticProfiling": false,
+    "setWindowRect": true,
+    "acceptInsecureCerts": false,
+    "safari:platformBuildVersion": "24H232",
+    "safari:experimentalWebSocketUrl": false,
+    "platformName": "macOS",
+    "safari:diagnose": false
+  },
+  "pass": true,
+  "screenshot": {
+    "path": "safari-desktop-recovery.jpg",
+    "sha256": "bc14e183cf0237daa80572cec0d1c05b9f49b0fa9b2589ed7dcac19bcc5f7a62"
+  }
+}

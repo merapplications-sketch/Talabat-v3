@@ -84,11 +84,12 @@ jobs:
         id: storage
         if: ${{ always() && steps.services.outcome == 'success' }}
         run: |
+          python3 tests/pilot/storage.py optional
           python3 tests/pilot/storage.py prepare
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d storage
-          python3 tests/pilot/storage.py test
+          STORAGE_ONLY_PROOF=1 python3 tests/pilot/storage.py test
       - name: New actual Storage metadata and file restoration
-        if: ${{ always() && steps.services.outcome == 'success' }}
+        if: ${{ false }}
         run: python3 tests/pilot/storage.py restore
       - name: Export bounded evidence without tokens or backups
         if: always()

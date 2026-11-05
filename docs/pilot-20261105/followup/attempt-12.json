@@ -1,0 +1,237 @@
+{
+  "result-storage.json": {
+    "source": "56e541a5e13e40d9a4229873fd65b03333ff786d",
+    "environment": "real Supabase Storage API1.81.0 + native PostgreSQL, actual patch34 private proof policies, synthetic JPEG and real GoTrue JWTs",
+    "live": false,
+    "hosted_Storage": false,
+    "checks": [
+      {
+        "name": "non-assigned customer cannot upload proof for another courier",
+        "pass": true
+      },
+      {
+        "name": "non-assigned driver2 cannot upload proof for another courier",
+        "pass": true
+      },
+      {
+        "name": "assigned courier uploads to actual private bucket",
+        "pass": true
+      },
+      {
+        "name": "duplicate upload without upsert cannot replace proof",
+        "pass": true
+      },
+      {
+        "name": "unrelated customer cannot read proof",
+        "pass": true
+      },
+      {
+        "name": "unrelated driver2 cannot read proof",
+        "pass": true
+      },
+      {
+        "name": "unrelated merchant cannot read proof",
+        "pass": true
+      },
+      {
+        "name": "order customer retrieves exact original private bytes",
+        "pass": true
+      },
+      {
+        "name": "public URL cannot disclose private proof",
+        "pass": true
+      },
+      {
+        "name": "authorized customer gets short-lived signed URL",
+        "pass": true
+      },
+      {
+        "name": "signed URL reads exact uploaded bytes",
+        "pass": true
+      },
+      {
+        "name": "expired signed link no longer reads proof",
+        "pass": true
+      }
+    ],
+    "object_path": "74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+    "object_sha256": "2ffbbf24c915624e93e38868e68e0ca0524d1be835322636471f4fb3eafdf3bb",
+    "fixture_uploaded": true,
+    "nonexistent_proof_submission": {
+      "status": 204,
+      "accepted": true,
+      "message": null
+    },
+    "pass": false,
+    "error": "server rejects a photo path with no stored proof object",
+    "sanitized_service_diagnostics": "data\":\"{}\",\"res\":{\"statusCode\":400,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"88\"}},\"responseTime\":4.363573000000088,\"executionTime\":4,\"error\":{\"raw\":\"{\\\"httpStatusCode\\\":404,\\\"userStatusCode\\\":400,\\\"resource\\\":\\\"74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\\\",\\\"code\\\":\\\"NoSuchKey\\\",\\\"metadata\\\":{},\\\"error\\\":\\\"not_found\\\"}\",\"name\":\"Error\",\"message\":\"Object not found\",\"stack\":\"\",\"statusCode\":404,\"errorCode\":\"NoSuchKey\"},\"owner\":\"9763ffb6-d4a3-4a68-8d83-a40346286ec5\",\"role\":\"authenticated\",\"resources\":[\"/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.get_authenticated\",\"msg\":\"isolated | GET | 400 | 172.18.0.1 | req-7 | /object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg | Python-urllib/3.12\"}\nstorage-1  | {\"level\":40,\"time\":1793886646266,\"pid\":1,\"hostname\":\"bfbaa936c97b\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-8\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-8\",\"method\":\"GET\",\"url\":\"/object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\",\"headers\":{\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":40428},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":400,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"88\"}},\"responseTime\":3.9469630000003235,\"executionTime\":4,\"error\":{\"raw\":\"{\\\"httpStatusCode\\\":404,\\\"userStatusCode\\\":400,\\\"resource\\\":\\\"74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\\\",\\\"code\\\":\\\"NoSuchKey\\\",\\\"metadata\\\":{},\\\"error\\\":\\\"not_found\\\"}\",\"name\":\"Error\",\"message\":\"Object not found\",\"stack\":\"\",\"statusCode\":404,\"errorCode\":\"NoSuchKey\"},\"owner\":\"a1096c80-9612-41f1-98d3-d11180a88999\",\"role\":\"authenticated\",\"resources\":[\"/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.get_authenticated\",\"msg\":\"isolated | GET | 400 | 172.18.0.1 | req-8 | /object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg | Python-urllib/3.12\"}\nstorage-1  | {\"level\":30,\"time\":1793886646275,\"pid\":1,\"hostname\":\"bfbaa936c97b\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-9\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-9\",\"method\":\"GET\",\"url\":\"/object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\",\"headers\":{\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":40440},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":200,\"headers\":{\"content_type\":\"image/jpeg\",\"etag\":\"\\\"5d5c60e6f12bc8ca62f82ac74d21ae75\\\"\",\"last_modified\":\"Thu, 05 Nov 2026 13:50:46 GMT\",\"content_length\":\"517\",\"cache_control\":\"no-cache\"}},\"responseTime\":7.187071000000287,\"executionTime\":6,\"owner\":\"ae6042e0-d3c1-4be4-9db7-80277a743a32\",\"role\":\"authenticated\",\"resources\":[\"/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.get_authenticated\",\"msg\":\"isolated | GET | 200 | 172.18.0.1 | req-9 | /object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg | Python-urllib/3.12\"}\nstorage-1  | {\"level\":40,\"time\":1793886646280,\"pid\":1,\"hostname\":\"bfbaa936c97b\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-a\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-a\",\"method\":\"GET\",\"url\":\"/object/public/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\",\"headers\":{\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":40446},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":400,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"98\"}},\"responseTime\":3.2141019999999116,\"executionTime\":3,\"error\":{\"raw\":\"{\\\"httpStatusCode\\\":404,\\\"userStatusCode\\\":400,\\\"resource\\\":\\\"proofs\\\",\\\"code\\\":\\\"NoSuchBucket\\\",\\\"metadata\\\":{},\\\"error\\\":\\\"Bucket not found\\\"}\",\"name\":\"Error\",\"message\":\"Bucket not found\",\"stack\":\"\",\"statusCode\":404,\"errorCode\":\"NoSuchBucket\"},\"resources\":[\"/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.get_public\",\"msg\":\"isolated | GET | 400 | 172.18.0.1 | req-a | /object/public/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg | Python-urllib/3.12\"}\nstorage-1  | {\"level\":30,\"time\":1793886646291,\"pid\":1,\"hostname\":\"bfbaa936c97b\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-b\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-b\",\"method\":\"POST\",\"url\":\"/object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\",\"headers\":{\"content_length\":\"16\",\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\",\"content_type\":\"application/json\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":40458},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":200,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"339\"}},\"responseTime\":9.550635000000057,\"executionTime\":9,\"owner\":\"ae6042e0-d3c1-4be4-9db7-80277a743a32\",\"role\":\"authenticated\",\"resources\":[\"/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.sign\",\"msg\":\"isolated | POST | 200 | 172.18.0.1 | req-b | /object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg | Python-urllib/3.12\"}\nstorage-1  | {\"level\":30,\"time\":1793886646297,\"pid\":1,\"hostname\":\"bfbaa936c97b\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-c\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-c\",\"method\":\"GET\",\"url\":\"/object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg?token=redacted\",\"headers\":{\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":40472},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":200,\"headers\":{\"content_type\":\"image/jpeg\",\"etag\":\"\\\"5d5c60e6f12bc8ca62f82ac74d21ae75\\\"\",\"last_modified\":\"Thu, 05 Nov 2026 13:50:46 GMT\",\"content_length\":\"517\",\"expires\":\"Thu, 05 Nov 2026 13:50:47 GMT\"}},\"responseTime\":3.8777719999998226,\"executionTime\":3,\"resources\":[\"/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.get_signed\",\"msg\":\"isolated | GET | 200 | 172.18.0.1 | req-c | /object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg?token=redacted | Python-urllib/3.12\"}\nstorage-1  | {\"level\":40,\"time\":1793886648299,\"pid\":1,\"hostname\":\"bfbaa936c97b\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-d\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-d\",\"method\":\"GET\",\"url\":\"/object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg?token=redacted\",\"headers\":{\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":40482},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":400,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"110\"}},\"responseTime\":1.2032890000000407,\"executionTime\":1,\"error\":{\"raw\":\"{\\\"httpStatusCode\\\":400,\\\"userStatusCode\\\":400,\\\"code\\\":\\\"InvalidJWT\\\",\\\"metadata\\\":{}}\",\"name\":\"Error\",\"message\":\"\\\"exp\\\" claim timestamp check failed\",\"stack\":\"\",\"statusCode\":400,\"errorCode\":\"InvalidJWT\"},\"resources\":[\"/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.get_signed\",\"msg\":\"isolated | GET | 400 | 172.18.0.1 | req-d | /object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg?token=redacted | Python-urllib/3.12\"}\n",
+    "schema_privileges": {
+      "anon": {
+        "usage": true,
+        "insert": true,
+        "select": true
+      },
+      "authenticated": {
+        "usage": true,
+        "insert": true,
+        "select": true
+      },
+      "service_role": {
+        "usage": true,
+        "insert": true,
+        "select": true
+      }
+    },
+    "http_trace": [
+      {
+        "endpoint": "/status",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "endpoint": "/object/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "403",
+          "code": "AccessDenied",
+          "error": "Unauthorized",
+          "message": "new row violates row-level security policy"
+        }
+      },
+      {
+        "endpoint": "/object/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "403",
+          "code": "AccessDenied",
+          "error": "Unauthorized",
+          "message": "new row violates row-level security policy"
+        }
+      },
+      {
+        "endpoint": "/object/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "endpoint": "/object/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "409",
+          "code": "KeyAlreadyExists",
+          "error": "Duplicate",
+          "message": "The resource already exists"
+        }
+      },
+      {
+        "endpoint": "/object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "GET",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "404",
+          "code": "NoSuchKey",
+          "error": "not_found",
+          "message": "Object not found"
+        }
+      },
+      {
+        "endpoint": "/object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "GET",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "404",
+          "code": "NoSuchKey",
+          "error": "not_found",
+          "message": "Object not found"
+        }
+      },
+      {
+        "endpoint": "/object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "GET",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "404",
+          "code": "NoSuchKey",
+          "error": "not_found",
+          "message": "Object not found"
+        }
+      },
+      {
+        "endpoint": "/object/authenticated/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "endpoint": "/object/public/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "GET",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "404",
+          "code": "NoSuchBucket",
+          "error": "Bucket not found",
+          "message": "Bucket not found"
+        }
+      },
+      {
+        "endpoint": "/object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "endpoint": "/object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "endpoint": "/object/sign/proofs/74328eed-1967-48b7-9530-9edfbf3e2ee6/1/syntheticproof01.jpg",
+        "method": "GET",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "400",
+          "code": "InvalidJWT",
+          "error": "InvalidJWT",
+          "message": "\"exp\" claim timestamp check failed"
+        }
+      }
+    ]
+  },
+  "result-storage-restore.json": {
+    "source": "56e541a5e13e40d9a4229873fd65b03333ff786d",
+    "live": false,
+    "scope": "isolated Storage metadata and actual local file restore; no live data or hosted buckets",
+    "checks": [
+      {
+        "name": "restored Storage object metadata exactly matches original",
+        "pass": true
+      },
+      {
+        "name": "restored service returns identical proof bytes to authorized customer",
+        "pass": true
+      },
+      {
+        "name": "restored service retains cross-customer read denial",
+        "pass": true
+      }
+    ],
+    "metadata_sha256": "628c56e01e711c07abb107bd87e77bf2aea82c9cd58b2f56541b22d99e82789e",
+    "file_sha256": "2ffbbf24c915624e93e38868e68e0ca0524d1be835322636471f4fb3eafdf3bb",
+    "backup_exported": false,
+    "pass": true
+  },
+  "source_sha": "56e541a5e13e40d9a4229873fd65b03333ff786d",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:921e50aed7b2a67265f42ab03c7d54a32c641922cc64f0875a5ae2bcb8b37532",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:f36a9fc78aef0509ed5fa280819848cbdf099f60d7b338455ea54a5def18d6b1",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:3719f62df6229fc6670098c3df6d7ff792a7a67ddf9c7e016a5653f39b72e1a4",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:57ad85c77c5f48eeb75f4e75497bb59ea3952f16107aec618947f0bf3cae584d",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:34260cb89ea5d6d55b93ce13a5fe1772dbe8e1592e1200370160b7f5a0bd2ecd",
+    "supabase/storage-api:v1.81.0 sha256:98ffec5d0678803783c30e404c27f4ec65e97efbe014088f2a86b4b8b54b9f54",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}
