@@ -36,7 +36,12 @@ def setup_policy():
  lab.wait(lambda:call(None,'GET','/status')[0]==200,'storage_api',90)
  source=(lab.ROOT/'sql/schema_patch34.sql').read_text();start=source.index('do $$',source.index('-- ---------- private photo bucket'))
  end=source.index('end $$;',start)+len('end $$;')
- with lab.db()as c:c.execute(source[start:end],prepare=False)
+ with lab.db()as c:
+  # Standard Supabase schema USAGE is part of platform bootstrap; the native
+  # empty Postgres fixture supplied roles, not this platform schema privilege.
+  # Existing table grants and exact patch34 row policies remain untouched.
+  c.execute('grant usage on schema storage to anon,authenticated,service_role')
+  c.execute(source[start:end],prepare=False)
 
 
 def test():

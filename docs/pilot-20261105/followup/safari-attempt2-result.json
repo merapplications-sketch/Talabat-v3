@@ -1,0 +1,10 @@
+{
+  "source": "02f3866de182a177e68b2617aebe17701254f9f7",
+  "environment": "native Safari WebDriver on standard GitHub macOS15 runner; synthetic SDK only",
+  "actual_iPhone": false,
+  "actual_Auth_PostgREST": false,
+  "live": false,
+  "checks": [],
+  "pass": false,
+  "error": "timed out"
+}

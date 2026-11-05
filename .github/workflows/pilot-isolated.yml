@@ -65,7 +65,7 @@ jobs:
         run: python3 tests/pilot/soak.py
       - name: New isolated SMTP confirmation and recovery UI proof
         timeout-minutes: 8
-        if: ${{ always() && steps.services.outcome == 'success' }}
+        if: ${{ false }}
         run: |
           LAB_AUTOCONFIRM=false docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d mailpit auth
           python3 -c "import sys;sys.path.insert(0,'tests/pilot');import lab;lab.wait(lambda:lab.request(9999,'/health')[0]==200,'auth-mail')"

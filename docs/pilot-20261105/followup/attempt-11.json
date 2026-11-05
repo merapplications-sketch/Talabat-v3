@@ -1,0 +1,152 @@
+{
+  "result-storage.json": {
+    "source": "02f3866de182a177e68b2617aebe17701254f9f7",
+    "environment": "real Supabase Storage API1.81.0 + native PostgreSQL, actual patch34 private proof policies, synthetic JPEG and real GoTrue JWTs",
+    "live": false,
+    "hosted_Storage": false,
+    "checks": [
+      {
+        "name": "non-assigned customer cannot upload proof for another courier",
+        "pass": true
+      },
+      {
+        "name": "non-assigned driver2 cannot upload proof for another courier",
+        "pass": true
+      }
+    ],
+    "object_path": "fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg",
+    "object_sha256": "2ffbbf24c915624e93e38868e68e0ca0524d1be835322636471f4fb3eafdf3bb",
+    "pass": false,
+    "error": "assigned courier uploads to actual private bucket",
+    "sanitized_service_diagnostics": "storage-1  | {\"level\":30,\"time\":1793886474214,\"pid\":1,\"hostname\":\"a477eb7c1764\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"msg\":\"Server listening at http://127.0.0.1:5000\"}\nstorage-1  | {\"level\":30,\"time\":1793886474214,\"pid\":1,\"hostname\":\"a477eb7c1764\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"msg\":\"Server listening at http://172.18.0.6:5000\"}\nstorage-1  | {\"level\":30,\"time\":1793886474214,\"pid\":1,\"hostname\":\"a477eb7c1764\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"server\",\"msg\":\"[Server] Started Successfully\"}\nstorage-1  | {\"level\":40,\"time\":1793886474336,\"pid\":1,\"hostname\":\"a477eb7c1764\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-2\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-2\",\"method\":\"POST\",\"url\":\"/object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg\",\"headers\":{\"content_length\":\"517\",\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\",\"content_type\":\"image/jpeg\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":51192},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":400,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"114\"}},\"responseTime\":12.688547999999855,\"executionTime\":12,\"error\":{\"raw\":\"{\\\"httpStatusCode\\\":403,\\\"originalError\\\":{\\\"length\\\":100,\\\"name\\\":\\\"error\\\",\\\"severity\\\":\\\"ERROR\\\",\\\"code\\\":\\\"42501\\\",\\\"position\\\":\\\"84\\\",\\\"file\\\":\\\"aclchk.c\\\",\\\"line\\\":\\\"2843\\\",\\\"routine\\\":\\\"aclcheck_error\\\",\\\"message\\\":\\\"permission denied for schema storage\\\"},\\\"userStatusCode\\\":400,\\\"code\\\":\\\"AccessDenied\\\",\\\"metadata\\\":{\\\"query\\\":\\\"\\\\n            SELECT \\\\\\\"id\\\\\\\", \\\\\\\"file_size_limit\\\\\\\", \\\\\\\"allowed_mime_types\\\\\\\"\\\\n            FROM storage.buckets\\\\n            WHERE id = $1\\\\n            LIMIT 1\\\\n            \\\\n          \\\",\\\"code\\\":\\\"42501\\\",\\\"queryName\\\":\\\"FindBucketById\\\"},\\\"error\\\":\\\"Unauthorized\\\"}\",\"name\":\"Error\",\"message\":\"permission denied for schema storage\",\"stack\":\"\",\"statusCode\":403,\"errorCode\":\"AccessDenied\"},\"owner\":\"e397cea6-56f3-49fe-b235-d52b40499820\",\"role\":\"authenticated\",\"resources\":[\"/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.upload\",\"msg\":\"isolated | POST | 400 | 172.18.0.1 | req-2 | /object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg | Python-urllib/3.12\"}\nstorage-1  | {\"level\":40,\"time\":1793886474339,\"pid\":1,\"hostname\":\"a477eb7c1764\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-3\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-3\",\"method\":\"POST\",\"url\":\"/object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg\",\"headers\":{\"content_length\":\"517\",\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\",\"content_type\":\"image/jpeg\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":51208},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":400,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"114\"}},\"responseTime\":1.8250889999999345,\"executionTime\":2,\"error\":{\"raw\":\"{\\\"httpStatusCode\\\":403,\\\"originalError\\\":{\\\"length\\\":100,\\\"name\\\":\\\"error\\\",\\\"severity\\\":\\\"ERROR\\\",\\\"code\\\":\\\"42501\\\",\\\"position\\\":\\\"84\\\",\\\"file\\\":\\\"aclchk.c\\\",\\\"line\\\":\\\"2843\\\",\\\"routine\\\":\\\"aclcheck_error\\\",\\\"message\\\":\\\"permission denied for schema storage\\\"},\\\"userStatusCode\\\":400,\\\"code\\\":\\\"AccessDenied\\\",\\\"metadata\\\":{\\\"query\\\":\\\"\\\\n            SELECT \\\\\\\"id\\\\\\\", \\\\\\\"file_size_limit\\\\\\\", \\\\\\\"allowed_mime_types\\\\\\\"\\\\n            FROM storage.buckets\\\\n            WHERE id = $1\\\\n            LIMIT 1\\\\n            \\\\n          \\\",\\\"code\\\":\\\"42501\\\",\\\"queryName\\\":\\\"FindBucketById\\\"},\\\"error\\\":\\\"Unauthorized\\\"}\",\"name\":\"Error\",\"message\":\"permission denied for schema storage\",\"stack\":\"\",\"statusCode\":403,\"errorCode\":\"AccessDenied\"},\"owner\":\"d58adb29-7329-4277-89b7-ff50b3251f97\",\"role\":\"authenticated\",\"resources\":[\"/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.upload\",\"msg\":\"isolated | POST | 400 | 172.18.0.1 | req-3 | /object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg | Python-urllib/3.12\"}\nstorage-1  | {\"level\":40,\"time\":1793886474341,\"pid\":1,\"hostname\":\"a477eb7c1764\",\"region\":\"local\",\"appVersion\":\"1.81.0\",\"type\":\"request\",\"tenantId\":\"isolated\",\"project\":\"isolated\",\"reqId\":\"req-4\",\"traceId\":\"\",\"spanId\":\"\",\"req\":{\"region\":\"local\",\"traceId\":\"req-4\",\"method\":\"POST\",\"url\":\"/object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg\",\"headers\":{\"content_length\":\"517\",\"host\":\"127.0.0.1:5000\",\"user_agent\":\"Python-urllib/3.12\",\"content_type\":\"image/jpeg\"},\"hostname\":\"127.0.0.1\",\"remoteAddress\":\"172.18.0.1\",\"remotePort\":51222},\"reqMetadata\":\"{}\",\"res\":{\"statusCode\":400,\"headers\":{\"content_type\":\"application/json; charset=utf-8\",\"content_length\":\"114\"}},\"responseTime\":1.389363000000003,\"executionTime\":1,\"error\":{\"raw\":\"{\\\"httpStatusCode\\\":403,\\\"originalError\\\":{\\\"length\\\":100,\\\"name\\\":\\\"error\\\",\\\"severity\\\":\\\"ERROR\\\",\\\"code\\\":\\\"42501\\\",\\\"position\\\":\\\"84\\\",\\\"file\\\":\\\"aclchk.c\\\",\\\"line\\\":\\\"2843\\\",\\\"routine\\\":\\\"aclcheck_error\\\",\\\"message\\\":\\\"permission denied for schema storage\\\"},\\\"userStatusCode\\\":400,\\\"code\\\":\\\"AccessDenied\\\",\\\"metadata\\\":{\\\"query\\\":\\\"\\\\n            SELECT \\\\\\\"id\\\\\\\", \\\\\\\"file_size_limit\\\\\\\", \\\\\\\"allowed_mime_types\\\\\\\"\\\\n            FROM storage.buckets\\\\n            WHERE id = $1\\\\n            LIMIT 1\\\\n            \\\\n          \\\",\\\"code\\\":\\\"42501\\\",\\\"queryName\\\":\\\"FindBucketById\\\"},\\\"error\\\":\\\"Unauthorized\\\"}\",\"name\":\"Error\",\"message\":\"permission denied for schema storage\",\"stack\":\"\",\"statusCode\":403,\"errorCode\":\"AccessDenied\"},\"owner\":\"fc7b2f5c-74bf-4b87-a515-4e000c18127c\",\"role\":\"authenticated\",\"resources\":[\"/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg\"],\"operation\":\"storage.object.upload\",\"msg\":\"isolated | POST | 400 | 172.18.0.1 | req-4 | /object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg | Python-urllib/3.12\"}\n",
+    "schema_privileges": {
+      "anon": {
+        "usage": false,
+        "insert": true,
+        "select": true
+      },
+      "authenticated": {
+        "usage": false,
+        "insert": true,
+        "select": true
+      },
+      "service_role": {
+        "usage": false,
+        "insert": true,
+        "select": true
+      }
+    },
+    "http_trace": [
+      {
+        "endpoint": "/status",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "endpoint": "/object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "403",
+          "code": "AccessDenied",
+          "error": "Unauthorized",
+          "message": "permission denied for schema storage"
+        }
+      },
+      {
+        "endpoint": "/object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "403",
+          "code": "AccessDenied",
+          "error": "Unauthorized",
+          "message": "permission denied for schema storage"
+        }
+      },
+      {
+        "endpoint": "/object/proofs/fc7b2f5c-74bf-4b87-a515-4e000c18127c/1/syntheticproof01.jpg",
+        "method": "POST",
+        "status": 400,
+        "error_fields": {
+          "statusCode": "403",
+          "code": "AccessDenied",
+          "error": "Unauthorized",
+          "message": "permission denied for schema storage"
+        }
+      }
+    ]
+  },
+  "result-auth-mail.json": {
+    "source": "02f3866de182a177e68b2617aebe17701254f9f7",
+    "environment": "Chromium Linux actual candidate UI + real GoTrue SMTP to local Mailpit1.33.0",
+    "live": false,
+    "real_delivery": false,
+    "checks": [
+      {
+        "name": "password recovery has a user entry in existing login",
+        "pass": true
+      },
+      {
+        "name": "reset request is sent through UI with a neutral account-existence message",
+        "pass": true
+      },
+      {
+        "name": "recovery link opens new-password screen instead of entering the app",
+        "pass": true
+      },
+      {
+        "name": "mismatched password confirmation does not submit",
+        "pass": true
+      },
+      {
+        "name": "successful reset returns to sign-in without entering a privileged app",
+        "pass": true
+      },
+      {
+        "name": "old password rejected after reset",
+        "pass": true
+      },
+      {
+        "name": "new password accepted by real Auth",
+        "pass": true
+      },
+      {
+        "name": "bare recovery marker cannot reset a pre-existing signed-in identity",
+        "pass": true
+      },
+      {
+        "name": "used recovery link cannot reopen a reset form in a fresh session",
+        "pass": true
+      },
+      {
+        "name": "unregistered address gets the same neutral UI response",
+        "pass": true
+      }
+    ],
+    "browserVersion": "156.0.8078.79",
+    "pass": true
+  },
+  "result-storage-restore.json": {
+    "source": "02f3866de182a177e68b2617aebe17701254f9f7",
+    "live": false,
+    "scope": "isolated Storage metadata and actual local file restore; no live data or hosted buckets",
+    "checks": [],
+    "pass": false,
+    "status": "blocked_no_uploaded_fixture"
+  },
+  "source_sha": "02f3866de182a177e68b2617aebe17701254f9f7",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:921e50aed7b2a67265f42ab03c7d54a32c641922cc64f0875a5ae2bcb8b37532",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:f36a9fc78aef0509ed5fa280819848cbdf099f60d7b338455ea54a5def18d6b1",
+    "axllent/mailpit:v1.33.0 sha256:9b3a463be15354c0f0eba91697d80e3e0d8a5623ef0e627cacc836bc17fd5231",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:3719f62df6229fc6670098c3df6d7ff792a7a67ddf9c7e016a5653f39b72e1a4",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:57ad85c77c5f48eeb75f4e75497bb59ea3952f16107aec618947f0bf3cae584d",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:34260cb89ea5d6d55b93ce13a5fe1772dbe8e1592e1200370160b7f5a0bd2ecd",
+    "supabase/storage-api:v1.81.0 sha256:98ffec5d0678803783c30e404c27f4ec65e97efbe014088f2a86b4b8b54b9f54",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

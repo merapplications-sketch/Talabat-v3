@@ -23,7 +23,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 def wd(path,body=None,method=None):
  req=urllib.request.Request('http://127.0.0.1:4444'+path,data=json.dumps(body).encode()if body is not None else None,headers={'Content-Type':'application/json'},method=method)
  try:
-  with urllib.request.urlopen(req,timeout=30)as response:value=json.loads(response.read())['value']
+  with urllib.request.urlopen(req,timeout=90 if path=='/session' else 30)as response:value=json.loads(response.read())['value']
  except urllib.error.HTTPError as e:raise RuntimeError('webdriver_http_'+str(e.code))from None
  if isinstance(value,dict)and value.get('error'):raise RuntimeError('webdriver_'+value['error'])
  return value
@@ -39,8 +39,8 @@ def main():
  result={'source':os.environ.get('GITHUB_SHA'),'environment':'native Safari WebDriver on standard GitHub macOS15 runner; synthetic SDK only','actual_iPhone':False,'actual_Auth_PostgREST':False,'live':False,'checks':[]};session=None
  server=http.server.ThreadingHTTPServer(('127.0.0.1',8087),Handler);threading.Thread(target=server.serve_forever,daemon=True).start()
  try:
-  wait(lambda:wd('/status').get('ready'))
-  created=wd('/session',{'capabilities':{'alwaysMatch':{'browserName':'safari'}}});session=created['sessionId'];result['capabilities']=created['capabilities'];base='/session/'+session
+  result['stage']='driver_status';wait(lambda:wd('/status').get('ready'));result['stage']='create_browser_session'
+  created=wd('/session',{'capabilities':{'alwaysMatch':{'browserName':'safari'}}});session=created['sessionId'];result['stage']='application_navigation';result['capabilities']=created['capabilities'];base='/session/'+session
   script=lambda code:wd(base+'/execute/sync',{'script':code,'args':[]})
   def ok(value,name):
    assert value,name
@@ -66,7 +66,7 @@ def main():
   ok(script("return !document.querySelector('#tlb-newpw') && document.querySelector('#tlb-er').textContent.length>0"),'untrusted recovery marker cannot target an existing signed-in fixture identity')
   result['pass']=True
  except Exception as e:
-  result['pass']=False;result['error']=str(e)[:160];print('FAIL Safari '+result['error'],flush=True)
+  result['pass']=False;result['error']=str(e)[:160];log=HERE/'.runtime-safaridriver.log';result['driver_diagnostics']=log.read_text()[-3500:]if log.exists()else'unavailable';print('FAIL Safari '+result['stage']+' '+result['error'],flush=True)
  finally:
   if session:
    try:wd('/session/'+session,method='DELETE')
