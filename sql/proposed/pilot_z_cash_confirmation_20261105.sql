@@ -57,9 +57,9 @@ begin
  if need_first and exists(select 1 from fulfillment_private.order_approvals a join orders x on x.id=a.order_id
   where a.customer_id=o.customer_id and a.first_cash and a.customer_at is null and x.status in('pending','preparing','ready','pickedup'))then
   raise exception 'first_cash_pending';end if;
- insert into fulfillment_private.order_approvals(order_id,customer_id,state,first_cash,snapshot,accepted_revision)
+ insert into fulfillment_private.order_approvals(order_id,customer_id,state,first_cash,snapshot,accepted_revision,accepted_prep_minutes)
  values(o.id,o.customer_id,case when need_first then 'awaiting_merchant'else'checkout_accepted'end,need_first,
-  fulfillment_private.snapshot(o.id),case when need_first then null else 0 end);
+  fulfillment_private.snapshot(o.id),case when need_first then null else 0 end,case when need_first then null else o.prep_time end);
 end $$;
 
 create or replace function fulfillment_private.unblocked(p_order bigint)returns boolean
@@ -79,7 +79,7 @@ begin
    raise exception 'order_change_requires_confirmation';end if;
   if new.prep_time is distinct from old.prep_time and old.prep_time is not null
    and coalesce(a.state,'legacy')<>'awaiting_merchant'
-   and not(a.state='checkout_accepted'and a.merchant_at is null and old.status='pending') then raise exception 'order_change_requires_confirmation';end if;
+   and not(a.state='checkout_accepted'and a.merchant_at is null and old.status='pending'and new.prep_time<=old.prep_time) then raise exception 'order_change_requires_confirmation';end if;
  end if;
  if a.state in('awaiting_merchant','awaiting_customer') and
   ((new.status is distinct from old.status and new.status in('preparing','ready','pickedup','delivered'))
@@ -190,7 +190,7 @@ begin
  update fulfillment_private.order_approvals set revision=revision+1,snapshot=snap,
  state=case when needs_accept then'awaiting_customer'else state end,
  deadline=case when needs_accept and cfg.timeout_approved then now()+make_interval(secs=>cfg.timeout_seconds)else null end,
- merchant_actor=auth.uid(),merchant_at=now(),accepted_prep_minutes=case when not needs_accept and accepted_prep_minutes is null then p_minutes else accepted_prep_minutes end
+ merchant_actor=auth.uid(),merchant_at=now(),accepted_prep_minutes=case when not needs_accept and(accepted_prep_minutes is null or p_minutes<accepted_prep_minutes)then p_minutes else accepted_prep_minutes end
  where order_id=p_order returning *into a;
  if needs_accept then
   update order_offers set state='cancelled'where order_id=p_order and state='pending';
