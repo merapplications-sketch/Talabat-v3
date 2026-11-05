@@ -1,0 +1,166 @@
+{
+  "result-operations-host.json": {
+    "source": "606da1133c1f554d4dbdac6f77995d584d1d9355",
+    "live": false,
+    "target": "disposable GitHub Actions loopback PostgreSQL/GoTrue/PostgREST/Mailpit",
+    "current_host_configuration_mirrored": false,
+    "external_mailbox_delivery": false,
+    "cash_or_return_suites_rerun": false,
+    "checks": [
+      {
+        "name": "Auth email enabled and explicit confirmation required",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "isolated SMTP, anonymous signup and exposed REST schema settings",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "all declared lab service ports bind to loopback",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "customer sees exactly its allowed profile scope",
+        "pass": true,
+        "evidence": {
+          "visible_profiles": 1
+        }
+      },
+      {
+        "name": "customer finance capability follows explicit synthetic staff grant",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "outsider sees exactly its allowed profile scope",
+        "pass": true,
+        "evidence": {
+          "visible_profiles": 1
+        }
+      },
+      {
+        "name": "outsider finance capability follows explicit synthetic staff grant",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "merchant sees exactly its allowed profile scope",
+        "pass": true,
+        "evidence": {
+          "visible_profiles": 1
+        }
+      },
+      {
+        "name": "merchant finance capability follows explicit synthetic staff grant",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "driver1 sees exactly its allowed profile scope",
+        "pass": true,
+        "evidence": {
+          "visible_profiles": 1
+        }
+      },
+      {
+        "name": "driver1 finance capability follows explicit synthetic staff grant",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "accountant sees exactly its allowed profile scope",
+        "pass": true,
+        "evidence": {
+          "visible_profiles": 3
+        }
+      },
+      {
+        "name": "accountant finance capability follows explicit synthetic staff grant",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "admin sees exactly its allowed profile scope",
+        "pass": true,
+        "evidence": {
+          "visible_profiles": 8
+        }
+      },
+      {
+        "name": "admin finance capability follows explicit synthetic staff grant",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "anonymous profile read discloses no identities",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "invalid role token rejected by REST",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "REST refuses private schema selection even for administrator token",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "private tables retain RLS and deny direct client SELECT",
+        "pass": true,
+        "evidence": {
+          "tables": 16
+        }
+      },
+      {
+        "name": "host acceptance creates no orders or cash return journeys",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "fresh signup remains unconfirmed",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "unconfirmed signup cannot obtain password session",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "actual confirmation SMTP message reaches Mailpit and redirects only to allowed app",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "recovery request accepted on isolated Auth",
+        "pass": true,
+        "evidence": null
+      },
+      {
+        "name": "actual recovery SMTP message reaches Mailpit and verifies same identity with safe redirect",
+        "pass": true,
+        "evidence": null
+      }
+    ],
+    "isolated_private_definitions_sha256": "f973c5ee90bc91357a6ca3773bbb8842e20c365cb78ed48b40e1cdd3659436a0",
+    "pass": true
+  },
+  "source_sha": "606da1133c1f554d4dbdac6f77995d584d1d9355",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:921e50aed7b2a67265f42ab03c7d54a32c641922cc64f0875a5ae2bcb8b37532",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:f36a9fc78aef0509ed5fa280819848cbdf099f60d7b338455ea54a5def18d6b1",
+    "axllent/mailpit:v1.33.0 sha256:9b3a463be15354c0f0eba91697d80e3e0d8a5623ef0e627cacc836bc17fd5231",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:3719f62df6229fc6670098c3df6d7ff792a7a67ddf9c7e016a5653f39b72e1a4",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:57ad85c77c5f48eeb75f4e75497bb59ea3952f16107aec618947f0bf3cae584d",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:34260cb89ea5d6d55b93ce13a5fe1772dbe8e1592e1200370160b7f5a0bd2ecd",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

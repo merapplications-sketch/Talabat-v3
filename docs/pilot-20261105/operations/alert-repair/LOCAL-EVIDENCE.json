@@ -1,0 +1,110 @@
+{
+  "source": null,
+  "live": false,
+  "checks": [
+    {
+      "name": "outbox failure after state commit retains same event until receiver succeeds",
+      "pass": true,
+      "evidence": {
+        "attempts": 2,
+        "deliveries": 1
+      }
+    },
+    {
+      "name": "recovery delivered once after incident, confirmed events not resent",
+      "pass": true,
+      "evidence": {
+        "attempts": 3,
+        "deliveries": 2
+      }
+    },
+    {
+      "name": "receiver commits delivery then loses reply, restart retries same key without duplicate",
+      "pass": true,
+      "evidence": {
+        "attempts": 2,
+        "deliveries": 1
+      }
+    },
+    {
+      "name": "before_journal write failure safely retried",
+      "pass": true,
+      "evidence": {
+        "attempts": 1,
+        "deliveries": 1
+      }
+    },
+    {
+      "name": "after_export write failure safely retried",
+      "pass": true,
+      "evidence": {
+        "attempts": 1,
+        "deliveries": 1
+      }
+    },
+    {
+      "name": "after_receipt write failure safely retried",
+      "pass": true,
+      "evidence": {
+        "attempts": 2,
+        "deliveries": 1
+      }
+    },
+    {
+      "name": "two concurrent processes share one journal and create one delivery",
+      "pass": true,
+      "evidence": {
+        "attempts": 1,
+        "deliveries": 1
+      }
+    },
+    {
+      "name": "wrong receipt remains pending and recovery cannot overtake incident",
+      "pass": true,
+      "evidence": {
+        "attempts": 4,
+        "deliveries": 2
+      }
+    },
+    {
+      "name": "redirect is not followed or treated as delivery",
+      "pass": true,
+      "evidence": {
+        "attempts": 2,
+        "deliveries": 1
+      }
+    },
+    {
+      "name": "legacy snapshot and historical outbox retained without guessing prior delivery",
+      "pass": true,
+      "evidence": {
+        "legacy_unconfirmed": 1
+      }
+    },
+    {
+      "name": "rapid same-second incident recovery incident have distinct stable IDs",
+      "pass": true,
+      "evidence": {
+        "deliveries": 3
+      }
+    }
+  ],
+  "real_on_call_delivery": false,
+  "human_acknowledgement": false,
+  "real_escalation": false,
+  "receiver": "loopback HTTP with durable SQLite idempotency ledger",
+  "pass": true,
+  "at_utc": "2026-11-05T20:39:08+00:00",
+  "tested_code_commit": "606da1133c1f554d4dbdac6f77995d584d1d9355",
+  "files_sha256": {
+    "ops/pilot-watchdog.py": "283de0e72e23dafd29941b2f5c15fd3a976ee195b0c30059ba04694ceaf9d9cc",
+    "tests/pilot/watchdog-durability.py": "f076251ec763c684433ef621a921b3171a5c3fbd59c7b53170ebb292630ad9eb"
+  },
+  "existing_observer_contract": {
+    "pass": true,
+    "checks": 4,
+    "scope": "local fake health endpoint: healthy, incident, no duplicate incident, recovery",
+    "real_external_alert_delivery": false,
+    "live": false
+  }
+}

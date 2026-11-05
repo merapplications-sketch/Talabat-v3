@@ -142,5 +142,20 @@
     "real_alert_sent": false,
     "real_backup_created_or_exported": false,
     "financial_activity": false
+  },
+  "followup_alert_repair": {
+    "source": "606da1133c1f554d4dbdac6f77995d584d1d9355",
+    "local_evidence": "alert-repair/LOCAL-EVIDENCE.json",
+    "isolated_host_evidence": "alert-repair/HOST-EVIDENCE.json",
+    "handoff": "alert-repair/HANDOFF.md",
+    "remaining_acceptance": "alert-repair/REMAINING-CHECKS.md",
+    "host_run": 42106657113,
+    "host_job": 127523130009,
+    "host_result": "success",
+    "local_durability_cases": 11,
+    "affected_observer_contract_cases": 4,
+    "real_on_call_acceptance": false,
+    "external_restore_acceptance": false,
+    "supabase_development_branches_at_followup": []
   }
 }
