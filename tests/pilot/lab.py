@@ -151,6 +151,9 @@ def prepare_app():
             'consent': {'pilot_zz_admission_20261105.sql'},
             'full': set(),
         }[stage]
+        # Keep completed scopes on their original fixture contracts.
+        if not os.environ.get('PILOT_DRIVER_RETURNS'):
+            excluded.add('pilot_zzz_driver_returns_20261106.sql')
         for patch in sorted((ROOT / 'sql/proposed').glob('pilot_*.sql')):
             if patch.name not in excluded:
                 c.execute(patch.read_text(), prepare=False)
