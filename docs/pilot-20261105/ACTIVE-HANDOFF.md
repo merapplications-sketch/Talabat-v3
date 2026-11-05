@@ -1,15 +1,11 @@
-# Active handoff — 5 November 2026
+# Active TALABOT readiness handoff — 5 November 2026
 
-Private conversion preparation is paused by owner instruction. All previous reports remain unchanged and confer no activation authorization.
+Resume from [candidate/pilot-readiness-20261105](https://github.com/merapplications-sketch/Talabat-v3/tree/candidate/pilot-readiness-20261105), saved report/evidence commit **bef1b76ebe4adb0bf87eb6f49240881dc4cf3d0d**. [Current executive report](https://github.com/merapplications-sketch/Talabat-v3/blob/bef1b76ebe4adb0bf87eb6f49240881dc4cf3d0d/docs/pilot-20261105/README.md).
 
-Financial concurrency closure remains b30105bab2a3bfbc6764b17d620f4e6ad1a963b9. The original 53 and ten concurrency cases were not rerun.
+Tested implementation 6a8dc917be1981db84a894b855868f9e154be68d. Latest run 42041037080 completed successfully: only missing-proof delivery guard and optional-photo case, with all closed suites skipped. Real GoTrue/SMTP recovery ten checks, native desktop Safari eighteen checks, twelve Storage checks and three actual-file restore checks, 180s app-shaped load, and offline public history audit are saved with limits; do not rerun unaffected passes. Original financial concurrency closure b30105bab2a3bfbc6764b17d620f4e6ad1a963b9 and 53+10 remain intact.
 
-Current candidate branch: [candidate/pilot-readiness-20261105](https://github.com/merapplications-sketch/Talabat-v3/tree/candidate/pilot-readiness-20261105).
+First-cash post-merchant confirmation is an approved owner requirement, not an implemented feature. Customer must approve total/address/time before preparation or driver payment. Subsequent unchanged orders use checkout confirmation; price/items/material delay changes need acceptance. Two-minute timeout is proposal only, silence never consents. Timeout and material-delay definition remain open. Cancellation direction, actual merchant refund records and open driver claim on partial/no refund are retained for review, not implemented as paid claims.
 
-Final saved report/evidence commit: [78de057ba6a583303eec4adb99fa6744a4c1d4d2](https://github.com/merapplications-sketch/Talabat-v3/commit/78de057ba6a583303eec4adb99fa6744a4c1d4d2).
+Launch verdict remains NO: implement/accept the above workflow, settle open operating policy and merchant consent, verify actual hosted config and real devices/printing/GPS, deliver scheduled alerts to named on-call and validate real backup/restore and enforced pilot bounds. Accountant remains pending true email/phone. Team owns technical evidence; no owner recordings requested. Private conversion remains paused and driver onboarding redesign remains open.
 
-Tested implementation commit: bcc81b9cfc4d8a4e396a86b31c603b96e194e23b. [Executive report, inventory, prior-decision index, evidence, source fingerprints and conditional activation review](https://github.com/merapplications-sketch/Talabat-v3/blob/78de057ba6a583303eec4adb99fa6744a4c1d4d2/docs/pilot-20261105/README.md).
-
-Latest isolated run 42029003285 completed successfully; no operation remains running or ambiguous. Candidate files were verified against GitHub blob hashes. Production HTTP source still matches ca8808dd6dee4f4815a266ae9bb9ea20a155f892; this does not verify the hosted backend.
-
-Verdict: do not start real pilot yet. Auth/REST local integration now proven; real hosted config/SMTP/Realtime/Storage, hardware Safari/Android/printing/GPS, actual backup/alert delivery, operating policy and enforceable pilot scope remain open. Team owns technical evidence. Accountant account remains pending real email/phone, temporary name approved. A/R1 and proposed safety guards unapplied live. No deployment, live SQL, grants, finance, merge, purchase or visibility change.
+A/R1 and all proposed guards remain unapplied live. No live SQL, financial effects, grants, publishing, main merge, purchase or privacy change. Check all refs and active run outcomes before repeating any operation; no run or write was unresolved at handoff.
