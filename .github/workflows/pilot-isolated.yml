@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   pilot:
-    if: ${{ false }} # Closed evidence; enable only a newly affected scope, never rerun closed suites.
+    # Only new legacy/checkout-race edges active; closed suites stay disabled.
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -93,11 +93,12 @@ jobs:
         if: ${{ false }}
         run: python3 tests/pilot/storage.py restore
       - name: New first cash and changed-revision server contract
-        if: ${{ steps.services.outcome == 'success' }}
+        if: ${{ false }}
         env:
           CONFIRM_UI_FIXTURE: '1'
         run: python3 tests/pilot/confirmation.py
       - name: New approval UI recovery focus and time-selection checks
+        if: ${{ false }}
         run: |
           npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
           cd tests/pilot
@@ -113,6 +114,16 @@ jobs:
       - name: New 42-user concurrent order consent GPS stages
         if: ${{ false }}
         run: python3 tests/pilot/concurrent-journeys.py
+      - name: New legacy and concurrent checkout compatibility only
+        run: |
+          python3 tests/pilot/confirmation-compat.py
+          npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
+          cd tests/pilot
+          export PILOT_CHROMIUM_PATH="$(command -v google-chrome)"
+          python3 gateway.py >.runtime-gateway.log 2>&1 &
+          GATEWAY_PID=$!
+          trap 'kill "$GATEWAY_PID"' EXIT
+          node confirmation-legacy.cjs
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export

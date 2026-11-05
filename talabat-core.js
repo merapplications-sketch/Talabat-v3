@@ -1225,7 +1225,7 @@
     },
     setStatus: function (id, to) { return rpc('set_order_status', { p_id: id, p_to: to }); },
     patch: function (id, f) { var o = ORD.find(function (x) { return x.id === id; });
-      if (ME.role === 'merchant' && o && o.approval && o.approval.state !== 'awaiting_merchant') return window.TLB.reviewOrder(id, f.prepTime, null, 'time update');
+      if (ME.role === 'merchant' && o && (!o.approval || o.approval.state !== 'awaiting_merchant')) return window.TLB.reviewOrder(id, f.prepTime, null, 'time update');
       return rpc('set_prep_time', { p_id: id, p_min: f.prepTime }, true); },
     reviewOrder: function (id, minutes, items, note) { var o = ORD.find(function (x) { return x.id === id; });
       return approvalWrite('merchant_review_order', { p_order: id, p_minutes: minutes, p_items: items || null, p_note: note || null }, o && o.approval ? o.approval.revision : 0); },
