@@ -25,4 +25,4 @@ jobs:
           /usr/bin/safaridriver --port 4444 >tests/pilot/.runtime-safaridriver.log 2>&1 &
           SAFARI_PID=$!
           trap 'kill "$SAFARI_PID"' EXIT
-          python3 tests/pilot/safari-confirmation.py
+          SAFARI_SUMMARY_ONLY=1 python3 tests/pilot/safari-confirmation.py
