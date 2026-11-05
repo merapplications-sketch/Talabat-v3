@@ -419,6 +419,52 @@ def integration():
                 c.execute('drop trigger pilot_refund_fail on wallet_entries;drop function public.pilot_refund_fail()')
         return {'ticket_close_and_refund_rolled_back_together':True}
     case('refund_storage_failure_atomicity',refund_failure)
+
+    def expanded_privacy():
+        s=state();s['accounts']['merchant2']=register('merchant2',900,admin=True);save(STATE,s)
+        second_store='a0000000-0000-4000-8000-000000000007'
+        with db()as c:
+            c.execute("update profiles set role='merchant' where id=%s",(uid('merchant2'),))
+            c.execute("insert into stores(id,owner_id,name,category) values(%s,%s,'DEMO second merchant','rest')",(second_store,uid('merchant2')))
+        oid=order(bearer('customer'))
+        checks=[]
+        def hidden(actor,resource):
+            code,value=request(3000,resource,token=bearer(actor));assert (code==200 and value==[])or code in (401,403);checks.append({'actor':actor,'resource':resource,'status':code,'hidden':True})
+        for actor in ['outsider','merchant2','driver2']:
+            hidden(actor,'/orders?select=id,address& id=eq.'.replace(' ','')+str(oid))
+            hidden(actor,'/order_items?select=*&order_id=eq.'+str(oid))
+        for actor in ['merchant','merchant2','driver2']:
+            hidden(actor,'/addresses?select=*&user_id=eq.'+uid('customer'))
+        hidden('customer','/stores?select=owner_id,commission_pct')
+        code,value=request(3000,'/profiles?id=eq.'+uid('driver2'),{'driver_status':'blocked','role':'admin'},bearer('driver2'),method='PATCH')
+        assert code>=400 and value['message']=='not_allowed';checks.append({'driver_role_self_escalation_denied':True})
+        code,value=request(3000,'/rpc/finance_execute',{'p_request':str(uuid.uuid4()),'p_operation':'settle_cash','p_target':uid('driver2')},bearer('admin'))
+        assert code>=400 and value['message']=='not_allowed';checks.append({'admin_without_finance_grant_denied_through_real_REST':True})
+        code,value=request(3000,'/orders?id=eq.'+str(oid),{'status':'delivered'},bearer('customer'),method='PATCH')
+        assert code>=400;checks.append({'direct_order_write_denied':True})
+        rpc(bearer('customer'),'set_order_status',{'p_id':oid,'p_to':'cancelled'})
+        return checks
+    case('merchant_driver_and_direct_write_isolation',expanded_privacy)
+
+    def one_driver_race():
+        orders=[order(bearer('customer')),order(bearer('outsider'))]
+        for oid in orders:rpc(bearer('merchant'),'set_order_status',{'p_id':oid,'p_to':'preparing'})
+        with db()as c:
+            for oid in orders:c.execute("insert into order_offers(order_id,driver_id,mode,expires_at) values(%s,%s,'broadcast',now()+interval '10 minutes') on conflict(order_id,driver_id) do update set state='pending',expires_at=excluded.expires_at",(oid,uid('driver2')))
+            c.execute('begin');c.execute('select id from orders where id=any(%s) order by id for update',(orders,))
+            pool=concurrent.futures.ThreadPoolExecutor(max_workers=2)
+            futures=[pool.submit(request,3000,'/rpc/driver_accept',{'p_id':oid},bearer('driver2'))for oid in orders]
+            try:
+                wait(lambda:q(c,"select count(*) from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and query like 'WITH pgrst_source%%'")>=2,'same_driver_two_accepts',15)
+                locks=c.execute("select pid,wait_event_type,wait_event,pg_blocking_pids(pid) from pg_stat_activity where datname=current_database() and wait_event_type='Lock'").fetchall()
+            finally:c.execute('commit')
+            replies=[f.result(timeout=20)for f in futures];pool.shutdown()
+            assigned=q(c,'select count(*) from orders where id=any(%s) and driver_id=%s',(orders,uid('driver2')))
+            evidence={'orders':orders,'assigned_to_same_driver':assigned,'responses':replies,'locks':locks};save(HERE/'result-driver-race.json',evidence)
+            assert assigned==1,json.dumps(evidence,default=str)
+        for oid in orders:rpc(bearer('admin'),'set_order_status',{'p_id':oid,'p_to':'cancelled'})
+        return evidence
+    case('one_driver_cannot_accept_two_active_orders',one_driver_race)
     result['pass'] = all(x.get('pass', x.get('status') == 'previously_passed_not_rerun') for x in result['checks'])
     save(HERE / 'result-integration.json', result)
     if not result['pass']:

@@ -1,0 +1,7 @@
+{
+  "pass": true,
+  "checks": 4,
+  "scope": "local fake health endpoint: healthy, incident, no duplicate incident, recovery",
+  "real_external_alert_delivery": false,
+  "live": false
+}
