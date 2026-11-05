@@ -8,7 +8,7 @@ on:
         description: Isolated suite to run
         required: true
         type: choice
-        options: [journey, driver-ui, load, backup, soak, smtp, storage, consent-server, consent-ui-edges, consent-load, legacy-ui, admission, admission-load, consent-backup, timing, consent-ui, consent-compat, admission-dispatch, driver-returns, driver-returns-ui, driver-returns-guard]
+        options: [journey, driver-ui, load, backup, soak, smtp, storage, consent-server, consent-ui-edges, consent-load, legacy-ui, admission, admission-load, consent-backup, timing, consent-ui, consent-compat, admission-dispatch, driver-returns, driver-returns-ui, driver-returns-guard, operations-host]
 permissions:
   contents: read
 jobs:
@@ -41,7 +41,7 @@ jobs:
             journey|driver-ui|load|backup|soak|smtp|storage) stage=legacy ;;
             consent-server|consent-ui|consent-ui-edges|consent-load|legacy-ui|consent-compat) stage=consent ;;
             admission|admission-load|consent-backup|timing|admission-dispatch) stage=full ;;
-            driver-returns|driver-returns-ui|driver-returns-guard)
+            driver-returns|driver-returns-ui|driver-returns-guard|operations-host)
               stage=full
               echo "PILOT_DRIVER_RETURNS=1" >> "$GITHUB_ENV"
               ;;
@@ -225,6 +225,12 @@ jobs:
           python3 driver-returns.py ui
           RETURN_BROWSER=chromium RETURN_GUARD_ONLY=1 node driver-returns-ui.cjs
           RETURN_BROWSER=chromium node driver-returns-ui.cjs
+      - name: Isolated host settings role reads and actual SMTP capture
+        if: steps.scope.outputs.suite == 'operations-host'
+        timeout-minutes: 5
+        run: |
+          LAB_AUTOCONFIRM=false docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d mailpit auth
+          LAB_AUTOCONFIRM=false python3 tests/pilot/operations-host.py
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export
