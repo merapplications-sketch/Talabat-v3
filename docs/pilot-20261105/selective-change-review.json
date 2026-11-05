@@ -8,33 +8,36 @@
     },
     "driver.html": {
       "changed": true,
-      "added_lines": 4,
-      "removed_lines": 8
+      "added_lines": 5,
+      "removed_lines": 9
     },
     "merchant.html": {
-      "changed": false,
-      "added_lines": 0,
-      "removed_lines": 0
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 1
     },
     "admin.html": {
-      "changed": false,
-      "added_lines": 0,
-      "removed_lines": 0
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 1
     },
     "talabat-core.js": {
       "changed": true,
-      "added_lines": 2,
-      "removed_lines": 0
+      "added_lines": 62,
+      "removed_lines": 3
     }
   },
   "compatibility": [
     "A and R1 bytes unchanged",
-    "merchant/admin unchanged from receipt candidate",
     "cash guard after existing-key recovery, before new order writes; real wallet debit logic preserved",
     "refund policy/cap unchanged; ticket/order locking only",
     "driver claim existing busy rule serialized by profile lock",
     "driver tap actions use original transition and cash confirmation APIs",
-    "old clients claiming card/apple/wallet without provider fail closed; no historical payment rewrite"
+    "old clients claiming card/apple/wallet without provider fail closed; no historical payment rewrite",
+    "merchant/admin only shared-core cache query changed",
+    "new recovery does not alter roles or finance APIs",
+    "photo guard applies only when photo supplied; absent schema does not block photo-less delivery",
+    "first cash confirmation requirement is recorded but not implemented; release remains blocked"
   ],
   "live_or_hosted_drift_proven": false
 }

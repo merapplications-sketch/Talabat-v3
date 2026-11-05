@@ -1,0 +1,58 @@
+{
+  "pilot": [
+    {
+      "attempt": 9,
+      "run_id": 42034858977,
+      "source_sha": "98be6108cd23106e66555df20834a54a1e16a6e5",
+      "result": "SMTP confirmation passed; missing recovery UI; unfiltered API stress slow",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42034858977"
+    },
+    {
+      "attempt": 10,
+      "run_id": 42036241113,
+      "source_sha": "68412f87589b9b910fd912a88fc4f546211779b9",
+      "result": "app-shaped sustained load passed; bridge PUT and Storage bootstrap defects",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42036241113"
+    },
+    {
+      "attempt": 11,
+      "run_id": 42038785872,
+      "source_sha": "02f3866de182a177e68b2617aebe17701254f9f7",
+      "result": "real Auth/SMTP recovery 10 passed; Storage schema USAGE missing",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42038785872"
+    },
+    {
+      "attempt": 12,
+      "run_id": 42039256609,
+      "source_sha": "56e541a5e13e40d9a4229873fd65b03333ff786d",
+      "result": "12 Storage checks and 3 restore checks passed; missing-proof delivery defect proved",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42039256609"
+    },
+    {
+      "attempt": 13,
+      "run_id": 42041037080,
+      "source_sha": "6a8dc917be1981db84a894b855868f9e154be68d",
+      "result": "success: affected proof guard four checks and optional-photo case; closed checks skipped",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42041037080"
+    }
+  ],
+  "native_desktop_safari": [
+    {
+      "run_id": 42036241425,
+      "result": "functional only; invalid synthetic CSP screenshot retained"
+    },
+    {
+      "run_id": 42038785799,
+      "result": "session startup timeout before app"
+    },
+    {
+      "run_id": 42039256446,
+      "result": "18 UI checks and styled screenshot passed; synthetic SDK; no iPhone"
+    }
+  ],
+  "history_audit": {
+    "run_id": 42036879576,
+    "source_sha": "9db66a1f8dc868dfb7cfc7a1d981cedbadf61b6d",
+    "result": "318 commits,2192 blobs, no suspected findings within scope"
+  }
+}

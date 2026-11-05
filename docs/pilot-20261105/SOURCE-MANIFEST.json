@@ -1,33 +1,33 @@
 {
-  "tested_code_commit": "bcc81b9cfc4d8a4e396a86b31c603b96e194e23b",
+  "tested_code_commit": "6a8dc917be1981db84a894b855868f9e154be68d",
   "published_archive": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
   "financial_concurrency_closure": "b30105bab2a3bfbc6764b17d620f4e6ad1a963b9",
   "live_applied": false,
   "files": [
     {
       "path": "customer.html",
-      "bytes": 542732,
-      "sha256": "0cebec9a7b595ceda02414337b81f14245a8be932dca2c731034539b1f83500d"
+      "bytes": 542730,
+      "sha256": "fc8ed3e6c64088fdb6a0ac65145af48f6077a931e5ed3b4832197c1422271ace"
     },
     {
       "path": "driver.html",
-      "bytes": 61592,
-      "sha256": "bed9a5995a38c7a53ed0791c6f71e19672b86bb1a45b52b127bf07fa666adf52"
+      "bytes": 61594,
+      "sha256": "32290695fdfed1e4d31bbedfd426ed7dce7aaa2179519dcbfd962d06f4302a58"
     },
     {
       "path": "merchant.html",
-      "bytes": 67780,
-      "sha256": "f33a5036b87404760a65091a9bff772fa86bee15d276ceffae1a93d8dc37637e"
+      "bytes": 67797,
+      "sha256": "2af7cb1462ac11e412d9097cbe67193facf568d59f5a09586061f1b2766ef05e"
     },
     {
       "path": "admin.html",
-      "bytes": 129758,
-      "sha256": "4b2b9f19990034c7a306f44041dc4364e6fc28ad11f41cea26765dec6ad22dca"
+      "bytes": 129760,
+      "sha256": "47aecd2e7a884bfd1249c7d4ffa6719f8a76eaadfe1ddd77d46ea6db46bdb880"
     },
     {
       "path": "talabat-core.js",
-      "bytes": 137551,
-      "sha256": "78659dbec11bdd1b21197775829eaa5c4bc621c56b802fd9c8b05324eda33922"
+      "bytes": 143586,
+      "sha256": "2a6dbc927b05ff878596e2a1f164c121b305c7635802a046589dbb38ae3c332c"
     },
     {
       "path": "sql/proposed/admin_finance_integrity_20261101.sql",
@@ -58,6 +58,12 @@
       "path": "ops/pilot-watchdog.py",
       "bytes": 2736,
       "sha256": "470a0abc28d4b31273840677b1c920f0a8245b0e97ae9891e7b76cc95df3d02d"
+    },
+    {
+      "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
+      "bytes": 2058,
+      "sha256": "49500e3053a36bf27f9f6209c94ec42a5053883b48ba45b635e9a589e5c2975d"
     }
-  ]
+  ],
+  "unimplemented_approved_requirement": "first-cash post-merchant confirmation and accepted revisions; not a release-ready implementation"
 }

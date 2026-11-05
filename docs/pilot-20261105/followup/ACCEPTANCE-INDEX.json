@@ -1,0 +1,64 @@
+{
+  "prior_closures_preserved": true,
+  "baseline_53_and_10_rerun": false,
+  "live_actions": false,
+  "source": "6a8dc917be1981db84a894b855868f9e154be68d",
+  "evidence": {
+    "9:result-auth-mail.json": {
+      "path": "attempt-9.json",
+      "source": "98be6108cd23106e66555df20834a54a1e16a6e5",
+      "checks_passed": 4,
+      "whole_result_pass": false,
+      "limits": "partial pass retained even when different case failed"
+    },
+    "10:result-soak.json": {
+      "path": "attempt-10.json",
+      "source": "68412f87589b9b910fd912a88fc4f546211779b9",
+      "checks_passed": 0,
+      "whole_result_pass": true,
+      "limits": "partial pass retained even when different case failed"
+    },
+    "11:result-auth-mail.json": {
+      "path": "attempt-11.json",
+      "source": "02f3866de182a177e68b2617aebe17701254f9f7",
+      "checks_passed": 10,
+      "whole_result_pass": true,
+      "limits": "partial pass retained even when different case failed"
+    },
+    "12:result-storage.json": {
+      "path": "attempt-12.json",
+      "source": "56e541a5e13e40d9a4229873fd65b03333ff786d",
+      "checks_passed": 12,
+      "whole_result_pass": false,
+      "limits": "partial pass retained even when different case failed"
+    },
+    "12:result-storage-restore.json": {
+      "path": "attempt-12.json",
+      "source": "56e541a5e13e40d9a4229873fd65b03333ff786d",
+      "checks_passed": 3,
+      "whole_result_pass": true,
+      "limits": "partial pass retained even when different case failed"
+    },
+    "13:result-storage.json": {
+      "path": "attempt-13.json",
+      "source": "6a8dc917be1981db84a894b855868f9e154be68d",
+      "checks_passed": 4,
+      "whole_result_pass": true,
+      "limits": "partial pass retained even when different case failed"
+    },
+    "13:result-optional-photo.json": {
+      "path": "attempt-13.json",
+      "source": "6a8dc917be1981db84a894b855868f9e154be68d",
+      "checks_passed": 0,
+      "whole_result_pass": true,
+      "limits": "partial pass retained even when different case failed"
+    }
+  },
+  "native_desktop_safari": {
+    "path": "safari-desktop-result.json",
+    "checks": 18,
+    "actual_iPhone": false,
+    "real_Auth_backend": false,
+    "pass": true
+  }
+}
