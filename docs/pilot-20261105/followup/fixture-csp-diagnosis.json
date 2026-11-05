@@ -1,0 +1,6 @@
+{
+  "original_csp": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; connect-src 'self' https://dzydscryrnahnneydnry.supabase.co wss://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'",
+  "mutated_fixture_csp": "default-src 'self'; script-src 'self' 'unsafe-inline' /blocked-external style-src 'self' 'unsafe-inline' /blocked-external img-src 'self' data: blob: https:; connect-src 'self' https://dzydscryrnahnneydnry.supabase.co wss://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'",
+  "root_cause": "Broad URL regex consumed CSP directive semicolons, so style-src no longer parsed as a directive. Not an application defect.",
+  "application_changed_for_this": false
+}

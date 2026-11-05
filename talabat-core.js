@@ -686,6 +686,7 @@
     };
   }
   function showPasswordRecovery() {
+    if ($('tlb-newpw')) return;
     bootHide(); recoveryPending = true;
     overlay('<b data-i18n="resetNewTitle"></b>' +
       '<input id="tlb-newpw" type="password" autocomplete="new-password" maxlength="128" data-i18n-ph="resetNew" ' + IN + '>' +
@@ -835,7 +836,7 @@
       });
       sb.auth.getSession().then(function (x) {
         if (x.error) { bootHide(); return showLogin(authErr(x.error)); }
-        if (x.data.session) { if (incomingRecovery || recoveryPending) return showPasswordRecovery(); return enter(x.data.session.user); }
+        if (x.data.session) { if (recoveryPending) return showPasswordRecovery(); if (incomingRecovery) { bootHide(); return showLogin(t('resetExpired')); } return enter(x.data.session.user); }
         bootHide(); showLogin(incomingRecovery ? t('resetExpired') : '');
       })
         .catch(function (e) { console.error(e); bootFail(e); });

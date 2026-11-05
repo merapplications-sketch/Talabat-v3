@@ -1,0 +1,13 @@
+{
+  "live": false,
+  "probe": "real local HTTP PUT -> bridge -> synthetic upstream /user",
+  "status": 200,
+  "upstream": [
+    {
+      "path": "/user",
+      "method": "PUT",
+      "body_matches": true
+    }
+  ],
+  "pass": true
+}

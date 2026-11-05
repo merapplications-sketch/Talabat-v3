@@ -5,7 +5,7 @@ New coverage is recovery UI on the actual Safari engine; not iPhone acceptance.
 import base64, http.server, json, os, pathlib, re, subprocess, threading, time, urllib.request, urllib.error, zlib
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 HERE=pathlib.Path(__file__).parent
-SDK='''window.__authCalls=[];window.supabase={createClient:function(url,key,options){window.__storageKey=options.auth.storageKey;return {auth:{getSession:function(){return Promise.resolve({data:{session:null}})},onAuthStateChange:function(){return {data:{subscription:{unsubscribe:function(){}}}}},resetPasswordForEmail:function(email,options){window.__authCalls.push({operation:'recover',email:email,redirect:options.redirectTo});return Promise.resolve({data:{},error:null})}}}}};'''
+SDK='''window.__authCalls=[];window.supabase={createClient:function(url,key,options){window.__storageKey=options.auth.storageKey;return {auth:{getSession:function(){return Promise.resolve({data:{session:location.search.indexOf('fixture_existing=1')>=0?{user:{id:'synthetic-existing'}}:null}})},onAuthStateChange:function(){return {data:{subscription:{unsubscribe:function(){}}}}},resetPasswordForEmail:function(email,options){window.__authCalls.push({operation:'recover',email:email,redirect:options.redirectTo});return Promise.resolve({data:{},error:null})}}}}};'''
 class Handler(http.server.BaseHTTPRequestHandler):
  def log_message(self,*args):pass
  def do_GET(self):
@@ -16,10 +16,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
    if path.endswith('.html'):text=re.sub(r'https://cdn\.jsdelivr\.net/npm/@supabase/supabase-js@[^"\']+/dist/umd/supabase\.js','/fixture-sdk.js',text)
    # No installed client can send traffic to the real backend.
    text=text.replace('https://dzydscryrnahnneydnry.supabase.co','http://127.0.0.1:8087').replace('wss://dzydscryrnahnneydnry.supabase.co','ws://127.0.0.1:8087')
-   text=re.sub(r'https?://(?:fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net|unpkg\.com)[^\s"\'<>]*','/blocked-external',text)
    data=text.encode();mime='text/html'if path.endswith('.html')else'application/javascript'
   else:self.send_error(404);return
-  self.send_response(200);self.send_header('Content-Type',mime+';charset=utf-8');self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data)
+  self.send_response(200);self.send_header('Content-Type',mime+';charset=utf-8');self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'");self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data)
 
 def wd(path,body=None,method=None):
  req=urllib.request.Request('http://127.0.0.1:4444'+path,data=json.dumps(body).encode()if body is not None else None,headers={'Content-Type':'application/json'},method=method)
@@ -53,6 +52,7 @@ def main():
    wd(base+'/url',{'url':'http://127.0.0.1:8087/'+app+'.html?lang=en'});wait(lambda:script("return !!document.querySelector('#tlb-forgot')"))
    ok(script("return window.__storageKey")=='tlb-auth-'+role,app+' retains separate role session key and recovery entry')
    click('#tlb-forgot');wait(lambda:script("return !!document.querySelector('#tlb-rem')"))
+   ok(script("return getComputedStyle(document.querySelector('#tlb-ov')).display==='flex' && getComputedStyle(document.querySelector('#tlb-ov > div:last-child')).backgroundColor==='rgb(255, 255, 255)'"),app+' original inline styles remain active under unmodified app CSP')
    wd(base+'/element/'+element('#tlb-rem')+'/value',{'text':'demo@synthetic.invalid'})
    click('#tlb-rgo');wait(lambda:script("return document.querySelector('#tlb-rsent').hidden===false"))
    ok(script("return window.__authCalls.length===1 && window.__authCalls[0].redirect===location.origin+location.pathname"),app+' reset targets the same app; one SDK request')
@@ -62,6 +62,8 @@ def main():
   result['screenshot_jpeg_base64']=base64.b64encode(jpg.read_bytes()).decode()
   wd(base+'/url',{'url':'http://127.0.0.1:8087/customer.html?lang=en#type=recovery'});wait(lambda:script("return !!document.querySelector('#tlb-forgot')"))
   ok(script("return !document.querySelector('#tlb-newpw') && document.querySelector('#tlb-er').textContent.length>0"),'recovery marker without session cannot open password update form')
+  wd(base+'/url',{'url':'http://127.0.0.1:8087/customer.html?lang=en&fixture_existing=1#type=recovery'});wait(lambda:script("return !!document.querySelector('#tlb-forgot')"))
+  ok(script("return !document.querySelector('#tlb-newpw') && document.querySelector('#tlb-er').textContent.length>0"),'untrusted recovery marker cannot target an existing signed-in fixture identity')
   result['pass']=True
  except Exception as e:
   result['pass']=False;result['error']=str(e)[:160];print('FAIL Safari '+result['error'],flush=True)

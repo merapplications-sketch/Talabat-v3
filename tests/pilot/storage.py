@@ -1,11 +1,12 @@
 """New real Supabase Storage API / private proof / file+metadata restore coverage.
 Only Docker loopback endpoints. This does not verify hosted Storage settings.
 """
-import base64, hashlib, json, os, pathlib, subprocess, sys, time, urllib.request, urllib.error
+import base64, hashlib, json, os, pathlib, re, subprocess, sys, time, urllib.request, urllib.error
 import lab
 
 # Synthetic JPEG, not a customer or driver photo.
 JPEG=base64.b64decode('/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAF//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABBQJ//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBPwF//8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBPwF//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQAGPwJ//8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPyF//9oADAMBAAIAAwAAABD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/EB//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/EB//xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAE/EB//2Q==')
+TRACE=[]
 COMPOSE=['docker','compose','--env-file',str(lab.HERE/'.runtime.env'),'-f',str(lab.HERE/'compose.yml')]
 
 def prepare():
@@ -20,8 +21,15 @@ def call(token,method,path,data=None,mime=None,port=5000):
  if mime:headers['Content-Type']=mime
  req=urllib.request.Request(f'http://127.0.0.1:{port}'+path,data=data,headers=headers,method=method)
  try:
-  with urllib.request.urlopen(req,timeout=20)as r:return r.status,r.read()
- except urllib.error.HTTPError as e:return e.code,e.read()
+  with urllib.request.urlopen(req,timeout=20)as r:
+   body=r.read();TRACE.append({'endpoint':path.split('?')[0],'method':method,'status':r.status});return r.status,body
+ except urllib.error.HTTPError as e:
+  body=e.read();detail={}
+  try:
+   parsed=json.loads(body);detail={k:str(parsed[k])[:180]for k in ['statusCode','code','error','message']if k in parsed}
+  except Exception:pass
+  detail={k:re.sub(r'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+','[REDACTED]',v)for k,v in detail.items()}
+  TRACE.append({'endpoint':path.split('?')[0],'method':method,'status':e.code,'error_fields':detail});return e.code,body
 
 
 def setup_policy():
@@ -41,7 +49,7 @@ def test():
   key=lab.uid('driver1')+'/'+str(oid)+'/syntheticproof01.jpg';result['object_path']=key;result['object_sha256']=hashlib.sha256(JPEG).hexdigest()
   for actor in['customer','driver2']:
    status,_=call(lab.bearer(actor),'POST','/object/proofs/'+key,JPEG,'image/jpeg');ok(status not in(200,201,204),'non-assigned '+actor+' cannot upload proof for another courier')
-  status,_=call(lab.bearer('driver1'),'POST','/object/proofs/'+key,JPEG,'image/jpeg');ok(status in(200,201),'assigned courier uploads to actual private bucket')
+  status,_=call(lab.bearer('driver1'),'POST','/object/proofs/'+key,JPEG,'image/jpeg');ok(status in(200,201),'assigned courier uploads to actual private bucket');result['fixture_uploaded']=True
   status,_=call(lab.bearer('driver1'),'POST','/object/proofs/'+key,JPEG,'image/jpeg');ok(status not in(200,201,204),'duplicate upload without upsert cannot replace proof')
   for actor in['customer','driver2','merchant']:
    status,_=call(lab.bearer(actor),'GET','/object/authenticated/proofs/'+key);ok(status!=200,'unrelated '+actor+' cannot read proof')
@@ -60,8 +68,15 @@ def test():
   status,_=call(lab.bearer('driver1'),'DELETE','/object/proofs',{'prefixes':[key]});
   status,body=call(lab.bearer('outsider'),'GET','/object/authenticated/proofs/'+key);ok(status==200 and body==JPEG,'courier cannot erase retained delivery proof')
   result['pass']=True
- except Exception as e:result['pass']=False;result['error']=str(e)[:180];print('FAIL storage '+result['error'],flush=True)
- finally:lab.save(lab.HERE/'result-storage.json',result)
+ except Exception as e:
+  result['pass']=False;result['error']=str(e)[:180];print('FAIL storage '+result['error'],flush=True)
+  logs=subprocess.run(COMPOSE+['logs','--no-color','--tail=30','storage'],capture_output=True,text=True).stdout
+  for secret in [lab.state()['password'],lab.state()['jwt']]:logs=logs.replace(secret,'[REDACTED]')
+  result['sanitized_service_diagnostics']=re.sub(r'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+','[JWT_REDACTED]',logs)[-8000:]
+  with lab.db()as c:
+   result['schema_privileges']={r:{'usage':lab.q(c,"select has_schema_privilege(%s,'storage','USAGE')",(r,)),'insert':lab.q(c,"select has_table_privilege(%s,'storage.objects','INSERT')",(r,)),'select':lab.q(c,"select has_table_privilege(%s,'storage.objects','SELECT')",(r,))}for r in ['anon','authenticated','service_role']}
+ finally:
+  result['http_trace']=TRACE;lab.save(lab.HERE/'result-storage.json',result)
  if not result['pass']:raise SystemExit(1)
 
 
@@ -72,7 +87,10 @@ def restore():
   assert v,name
   result['checks'].append({'name':name,'pass':True});print('PASS storage restore '+name,flush=True)
  try:
-  before=json.loads((lab.HERE/'result-storage.json').read_text());key=before['object_path']
+  before=json.loads((lab.HERE/'result-storage.json').read_text())
+  if not before.get('fixture_uploaded'):
+   result['pass']=False;result['status']='blocked_no_uploaded_fixture';lab.save(lab.HERE/'result-storage-restore.json',result);print('BLOCKED Storage restore: no successful object upload; empty-metadata match is not accepted');return
+  key=before['object_path']
   with (lab.HERE/'.runtime-storage.dump').open('wb')as out:subprocess.run(COMPOSE+['exec','-T','db','pg_dump','-U','postgres','-Fc','talabot_pilot'],stdout=out,check=True)
   subprocess.run(COMPOSE+['exec','-T','db','createdb','-U','postgres','talabot_pilot_restore'],check=True)
   with (lab.HERE/'.runtime-storage.dump').open('rb')as inp:subprocess.run(COMPOSE+['exec','-T','db','pg_restore','-U','postgres','-d','talabot_pilot_restore','--exit-on-error'],stdin=inp,check=True)

@@ -73,6 +73,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
         self.route()
 
+    def do_PUT(self):
+        self.route()
+
     def do_PATCH(self):
         self.route()
 

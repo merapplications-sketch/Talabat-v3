@@ -1,0 +1,7 @@
+{
+  "live": false,
+  "probe": "real local HTTP PUT -> bridge -> synthetic upstream /user",
+  "status": 501,
+  "upstream": [],
+  "pass": false
+}
