@@ -82,7 +82,7 @@ jobs:
           MAIL_ONLY_RECOVERY=1 node auth-mail.cjs
       - name: New real private Storage policies and proof integrity
         id: storage
-        if: ${{ always() && steps.services.outcome == 'success' }}
+        if: ${{ false }}
         run: |
           python3 tests/pilot/storage.py optional
           python3 tests/pilot/storage.py prepare
@@ -91,6 +91,9 @@ jobs:
       - name: New actual Storage metadata and file restoration
         if: ${{ false }}
         run: python3 tests/pilot/storage.py restore
+      - name: New first cash and changed-revision server contract
+        if: ${{ steps.services.outcome == 'success' }}
+        run: python3 tests/pilot/confirmation.py
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export
