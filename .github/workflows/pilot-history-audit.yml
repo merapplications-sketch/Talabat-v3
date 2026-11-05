@@ -1,0 +1,23 @@
+name: Offline public history secret audit
+on:
+  push:
+    branches: [candidate/pilot-readiness-20261105]
+    paths: [ops/audit-public-history.py, .github/workflows/pilot-history-audit.yml]
+permissions:
+  contents: read
+jobs:
+  offline-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Read public branch histories without deployment credentials
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git init .
+          git remote add origin https://github.com/merapplications-sketch/Talabat-v3.git
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
+          git checkout --detach "$SOURCE_SHA"
+      - name: Scan offline without printing or validating credential values
+        run: python3 ops/audit-public-history.py
