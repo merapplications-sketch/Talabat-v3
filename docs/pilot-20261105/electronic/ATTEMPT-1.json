@@ -1,0 +1,16 @@
+{
+  "source": "ef030b6f602c8ab9e732007b867c2f2cb99017bf",
+  "synthetic_provider": true,
+  "live": false,
+  "checks": [
+    "pending has no order",
+    "failed has no order",
+    "pending and failed hidden from merchant",
+    "unsigned success rejected",
+    "wrong confirmed amount rejected",
+    "customer cannot assert paid through normal RPC",
+    "server-confirmed UI payment creates one order"
+  ],
+  "pass": false,
+  "error": "Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for get_by_role(\"button\", name=\"\u0642\u0628\u0648\u0644 \u0648\u0628\u062f\u0621 \u0627\u0644\u062a\u062d\u0636\u064a\u0631\", exact=True)\n"
+}

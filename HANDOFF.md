@@ -1,3 +1,5 @@
+> **Latest isolated electronic journey, 2026-11-06:** [Working local simulation, evidence and one launch method](docs/pilot-20261105/electronic/HANDOFF.md). Provider sandbox not tested. No production deployment.
+
 > **TALABOT pilot — latest handoff, 2026-11-06:** [Final readiness and blockers](docs/pilot-20261105/operations/external-acceptance/FINAL-READINESS.md). The historical v52 notes below do not authorize production SQL or deployment.
 
 # Talabat v3 — hand-off for a new conversation (state at v52)

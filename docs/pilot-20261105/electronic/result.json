@@ -1,0 +1,30 @@
+{
+  "source": "aef58708d2468f958e5a5e86e9096deaeb5d86cc",
+  "synthetic_provider": true,
+  "live": false,
+  "checks": [
+    "server-confirmed UI payment creates one order",
+    "four role screens complete delivery without errors",
+    "delivered prepaid order collects no customer cash",
+    "no driver restaurant advance or return claim",
+    "no financial settlement command",
+    "concurrent replay and lost response return same order",
+    "late failure does not undo confirmed order",
+    "concurrent first success creates exactly one order",
+    "merchant sees confirmed payments only"
+  ],
+  "prior_payment_guards": "passed in 42124389687; ATTEMPT-1.json; not rerun",
+  "merchant_after_payment": {
+    "orders": [
+      {
+        "id": 1,
+        "status": "pending",
+        "payment": "card",
+        "total": 40.0,
+        "cash_collected": null
+      }
+    ],
+    "intents": []
+  },
+  "pass": true
+}

@@ -1,0 +1,29 @@
+{
+  "verdict": "pass_isolated_server_simulation",
+  "tested_commit": "aef58708d2468f958e5a5e86e9096deaeb5d86cc",
+  "run": 42126162730,
+  "job": 127590805689,
+  "result": "result.json",
+  "prior_guard_run": 42124389687,
+  "prior_guard_evidence": "ATTEMPT-1.json",
+  "diagnostic_run": 42124825450,
+  "diagnostic_evidence": "ATTEMPT-2.json",
+  "ui_fix": "inline role assignment resolved to element.role; moved lexical state assignment into chooseRole function",
+  "artifact": 13459834763,
+  "artifact_sha256": "8c30bf4b8880883bfe6287a782add3b7bd7e40ae714582b858558a4800fd9d0e",
+  "screenshots": {
+    "journey-driver.png": "d8fea85b48c1353a3f7de3d2b50196db88047e5bc75c25f5b20055b17f53b0bc",
+    "journey-admin.png": "018f4ac0c875b4887463dc15b91f3cb170cb2b096119006b0440f7d5765cf65b"
+  },
+  "provider_sandbox_tested": false,
+  "real_charge": false,
+  "live_settlement": false,
+  "deployed": false,
+  "existing_cash_modified": false,
+  "existing_application_sql_modified": false,
+  "isolated_runtime_sql_changed": true,
+  "ui_scope": "four-role test console; uses existing application order RPC and actual isolated GoTrue identities, not original production HTML screens",
+  "cleanup": "successful; no running payment or order left after CI",
+  "unique_assertions_across_runs": 15,
+  "replay_scope": "signed callback result ignored and replayed, plus six concurrent calls; no external provider network used"
+}
