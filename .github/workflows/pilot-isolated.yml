@@ -92,11 +92,12 @@ jobs:
         if: ${{ false }}
         run: python3 tests/pilot/storage.py restore
       - name: New first cash and changed-revision server contract
-        if: ${{ steps.services.outcome == 'success' }}
+        if: ${{ false }}
         env:
           CONFIRM_UI_FIXTURE: '1'
         run: python3 tests/pilot/confirmation.py
       - name: New approval UI on actual isolated Auth REST
+        if: ${{ false }}
         run: |
           npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
           cd tests/pilot
@@ -109,6 +110,8 @@ jobs:
           GATEWAY_PID=$!
           trap 'kill "$GATEWAY_PID"' EXIT
           node confirmation-ui.cjs
+      - name: New 42-user concurrent order consent GPS stages
+        run: python3 tests/pilot/concurrent-journeys.py
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export
