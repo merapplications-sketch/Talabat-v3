@@ -2,11 +2,21 @@ name: New native Safari consent components
 on:
   push:
     branches: [candidate/pilot-readiness-20261105]
-    paths: [tests/pilot/safari-confirmation.py, .github/workflows/pilot-safari-confirmation.yml]
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Native desktop Safari consent scope
+        required: true
+        type: choice
+        options: [consent, summary]
 permissions:
   contents: read
 jobs:
   safari:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.head_commit.message == 'test(safari): run consent' ||
+      github.event.head_commit.message == 'test(safari): run summary'
     runs-on: macos-15
     timeout-minutes: 12
     steps:
@@ -19,10 +29,18 @@ jobs:
           git remote add origin https://github.com/merapplications-sketch/Talabat-v3.git
           git fetch --depth=1 origin "$SOURCE_SHA"
           git checkout --detach FETCH_HEAD
-      - name: Enable ephemeral native Safari automation and run only new UI coverage
+      - name: Enable ephemeral Safari automation and run the selected scope
+        env:
+          INPUT_SUITE: ${{ inputs.suite }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           sudo safaridriver --enable
           /usr/bin/safaridriver --port 4444 >tests/pilot/.runtime-safaridriver.log 2>&1 &
           SAFARI_PID=$!
           trap 'kill "$SAFARI_PID"' EXIT
-          SAFARI_SUMMARY_ONLY=1 python3 tests/pilot/safari-confirmation.py
+          suite="${INPUT_SUITE:-${COMMIT_MESSAGE#test(safari): run }}"
+          case "$suite" in
+            consent) python3 tests/pilot/safari-confirmation.py ;;
+            summary) SAFARI_SUMMARY_ONLY=1 python3 tests/pilot/safari-confirmation.py ;;
+            *) exit 2 ;;
+          esac

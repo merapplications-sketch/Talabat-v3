@@ -1,0 +1,153 @@
+{
+  "result-concurrent-journeys.json": {
+    "source": "70bbc3397fdeb26ba9c351c260e6e9fed8f754e5",
+    "live": false,
+    "environment": "free GitHub ubuntu-24.04 VM; native PostgreSQL17.6 GoTrue2.197 PostgREST14.18; loopback",
+    "stages": [
+      {
+        "concurrent_authenticated_sessions": 12,
+        "concurrent_journeys": 5,
+        "duration_s": 60.0,
+        "planned_orders": 15,
+        "completed_orders": 15,
+        "http_requests": 401,
+        "http_error_rate": 0.0,
+        "rps": 6.68,
+        "p50_ms": 3.43,
+        "p95_ms": 43.54,
+        "p99_ms": 132.0,
+        "max_ms": 142.97,
+        "errors": []
+      },
+      {
+        "concurrent_authenticated_sessions": 22,
+        "concurrent_journeys": 10,
+        "duration_s": 60.0,
+        "planned_orders": 30,
+        "completed_orders": 30,
+        "http_requests": 776,
+        "http_error_rate": 0.0,
+        "rps": 12.93,
+        "p50_ms": 4.5,
+        "p95_ms": 19.29,
+        "p99_ms": 40.22,
+        "max_ms": 155.12,
+        "errors": []
+      },
+      {
+        "concurrent_authenticated_sessions": 42,
+        "concurrent_journeys": 20,
+        "duration_s": 60.0,
+        "planned_orders": 60,
+        "completed_orders": 60,
+        "http_requests": 1516,
+        "http_error_rate": 0.0,
+        "rps": 25.27,
+        "p50_ms": 6.86,
+        "p95_ms": 39.93,
+        "p99_ms": 56.54,
+        "max_ms": 130.56,
+        "errors": []
+      }
+    ],
+    "limits": [
+      "HTTP virtual users; no browser rendering",
+      "not production WAN/plan, Realtime/push, upload, GPS accuracy, battery or multi-hour endurance",
+      "one synthetic restaurant; admin assignment, claim races already closed separately",
+      "no settlement load or financial tests repeated"
+    ],
+    "production_capacity_claim": false,
+    "delivered": 105,
+    "duplicates": 0,
+    "remaining_active": 0,
+    "approval_events": 20,
+    "db_top_queries": [
+      [
+        105,
+        "1612.30",
+        "15.355",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_store\", \"p_items\", \"p_payment\", \"p_address\", \"p_lat\", \"p_lng\", "
+      ],
+      [
+        295,
+        "1481.16",
+        "5.021",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_to\" FROM json_to_record(pgrst_payload.json_data) AS _(\""
+      ],
+      [
+        18,
+        "980.04",
+        "54.446",
+        "WITH pgrst_source AS ( SELECT \"public\".\"orders\".* FROM \"public\".\"orders\"  ORDER BY \"public\".\"orders\".\"created_at\" DESC  LIMIT $1 OFFSET $2 )  SELECT $3::bigint AS total_result_set,"
+      ],
+      [
+        456,
+        "760.91",
+        "1.669",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order_ids\" FROM json_to_record(pgrst_payload.json_data) AS _(\"p"
+      ],
+      [
+        105,
+        "672.02",
+        "6.400",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\", \"p_minutes\", \"p_request\" FROM json_to_record(pgrst_payl"
+      ],
+      [
+        105,
+        "578.18",
+        "5.507",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\", \"p_driver\" FROM json_to_record(pgrst_payload.json_data)"
+      ],
+      [
+        311,
+        "380.28",
+        "1.223",
+        "WITH pgrst_source AS ( SELECT \"public\".\"order_items\".* FROM \"public\".\"order_items\" WHERE  \"public\".\"order_items\".\"order_id\" = ANY ($1)    LIMIT $2 OFFSET $3 )  SELECT $4::bigint AS"
+      ],
+      [
+        18,
+        "377.70",
+        "20.983",
+        "WITH pgrst_source AS ( SELECT \"public\".\"orders\".* FROM \"public\".\"orders\" WHERE  \"public\".\"orders\".\"store_id\" = ANY ($1)   ORDER BY \"public\".\"orders\".\"created_at\" DESC  LIMIT $2 OFF"
+      ],
+      [
+        315,
+        "272.39",
+        "0.865",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_lat\", \"p_lng\", \"p_acc\" FROM json_to_record(pgrst_payload.json_d"
+      ],
+      [
+        20,
+        "256.82",
+        "12.841",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\", \"p_revision\", \"p_request\" FROM json_to_record(pgrst_pay"
+      ]
+    ],
+    "db_counters": [
+      0,
+      0,
+      22
+    ],
+    "historical_orders": 10000,
+    "poll_intervals_s": {
+      "customer": 25,
+      "merchant_driver_admin": 10
+    },
+    "gps_interval_s": 8,
+    "lab_p95_budget_ms": 2000,
+    "unique_authenticated_identities": 42,
+    "pass": true
+  },
+  "source_sha": "70bbc3397fdeb26ba9c351c260e6e9fed8f754e5",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:921e50aed7b2a67265f42ab03c7d54a32c641922cc64f0875a5ae2bcb8b37532",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:f36a9fc78aef0509ed5fa280819848cbdf099f60d7b338455ea54a5def18d6b1",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:3719f62df6229fc6670098c3df6d7ff792a7a67ddf9c7e016a5653f39b72e1a4",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:57ad85c77c5f48eeb75f4e75497bb59ea3952f16107aec618947f0bf3cae584d",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:34260cb89ea5d6d55b93ce13a5fe1772dbe8e1592e1200370160b7f5a0bd2ecd",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

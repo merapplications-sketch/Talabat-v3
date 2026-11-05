@@ -1,0 +1,38 @@
+{
+  "source": "4a20637a46e70281d0ec44f47c7108eb09d66543",
+  "environment": "native Safari desktop/macOS15; actual new component source; explicit order/RPC UI fixtures",
+  "actual_iPhone": false,
+  "actual_Auth_PostgREST": false,
+  "live": false,
+  "checks": [
+    {
+      "name": "order summary agrees with consent card after merchant review; no stale restaurant-wait message",
+      "pass": true
+    },
+    {
+      "name": "updated summary fits the native Safari window",
+      "pass": true
+    }
+  ],
+  "capabilities": {
+    "safari:platformVersion": "15.8.2",
+    "safari:automaticInspection": false,
+    "webkit:WebRTC": {
+      "DisableICECandidateFiltering": false,
+      "DisableInsecureMediaCapture": false
+    },
+    "webkit:alwaysAllowAutoplay": false,
+    "browserVersion": "27.2",
+    "strictFileInteractability": false,
+    "browserName": "Safari",
+    "safari:useSimulator": false,
+    "safari:automaticProfiling": false,
+    "setWindowRect": true,
+    "acceptInsecureCerts": false,
+    "safari:platformBuildVersion": "24H232",
+    "safari:experimentalWebSocketUrl": false,
+    "platformName": "macOS",
+    "safari:diagnose": false
+  },
+  "pass": true
+}

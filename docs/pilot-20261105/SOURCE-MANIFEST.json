@@ -1,33 +1,33 @@
 {
-  "tested_code_commit": "6a8dc917be1981db84a894b855868f9e154be68d",
+  "tested_code_commit": "4f37f28024ed1bef7fb47e73082b0881fad8817f",
   "published_archive": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
   "financial_concurrency_closure": "b30105bab2a3bfbc6764b17d620f4e6ad1a963b9",
   "live_applied": false,
   "files": [
     {
       "path": "customer.html",
-      "bytes": 542730,
-      "sha256": "fc8ed3e6c64088fdb6a0ac65145af48f6077a931e5ed3b4832197c1422271ace"
+      "bytes": 545945,
+      "sha256": "63354d00cd4a30d613ff896a627a6d7d0c1738b09734938b218e6afa2c956630"
     },
     {
       "path": "driver.html",
-      "bytes": 61594,
-      "sha256": "32290695fdfed1e4d31bbedfd426ed7dce7aaa2179519dcbfd962d06f4302a58"
+      "bytes": 61602,
+      "sha256": "665a1021282cd228c9444033f999db5f368a8b73e30f3910765894400a5bb8d9"
     },
     {
       "path": "merchant.html",
-      "bytes": 67797,
-      "sha256": "2af7cb1462ac11e412d9097cbe67193facf568d59f5a09586061f1b2766ef05e"
+      "bytes": 75239,
+      "sha256": "1180d571da07adcce51b0b7d22e94d2ddf32652b95a6b25f2972723a961fc88d"
     },
     {
       "path": "admin.html",
-      "bytes": 129760,
-      "sha256": "47aecd2e7a884bfd1249c7d4ffa6719f8a76eaadfe1ddd77d46ea6db46bdb880"
+      "bytes": 129768,
+      "sha256": "92a8997271bf929da651fb21676da68ec614115d327698cda6693b30d51de468"
     },
     {
       "path": "talabat-core.js",
-      "bytes": 143586,
-      "sha256": "2a6dbc927b05ff878596e2a1f164c121b305c7635802a046589dbb38ae3c332c"
+      "bytes": 149508,
+      "sha256": "87ed9d150a3e961ee41b9c7f59ae5a6cb137443846dd27ffd0748f3c1121fdd6"
     },
     {
       "path": "sql/proposed/admin_finance_integrity_20261101.sql",
@@ -63,7 +63,23 @@
       "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
       "bytes": 2058,
       "sha256": "49500e3053a36bf27f9f6209c94ec42a5053883b48ba45b635e9a589e5c2975d"
+    },
+    {
+      "path": "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+      "bytes": 36463,
+      "sha256": "e521521c59ada659ec2b759d22bcc28e7b9c8f4b470690f30c8f1f89c0e0a101"
+    },
+    {
+      "path": "sql/proposed/pilot_zz_admission_20261105.sql",
+      "bytes": 8595,
+      "sha256": "e8dfd228758bd125f2c20de504d028a02ee2692c21b32fe50688383a8b4316af"
     }
   ],
-  "unimplemented_approved_requirement": "first-cash post-merchant confirmation and accepted revisions; not a release-ready implementation"
+  "prior_tested_code_commit": "6a8dc917be1981db84a894b855868f9e154be68d",
+  "dispatch_test_commit": "216ad116129d6e0e2ee6e9b0c531c2d0dac9c2d9",
+  "release_blockers": [
+    "driver reimbursement and outstanding claim workflow",
+    "hosted verification and actual devices",
+    "approved operating setup and real accountant identity"
+  ]
 }

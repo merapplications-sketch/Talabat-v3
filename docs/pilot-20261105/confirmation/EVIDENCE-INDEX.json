@@ -1,0 +1,112 @@
+{
+  "live": false,
+  "runtime_source": "4f37f28024ed1bef7fb47e73082b0881fad8817f",
+  "financial_closure": "b30105bab2a3bfbc6764b17d620f4e6ad1a963b9",
+  "runs": [
+    {
+      "evidence": "attempt-1.json",
+      "source": "352a94f963d7c8c967262ea73dc14b38ef019a53",
+      "run_id": 42046366726,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42046366726",
+      "scope": "محاولة أولى: فشل سياق المعاملة الفرعية"
+    },
+    {
+      "evidence": "attempt-2.json",
+      "source": "dcf7aa16de1430c3a8d1400dcfaefceb37dc6f30",
+      "run_id": 42047735973,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42047735973",
+      "scope": "12 نقطة نجاح قبل كشف اختلاف وقت التحضير الافتراضي"
+    },
+    {
+      "evidence": "attempt-3.json",
+      "source": "87e52eac60c8bc0ea5966f6c934627893e05a73d",
+      "run_id": 42048145240,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42048145240",
+      "scope": "7 نقاط متأثرة بعد الإصلاح"
+    },
+    {
+      "evidence": "attempt-4.json",
+      "source": "180cbf11fa6241dd849c968af151c7ed366e1565",
+      "run_id": 42048486235,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42048486235",
+      "scope": "8 نقاط Chromium على الواجهات الفعلية مع Auth وREST معزولين"
+    },
+    {
+      "evidence": "staged-load.json",
+      "source": "70bbc3397fdeb26ba9c351c260e6e9fed8f754e5",
+      "run_id": 42048804627,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42048804627",
+      "scope": "حمل متدرج قبل حارس الحصر"
+    },
+    {
+      "evidence": "edge-ui.json",
+      "source": "3e1b62da7bb35306b118c50b3f43bd843f41f037",
+      "run_id": 42049134621,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42049134621",
+      "scope": "11 نقطة للوقت الصريح وفشل القراءة واستعادتها ولوحة المفاتيح"
+    },
+    {
+      "evidence": "safari-consent.json",
+      "source": "b39734c3b002d4068c8714e487787e3fb602b2f2",
+      "run_id": 42049462397,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42049462397",
+      "scope": "5 نقاط Safari مكتبي بمكونات معزولة وبيانات اصطناعية"
+    },
+    {
+      "evidence": "safari-summary.json",
+      "source": "4a20637a46e70281d0ec44f47c7108eb09d66543",
+      "run_id": 42049761164,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42049761164",
+      "scope": "نقطتان Safari مكتبي لملخص الطلب"
+    },
+    {
+      "evidence": "compat.json",
+      "source": "c09eddac43040dfe3af42973c406697429fa9262",
+      "run_id": 42050002794,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42050002794",
+      "scope": "حالات الخادم للتزامن والتوافق"
+    },
+    {
+      "evidence": "legacy-ui.json",
+      "source": "25cfad933dc8b5c36ad5b6619f25909ff82867c3",
+      "run_id": 42050249837,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42050249837",
+      "scope": "طلب قديم بلا سجل موافقة مصنوع"
+    },
+    {
+      "evidence": "admission-1.json",
+      "source": "e4c21482e4985552f855ad45365e1a71d4f26afc",
+      "run_id": 42050886370,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42050886370",
+      "scope": "9 نقاط حارس الحصر"
+    },
+    {
+      "evidence": "admission-load-1.json",
+      "source": "2528bc6628cf5badba25ec3c4e6b184775e79c0b",
+      "run_id": 42051085556,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42051085556",
+      "scope": "الحمل المتأثر بحارس الحصر"
+    },
+    {
+      "evidence": "backup.json",
+      "source": "61f2d725300210d33e079b7b03a21ca060e5b5a3",
+      "run_id": 42051479061,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42051479061",
+      "scope": "مطابقة استعادة 8 جداول خاصة والدوال والحراس وRLS"
+    },
+    {
+      "evidence": "timing.json",
+      "source": "4f37f28024ed1bef7fb47e73082b0881fad8817f",
+      "run_id": 42051819078,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42051819078",
+      "scope": "3 نقاط مرجع توقيت الطلب اللاحق"
+    },
+    {
+      "evidence": "admission-dispatch.json",
+      "source": "216ad116129d6e0e2ee6e9b0c531c2d0dac9c2d9",
+      "run_id": 42087361572,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42087361572",
+      "scope": "الاختبار الجديد الوحيد في الاستئناف: لا عرض قبل القبول، ثم عرض للسائق المدرج وحده"
+    }
+  ]
+}

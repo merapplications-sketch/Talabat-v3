@@ -1,0 +1,238 @@
+{
+  "result-confirmation-backup.json": {
+    "source": "61f2d725300210d33e079b7b03a21ca060e5b5a3",
+    "live": false,
+    "pass": true,
+    "scope": "ONLY new 8 approval/admission tables, their functions, five triggers and RLS flags; full logical dump is temporary fixture transport",
+    "hashes": {
+      "talabot_pilot": {
+        "fulfillment_private.confirmation_config": {
+          "rows": 1,
+          "sha256": "1cb932249e3374c551f114b349ecf5e197b37cf4b1fbb5fe00d0681594c27de6"
+        },
+        "fulfillment_private.order_approvals": {
+          "rows": 1,
+          "sha256": "991570b63272475fc995f72b66749fe1c8168adb4c78e92056a4b1f8f5050a84"
+        },
+        "fulfillment_private.approval_requests": {
+          "rows": 2,
+          "sha256": "05411968eae5b978bbedd6c1af5374bb9c94f6ea18392d75df1701f1ae3791f4"
+        },
+        "fulfillment_private.approval_events": {
+          "rows": 2,
+          "sha256": "15a41b64b78983f83a998f9320f3464c6d0b4b8f8c2c6753dfa9e7630157e5bb"
+        },
+        "fulfillment_private.config_events": {
+          "rows": 1,
+          "sha256": "b29304cf6f820bf99f6f50cb9cfed67f9a8c75b8d42cecf4798e317b14466289"
+        },
+        "pilot_private.config": {
+          "rows": 1,
+          "sha256": "8d129f8e9f9d84ac68357344d4158704e385ce2eb0ae99cde9a0e19a2cc04954"
+        },
+        "pilot_private.config_events": {
+          "rows": 2,
+          "sha256": "6a7614818d33d5277d82626b4e23d0bbc602fe70beb896459e1d42208dfde820"
+        },
+        "pilot_private.admissions": {
+          "rows": 1,
+          "sha256": "9e8c36d47c6bff1c26c1d20c1d74fc8a272430a3368337438dc7ba56a80ea89d"
+        },
+        "function_definitions": {
+          "count": 19,
+          "sha256": "94683fc750f584ecb21f452c59ceb4340b2b64420c7967f5f6bbeacbd3d7bb50"
+        },
+        "triggers": [
+          [
+            "approval_lines_guard",
+            "CREATE TRIGGER approval_lines_guard BEFORE INSERT OR DELETE OR UPDATE ON public.order_items FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_lines()",
+            "O"
+          ],
+          [
+            "approval_offer_guard",
+            "CREATE TRIGGER approval_offer_guard BEFORE INSERT OR UPDATE ON public.order_offers FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_offer()",
+            "O"
+          ],
+          [
+            "approval_order_guard",
+            "CREATE TRIGGER approval_order_guard BEFORE UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_order()",
+            "O"
+          ],
+          [
+            "pilot_admission_guard",
+            "CREATE TRIGGER pilot_admission_guard BEFORE INSERT OR UPDATE OF driver_id ON public.orders FOR EACH ROW EXECUTE FUNCTION pilot_private.guard_order()",
+            "O"
+          ],
+          [
+            "pilot_admission_record",
+            "CREATE TRIGGER pilot_admission_record AFTER INSERT ON public.orders FOR EACH ROW EXECUTE FUNCTION pilot_private.record_admission()",
+            "O"
+          ]
+        ],
+        "rls": [
+          [
+            "fulfillment_private",
+            "approval_events",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "approval_requests",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "config_events",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "confirmation_config",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "order_approvals",
+            true
+          ],
+          [
+            "pilot_private",
+            "admissions",
+            true
+          ],
+          [
+            "pilot_private",
+            "config",
+            true
+          ],
+          [
+            "pilot_private",
+            "config_events",
+            true
+          ]
+        ]
+      },
+      "talabot_pilot_restore": {
+        "fulfillment_private.confirmation_config": {
+          "rows": 1,
+          "sha256": "1cb932249e3374c551f114b349ecf5e197b37cf4b1fbb5fe00d0681594c27de6"
+        },
+        "fulfillment_private.order_approvals": {
+          "rows": 1,
+          "sha256": "991570b63272475fc995f72b66749fe1c8168adb4c78e92056a4b1f8f5050a84"
+        },
+        "fulfillment_private.approval_requests": {
+          "rows": 2,
+          "sha256": "05411968eae5b978bbedd6c1af5374bb9c94f6ea18392d75df1701f1ae3791f4"
+        },
+        "fulfillment_private.approval_events": {
+          "rows": 2,
+          "sha256": "15a41b64b78983f83a998f9320f3464c6d0b4b8f8c2c6753dfa9e7630157e5bb"
+        },
+        "fulfillment_private.config_events": {
+          "rows": 1,
+          "sha256": "b29304cf6f820bf99f6f50cb9cfed67f9a8c75b8d42cecf4798e317b14466289"
+        },
+        "pilot_private.config": {
+          "rows": 1,
+          "sha256": "8d129f8e9f9d84ac68357344d4158704e385ce2eb0ae99cde9a0e19a2cc04954"
+        },
+        "pilot_private.config_events": {
+          "rows": 2,
+          "sha256": "6a7614818d33d5277d82626b4e23d0bbc602fe70beb896459e1d42208dfde820"
+        },
+        "pilot_private.admissions": {
+          "rows": 1,
+          "sha256": "9e8c36d47c6bff1c26c1d20c1d74fc8a272430a3368337438dc7ba56a80ea89d"
+        },
+        "function_definitions": {
+          "count": 19,
+          "sha256": "94683fc750f584ecb21f452c59ceb4340b2b64420c7967f5f6bbeacbd3d7bb50"
+        },
+        "triggers": [
+          [
+            "approval_lines_guard",
+            "CREATE TRIGGER approval_lines_guard BEFORE INSERT OR DELETE OR UPDATE ON public.order_items FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_lines()",
+            "O"
+          ],
+          [
+            "approval_offer_guard",
+            "CREATE TRIGGER approval_offer_guard BEFORE INSERT OR UPDATE ON public.order_offers FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_offer()",
+            "O"
+          ],
+          [
+            "approval_order_guard",
+            "CREATE TRIGGER approval_order_guard BEFORE UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_order()",
+            "O"
+          ],
+          [
+            "pilot_admission_guard",
+            "CREATE TRIGGER pilot_admission_guard BEFORE INSERT OR UPDATE OF driver_id ON public.orders FOR EACH ROW EXECUTE FUNCTION pilot_private.guard_order()",
+            "O"
+          ],
+          [
+            "pilot_admission_record",
+            "CREATE TRIGGER pilot_admission_record AFTER INSERT ON public.orders FOR EACH ROW EXECUTE FUNCTION pilot_private.record_admission()",
+            "O"
+          ]
+        ],
+        "rls": [
+          [
+            "fulfillment_private",
+            "approval_events",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "approval_requests",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "config_events",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "confirmation_config",
+            true
+          ],
+          [
+            "fulfillment_private",
+            "order_approvals",
+            true
+          ],
+          [
+            "pilot_private",
+            "admissions",
+            true
+          ],
+          [
+            "pilot_private",
+            "config",
+            true
+          ],
+          [
+            "pilot_private",
+            "config_events",
+            true
+          ]
+        ]
+      }
+    },
+    "backup_exported": false,
+    "hosted_external_backup": false
+  },
+  "source_sha": "61f2d725300210d33e079b7b03a21ca060e5b5a3",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:921e50aed7b2a67265f42ab03c7d54a32c641922cc64f0875a5ae2bcb8b37532",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:f36a9fc78aef0509ed5fa280819848cbdf099f60d7b338455ea54a5def18d6b1",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:3719f62df6229fc6670098c3df6d7ff792a7a67ddf9c7e016a5653f39b72e1a4",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:57ad85c77c5f48eeb75f4e75497bb59ea3952f16107aec618947f0bf3cae584d",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:34260cb89ea5d6d55b93ce13a5fe1772dbe8e1592e1200370160b7f5a0bd2ecd",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}
