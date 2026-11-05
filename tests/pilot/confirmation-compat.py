@@ -31,4 +31,12 @@ def main():
   cf.denied(lab.bearer('merchant'),'order_change_quote',{'p_order':oid2,'p_items':[{'item_id':lab.ITEM,'qty':3,'options':[]}]},'change_requires_support')
   with lab.db()as db:ok(lab.q(db,'select total from orders where id=%s',(oid2,))==65 and lab.q(db,'select count(*)from fulfillment_private.order_approvals where order_id=%s',(oid2,))==0,field+' reprice fails closed without partial money or approval effects')
  r['pass']=True;lab.save(lab.HERE/'result-confirmation-compat.json',r)
-if __name__=='__main__':main()
+if __name__=='__main__':
+ if os.environ.get('CONFIRM_COMPAT_CORE_FIXTURE'):
+  lab.wait(lambda:lab.request(3000,'/')[0]==200,'rest')
+  with lab.db()as db:
+   with db.transaction():
+    oid=db.execute("insert into orders(store_id,customer_id,status,payment,subtotal,total,delivery_fee,commission_pct,commission,driver_payout,address)values(%s,%s,'pending','cash',50,65,15,20,10,15,'SYNTHETIC legacy untouched')returning id",(lab.STORE,lab.uid('customer'))).fetchone()[0]
+    db.execute('insert into order_items(order_id,item_id,name,price,qty,options)values(%s,%s,%s,25,2,%s)',(oid,lab.ITEM,'DEMO legacy','[]'))
+  lab.save(lab.HERE/'.runtime-confirmation-legacy.json',{'order':oid})
+ else:main()

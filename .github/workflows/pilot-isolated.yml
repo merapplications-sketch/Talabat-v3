@@ -116,7 +116,7 @@ jobs:
         run: python3 tests/pilot/concurrent-journeys.py
       - name: New legacy and concurrent checkout compatibility only
         run: |
-          python3 tests/pilot/confirmation-compat.py
+          CONFIRM_COMPAT_CORE_FIXTURE=1 python3 tests/pilot/confirmation-compat.py
           npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
           cd tests/pilot
           export PILOT_CHROMIUM_PATH="$(command -v google-chrome)"
