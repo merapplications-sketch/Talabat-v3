@@ -221,7 +221,11 @@ def restore():
     with (WORK / 'database.dump').open('rb') as source_dump:
         subprocess.run(COMPOSE + ['exec', '-T', 'db', 'pg_restore', '-U', 'postgres', '-d', 'talabot_pilot',
                                  '--clean', '--if-exists', '--exit-on-error'], stdin=source_dump, check=True)
-    check(snapshot() == manifest['signature'],
+    restored = snapshot()
+    RESULT['snapshot_differences'] = {key: {'expected': manifest['signature'].get(key), 'actual': restored.get(key)}
+                                      for key in set(restored) | set(manifest['signature'])
+                                      if restored.get(key) != manifest['signature'].get(key)}
+    check(not RESULT['snapshot_differences'],
           'external PostgreSQL snapshot restores rows functions grants policies triggers and RLS',
           {'tables': sum(isinstance(value, dict) for value in manifest['signature'].values())})
     storage.prepare()
