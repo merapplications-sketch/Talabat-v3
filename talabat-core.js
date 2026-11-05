@@ -1234,6 +1234,32 @@
     confirmOrder: function (id, revision) { return approvalWrite('customer_confirm_order', { p_order: id, p_revision: revision }, revision); },
     quoteOrderChange: function (id, items) { return sb.rpc('order_change_quote', { p_order: id, p_items: items }).then(function (r) { return r.error ? { error: errKey(r.error) } : { data: r.data }; }); },
     confirmationSettings: function () { return sb.rpc('order_confirmation_settings').then(function (r) { return r.error ? null : r.data; }); },
+    readOrderReturn: async function (id) {
+      try {
+        var result = await sb.rpc('order_return_status', { p_order: id });
+        return result.error ? { error: true } : { data: result.data };
+      } catch (error) { return { error: true }; }
+    },
+    writeOrderReturn: async function (id, action, ref, amount, method) {
+      if (!ME) return { error: true };
+      var args = { p_order: id, p_action: action, p_ref: ref || null,
+        p_amount: amount == null ? null : String(amount), p_method: method || null };
+      try {
+        var digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(args)));
+        var fingerprint = Array.from(new Uint8Array(digest), function (byte) { return byte.toString(16).padStart(2, '0'); }).join('');
+        var key = 'tlb-return:' + ME.id + ':' + fingerprint;
+        var request = localStorage.getItem(key);
+        if (!UUID.test(request || '')) {
+          request = crypto.randomUUID();
+          localStorage.setItem(key, request);
+        }
+        args.p_request = request;
+        var result = await sb.rpc('order_return_action', args);
+        if (result.error) return { error: true };
+        await refresh('orders');
+        return { data: result.data };
+      } catch (error) { return { error: true }; }
+    },
     driverAccept: function (id) { return rpc('driver_accept', { p_id: id }).then(function (r) { return r.error ? r : (r.data === true ? { ok: true } : { error: 'taken' }); }); },
     deliver: function (id, cash, note, photo) { var a = { p_id: id, p_cash: cash, p_note: note || null }; if (photo) a.p_photo = photo; return rpc('deliver_order', a); },
     /* batch 2 (patch 34): courier arrival steps, photo proof (private bucket), restaurant cancel with a reason */

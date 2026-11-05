@@ -69,7 +69,9 @@ small{color:var(--mut)}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=pilot-confirmation-20261105"></script>
+<script src="talabat-core.js?v=pilot-returns-20261106"></script>
+<link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+<script src="assets/driver-returns/panel.js?v=1"></script>
 <link rel="stylesheet" href="assets/finance-receipt/receipt.css?v=1">
 <script src="assets/finance-receipt/receipt.js?v=1"></script>
 <link rel="stylesheet" href="assets/admin-finance/admin-finance.css?v=finance-selective-1">
@@ -179,7 +181,7 @@ function vDetail(){const o=TLB.order(D);if(!o){D=null;return vOrders()}
 TLB.loadOrderExtra(o.id);
   const ev=TLB.events(o.id),cash=TLB.isCash(o);
   const t0=ev.length?Date.parse(ev[0].at):o.createdAt,t1=ev.length?Date.parse(ev[ev.length-1].at):t0;
-  return `<button class="b g" onclick="D=null;render()">← ${t('aBack')}</button>
+  return `<button class="b g" onclick="D=null;render()">← ${t('aBack')}</button>${DriverReturns.link(o,'admin')}
   <div class="card" style="margin-top:12px"><div class="row"><b>#${o.id}</b><span class="s ${o.status}">${t(o.status)}</span></div><div style="font-weight:600;margin-top:4px;word-break:break-word">${esc(o.store)}</div><small>${fmt(o.createdAt)}</small>${o.cancelReason?`<small style="display:block;margin-top:4px;color:#b42318">${t('zRj')}: ${esc(t('cr_'+o.cancelReason))}${o.cancelNote?' — '+esc(o.cancelNote):''}</small>`:''}${o.arrivedStoreAt||o.arrivedCustAt?`<small style="display:block;margin-top:4px">${[o.arrivedStoreAt?'🛵 '+t('zAtS')+' '+fmt(o.arrivedStoreAt):'',o.arrivedCustAt?'🏠 '+t('zAtC')+' '+fmt(o.arrivedCustAt):''].filter(Boolean).join(' · ')}</small>`:''}${o.deliveryPhoto?`<button class="b g" style="margin-top:8px" onclick="TLB.proofUrl('${esc(o.deliveryPhoto)}').then(u=>{if(u)window.open(u,'_blank','noopener')})">📷 ${t('zPhO')}</button>`:''}${o.scheduledFor||o.groupId?`<small style="display:block;margin-top:4px">${[o.scheduledFor?'🕒 '+t('ySched')+' '+fmt(o.scheduledFor):'',o.groupId?'👥 '+t('yGrp'):''].filter(Boolean).join(' · ')}</small>`:''}</div>
   <div class="card"><b>👤 ${t('aClient')}</b><p style="margin:4px 0">${esc(o.client.name)}</p>${tel(o.client.phone)}<p style="margin-top:8px">📍 ${esc(o.address)}</p>${o.lat!=null&&o.lng!=null?mapL(o.lat,o.lng,t('aOnMap')):''}${o.leaveAtDoor||o.isGift||(o.substitution&&o.substitution!='call')?`<small style="display:block;margin-top:8px">${[o.leaveAtDoor?'🚪 '+t('yDoor'):'',o.isGift?'🎁 '+t('yGift')+(o.recipient?': '+esc(o.recipient.name)+' '+esc(o.recipient.phone):''):'',o.substitution&&o.substitution!='call'?t('ySub_'+o.substitution):''].filter(Boolean).join(' · ')}</small>`:''}</div>
   <div class="card"><b>🏪 ${t('aStoreL')}</b><p style="margin:4px 0">${esc(o.store)}</p>${tel(o.storePhone)}</div>

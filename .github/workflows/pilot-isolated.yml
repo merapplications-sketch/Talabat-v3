@@ -197,6 +197,20 @@ jobs:
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml exec -T db createdb -U postgres talabot_pilot_restore
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml exec -T db pg_restore -U postgres -d talabot_pilot_restore --exit-on-error <tests/pilot/backup.dump
           python3 tests/pilot/driver-returns.py restore
+      - name: Return UI in two mobile browser profiles and loopback alert probe
+        if: steps.scope.outputs.suite == 'driver-returns-ui'
+        run: |
+          npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
+          cd tests/pilot
+          npx playwright install --with-deps chromium webkit
+          python3 gateway.py >.runtime-gateway.log 2>&1 &
+          GATEWAY_PID=$!
+          trap 'kill "$GATEWAY_PID"' EXIT
+          python3 driver-returns.py ui
+          python3 driver-returns-watchdog.py
+          RETURN_BROWSER=chromium node driver-returns-ui.cjs
+          python3 driver-returns.py ui
+          RETURN_BROWSER=webkit node driver-returns-ui.cjs
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export

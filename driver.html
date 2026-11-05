@@ -95,7 +95,9 @@ body.mapmode{background:#e8edf2;padding-bottom:0}body.mapmode .hd{position:relat
 </style></head><body><div id="dmap" aria-hidden="true"></div><div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=pilot-confirmation-20261105"></script>
+<script src="talabat-core.js?v=pilot-returns-20261106"></script>
+<link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+<script src="assets/driver-returns/panel.js?v=1"></script>
 <link rel="stylesheet" href="assets/finance-receipt/receipt.css?v=1">
 <script src="assets/finance-receipt/receipt.js?v=1"></script>
 <script>
@@ -207,7 +209,7 @@ function activeCard(a){const rd=a.status=='ready',ot=a.status=='pickedup',un=TLB
     <div class="nx"><span class="hico">${ico('pin',16)}</span><div style="flex:1;min-width:0"><div class="xs">${t('nextT')}: ${t('custT')}</div><b style="word-break:break-word">${esc(a.address)}</b></div></div>`;
   return `<div class="row"><span class="badge" style="background:var(--o);color:#fff">#${a.id}</span><span class="earnchip">${t('earnT')} ${a.payout.toFixed(2)} TJS</span></div>
   ${stepBar(a)}${legs(a)}${a.status!='pickedup'&&a.substitution&&a.substitution!='call'?`<div class="dwarn" style="margin-bottom:8px">${t('dsub_'+a.substitution)}</div>`:''}${focus}
-  ${cashBox(a)}${itemsSummary(a)}`}
+  ${cashBox(a)}${DriverReturns.link(a,'driver')}${itemsSummary(a)}`}
 /* the active order: full-screen map + bottom sheet + swipe */
 function sheetH(a){return `<div class="sht ${SHF?'full':''}"><div class="shh"><button class="grab" onclick="SHF=!SHF;render()" aria-label="${t('expand')}"><i></i></button><button class="round" onclick="DMK='';mapUpd(mine(),true)" aria-label="${t('recenter')}" title="${t('recenter')}">${ico('pin',18)}</button></div>
   <div class="shb">${activeCard(a)}</div><div class="shf">${swipeH(a)}</div></div>`}
@@ -222,7 +224,7 @@ function mapUpd(a,force){const box=$('dmap');if(!a||!box)return;if(!window.L){if
   if(force||key!==DMK){DMK=key;const pts=[ot?cp:sp,me,ot?null:cp].filter(Boolean);const hd=document.querySelector('.hd'),sh=document.querySelector('.sht');
     if(pts.length)setTimeout(()=>{try{DM.fitBounds(pts,{paddingTopLeft:[40,(hd?hd.offsetHeight:90)+30],paddingBottomRight:[40,(sh?sh.offsetHeight:300)+70],maxZoom:16})}catch(e){}},80)}}
 /* the order was cancelled while this courier had it: loud alert until he confirms */
-function cxlSheet(){if(!CXL)return '';const o=CXL;return `<div class="ov cxl"><div class="md" role="alertdialog"><h3>${t('cxlT').replace('{n}',o.id)}</h3><p style="margin:4px 0 10px;line-height:1.45">${t('cxlS')}</p>${o.cancelReason?`<div class="dwarn" style="margin:0 0 12px">${t('cxlBy')}: ${esc(t('cr_'+o.cancelReason))}${o.cancelNote?' — '+esc(o.cancelNote):''}</div>`:''}<button class="b r" onclick="CXL=null;render()">${t('cxlOk')}</button></div></div>`}
+function cxlSheet(){if(!CXL)return '';const o=CXL;return `<div class="ov cxl"><div class="md" role="alertdialog"><h3>${t('cxlT').replace('{n}',o.id)}</h3><p style="margin:4px 0 10px;line-height:1.45">${t('cxlS')}</p>${DriverReturns.link(o,'driver')}${o.cancelReason?`<div class="dwarn" style="margin:0 0 12px">${t('cxlBy')}: ${esc(t('cr_'+o.cancelReason))}${o.cancelNote?' — '+esc(o.cancelNote):''}</div>`:''}<button class="b r" onclick="CXL=null;render()">${t('cxlOk')}</button></div></div>`}
 function watchCancel(){const a=mine();if(a){LASTACT=a.id;return}if(LASTACT==null)return;const o=TLB.order(LASTACT);LASTACT=null;
   if(o&&(o.status=='cancelled'||o.status=='rejected')){CXL=o;try{navigator.vibrate&&navigator.vibrate([500,200,500,200,500])}catch(e){}}}
 function offerCard(o){const f=o.offer,br=f.mode=='broadcast',pct=br?100:Math.max(0,Math.min(100,f.left/30*100)),secs=Math.ceil(f.left);
@@ -249,7 +251,7 @@ function chatSheet(a){const un=TLB.unread(a.id),Q=[1,2,3,4,5,6,7];
   <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" placeholder="${t('msgPh')}" style="margin:0;flex:1"><button class="round" onclick="sendLoc(${a.id})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" style="background:var(--o);color:#fff" onclick="sendChat(${a.id})" aria-label="${t('sendB')}">${ico('nav',20)}</button></div></div></div>`}
 /* one empty-state component: icon + title + hint */
 const emptyD=(a,b,ic)=>`<div class="emp"><span class="eic">${ico(ic||'receipt',26)}</span><b>${a}</b>${b||''}</div>`;
-function vHist(){const l=done();FinanceReceipt.load(l,false);return `<h3>${t('dHist')}</h3>${l.length?l.map(o=>`<div class="card"><div class="row"><b>#${o.id} (${esc(o.store)})</b><b style="color:#27ae60">${o.payout.toFixed(2)} TJS</b></div><p style="font-size:11px;color:#718096;margin-top:4px">🕒 ${new Date(o.doneAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} ${o.cashCollected!=null?` • 💵 ${o.cashCollected.toFixed(2)} TJS`:''}${o.cashNote?` • ${esc(o.cashNote)}`:''}</p>${FinanceReceipt.history(o)}</div>`).join(''):emptyD(t('noH'),t('noHS'),'receipt')}`}
+function vHist(){const l=done();FinanceReceipt.load(l,false);return DriverReturns.finder('driver')+`<h3>${t('dHist')}</h3>${l.length?l.map(o=>`<div class="card"><div class="row"><b>#${o.id} (${esc(o.store)})</b><b style="color:#27ae60">${o.payout.toFixed(2)} TJS</b></div><p style="font-size:11px;color:#718096;margin-top:4px">🕒 ${new Date(o.doneAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} ${o.cashCollected!=null?` • 💵 ${o.cashCollected.toFixed(2)} TJS`:''}${o.cashNote?` • ${esc(o.cashNote)}`:''}</p>${FinanceReceipt.history(o)}</div>`).join(''):emptyD(t('noH'),t('noHS'),'receipt')}`}
 function vMe(){const l=done(),sum=l.reduce((s,o)=>s+o.payout,0),m=TLB.me();
   return `<div class="earn"><small>${t('bal')}</small><b>${sum.toFixed(2)} TJS</b><div class="row"><div><b style="font-size:18px;margin:0">${l.length}</b><small>${t('cnt')}</small></div><div><b style="font-size:18px;margin:0">${TLB.myCash().toFixed(0)}</b><small>${t('cashHand')} / ${m.cashLimit}</small></div></div></div>
   <div class="card row"><b>${t('langL')}</b><div style="display:flex;gap:6px"><button class="b ${TLB.lang()=='ru'?'':'s'}" style="margin:0;width:auto;padding:8px 14px" onclick="TLB.setLang('ru')">RU</button><button class="b ${TLB.lang()=='en'?'':'s'}" style="margin:0;width:auto;padding:8px 14px" onclick="TLB.setLang('en')">EN</button></div></div>

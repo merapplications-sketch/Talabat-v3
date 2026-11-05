@@ -190,5 +190,9 @@ def restore():
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'restore':
         restore()
+    elif len(sys.argv) > 1 and sys.argv[1] == 'ui':
+        setup()
+        agreement()
+        lab.save(lab.HERE / '.runtime-return-ui.json', {'order': pickup()})
     else:
         test()
