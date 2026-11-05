@@ -1,0 +1,123 @@
+{
+  "result-integration.json": {
+    "source": "3640d745999e445cc1ae898cafe6cb454ba00ea6",
+    "engine": "native PostgreSQL + real GoTrue and PostgREST; synthetic only",
+    "old_53_or_ten_concurrency_rerun": false,
+    "checks": [
+      {
+        "name": "auth_signup_login_refresh_and_forgery",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "current_driver_joining_gate",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "address_RLS",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "catalog_prices_availability_and_atomic_refusal",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "unsupported_payment_refusal",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "real_REST_order_to_receipt_and_lost_body",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "order_creation_retry_and_reconnect",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "REST_role_and_order_privacy",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "cancel_reject_wallet_recovery",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "client_error_monitoring_store",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "cross_ticket_refund_cap_under_contention",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "refund_storage_failure_atomicity",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "merchant_driver_and_direct_write_isolation",
+        "status": "previously_passed_not_rerun"
+      },
+      {
+        "name": "one_driver_cannot_accept_two_active_orders",
+        "pass": false,
+        "error": "{\"orders\": [1, 2], \"assigned_to_same_driver\": 2, \"responses\": [[200, true], [200, true]], \"locks\": [[238, \"Lock\", \"transactionid\", [239]], [241, \"Lock\", \"transactionid\", [239]]]}",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 215, in case\n    evidence = fn()\n               ^^^^\n  File \"/home/runner/work/Talabat-v3/Talabat-v3/tests/pilot/lab.py\", line 466, in one_driver_race\n    assert assigned==1,json.dumps(evidence,default=str)\n           ^^^^^^^^^^^\nAssertionError: {\"orders\": [1, 2], \"assigned_to_same_driver\": 2, \"responses\": [[200, true], [200, true]], \"locks\": [[238, \"Lock\", \"transactionid\", [239]], [241, \"Lock\", \"transactionid\", [239]]]}\n"
+      }
+    ],
+    "live": false,
+    "open": [
+      "actual hardware Safari/Android",
+      "native printer",
+      "real SMTP/SMS",
+      "Realtime websocket service",
+      "hosted deployment configuration"
+    ],
+    "pass": false
+  },
+  "result-driver-race.json": {
+    "orders": [
+      1,
+      2
+    ],
+    "assigned_to_same_driver": 2,
+    "responses": [
+      [
+        200,
+        true
+      ],
+      [
+        200,
+        true
+      ]
+    ],
+    "locks": [
+      [
+        238,
+        "Lock",
+        "transactionid",
+        [
+          239
+        ]
+      ],
+      [
+        241,
+        "Lock",
+        "transactionid",
+        [
+          239
+        ]
+      ]
+    ]
+  },
+  "source_sha": "3640d745999e445cc1ae898cafe6cb454ba00ea6",
+  "container_images": [
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:36ffe93f119df4dde5737e96fd5fe21e93f9ed8f0851bbb8344d685747fbbd40",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:e2c27ef4403bda921331fd3be5da297fd2865fcf42e2b2aba7d6b4c34073acdd",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:9c7f242f6dec2d7d7b55d4c9e07872d59b85377c6cb3de46c915a5d1ffb91442",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:acc55719d3816ebba2af7393d13bc72c690ddedf4e3ec74340104e3e0bda6b4d",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:82243f9dd22d1586d11ec6719395c10e6f266cfaf338a0380d09c62873805ac8",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

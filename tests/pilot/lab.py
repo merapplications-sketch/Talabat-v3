@@ -467,6 +467,25 @@ def integration():
         for oid in orders:rpc(bearer('admin'),'set_order_status',{'p_id':oid,'p_to':'cancelled'})
         return evidence
     case('one_driver_cannot_accept_two_active_orders',one_driver_race)
+    def two_driver_claim():
+        oid=order(bearer('customer'))
+        rpc(bearer('merchant'),'set_order_status',{'p_id':oid,'p_to':'preparing'})
+        with db() as c:
+            for name in ['driver1','driver2']:
+                c.execute("insert into order_offers(order_id,driver_id,mode,expires_at) values(%s,%s,'broadcast',now()+interval '10 minutes') on conflict(order_id,driver_id) do update set state='pending',expires_at=excluded.expires_at",(oid,uid(name)))
+        barrier=threading.Barrier(2)
+        def accept(name):
+            barrier.wait()
+            return name,request(3000,'/rpc/driver_accept',{'p_id':oid},bearer(name))
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:replies=list(pool.map(accept,['driver1','driver2']))
+        winners=[name for name,(code,value)in replies if code==200 and value is True]
+        assert len(winners)==1,replies
+        with db() as c:
+            assert str(q(c,'select driver_id from orders where id=%s',(oid,)))==uid(winners[0])
+            assert q(c,"select count(*) from order_offers where order_id=%s and state='accepted'",(oid,))==1
+        rpc(bearer('admin'),'set_order_status',{'p_id':oid,'p_to':'cancelled'})
+        return {'order':oid,'responses':replies,'one_assigned_driver_and_accepted_offer':True}
+    case('driver_claim_two_drivers_one_order_after_profile_lock',two_driver_claim)
     result['pass'] = all(x.get('pass', x.get('status') == 'previously_passed_not_rerun') for x in result['checks'])
     save(HERE / 'result-integration.json', result)
     if not result['pass']:
