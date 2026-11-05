@@ -8,7 +8,7 @@ async function login(browser,file,account){const c=await browser.newContext({vie
  browser=await chromium.launch(process.env.PILOT_CHROMIUM_PATH?{executablePath:process.env.PILOT_CHROMIUM_PATH}:{});result.browserVersion=browser.version();
  const m=await login(browser,'merchant.html','merchant'),c=await login(browser,'customer.html',f.account);
  await c.evaluate(id=>{S.tid=id;S.v='track';render()},oid);await c.waitForSelector('[data-approval="awaiting_merchant"]');ok(true,'customer sees availability hold before restaurant review');
- stage='merchant_review';await m.evaluate(id=>st(id,'preparing'),oid);await c.evaluate(()=>TLB.reload());await c.waitForSelector('[data-confirm-order]');
+ stage='merchant_review';await m.locator('button[onclick="spt('+oid+',15)"]').click();await m.waitForFunction(id=>TLB.order(id)?.prepTime===15,oid);await m.locator('button[onclick="st('+oid+',\'preparing\')"]').click();await m.waitForFunction(id=>TLB.order(id)?.approval.state==='awaiting_customer',oid);await c.evaluate(()=>TLB.reload());await c.waitForSelector('[data-confirm-order]');
  const before=await c.evaluate(id=>TLB.order(id),oid);ok(before.status==='pending'&&before.approval.state==='awaiting_customer'&&before.approval.snapshot.total===before.total,'merchant confirms availability, not preparation; customer sees authoritative total');
  ok((await c.locator('[data-approval="awaiting_customer"]').textContent()).includes(before.address),'customer reviews address and preparation time in same approval card');
  await c.screenshot({path:path.join(__dirname,'confirmation-before.png'),fullPage:true});

@@ -2,12 +2,20 @@ name: Isolated pilot integration and load
 on:
   push:
     branches: [candidate/pilot-readiness-20261105]
-    paths: [tests/pilot/**, .github/workflows/pilot-isolated.yml, sql/proposed/pilot_*.sql]
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Isolated suite to run
+        required: true
+        type: choice
+        options: [journey, driver-ui, load, backup, soak, smtp, storage, consent-server, consent-ui-edges, consent-load, legacy-ui, admission, admission-load, consent-backup, timing, consent-ui, consent-compat, admission-dispatch]
 permissions:
   contents: read
 jobs:
   pilot:
-    # Only new legacy/checkout-race edges active; closed suites stay disabled.
+    # The push selector also works while the workflow exists only on the candidate branch.
+    if: >-
+      github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'test(pilot): run ')
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -21,6 +29,22 @@ jobs:
           git fetch --depth=1 origin "$SOURCE_SHA"
           git checkout --detach FETCH_HEAD
           test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+      - name: Select one isolated suite and its fixture stage
+        id: scope
+        env:
+          INPUT_SUITE: ${{ inputs.suite }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          title="${COMMIT_MESSAGE%%$'\n'*}"
+          suite="${INPUT_SUITE:-${title#test(pilot): run }}"
+          case "$suite" in
+            journey|driver-ui|load|backup|soak|smtp|storage) stage=legacy ;;
+            consent-server|consent-ui|consent-ui-edges|consent-load|legacy-ui|consent-compat) stage=consent ;;
+            admission|admission-load|consent-backup|timing|admission-dispatch) stage=full ;;
+            *) echo "Unknown isolated suite"; exit 2 ;;
+          esac
+          echo "suite=$suite" >> "$GITHUB_OUTPUT"
+          echo "PILOT_PATCH_STAGE=$stage" >> "$GITHUB_ENV"
       - name: Pinned test clients
         run: python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
       - name: Temporary native DB and real Auth REST services
@@ -33,12 +57,10 @@ jobs:
           python3 tests/pilot/lab.py app
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d rest
       - name: New pilot journey and security checks only
-        if: ${{ false }}
-        env:
-          PILOT_SKIP: auth_signup_login_refresh_and_forgery,address_RLS,current_driver_joining_gate,catalog_prices_availability_and_atomic_refusal,order_creation_retry_and_reconnect,REST_role_and_order_privacy,cancel_reject_wallet_recovery,client_error_monitoring_store,unsupported_payment_refusal,real_REST_order_to_receipt_and_lost_body,cross_ticket_refund_cap_under_contention,refund_storage_failure_atomicity,merchant_driver_and_direct_write_isolation
+        if: steps.scope.outputs.suite == 'journey'
         run: python3 tests/pilot/lab.py integration
       - name: New driver tap actions on actual Auth REST
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'driver-ui'
         run: |
           npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
           python3 tests/pilot/lab.py driver_fixture
@@ -49,24 +71,22 @@ jobs:
           trap 'kill "$GATEWAY_PID"' EXIT
           node driver-actions.cjs
       - name: New workload of order journey and tracking
+        if: steps.scope.outputs.suite == 'load'
         id: workload
-        if: ${{ false }}
-        env:
-          PILOT_LOAD_STAGES: '50'
         run: python3 tests/pilot/lab.py load
       - name: Isolated logical backup and restore drill
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'backup'
         run: |
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml exec -T db pg_dump -U postgres -Fc talabot_pilot >tests/pilot/backup.dump
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml exec -T db createdb -U postgres talabot_pilot_restore
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml exec -T db pg_restore -U postgres -d talabot_pilot_restore --exit-on-error <tests/pilot/backup.dump
           python3 tests/pilot/lab.py restore
       - name: New sustained order GPS and eight-role polling workload
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'soak'
         run: python3 tests/pilot/soak.py
       - name: New isolated SMTP confirmation and recovery UI proof
+        if: steps.scope.outputs.suite == 'smtp'
         timeout-minutes: 8
-        if: ${{ false }}
         run: |
           LAB_AUTOCONFIRM=false docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d mailpit auth
           python3 -c "import sys;sys.path.insert(0,'tests/pilot');import lab;lab.wait(lambda:lab.request(9999,'/health')[0]==200,'auth-mail')"
@@ -80,26 +100,25 @@ jobs:
           python3 gateway.py >.runtime-gateway.log 2>&1 &
           GATEWAY_PID=$!
           trap 'kill "$GATEWAY_PID"' EXIT
-          MAIL_ONLY_RECOVERY=1 node auth-mail.cjs
+          node auth-mail.cjs
       - name: New real private Storage policies and proof integrity
+        if: steps.scope.outputs.suite == 'storage'
         id: storage
-        if: ${{ false }}
         run: |
           python3 tests/pilot/storage.py optional
           python3 tests/pilot/storage.py prepare
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml up -d storage
-          STORAGE_ONLY_PROOF=1 python3 tests/pilot/storage.py test
+          python3 tests/pilot/storage.py test
       - name: New actual Storage metadata and file restoration
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'storage'
         run: python3 tests/pilot/storage.py restore
       - name: New first cash and changed-revision server contract
-        if: ${{ false }}
-        env:
-          CONFIRM_UI_FIXTURE: '1'
+        if: steps.scope.outputs.suite == 'consent-server'
         run: python3 tests/pilot/confirmation.py
       - name: New approval UI recovery focus and time-selection checks
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'consent-ui-edges'
         run: |
+          CONFIRM_UI_FIXTURE=1 python3 tests/pilot/confirmation.py
           npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
           cd tests/pilot
           if command -v google-chrome >/dev/null; then
@@ -112,10 +131,10 @@ jobs:
           trap 'kill "$GATEWAY_PID"' EXIT
           node confirmation-edge-ui.cjs
       - name: New 42-user concurrent order consent GPS stages
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'consent-load'
         run: python3 tests/pilot/concurrent-journeys.py
       - name: New legacy and concurrent checkout compatibility only
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'legacy-ui'
         run: |
           CONFIRM_COMPAT_CORE_FIXTURE=1 python3 tests/pilot/confirmation-compat.py
           npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
@@ -126,16 +145,16 @@ jobs:
           trap 'kill "$GATEWAY_PID"' EXIT
           node confirmation-legacy.cjs
       - name: New enforced pilot admission only
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'admission'
         run: python3 tests/pilot/admission.py
       - name: Only load affected by new admission serialization
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'admission-load'
         env:
           PILOT_ADMISSION_LOAD: '1'
           PILOT_CONCURRENT_STAGES: '20'
         run: python3 tests/pilot/concurrent-journeys.py
       - name: Only new approval and admission backup restoration
-        if: ${{ false }}
+        if: steps.scope.outputs.suite == 'consent-backup'
         run: |
           python3 tests/pilot/confirmation-backup.py seed
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml exec -T db pg_dump -U postgres -Fc talabot_pilot >tests/pilot/backup.dump
@@ -143,7 +162,29 @@ jobs:
           docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml exec -T db pg_restore -U postgres -d talabot_pilot_restore --exit-on-error <tests/pilot/backup.dump
           python3 tests/pilot/confirmation-backup.py verify
       - name: Only subsequent-order timing baseline edges
+        if: steps.scope.outputs.suite == 'timing'
         run: python3 tests/pilot/confirmation-baseline.py
+      - name: First-cash consent and lost-response UI
+        if: steps.scope.outputs.suite == 'consent-ui'
+        run: |
+          CONFIRM_UI_FIXTURE=1 python3 tests/pilot/confirmation.py
+          npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
+          cd tests/pilot
+          if command -v google-chrome >/dev/null; then
+            export PILOT_CHROMIUM_PATH="$(command -v google-chrome)"
+          else
+            npx playwright install --with-deps chromium --only-shell
+          fi
+          python3 gateway.py >.runtime-gateway.log 2>&1 &
+          GATEWAY_PID=$!
+          trap 'kill "$GATEWAY_PID"' EXIT
+          node confirmation-ui.cjs
+      - name: Consent compatibility server cases
+        if: steps.scope.outputs.suite == 'consent-compat'
+        run: python3 tests/pilot/confirmation-compat.py
+      - name: Automatic dispatch respects first-cash hold and pilot driver admission
+        if: steps.scope.outputs.suite == 'admission-dispatch'
+        run: python3 tests/pilot/admission-dispatch.py
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export

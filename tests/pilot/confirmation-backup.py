@@ -2,11 +2,14 @@
 import datetime,hashlib,json,os,sys
 import lab,confirmation as cf
 TABLES=['fulfillment_private.confirmation_config','fulfillment_private.order_approvals','fulfillment_private.approval_requests','fulfillment_private.approval_events','fulfillment_private.config_events','pilot_private.config','pilot_private.config_events','pilot_private.admissions']
-def seed():
+def seed(accept=True):
  lab.wait(lambda:lab.request(3000,'/')[0]==200,'rest');now=datetime.datetime.now(datetime.timezone.utc)
  cfg={'owner_approved':True,'timezone':'UTC','valid_from':(now-datetime.timedelta(hours=1)).isoformat(),'valid_until':(now+datetime.timedelta(hours=2)).isoformat(),'open_minute':0,'close_minute':1440,'max_active':3,'daily_orders':20,'min_lat':38.55,'max_lat':38.57,'min_lng':68.78,'max_lng':68.80,'weekdays':list(range(1,8)),'customers':[lab.uid('customer')],'drivers':[lab.uid('driver1')],'stores':[lab.STORE]}
  lab.rpc(lab.bearer('admin'),'configure_pilot_admission',{'p_config':cfg,'p_paused':False});cf.config(120,10,True,True)
- oid=lab.order(lab.bearer('customer'));a=cf.review(oid,15);cf.confirm(lab.bearer('customer'),oid,a['revision']);lab.rpc(lab.bearer('admin'),'configure_pilot_admission',{'p_paused':True})
+ oid=lab.order(lab.bearer('customer'));a=cf.review(oid,15)
+ if accept:cf.confirm(lab.bearer('customer'),oid,a['revision'])
+ lab.rpc(lab.bearer('admin'),'configure_pilot_admission',{'p_paused':True})
+ return oid,a['revision']
 def verify():
  hashes={}
  for name in ['talabot_pilot','talabot_pilot_restore']:

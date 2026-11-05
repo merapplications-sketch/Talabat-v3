@@ -141,8 +141,19 @@ def prepare_app():
         c.execute('create trigger on_auth_user_created after insert on auth.users for each row execute function public.handle_new_user()')
         c.execute((ROOT / 'tests/base-lab/web/patch-a.sql').read_text(), prepare=False)
         c.execute((ROOT / 'sql/proposed/admin_finance_receipts_20261102.sql').read_text(), prepare=False)
+        # Earlier acceptance suites describe the contract before later pilot gates.
+        # Select their fixture stage explicitly; new scopes default to the full candidate.
+        stage = os.environ.get('PILOT_PATCH_STAGE', 'full')
+        if stage not in {'legacy', 'consent', 'full'}:
+            raise ValueError('unknown isolated patch stage')
+        excluded = {
+            'legacy': {'pilot_z_cash_confirmation_20261105.sql', 'pilot_zz_admission_20261105.sql'},
+            'consent': {'pilot_zz_admission_20261105.sql'},
+            'full': set(),
+        }[stage]
         for patch in sorted((ROOT / 'sql/proposed').glob('pilot_*.sql')):
-            c.execute(patch.read_text(), prepare=False)
+            if patch.name not in excluded:
+                c.execute(patch.read_text(), prepare=False)
     s = state()
     for i, name in enumerate(['admin', 'accountant', 'merchant', 'customer', 'outsider', 'driver1', 'driver2', 'joiner'], 1):
         s['accounts'][name] = register(name, i)
