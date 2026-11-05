@@ -8,7 +8,7 @@ on:
         description: Isolated suite to run
         required: true
         type: choice
-        options: [journey, driver-ui, load, backup, soak, smtp, storage, consent-server, consent-ui-edges, consent-load, legacy-ui, admission, admission-load, consent-backup, timing, consent-ui, consent-compat, admission-dispatch, driver-returns, driver-returns-ui]
+        options: [journey, driver-ui, load, backup, soak, smtp, storage, consent-server, consent-ui-edges, consent-load, legacy-ui, admission, admission-load, consent-backup, timing, consent-ui, consent-compat, admission-dispatch, driver-returns, driver-returns-ui, driver-returns-guard]
 permissions:
   contents: read
 jobs:
@@ -41,7 +41,7 @@ jobs:
             journey|driver-ui|load|backup|soak|smtp|storage) stage=legacy ;;
             consent-server|consent-ui|consent-ui-edges|consent-load|legacy-ui|consent-compat) stage=consent ;;
             admission|admission-load|consent-backup|timing|admission-dispatch) stage=full ;;
-            driver-returns|driver-returns-ui)
+            driver-returns|driver-returns-ui|driver-returns-guard)
               stage=full
               echo "PILOT_DRIVER_RETURNS=1" >> "$GITHUB_ENV"
               ;;
@@ -211,6 +211,19 @@ jobs:
           RETURN_BROWSER=chromium node driver-returns-ui.cjs
           python3 driver-returns.py ui
           RETURN_BROWSER=webkit node driver-returns-ui.cjs
+      - name: Only pickup closure guard on the customer screen
+        if: steps.scope.outputs.suite == 'driver-returns-guard'
+        timeout-minutes: 4
+        run: |
+          npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
+          cd tests/pilot
+          export PILOT_CHROMIUM_PATH="$(command -v google-chrome)"
+          test -n "$PILOT_CHROMIUM_PATH"
+          python3 gateway.py >.runtime-gateway.log 2>&1 &
+          GATEWAY_PID=$!
+          trap 'kill "$GATEWAY_PID"' EXIT
+          python3 driver-returns.py ui
+          RETURN_BROWSER=chromium RETURN_GUARD_ONLY=1 node driver-returns-ui.cjs
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export

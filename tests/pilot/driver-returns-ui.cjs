@@ -5,6 +5,7 @@ const { chromium, webkit, devices } = require('playwright');
 const runtime = JSON.parse(fs.readFileSync(path.join(__dirname, '.runtime.json')));
 const { order } = JSON.parse(fs.readFileSync(path.join(__dirname, '.runtime-return-ui.json')));
 const engine = process.env.RETURN_BROWSER;
+const guardOnly = process.env.RETURN_GUARD_ONLY === '1';
 const profile = engine === 'webkit' ? 'iPhone 13' : 'Pixel 7';
 const result = { source: process.env.GITHUB_SHA, live: false, engine, profile, physical: false, checks: [] };
 
@@ -25,8 +26,22 @@ const dialog = page => page.getByRole('dialog', { name: 'Order return #' + order
 const action = (page, name) => dialog(page).locator('[data-return-action="' + name + '"]');
 
 (async () => {
-  const browser = await ({ chromium, webkit })[engine].launch();
+  const executablePath = engine === 'chromium' ? process.env.PILOT_CHROMIUM_PATH : undefined;
+  const browser = await ({ chromium, webkit })[engine].launch({ executablePath, timeout: 20000 });
   try {
+    if (guardOnly) {
+      const customer = await login(browser, 'customer');
+      await customer.evaluate(() => go('orders'));
+      await customer.locator('.ob2').first().click();
+      await customer.locator('[data-return-order="' + order + '"]').click();
+      await dialog(customer).getByText('This order has no recorded return.').waitFor();
+      assert.equal(await action(customer, 'cancel').count(), 0);
+      assert.equal(await dialog(customer).locator('[data-return-claim]').count(), 0);
+      assert.equal(await customer.evaluate(id => TLB.order(id).status, order), 'pickedup');
+      result.checks.push('pickup alone does not expose cancellation, a refund, or an open claim');
+      result.pass = true;
+      return;
+    }
     const driver = await login(browser, 'driver', 'driver1');
     const customer = await login(browser, 'customer');
     const merchant = await login(browser, 'merchant');
@@ -83,7 +98,7 @@ const action = (page, name) => dialog(page).locator('[data-return-action="' + na
     process.exitCode = 1;
   } finally {
     await browser.close();
-    fs.writeFileSync(path.join(__dirname, 'result-driver-returns-ui-' + engine + '.json'),
+    fs.writeFileSync(path.join(__dirname, 'result-driver-returns-' + (guardOnly ? 'guard-' : 'ui-') + engine + '.json'),
       JSON.stringify(result, null, 2));
     console.log(result.pass ? 'PASS ' + profile + ' return workflow' : 'FAIL ' + result.error);
   }
