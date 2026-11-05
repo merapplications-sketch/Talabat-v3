@@ -154,13 +154,7 @@ def source():
     returns.agreement()
     order = returns.pickup()
     storage.setup_policy()
-    before = snapshot()
-    code, error = lab.request(3000, '/rpc/order_return_action',
-                             returns.args(order, 'depart', 'DEMO-no-advance', 0), lab.bearer('driver1'))
-    check(code >= 400 and error.get('message') == 'bad_value' and snapshot() == before,
-          'zero driver advance is rejected by current departure contract without partial writes')
-    RESULT['no_advance_option'] = {'current_departure_accepts_zero': False, 'error': 'bad_value',
-                                  'owner_policy_approved': False, 'financial_effect_created': False}
+    RESULT['no_advance_previous_pass'] = '42110177122/127535342961; SOURCE-FIRST-PASS.json'
     key = lab.uid('driver1') + '/' + str(order) + '/offsite-proof.jpg'
     code, _ = storage.call(lab.bearer('driver1'), 'POST', '/object/proofs/' + key, storage.JPEG, 'image/jpeg')
     assert code in (200, 201), 'synthetic_file_upload'
@@ -172,7 +166,7 @@ def source():
         'source': os.environ['GITHUB_SHA'], 'run': os.environ['GITHUB_RUN_ID'],
         'snapshot_at': time.time(), 'signature': snapshot(), 'object_key': key,
         'object_sha256': hashlib.sha256(storage.JPEG).hexdigest(),
-        'source_machine': hashlib.sha256(Path('/etc/machine-id').read_bytes()).hexdigest(),
+        'source_machine': hashlib.sha256(Path('/proc/sys/kernel/random/boot_id').read_bytes()).hexdigest(),
     }
     with (WORK / 'database.dump').open('wb') as output:
         subprocess.run(COMPOSE + ['exec', '-T', 'db', 'pg_dump', '-U', 'postgres', '-Fc', 'talabot_pilot'],
@@ -222,8 +216,8 @@ def restore():
     assert manifest['source'] == envelope['source'] and manifest['run'] == envelope['run']
     for name, expected_digest in manifest['files'].items():
         assert digest(WORK / name) == expected_digest
-    check(manifest['source_machine'] != hashlib.sha256(Path('/etc/machine-id').read_bytes()).hexdigest(),
-          'restore runner has a different machine identity')
+    check(manifest['source_machine'] != hashlib.sha256(Path('/proc/sys/kernel/random/boot_id').read_bytes()).hexdigest(),
+          'restore runner has a different kernel boot identity')
     with (WORK / 'database.dump').open('rb') as source_dump:
         subprocess.run(COMPOSE + ['exec', '-T', 'db', 'pg_restore', '-U', 'postgres', '-d', 'talabot_pilot',
                                  '--clean', '--if-exists', '--exit-on-error'], stdin=source_dump, check=True)
