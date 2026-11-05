@@ -1,0 +1,129 @@
+{
+  "result-soak.json": {
+    "source": "98be6108cd23106e66555df20834a54a1e16a6e5",
+    "live": false,
+    "environment": "native PostgreSQL17.6 + GoTrue2.197 + PostgREST14.18; GitHub Linux VM loopback",
+    "duration_s": 182.92,
+    "order_concurrency": 3,
+    "polling_sessions": 8,
+    "poll_interval_s": 10,
+    "gps_interval_s": 8,
+    "planned_journeys": 18,
+    "completed_journeys": 18,
+    "confirmed_delivered": 18,
+    "duplicate_keys": 0,
+    "remaining_active": 0,
+    "requests": 369,
+    "read_polls": 99,
+    "rps": 2.02,
+    "http_error_rate": 0.0,
+    "p50_ms": 7.2,
+    "p95_ms": 8643.2,
+    "p99_ms": 9214.43,
+    "max_ms": 10157.23,
+    "failures": [],
+    "db_top_queries": [
+      [
+        99,
+        "478204.53",
+        "4830.349",
+        "WITH pgrst_source AS ( SELECT \"public\".\"orders\".\"id\", \"public\".\"orders\".\"status\", \"public\".\"orders\".\"driver_id\", \"public\".\"orders\".\"total\" FROM \"public\".\"orders"
+      ],
+      [
+        18,
+        "370.38",
+        "20.577",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_store\", \"p_items\", \"p_payment\", \"p_address\""
+      ],
+      [
+        54,
+        "243.66",
+        "4.512",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_to\" FROM json_to_record(pgrst_paylo"
+      ],
+      [
+        18,
+        "96.09",
+        "5.338",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_id\", \"p_cash\", \"p_note\" FROM json_to_record"
+      ],
+      [
+        18,
+        "82.15",
+        "4.564",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_store\", \"p_lat\", \"p_lng\" FROM json_to_recor"
+      ],
+      [
+        54,
+        "63.03",
+        "1.167",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_lat\", \"p_lng\", \"p_acc\" FROM json_to_record("
+      ],
+      [
+        18,
+        "57.82",
+        "3.212",
+        "WITH pgrst_source AS (SELECT pgrst_call.pgrst_scalar FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\", \"p_driver\" FROM json_to_record(pgrs"
+      ],
+      [
+        54,
+        "33.63",
+        "0.623",
+        "WITH pgrst_source AS (SELECT \"pgrst_call\".* FROM (SELECT $1 AS json_data) pgrst_payload, LATERAL (SELECT \"p_order\" FROM json_to_record(pgrst_payload.json_data) "
+      ]
+    ],
+    "db_counters": {
+      "deadlocks": 0,
+      "temp_bytes": 0,
+      "active_connections_at_end": 13
+    },
+    "limits": [
+      "3 minute sustained mixed lab only, not hours/day endurance",
+      "no WAN, real devices, Realtime, photos, production plan",
+      "admin assignment, offer claim covered separately",
+      "no new settlement or old closed tests"
+    ],
+    "production_capacity_claim": false,
+    "pass": true
+  },
+  "result-auth-mail.json": {
+    "source": "98be6108cd23106e66555df20834a54a1e16a6e5",
+    "environment": "Chromium Linux actual candidate UI + real GoTrue SMTP to local Mailpit1.33.0",
+    "live": false,
+    "real_delivery": false,
+    "checks": [
+      {
+        "name": "signup UI requires email confirmation, without an authenticated app session",
+        "pass": true
+      },
+      {
+        "name": "unconfirmed identity cannot password-login",
+        "pass": true
+      },
+      {
+        "name": "GoTrue sent actual confirmation email through isolated SMTP",
+        "pass": true
+      },
+      {
+        "name": "confirmation link returns to the actual application and authenticates the same identity",
+        "pass": true
+      }
+    ],
+    "pass": false,
+    "failed_stage": "reset_entry",
+    "error": "password recovery has a user entry in existing login"
+  },
+  "source_sha": "98be6108cd23106e66555df20834a54a1e16a6e5",
+  "container_images": [
+    "axllent/mailpit:v1.33.0 sha256:9b3a463be15354c0f0eba91697d80e3e0d8a5623ef0e627cacc836bc17fd5231",
+    "ghcr.io/github/gh-aw-firewall/agent:latest sha256:36ffe93f119df4dde5737e96fd5fe21e93f9ed8f0851bbb8344d685747fbbd40",
+    "ghcr.io/github/gh-aw-firewall/api-proxy:latest sha256:e2c27ef4403bda921331fd3be5da297fd2865fcf42e2b2aba7d6b4c34073acdd",
+    "ghcr.io/github/gh-aw-mcpg:latest sha256:9c7f242f6dec2d7d7b55d4c9e07872d59b85377c6cb3de46c915a5d1ffb91442",
+    "ghcr.io/github/github-mcp-server:latest sha256:250bc6ce70788207608ef74cef4397230ff2e8481218da74d6093e4bd9101132",
+    "ghcr.io/github/gh-aw-firewall/squid:latest sha256:acc55719d3816ebba2af7393d13bc72c690ddedf4e3ec74340104e3e0bda6b4d",
+    "ghcr.io/dependabot/dependabot-updater-core:latest sha256:82243f9dd22d1586d11ec6719395c10e6f266cfaf338a0380d09c62873805ac8",
+    "supabase/gotrue:v2.197.0 sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+    "postgres:<none> sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+    "postgrest/postgrest:v14.18 sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf"
+  ]
+}

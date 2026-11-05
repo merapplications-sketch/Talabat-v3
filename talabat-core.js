@@ -662,6 +662,51 @@
       sb.auth.resend({ type: 'signup', email: email }).then(function (r) { $('tlb-er').style.color = r.error ? '#d92d20' : '#1fa05a'; $('tlb-er').textContent = r.error ? authErr(r.error) : t('authResent'); });
     };
   }
+  Object.assign(I.ru, { resetTitle:'Восстановление пароля', resetExplain:'Введите email вашего аккаунта.', resetSend:'Отправить ссылку', resetSent:'Если аккаунт существует, на него отправлено письмо. Проверьте почту и папку «Спам».', resetNewTitle:'Новый пароль', resetNew:'Новый пароль (не менее 8 символов)', resetConfirm:'Повторите новый пароль', resetSave:'Сохранить пароль', resetMismatch:'Пароли не совпадают.', resetDone:'Пароль изменён. Войдите с новым паролем.', resetExpired:'Ссылка недействительна или истекла. Запросите новую.', resetForgot:'Забыли пароль?' });
+  Object.assign(I.en, { resetTitle:'Reset password', resetExplain:'Enter your account email.', resetSend:'Send reset link', resetSent:'If the account exists, an email has been sent. Check your inbox and Spam folder.', resetNewTitle:'New password', resetNew:'New password (at least 8 characters)', resetConfirm:'Confirm new password', resetSave:'Save password', resetMismatch:'Passwords do not match.', resetDone:'Password changed. Sign in with your new password.', resetExpired:'The link is invalid or expired. Request a new one.', resetForgot:'Forgot password?' });
+  var recoveryPending = false;
+  function authReturnUrl() { return location.origin + location.pathname; }
+  function showResetRequest() {
+    overlay('<b data-i18n="resetTitle"></b><p data-i18n="resetExplain" style="color:#6b7280;font-size:14px"></p>' +
+      '<input id="tlb-rem" type="email" autocomplete="username" autocapitalize="off" placeholder="Email" ' + IN + '>' +
+      '<div id="tlb-rerr" role="alert" style="color:#d92d20;font-size:13px;min-height:18px"></div>' +
+      '<p id="tlb-rsent" hidden data-i18n="resetSent" role="status" style="color:#1fa05a;font-size:14px"></p>' +
+      '<button id="tlb-rgo" data-i18n="resetSend" ' + BT + '></button><button id="tlb-rback" data-i18n="authBack" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>', true);
+    $('tlb-rback').onclick = function () { showLogin('', 'in'); };
+    var busy = false;
+    $('tlb-rgo').onclick = function () {
+      if (busy) return;
+      var email = $('tlb-rem').value.trim().toLowerCase();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $('tlb-rerr').textContent = t('authBadEmail'); return; }
+      busy = true; $('tlb-rgo').disabled = true; $('tlb-rerr').textContent = '';
+      sb.auth.resetPasswordForEmail(email, { redirectTo: authReturnUrl() }).then(function (r) {
+        if (r.error) { busy = false; $('tlb-rgo').disabled = false; $('tlb-rerr').textContent = authErr(r.error); return; }
+        $('tlb-rsent').hidden = false;
+      }, function () { busy = false; $('tlb-rgo').disabled = false; $('tlb-rerr').textContent = t('err_generic'); });
+    };
+  }
+  function showPasswordRecovery() {
+    bootHide(); recoveryPending = true;
+    overlay('<b data-i18n="resetNewTitle"></b>' +
+      '<input id="tlb-newpw" type="password" autocomplete="new-password" maxlength="128" data-i18n-ph="resetNew" ' + IN + '>' +
+      '<input id="tlb-newpw2" type="password" autocomplete="new-password" maxlength="128" data-i18n-ph="resetConfirm" ' + IN + '>' +
+      '<div id="tlb-rerr" role="alert" style="color:#d92d20;font-size:13px;min-height:18px"></div>' +
+      '<button id="tlb-savepw" data-i18n="resetSave" ' + BT + '></button>', true);
+    var busy = false;
+    $('tlb-savepw').onclick = function () {
+      if (busy) return;
+      var pw = $('tlb-newpw').value, confirmPw = $('tlb-newpw2').value;
+      if (pw.length < 8) { $('tlb-rerr').textContent = t('authPwShort'); return; }
+      if (pw !== confirmPw) { $('tlb-rerr').textContent = t('resetMismatch'); return; }
+      busy = true; $('tlb-savepw').disabled = true; $('tlb-rerr').textContent = '';
+      sb.auth.updateUser({ password: pw }).then(function (r) {
+        if (r.error) { busy = false; $('tlb-savepw').disabled = false; $('tlb-rerr').textContent = authErr(r.error); return; }
+        // A completed recovery requires a new sign-in; no privileged app is entered here.
+        recoveryPending = false;
+        return sb.auth.signOut({ scope: 'global' }).then(function () { showLogin(t('resetDone'), 'in'); });
+      }).catch(function () { busy = false; if ($('tlb-savepw')) $('tlb-savepw').disabled = false; if ($('tlb-rerr')) $('tlb-rerr').textContent = t('err_generic'); });
+    };
+  }
   function showLogin(msg, mode) {
     if (mode) authMode = mode;
     var su = authMode === 'up' && need !== 'admin';
@@ -671,8 +716,9 @@
       '<div style="position:relative"><input id="tlb-pw" type="password" autocomplete="' + (su ? 'new-password' : 'current-password') + '" data-i18n-ph="password" ' + IN.replace('padding:0 14px', 'padding:0 48px 0 14px') + '><button id="tlb-eye" type="button" aria-label="show" style="position:absolute;right:6px;top:4px;width:40px;height:40px;border:0;background:none;font-size:18px;cursor:pointer;color:#8b8f98">👁</button></div>' +
       (su ? '<div data-i18n="authPwHint2" style="font-size:12px;color:#8b8f98;margin:-4px 0 8px;line-height:1.4"></div>' : '') +
       '<div id="tlb-er" role="alert" style="color:#d92d20;background:' + (msg ? '#fdeceb' : 'transparent') + ';border-radius:12px;padding:' + (msg ? '10px 12px' : '0') + ';font-size:13px;font-weight:600;margin-bottom:10px;min-height:0">' + esc(msg || '') + '</div>' +
-      '<button id="tlb-go" ' + BT + '></button>', true);
+      '<button id="tlb-go" ' + BT + '></button>' + (!su ? '<button id="tlb-forgot" data-i18n="resetForgot" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>' : ''), true);
     $('tlb-go').textContent = su ? t('signup') : t('login');
+    if ($('tlb-forgot')) $('tlb-forgot').onclick = showResetRequest;
     var show = function (txt) { var e = $('tlb-er'); e.textContent = txt; e.style.background = txt ? '#fdeceb' : 'transparent'; e.style.padding = txt ? '10px 12px' : '0'; };
     if ($('tlb-t-in')) { $('tlb-t-in').onclick = function () { showLogin('', 'in'); }; $('tlb-t-up').onclick = function () { showLogin('', 'up'); }; }
     $('tlb-eye').onclick = function () { var p = $('tlb-pw'); p.type = p.type === 'password' ? 'text' : 'password'; };
@@ -781,9 +827,17 @@
     /* role: 'customer' | 'merchant' | 'driver' | 'admin'. Each role keeps its own session, so all 4 apps can be open in one browser. */
     start: function (role, cb) {
       need = role; onReady = cb;
+      var incomingRecovery = /(?:^|[&#])type=recovery(?:&|$)/.test(location.hash);
       sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + role } });
       bootShow();
-      sb.auth.getSession().then(function (x) { if (x.data.session) return enter(x.data.session.user); bootHide(); showLogin(); })
+      sb.auth.onAuthStateChange(function (event) {
+        if (event === 'PASSWORD_RECOVERY') { recoveryPending = true; setTimeout(showPasswordRecovery, 0); }
+      });
+      sb.auth.getSession().then(function (x) {
+        if (x.error) { bootHide(); return showLogin(authErr(x.error)); }
+        if (x.data.session) { if (incomingRecovery || recoveryPending) return showPasswordRecovery(); return enter(x.data.session.user); }
+        bootHide(); showLogin(incomingRecovery ? t('resetExpired') : '');
+      })
         .catch(function (e) { console.error(e); bootFail(e); });
     },
     reload: function () { return refresh(); },

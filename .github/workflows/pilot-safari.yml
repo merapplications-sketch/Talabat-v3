@@ -1,0 +1,28 @@
+name: Isolated native desktop Safari readiness
+on:
+  push:
+    branches: [candidate/pilot-readiness-20261105]
+    paths: [tests/pilot/safari-smoke.py, .github/workflows/pilot-safari.yml]
+permissions:
+  contents: read
+jobs:
+  safari:
+    runs-on: macos-15
+    timeout-minutes: 12
+    steps:
+      - name: Exact public candidate source without deployment credentials
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git init .
+          git remote add origin https://github.com/merapplications-sketch/Talabat-v3.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Enable ephemeral native Safari automation and run only new UI coverage
+        run: |
+          sudo safaridriver --enable
+          /usr/bin/safaridriver --port 4444 >tests/pilot/.runtime-safaridriver.log 2>&1 &
+          SAFARI_PID=$!
+          trap 'kill "$SAFARI_PID"' EXIT
+          python3 tests/pilot/safari-smoke.py

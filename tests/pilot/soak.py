@@ -21,10 +21,16 @@ def rpc(token,fn,args):return measured(token,'/rpc/'+fn,args)
 
 def poll(name):
     while not stop.is_set():
-        try:measured(lab.bearer(name),'/orders?select=id,status,driver_id,total&order=created_at.desc&limit=60')
+        try:
+            limit=300 if name=='admin' else 200 if name=='merchant' else 60
+            path='/orders?select=*&order=created_at.desc&limit='+str(limit)
+            if name.startswith('soakc'):path+='&customer_id=eq.'+lab.uid(name)
+            elif name.startswith('soakd'):path+='&driver_id=eq.'+lab.uid(name)
+            elif name=='merchant':path+='&store_id=in.('+lab.STORE+')'
+            measured(lab.bearer(name),path)
         except Exception as e:
             with lock:failures.append({'poll':name,'error':str(e)[:100]})
-        stop.wait(10)
+        stop.wait(25 if name.startswith('soakc') else 10)
 
 def trip(slot,round_n):
     customer,driver=lab.bearer('soakc'+str(slot)),lab.bearer('soakd'+str(slot))
@@ -80,8 +86,9 @@ def main():
         active=lab.q(c,"select count(*)from orders where client_key like 'soak_%%' and status not in('delivered','cancelled','rejected')")
         top=c.execute("select calls,round(total_exec_time::numeric,2),round(mean_exec_time::numeric,3),left(query,160)from pg_stat_statements where query not like '%pg_stat_statements%' order by total_exec_time desc limit 8").fetchall()
         counters=c.execute("select deadlocks,temp_bytes,numbackends from pg_stat_database where datname=current_database()").fetchone()
-    result={'source':os.environ.get('GITHUB_SHA'),'live':False,'environment':'native PostgreSQL17.6 + GoTrue2.197 + PostgREST14.18; GitHub Linux VM loopback','duration_s':round(duration,2),'order_concurrency':3,'polling_sessions':8,'poll_interval_s':10,'gps_interval_s':8,'planned_journeys':18,'completed_journeys':len(completed),'confirmed_delivered':confirmed,'duplicate_keys':duplicate,'remaining_active':active,'requests':len(metrics),'read_polls':sum(x['path']=='/orders'for x in metrics),'rps':round(len(metrics)/duration,2),'http_error_rate':sum(x['status']not in(200,204)for x in metrics)/len(metrics),'p50_ms':pct(.5),'p95_ms':pct(.95),'p99_ms':pct(.99),'max_ms':round(max(values),2),'failures':failures,'db_top_queries':top,'db_counters':dict(zip(['deadlocks','temp_bytes','active_connections_at_end'],counters)),'limits':['3 minute sustained mixed lab only, not hours/day endurance','no WAN, real devices, Realtime, photos, production plan','admin assignment, offer claim covered separately','no new settlement or old closed tests'],'production_capacity_claim':False}
-    result['pass']=confirmed==18 and duplicate==0 and active==0 and not failures and result['http_error_rate']==0
+    result={'source':os.environ.get('GITHUB_SHA'),'live':False,'environment':'native PostgreSQL17.6 + GoTrue2.197 + PostgREST14.18; GitHub Linux VM loopback','duration_s':round(duration,2),'order_concurrency':3,'polling_sessions':8,'poll_intervals_s':{'customer':25,'merchant_driver_admin':10},'polling_matches_ordersQuery_filters_and_limits':True,'gps_interval_s':8,'planned_journeys':18,'completed_journeys':len(completed),'confirmed_delivered':confirmed,'duplicate_keys':duplicate,'remaining_active':active,'requests':len(metrics),'read_polls':sum(x['path']=='/orders'for x in metrics),'rps':round(len(metrics)/duration,2),'http_error_rate':sum(x['status']not in(200,204)for x in metrics)/len(metrics),'p50_ms':pct(.5),'p95_ms':pct(.95),'p99_ms':pct(.99),'max_ms':round(max(values),2),'failures':failures,'db_top_queries':top,'db_counters':dict(zip(['deadlocks','temp_bytes','active_connections_at_end'],counters)),'limits':['3 minute sustained mixed lab only, not hours/day endurance','no WAN, real devices, Realtime, photos, production plan','admin assignment, offer claim covered separately','no new settlement or old closed tests'],'production_capacity_claim':False}
+    result['lab_p95_budget_ms']=2000
+    result['pass']=confirmed==18 and duplicate==0 and active==0 and not failures and result['http_error_rate']==0 and result['p95_ms']<=2000
     lab.save(lab.HERE/'result-soak.json',result);print(json.dumps({k:v for k,v in result.items()if k!='db_top_queries'},default=str),flush=True)
     if not result['pass']:raise SystemExit(1)
 

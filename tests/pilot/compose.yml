@@ -53,6 +53,36 @@ services:
       PGRST_DB_POOL: 20
       PGRST_DB_MAX_ROWS: 1000
     ports: ['127.0.0.1:3000:3000']
+  storage:
+    image: supabase/storage-api:v1.81.0
+    depends_on:
+      db: {condition: service_healthy}
+      rest: {condition: service_started}
+    environment: &storage_environment
+      ANON_KEY: ${LAB_STORAGE_ANON:-}
+      SERVICE_KEY: ${LAB_STORAGE_SERVICE:-}
+      AUTH_JWT_SECRET: ${LAB_JWT_SECRET}
+      POSTGREST_URL: http://rest:3000
+      DATABASE_URL: postgres://postgres:${LAB_PASSWORD}@db:5432/talabot_pilot
+      STORAGE_PUBLIC_URL: http://127.0.0.1:5000
+      STORAGE_BACKEND: file
+      GLOBAL_S3_BUCKET: isolated
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      TENANT_ID: isolated
+      REGION: local
+      FILE_SIZE_LIMIT: 1048576
+      ENABLE_IMAGE_TRANSFORMATION: 'false'
+    volumes: ['proof_files:/var/lib/storage']
+    ports: ['127.0.0.1:5000:5000']
+  storage-restore:
+    profiles: [restore]
+    image: supabase/storage-api:v1.81.0
+    environment:
+      <<: *storage_environment
+      DATABASE_URL: postgres://postgres:${LAB_PASSWORD}@db:5432/talabot_pilot_restore
+      STORAGE_PUBLIC_URL: http://127.0.0.1:5001
+    volumes: ['restored_proof_files:/var/lib/storage']
+    ports: ['127.0.0.1:5001:5000']
   mailpit:
     image: axllent/mailpit:v1.33.0
     ports: ['127.0.0.1:8025:8025']
@@ -60,3 +90,6 @@ services:
       MP_MAX_MESSAGES: 100
       MP_SMTP_AUTH_ACCEPT_ANY: 'true'
       MP_SMTP_AUTH_ALLOW_INSECURE: 'true'
+volumes:
+  proof_files: {}
+  restored_proof_files: {}
