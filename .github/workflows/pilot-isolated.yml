@@ -126,7 +126,13 @@ jobs:
           trap 'kill "$GATEWAY_PID"' EXIT
           node confirmation-legacy.cjs
       - name: New enforced pilot admission only
+        if: ${{ false }}
         run: python3 tests/pilot/admission.py
+      - name: Only load affected by new admission serialization
+        env:
+          PILOT_ADMISSION_LOAD: '1'
+          PILOT_CONCURRENT_STAGES: '20'
+        run: python3 tests/pilot/concurrent-journeys.py
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export

@@ -2,7 +2,9 @@
 No settlement/closed financial suites. Temporary Docker VM loopback only.
 """
 import concurrent.futures,json,os,threading,time,uuid
-import lab
+import lab,datetime
+STAGES=[int(x)for x in os.environ.get('PILOT_CONCURRENT_STAGES','5,10,20').split(',')]
+assert all(x in(5,10,20)for x in STAGES)
 lock=threading.Lock();metrics=[];errors=[];stop=threading.Event()
 def measured(token,path,data=None):
  start=time.perf_counter()
@@ -53,10 +55,18 @@ def main():
    name=prefix+str(slot);s['accounts'][name]=lab.register(name,base+slot,admin=True);lab.save(lab.STATE,s)
  with lab.db()as db:
   db.execute("update profiles set role='driver',driver_status='approved',online=false where id=any(%s::uuid[])",([lab.uid('loadd'+str(i))for i in range(20)],))
-  db.execute("insert into orders(store_id,customer_id,status,payment,subtotal,total,created_at,done_at,cash_collected,cash_settled_at)select %s,%s,'delivered','cash',25,40,now()-interval'3 days',now()-interval'3 days',0,now()-interval'3 days'from generate_series(1,10000)",(lab.STORE,lab.uid('outsider')))
+  with db.transaction():
+   if os.environ.get('PILOT_ADMISSION_LOAD'):db.execute('alter table orders disable trigger pilot_admission_guard;alter table orders disable trigger pilot_admission_record')
+   db.execute("insert into orders(store_id,customer_id,status,payment,subtotal,total,created_at,done_at,cash_collected,cash_settled_at)select %s,%s,'delivered','cash',25,40,now()-interval'3 days',now()-interval'3 days',0,now()-interval'3 days'from generate_series(1,10000)",(lab.STORE,lab.uid('outsider')))
+   if os.environ.get('PILOT_ADMISSION_LOAD'):db.execute('alter table orders enable trigger pilot_admission_guard;alter table orders enable trigger pilot_admission_record')
   db.execute('analyze;select pg_stat_statements_reset()')
  result={'source':os.environ.get('GITHUB_SHA'),'live':False,'environment':'free GitHub ubuntu-24.04 VM; native PostgreSQL17.6 GoTrue2.197 PostgREST14.18; loopback','stages':[],'limits':['HTTP virtual users; no browser rendering','not production WAN/plan, Realtime/push, upload, GPS accuracy, battery or multi-hour endurance','one synthetic restaurant; admin assignment, claim races already closed separately','no settlement load or financial tests repeated'],'production_capacity_claim':False}
- for stage,n in enumerate([5,10,20]):
+ if os.environ.get('PILOT_ADMISSION_LOAD'):
+  now=datetime.datetime.now(datetime.timezone.utc)
+  cfg={'owner_approved':True,'timezone':'UTC','valid_from':(now-datetime.timedelta(hours=1)).isoformat(),'valid_until':(now+datetime.timedelta(hours=2)).isoformat(),'open_minute':0,'close_minute':1440,'max_active':20,'daily_orders':200,'min_lat':38.55,'max_lat':38.57,'min_lng':68.78,'max_lng':68.80,'weekdays':list(range(1,8)),'customers':[lab.uid('loadc'+str(i))for i in range(20)],'drivers':[lab.uid('loadd'+str(i))for i in range(20)],'stores':[lab.STORE]}
+  lab.rpc(lab.bearer('admin'),'configure_pilot_admission',{'p_config':cfg,'p_paused':False})
+  result['new_admission_guard_included']=True;result['configuration_is_synthetic_not_owner_approval']=True;result['historical_fixture_seed_only']='native transaction temporarily disabled and restored admission triggers before measured traffic'
+ for stage,n in enumerate(STAGES):
   stop.clear();start=time.monotonic();mi=len(metrics);ei=len(errors);done=[]
   users=['admin','merchant']+['loadc'+str(i)for i in range(n)]+['loadd'+str(i)for i in range(n)]
   threads=[threading.Thread(target=poll,args=(name,),daemon=True)for name in users];[t.start()for t in threads]
@@ -81,7 +91,7 @@ def main():
   result['db_top_queries']=db.execute("select calls,round(total_exec_time::numeric,2),round(mean_exec_time::numeric,3),left(query,180)from pg_stat_statements where query not like'%pg_stat_statements%'order by total_exec_time desc limit 10").fetchall()
   result['db_counters']=db.execute('select deadlocks,temp_bytes,numbackends from pg_stat_database where datname=current_database()').fetchone()
  result.update({'historical_orders':10000,'poll_intervals_s':{'customer':25,'merchant_driver_admin':10},'gps_interval_s':8,'lab_p95_budget_ms':2000,'unique_authenticated_identities':42})
- result['pass']=result['delivered']==105 and result['duplicates']==0 and result['remaining_active']==0 and not errors and all(x['p95_ms']<=2000 and x['http_error_rate']==0 for x in result['stages'])
+ result['pass']=result['delivered']==sum(n*3 for n in STAGES) and result['duplicates']==0 and result['remaining_active']==0 and not errors and all(x['p95_ms']<=2000 and x['http_error_rate']==0 for x in result['stages'])
  lab.save(lab.HERE/'result-concurrent-journeys.json',result)
  if not result['pass']:raise SystemExit(1)
 if __name__=='__main__':main()
