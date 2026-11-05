@@ -1,0 +1,39 @@
+{
+  "result-driver-returns-guard-chromium.json": {
+    "source": "598aa27bfa93b220efbc48b5012ca03af76c5660",
+    "live": false,
+    "engine": "chromium",
+    "profile": "Pixel 7",
+    "physical": false,
+    "checks": [],
+    "startup": {
+      "role": "customer",
+      "scripts": [
+        [
+          "/supabase.bundle.js",
+          200
+        ],
+        [
+          "/talabat-core.js",
+          200
+        ],
+        [
+          "/assets/driver-returns/panel.js",
+          200
+        ]
+      ],
+      "errors": [
+        "RU is not defined",
+        "TLB is not defined"
+      ],
+      "globals": {
+        "sdk": "object",
+        "core": "undefined",
+        "returns": "object"
+      }
+    },
+    "pass": false,
+    "error": "locator.fill: Timeout 12000ms exceeded.\nCall log:\n  - waiting for locator('#tlb-em')\n"
+  },
+  "source_sha": "598aa27bfa93b220efbc48b5012ca03af76c5660"
+}

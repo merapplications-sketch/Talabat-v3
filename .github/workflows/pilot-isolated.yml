@@ -211,7 +211,7 @@ jobs:
           RETURN_BROWSER=chromium node driver-returns-ui.cjs
           python3 driver-returns.py ui
           RETURN_BROWSER=webkit node driver-returns-ui.cjs
-      - name: Only pickup closure guard on the customer screen
+      - name: Pickup closure guard and affected return screens
         if: steps.scope.outputs.suite == 'driver-returns-guard'
         timeout-minutes: 4
         run: |
@@ -224,6 +224,7 @@ jobs:
           trap 'kill "$GATEWAY_PID"' EXIT
           python3 driver-returns.py ui
           RETURN_BROWSER=chromium RETURN_GUARD_ONLY=1 node driver-returns-ui.cjs
+          RETURN_BROWSER=chromium node driver-returns-ui.cjs
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export
