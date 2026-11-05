@@ -450,6 +450,18 @@ def export():
     data = {p.name: json.loads(p.read_text()) for p in HERE.glob('result*.json')}
     data['source_sha'] = os.environ.get('GITHUB_SHA')
     data['container_images'] = subprocess.check_output(['docker', 'images', '--digests', '--format', '{{.Repository}}:{{.Tag}} {{.Digest}}'], text=True).splitlines()
+    if any('error' in key for key in data):
+        import re
+        logs = subprocess.run(['docker', 'compose', '--env-file', str(HERE / '.runtime.env'), '-f', str(HERE / 'compose.yml'), 'logs', '--no-color', '--tail=45', 'auth'], capture_output=True, text=True).stdout
+        for value in [state()['password'], state()['jwt']]:
+            logs = logs.replace(value, '[REDACTED]')
+        logs = re.sub(r'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+', '[JWT_REDACTED]', logs)
+        data['sanitized_auth_diagnostics'] = logs
+        try:
+            with db() as c:
+                data['auth_relations'] = c.execute("select schemaname,tablename from pg_tables where schemaname='auth' order by tablename").fetchall()
+        except Exception:
+            pass
     raw = json.dumps(data, ensure_ascii=False, default=str).encode()
     print('PILOT_RESULT_ZLIB_BASE64=' + base64.b64encode(zlib.compress(raw)).decode(), flush=True)
 

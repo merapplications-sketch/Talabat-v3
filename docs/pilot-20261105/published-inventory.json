@@ -1,0 +1,48 @@
+{
+  "read_only_HTTP_no_financial_actions": true,
+  "at_utc": "2026-11-05T12:11:18.053655+00:00",
+  "published_reference": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+  "candidate_closure": "b30105bab2a3bfbc6764b17d620f4e6ad1a963b9",
+  "files": [
+    {
+      "path": "customer.html",
+      "status": 200,
+      "bytes": 542715,
+      "sha256": "e599bf4403bd4c5e29a8b0120668e6964d97bf63c1bfe8f9bab25f0674f2d8ee",
+      "published_reference_matches": true,
+      "candidate_identical": true
+    },
+    {
+      "path": "driver.html",
+      "status": 200,
+      "bytes": 62201,
+      "sha256": "08535c9d9d20ecf1ac9a6b68a6bbeb0f649e4c84306af9a980ecc81db5d2bb0a",
+      "published_reference_matches": true,
+      "candidate_identical": false
+    },
+    {
+      "path": "merchant.html",
+      "status": 200,
+      "bytes": 67780,
+      "sha256": "f33a5036b87404760a65091a9bff772fa86bee15d276ceffae1a93d8dc37637e",
+      "published_reference_matches": true,
+      "candidate_identical": true
+    },
+    {
+      "path": "admin.html",
+      "status": 200,
+      "bytes": 131922,
+      "sha256": "6b461c61bc6702979d7442fba3c6ad225525bb72cda86fb44220fd49d3895fa0",
+      "published_reference_matches": true,
+      "candidate_identical": false
+    },
+    {
+      "path": "talabat-core.js",
+      "status": 200,
+      "bytes": 127018,
+      "sha256": "77796be799c4677cfcc24c6e2c1104366bebae6db42dffc886f28d985cc6ae15",
+      "published_reference_matches": true,
+      "candidate_identical": false
+    }
+  ]
+}

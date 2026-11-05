@@ -20,7 +20,7 @@ services:
       GOTRUE_API_PORT: 9999
       API_EXTERNAL_URL: http://127.0.0.1:9999
       GOTRUE_DB_DRIVER: postgres
-      GOTRUE_DB_DATABASE_URL: postgres://postgres:${LAB_PASSWORD}@db:5432/talabot_pilot
+      GOTRUE_DB_DATABASE_URL: postgres://postgres:${LAB_PASSWORD}@db:5432/talabot_pilot?search_path=auth
       GOTRUE_SITE_URL: http://127.0.0.1:8080
       GOTRUE_URI_ALLOW_LIST: http://127.0.0.1:8080/**
       GOTRUE_DISABLE_SIGNUP: 'false'
