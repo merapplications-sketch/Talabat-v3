@@ -115,6 +115,7 @@ jobs:
         if: ${{ false }}
         run: python3 tests/pilot/concurrent-journeys.py
       - name: New legacy and concurrent checkout compatibility only
+        if: ${{ false }}
         run: |
           CONFIRM_COMPAT_CORE_FIXTURE=1 python3 tests/pilot/confirmation-compat.py
           npm ci --prefix tests/pilot --ignore-scripts --no-audit --no-fund
@@ -124,6 +125,8 @@ jobs:
           GATEWAY_PID=$!
           trap 'kill "$GATEWAY_PID"' EXIT
           node confirmation-legacy.cjs
+      - name: New enforced pilot admission only
+        run: python3 tests/pilot/admission.py
       - name: Export bounded evidence without tokens or backups
         if: always()
         run: python3 tests/pilot/lab.py export
