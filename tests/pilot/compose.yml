@@ -21,7 +21,7 @@ services:
       API_EXTERNAL_URL: http://127.0.0.1:9999
       GOTRUE_DB_DRIVER: postgres
       GOTRUE_DB_DATABASE_URL: postgres://postgres:${LAB_PASSWORD}@db:5432/talabot_pilot?search_path=auth
-      GOTRUE_SITE_URL: http://127.0.0.1:8080
+      GOTRUE_SITE_URL: http://127.0.0.1:8080/customer.html
       GOTRUE_URI_ALLOW_LIST: http://127.0.0.1:8080/**
       GOTRUE_DISABLE_SIGNUP: 'false'
       GOTRUE_JWT_SECRET: ${LAB_JWT_SECRET}
@@ -30,7 +30,12 @@ services:
       GOTRUE_JWT_ADMIN_ROLES: service_role
       GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
       GOTRUE_EXTERNAL_EMAIL_ENABLED: 'true'
-      GOTRUE_MAILER_AUTOCONFIRM: 'true'
+      GOTRUE_MAILER_AUTOCONFIRM: ${LAB_AUTOCONFIRM:-true}
+      GOTRUE_SMTP_HOST: mailpit
+      GOTRUE_SMTP_PORT: 1025
+      GOTRUE_SMTP_ADMIN_EMAIL: no-reply@synthetic.invalid
+      GOTRUE_SMTP_SENDER_NAME: TALABOT isolated lab
+      GOTRUE_SMTP_MAX_FREQUENCY: 1s
       GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: 'false'
       GOTRUE_EXTERNAL_PHONE_ENABLED: 'false'
       GOTRUE_RATE_LIMIT_SIGN_UP: 10000
@@ -48,3 +53,10 @@ services:
       PGRST_DB_POOL: 20
       PGRST_DB_MAX_ROWS: 1000
     ports: ['127.0.0.1:3000:3000']
+  mailpit:
+    image: axllent/mailpit:v1.33.0
+    ports: ['127.0.0.1:8025:8025']
+    environment:
+      MP_MAX_MESSAGES: 100
+      MP_SMTP_AUTH_ACCEPT_ANY: 'true'
+      MP_SMTP_AUTH_ALLOW_INSECURE: 'true'
