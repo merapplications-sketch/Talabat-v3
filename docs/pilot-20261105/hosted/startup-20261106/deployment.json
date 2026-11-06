@@ -1,0 +1,13 @@
+{
+  "version": "pilot-mobile-20261106.2",
+  "source_commit": "0737e54b4f2d0d71a22ea766c54ce869c206e9ce",
+  "deployment_id": "1a602ee4-6daa-4a76-a8aa-68339321cac5",
+  "status": "success",
+  "uses_functions": false,
+  "production_modified": false,
+  "security_weakened": false,
+  "backend": "fsvrsvqfknogwmhccera",
+  "hosted_four_role_login": "passed",
+  "file_timeout_seconds": 15,
+  "connection_timeout_seconds": 45
+}
