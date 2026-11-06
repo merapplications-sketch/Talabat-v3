@@ -856,7 +856,7 @@
     var controller = new AbortController(), original = options.signal;
     function abort() { controller.abort(); }
     if (original) { if (original.aborted) abort(); else original.addEventListener('abort', abort, { once: true }); }
-    var timer = setTimeout(abort, 15000);
+    var timer = setTimeout(abort, 45000);
     return fetch(input, Object.assign({}, options, { signal: controller.signal })).finally(function () {
       clearTimeout(timer); if (original) original.removeEventListener('abort', abort);
     });
