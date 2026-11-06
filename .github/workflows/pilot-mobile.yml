@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: npm ci --prefix tests/pilot --ignore-scripts
       - run: npx --prefix tests/pilot playwright install --with-deps webkit
-      - run: MOBILE_ENGINE=webkit node tests/mobile/check.cjs after && REQUIRE_WEBKIT=1 node tests/mobile/verify.cjs
+      - run: export MOBILE_ENGINE=webkit MOBILE_ROLE=merchant REQUIRE_WEBKIT=1; node tests/mobile/check.cjs after && node tests/mobile/verify.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

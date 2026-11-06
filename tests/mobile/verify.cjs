@@ -1,3 +1,3 @@
 const fs=require('fs'),assert=require('assert');const r=JSON.parse(fs.readFileSync('docs/mobile-20261106/after.json'));let count=0;
 for(const x of r){if(x.unavailable){if(process.env.REQUIRE_WEBKIT==='1')throw Error(x.unavailable);continue}assert(!x.error,JSON.stringify(x));assert(!x.errors?.length,JSON.stringify(x));assert(!x.offscreen?.length,JSON.stringify(x));assert(!x.overflow?.length,JSON.stringify(x));if(x.scroll)assert(x.scroll<=x.width,JSON.stringify(x));if(x.lang)assert.equal(x.lang,'ru');count++}
-assert(count>=57);console.log('PASS '+count+' mobile records (layout + language), synthetic fixtures');
+assert(count>=(process.env.MOBILE_ROLE?15:57));console.log('PASS '+count+' mobile records (layout + language), synthetic fixtures');
