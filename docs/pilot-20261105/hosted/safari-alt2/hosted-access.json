@@ -1,0 +1,51 @@
+{
+  "anonymousContext": true,
+  "chatgptGateRequests": [],
+  "rows": [
+    {
+      "role": "customer",
+      "status": 200,
+      "version": "pilot-mobile-20261106.3",
+      "startupRemoved": true,
+      "url": "https://talabot-isolated-safari-20261106.alwarikahtan.chatgpt.site/customer",
+      "user": "275075be-766e-4034-9c98-93d0705ed915",
+      "text": "Add a delivery address\nFavourite dishes nearby\nDelivery without the wait\nChoose a restaurant\nFood\nGrocery\nPharmacy\nBeauty\nFlowers\nSweets\n🍽️\nPopular restaurants\nAll\nNew\nТестовый ресторан TALABOT\nCoupons and rewards\nCoupons\nOpen coupons\nPoints and rewards\nMy rewards\nHome\nOrders\nWallet\nOffers\nProfile"
+    },
+    {
+      "role": "merchant",
+      "status": 200,
+      "version": "pilot-mobile-20261106.3",
+      "startupRemoved": true,
+      "url": "https://talabot-isolated-safari-20261106.alwarikahtan.chatgpt.site/merchant",
+      "user": "21c66740-48aa-46ff-b0c7-609350e78c2d",
+      "text": "Store\nТестовый ресторан TALABOT\nONLINE\nFind an order return\nAll\nNew\nPreparing\nReady\nOn the way\nNo active orders\nOrders\nMenu\nAnalytics\nProfile"
+    },
+    {
+      "role": "driver",
+      "status": 200,
+      "version": "pilot-mobile-20261106.3",
+      "startupRemoved": true,
+      "url": "https://talabot-isolated-safari-20261106.alwarikahtan.chatgpt.site/driver",
+      "user": "de739c9d-96a7-4190-acaa-e553cc2b9aca",
+      "text": "D\nDEMO driver\nID DE739C\nOff shift\n💵 Platform delivery share due: 0.00 TJS\nNew orders\nStart your shift\n\nOrder sound and location will turn on and the screen will stay awake. Keep the app open.\n\nStart shift\nOrders\nHistory\nProfile"
+    },
+    {
+      "role": "admin",
+      "status": 200,
+      "version": "pilot-mobile-20261106.3",
+      "startupRemoved": true,
+      "url": "https://talabot-isolated-safari-20261106.alwarikahtan.chatgpt.site/admin",
+      "user": "28569457-b0f8-44bc-b059-39af969a309c",
+      "text": "ru | EN\nSign out\nAdmin dashboard\n0\n/1\ncouriers online\n1\n/1\nstores open\n📦\n0\nOrders\n💰\n0 TJS\nRevenue\n%\n0.0 TJS\nCommission\n⏱\n0\nActive\nOrders\nStores\nCouriers\nCustomers\nSupport\nTexts\nRatings\nBanners\nPromo codes\nLoyalty\nLog\nStaff\nAll\nWaiting for confirmation\nPreparing\nReady for courier pickup\nCourier on the way\nDelivered\nRejected by restaurant\nCancelled\nNo orders\nVersion pilot-mobile-20261106.3"
+    }
+  ],
+  "errors": [],
+  "isolation": [
+    "275075be-766e-4034-9c98-93d0705ed915",
+    "21c66740-48aa-46ff-b0c7-609350e78c2d",
+    "de739c9d-96a7-4190-acaa-e553cc2b9aca",
+    "28569457-b0f8-44bc-b059-39af969a309c"
+  ],
+  "productionRequests": [],
+  "supabaseRequests": 102
+}
