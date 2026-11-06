@@ -29,7 +29,7 @@
     document.documentElement.lang = lang;
     var app = document.body && document.body.getAttribute('data-app');
     var titles = {customer:['Заказ','Customer'],merchant:['Ресторан','Merchant'],driver:['Курьер','Driver'],admin:['Управление','Admin']};
-    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261106.1');
+    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261106.2');
     [].forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function (el) { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
   }
@@ -165,7 +165,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'pilot-mobile-20261106.1';
+  var VERSION = 'pilot-mobile-20261106.2';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -660,6 +660,7 @@
   var authMode = 'in', resendAt = 0;
   function authErr(e) {
     var m = String((e && e.message) || '').toLowerCase(), c = String((e && (e.code || e.error_code)) || '');
+    if (m.indexOf('timed out') >= 0 || m.indexOf('abort') >= 0 || m.indexOf('failed to fetch') >= 0 || m.indexOf('network') >= 0) return lang === 'en' ? 'Connection failed. Check your connection and try again.' : 'Нет ответа от сервера. Проверьте соединение и повторите попытку.';
     if (m.indexOf('invalid login') >= 0 || c === 'invalid_credentials') return t('authWrong');
     if (m.indexOf('already registered') >= 0 || c === 'user_already_exists' || c === 'email_exists') return t('authExists');
     if (c === 'weak_password' || (m.indexOf('password') >= 0 && (m.indexOf('least') >= 0 || m.indexOf('weak') >= 0 || m.indexOf('short') >= 0))) return t('authPwShort');
@@ -847,6 +848,19 @@
   }
 
   /* ---------- API ---------- */
+  // Bound authentication and reads only. Never automatically retry financial mutations.
+  function connectionFetch(input, options) {
+    var url = typeof input === 'string' ? input : input.url;
+    options = options || {};
+    if (url.indexOf('/auth/v1/') < 0 && String(options.method || 'GET').toUpperCase() !== 'GET') return fetch(input, options);
+    var controller = new AbortController(), original = options.signal;
+    function abort() { controller.abort(); }
+    if (original) { if (original.aborted) abort(); else original.addEventListener('abort', abort, { once: true }); }
+    var timer = setTimeout(abort, 15000);
+    return fetch(input, Object.assign({}, options, { signal: controller.signal })).finally(function () {
+      clearTimeout(timer); if (original) original.removeEventListener('abort', abort);
+    });
+  }
   var TLBref = null;
   window.TLB = {
     version: VERSION,
@@ -859,7 +873,7 @@
     start: function (role, cb) {
       need = role; onReady = cb;
       var incomingRecovery = /(?:^|[&#])type=recovery(?:&|$)/.test(location.hash);
-      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + role } });
+      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + role }, global: { fetch: connectionFetch } });
       bootShow();
       sb.auth.onAuthStateChange(function (event) {
         if (event === 'PASSWORD_RECOVERY') { recoveryPending = true; setTimeout(showPasswordRecovery, 0); }

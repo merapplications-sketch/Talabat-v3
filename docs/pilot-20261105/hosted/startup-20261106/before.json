@@ -1,0 +1,30 @@
+[
+  {
+    "role": "customer",
+    "stalled": "external SDK",
+    "waitSeconds": 17,
+    "bodyText": "",
+    "errorVisible": false
+  },
+  {
+    "role": "merchant",
+    "stalled": "external SDK",
+    "waitSeconds": 17,
+    "bodyText": "",
+    "errorVisible": false
+  },
+  {
+    "role": "driver",
+    "stalled": "external SDK",
+    "waitSeconds": 17,
+    "bodyText": "",
+    "errorVisible": false
+  },
+  {
+    "role": "admin",
+    "stalled": "external SDK",
+    "waitSeconds": 17,
+    "bodyText": "",
+    "errorVisible": false
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "role": "customer",
+    "stalled": "talabat-core.js",
+    "waitSeconds": 17,
+    "errorVisible": true,
+    "retryVisible": true
+  },
+  {
+    "role": "merchant",
+    "stalled": "talabat-core.js",
+    "waitSeconds": 17,
+    "errorVisible": true,
+    "retryVisible": true
+  },
+  {
+    "role": "driver",
+    "stalled": "talabat-core.js",
+    "waitSeconds": 17,
+    "errorVisible": true,
+    "retryVisible": true
+  },
+  {
+    "role": "admin",
+    "stalled": "talabat-core.js",
+    "waitSeconds": 17,
+    "errorVisible": true,
+    "retryVisible": true
+  }
+]
