@@ -1,0 +1,69 @@
+{
+  "pass": true,
+  "rows": [
+    {
+      "role": "customer",
+      "locale": "en-US",
+      "auto": "en",
+      "manual": "ru",
+      "persisted": true,
+      "automaticNotSaved": true
+    },
+    {
+      "role": "customer",
+      "locale": "ru-RU",
+      "auto": "ru",
+      "manual": "en",
+      "persisted": true,
+      "automaticNotSaved": true
+    },
+    {
+      "role": "merchant",
+      "locale": "en-US",
+      "auto": "en",
+      "manual": "ru",
+      "persisted": true,
+      "automaticNotSaved": true
+    },
+    {
+      "role": "merchant",
+      "locale": "ru-RU",
+      "auto": "ru",
+      "manual": "en",
+      "persisted": true,
+      "automaticNotSaved": true
+    },
+    {
+      "role": "driver",
+      "locale": "en-US",
+      "auto": "en",
+      "manual": "ru",
+      "persisted": true,
+      "automaticNotSaved": true
+    },
+    {
+      "role": "driver",
+      "locale": "ru-RU",
+      "auto": "ru",
+      "manual": "en",
+      "persisted": true,
+      "automaticNotSaved": true
+    },
+    {
+      "role": "admin",
+      "locale": "en-US",
+      "auto": "en",
+      "manual": "ru",
+      "persisted": true,
+      "automaticNotSaved": true
+    },
+    {
+      "role": "admin",
+      "locale": "ru-RU",
+      "auto": "ru",
+      "manual": "en",
+      "persisted": true,
+      "automaticNotSaved": true
+    }
+  ]
+}

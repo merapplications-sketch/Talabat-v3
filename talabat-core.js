@@ -20,8 +20,7 @@
       err_closed: 'The restaurant is closed right now', err_unavailable: 'Item unavailable', err_points_changed: 'Your points balance changed. Check the amount and place the order again.', err_points_min: 'Not enough points to use', err_points_min_order: 'Points can be used when the dishes reach the minimum order', err_bad_gift: 'Enter the recipient\'s name and phone (+992 and 9 digits)', err_bad_time: 'Choose a time from 45 minutes to 3 days ahead', err_bad_group: 'The group order is not available (closed or placed)', err_group_closed: 'The group order is closed for new dishes', err_too_early: 'A scheduled order can be started one hour before its time', err_empty: 'Cart is empty', err_bad_transition: 'Action not allowed', err_taken: 'Order already taken by another courier',
       confirm_cancel: 'Cancel this order?', clear_cart: 'Your cart has items from another store. Clear it?', accept: 'Accept', reject: 'Reject', add: 'Add', cart: 'Cart', pay: 'Pay for order', online: 'Online', offline: 'Offline' }
   };
-  var lang = 'ru';
-  try { var savedLang = localStorage.getItem(LK); lang = /^(ru|en)$/.test(savedLang || '') ? savedLang : 'ru'; } catch (e) {}
+  var lang = window.tlbPreferredLanguage();
   I.ru.err_payment_not_configured = 'Этот способ оплаты пока недоступен. Выберите наличные.';
   I.en.err_payment_not_configured = 'This payment method is not available yet. Choose cash.';
   function t(k) { return (I[lang] && I[lang][k]) || I.ru[k] || k; }
@@ -29,14 +28,14 @@
     document.documentElement.lang = lang;
     var app = document.body && document.body.getAttribute('data-app');
     var titles = {customer:['Заказ','Customer'],merchant:['Ресторан','Merchant'],driver:['Курьер','Driver'],admin:['Управление','Admin']};
-    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261106.2');
+    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261106.3');
     [].forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function (el) { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
   }
   var CHIP = 'background:#1f2937;color:#fff;font:700 11px sans-serif;padding:5px 11px;border-radius:12px;cursor:pointer;margin:4px 0';
   function chromeBar() {
     var w = document.getElementById('tlb-bar');
-    if (!w) { w = document.createElement('div'); w.id = 'tlb-bar'; w.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 10px;position:relative;z-index:50'; document.body.insertBefore(w, document.body.firstChild); }
+    if (!w) { w = document.createElement('div'); w.id = 'tlb-bar'; w.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 10px;position:relative;z-index:10000'; document.body.insertBefore(w, document.body.firstChild); }
     return w;
   }
   function setLang(l) { if (l !== 'ru' && l !== 'en') return; lang = l; try { localStorage.setItem(LK, l); } catch (e) {} applyI18n(); var b = document.getElementById('tlb-lang'); if (b) b.textContent = l === 'ru' ? 'RU | en' : 'ru | EN'; fire(); }
@@ -165,7 +164,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'pilot-mobile-20261106.2';
+  var VERSION = 'pilot-mobile-20261106.3';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
