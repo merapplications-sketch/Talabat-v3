@@ -1,0 +1,128 @@
+{
+  "project": "fsvrsvqfknogwmhccera",
+  "version": "pilot-mobile-20261106.4",
+  "steps": {
+    "accountant_permissions": [
+      "finance"
+    ],
+    "agreement": "66605572-7792-4565-8f93-995cf6e0afd4",
+    "admission": {
+      "at": "2026-11-06T18:41:22.655468+00:00",
+      "id": true,
+      "actor": "28569457-b0f8-44bc-b059-39af969a309c",
+      "value": {
+        "stores": [
+          "e0f7767c-1f4f-40a1-9aff-35159a891c02"
+        ],
+        "drivers": [
+          "de739c9d-96a7-4190-acaa-e553cc2b9aca"
+        ],
+        "max_lat": 38.57,
+        "max_lng": 68.8,
+        "min_lat": 38.55,
+        "min_lng": 68.78,
+        "timezone": "Asia/Dushanbe",
+        "weekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "customers": [
+          "275075be-766e-4034-9c98-93d0705ed915"
+        ],
+        "max_active": 3,
+        "valid_from": "2026-11-06T11:44:33.018918+00:00",
+        "open_minute": 0,
+        "valid_until": "2026-11-13T12:44:33.018918+00:00",
+        "close_minute": 1440,
+        "daily_orders": 20,
+        "owner_approved": true
+      },
+      "paused": false
+    },
+    "order": 1,
+    "merchant_review": {
+      "state": "awaiting_customer",
+      "request": "66605572-7792-4565-8f93-995cf6e0afd4",
+      "order_id": 1,
+      "revision": 1,
+      "needs_customer": true
+    },
+    "customer_confirmation": {
+      "state": "accepted",
+      "request": "de1cc6a0-d96c-528e-b4a4-292c72913666",
+      "order_id": 1,
+      "revision": 1
+    },
+    "assigned": null,
+    "ready": null,
+    "pickedup": null,
+    "restaurant_advance": {
+      "paid": 25,
+      "pending": null,
+      "currency": "TJS",
+      "open_claim": null,
+      "refused_at": null,
+      "departed_at": "2026-11-06T18:43:27.156644+00:00",
+      "received_at": null,
+      "cancelled_at": null,
+      "delivery_due": null,
+      "confirmed_refund": 0
+    },
+    "delivered": null,
+    "before_settlement": [
+      {
+        "driver_id": "de739c9d-96a7-4190-acaa-e553cc2b9aca",
+        "balance": 5
+      }
+    ],
+    "settlement": {
+      "at": "2026-11-06T18:43:49.043221+00:00",
+      "actor": "2e360717-0058-423a-91f4-b73749c2047d",
+      "amount": 5,
+      "orders": [
+        1
+      ],
+      "target": "de739c9d-96a7-4190-acaa-e553cc2b9aca",
+      "receipt": {
+        "at": "2026-11-06T18:43:49.043221+00:00",
+        "actor": "2e360717-0058-423a-91f4-b73749c2047d",
+        "basis": "platform_delivery_share_v1",
+        "amount": 5,
+        "driver": "de739c9d-96a7-4190-acaa-e553cc2b9aca",
+        "number": "TS-000000000001",
+        "orders": [
+          {
+            "id": "1",
+            "amount": 5
+          }
+        ],
+        "request": "cdf2a8f2-eea3-52ae-acab-bbf6852cbc8e",
+        "currency": "TJS",
+        "actor_name": "DEMO accountant",
+        "driver_name": "DEMO driver"
+      },
+      "request": "cdf2a8f2-eea3-52ae-acab-bbf6852cbc8e",
+      "operation": "settle_cash",
+      "wallet_entry": null
+    },
+    "after_settlement": []
+  },
+  "started": "2026-11-06T18:40:17.131645+00:00",
+  "request": "66605572-7792-4565-8f93-995cf6e0afd4",
+  "real_money": false,
+  "pass": true,
+  "resolved_harness_error": "400 {\"code\":\"P0001\",\"details\":null,\"hint\":null,\"message\":\"bad_value\"}",
+  "validation_scope": "Authenticated hosted RPC journey, not browser UI or physical Safari. Test input errors corrected using same order; no app code change.",
+  "independent_verification": {
+    "order_count": 1,
+    "order_status": "delivered",
+    "cash_collected": 40,
+    "cash_platform_share": 5,
+    "cash_settled_at": "2026-11-06T18:43:49.043221+00:00"
+  }
+}
