@@ -13,6 +13,7 @@ jobs:
     env:
       PILOT_PATCH_STAGE: full
       PILOT_DRIVER_RETURNS: '1'
+      CANDIDATE_REMAINING: '1'
     steps:
       - name: Exact candidate
         env:
