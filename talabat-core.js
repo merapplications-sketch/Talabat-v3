@@ -28,7 +28,7 @@
     document.documentElement.lang = lang;
     var app = document.body && document.body.getAttribute('data-app');
     var titles = {customer:['Заказ','Customer'],merchant:['Ресторан','Merchant'],driver:['Курьер','Driver'],admin:['Управление','Admin']};
-    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261106.4');
+    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261107.1');
     [].forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function (el) { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
   }
@@ -164,7 +164,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'pilot-mobile-20261106.4';
+  var VERSION = 'pilot-mobile-20261107.1';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -860,6 +860,7 @@
       clearTimeout(timer); if (original) original.removeEventListener('abort', abort);
     });
   }
+  var pointsReadGeneration = 0;
   var TLBref = null;
   window.TLB = {
     version: VERSION,
@@ -968,16 +969,16 @@
             var max = o.maxW || 800, k = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement('canvas');
             c.width = Math.max(1, Math.round(im.width * k)); c.height = Math.max(1, Math.round(im.height * k));
             c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
-            var q = o.q || 0.78, inline = function () { resolve(c.toDataURL('image/jpeg', q)); };
-            if (!c.toBlob || !sb || !sb.storage || !ME) return inline();
+            var q = o.q || 0.78, failUpload = function () { toast(t('err_generic'), true); resolve(null); };
+            if (!c.toBlob || !sb || !sb.storage || !ME) return failUpload();
             c.toBlob(function (blob) {
-              if (!blob) return inline();
+              if (!blob) return failUpload();
               var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
               var path = ME.id + '/' + id + '.jpg';
               sb.storage.from('media').upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false }).then(function (r) {
-                if (r.error) { console.error(r.error); return inline(); }                    // storage not set up yet: keep working with an inline image
+                if (r.error) { console.error(r.error); return failUpload(); }
                 resolve(sb.storage.from('media').getPublicUrl(path).data.publicUrl);
-              }, function () { inline(); });
+              }, function () { failUpload(); });
             }, 'image/jpeg', q);
           };
           im.src = fr.result;
@@ -1120,9 +1121,28 @@
     },
     /* ---------- wallet ---------- */
     wallet: function () { return DB.wallet; },
+    orderWallet: function (id) {
+      if (!ME || !/^\d+$/.test(String(id))) return Promise.resolve(null);
+      return finSafe(sb.rpc('order_wallet_entries', { p_order: id })).then(function (r) {
+        if (r.error || !r.data || !Array.isArray(r.data.entries)) return null;
+        var rows = r.data.entries.map(finEntry); rows.partial = r.data.partial === true; return rows;
+      });
+    },
     /* loyalty (patch 29): summary {balance, next_exp_at, next_exp_pts, earn_per_tjs, points_per_tjs, min_redeem, expiry_days, cashback_pct} */
     loyalty: function () { return DB.loyalty; },
     points: function () { return DB.pts; },
+    pointsAbandon: function () { pointsReadGeneration++; },
+    pointsSnapshot: function () {
+      if (!ME) return Promise.resolve(null);
+      var generation = ++pointsReadGeneration, user = ME.id;
+      return finSafe(sb.rpc('points_snapshot')).then(function (r) {
+        if (generation !== pointsReadGeneration || !ME || ME.id !== user || r.error || !r.data ||
+            !Array.isArray(r.data.rows) || r.data.balance == null || !Number.isFinite(+r.data.balance)) return null;
+        var rows = r.data.rows.map(function (e) { return { id: e.id, points: +e.points, kind: e.kind, orderId: e.order_id, at: Date.parse(e.created_at) }; });
+        DB.pts = rows;
+        return { balance: +r.data.balance, rows: rows, consistent: r.data.consistent === true };
+      });
+    },
     loadPoints: function () {
       return sb.from('loyalty_ledger').select('*').eq('user_id', ME.id).order('created_at', { ascending: false }).limit(60).then(function (r) {
         if (r.error) return false;
