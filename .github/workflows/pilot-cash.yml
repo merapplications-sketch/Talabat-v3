@@ -13,6 +13,7 @@ jobs:
     env:
       PILOT_PATCH_STAGE: full
       PILOT_DRIVER_RETURNS: '1'
+      CASH_SETTLEMENT_ONLY: '1'
     steps:
       - name: Exact candidate
         env:
@@ -38,6 +39,7 @@ jobs:
           python tests/pilot/cash/setup.py
           python tests/pilot/cash/serve.py > /tmp/cash-gateway.log 2>&1 &
           node tests/pilot/cash/journey.cjs
+          python tests/pilot/cash/verify.py
       - name: Evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
