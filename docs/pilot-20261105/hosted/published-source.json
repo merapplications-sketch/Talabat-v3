@@ -1,0 +1,8 @@
+{
+  "id": 7161677425,
+  "sha": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+  "ref": "integration/customer-v80-current",
+  "environment": "github-pages",
+  "created_at": "2026-10-18T22:26:42Z",
+  "statuses_url": "https://api.github.com/repos/merapplications-sketch/Talabat-v3/deployments/7161677425/statuses"
+}
