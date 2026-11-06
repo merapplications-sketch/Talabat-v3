@@ -5,7 +5,7 @@ p=lab.ROOT/'docs/pilot-20261105/cash/result.json';v=json.loads(p.read_text());as
 with lab.db() as c:
  for x in v['scenarios']:
   row=c.execute('select o.payment,o.total,o.cash_collected,o.cash_settled_at is not null,r.paid,r.payment_ref,o.cash_platform_share,o.cash_driver_delivery_share,o.driver_payout,o.commission from orders o join return_private.cases r on r.order_id=o.id where o.id=%s',(x['order'],)).fetchone()
-  assert row==('cash',40,40,x['platform']>0,25,'DEMO-CASH-PAY-25',x['platform'],15-x['platform'],15-x['platform'],5),row
+  assert row==('cash',40,40,x['platform']>0,25,'DEMO-CASH-PAY-25-'+str(x['platform']),x['platform'],15-x['platform'],15-x['platform'],5),row
   try:c.execute('update orders set cash_platform_share=0,cash_driver_delivery_share=15 where id=%s',(v['scenarios'][0]['order'],));raise AssertionError('snapshot mutated')
   except Exception as e:assert 'cash_allocation_immutable' in str(e),str(e)
  assert lab.q(c,'select count(*) from finance_private.commands')==1
