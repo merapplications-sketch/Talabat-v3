@@ -1,0 +1,10 @@
+{"name":"same-origin","status":200,"type":"basic","elapsed":99,"body":"{\n  \"source\": \"eaccf41e85aeb9f9672be1ff71e22515fddfc329\",\n  \"version\": \"pilot-mobile-20261107.1\",\n  \"target\": \"fsvrsvqfknogwmhccera\",\n  \"published\": true,\n  \"files\": {\n    \"customer.html\": \"158def11cf07516a9de320225dc02471f0b2b862858824d6e0"}
+{"name":"auth-health","status":200,"type":"cors","elapsed":466,"body":"{\"version\":\"v2.197.0\",\"name\":\"GoTrue\",\"description\":\"GoTrue is a user registration and authentication API\"}"}
+{"name":"auth-empty-validation","status":400,"type":"cors","elapsed":381,"body":"{\"code\":\"validation_failed\",\"message\":\"missing email or phone\"}"}
+{"name":"cross-origin-no-headers","status":401,"type":"cors","elapsed":28,"body":"{\"message\":\"No API key found in request\",\"hint\":\"No `apikey` request header or url param was found.\"}"}
+{"name":"cross-origin-apikey","status":401,"type":"cors","elapsed":511,"body":"{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.stores TO anon;\",\"message\":\"permission denied for table stores\"}"}
+{"name":"apikey-and-public-bearer","status":401,"type":"cors","elapsed":980,"body":"{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.stores TO anon;\",\"message\":\"permission denied for table stores\"}"}
+{"name":"profile-read-anonymous","status":401,"type":"cors","elapsed":369,"body":"{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.profiles TO anon;\",\"message\":\"permission denied for table profiles\"}"}
+{"name":"cross-origin-apikey-abort-signal","status":401,"type":"cors","elapsed":354,"body":"{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.stores TO anon;\",\"message\":\"permission denied for table stores\"}"}
+{"name":"sdk-anonymous-read","status":401,"error":{"code":"42501","message":"permission denied for table stores"}}
+{"finished":true}

@@ -28,7 +28,7 @@
     document.documentElement.lang = lang;
     var app = document.body && document.body.getAttribute('data-app');
     var titles = {customer:['Заказ','Customer'],merchant:['Ресторан','Merchant'],driver:['Курьер','Driver'],admin:['Управление','Admin']};
-    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261107.1');
+    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261107.2');
     [].forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function (el) { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
   }
@@ -164,7 +164,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'pilot-mobile-20261107.1';
+  var VERSION = 'pilot-mobile-20261107.2';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
@@ -657,9 +657,12 @@
   }
   function logout() { sb.auth.signOut().then(function () { location.reload(); }); }
   var authMode = 'in', resendAt = 0;
+  function isConnectionError(e) {
+    return /timed out|timeout|abort|failed to fetch|network|load failed/i.test(String((e && e.message) || e || ''));
+  }
   function authErr(e) {
     var m = String((e && e.message) || '').toLowerCase(), c = String((e && (e.code || e.error_code)) || '');
-    if (m.indexOf('timed out') >= 0 || m.indexOf('abort') >= 0 || m.indexOf('failed to fetch') >= 0 || m.indexOf('network') >= 0) return lang === 'en' ? 'Connection failed. Check your connection and try again.' : 'Нет ответа от сервера. Проверьте соединение и повторите попытку.';
+    if (isConnectionError(e)) return lang === 'en' ? 'Connection failed. Check your connection and try again.' : 'Нет ответа от сервера. Проверьте соединение и повторите попытку.';
     if (m.indexOf('invalid login') >= 0 || c === 'invalid_credentials') return t('authWrong');
     if (m.indexOf('already registered') >= 0 || c === 'user_already_exists' || c === 'email_exists') return t('authExists');
     if (c === 'weak_password' || (m.indexOf('password') >= 0 && (m.indexOf('least') >= 0 || m.indexOf('weak') >= 0 || m.indexOf('short') >= 0))) return t('authPwShort');
@@ -818,7 +821,7 @@
   }
   function enter(user) {
     return sb.from('profiles').select('*').eq('id', user.id).single().then(function (x) {
-      if (x.error || !x.data) { bootHide(); showLogin(x.error ? x.error.message : 'profile'); return; }
+      if (x.error || !x.data) { bootFail(x.error || 'profile'); return; }
       ME = Object.assign({ email: user.email }, x.data);
       logoutBtn();
       if (need === 'driver' && ME.role === 'customer') { bootHide(); return showApply(); }
@@ -879,7 +882,7 @@
         if (event === 'PASSWORD_RECOVERY') { recoveryPending = true; setTimeout(showPasswordRecovery, 0); }
       });
       sb.auth.getSession().then(function (x) {
-        if (x.error) { bootHide(); return showLogin(authErr(x.error)); }
+        if (x.error) { if (isConnectionError(x.error)) return bootFail(x.error); bootHide(); return showLogin(authErr(x.error)); }
         if (x.data.session) { if (recoveryPending) return showPasswordRecovery(); if (incomingRecovery) { bootHide(); return showLogin(t('resetExpired')); } return enter(x.data.session.user); }
         bootHide(); showLogin(incomingRecovery ? t('resetExpired') : '');
       })
