@@ -22,3 +22,7 @@ Fix bundle version: pilot-mobile-20261107.3. Preserves application logic, visual
 - Published Sites version 11, source 25ca24c5407112de5fcff87aa5778f4ad72bb7a6; deployment appgdep_6aee64f157748191a5078ed71ffd6e93 succeeded at 2026-11-06T23:38:39Z.
 - Reloaded actual merchant UI: pilot-mobile-20261107.3 and test-only HTTPS/WSS CSP confirmed. Login form renders.
 - No account, SQL, order, receipt or financial mutations. Browser secure credential entry is required for final login proof and cash journey; do not claim completed before observing it.
+
+## Post-deployment authentication result
+Secure browserAuth request returned submitted. Fresh merchant UI displayed `Неверный email или пароль` (incorrect email or password), instead of no server response. Source maps this message only from invalid login / invalid_credentials. Login is NOT proven. Manual correction of existing merchant credentials is the remaining blocker; no password reset, new account, order, SQL or financial mutation performed. Cash UI journey remains pending.
+
