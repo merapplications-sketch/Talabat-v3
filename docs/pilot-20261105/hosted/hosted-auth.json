@@ -1,0 +1,52 @@
+[
+  {
+    "account": "admin",
+    "auth": true,
+    "ownProfile": [
+      {
+        "id": "28569457-b0f8-44bc-b059-39af969a309c",
+        "role": "admin"
+      }
+    ]
+  },
+  {
+    "account": "customer",
+    "auth": true,
+    "ownProfile": [
+      {
+        "id": "275075be-766e-4034-9c98-93d0705ed915",
+        "role": "customer"
+      }
+    ]
+  },
+  {
+    "account": "merchant",
+    "auth": true,
+    "ownProfile": [
+      {
+        "id": "21c66740-48aa-46ff-b0c7-609350e78c2d",
+        "role": "merchant"
+      }
+    ]
+  },
+  {
+    "account": "driver",
+    "auth": true,
+    "ownProfile": [
+      {
+        "id": "de739c9d-96a7-4190-acaa-e553cc2b9aca",
+        "role": "driver"
+      }
+    ]
+  },
+  {
+    "account": "accountant",
+    "auth": true,
+    "ownProfile": [
+      {
+        "id": "2e360717-0058-423a-91f4-b73749c2047d",
+        "role": "customer"
+      }
+    ]
+  }
+]

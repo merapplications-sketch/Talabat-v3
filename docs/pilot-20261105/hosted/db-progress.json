@@ -7,14 +7,31 @@
   },
   "public_tables": 36,
   "candidate_patches": {
-    "status": "not_applied",
-    "attempts_this_turn": 2,
-    "blocker": "provider_confirmation_expired"
+    "status": "applied",
+    "migration": "20261106121625",
+    "name": "pilot_candidate_finance_consent_returns_allocation"
   },
-  "finance_schema_exists": false,
-  "finance_access_exists": false,
-  "pilot_config_exists": false,
+  "finance_schema_exists": true,
+  "finance_access_exists": true,
+  "pilot_config_exists": true,
   "production_modified": false,
-  "preview_published": false,
-  "closed_tests_rerun": false
+  "preview_published": true,
+  "closed_tests_rerun": false,
+  "synthetic_users": 5,
+  "synthetic_stores": 1,
+  "orders": 0,
+  "storage_realtime": {
+    "status": "not_applied",
+    "confirmation_expired_attempts": 2
+  },
+  "preview": {
+    "project": "talabot-pilot-20261106",
+    "deployment": "af22de56-73d1-4195-aefd-135b5e46ac7f",
+    "url": "https://talabot-pilot-20261106.pages.dev",
+    "uses_functions": false,
+    "source": "66fc8ee023ee3738f84e8be956b963b2b67bdfdc"
+  },
+  "admission_paused": true,
+  "hosted_login_smoke": "4 concurrent actual sessions, no production requests, no page errors",
+  "onboarding": "customer and driver ready after synthetic phone fixture"
 }

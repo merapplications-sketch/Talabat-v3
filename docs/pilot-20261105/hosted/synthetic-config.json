@@ -1,0 +1,1 @@
+{"syntheticOnly": true, "valid_until": "2026-11-13T12:44:33.018918+00:00", "results": [{"rpc": "configure_pilot_admission", "success": true}, {"rpc": "configure_order_confirmation", "success": true}]}
