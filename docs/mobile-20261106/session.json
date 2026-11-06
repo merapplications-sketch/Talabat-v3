@@ -1,0 +1,10 @@
+{
+  "pass": true,
+  "sdk": "2.117.2",
+  "auth": "synthetic HTTP responses, not provider auth acceptance",
+  "sameOrigin": true,
+  "fourConcurrentTabs": true,
+  "loginIsolation": true,
+  "merchantLogoutPreservesOtherThree": true,
+  "calls": 5
+}

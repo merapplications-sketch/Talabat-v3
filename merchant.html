@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; connect-src 'self' https://dzydscryrnahnneydnry.supabase.co wss://dzydscryrnahnneydnry.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location}catch(e){}}</script>
@@ -69,10 +69,10 @@ select{border:0;border-radius:999px;font-weight:600}
 .sgm{display:flex;gap:5px;margin:0 0 12px}.sgm i{flex:1;height:4px;border-radius:2px;background:#e6e6ea}.sgm i.on{background:var(--o)}
 .dr2{display:flex;justify-content:space-between;gap:10px;padding:7px 0}.dr2.tot{border-top:1px solid var(--line);margin-top:4px;padding-top:10px;font-weight:700}
 .rjl{display:grid;gap:8px}.rjta{display:block;width:100%;margin-top:12px;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#f7f7f9;font:inherit;font-size:14px;resize:vertical;min-height:64px}.rjta:focus{outline:0;border-color:#d92d20;background:#fff}.rjk,.rjb{height:46px;border-radius:999px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}.rjk{flex:1;border:1.5px solid #e6e6ea;background:#fff;color:#1c1c21}.rjb{flex:2;border:0;background:#d92d20;color:#fff}.rjb:disabled{opacity:.45;cursor:default}.rjl button{text-align:start;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#fff;font:inherit;font-weight:600;cursor:pointer}.rjl button.on{border-color:var(--bad);background:#fdeceb;color:#a32d2d}.lnk{display:block;width:100%;background:none;border:0;padding:10px 0 2px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}.lnk.r{color:var(--bad,#d92d20)}
-#approval-modal .md{max-height:calc(100dvh - 32px);overflow:auto}#approval-modal button,#approval-modal select,#approval-modal input[type=number]{min-height:44px}#approval-modal button:focus-visible,#approval-modal input:focus-visible,#approval-modal select:focus-visible{outline:2px solid currentColor;outline-offset:2px}</style></head><body><div class="w" id="app"></div>
-<script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
+#approval-modal .md{max-height:calc(100dvh - 32px);overflow:auto}#approval-modal button,#approval-modal select,#approval-modal input[type=number]{min-height:44px}#approval-modal button:focus-visible,#approval-modal input:focus-visible,#approval-modal select:focus-visible{outline:2px solid currentColor;outline-offset:2px}</style><link rel="stylesheet" href="assets/mobile.css?v=20261106.1"><script defer src="assets/mobile.js?v=20261106.1"></script></head><body data-app="merchant"><div class="w" id="app"></div>
+<script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';var en=false;try{en=window.TLB?TLB.lang()==='en':localStorage.getItem('tlb_lang')==='en'}catch(_){};d.textContent=en?'Something went wrong. Tap to reload.':'Что-то пошло не так. Нажмите, чтобы обновить.';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
-<script src="talabat-core.js?v=pilot-returns-20261106"></script>
+<script src="talabat-core.js?v=pilot-mobile-20261106.1"></script>
 <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
 <script src="assets/driver-returns/panel.js?v=1"></script>
 <script>
@@ -229,7 +229,7 @@ function vStore(){const s=TLB.myStores().find(x=>x.name==STORE);if(!s)return '';
   ${brSec(s)}
   <div class="gp"><div class="r2" style="cursor:default"><span class="i3">${ic('globe',16)}</span><span>${t('langL')}</span><span class="vl"><span class="lsw"><button class="${TLB.lang()=='ru'?'on':''}" onclick="TLB.setLang('ru')">RU</button><button class="${TLB.lang()=='en'?'on':''}" onclick="TLB.setLang('en')">EN</button></span></span></div></div>
   <button class="b g" style="width:100%;height:46px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--bad)" onclick="TLB.logout()">${ic('out',18)} ${t('logout')}</button>
-  <div class="xs mut" style="text-align:center;margin:0 0 12px">${t('verL')} ${esc(TLB.version||'')} · merchant-52</div>`}
+  <div class="xs mut" style="text-align:center;margin:0 0 12px">${t('verL')} ${esc(TLB.version||'')}</div>`}
 /* ---------- branches ---------- */
 let BR=null,BST={},BSID='';
 const myBrand=s=>s&&s.brand_id?(TLB.brands().find(b=>b.id==s.brand_id)||null):null;

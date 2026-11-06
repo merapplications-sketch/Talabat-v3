@@ -1,0 +1,21 @@
+name: Isolated mobile candidate UI
+on:
+  push:
+    branches: [candidate/pilot-readiness-20261105]
+    paths: [.github/workflows/pilot-mobile.yml, tests/mobile/**]
+permissions:
+  contents: read
+jobs:
+  mobile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci --prefix tests/pilot --ignore-scripts
+      - run: npx --prefix tests/pilot playwright install --with-deps webkit
+      - run: MOBILE_ENGINE=webkit node tests/mobile/check.cjs after && REQUIRE_WEBKIT=1 node tests/mobile/verify.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-isolated-evidence
+          path: docs/mobile-20261106

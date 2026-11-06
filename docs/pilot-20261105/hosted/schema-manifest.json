@@ -1,0 +1,49 @@
+{
+  "target": "fsvrsvqfknogwmhccera",
+  "files": [
+    {
+      "file": "00_public_baseline.sql",
+      "sha256": "1f62b7e1eaf231129f29f376a065a329c215791d733515b7f819be5cc4443970"
+    },
+    {
+      "file": "admin_finance_integrity_20261101.sql",
+      "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259"
+    },
+    {
+      "file": "admin_finance_receipts_20261102.sql",
+      "sha256": "240727cdbb9416af093f36209de0ea690c9822ef39c16710e94e1692f62dcf82"
+    },
+    {
+      "file": "pilot_delivery_proof_20261105.sql",
+      "sha256": "49500e3053a36bf27f9f6209c94ec42a5053883b48ba45b635e9a589e5c2975d"
+    },
+    {
+      "file": "pilot_driver_claim_20261105.sql",
+      "sha256": "120050c6972b3a928f7957d6a31314be7b5b964f6153526722c347c62bdf4d9e"
+    },
+    {
+      "file": "pilot_payment_guard_20261105.sql",
+      "sha256": "12f4cdcf0517365b03e90f24af2d6d4dd7a47460a5700c05a5d99f3cf5e1d79e"
+    },
+    {
+      "file": "pilot_refund_cap_20261105.sql",
+      "sha256": "2a8475fa189b28a7438becad759125ee889eed7c545861a85a2743e889144a1b"
+    },
+    {
+      "file": "pilot_z_cash_confirmation_20261105.sql",
+      "sha256": "e521521c59ada659ec2b759d22bcc28e7b9c8f4b470690f30c8f1f89c0e0a101"
+    },
+    {
+      "file": "pilot_zz_admission_20261105.sql",
+      "sha256": "e8dfd228758bd125f2c20de504d028a02ee2692c21b32fe50688383a8b4316af"
+    },
+    {
+      "file": "pilot_zzz_driver_returns_20261106.sql",
+      "sha256": "a2cd953fa1539f397d1f2efb8d16b93667374879b2cbed0eeb41d2e8439af7e6"
+    },
+    {
+      "file": "pilot_zzzz_cash_allocation_20261106.sql",
+      "sha256": "3f1b880b373f8de907420308c9ae8e055bc5a88062442117139ed9c241ad5018"
+    }
+  ]
+}
