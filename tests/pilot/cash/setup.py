@@ -19,6 +19,7 @@ if os.environ.get('CASH_ALLOCATION_RESUME')=='1':
   with lab.db() as c:c.execute('update finance_private.cash_delivery_policy set platform_amount=%s where store_id=%s',(0 if share else 5,lab.STORE))
   offer=r.cf.review(oid,15)
   if offer['needs_customer']:r.cf.confirm(lab.bearer('customer'),oid,offer['revision'])
+  else:lab.rpc(lab.bearer('merchant'),'set_order_status',{'p_id':oid,'p_to':'preparing'})
   lab.rpc(lab.bearer('admin'),'admin_assign_driver',{'p_order':oid,'p_driver':lab.uid('driver1')})
   lab.rpc(lab.bearer('merchant'),'set_order_status',{'p_id':oid,'p_to':'ready'})
   lab.rpc(lab.bearer('driver1'),'set_order_status',{'p_id':oid,'p_to':'pickedup'})
