@@ -1,0 +1,103 @@
+{
+  "reference": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+  "syntheticOnly": true,
+  "viewport": "390x844",
+  "rows": [
+    {
+      "role": "customer",
+      "variant": "baseline",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 3,
+      "one": false,
+      "previousOrders": 1,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    },
+    {
+      "role": "customer",
+      "variant": "candidate",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 3,
+      "one": false,
+      "previousOrders": 1,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    },
+    {
+      "role": "merchant",
+      "variant": "baseline",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 0,
+      "one": false,
+      "previousOrders": 0,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    },
+    {
+      "role": "merchant",
+      "variant": "candidate",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 0,
+      "one": false,
+      "previousOrders": 0,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    },
+    {
+      "role": "driver",
+      "variant": "baseline",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 0,
+      "one": false,
+      "previousOrders": 0,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    },
+    {
+      "role": "driver",
+      "variant": "candidate",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 0,
+      "one": false,
+      "previousOrders": 0,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    },
+    {
+      "role": "admin",
+      "variant": "baseline",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 0,
+      "one": false,
+      "previousOrders": 0,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    },
+    {
+      "role": "admin",
+      "variant": "candidate",
+      "width": 390,
+      "scroll": 390,
+      "tiles": 0,
+      "one": false,
+      "previousOrders": 0,
+      "imageFailures": [],
+      "lang": "en",
+      "errors": []
+    }
+  ]
+}

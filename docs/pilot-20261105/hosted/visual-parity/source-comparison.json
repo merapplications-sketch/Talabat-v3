@@ -1,0 +1,30 @@
+{
+  "customer.html": {
+    "inlineStylesIdentical": true,
+    "merchantOnlyAddition": null,
+    "heroSlides": {
+      "identical": true,
+      "sha256": "855b2ef32052ee2caa466de2a3b4934e51e1c0a820dd166b70a989e6a39435ae"
+    },
+    "lastH": {
+      "identical": true,
+      "sha256": "01e55c0b00654680e4761408b8066e8a0b9a50131041a8e06c2a4fd2d90862f1"
+    },
+    "vHome": {
+      "identical": true,
+      "sha256": "4d7cec5c4a64ae1d79b71dcb820aefd19ee481a669d040b0f7cb60fabc42e74b"
+    }
+  },
+  "merchant.html": {
+    "inlineStylesIdentical": false,
+    "merchantOnlyAddition": "approval dialog usability"
+  },
+  "driver.html": {
+    "inlineStylesIdentical": true,
+    "merchantOnlyAddition": null
+  },
+  "admin.html": {
+    "inlineStylesIdentical": true,
+    "merchantOnlyAddition": null
+  }
+}

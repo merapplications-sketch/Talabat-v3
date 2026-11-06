@@ -28,7 +28,7 @@
     document.documentElement.lang = lang;
     var app = document.body && document.body.getAttribute('data-app');
     var titles = {customer:['Заказ','Customer'],merchant:['Ресторан','Merchant'],driver:['Курьер','Driver'],admin:['Управление','Admin']};
-    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261106.3');
+    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261106.4');
     [].forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function (el) { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
   }
@@ -164,7 +164,7 @@
   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
-  var VERSION = 'pilot-mobile-20261106.3';
+  var VERSION = 'pilot-mobile-20261106.4';
   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }

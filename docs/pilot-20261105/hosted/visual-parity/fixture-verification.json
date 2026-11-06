@@ -1,0 +1,13 @@
+{
+  "target": "fsvrsvqfknogwmhccera",
+  "stores": 9,
+  "items": 17,
+  "orders": 0,
+  "authAccounts": 5,
+  "originalMeal": 25,
+  "originalDelivery": 15,
+  "discountStores": 2,
+  "freeDeliveryStores": 1,
+  "missingImages": 0,
+  "noAuthOrLedgerWrites": true
+}
