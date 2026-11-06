@@ -1,0 +1,46 @@
+{
+  "original_probe": {
+    "root": {
+      "status": 200,
+      "redirects": 0,
+      "html_bytes": 658
+    },
+    "customer": {
+      "status": 200,
+      "redirects": 0,
+      "html_bytes": 547656
+    },
+    "merchant": {
+      "status": 200,
+      "redirects": 0,
+      "html_bytes": 77047
+    },
+    "driver": {
+      "status": 200,
+      "redirects": 0,
+      "html_bytes": 63549
+    },
+    "admin": {
+      "status": 200,
+      "redirects": 0,
+      "html_bytes": 131860
+    }
+  },
+  "webkit_local": "unavailable: missing OS libraries; installation denied by environment process permissions",
+  "owner_evidence": "iPhone in-app browser renders login; standalone Safari remains black. No device network trace: root cause unknown.",
+  "alternative": {
+    "project_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6",
+    "deployment_id": "appgdep_6aeddddcf9f88191a5f01a102146b522",
+    "version_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_55b30b5d05ac8191ae9bcfcb5667ab13",
+    "status": "succeeded",
+    "source_commit": "2118afa5c55cf68e7aacd42e9783b5e38bab1e48",
+    "origin": "https://talabot-isolated-safari-20261106.alwarikahtan.chatgpt.site",
+    "audience": "owner-private",
+    "browser_observed": "ChatGPT sign-in gate; app login not verified on alternate origin"
+  },
+  "app_version": "pilot-mobile-20261106.2",
+  "variant": "safari-alt1",
+  "backend": "fsvrsvqfknogwmhccera",
+  "production_changes": false,
+  "old_links_changed": false
+}
