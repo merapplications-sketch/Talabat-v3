@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TALABOT bounded transport comparison</title><h1>Transport comparison</h1><p>No account credentials. Empty validation requests only.</p><button id="run">Run exact transport comparison</button><pre id="result">Ready</pre><script src="assets/vendor/supabase-2.117.2.js"></script><script>
+const base='https://fsvrsvqfknogwmhccera.supabase.co',key='sb_publishable_pX3MiHp2C7WxLqPgKLtcig_Y2yTU8Gz',out=document.getElementById('result');
+function row(x){out.textContent+=JSON.stringify(x)+'\n';}
+  function connectionFetch(input, options) {
+    var url = typeof input === 'string' ? input : input.url;
+    options = options || {};
+    if (url.indexOf('/auth/v1/') < 0 && String(options.method || 'GET').toUpperCase() !== 'GET') return fetch(input, options);
+    var controller = new AbortController(), original = options.signal;
+    function abort() { controller.abort(); }
+    if (original) { if (original.aborted) abort(); else original.addEventListener('abort', abort, { once: true }); }
+    var timer = setTimeout(abort, 45000);
+    return fetch(input, Object.assign({}, options, { signal: controller.signal })).finally(function () {
+      clearTimeout(timer); if (original) original.removeEventListener('abort', abort);
+    });
+  }
+
+document.getElementById('run').onclick=async function(){this.disabled=true;out.textContent='';
+const headers={apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json;charset=UTF-8','X-Client-Info':'supabase-js-web/2.117.2','X-Supabase-Api-Version':'2024-01-01'};
+for(const kind of ['native','app-wrapper']){const start=Date.now();try{const r=await(kind==='native'?fetch:connectionFetch)(base+'/auth/v1/token?grant_type=password',{method:'POST',headers,body:'{}'});row({kind,status:r.status,elapsed:Date.now()-start,body:(await r.text()).slice(0,200)});}catch(e){row({kind,error:e.name,message:e.message,elapsed:Date.now()-start});}}
+for(const wrapped of [false,true]){const start=Date.now();try{const client=supabase.createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false},...(wrapped?{global:{fetch:connectionFetch}}:{})});const r=await client.auth.signInWithPassword({email:'',password:''});row({kind:wrapped?'sdk-app-wrapper':'sdk-default',elapsed:Date.now()-start,error:r.error&&{name:r.error.name,message:r.error.message,status:r.error.status,code:r.error.code}});}catch(e){row({kind:'sdk',wrapped,error:e.name,message:e.message});}}
+row({finished:true});};
+</script></html>
