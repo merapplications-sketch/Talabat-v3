@@ -1,0 +1,10 @@
+{
+  "target": "isolated-target-required",
+  "isolated": true,
+  "runtime_hashes": {},
+  "applied_patch_hashes": {},
+  "full_schema_reviewed": false,
+  "auth_smtp_redirects_reviewed": false,
+  "rest_realtime_storage_reviewed": false,
+  "operational_acceptance_complete": false
+}

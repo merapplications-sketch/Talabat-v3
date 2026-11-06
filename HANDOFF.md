@@ -1,3 +1,5 @@
+> **Current unified candidate, 2026-11-06:** [Owner agreements](docs/OWNER-AGREEMENTS-AR.md), [resume](docs/RESUME-AR.md), [candidate handoff and host upgrade/rollback](docs/pilot-20261105/candidate/HANDOFF.md). Cash delivery-share rule is settled; actual allocation is configuration. Historical zero-advance proposals are not launch blockers.
+
 > **Owner cash-accounting correction, 2026-11-06:** [Delivery share only, immutable order allocation and isolated evidence](docs/pilot-20261105/cash/HANDOFF.md). Driver owes only the platform delivery share (5 or 0 in the examples), never the gross40. Prior gross handover conclusion is superseded; historic records remain intact.
 
 > **Latest cash pilot handoff, 2026-11-06:** [Existing cash screens, isolated launcher and evidence](docs/pilot-20261105/cash/HANDOFF.md). Owner selects driver-advance/customer-cash as primary pilot model; no production or financial approval implied. Electronic simulation remains independent.

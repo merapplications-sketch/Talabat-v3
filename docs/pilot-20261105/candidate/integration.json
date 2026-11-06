@@ -1,0 +1,13 @@
+{
+  "source": "ca511b6ee0512308479b0329c12e6d2d19e93ca1",
+  "live": false,
+  "checks": [
+    "missing allocation rejects atomically without partial order",
+    "new allocation works alongside untouched legacy orders",
+    "combined place_order retains server payment gate; simulation not promoted to live provider"
+  ],
+  "prior_closed_run": 42183718520,
+  "pass": true,
+  "historical_fixture_only": true,
+  "preserved_legacy_receipt_amount": 65
+}

@@ -1,0 +1,23 @@
+{
+  "cash_delivery_locked_at": "b2f84d869c546bbffb09b3474ef11be1b9d9ccb2",
+  "rules": "../../OWNER-AGREEMENTS-AR.md",
+  "resume": "../../RESUME-AR.md",
+  "candidate_runtime_source": "b2f84d869c546bbffb09b3474ef11be1b9d9ccb2",
+  "upgrade_boundary": {
+    "first_run": 42183718520,
+    "first_file": "integration-first.json",
+    "remaining_run": 42184614103,
+    "remaining_file": "integration.json",
+    "final_test_source": "ca511b6ee0512308479b0329c12e6d2d19e93ca1"
+  },
+  "package_checks": "packaging-checks.json",
+  "resources": "RESOURCES.json",
+  "handoff": "HANDOFF.md",
+  "remote_preview": null,
+  "actual_host_parity": false,
+  "production_ready": false,
+  "cash_zero_evidence": "staged; not upgraded to continuous",
+  "old_balances_changed": false,
+  "production_writes": false,
+  "main_merged": false
+}

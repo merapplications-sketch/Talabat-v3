@@ -1,0 +1,23 @@
+{
+  "checked_date_dushanbe": "2026-11-06",
+  "read_only_discovery": true,
+  "supabase": [
+    {
+      "ref": "dzydscryrnahnneydnry",
+      "status": "ACTIVE_HEALTHY",
+      "use": "existing live project; no writes authorized"
+    },
+    {
+      "ref": "sbzcokatkhxsijsfplit",
+      "status": "INACTIVE",
+      "use": "not reactivated; isolation/data suitability unknown"
+    }
+  ],
+  "development_branches": [],
+  "sites_inventory": "Existing TALABOT finance SQL lab, finance mockups and customer/logo demos; no current four-role native-service candidate identified. Existing sites unchanged.",
+  "sites_runtime_limit": "Worker/static hosting does not provide the PostgreSQL + GoTrue + PostgREST + Storage Compose stack; browser SQL demo is not a replacement.",
+  "remote_preview_created": false,
+  "needed": "Existing isolated Compose-capable HTTPS host OR isolated Supabase target plus frontend test hosting and authorized synthetic accounts",
+  "cost_action": "No purchase, subscription, branch creation or project reactivation",
+  "resource_owner": "Hosting/Supabase administrator; application team configures and tests"
+}

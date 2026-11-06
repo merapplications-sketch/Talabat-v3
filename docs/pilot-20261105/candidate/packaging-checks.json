@@ -1,0 +1,16 @@
+{
+  "source": "b2f84d869c546bbffb09b3474ef11be1b9d9ccb2",
+  "base_files": 121,
+  "patch_a_equals_reviewed_integrity": true,
+  "archive_crc": true,
+  "archive_every_declared_hash_verified": true,
+  "no_runtime_credentials_in_archive": true,
+  "offline_compare_gate": {
+    "missing_declared_hashes_refused": true,
+    "all_matching_synthetic_declarations_accepted": true,
+    "tampered_driver_hash_refused": true
+  },
+  "host_parity_proven": false,
+  "application_files_changed": false,
+  "scope": "New packaging and offline gate only; no closed runtime suites repeated"
+}

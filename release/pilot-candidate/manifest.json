@@ -1,0 +1,625 @@
+{
+  "source_commit": "b2f84d869c546bbffb09b3474ef11be1b9d9ccb2",
+  "candidate_branch": "candidate/pilot-readiness-20261105",
+  "deployment_authorized": false,
+  "live_baseline_matched": false,
+  "upgrade_order": [
+    "sql/proposed/admin_finance_integrity_20261101.sql",
+    "sql/proposed/admin_finance_receipts_20261102.sql",
+    "sql/proposed/pilot_delivery_proof_20261105.sql",
+    "sql/proposed/pilot_driver_claim_20261105.sql",
+    "sql/proposed/pilot_payment_guard_20261105.sql",
+    "sql/proposed/pilot_refund_cap_20261105.sql",
+    "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+    "sql/proposed/pilot_zz_admission_20261105.sql",
+    "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+    "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql"
+  ],
+  "files": [
+    {
+      "path": "admin.html",
+      "group": "runtime",
+      "sha256": "1a511bf49f6c9d6c8aa2e74945c62966b24a7707b2ca8f9fd8603e5ed66ab3c3"
+    },
+    {
+      "path": "assets/3d/LICENSE-fluentui-emoji.txt",
+      "group": "runtime",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+    },
+    {
+      "path": "assets/3d/automobile.webp",
+      "group": "runtime",
+      "sha256": "57de2fb6dd8b943a3425c56d9eff8f75d82f86a3512d2ce4a63c376686b68c3f"
+    },
+    {
+      "path": "assets/3d/avocado.webp",
+      "group": "runtime",
+      "sha256": "9e9fec3801456f094e1ae70aa771885428f2bace2e18ed22ffd8578a9c600ea4"
+    },
+    {
+      "path": "assets/3d/balloon.webp",
+      "group": "runtime",
+      "sha256": "1eff5dc10db047e7e14888c5bc0d0886b7182da8e558d31e2a375be145e23dda"
+    },
+    {
+      "path": "assets/3d/basket.webp",
+      "group": "runtime",
+      "sha256": "53efb0407ea95f11dbcbc8cff5b4f97b55af65e354e9b8d045da530cebd94e95"
+    },
+    {
+      "path": "assets/3d/bell.webp",
+      "group": "runtime",
+      "sha256": "807c52d7790111c10baaac5a4e74ebe77394997934cfac436e17c554b26fb277"
+    },
+    {
+      "path": "assets/3d/birthday-cake.webp",
+      "group": "runtime",
+      "sha256": "5fc73ea3315dba19221add2c3ffea72a0d3b6768d8a46f66edc232a74391e649"
+    },
+    {
+      "path": "assets/3d/bouquet.webp",
+      "group": "runtime",
+      "sha256": "bcdc5300e4a8afedf8acd35ec5c7b9d9c71893fdff87b33d0986016ef553f2d0"
+    },
+    {
+      "path": "assets/3d/bread.webp",
+      "group": "runtime",
+      "sha256": "b0370847a8affd262f1e99c068b32cee26997ae4322d0c5c2b79b06a5be2bd48"
+    },
+    {
+      "path": "assets/3d/carrot.webp",
+      "group": "runtime",
+      "sha256": "6dba8e904cde73498f47b18fd40b06d4ae040dac8cd1418cd25e13f4d36289f9"
+    },
+    {
+      "path": "assets/3d/cityscape-at-dusk.webp",
+      "group": "runtime",
+      "sha256": "f20376a70adb9868b8043da03756f902b6ce8404372c2a94bd97671228e5bb69"
+    },
+    {
+      "path": "assets/3d/coin.webp",
+      "group": "runtime",
+      "sha256": "b0f9553eaee16717b3c6181edc809ffbd89324c99c28efee3f68c36f77bf780a"
+    },
+    {
+      "path": "assets/3d/couch-and-lamp.webp",
+      "group": "runtime",
+      "sha256": "4d66fda173e76c24503ece440f9998f6ef981a54095d53cea820583a974c79fa"
+    },
+    {
+      "path": "assets/3d/credit-card.webp",
+      "group": "runtime",
+      "sha256": "5cd16b5ae346ab61a5648ae85c57ba87914a5f02211c642ab169917672c79e59"
+    },
+    {
+      "path": "assets/3d/croissant.webp",
+      "group": "runtime",
+      "sha256": "4e651f5dc4f6092ff96291a07365d4e72de83219af8781bdd9c5bf9a05eebdeb"
+    },
+    {
+      "path": "assets/3d/ear-of-corn.webp",
+      "group": "runtime",
+      "sha256": "59d973adecf129a3510c4e6e690450d9b4ee92f49026ba56342a4e2f6d9642e1"
+    },
+    {
+      "path": "assets/3d/fire.webp",
+      "group": "runtime",
+      "sha256": "9316c3505bfb2a53f08cc14b9a97b7dbc82886a1e3738253009d883b8725ed2e"
+    },
+    {
+      "path": "assets/3d/flowers-gifts.webp",
+      "group": "runtime",
+      "sha256": "c273f84d187b51c438f79ffa72cbf976d06646dacaed0baaf4e14761d534a2ca"
+    },
+    {
+      "path": "assets/3d/french-fries.webp",
+      "group": "runtime",
+      "sha256": "7e66e24eaec7cdad5b51f590d4a6cc3e1aae5a0ff8c84171b3003b14bdfbd42e"
+    },
+    {
+      "path": "assets/3d/gem-stone.webp",
+      "group": "runtime",
+      "sha256": "3851fa9f3173d8534480769355a9fa2caa0085dbfff68f5ca8bdcbc8a521bd5a"
+    },
+    {
+      "path": "assets/3d/hamburger.webp",
+      "group": "runtime",
+      "sha256": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326"
+    },
+    {
+      "path": "assets/3d/headphone.webp",
+      "group": "runtime",
+      "sha256": "70dc4cff8506f7679d186972bed2d341c9552755ca34b2d2bca2dc0636be74c5"
+    },
+    {
+      "path": "assets/3d/high-voltage.webp",
+      "group": "runtime",
+      "sha256": "8af408eb30807b44c8365fc853ddb6790d628ab74727725959f553bf9d1e1f5f"
+    },
+    {
+      "path": "assets/3d/hospital.webp",
+      "group": "runtime",
+      "sha256": "570e178176ced3f379ca5ca25261d5de2ceeb7732bd63db69901cc6ce5e97182"
+    },
+    {
+      "path": "assets/3d/leafy-green.webp",
+      "group": "runtime",
+      "sha256": "e923b2c11411fb47bb97531a504d7a58b0e6558dda52a9103c849dac9a747c5a"
+    },
+    {
+      "path": "assets/3d/lotion-bottle.webp",
+      "group": "runtime",
+      "sha256": "9cb30aafd93e7c332b22ddb8a8b9b45466cb99c1892830ab953cd9dc21381549"
+    },
+    {
+      "path": "assets/3d/mobile-phone.webp",
+      "group": "runtime",
+      "sha256": "148529d7877bc8d8e37a03cfc3b8c9c9844b53a37d1aee830ebd5a931094323c"
+    },
+    {
+      "path": "assets/3d/motor-scooter.webp",
+      "group": "runtime",
+      "sha256": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58"
+    },
+    {
+      "path": "assets/3d/package.webp",
+      "group": "runtime",
+      "sha256": "b64a33f758b944c3e9f1b58c40e33bde5669f08a62512cc81c1f4c8305582aba"
+    },
+    {
+      "path": "assets/3d/party-popper.webp",
+      "group": "runtime",
+      "sha256": "f5f114430adefae5706e4eeb326834b007bb76c26aa3020a721612f062ddab47"
+    },
+    {
+      "path": "assets/3d/paw-prints.webp",
+      "group": "runtime",
+      "sha256": "a343520d3826bd6e899ebf1bab44427b02ee2f00aa39d190083d8042350b9654"
+    },
+    {
+      "path": "assets/3d/pill.webp",
+      "group": "runtime",
+      "sha256": "55ea52fa52e7070cca23d9f9570ad471ace8d46805b3ccc08d9cd8c6a58c441a"
+    },
+    {
+      "path": "assets/3d/pizza.webp",
+      "group": "runtime",
+      "sha256": "d1afc0f4e56ccfa1e236c0e9ce4b66d77aae57cd04ab4f62c6fc99a152c7b3ea"
+    },
+    {
+      "path": "assets/3d/red-apple.webp",
+      "group": "runtime",
+      "sha256": "600b55159ca3c771917dfc2790e248c0c8477e3e652a51129e74d20df3b869a3"
+    },
+    {
+      "path": "assets/3d/red-heart.webp",
+      "group": "runtime",
+      "sha256": "2c34d8cc67db4bf84f2c88d622188b98314929da5acec22d782ad986436ac31e"
+    },
+    {
+      "path": "assets/3d/rose.webp",
+      "group": "runtime",
+      "sha256": "5efb1f692588b8c6234ecc15ca800444ab06aab25dac813969d8ee07375e46ab"
+    },
+    {
+      "path": "assets/3d/round-pushpin.webp",
+      "group": "runtime",
+      "sha256": "9db00ac7c79feaf2273056225d87cf790995477cdfacd54e2409d4ce45addbab"
+    },
+    {
+      "path": "assets/3d/shopping-bags.webp",
+      "group": "runtime",
+      "sha256": "0fb17dcf372ef633091ee3dc6cbf94d209ce2506c588092e96f8dcb71e6f9fef"
+    },
+    {
+      "path": "assets/3d/shopping-cart.webp",
+      "group": "runtime",
+      "sha256": "937189ed29ec583e5e8cfe860e1e1d931f70e50d24f1b124bdf2490b9753e2c3"
+    },
+    {
+      "path": "assets/3d/shortcake.webp",
+      "group": "runtime",
+      "sha256": "1ea3239c313253cbcb2a7dbc5808498bbe14461846cca653874f516735d3386e"
+    },
+    {
+      "path": "assets/3d/sparkles.webp",
+      "group": "runtime",
+      "sha256": "eba4030fb7cc746f92649679b2754e3465e5a95b4bbe2afcd8d13aaa8fa1cadb"
+    },
+    {
+      "path": "assets/3d/star.webp",
+      "group": "runtime",
+      "sha256": "aa9565e0075bb11ea068879d765db77652ccf280a37706906cf01ba8f0cddd68"
+    },
+    {
+      "path": "assets/3d/sushi.webp",
+      "group": "runtime",
+      "sha256": "617e74473aa2e2ed69ae4b27bd69fc744ea2c7948004e0c6a1c923c58b5c9bd8"
+    },
+    {
+      "path": "assets/3d/teddy-bear.webp",
+      "group": "runtime",
+      "sha256": "ba84791a077a4dbe687d3733dc851466f9d664c1dd20555354e357dc5f695c36"
+    },
+    {
+      "path": "assets/3d/tulip.webp",
+      "group": "runtime",
+      "sha256": "6e330664f665fea0c96d84f4582f07652787743403400efd7ab82a67a5f00003"
+    },
+    {
+      "path": "assets/3d/wrapped-gift.webp",
+      "group": "runtime",
+      "sha256": "426b30e64615a8960b71c82fb54d87ea7b9fd728da3e82f9b70fffa6d3aa548e"
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.css",
+      "group": "runtime",
+      "sha256": "3cb9bd242c208264511120368be65a1ddf77264ea55fb477f8271ac658590dc0"
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.js",
+      "group": "runtime",
+      "sha256": "10646ef7202b21080d9e3bf8cb8619a3d06ae617c763abf650ae0b69883c45f9"
+    },
+    {
+      "path": "assets/driver-returns/panel.css",
+      "group": "runtime",
+      "sha256": "bddf923f3bf622f363ee8b3d6c0568bfa7d40533395e92d5d0ef7753e19ff120"
+    },
+    {
+      "path": "assets/driver-returns/panel.js",
+      "group": "runtime",
+      "sha256": "282464636ea7b572582e235d50c88d1a9f620b605d14dba71733a1ca6c1f3450"
+    },
+    {
+      "path": "assets/finance-receipt/receipt.css",
+      "group": "runtime",
+      "sha256": "9bdc2cddb30924ac0bca206de51008a50c5ede0f7af5bb4c4cf97c7e06b4455b"
+    },
+    {
+      "path": "assets/finance-receipt/receipt.js",
+      "group": "runtime",
+      "sha256": "bb183a4e57e24db4edf11041b9f1b4d1d024ddfeb55f30a0591963d069a28167"
+    },
+    {
+      "path": "customer.html",
+      "group": "runtime",
+      "sha256": "19a2df0458c4926b633cde51415052aebd95a42be8450746d4d1b3ffe194fbd0"
+    },
+    {
+      "path": "driver.html",
+      "group": "runtime",
+      "sha256": "fee5d671bc682ddd98586eb731b5e812c8c8f02869e86fe46164654494f9a31a"
+    },
+    {
+      "path": "merchant.html",
+      "group": "runtime",
+      "sha256": "0ec54a0202024fb7a85fd04712186defe671e0bd9fef94c4549009d6e44ed924"
+    },
+    {
+      "path": "ops/audit-public-history.py",
+      "group": "lab_or_operations",
+      "sha256": "405f67111eba434e7b4a254dc7a30652c701b58ebafcdc7c6f6ee3a040f12848"
+    },
+    {
+      "path": "ops/pilot-watchdog.py",
+      "group": "lab_or_operations",
+      "sha256": "283de0e72e23dafd29941b2f5c15fd3a976ee195b0c30059ba04694ceaf9d9cc"
+    },
+    {
+      "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+      "group": "upgrade",
+      "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259"
+    },
+    {
+      "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+      "group": "upgrade",
+      "sha256": "240727cdbb9416af093f36209de0ea690c9822ef39c16710e94e1692f62dcf82"
+    },
+    {
+      "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
+      "group": "upgrade",
+      "sha256": "49500e3053a36bf27f9f6209c94ec42a5053883b48ba45b635e9a589e5c2975d"
+    },
+    {
+      "path": "sql/proposed/pilot_driver_claim_20261105.sql",
+      "group": "upgrade",
+      "sha256": "120050c6972b3a928f7957d6a31314be7b5b964f6153526722c347c62bdf4d9e"
+    },
+    {
+      "path": "sql/proposed/pilot_payment_guard_20261105.sql",
+      "group": "upgrade",
+      "sha256": "12f4cdcf0517365b03e90f24af2d6d4dd7a47460a5700c05a5d99f3cf5e1d79e"
+    },
+    {
+      "path": "sql/proposed/pilot_refund_cap_20261105.sql",
+      "group": "upgrade",
+      "sha256": "2a8475fa189b28a7438becad759125ee889eed7c545861a85a2743e889144a1b"
+    },
+    {
+      "path": "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+      "group": "upgrade",
+      "sha256": "e521521c59ada659ec2b759d22bcc28e7b9c8f4b470690f30c8f1f89c0e0a101"
+    },
+    {
+      "path": "sql/proposed/pilot_zz_admission_20261105.sql",
+      "group": "upgrade",
+      "sha256": "e8dfd228758bd125f2c20de504d028a02ee2692c21b32fe50688383a8b4316af"
+    },
+    {
+      "path": "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+      "group": "upgrade",
+      "sha256": "a2cd953fa1539f397d1f2efb8d16b93667374879b2cbed0eeb41d2e8439af7e6"
+    },
+    {
+      "path": "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql",
+      "group": "upgrade",
+      "sha256": "3f1b880b373f8de907420308c9ae8e055bc5a88062442117139ed9c241ad5018"
+    },
+    {
+      "path": "talabat-core.js",
+      "group": "runtime",
+      "sha256": "16f89b3c494c485f06a6d077e9eba4f5c7468dd353834b19bdf6dd1c5427076f"
+    },
+    {
+      "path": "tests/base-lab/package-lock.json",
+      "group": "lab_or_operations",
+      "sha256": "e1f280ffbf671badcfcae5ea713165681245097ac97c3ac4eda6a4cf46f0f771"
+    },
+    {
+      "path": "tests/base-lab/package.json",
+      "group": "lab_or_operations",
+      "sha256": "e8b074ce24856368065a8daa0f083e13e14ac7fe350c9c83b85232777e86344f"
+    },
+    {
+      "path": "tests/base-lab/web/bootstrap.sql",
+      "group": "lab_or_operations",
+      "sha256": "7f840b0e09f25ac8134c9115a3bf23f559278ab8a63835ba16228625939682c4"
+    },
+    {
+      "path": "tests/base-lab/web/ids.json",
+      "group": "lab_or_operations",
+      "sha256": "8ef77cd742d1c2fcc7df1292b45b681aad3290317f2b79a29cad2fabca050d51"
+    },
+    {
+      "path": "tests/base-lab/web/index.html",
+      "group": "lab_or_operations",
+      "sha256": "8aabf1a42a9328f475c47a0e242a647e8d650c82b283d98e5b1fb6363761ad6e"
+    },
+    {
+      "path": "tests/base-lab/web/lab.js",
+      "group": "lab_or_operations",
+      "sha256": "7546bb479f14b80b9900ada0ae2a6c31e88a30ba640b40eb8a806373118c7c19"
+    },
+    {
+      "path": "tests/base-lab/web/patch-a.sql",
+      "group": "lab_or_operations",
+      "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259"
+    },
+    {
+      "path": "tests/base-lab/web/seed.sql",
+      "group": "lab_or_operations",
+      "sha256": "2b7af718eb70dc1c298326b3268cb53f9e7016fe256243c2b963d394c38c9d6b"
+    },
+    {
+      "path": "tests/pilot/.gitignore",
+      "group": "lab_or_operations",
+      "sha256": "b89610662a93561d7ef9cdd6a4326c0bc8c8d07201aa60551c07beea5a62ce5a"
+    },
+    {
+      "path": "tests/pilot/admission-dispatch.py",
+      "group": "lab_or_operations",
+      "sha256": "947708ea055324ab31c45d072ee5e7625214a496530e2287eb0ba7a66b678509"
+    },
+    {
+      "path": "tests/pilot/admission.py",
+      "group": "lab_or_operations",
+      "sha256": "4326e07d74b93395dd884cb31eabdbc22971de26eb9d3c955bf08b2bb36296b5"
+    },
+    {
+      "path": "tests/pilot/auth-mail.cjs",
+      "group": "lab_or_operations",
+      "sha256": "d6e6fb018285a3be43a8f63f494eac5ed689b82f7aba673cb02384844be76a43"
+    },
+    {
+      "path": "tests/pilot/browser.cjs",
+      "group": "lab_or_operations",
+      "sha256": "b19c3e9d6056f9686669d1bbda66a4129903dfe5936b96ff64456a403e7366ff"
+    },
+    {
+      "path": "tests/pilot/cash/.gitignore",
+      "group": "lab_or_operations",
+      "sha256": "08239aadebf9a9b105e2efecca3129f9198067993418529ddc8117d41997b7ec"
+    },
+    {
+      "path": "tests/pilot/cash/journey.cjs",
+      "group": "lab_or_operations",
+      "sha256": "13a4e5685985043d7477dc0591184ed0c70b871ebcebd445089f8152c14499ed"
+    },
+    {
+      "path": "tests/pilot/cash/policy.py",
+      "group": "lab_or_operations",
+      "sha256": "c6e32d71e5bb700458572b8c1954fcdd3a9fcc3470c90c795153d6b0662608b2"
+    },
+    {
+      "path": "tests/pilot/cash/receipt-history.cjs",
+      "group": "lab_or_operations",
+      "sha256": "924a874b9e621ff8e54497e1b0e53f0fba8d3b3c3c375935e7298e57d16b231a"
+    },
+    {
+      "path": "tests/pilot/cash/run.sh",
+      "group": "lab_or_operations",
+      "sha256": "7d5e01a6e6426fd8b42d4d1ac0ccf1697ea63f841986287e84596f571f18111a"
+    },
+    {
+      "path": "tests/pilot/cash/serve.py",
+      "group": "lab_or_operations",
+      "sha256": "0cfce3c6abfde9a9ca2ea3858ed5b99037c8c9afe63407c6bbf6d64c4044291d"
+    },
+    {
+      "path": "tests/pilot/cash/setup.py",
+      "group": "lab_or_operations",
+      "sha256": "a22e78fb110ce413dcef3d65281770acde5ef4548794758fa998c95824168472"
+    },
+    {
+      "path": "tests/pilot/cash/verify.py",
+      "group": "lab_or_operations",
+      "sha256": "f977f2c7c80ce058be14212ffdcc7329866ed92a6b7f79fc277bf9a0658efe69"
+    },
+    {
+      "path": "tests/pilot/compose.yml",
+      "group": "lab_or_operations",
+      "sha256": "8bcfb5a54a44c541e2e9acc0a64deaaf7ac2bed84ee8db2ce30aadc399e2d35f"
+    },
+    {
+      "path": "tests/pilot/concurrent-journeys.py",
+      "group": "lab_or_operations",
+      "sha256": "86f4c6e885f91d07fab5e72f1cc55982163808ac606410660097e3cd00a6ac0a"
+    },
+    {
+      "path": "tests/pilot/confirmation-backup.py",
+      "group": "lab_or_operations",
+      "sha256": "d604b2f7ddfc8a5224806405bd83cfd9888d0e7c76d58fb8c145e8b9556f3b85"
+    },
+    {
+      "path": "tests/pilot/confirmation-baseline.py",
+      "group": "lab_or_operations",
+      "sha256": "695a2ae17c00f01cc8f7795e097af645fa8d159564a31a8192432c4fb6f12cd2"
+    },
+    {
+      "path": "tests/pilot/confirmation-compat.py",
+      "group": "lab_or_operations",
+      "sha256": "367a3d1c37e8ce4c25953bd24c1aed9ede62e70d0b76aac2502a3ebce578c431"
+    },
+    {
+      "path": "tests/pilot/confirmation-edge-ui.cjs",
+      "group": "lab_or_operations",
+      "sha256": "4030c3b80a11378c4e5bee11e0b12d8db4e5b66f150e57d68c4f0b9ecd6d567c"
+    },
+    {
+      "path": "tests/pilot/confirmation-legacy.cjs",
+      "group": "lab_or_operations",
+      "sha256": "b69677e9aa615dbc8107f87b38cd1ab1fe6b24e99699a2c9753f51800a7753ee"
+    },
+    {
+      "path": "tests/pilot/confirmation-ui.cjs",
+      "group": "lab_or_operations",
+      "sha256": "617db906da1dcbbc61afe8d16dc52f053d02c99c43ad2ee6907b7522c97e78ad"
+    },
+    {
+      "path": "tests/pilot/confirmation.py",
+      "group": "lab_or_operations",
+      "sha256": "6b3e5a534edcec416d1c0bbd65d09865f9d85e975bdbc6ed63b294524b4bde04"
+    },
+    {
+      "path": "tests/pilot/driver-actions.cjs",
+      "group": "lab_or_operations",
+      "sha256": "1cbde8f3153a8d65f9e4c0c3a343d81806cb752f9206ffb3898f95eddaae56e1"
+    },
+    {
+      "path": "tests/pilot/driver-returns-ui.cjs",
+      "group": "lab_or_operations",
+      "sha256": "318e9cd624e2c030993c0756255f77a2fc05612717f222a1e4f2cda7d0e5263a"
+    },
+    {
+      "path": "tests/pilot/driver-returns-watchdog.py",
+      "group": "lab_or_operations",
+      "sha256": "0c3cfc5c7bb3a2b9271fb3a3538bc77c0d46bbf4275855503c172f091b59446c"
+    },
+    {
+      "path": "tests/pilot/driver-returns.py",
+      "group": "lab_or_operations",
+      "sha256": "d588911cc4adb6128a7064417fafd91b199ffbe733b83a1d935cebc129d2c281"
+    },
+    {
+      "path": "tests/pilot/electronic/.gitignore",
+      "group": "lab_or_operations",
+      "sha256": "a65bdf986c1ab59a5ae7267a2205e5f47b6c85ed631fc7160250ce7b5b12e421"
+    },
+    {
+      "path": "tests/pilot/electronic/index.html",
+      "group": "lab_or_operations",
+      "sha256": "05121125fbde3188ee3de60f70be2107b635a758c13758e43f3a1bf2fbe0145b"
+    },
+    {
+      "path": "tests/pilot/electronic/run.sh",
+      "group": "lab_or_operations",
+      "sha256": "838c51b2317899e80cf608c37bd68f663e4b6a8ada36234af3d89b9f5c447840"
+    },
+    {
+      "path": "tests/pilot/electronic/server.py",
+      "group": "lab_or_operations",
+      "sha256": "09dab412f64f343a8bf914dc10669dae6ed6f5aa03190c910cdfefa4825f284f"
+    },
+    {
+      "path": "tests/pilot/electronic/test.py",
+      "group": "lab_or_operations",
+      "sha256": "609f05a57a4f20ee3054ff0b77a185f2073bdfbd8373dad8bb2d7243b1f4189d"
+    },
+    {
+      "path": "tests/pilot/external-restore.py",
+      "group": "lab_or_operations",
+      "sha256": "712baf0daee6fb17b273b40c3e2e4241909808c7a3524070960bf920962a4ed5"
+    },
+    {
+      "path": "tests/pilot/gateway-put-test.py",
+      "group": "lab_or_operations",
+      "sha256": "5814bccd197dc20f1ca6e2b82f8d7b6fd298656119e64d97dad344640a7bbf43"
+    },
+    {
+      "path": "tests/pilot/gateway.py",
+      "group": "lab_or_operations",
+      "sha256": "91c816f3438831ee89f569df83779b953957c05aea401e30006d9e8b3f4717a5"
+    },
+    {
+      "path": "tests/pilot/lab.py",
+      "group": "lab_or_operations",
+      "sha256": "988d53d20dfe2b08b89462457310124cb24edfe705950d3b5c138c21497ee8c3"
+    },
+    {
+      "path": "tests/pilot/operations-host.py",
+      "group": "lab_or_operations",
+      "sha256": "8e5a981ccec14c46c99e8f66638716945fda82999fe1616860ec543f07340c11"
+    },
+    {
+      "path": "tests/pilot/package-lock.json",
+      "group": "lab_or_operations",
+      "sha256": "dff731b352c25d23d87b06fb99aab7746b2446d39470cfcc9e1393fbd70617c6"
+    },
+    {
+      "path": "tests/pilot/package.json",
+      "group": "lab_or_operations",
+      "sha256": "ff93e82215275ef4ac2c2bda90976b6377b5d5f5abfe43763e59a84edc424a83"
+    },
+    {
+      "path": "tests/pilot/safari-confirmation.py",
+      "group": "lab_or_operations",
+      "sha256": "a2b8453a1c30debbca70047aeebf09c6623a2fc34b77f85cace70e67e223270b"
+    },
+    {
+      "path": "tests/pilot/safari-smoke.py",
+      "group": "lab_or_operations",
+      "sha256": "9b2c086db23d084db68cf5fc01b34ba22af4fdf42efdc9fef6deed984cf096c8"
+    },
+    {
+      "path": "tests/pilot/soak.py",
+      "group": "lab_or_operations",
+      "sha256": "f6eb1704f3d79374ab3a7ac5e35a9405ac1a64b572047896d45936aaaa61f06d"
+    },
+    {
+      "path": "tests/pilot/storage.py",
+      "group": "lab_or_operations",
+      "sha256": "3162453e3af35477d8bc60b156dec35b45b9b4238b79896271234c4851fa0a67"
+    },
+    {
+      "path": "tests/pilot/watchdog-durability.py",
+      "group": "lab_or_operations",
+      "sha256": "f076251ec763c684433ef621a921b3171a5c3fbd59c7b53170ebb292630ad9eb"
+    },
+    {
+      "path": "tests/pilot/watchdog-test.py",
+      "group": "lab_or_operations",
+      "sha256": "b506634ac9d2dc347126c16ade144217c54fb5d6da9642e80c36da9b9ea93ce7"
+    }
+  ]
+}

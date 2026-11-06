@@ -1,0 +1,13 @@
+{
+  "source": "6c6a96d05d46a0383934f1318a0e28d56009db88",
+  "run": 42183718520,
+  "job": 127779004966,
+  "closed_checks": [
+    "upgrade preserves all pre-existing order fields, receipt rows and wallet rows",
+    "return function bodies unchanged",
+    "no historical allocation backfill",
+    "legacy receipt retained and labelled historical, never repriced to new delivery share",
+    "unallocated old debt blocks automatic settlement; no gross reinterpretation"
+  ],
+  "failure": "Next fixture omitted mandatory address; address_required correctly refused. No production or logic change."
+}
