@@ -1,0 +1,18 @@
+{
+  "version": "pilot-mobile-20261106.1",
+  "source": "a6a08c32426d2f2bf46b018026d7b44a6924994a",
+  "chromium_records": 57,
+  "webkit_records": 57,
+  "webkit_merchant_followup_records": 15,
+  "ci_full": 42205809913,
+  "ci_followup": 42206817421,
+  "ci_followup_conclusion": "success",
+  "session_isolation": "passed with actual SDK and synthetic auth responses",
+  "real_iphone_acceptance": false,
+  "supabase_target": "fsvrsvqfknogwmhccera",
+  "migration_attempts": 2,
+  "migration_result": "confirmation_expired",
+  "public_tables_after_attempts": 0,
+  "preview_published": false,
+  "production_modified": false
+}
