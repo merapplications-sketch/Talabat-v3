@@ -13,6 +13,13 @@ with lab.db() as c:
  assert lab.q(c,'select amount from finance_private.settlement_receipts')==5
  assert lab.q(c,'select count(*) from wallet_entries')==0
  assert lab.q(c,'select count(*) from return_private.refunds')==0
+if v.get('reconstructed_prior_states'):
+ for x in v['scenarios']:
+  args={'p_store':lab.STORE,'p_items':[{'item_id':lab.ITEM,'qty':1}],'p_payment':'cash','p_address':'DEMO Rudaki 1','p_lat':lab.LAT,'p_lng':lab.LNG,'p_key':'cash_allocation_'+str(x['platform'])}
+  assert lab.rpc(lab.bearer('customer'),'place_order',args)==x['order']
+for x in v['scenarios']:
+ try:lab.rpc(lab.bearer('driver1'),'deliver_order',{'p_id':x['order'],'p_cash':40})
+ except Exception as e:assert 'bad_transition' in str(e) or 'already' in str(e),str(e)
 for call in [x for x in v['calls'] if x['name']=='place_order']:
  assert lab.rpc(lab.bearer('customer'),'place_order',call['args']) in [x['order'] for x in v['scenarios']]
 with lab.db() as c:
@@ -31,5 +38,5 @@ with lab.db() as c:
  assert lab.q(c,'select count(*) from finance_private.commands')==1
  assert lab.q(c,'select count(*) from finance_private.settlement_receipts')==1
  assert lab.q(c,'select sum(balance) from cash_balances()') in (None,0)
-v['database_evidence']={'scenarios':v['scenarios'],'meal_advance_each':25,'gross_each':40,'platform_receipt':5,'restaurant_commission_each_separate':5,'snapshot_survives_policy_change':True,'snapshot_mutation_rejected':True,'concurrent_same_request_retries':6,'new_request_cannot_settle_again':True,'unauthorized_roles_rejected':True,'one_receipt_one_command':True,'wallet_movements':0,'refunds_created':0}
+v['database_evidence']={'scenarios':v['scenarios'],'meal_advance_each':25,'gross_each':40,'platform_receipt':5,'restaurant_commission_each_separate':5,'snapshot_survives_policy_change':True,'snapshot_mutation_rejected':True,'order_creation_replays':2,'delivery_replays':2,'concurrent_same_request_retries':6,'new_request_cannot_settle_again':True,'unauthorized_roles_rejected':True,'one_receipt_one_command':True,'wallet_movements':0,'refunds_created':0}
 lab.save(p,v);print('CASH_FINAL='+__import__('base64').b64encode(__import__('zlib').compress(json.dumps(v).encode())).decode())

@@ -23,10 +23,10 @@ if os.environ.get('CASH_ALLOCATION_RESUME')=='1':
   lab.rpc(lab.bearer('admin'),'admin_assign_driver',{'p_order':oid,'p_driver':lab.uid('driver1')})
   lab.rpc(lab.bearer('merchant'),'set_order_status',{'p_id':oid,'p_to':'ready'})
   lab.rpc(lab.bearer('driver1'),'set_order_status',{'p_id':oid,'p_to':'pickedup'})
+  r.act('driver1',oid,'depart','DEMO-CASH-PAY-25-'+str(share),25)
+  lab.rpc(lab.bearer('driver1'),'deliver_order',{'p_id':oid,'p_cash':40})
   if share:
-   r.act('driver1',oid,'depart','DEMO-CASH-PAY-25-5',25)
-   lab.rpc(lab.bearer('driver1'),'deliver_order',{'p_id':oid,'p_cash':40})
    receipt=lab.rpc(lab.bearer('accountant'),'finance_execute',{'p_request':str(uuid.uuid4()),'p_operation':'settle_cash','p_target':lab.uid('driver1')})['receipt']
   scenarios.append({'order':oid,'platform':share})
  lab.save(lab.HERE/'.runtime-cash-order.json',{'scenarios':scenarios,'receipt':receipt})
- print('Reconstructed prior successful states via original RPC; continuing zero-share payment screen only.')
+ print('Reconstructed prior successful states via original RPC; continuing zero-share statement/accountant screens only.')
