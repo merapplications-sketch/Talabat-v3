@@ -4,6 +4,7 @@ sys.path.insert(0,str(pathlib.Path(__file__).parent))
 import lab
 spec=importlib.util.spec_from_file_location('returns',lab.HERE/'driver-returns.py');r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
 OUT=lab.ROOT/'docs/pilot-20261105/candidate/integration.json'
+OUT.parent.mkdir(parents=True,exist_ok=True)
 v={'source':os.environ.get('GITHUB_SHA'),'live':False,'checks':[],'prior_closed_run':42183718520 if os.environ.get('CANDIDATE_REMAINING') else None}
 remaining=bool(os.environ.get('CANDIDATE_REMAINING'))
 def ok(x,name):
