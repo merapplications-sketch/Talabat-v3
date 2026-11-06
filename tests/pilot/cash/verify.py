@@ -13,6 +13,10 @@ with lab.db() as c:
  assert lab.q(c,'select amount from finance_private.settlement_receipts')==5
  assert lab.q(c,'select count(*) from wallet_entries')==0
  assert lab.q(c,'select count(*) from return_private.refunds')==0
+for call in [x for x in v['calls'] if x['name']=='place_order']:
+ assert lab.rpc(lab.bearer('customer'),'place_order',call['args']) in [x['order'] for x in v['scenarios']]
+with lab.db() as c:
+ assert lab.q(c,'select count(*) from orders')==2
 args={'p_request':v['receipt']['request'],'p_operation':'settle_cash','p_target':lab.uid('driver1')}
 with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
  replies=list(pool.map(lambda _:lab.rpc(lab.bearer('accountant'),'finance_execute',args),range(6)))
