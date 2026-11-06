@@ -39,8 +39,7 @@ jobs:
         run: |
           python tests/pilot/cash/setup.py
           python tests/pilot/cash/serve.py > /tmp/cash-gateway.log 2>&1 &
-          node tests/pilot/cash/journey.cjs
-          python tests/pilot/cash/verify.py
+          node tests/pilot/cash/receipt-history.cjs
       - name: Evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
