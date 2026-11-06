@@ -154,6 +154,8 @@ def prepare_app():
         # Keep completed scopes on their original fixture contracts.
         if not os.environ.get('PILOT_DRIVER_RETURNS'):
             excluded.add('pilot_zzz_driver_returns_20261106.sql')
+        if not os.environ.get('PILOT_CASH_ALLOCATION'):
+            excluded.add('pilot_zzzz_cash_allocation_20261106.sql')
         for patch in sorted((ROOT / 'sql/proposed').glob('pilot_*.sql')):
             if patch.name not in excluded:
                 c.execute(patch.read_text(), prepare=False)

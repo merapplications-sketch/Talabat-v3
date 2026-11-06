@@ -13,7 +13,7 @@ jobs:
     env:
       PILOT_PATCH_STAGE: full
       PILOT_DRIVER_RETURNS: '1'
-      CASH_SETTLEMENT_ONLY: '1'
+      PILOT_CASH_ALLOCATION: '1'
     steps:
       - name: Exact candidate
         env:

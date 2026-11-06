@@ -6,7 +6,7 @@ command -v docker >/dev/null
 python3 -m venv tests/pilot/cash/.venv
 source tests/pilot/cash/.venv/bin/activate
 pip -q install 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
-export PILOT_PATCH_STAGE=full PILOT_DRIVER_RETURNS=1
+export PILOT_PATCH_STAGE=full PILOT_DRIVER_RETURNS=1 PILOT_CASH_ALLOCATION=1
 cleanup(){ docker compose --env-file tests/pilot/.runtime.env -f tests/pilot/compose.yml down -v --remove-orphans; rm -f tests/pilot/.runtime.json tests/pilot/.runtime.env; }
 trap cleanup EXIT
 python tests/pilot/lab.py env
