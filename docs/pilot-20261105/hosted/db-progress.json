@@ -1,0 +1,20 @@
+{
+  "target": "fsvrsvqfknogwmhccera",
+  "baseline": {
+    "status": "applied",
+    "migration": "20261106114329",
+    "name": "pilot_isolated_public_baseline"
+  },
+  "public_tables": 36,
+  "candidate_patches": {
+    "status": "not_applied",
+    "attempts_this_turn": 2,
+    "blocker": "provider_confirmation_expired"
+  },
+  "finance_schema_exists": false,
+  "finance_access_exists": false,
+  "pilot_config_exists": false,
+  "production_modified": false,
+  "preview_published": false,
+  "closed_tests_rerun": false
+}
