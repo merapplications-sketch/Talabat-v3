@@ -1,52 +1,90 @@
 {
-  "verdict": "isolated_cash_flow_verified_in_parts",
-  "base_commit": "297a9861a221c98d2a73f8d68a143b9fc1b0af4b",
-  "cash_model": "driver advances restaurant payment, then collects customer cash",
+  "verdict": "owner_cash_accounting_verified_isolated",
+  "tested_source": "b79222b4f4c8f814a740ff1193695fcb631de21a",
+  "application_sql_source": "b0ea45b430995d4fb51dfd5e2cdfa24628c9b6f6",
   "production_approved": false,
-  "original_app_html_and_sql_changed": false,
+  "model": "meal advance retained; driver owes only frozen platform delivery share; restaurant commission separate",
+  "results": {
+    "meal": 25,
+    "delivery": 15,
+    "gross_collected": 40,
+    "split_10_5_platform_due": 5,
+    "all_15_driver_platform_due": 0
+  },
   "evidence": [
     {
-      "run": 42172385922,
-      "source": "836723a6fd1452aea19f31829cba8587cea7d804",
-      "result": "driver-payment and collection-delivery passed; accountant navigation failed",
-      "file": "attempt-1.json"
+      "run": 42179733573,
+      "source": "76d9b6a7b71423814863e9618a0f9532d29eaaf1",
+      "file": "allocation-attempt-2.json",
+      "scope": "5-share original four-role UI complete through receipt; 0-share original UI creation through pickup; duplicate payment reference correctly refused next",
+      "workflow_conclusion": "failure in test fixture for second scenario"
     },
     {
-      "run": 42172680983,
-      "source": "bf7a301476f30bdebb1579ef45f4d15de8117015",
-      "result": "fixture failure before accountant: old helper created quantity 2 / total 65 while fixture attempted 40; note_required correctly refused. Fixed to exact one-item 40 fixture, no guard weakened."
+      "run": 42180402677,
+      "source": "591e7bf7da95af4301d2daf3ea47f8adfdceb91a",
+      "file": "allocation-attempt-4.json",
+      "scope": "0-share original driver payment and delivery passed; recreated prior states via original RPC; customer screenshot selector was on home screen",
+      "workflow_conclusion": "failure in screenshot navigation"
     },
     {
-      "run": 42172844922,
-      "job": 127744444568,
-      "source": "35f5b562ad6cd9b77da90648c023a9329a30abd4",
-      "result": "accountant receipt and database reconciliation pass",
+      "run": 42180717785,
+      "job": 127769431933,
+      "source": "b79222b4f4c8f814a740ff1193695fcb631de21a",
       "file": "result.json",
-      "scope": "delivered fixture reconstructed through original RPC; earlier screen successes not rerun"
+      "scope": "0-share original customer delivered screen, driver statement, accountant zero/disabled action; native DB validation of both scenarios; duplicate creation, delivery, settlement, immutable snapshots, role denial",
+      "workflow_conclusion": "success"
+    },
+    {
+      "run": 42181163207,
+      "job": 127770872311,
+      "source": "877d86158c1b49e67617220be610b44cce9a6764",
+      "file": "receipt-history.json",
+      "workflow_conclusion": "success",
+      "scope": "read-only follow-up: fresh driver and accountant login retrieves persisted 5 TJS receipt, opens receipt content; zero-share statement unchanged; no new financial commands in browser"
     }
   ],
-  "return_exception_acceptance": "../returns/EVIDENCE-INDEX.json",
-  "closed_suites_rerun": false,
-  "screenshots": {
-    "accountant-receipt.png": "eadd6d173b7a3d07e01f077882b37df8e99b59ff7731f5e5857576416a8cef75",
-    "driver-payment.png": "5eab594cc00f61c6ff5ca7ba30136de481bc5e0cb64aad526c0b2d5c385293e9",
-    "customer-transition.png": "897143db9af8440e7950f9082623215319f848aaf7146c05fbf1e32fd8759279"
-  },
-  "limitations": [
-    "No production deployment or real money",
-    "No new physical device or printer acceptance",
-    "Office receipt records gross cash, not advance reimbursement or net payout",
-    "On-call, host parity and operational approvals remain open"
+  "setup_failures": [
+    {
+      "run": 42179426470,
+      "file": "allocation-attempt-1.json",
+      "reason": "test skipped confirm button before render; waiting state preserved"
+    },
+    {
+      "run": 42180157769,
+      "reason": "resume fixture omitted merchant preparing transition on subsequent checkout-accepted order; bad_transition guard correctly refused"
+    }
   ],
-  "manual_entry": "http://127.0.0.1:8080",
-  "launcher": "tests/pilot/cash/run.sh",
-  "screenshot_limits": {
-    "customer-transition.png": "captured before async render completed; not final delivery screenshot; final DOM text in attempt-1.json/page0",
-    "driver-payment.png": "fixture lacked address label; later fixture label corrected; external map blocked by test routing"
+  "not_one_continuous_zero_scenario_run": true,
+  "zero_prior_states_reconstructed_between_runs": true,
+  "closed_unaffected_suites_rerun": false,
+  "return_evidence": "../returns/EVIDENCE-INDEX.json",
+  "electronic_evidence": "../electronic/HANDOFF.md",
+  "screenshots": {
+    "accountant-receipt.png": "8b0aec21ec7672322f2b77ff403ff979df6dcad74fd0f4ae5b66a7821c9b0622",
+    "share-5-driver-statement.png": "a955159263975351d49352bb93a0ac48eb9332d0ee07cbc0d5d1b4ce9d6fc42c",
+    "share-0-driver-payment.png": "ca671f44b25f003d25f4d550fdfbc0ef3a978095f951d1cd7e1f1accdf486772",
+    "share-0-accountant.png": "e6dcaf013d80242e7ad3d76ca248e78b2bd31dada676c5292acf324241a3048b",
+    "share-5-driver-payment.png": "76029bc459ae33c821d544194e39ea008502d9c52eb7429bdfc6ba47bf4cfb11",
+    "share-0-driver-statement.png": "9d2317168fbedb962c9e46352690c0a77f9bfe8b87d2336a48025a59ef8c7ae9",
+    "share-5-customer-delivered.png": "d8533aaa86e5fa4d63339bb93fbbe1baceaef63de91675f689165d556420ac2c",
+    "share-0-customer-delivered.png": "6d78dd547142a1023863f41e1c35eb2048e4c48c1d835de8a01fefcb41c2306e",
+    "receipt-history-driver.png": "a3b4936361644eeb109c0d8e0e71c0da4823c70c15947e66bd9d9e6a186340cc",
+    "receipt-history-accountant.png": "3971398f6a4979588bf3fbc371ed29258f79fa676f2f1d4128a7de67f86e3d07"
   },
-  "post_test_harness_only_changes": [
-    "local landing wording uses separate browser profiles",
-    "fixture address label=home",
-    "future screenshot waits for visible final delivery text"
-  ]
+  "legacy_evidence": "legacy-gross-EVIDENCE.json",
+  "launcher": "tests/pilot/cash/run.sh",
+  "manual_entry": "http://127.0.0.1:8080",
+  "post_test_changes": "handoff evidence and unique per-order payment reference guidance only",
+  "limits": [
+    "No production deployment, live SQL or real money",
+    "No physical device, GPS/map, printer or human on-call acceptance",
+    "External network is blocked during browser tests",
+    "No automatic reconciliation of historical unallocated balances",
+    "No production platform share inferred from examples"
+  ],
+  "receipt_history_source": "877d86158c1b49e67617220be610b44cce9a6764",
+  "screenshot_limits": {
+    "share-0-driver-statement.png": "zero allocation is final; preceding 5 receipt still loading at capture; superseded by receipt-history-driver.png",
+    "share-0-accountant.png": "zero balance/disabled action final; preceding 5 receipt still loading; superseded by receipt-history-accountant.png"
+  }
 }

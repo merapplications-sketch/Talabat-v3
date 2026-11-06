@@ -1,0 +1,412 @@
+{
+  "source": "b0ea45b430995d4fb51dfd5e2cdfa24628c9b6f6",
+  "live": false,
+  "actual_candidate_html": true,
+  "physical_device": false,
+  "checks": [],
+  "calls": [
+    {
+      "name": "wallet_balance",
+      "args": {}
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "driver_ping",
+      "args": {
+        "p_online": false
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "finance_access",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "delivery_quote",
+      "args": {
+        "p_store": "a0000000-0000-4000-8000-000000000005",
+        "p_lat": 38.5598,
+        "p_lng": 68.787
+      }
+    },
+    {
+      "name": "place_order",
+      "args": {
+        "p_store": "a0000000-0000-4000-8000-000000000005",
+        "p_items": [
+          {
+            "item_id": "a0000000-0000-4000-8000-000000000006",
+            "qty": 1,
+            "options": [],
+            "note": ""
+          }
+        ],
+        "p_tip": 0,
+        "p_payment": "cash",
+        "p_address": "Home: DEMO Rudaki 1",
+        "p_lat": 38.5598,
+        "p_lng": 68.787,
+        "p_promo": null,
+        "p_key": "cdfaac6824b2706b583f045761b8101f9",
+        "p_fee": 15,
+        "p_wallet": null,
+        "p_points": null,
+        "p_extra": {
+          "door": false,
+          "subst": "call"
+        }
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "set_prep_time",
+      "args": {
+        "p_id": 1,
+        "p_min": 15
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "merchant_review_order",
+      "args": {
+        "p_order": 1,
+        "p_minutes": 15,
+        "p_items": null,
+        "p_note": "availability",
+        "p_request": "7a8cc2d3-53f3-419e-a456-8f2344e8cb93"
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "order": 1,
+      "platform": 5
+    }
+  ],
+  "order": 1,
+  "pass": false,
+  "stage": "first_cash_existing_flow",
+  "error": "page.waitForFunction: Timeout 30000ms exceeded.",
+  "page0": "Order #1\nDEMO pilot\nOrder placed! The restaurant has received your order.\nReview and confirm\n\nPreparation and courier payment must wait for your approval.\n\n1 \u00d7 DEMO dish \u00b7 25 TJS\n\n40 TJS\nHome: DEMO Rudaki 1\nPreparation: 15 min\n\nConfirm and start preparation\n#1\n06 Nov, 07:14\nWaiting for your approval\n\nThe restaurant confirmed the offer. Progress waits for your approval.\n\nPlaced\nPreparing\nReady\nOn the way\nDelivered\n1 \u00d7 DEMO dish\nTotal\n40 TJS\nCash to courier\nCancel order\nProblem with your order? Contact support\nHome\nOrders\nWallet\nOffers\nProfile",
+  "page1": "Store\nDEMO pilot\nONLINE\nFind an order return\nAll 1\nNew 1\nPreparing\nReady\nOn the way\nNew \u00b7 1\nWaiting for confirmation \u00b7 #1\n Waiting 0:29\nDEMO customer \u00b7 Cash \u00b7 07:14\nWaiting for customer approval of the offer. Do not prepare or accept courier payment before approval.\n1\u00d7\nDEMO dish\n25\nOrder total\n40 TJS\nIf preparing will take longer than usual (optional)\n15 min\n30 min\n45 min\nConfirm availability\nReject \u2715\nPropose change / renew\nOrders\n1\nMenu\nAnalytics\nProfile",
+  "page2": "D\nDEMO driver1\nID 052580\nOff shift\n\ud83d\udcb5 Platform delivery share due: 0.00 TJS\nNew orders\nStart your shift\n\nOrder sound and location will turn on and the screen will stay awake. Keep the app open.\n\nStart shift\nOrders\nHistory\nProfile",
+  "page3": "ru | EN\nSign out\nAdmin dashboard\n0\n/2\ncouriers online\n1\n/1\nstores open\n\ud83d\udce6\n1\nOrders\n\ud83d\udcb0\n0 TJS\nRevenue\n%\n0.0 TJS\nCommission\n\u23f1\n1\nActive\nOrders\nStores\nCouriers\nCustomers\nSupport\nTexts\nRatings\nBanners\nPromo codes\nLoyalty\nLog\nStaff\nAll\nWaiting for confirmation\nPreparing\nReady for courier pickup\nCourier on the way\nDelivered\nRejected by restaurant\nCancelled\n#1\nWaiting for confirmation\nDEMO pilot\n06.11, 07:14:17 \u2022 DEMO customer \u2022 1 items\n40 TJS\n\ud83d\udef5 \u2014 \u2022 delivery 15 \u2022 Cash\nVersion v52 \u00b7 admin-52"
+}

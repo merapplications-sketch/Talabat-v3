@@ -1,0 +1,128 @@
+{
+  "source": "35f5b562ad6cd9b77da90648c023a9329a30abd4",
+  "live": false,
+  "actual_candidate_html": true,
+  "physical_device": false,
+  "checks": [
+    "existing accountant screen issues linked 40 TJS cash handover receipt"
+  ],
+  "calls": [
+    {
+      "name": "my_perms",
+      "args": {}
+    },
+    {
+      "name": "finance_driver_orders",
+      "args": {}
+    },
+    {
+      "name": "finance_drivers",
+      "args": {}
+    },
+    {
+      "name": "finance_access",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "finance_execute",
+      "args": {
+        "p_request": "6bb4faaf-371f-4836-92bb-a66512ccbd87",
+        "p_operation": "settle_cash",
+        "p_target": "bf884b11-2606-4f75-aa10-a762418c3c3c",
+        "p_amount": null,
+        "p_note": null
+      }
+    },
+    {
+      "name": "finance_driver_orders",
+      "args": {}
+    },
+    {
+      "name": "finance_drivers",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "finance_settlement_receipts",
+      "args": {
+        "p_order_ids": [
+          "1"
+        ]
+      }
+    },
+    {
+      "name": "finance_settlement_events",
+      "args": {
+        "p_order_ids": [
+          "1"
+        ]
+      }
+    },
+    {
+      "name": "finance_actor_names",
+      "args": {
+        "p_ids": [
+          "5cb1ad4d-fdb7-4555-9bb5-00c0d744b1ec"
+        ]
+      }
+    }
+  ],
+  "order": 1,
+  "previous_ui": "42172385922: driver payment and customer collection passed, not rerun",
+  "receipt": {
+    "at": "2026-11-06T06:12:01.540672+00:00",
+    "actor": "5cb1ad4d-fdb7-4555-9bb5-00c0d744b1ec",
+    "amount": 40,
+    "driver": "bf884b11-2606-4f75-aa10-a762418c3c3c",
+    "number": "TS-000000000001",
+    "orders": [
+      {
+        "id": "1",
+        "amount": 40
+      }
+    ],
+    "request": "6bb4faaf-371f-4836-92bb-a66512ccbd87",
+    "currency": "TJS",
+    "actor_name": "DEMO accountant",
+    "driver_name": "DEMO driver1"
+  },
+  "pass": true,
+  "database_evidence": {
+    "cash_due": 40,
+    "cash_collected": 40,
+    "office_handover": 40,
+    "driver_paid": 25,
+    "driver_payment_reference": "DEMO-CASH-PAY-25",
+    "one_receipt_one_command": true,
+    "wallet_movements": 0,
+    "refunds_created": 0,
+    "advance_reimbursed_or_wage_paid": false
+  }
+}

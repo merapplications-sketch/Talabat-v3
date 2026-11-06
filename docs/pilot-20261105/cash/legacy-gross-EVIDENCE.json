@@ -1,0 +1,53 @@
+{
+  "verdict": "isolated_cash_flow_verified_in_parts",
+  "base_commit": "297a9861a221c98d2a73f8d68a143b9fc1b0af4b",
+  "cash_model": "driver advances restaurant payment, then collects customer cash",
+  "production_approved": false,
+  "original_app_html_and_sql_changed": false,
+  "evidence": [
+    {
+      "run": 42172385922,
+      "source": "836723a6fd1452aea19f31829cba8587cea7d804",
+      "result": "driver-payment and collection-delivery passed; accountant navigation failed",
+      "file": "attempt-1.json"
+    },
+    {
+      "run": 42172680983,
+      "source": "bf7a301476f30bdebb1579ef45f4d15de8117015",
+      "result": "fixture failure before accountant: old helper created quantity 2 / total 65 while fixture attempted 40; note_required correctly refused. Fixed to exact one-item 40 fixture, no guard weakened."
+    },
+    {
+      "run": 42172844922,
+      "job": 127744444568,
+      "source": "35f5b562ad6cd9b77da90648c023a9329a30abd4",
+      "result": "accountant receipt and database reconciliation pass",
+      "file": "legacy-gross-result.json",
+      "scope": "delivered fixture reconstructed through original RPC; earlier screen successes not rerun"
+    }
+  ],
+  "return_exception_acceptance": "../returns/EVIDENCE-INDEX.json",
+  "closed_suites_rerun": false,
+  "screenshots": {
+    "driver-payment.png": "5eab594cc00f61c6ff5ca7ba30136de481bc5e0cb64aad526c0b2d5c385293e9",
+    "customer-transition.png": "897143db9af8440e7950f9082623215319f848aaf7146c05fbf1e32fd8759279",
+    "legacy-gross-accountant-receipt.png": "eadd6d173b7a3d07e01f077882b37df8e99b59ff7731f5e5857576416a8cef75"
+  },
+  "limitations": [
+    "No production deployment or real money",
+    "No new physical device or printer acceptance",
+    "Office receipt records gross cash, not advance reimbursement or net payout",
+    "On-call, host parity and operational approvals remain open"
+  ],
+  "manual_entry": "http://127.0.0.1:8080",
+  "launcher": "tests/pilot/cash/run.sh",
+  "screenshot_limits": {
+    "customer-transition.png": "captured before async render completed; not final delivery screenshot; final DOM text in attempt-1.json/page0",
+    "driver-payment.png": "fixture lacked address label; later fixture label corrected; external map blocked by test routing"
+  },
+  "post_test_harness_only_changes": [
+    "local landing wording uses separate browser profiles",
+    "fixture address label=home",
+    "future screenshot waits for visible final delivery text"
+  ],
+  "superseded_by": "Owner delivery-share correction; historical gross accounting is NOT current approval."
+}

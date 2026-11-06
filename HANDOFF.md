@@ -1,3 +1,5 @@
+> **Owner cash-accounting correction, 2026-11-06:** [Delivery share only, immutable order allocation and isolated evidence](docs/pilot-20261105/cash/HANDOFF.md). Driver owes only the platform delivery share (5 or 0 in the examples), never the gross40. Prior gross handover conclusion is superseded; historic records remain intact.
+
 > **Latest cash pilot handoff, 2026-11-06:** [Existing cash screens, isolated launcher and evidence](docs/pilot-20261105/cash/HANDOFF.md). Owner selects driver-advance/customer-cash as primary pilot model; no production or financial approval implied. Electronic simulation remains independent.
 
 > **Latest isolated electronic journey, 2026-11-06:** [Working local simulation, evidence and one launch method](docs/pilot-20261105/electronic/HANDOFF.md). Provider sandbox not tested. No production deployment.

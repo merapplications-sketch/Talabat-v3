@@ -1,0 +1,9 @@
+{
+  "source": "877d86158c1b49e67617220be610b44cce9a6764",
+  "live": false,
+  "checks": [
+    "driver: persisted 5 TJS receipt loaded; zero-share order has no handover",
+    "accountant: persisted 5 TJS receipt loaded; zero-share order has no handover"
+  ],
+  "pass": true
+}

@@ -1,0 +1,1474 @@
+{
+  "source": "76d9b6a7b71423814863e9618a0f9532d29eaaf1",
+  "live": false,
+  "actual_candidate_html": true,
+  "physical_device": false,
+  "checks": [
+    "existing driver screen records actual restaurant advance and reference",
+    "same cash order delivered after actual collection confirmation",
+    "driver statement separates gross and platform share",
+    "balance uses frozen platform share 5",
+    "existing accountant screen issues linked 5 TJS platform share receipt"
+  ],
+  "calls": [
+    {
+      "name": "wallet_balance",
+      "args": {}
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "driver_ping",
+      "args": {
+        "p_online": false
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "finance_access",
+      "args": {}
+    },
+    {
+      "name": "delivery_quote",
+      "args": {
+        "p_store": "a0000000-0000-4000-8000-000000000005",
+        "p_lat": 38.5598,
+        "p_lng": 68.787
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": []
+      }
+    },
+    {
+      "name": "place_order",
+      "args": {
+        "p_store": "a0000000-0000-4000-8000-000000000005",
+        "p_items": [
+          {
+            "item_id": "a0000000-0000-4000-8000-000000000006",
+            "qty": 1,
+            "options": [],
+            "note": ""
+          }
+        ],
+        "p_tip": 0,
+        "p_payment": "cash",
+        "p_address": "Home: DEMO Rudaki 1",
+        "p_lat": 38.5598,
+        "p_lng": 68.787,
+        "p_promo": null,
+        "p_key": "c631ce97b5f0c2e5fa26a9ed0d73d72ea",
+        "p_fee": 15,
+        "p_wallet": null,
+        "p_points": null,
+        "p_extra": {
+          "door": false,
+          "subst": "call"
+        }
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "set_prep_time",
+      "args": {
+        "p_id": 1,
+        "p_min": 15
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "merchant_review_order",
+      "args": {
+        "p_order": 1,
+        "p_minutes": 15,
+        "p_items": null,
+        "p_note": "availability",
+        "p_request": "9dd5df39-d33e-45cd-90ae-040b953636a7"
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "customer_confirm_order",
+      "args": {
+        "p_order": 1,
+        "p_revision": 1,
+        "p_request": "4b03116e-5565-4fd9-9420-976a0e5d5d18"
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "driver_ping",
+      "args": {
+        "p_online": true
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "driver_location",
+      "args": {
+        "p_lat": 38.5598,
+        "p_lng": 68.787,
+        "p_acc": 0
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "dispatch_tick",
+      "args": {}
+    },
+    {
+      "name": "admin_assign_driver",
+      "args": {
+        "p_order": 1,
+        "p_driver": "d6d232d3-5ae4-4582-9e01-47924a0d7062"
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "set_order_status",
+      "args": {
+        "p_id": 1,
+        "p_to": "ready"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "dispatch_tick",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "driver_arrived",
+      "args": {
+        "p_id": 1,
+        "p_where": "store"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "set_order_status",
+      "args": {
+        "p_id": 1,
+        "p_to": "pickedup"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "order_return_status",
+      "args": {
+        "p_order": "1"
+      }
+    },
+    {
+      "name": "order_return_action",
+      "args": {
+        "p_order": "1",
+        "p_action": "depart",
+        "p_ref": "DEMO-CASH-PAY-25",
+        "p_amount": "25",
+        "p_method": null,
+        "p_request": "9789a3a1-e0b5-4bc2-8fbc-8e99720071ee"
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "order_return_status",
+      "args": {
+        "p_order": "1"
+      }
+    },
+    {
+      "name": "driver_arrived",
+      "args": {
+        "p_id": 1,
+        "p_where": "customer"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "deliver_order",
+      "args": {
+        "p_id": 1,
+        "p_cash": 40,
+        "p_note": null
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_perms",
+      "args": {}
+    },
+    {
+      "name": "finance_driver_orders",
+      "args": {}
+    },
+    {
+      "name": "finance_drivers",
+      "args": {}
+    },
+    {
+      "name": "finance_access",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "finance_execute",
+      "args": {
+        "p_request": "3c58a67b-8699-47ea-80b3-82ae72a55ce8",
+        "p_operation": "settle_cash",
+        "p_target": "d6d232d3-5ae4-4582-9e01-47924a0d7062",
+        "p_amount": null,
+        "p_note": null
+      }
+    },
+    {
+      "name": "finance_driver_orders",
+      "args": {}
+    },
+    {
+      "name": "finance_drivers",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "finance_settlement_receipts",
+      "args": {
+        "p_order_ids": [
+          "1"
+        ]
+      }
+    },
+    {
+      "name": "finance_settlement_events",
+      "args": {
+        "p_order_ids": [
+          "1"
+        ]
+      }
+    },
+    {
+      "name": "finance_actor_names",
+      "args": {
+        "p_ids": [
+          "4a2e2295-e6a1-4306-bf34-16a36e2be3a4"
+        ]
+      }
+    },
+    {
+      "name": "wallet_balance",
+      "args": {}
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "dispatch_tick",
+      "args": {}
+    },
+    {
+      "name": "driver_ping",
+      "args": {
+        "p_online": false
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "finance_access",
+      "args": {}
+    },
+    {
+      "name": "delivery_quote",
+      "args": {
+        "p_store": "a0000000-0000-4000-8000-000000000005",
+        "p_lat": 38.5598,
+        "p_lng": 68.787
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "place_order",
+      "args": {
+        "p_store": "a0000000-0000-4000-8000-000000000005",
+        "p_items": [
+          {
+            "item_id": "a0000000-0000-4000-8000-000000000006",
+            "qty": 1,
+            "options": [],
+            "note": ""
+          }
+        ],
+        "p_tip": 0,
+        "p_payment": "cash",
+        "p_address": "Home: DEMO Rudaki 1",
+        "p_lat": 38.5598,
+        "p_lng": 68.787,
+        "p_promo": null,
+        "p_key": "c510ec951cced15877901604b4d7ff61a",
+        "p_fee": 15,
+        "p_wallet": null,
+        "p_points": null,
+        "p_extra": {
+          "door": false,
+          "subst": "call"
+        }
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "merchant_review_order",
+      "args": {
+        "p_order": 2,
+        "p_minutes": 15,
+        "p_items": null,
+        "p_note": "time update",
+        "p_request": "aec9b749-1eeb-40df-a8e8-83b2370496e8"
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "set_order_status",
+      "args": {
+        "p_id": 2,
+        "p_to": "preparing"
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "dispatch_tick",
+      "args": {}
+    },
+    {
+      "name": "driver_ping",
+      "args": {
+        "p_online": true
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "driver_location",
+      "args": {
+        "p_lat": 38.5598,
+        "p_lng": 68.787,
+        "p_acc": 0
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "dispatch_tick",
+      "args": {}
+    },
+    {
+      "name": "admin_assign_driver",
+      "args": {
+        "p_order": 2,
+        "p_driver": "d6d232d3-5ae4-4582-9e01-47924a0d7062"
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "set_order_status",
+      "args": {
+        "p_id": 2,
+        "p_to": "ready"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "driver_arrived",
+      "args": {
+        "p_id": 2,
+        "p_where": "store"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "set_order_status",
+      "args": {
+        "p_id": 2,
+        "p_to": "pickedup"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "order_return_status",
+      "args": {
+        "p_order": "2"
+      }
+    },
+    {
+      "name": "order_return_action",
+      "args": {
+        "p_order": "2",
+        "p_action": "depart",
+        "p_ref": "DEMO-CASH-PAY-25",
+        "p_amount": "25",
+        "p_method": null,
+        "p_request": "33c50aa0-e7b2-4fbc-b1f5-ca6bfca59468"
+      }
+    },
+    {
+      "name": "order_return_status",
+      "args": {
+        "p_order": "2"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "driver_ping",
+      "args": {
+        "p_online": true
+      }
+    },
+    {
+      "name": "driver_location",
+      "args": {
+        "p_lat": 38.5598,
+        "p_lng": 68.787,
+        "p_acc": 0
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "order": 1,
+      "platform": 5
+    },
+    {
+      "order": 2,
+      "platform": 0
+    }
+  ],
+  "order": 2,
+  "receipt": {
+    "at": "2026-11-06T07:16:58.886831+00:00",
+    "actor": "4a2e2295-e6a1-4306-bf34-16a36e2be3a4",
+    "basis": "platform_delivery_share_v1",
+    "amount": 5,
+    "driver": "d6d232d3-5ae4-4582-9e01-47924a0d7062",
+    "number": "TS-000000000001",
+    "orders": [
+      {
+        "id": "1",
+        "amount": 5
+      }
+    ],
+    "request": "3c58a67b-8699-47ea-80b3-82ae72a55ce8",
+    "currency": "TJS",
+    "actor_name": "DEMO accountant",
+    "driver_name": "DEMO driver1"
+  },
+  "pass": false,
+  "stage": "driver_payment",
+  "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('dialog', { name: 'Order return #2' }).getByText('Courier departure recorded.') to be visible\n",
+  "page0": "Order #2\nDEMO pilot\n#2\n06 Nov, 07:17\nCourier on the way\n\nThe courier is heading to you\n\nPlaced\nPreparing\nReady\nOn the way\nDelivered\n1 \u00d7 DEMO dish\nTotal\n40 TJS\nCash to courier\nOrder return\nD\nDEMO driver1\nCourier\nSend\nProblem with your order? Contact support\nHome\nOrders\nWallet\nOffers\nProfile",
+  "page1": "Store\nDEMO pilot\nONLINE\nFind an order return\nAll 1\nNew\nPreparing\nReady\nOn the way 1\nIn progress \u00b7 1\nCourier on the way \u00b7 #2\n 15 min\nDEMO customer \u00b7 Cash \u00b7 07:17\nOrder return\n1\u00d7\nDEMO dish\n25\nOrder total\n40 TJS\nPropose change / renew\nHanded to courier \u2014 awaiting delivery\nOrders\nMenu\nAnalytics\nProfile",
+  "page2": "D\nDEMO driver1\nID D6D232\nOnline\n#2\nYou earn 15.00 TJS\nStep 3 of 4\nGo to the customer\n\ud83d\udccd 0 km to go\n\ud83d\udcb0 Delivery 15.00 TJS\nD\nCustomer\nDEMO customer\nCustomer address\nHome: DEMO Rudaki 1\nRestaurant\nDEMO pilot\n\u2713 Order picked up\n\ud83d\udcb5 Take in cash\n40.00 TJS\nOrder return\nOrder details\n1 items \u00b7 40.00 TJS\nAt the customer\nOrders\nHistory\nProfile\nOrder return #2\n\nAction result unconfirmed. Check the saved state.\n\nRefreshClose\nPayment evidence reference\nAmount actually paid from your own funds (TJS)\nRecord payment and departure",
+  "page3": "ru | EN\nSign out\nAdmin dashboard\n1\n/2\ncouriers online\n1\n/1\nstores open\n\ud83d\udce6\n2\nOrders\n\ud83d\udcb0\n40 TJS\nRevenue\n%\n5.0 TJS\nCommission\n\u23f1\n1\nActive\nOrders\nStores\nCouriers\nCustomers\nSupport\nTexts\nRatings\nBanners\nPromo codes\nLoyalty\nLog\nStaff\nAll\nWaiting for confirmation\nPreparing\nReady for courier pickup\nCourier on the way\nDelivered\nRejected by restaurant\nCancelled\n#2\nCourier on the way\nDEMO pilot\n06.11, 07:17:00 \u2022 DEMO customer \u2022 1 items\n40 TJS\n\ud83d\udef5 DEMO driver1 \u2022 delivery 15 \u2022 Cash\n#1\nDelivered\nDEMO pilot\n06.11, 07:16:53 \u2022 DEMO customer \u2022 1 items\n40 TJS\n\ud83d\udef5 DEMO driver1 \u2022 delivery 15 \u2022 Cash\nVersion v52 \u00b7 admin-52"
+}

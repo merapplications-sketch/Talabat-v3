@@ -1,0 +1,453 @@
+{
+  "source": "591e7bf7da95af4301d2daf3ea47f8adfdceb91a",
+  "live": false,
+  "actual_candidate_html": true,
+  "physical_device": false,
+  "checks": [
+    "existing driver screen records actual restaurant advance and reference",
+    "same cash order delivered after actual collection confirmation"
+  ],
+  "calls": [
+    {
+      "name": "wallet_balance",
+      "args": {}
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "driver_ping",
+      "args": {
+        "p_online": false
+      }
+    },
+    {
+      "name": "store_private",
+      "args": {}
+    },
+    {
+      "name": "finance_access",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "order_return_status",
+      "args": {
+        "p_order": "2"
+      }
+    },
+    {
+      "name": "order_return_action",
+      "args": {
+        "p_order": "2",
+        "p_action": "depart",
+        "p_ref": "DEMO-CASH-PAY-25-0",
+        "p_amount": "25",
+        "p_method": null,
+        "p_request": "b01d1a56-0ddb-4561-806e-2abea6dc0348"
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "order_return_status",
+      "args": {
+        "p_order": "2"
+      }
+    },
+    {
+      "name": "driver_arrived",
+      "args": {
+        "p_id": 2,
+        "p_where": "customer"
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "deliver_order",
+      "args": {
+        "p_id": 2,
+        "p_cash": 40,
+        "p_note": null
+      }
+    },
+    {
+      "name": "my_offers",
+      "args": {}
+    },
+    {
+      "name": "my_rating",
+      "args": {}
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "loyalty_summary",
+      "args": {}
+    },
+    {
+      "name": "best_dishes",
+      "args": {
+        "p_store": null,
+        "p_limit": 30
+      }
+    },
+    {
+      "name": "store_speed",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "active_contacts",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "name": "cash_balances",
+      "args": {}
+    },
+    {
+      "name": "order_approval_states",
+      "args": {
+        "p_order_ids": [
+          2,
+          1
+        ]
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "order": 1,
+      "platform": 5
+    },
+    {
+      "order": 2,
+      "platform": 0
+    }
+  ],
+  "receipt": {
+    "at": "2026-11-06T07:22:53.161336+00:00",
+    "actor": "b3968d0c-fa01-4a29-9b10-5643ceda8f88",
+    "basis": "platform_delivery_share_v1",
+    "amount": 5,
+    "driver": "1ddf7835-f72e-4b09-838f-cb9ac6ea43ed",
+    "number": "TS-000000000001",
+    "orders": [
+      {
+        "id": "1",
+        "amount": 5
+      }
+    ],
+    "request": "0322511a-ad27-47f5-92aa-eedc0ed6a228",
+    "currency": "TJS",
+    "actor_name": "DEMO accountant",
+    "driver_name": "DEMO driver1"
+  },
+  "prior_ui_run": 42179733573,
+  "reconstructed_prior_states": true,
+  "order": 2,
+  "pass": false,
+  "stage": "collect_deliver",
+  "error": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByText('Order delivered', { exact: true }) to be visible\n",
+  "page0": "Add a delivery address\nFavourite dishes nearby\nDelivery without the wait\nChoose a restaurant\nFood\nGrocery\nPharmacy\nBeauty\nFlowers\nSweets\n\u2764\ufe0f\nYour favourites again\nAll\nDEMO pilot\nDEMO dish\nToday \u00b7 40 TJS\nOrder\nDEMO pilot\nDEMO dish\nToday \u00b7 40 TJS\nOrder\n\ud83c\udf7d\ufe0f\nPopular restaurants\nAll\nNew\nDEMO pilot\nCoupons and rewards\nCoupons\nOpen coupons\nPoints and rewards\nMy rewards\nHome\nOrders\nWallet\nOffers\nProfile",
+  "page1": "Store\nDEMO pilot\nONLINE\nFind an order return\nAll\nNew\nPreparing\nReady\nOn the way\nNo active orders\nOrders\nMenu\nAnalytics\nProfile",
+  "page2": "D\nDEMO driver1\nID 1DDF78\nOff shift\n\ud83d\udcb5 Platform delivery share due: 0.00 TJS\nNew orders\nStart your shift\n\nOrder sound and location will turn on and the screen will stay awake. Keep the app open.\n\nStart shift\nOrders\nHistory\nProfile",
+  "page3": "ru | EN\nSign out\nAdmin dashboard\n0\n/2\ncouriers online\n1\n/1\nstores open\n\ud83d\udce6\n2\nOrders\n\ud83d\udcb0\n80 TJS\nRevenue\n%\n10.0 TJS\nCommission\n\u23f1\n0\nActive\nOrders\nStores\nCouriers\nCustomers\nSupport\nTexts\nRatings\nBanners\nPromo codes\nLoyalty\nLog\nStaff\nAll\nWaiting for confirmation\nPreparing\nReady for courier pickup\nCourier on the way\nDelivered\nRejected by restaurant\nCancelled\n#2\nDelivered\nDEMO pilot\n06.11, 07:22:53 \u2022 DEMO customer \u2022 1 items\n40 TJS\n\ud83d\udef5 DEMO driver1 \u2022 delivery 15 \u2022 Cash\n#1\nDelivered\nDEMO pilot\n06.11, 07:22:53 \u2022 DEMO customer \u2022 1 items\n40 TJS\n\ud83d\udef5 DEMO driver1 \u2022 delivery 15 \u2022 Cash\nVersion v52 \u00b7 admin-52"
+}
