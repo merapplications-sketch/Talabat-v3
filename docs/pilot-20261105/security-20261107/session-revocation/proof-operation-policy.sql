@@ -1,0 +1,1 @@
+CREATE POLICY pilot_proof_authenticated_read_only ON storage.objects AS RESTRICTIVE FOR SELECT TO authenticated USING (bucket_id <> 'proofs' OR storage.allow_any_operation(ARRAY['object.get_authenticated','object.get_authenticated_info','object.list']));

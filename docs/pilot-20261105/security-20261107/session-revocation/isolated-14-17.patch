@@ -1,0 +1,353 @@
+diff --git a/public/admin.html b/public/admin.html
+index f06dd0b..feae732 100644
+--- a/public/admin.html
++++ b/public/admin.html
+@@ -74,6 +74,7 @@ small{color:var(--mut)}
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
++<script src="assets/mfa.js"></script>
+ <script src="talabat-core.js?v=pilot-mobile-20261107.5"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+diff --git a/public/assets/mfa.js b/public/assets/mfa.js
+new file mode 100644
+index 0000000..86bbdba
+--- /dev/null
++++ b/public/assets/mfa.js
+@@ -0,0 +1,96 @@
++/* TOTP gate. Server authorization must independently enforce AAL. */
++(function (root) {
++  'use strict';
++  var synthetic = '85fea11e-738c-4221-ac29-51d4ff50d594', active = null;
++  function validOTP(code) { return typeof code === 'string' && /^[0-9]{6}$/.test(code); }
++  function verifier(client, factorId) {
++    var busy = false;
++    return async function (code) {
++      if (busy || !validOTP(code)) return false;
++      busy = true;
++      try {
++        var r = await client.auth.mfa.challengeAndVerify({factorId:factorId, code:code});
++        if (r.error) return false;
++        var a = await client.auth.mfa.getAuthenticatorAssuranceLevel();
++        return !a.error && !!a.data && a.data.currentLevel === 'aal2';
++      } catch (_) { return false; } finally { busy = false; }
++    };
++  }
++  async function ensure(client, beforePrompt, prompt) {
++    var a = await client.auth.mfa.getAuthenticatorAssuranceLevel();
++    if (a.error || !a.data) throw new Error('mfa_unavailable');
++    if (a.data.currentLevel === 'aal2') return true;
++    if (a.data.currentLevel !== 'aal1') throw new Error('mfa_unavailable');
++    var f = await client.auth.mfa.listFactors();
++    if (f.error || !f.data || !Array.isArray(f.data.all)) throw new Error('mfa_unavailable');
++    var verified = f.data.all.filter(function (x) { return x.status === 'verified'; });
++    if (!verified.length && a.data.nextLevel === 'aal1') return true;
++    var totp = verified.find(function (x) { return x.factor_type === 'totp'; });
++    if (!totp) throw new Error('mfa_unavailable');
++    if (beforePrompt) beforePrompt();
++    if (!await (prompt || challenge)(client, totp.id)) throw new Error('mfa_required');
++    // Never trust the modal result alone.
++    var final = await client.auth.mfa.getAuthenticatorAssuranceLevel();
++    if (final.error || !final.data || final.data.currentLevel !== 'aal2') throw new Error('mfa_required');
++    return true;
++  }
++  function modal() {
++    if (active) throw new Error('mfa_busy');
++    var en = document.documentElement.lang === 'en';
++    var words = en ? ['Two-factor authentication','Enter the six-digit code from your authenticator.','Verify','Cancel','Unable to verify. Please try again.','Set up authenticator','Scan this QR code with your authenticator, or enter the key manually.','Manual setup key','Return to customer','Verified · AAL2'] : ['Двухфакторная аутентификация','Введите шестизначный код из приложения-аутентификатора.','Подтвердить','Отмена','Не удалось подтвердить. Попробуйте снова.','Настроить аутентификатор','Отсканируйте QR-код или введите ключ вручную.','Ключ для ручной настройки','Вернуться к клиенту','Подтверждено · AAL2'];
++    function el(tag, text) { var e = document.createElement(tag); if (text) e.textContent = text; return e; }
++    var overlay = el('div'), panel = el('form'), title = el('h2',words[0]), body = el('div'), status = el('p'), close = el('button',words[3]);
++    overlay.id = 'tlb-mfa'; overlay.style.cssText = 'position:fixed;inset:0;z-index:100001;background:rgba(20,20,25,.55);display:grid;place-items:center;padding:20px;overflow:auto';
++    panel.style.cssText = 'background:#fff;color:#20212a;border-radius:20px;padding:24px;width:min(100%,400px);box-sizing:border-box;max-height:90dvh;overflow:auto;font:16px system-ui';
++    panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); title.id='tlb-mfa-title'; panel.setAttribute('aria-labelledby',title.id);
++    status.setAttribute('role','status'); close.type='button'; panel.append(title,body,status,close); overlay.append(panel); document.body.append(overlay); active = overlay;
++    var previous = document.activeElement;
++    function button(text) { var b=el('button',text); b.type='button'; b.style.cssText='font:inherit;padding:12px;border:0;border-radius:12px;background:#f1511b;color:white;margin:8px 0;min-height:44px'; return b; }
++    function clear() { body.querySelectorAll('input').forEach(function(e){e.value='';}); body.querySelectorAll('img').forEach(function(e){e.removeAttribute('src');}); body.replaceChildren(); }
++    function destroy() { clear(); overlay.remove(); active=null; if(previous && previous.focus) previous.focus(); }
++    overlay.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();close.click();}if(e.key==='Tab'){var list=Array.from(panel.querySelectorAll('button,input,select')).filter(function(x){return !x.disabled;});if(list.length){var first=list[0],last=list[list.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}}});
++    panel.onsubmit=function(e){e.preventDefault();}; close.focus();
++    return {body:body,status:status,close:close,panel:panel,words:words,el:el,button:button,clear:clear,destroy:destroy};
++  }
++  function otpUI(m, verify, done) {
++    var label=m.el('label',m.words[1]), input=m.el('input'), submit=m.button(m.words[2]), busy=false;
++    input.inputMode='numeric';input.autocomplete='one-time-code';input.maxLength=6;input.pattern='[0-9]{6}';input.style.cssText='display:block;font:20px system-ui;width:100%;box-sizing:border-box;padding:12px';label.append(input);m.body.append(label,submit);
++    async function run(){if(busy)return;if(!validOTP(input.value)){m.status.textContent=m.words[4];return;}busy=true;submit.disabled=true;m.close.disabled=true;var code=input.value;input.value='';var ok=await verify(code);code='';busy=false;submit.disabled=false;m.close.disabled=false;if(ok)done();else m.status.textContent=m.words[4];}
++    submit.onclick=run;m.panel.onsubmit=function(e){e.preventDefault();run();}; input.focus();
++  }
++  function challenge(client,id) {
++    return new Promise(function(resolve){var m=modal();m.close.onclick=function(){m.destroy();resolve(false);};otpUI(m,verifier(client,id),function(){m.destroy();resolve(true);});});
++  }
++  async function setup(client, session) {
++    if(session!=='tlb-auth-customer-asvs-review')return false;
++    var u=await client.auth.getUser();
++    if(u.error||!u.data||!u.data.user||u.data.user.id!==synthetic)return false;
++    var m=modal(), busy=false, factor=null;
++    m.close.textContent=m.words[8];m.close.onclick=function(){factor=null;m.destroy();};
++    var start=m.button(m.words[5]);m.body.append(start);
++    // Only this explicit user click can create a factor. Never enroll on modal open.
++    start.onclick=async function(){
++      if(busy||factor)return;busy=true;start.disabled=true;m.close.disabled=true;
++      try {
++        var user=await client.auth.getUser();if(user.error||!user.data||!user.data.user||user.data.user.id!==synthetic)throw Error();
++        var f=await client.auth.mfa.listFactors();if(f.error||!f.data||!Array.isArray(f.data.all))throw Error();
++        var existing=f.data.all.find(function(x){return x.factor_type==='totp';});
++        if(existing){factor=existing.id;m.clear();otpUI(m,verifier(client,factor),success);return;}
++        // Disable further enrollment after an ambiguous network result; retry verifies/status only.
++        factor='pending';
++        var r=await client.auth.mfa.enroll({factorType:'totp',friendlyName:'TALABOT synthetic review'});
++        if(r.error||!r.data||!r.data.id||!r.data.totp)throw Error();
++        factor=r.data.id;m.clear();m.body.append(m.el('p',m.words[6]));
++        var img=m.el('img');img.alt='Authenticator QR';img.style.cssText='display:block;width:220px;max-width:100%';
++        var qr=r.data.totp.qr_code;
++        img.src=qr.startsWith('data:image/svg+xml;')?qr:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(qr);m.body.append(img);
++        var label=m.el('label',m.words[7]), secret=m.el('input');secret.readOnly=true;secret.value=r.data.totp.secret;secret.autocomplete='off';label.append(secret);m.body.append(label);
++        otpUI(m,verifier(client,factor),success);r=null;
++      }catch(_){m.status.textContent=m.words[4];}finally{busy=false;start.disabled=!!factor;m.close.disabled=false;}
++    };
++    function success(){factor=null;m.clear();m.panel.onsubmit=function(e){e.preventDefault();};m.status.textContent=m.words[9];m.close.onclick=function(){m.destroy();root.location.reload();};}
++    return true;
++  }
++  var api={ensure:ensure,setup:setup,validOTP:validOTP,verifier:verifier};
++  if(typeof module==='object'&&module.exports)module.exports=api;else root.TLBMFA=api;
++})(typeof window==='object'?window:globalThis);
+diff --git a/public/customer.html b/public/customer.html
+index b3bae76..bbb1a1b 100644
+--- a/public/customer.html
++++ b/public/customer.html
+@@ -1103,6 +1103,7 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
++<script src="assets/mfa.js"></script>
+ <script src="talabat-core.js?v=pilot-mobile-20261107.5"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+@@ -1873,7 +1874,7 @@ function vGroup(){const g=S.grp,sn=grpStore();if(!g||!sn)return topbar(t('grpT')
+   ${live&&g.is_host?`<button class="btn t" style="width:100%;margin-top:4px;color:var(--bad)" onclick="grpStatus('cancelled')">${t('grpCancel')}</button>`:live&&!g.is_host?`<button class="btn t" style="width:100%;margin-top:4px" onclick="grpLeave()">${t('grpLeave')}</button>`:''}</div>
+   <div style="height:96px"></div><div class="fbar">${foot}</div>`}
+ async function grpRm(line){const r=await TLB.groupRemove(line);if(grpSet(r))render()}
+-/* the courier's photo at the door: private, opened through a short-lived link */
++/* the courier's photo at the door: private, fetched with current session authorization */
+ const PRF={};
+ function proofCard(o){const u=PRF[o.id];if(u===undefined){PRF[o.id]=null;TLB.proofUrl&&TLB.proofUrl(o.deliveryPhoto).then(x=>{PRF[o.id]=x||'';render()})}
+   return u?`<div class="card"><h3 style="margin-bottom:8px">📷 ${t('proofT')}</h3><img src="${esc(u)}" alt="${t('proofT')}" style="width:100%;max-height:260px;object-fit:cover;border-radius:14px;display:block"></div>`:''}
+@@ -2095,7 +2096,7 @@ if(!window.__hhTick)window.__hhTick=setInterval(()=>{if(ME.phone&&TLB.happyHours
+ {const previewLang=new URLSearchParams(location.search).get('lang');if(previewLang==='ru'||previewLang==='en')TLB.setLang(previewLang)}
+ TLB.start('customer',me=>{ME={name:me.name,phone:me.phone};TLB.chrome(false);prefLoad();TLB.wantSupport();syncStores();cartLoad();TLB.on(()=>{syncStores();cartLoad();watchOrders();ptsWatch();render();openDeep();grpDeep()});watchOrders();ptsWatch();render();openDeep();grpDeep()});
+ </script><script>
+-if(new URLSearchParams(location.search).get('session')==='asvs-review'){
++if(new URLSearchParams(location.search).get('session')==='asvs-review'||new URLSearchParams(location.search).get('proof-check')==='1'){
+  const box=document.createElement('aside');box.id='asvs-session-check';box.style='position:fixed;bottom:80px;right:8px;z-index:99999;background:white;border:1px solid #777;padding:8px;max-width:240px';
+  const b=document.createElement('button');b.textContent='فحص تجديد جلسة الاختبار';
+  const out=document.createElement('p');out.setAttribute('role','status');
+@@ -2103,6 +2104,8 @@ if(new URLSearchParams(location.search).get('session')==='asvs-review'){
+  const path=document.createElement('input');path.id='asvs-proof-path';path.placeholder='مسار ملف الإثبات';path.setAttribute('aria-label','مسار ملف الإثبات');
+  const check=document.createElement('button');check.textContent='فحص صلاحية تنزيل الإثبات';
+  check.onclick=async()=>{check.disabled=true;out.textContent='جارٍ الفحص';out.textContent=JSON.stringify(await TLB.reviewProofAccess(path.value));check.disabled=false;};
+- box.append(b,path,check,out);document.body.append(box);
++ const mfa=document.createElement('button');mfa.textContent='إعداد المصادقة الثنائية للحساب الاصطناعي';mfa.onclick=async()=>{mfa.disabled=true;try{const r=await TLB.reviewMFASetup();if(!r.ok)out.textContent='رُفض أو تعذّر فتح الإعداد';}finally{mfa.disabled=false;}};if(new URLSearchParams(location.search).get('session')==='asvs-review')box.append(mfa);
++ const probes=[['فحص جلسة Auth',()=>TLB.reviewAuthState()],['إصدار إثبات اصطناعي لمدة دقيقة',()=>TLB.reviewProofLifetime('issue')],['فحص الرابط الصادر سابقاً',()=>TLB.reviewProofLifetime('check')]];
++ box.append(path,check);if(new URLSearchParams(location.search).get('session')==='asvs-review')box.append(b);(new URLSearchParams(location.search).get('session')==='asvs-review'?probes:[]).forEach(([label,run])=>{const button=document.createElement('button');button.textContent=label;button.onclick=async()=>{button.disabled=true;out.textContent='جارٍ الفحص';try{out.textContent=JSON.stringify(await run());}finally{button.disabled=false;}};box.append(button);});box.append(out);document.body.append(box);
+ }
+ </script></body></html>
+diff --git a/public/driver.html b/public/driver.html
+index 28c58fe..7739213 100644
+--- a/public/driver.html
++++ b/public/driver.html
+@@ -100,6 +100,7 @@ body.mapmode{background:#e8edf2;padding-bottom:0}body.mapmode .hd{position:relat
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
++<script src="assets/mfa.js"></script>
+ <script src="talabat-core.js?v=pilot-mobile-20261107.5"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+diff --git a/public/merchant.html b/public/merchant.html
+index 55f5d54..96569a8 100644
+--- a/public/merchant.html
++++ b/public/merchant.html
+@@ -77,6 +77,7 @@ select{border:0;border-radius:999px;font-weight:600}
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
++<script src="assets/mfa.js"></script>
+ <script src="talabat-core.js?v=pilot-mobile-20261107.5"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index 3bdce1c..315ad1a 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.13';
++  var VERSION = 'pilot-mobile-20261107.17';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -666,9 +666,24 @@
+     clearTimeout(bootTimer); bootTimer = setTimeout(function () { if ($('tlb-boot')) bootFail(lastErr || 'timeout'); }, 12000);
+   }
+   function bootHide() { clearTimeout(bootTimer); var d = $('tlb-boot'); if (d) d.remove(); }
++  var proofObjectUrls = [];
++  function clearProofUrls() { proofObjectUrls.forEach(function (url) { URL.revokeObjectURL(url); }); proofObjectUrls = []; }
++  window.addEventListener('pagehide', clearProofUrls);
++  function authenticatedProofUrl(path) {
++    if (!path || !sb || !sb.storage) return Promise.resolve(null);
++    return sb.storage.from('proofs').download(path).then(function (r) {
++      if (r.error || !r.data || r.data.type !== 'image/jpeg' || r.data.size > 1048576) return null;
++      var url = URL.createObjectURL(r.data); proofObjectUrls.push(url); return url;
++    }, function () { return null; });
++  }
+   function bootFail(err) {
+     lastErr = String((err && err.message) || err || '').slice(0, 160);
+     bootHide();
++    if (/account_blocked/.test(lastErr)) {
++      clearProofUrls();
++      showLogin(lang === 'en' ? 'This session no longer has access. Sign in again; if access remains blocked, contact support.' : 'Эта сессия больше не имеет доступа. Войдите снова; если доступ заблокирован, обратитесь в поддержку.', 'in');
++      return;
++    }
+     overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0e5;color:#c2410c;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">!</div><b style="font-size:18px" data-i18n="bootT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="bootS"></p>' + '</div><button id="tlb-rl" data-i18n="bootReload" ' + BT + '></button><button id="tlb-rs2" data-i18n="bootSignout" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>', true);
+     $('tlb-rl').onclick = function () { location.reload(); };
+     $('tlb-rs2').onclick = function () { try { if (authStorageKey) localStorage.removeItem(authStorageKey); } catch (e) { } location.reload(); };
+@@ -839,7 +854,14 @@
+     }
+     applyChrome();
+   }
+-  function enter(user) {
++  async function enter(user) {
++    try {
++      if (!window.TLBMFA) throw new Error("mfa_unavailable");
++      await window.TLBMFA.ensure(sb, bootHide);
++      return enterAuthorized(user);
++    } catch (_) { bootFail("mfa_required"); }
++  }
++  function enterAuthorized(user) {
+     return sb.from('profiles').select('*').eq('id', user.id).single().then(function (x) {
+       if (x.error || !x.data) { bootFail(x.error || 'profile'); return; }
+       ME = Object.assign({ email: user.email }, x.data);
+@@ -905,23 +927,53 @@
+     throw new Error('report_too_large');
+   }
+   /* merchant report end */
+-  var TLBref = null;
++  var TLBref = null, reviewSignedProof = null;
+   window.TLB = {
+     version: VERSION,
++    reviewMFASetup: async function () {
++      if (!sb || !window.TLBMFA) return {ok:false};
++      try { return {ok:await window.TLBMFA.setup(sb, authStorageKey)}; } catch (_) { return {ok:false}; }
++    },
+     reviewSessionRefresh: async function () {
+       if (!sb || authStorageKey !== 'tlb-auth-customer-asvs-review') return {ok:false,status:403};
+       try { var r = await sb.auth.refreshSession(); return {ok:!r.error && !!(r.data && r.data.session),status:r.error ? (Number(r.error.status)||0) : 200}; }
+       catch (_) { return {ok:false,status:0}; }
+     },
+     reviewProofAccess: async function (path) {
+-      if (!sb || authStorageKey !== 'tlb-auth-customer-asvs-review' || !/^[a-f0-9-]{36}\/[0-9]+\/[a-zA-Z0-9_-]+\.jpg$/.test(path || '')) return {allowed:false,status:403};
++      if (!sb || !(authStorageKey === 'tlb-auth-customer-asvs-review' || (authStorageKey === 'tlb-auth-customer' && new URLSearchParams(location.search).get('proof-check') === '1')) || !/^[a-f0-9-]{36}\/[0-9]+\/[a-zA-Z0-9_-]+\.jpg$/.test(path || '')) return {allowed:false,status:403};
+       var summary = {};
+       try { var d = await sb.storage.from('proofs').download(path); summary.download = {ok:!d.error && !!d.data,status:d.error ? Number(d.error.statusCode || d.error.status)||0 : 200,bytes:d.data ? d.data.size : 0}; }
+       catch (_) { summary.download = {ok:false,status:0,bytes:0}; }
+       try { var u = await sb.storage.from('proofs').createSignedUrl(path,60); summary.sign = {ok:!u.error && !!(u.data && u.data.signedUrl),status:u.error ? Number(u.error.statusCode || u.error.status)||0 : 200}; }
+       catch (_) { summary.sign = {ok:false,status:0}; }
++      try { var many = await sb.storage.from('proofs').createSignedUrls([path],60); summary.signMany = {ok:!many.error && Array.isArray(many.data) && many.data.some(function(x){return !!x.signedUrl;}),status:many.error ? Number(many.error.statusCode || many.error.status)||0 : 200}; }
++      catch (_) { summary.signMany = {ok:false,status:0}; }
+       return summary;
+     },
++    reviewAuthState: async function () {
++      if (!sb || authStorageKey !== 'tlb-auth-customer-asvs-review') return {ok:false,status:403};
++      try {var r=await sb.auth.getUser();return {ok:!r.error&&!!(r.data&&r.data.user),status:r.error?Number(r.error.status)||0:200};}catch(_){return {ok:false,status:0};}
++    },
++    reviewProofLifetime: async function (mode) {
++      if (!sb || authStorageKey !== 'tlb-auth-customer-asvs-review' || !ME || ME.id!=='85fea11e-738c-4221-ac29-51d4ff50d594') return {ok:false,status:403};
++      try {
++        if(mode==='issue') {
++          var c=document.createElement('canvas');c.width=240;c.height=80;c.getContext('2d').fillText('SYNTHETIC ASVS FILE LIFECYCLE',8,40);
++          var blob=await new Promise(function(resolve){c.toBlob(resolve,'image/jpeg',0.7);});
++          if(!blob)return {ok:false,status:0};
++          var path=ME.id+'/37/asvs-lifetime-'+crypto.randomUUID()+'.jpg';
++          var up=await sb.storage.from('proofs').upload(path,blob,{contentType:'image/jpeg',upsert:false});
++          if(up.error)return {ok:false,phase:'upload',status:Number(up.error.statusCode||up.error.status)||0};
++          var signed=await sb.storage.from('proofs').createSignedUrl(path,60);
++          if(signed.error)return {ok:false,phase:'sign',status:Number(signed.error.statusCode||signed.error.status)||0};
++          reviewSignedProof={url:signed.data.signedUrl,issued:Date.now()};
++        }
++        if(!reviewSignedProof)return {ok:false,phase:'missing'};
++        var response=await fetch(reviewSignedProof.url,{cache:'no-store'});
++        var bytes=await response.arrayBuffer();
++        return {ok:response.ok,status:response.status,bytes:bytes.byteLength,ageSeconds:Math.floor((Date.now()-reviewSignedProof.issued)/1000)};
++      }catch(_){return {ok:false,status:0};}
++    },
+     loadFailed: function () { return !!secFail.stat; },
+     normPhone: normPhone,
+     t: t, esc: esc, applyI18n: applyI18n, setLang: setLang, lang: function () { return lang; },
+@@ -938,6 +990,7 @@
+       sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: authStorageKey }, global: { fetch: connectionFetch } });
+       bootShow();
+       sb.auth.onAuthStateChange(function (event) {
++        if (event === 'SIGNED_OUT') clearProofUrls();
+         if (event === 'PASSWORD_RECOVERY') { recoveryPending = true; setTimeout(showPasswordRecovery, 0); }
+       });
+       sb.auth.getSession().then(function (x) {
+@@ -1389,7 +1442,7 @@
+         fr.readAsDataURL(file);
+       });
+     },
+-    proofUrl: function (path) { if (!path || !sb || !sb.storage) return Promise.resolve(null); return sb.storage.from('proofs').createSignedUrl(path, 3600).then(function (r) { return r && r.data ? r.data.signedUrl : null; }, function () { return null; }); },
++    proofUrl: authenticatedProofUrl,
+     leaflet: function (cb) { loadLeaflet(cb); },
+     chat: function (id, sender, text) { return sb.from('order_chat').insert({ order_id: id, sender_id: ME.id, body: String(text).slice(0, 200) }).then(doneQ); },
+ 
+diff --git a/tests/mfa.cjs b/tests/mfa.cjs
+new file mode 100644
+index 0000000..5c44836
+--- /dev/null
++++ b/tests/mfa.cjs
+@@ -0,0 +1,21 @@
++const assert=require('node:assert/strict');
++const mfa=require('../public/assets/mfa.js');
++function client(current='aal1',next='aal1',all=[]){return {auth:{mfa:{getAuthenticatorAssuranceLevel:async()=>({data:{currentLevel:current,nextLevel:next}}),listFactors:async()=>({data:{all}}),enroll:async()=>{throw Error('must not enroll');}}}};}
++(async()=>{
++ assert.equal(await mfa.ensure(client()),true);
++ const high=client('aal2','aal2');high.auth.mfa.listFactors=()=>{throw Error('not needed');};assert.equal(await mfa.ensure(high),true);
++ let prompted=0,hidden=0;const c=client('aal1','aal2',[{id:'factor',status:'verified',factor_type:'totp'}]);
++ assert.equal(await mfa.ensure(c,()=>hidden++,async(_,id)=>{assert.equal(id,'factor');prompted++;c.auth.mfa.getAuthenticatorAssuranceLevel=async()=>({data:{currentLevel:'aal2'}});return true;}),true);assert.equal(prompted,1);assert.equal(hidden,1);
++ for(const key of ['getAuthenticatorAssuranceLevel','listFactors']){const c=client();c.auth.mfa[key]=async()=>({error:{}});await assert.rejects(mfa.ensure(c));c.auth.mfa[key]=async()=>{throw Error();};await assert.rejects(mfa.ensure(c));}
++ await assert.rejects(mfa.ensure(client('aal1','aal2')));
++ await assert.rejects(mfa.ensure(client('aal1','aal2',[{id:'x',status:'verified',factor_type:'totp'}]),null,async()=>true));
++ let requests=0,release;const v=client('aal2','aal2');v.auth.mfa.challengeAndVerify=()=>{requests++;return new Promise(r=>release=r);};const verify=mfa.verifier(v,'factor');
++ for(const code of ['12345','1234567','abcdef','１２３４５６',' 123456',123456])assert.equal(await verify(code),false);
++ const pending=verify('123456');assert.equal(await verify('123456'),false);assert.equal(requests,1);release({});assert.equal(await pending,true);
++ // Minimal DOM proves opening setup never calls enroll; the click handler is not run.
++ class Node {constructor(){this.style={};this.children=[];}setAttribute(){}append(...n){this.children.push(...n);}addEventListener(){}focus(){}querySelectorAll(){return [];}replaceChildren(){this.children=[];}remove(){}}
++ global.document={documentElement:{lang:'en'},createElement:()=>new Node(),body:new Node(),activeElement:null};
++ let enrolls=0;const s=client();s.auth.getUser=async()=>({data:{user:{id:'85fea11e-738c-4221-ac29-51d4ff50d594'}}});s.auth.mfa.enroll=async()=>{enrolls++;};
++ assert.equal(await mfa.setup(s,'wrong-session'),false);assert.equal(await mfa.setup(s,'tlb-auth-customer-asvs-review'),true);assert.equal(enrolls,0);
++ console.log('MFA tests passed: gate, fail closed, OTP, in-flight protection, explicit enrollment only');
++})().catch(e=>{console.error(e);process.exitCode=1;});
+diff --git a/tests/proof-access.cjs b/tests/proof-access.cjs
+new file mode 100644
+index 0000000..034fd88
+--- /dev/null
++++ b/tests/proof-access.cjs
+@@ -0,0 +1,15 @@
++const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
++const source=fs.readFileSync('public/talabat-core.js','utf8');
++const fragment=source.slice(source.indexOf('  var proofObjectUrls = []'),source.indexOf('  function bootFail(err)'));
++let result,downloads=0,created=0,revoked=0,pagehide;
++const c={Promise,window:{addEventListener:(n,fn)=>{assert.equal(n,'pagehide');pagehide=fn}},URL:{createObjectURL:()=>{created++;return 'blob:synthetic-'+created},revokeObjectURL:()=>revoked++},sb:{storage:{from:b=>{assert.equal(b,'proofs');return {download:async()=>{downloads++;if(result instanceof Error)throw result;return result;},createSignedUrl:()=>{throw Error('Bearer link must not be issued')}}}}}};
++vm.createContext(c);vm.runInContext(fragment,c);
++(async()=>{
++ result={data:{type:'image/jpeg',size:870}};assert.equal(await c.authenticatedProofUrl('synthetic/37/proof.jpg'),'blob:synthetic-1');
++ result={error:{status:403}};assert.equal(await c.authenticatedProofUrl('synthetic/37/proof.jpg'),null);
++ result={data:{type:'text/html',size:870}};assert.equal(await c.authenticatedProofUrl('synthetic/37/proof.jpg'),null);
++ result={data:{type:'image/jpeg',size:1048577}};assert.equal(await c.authenticatedProofUrl('synthetic/37/proof.jpg'),null);
++ result=Error('offline');assert.equal(await c.authenticatedProofUrl('synthetic/37/proof.jpg'),null);
++ pagehide();assert.equal(revoked,1);c.clearProofUrls();assert.equal(revoked,1);
++ assert.equal(created,1);assert.equal(downloads,5);console.log('PASS: authenticated proof success, denial, unsafe MIME, oversize, offline, URL cleanup; no signing');
++})().catch(e=>{console.error(e);process.exitCode=1});
