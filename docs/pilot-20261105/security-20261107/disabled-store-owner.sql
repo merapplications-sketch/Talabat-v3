@@ -1,0 +1,1 @@
+CREATE OR REPLACE FUNCTION public.owns_store(s uuid) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO 'public' AS $function$ select exists(select 1 from stores st join profiles p on p.id=st.owner_id where st.id=s and st.owner_id=auth.uid() and p.banned_at is null) $function$;

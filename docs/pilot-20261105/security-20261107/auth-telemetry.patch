@@ -1,0 +1,86 @@
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -147,5 +147,5 @@
+ 
+   /* ---------- Supabase runtime ---------- */
+-  var sb = null, ME = null, need = '', onReady = null, sig = '', ORD = [], firstLoad = true;
++  var sb = null, ME = null, need = '', authStorageKey = '', onReady = null, sig = '', ORD = [], firstLoad = true;
+   var DB = { approvals: {}, approvalReady: false, stores: [], items: [], orders: [], oitems: [], chat: [], drivers: [], banners: [], favs: [], events: [], cash: {}, promos: [], myOffers: [], offersAll: [], ratings: [], groups: [], options: [], addresses: [], contacts: {}, settings: {}, myRating: null, tickets: [], tmsgs: {}, texts: {}, sreqs: [], people: {}, wallet: { balance: 0, entries: [] }, pages: {}, hh: [], loyalty: null, pts: [], recipients: {}, best: [], speed: {} };
+   var seenChat = {}, lastStatus = {}, unread = {};
+@@ -192,12 +192,29 @@
+     firstLoad = false;
+   }
+-  function reportError(msg, ctx) {
++  function telemetryType(error) {
++    var name = error && error.name;
++    return /^(Error|TypeError|RangeError|ReferenceError|SyntaxError|URIError|EvalError|AbortError|NetworkError)$/.test(name || '') ? name : 'Error';
++  }
++  function telemetryContext(filename, line, column) {
++    var source = 'unknown';
++    try {
++      var url = new URL(String(filename || ''), location.href);
++      var paths = { '/': 'driver', '/index': 'driver', '/index.html': 'driver', '/admin': 'admin', '/admin.html': 'admin', '/merchant': 'merchant', '/merchant.html': 'merchant', '/customer': 'customer', '/customer.html': 'customer', '/talabat-core.js': 'core', '/assets/mobile.js': 'mobile', '/assets/admin-finance/admin-finance.js': 'finance', '/assets/driver-returns/panel.js': 'returns', '/assets/finance-receipt/receipt.js': 'receipt', '/assets/vendor/supabase-2.117.2.js': 'sdk' };
++      source = url.origin === location.origin ? (paths[url.pathname] || 'unknown') : 'external';
++    } catch (e) { }
++    var position = function (n) { return Number.isInteger(n) && n >= 0 && n <= 9999999 ? n : 0; };
++    return source + ':' + position(line) + ':' + position(column);
++  }
++  function reportError(code, context) {
+     try {
+       if (!sb || !ME || errSent >= 5) return; errSent++;
+-      sb.rpc('report_client_error', { p_app: need, p_message: String(msg || '').slice(0, 300), p_context: String(ctx || '').slice(0, 300), p_ua: String((navigator && navigator.userAgent) || '').slice(0, 160) }).then(function () { }, function () { });
++      var safeCode = /^(runtime|promise):(Error|TypeError|RangeError|ReferenceError|SyntaxError|URIError|EvalError|AbortError|NetworkError)$/.test(code || '') ? code : 'client_error';
++      var safeContext = /^(core|admin|customer|merchant|driver|mobile|finance|returns|receipt|sdk|unknown|external)(:[0-9]{1,7}:[0-9]{1,7})?$/.test(context || '') ? context : 'unknown';
++      var safeApp = ['customer', 'merchant', 'driver', 'admin'].indexOf(need) >= 0 ? need : 'unknown';
++      sb.rpc('report_client_error', { p_app: safeApp, p_message: safeCode, p_context: safeContext, p_ua: null }).then(function () { }, function () { });
+     } catch (e) { }
+   }
+-  window.addEventListener('error', function (e) { reportError(e.message, String(e.filename || '').split('/').pop() + ':' + e.lineno); });
+-  window.addEventListener('unhandledrejection', function (e) { reportError('Promise: ' + String((e.reason && e.reason.message) || e.reason), ''); });
++  window.addEventListener('error', function (e) { reportError('runtime:' + telemetryType(e.error), telemetryContext(e.filename, e.lineno, e.colno)); });
++  window.addEventListener('unhandledrejection', function (e) { reportError('promise:' + telemetryType(e.reason), 'unknown'); });
+   /* ===================== data layer =====================
+      Four small sections instead of one giant reload every 4 seconds:
+@@ -443,5 +460,5 @@
+       secFail[name] = (secFail[name] || 0) + 1; console.error(name, e); lastErr = String((e && e.message) || e);
+       if (/failed to fetch|networkerror|load failed|network request failed/i.test(lastErr)) checkNet();
+-      if ((name === 'stat' && !DB.stores.length) || ((name === 'stat' || name === 'orders') && secFail[name] >= 2)) banner('tlb-err', t('loadFail') + ' \u00b7 ' + lastErr.slice(0, 90), '#1c1c21', 86);
++      if ((name === 'stat' && !DB.stores.length) || ((name === 'stat' || name === 'orders') && secFail[name] >= 2)) banner('tlb-err', t('loadFail'), '#1c1c21', 86);
+       return false;
+     }).then(function (v) { secRun[name] = null; return v; });
+@@ -653,9 +670,9 @@
+     lastErr = String((err && err.message) || err || '').slice(0, 160);
+     bootHide();
+-    overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0e5;color:#c2410c;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">!</div><b style="font-size:18px" data-i18n="bootT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="bootS"></p>' + (lastErr ? '<p style="color:#9ca3af;font-size:11px;word-break:break-all;margin-bottom:12px">' + esc(lastErr) + '</p>' : '') + '</div><button id="tlb-rl" data-i18n="bootReload" ' + BT + '></button><button id="tlb-rs2" data-i18n="bootSignout" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>', true);
++    overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0e5;color:#c2410c;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">!</div><b style="font-size:18px" data-i18n="bootT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="bootS"></p>' + '</div><button id="tlb-rl" data-i18n="bootReload" ' + BT + '></button><button id="tlb-rs2" data-i18n="bootSignout" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>', true);
+     $('tlb-rl').onclick = function () { location.reload(); };
+-    $('tlb-rs2').onclick = function () { try { localStorage.removeItem('tlb-auth-' + need); } catch (e) { } location.reload(); };
+-  }
+-  function logout() { sb.auth.signOut().then(function () { location.reload(); }); }
++    $('tlb-rs2').onclick = function () { try { if (authStorageKey) localStorage.removeItem(authStorageKey); } catch (e) { } location.reload(); };
++  }
++  function logout() { return sb.auth.signOut().then(function (r) { if (r.error) { showLogin(t('signoutIncomplete'), 'in'); return; } location.reload(); }, function () { showLogin(t('signoutIncomplete'), 'in'); }); }
+   var authMode = 'in', resendAt = 0;
+   function isConnectionError(e) {
+@@ -699,4 +716,6 @@
+   Object.assign(I.ru,{err_pilot_paused:'Приём заказов временно приостановлен.',err_pilot_not_invited:'Заказ доступен только участникам ограниченного запуска.',err_pilot_closed:'Сейчас приём заказов закрыт.',err_pilot_region:'Адрес вне зоны ограниченного запуска.',err_pilot_capacity:'Все места заняты. Попробуйте позже.',err_pilot_daily_limit:'Лимит заказов на сегодня достигнут.',err_pilot_driver_not_invited:'Курьер не включён в этот запуск.',err_pilot_scheduled_unavailable:'Отложенные заказы пока недоступны.'});
+   Object.assign(I.en,{err_pilot_paused:'Order intake is temporarily paused.',err_pilot_not_invited:'Ordering is available only to invited pilot participants.',err_pilot_closed:'Order intake is currently closed.',err_pilot_region:'The address is outside the pilot service area.',err_pilot_capacity:'All order slots are occupied. Try again later.',err_pilot_daily_limit:'Today’s order limit has been reached.',err_pilot_driver_not_invited:'This courier is not enrolled in the pilot.',err_pilot_scheduled_unavailable:'Scheduled orders are not available during this pilot.'});
++  Object.assign(I.ru, { signoutIncomplete: 'Не удалось подтвердить выход на других устройствах. Войдите снова и повторите выход.' });
++  Object.assign(I.en, { signoutIncomplete: 'Could not confirm sign-out on other devices. Sign in again and retry signing out.' });
+   var recoveryPending = false;
+   function authReturnUrl() { return location.origin + location.pathname; }
+@@ -739,5 +758,5 @@
+         // A completed recovery requires a new sign-in; no privileged app is entered here.
+         recoveryPending = false;
+-        return sb.auth.signOut({ scope: 'global' }).then(function () { showLogin(t('resetDone'), 'in'); });
++        return sb.auth.signOut({ scope: 'global' }).then(function (r) { showLogin(t('resetDone') + (r.error ? ' ' + t('signoutIncomplete') : ''), 'in'); }, function () { showLogin(t('resetDone') + ' ' + t('signoutIncomplete'), 'in'); });
+       }).catch(function () { busy = false; if ($('tlb-savepw')) $('tlb-savepw').disabled = false; if ($('tlb-rerr')) $('tlb-rerr').textContent = t('err_generic'); });
+     };
+@@ -900,5 +919,6 @@
+       var incomingRecovery = /(?:^|[&#])type=recovery(?:&|$)/.test(location.hash);
+       var sessionRole = role === 'admin' && new URLSearchParams(location.search).get('session') === 'accountant' ? 'accountant' : role;
+-      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + sessionRole }, global: { fetch: connectionFetch } });
++      authStorageKey = 'tlb-auth-' + sessionRole;
++      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: authStorageKey }, global: { fetch: connectionFetch } });
+       bootShow();
+       sb.auth.onAuthStateChange(function (event) {
