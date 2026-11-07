@@ -1,0 +1,122 @@
+[
+  {
+    "schema": "fulfillment_private",
+    "proname": "guard_lines",
+    "args": "",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.guard_lines()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare oid bigint;ox text;begin\n oid:=case when tg_op='DELETE'then old.order_id else new.order_id end;\n if coalesce(current_setting('talabot.approval_write',true),'')=oid::text or coalesce(current_setting('talabot.order_building',true),'')=oid::text then\n  if tg_op='DELETE'then return old;else return new;end if;end if;\n select xmin::text into ox from orders where id=oid;\n if exists(select 1 from fulfillment_private.order_approvals where order_id=oid)or ox<>pg_current_xact_id()::text then\n  raise exception 'order_change_requires_confirmation';end if;\n if tg_op='DELETE'then return old;else return new;end if;\nend $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "guard_offer",
+    "args": "",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.guard_offer()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$begin\n if new.state='pending'and not fulfillment_private.unblocked(new.order_id)then raise exception 'customer_confirmation_required';end if;return new;end $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "guard_order",
+    "args": "",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.guard_order()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare a fulfillment_private.order_approvals;internal_write boolean;ox text;\nbegin\n select * into a from fulfillment_private.order_approvals where order_id=old.id;\n internal_write:=coalesce(current_setting('talabot.approval_write',true),'')=old.id::text or coalesce(current_setting('talabot.order_building',true),'')=old.id::text;\n select xmin::text into ox from orders where id=old.id;\n if not internal_write and (a.order_id is not null or ox<>pg_current_xact_id()::text)then\n  if row(new.total,new.subtotal,new.wallet_used,new.points_used,new.points_value,new.address,new.lat,new.lng)\n   is distinct from row(old.total,old.subtotal,old.wallet_used,old.points_used,old.points_value,old.address,old.lat,old.lng)then\n   raise exception 'order_change_requires_confirmation';end if;\n  if new.prep_time is distinct from old.prep_time and old.prep_time is not null\n   and coalesce(a.state,'legacy')<>'awaiting_merchant'\n   and not(a.state='checkout_accepted'and a.merchant_at is null and old.status='pending'and new.prep_time<=old.prep_time) then raise exception 'order_change_requires_confirmation';end if;\n end if;\n if a.state in('awaiting_merchant','awaiting_customer') and\n  ((new.status is distinct from old.status and new.status in('preparing','ready','pickedup','delivered'))\n   or(new.driver_id is distinct from old.driver_id and new.driver_id is not null))then raise exception 'customer_confirmation_required';end if;\n return new;\nend $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "quote_lines",
+    "args": "p_order bigint, p_items jsonb",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.quote_lines(p_order bigint, p_items jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare o orders;i record;m menu_items;pl jsonb;lines jsonb:='[]';sub numeric:=0;total_value numeric;\nbegin\n select * into o from orders where id=p_order;\n if o.driver_id is not null or o.status not in('pending','preparing','ready')then raise exception'change_requires_support';end if;\n -- A price proposal never invents refunds, reprices redeemed points, or changes a courier's agreed pay.\n if coalesce(o.wallet_used,0)>0 or coalesce(o.points_used,0)>0 or coalesce(o.discount,0)>0 or coalesce(o.promo_discount,0)>0\n  or coalesce(o.fee_waived,0)>0 or exists(select 1 from stores where id=o.store_id and(coalesce(discount_pct,0)>0 or coalesce(free_delivery_min,0)>0))\n  or happy_hour_pct(o.store_id)>0 then raise exception'change_requires_support';end if;\n if jsonb_typeof(p_items)<>'array'or jsonb_array_length(p_items)not between 1 and 60 then raise exception'bad_value';end if;\n for i in select (x->>'item_id')::uuid item_id,(x->>'qty')::int qty,coalesce(x->'options','[]'::jsonb)opts,left(coalesce(x->>'note',''),120)note from jsonb_array_elements(p_items)x loop\n  if i.qty not between 1 and 50 then raise exception'bad_value';end if;\n  select * into m from menu_items where id=i.item_id and store_id=o.store_id and available and approved;\n  if not found then raise exception'unavailable';end if;\n  if coalesce(m.discount_pct,0)>0 then raise exception'change_requires_support';end if;\n  pl:=price_line(i.item_id,i.opts);sub:=sub+(pl->>'unit')::numeric*i.qty;\n  lines:=lines||jsonb_build_array(jsonb_build_object('item_id',m.id,'name',m.name,'price',(pl->>'unit')::numeric,'qty',i.qty,'note',i.note,'options',pl->'snap'));\n end loop;\n total_value:=greatest(5,sub+coalesce(o.delivery_fee,0)+coalesce(o.tip,0));\n return jsonb_build_object('lines',lines,'subtotal',sub,'total',total_value,'cash_due',total_value,'apply_items',true);\nend $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "register_order",
+    "args": "p_order bigint",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.register_order(p_order bigint)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare o orders;need_first boolean;cfg fulfillment_private.confirmation_config;\nbegin\n select * into o from orders where id=p_order;\n select * into cfg from fulfillment_private.confirmation_config where id;\n if not cfg.enabled then return;end if;\n -- place_order locks this customer's profile before inserting; request races cannot\n -- consume a second first-cash slot. Failed creation rolls back all wallet/points effects.\n need_first:=o.payment ~ '^(cash|Cash|Наличн)' and not exists(\n  select 1 from fulfillment_private.order_approvals a where a.customer_id=o.customer_id and a.first_cash and a.customer_at is not null)\n  and not exists(select 1 from orders old where old.customer_id=o.customer_id and old.id<>o.id and old.status='delivered'\n   and old.payment ~ '^(cash|Cash|Наличн)' and not exists(select 1 from fulfillment_private.order_approvals a where a.order_id=old.id));\n if need_first and exists(select 1 from fulfillment_private.order_approvals a join orders x on x.id=a.order_id\n  where a.customer_id=o.customer_id and a.first_cash and a.customer_at is null and x.status in('pending','preparing','ready','pickedup'))then\n  raise exception 'first_cash_pending';end if;\n insert into fulfillment_private.order_approvals(order_id,customer_id,state,first_cash,snapshot,accepted_revision,accepted_prep_minutes)\n values(o.id,o.customer_id,case when need_first then 'awaiting_merchant'else'checkout_accepted'end,need_first,\n  fulfillment_private.snapshot(o.id),case when need_first then null else 0 end,case when need_first then null else o.prep_time end);\nend $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "snapshot",
+    "args": "p_order bigint",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.snapshot(p_order bigint)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n select jsonb_build_object('order',o.id,'total',o.total,'subtotal',o.subtotal,'currency','TJS',\n  'wallet_used',coalesce(o.wallet_used,0),'cash_due',greatest(0,o.total-coalesce(o.wallet_used,0)),\n  'address',o.address,'lat',o.lat,'lng',o.lng,'prep_minutes',o.prep_time,\n  'lines',coalesce((select jsonb_agg(jsonb_build_object('item_id',i.item_id,'name',i.name,'price',i.price,'qty',i.qty,'note',i.note,'options',i.options)order by i.id)from order_items i where i.order_id=o.id),'[]'::jsonb))\n from orders o where o.id=p_order $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "unblocked",
+    "args": "p_order bigint",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.unblocked(p_order bigint)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n select not exists(select 1 from fulfillment_private.order_approvals where order_id=p_order and state in('awaiting_merchant','awaiting_customer')) $function$\n"
+  },
+  {
+    "schema": "pilot_private",
+    "proname": "driver_allowed",
+    "args": "p_driver uuid",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION pilot_private.driver_allowed(p_driver uuid)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$select coalesce((select value->'drivers'?p_driver::text from pilot_private.config where id),false)$function$\n"
+  },
+  {
+    "schema": "pilot_private",
+    "proname": "guard_order",
+    "args": "",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION pilot_private.guard_order()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare c pilot_private.config;local_time timestamp;minute_n int;active_n int;daily_n int;begin\n select *into c from pilot_private.config where id;\n if tg_op='UPDATE'then\n  if new.driver_id is distinct from old.driver_id and new.driver_id is not null and exists(select 1 from pilot_private.admissions where order_id=old.id)and not pilot_private.driver_allowed(new.driver_id)then raise exception'pilot_driver_not_invited';end if;\n  return new;\n end if;\n if c.paused or c.value is null then raise exception'pilot_paused';end if;\n if not(c.value->'customers'?new.customer_id::text)or not(c.value->'stores'?new.store_id::text)then raise exception'pilot_not_invited';end if;\n if now()<(c.value->>'valid_from')::timestamptz or now()>=(c.value->>'valid_until')::timestamptz then raise exception'pilot_closed';end if;\n local_time:=now()at time zone(c.value->>'timezone');minute_n:=extract(hour from local_time)::int*60+extract(minute from local_time)::int;\n if not(c.value->'weekdays'@>jsonb_build_array(extract(isodow from local_time)::int))or minute_n<(c.value->>'open_minute')::int or minute_n>=(c.value->>'close_minute')::int then raise exception'pilot_closed';end if;\n -- Scheduled orders need a separately reviewed operational plan; no unapproved overnight carry-over.\n if new.scheduled_for is not null then raise exception'pilot_scheduled_unavailable';end if;\n if new.lat is null or new.lng is null or new.lat<(c.value->>'min_lat')::double precision or new.lat>(c.value->>'max_lat')::double precision or new.lng<(c.value->>'min_lng')::double precision or new.lng>(c.value->>'max_lng')::double precision then raise exception'pilot_region';end if;\n perform pg_advisory_xact_lock(hashtextextended('pilot:admission-capacity',0));\n select count(*)into active_n from pilot_private.admissions a join orders o on o.id=a.order_id where o.status in('pending','preparing','ready','pickedup');\n if active_n>=(c.value->>'max_active')::int then raise exception'pilot_capacity';end if;\n select count(*)into daily_n from pilot_private.admissions a where(a.at at time zone(c.value->>'timezone'))::date=local_time::date;\n if daily_n>=(c.value->>'daily_orders')::int then raise exception'pilot_daily_limit';end if;\n return new;\nend $function$\n"
+  },
+  {
+    "schema": "pilot_private",
+    "proname": "record_admission",
+    "args": "",
+    "definer": true,
+    "proconfig": [
+      "search_path=public"
+    ],
+    "anon_execute": false,
+    "auth_execute": false,
+    "definition": "CREATE OR REPLACE FUNCTION pilot_private.record_admission()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$begin\n insert into pilot_private.admissions(order_id,customer_id,store_id)values(new.id,new.customer_id,new.store_id);return new;end $function$\n"
+  }
+]

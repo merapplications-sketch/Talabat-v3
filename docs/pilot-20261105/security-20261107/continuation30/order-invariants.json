@@ -1,0 +1,22 @@
+[
+  {
+    "schema": "fulfillment_private",
+    "proname": "guard_lines",
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.guard_lines()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare oid bigint;ox text;begin\n oid:=case when tg_op='DELETE'then old.order_id else new.order_id end;\n if coalesce(current_setting('talabot.approval_write',true),'')=oid::text or coalesce(current_setting('talabot.order_building',true),'')=oid::text then\n  if tg_op='DELETE'then return old;else return new;end if;end if;\n select xmin::text into ox from orders where id=oid;\n if exists(select 1 from fulfillment_private.order_approvals where order_id=oid)or ox<>pg_current_xact_id()::text then\n  raise exception 'order_change_requires_confirmation';end if;\n if tg_op='DELETE'then return old;else return new;end if;\nend $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "guard_order",
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.guard_order()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare a fulfillment_private.order_approvals;internal_write boolean;ox text;\nbegin\n select * into a from fulfillment_private.order_approvals where order_id=old.id;\n internal_write:=coalesce(current_setting('talabot.approval_write',true),'')=old.id::text or coalesce(current_setting('talabot.order_building',true),'')=old.id::text;\n select xmin::text into ox from orders where id=old.id;\n if not internal_write and (a.order_id is not null or ox<>pg_current_xact_id()::text)then\n  if row(new.total,new.subtotal,new.wallet_used,new.points_used,new.points_value,new.address,new.lat,new.lng)\n   is distinct from row(old.total,old.subtotal,old.wallet_used,old.points_used,old.points_value,old.address,old.lat,old.lng)then\n   raise exception 'order_change_requires_confirmation';end if;\n  if new.prep_time is distinct from old.prep_time and old.prep_time is not null\n   and coalesce(a.state,'legacy')<>'awaiting_merchant'\n   and not(a.state='checkout_accepted'and a.merchant_at is null and old.status='pending'and new.prep_time<=old.prep_time) then raise exception 'order_change_requires_confirmation';end if;\n end if;\n if a.state in('awaiting_merchant','awaiting_customer') and\n  ((new.status is distinct from old.status and new.status in('preparing','ready','pickedup','delivered'))\n   or(new.driver_id is distinct from old.driver_id and new.driver_id is not null))then raise exception 'customer_confirmation_required';end if;\n return new;\nend $function$\n"
+  },
+  {
+    "schema": "fulfillment_private",
+    "proname": "guard_offer",
+    "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.guard_offer()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$begin\n if new.state='pending'and not fulfillment_private.unblocked(new.order_id)then raise exception 'customer_confirmation_required';end if;return new;end $function$\n"
+  },
+  {
+    "schema": "return_private",
+    "proname": "guard_case_order",
+    "definition": "CREATE OR REPLACE FUNCTION return_private.guard_case_order()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare c return_private.cases;\nbegin\n  select * into c from return_private.cases where order_id = old.id;\n  if found and (\n    (new.store_id, new.driver_id, new.customer_id) is distinct from (old.store_id, old.driver_id, old.customer_id)\n    or (c.cancelled_at is not null and new.status <> 'cancelled')\n  ) then raise exception 'return_order_protected'; end if;\n  return new;\nend $function$\n"
+  }
+]

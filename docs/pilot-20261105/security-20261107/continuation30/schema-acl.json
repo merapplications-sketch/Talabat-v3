@@ -1,0 +1,100 @@
+[
+  {
+    "nspname": "auth",
+    "functions": 4,
+    "anon_usage": true,
+    "auth_usage": true,
+    "auth_create": false
+  },
+  {
+    "nspname": "extensions",
+    "functions": 55,
+    "anon_usage": true,
+    "auth_usage": true,
+    "auth_create": false
+  },
+  {
+    "nspname": "finance_private",
+    "functions": 7,
+    "anon_usage": false,
+    "auth_usage": false,
+    "auth_create": false
+  },
+  {
+    "nspname": "fulfillment_private",
+    "functions": 7,
+    "anon_usage": false,
+    "auth_usage": false,
+    "auth_create": false
+  },
+  {
+    "nspname": "graphql",
+    "functions": 0,
+    "anon_usage": true,
+    "auth_usage": true,
+    "auth_create": false
+  },
+  {
+    "nspname": "graphql_public",
+    "functions": 1,
+    "anon_usage": true,
+    "auth_usage": true,
+    "auth_create": false
+  },
+  {
+    "nspname": "pilot_private",
+    "functions": 3,
+    "anon_usage": false,
+    "auth_usage": false,
+    "auth_create": false
+  },
+  {
+    "nspname": "public",
+    "functions": 144,
+    "anon_usage": true,
+    "auth_usage": true,
+    "auth_create": false
+  },
+  {
+    "nspname": "realtime",
+    "functions": 18,
+    "anon_usage": true,
+    "auth_usage": true,
+    "auth_create": false
+  },
+  {
+    "nspname": "return_private",
+    "functions": 2,
+    "anon_usage": false,
+    "auth_usage": false,
+    "auth_create": false
+  },
+  {
+    "nspname": "security_private",
+    "functions": 1,
+    "anon_usage": false,
+    "auth_usage": false,
+    "auth_create": false
+  },
+  {
+    "nspname": "storage",
+    "functions": 24,
+    "anon_usage": true,
+    "auth_usage": true,
+    "auth_create": false
+  },
+  {
+    "nspname": "supabase_migrations",
+    "functions": 0,
+    "anon_usage": false,
+    "auth_usage": false,
+    "auth_create": false
+  },
+  {
+    "nspname": "vault",
+    "functions": 5,
+    "anon_usage": false,
+    "auth_usage": false,
+    "auth_create": false
+  }
+]

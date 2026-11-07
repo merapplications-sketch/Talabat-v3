@@ -1,3 +1,5 @@
+Latest evidence commit a76bc38759db2858c25bf6a010248aa8f8ddfccf, Library17. Additional .30 unchanged-source tests after that commit: direct private helper denied; customer order reassignment denied by table privileges; return status customer5keys/driver12keys/outsider denied; return driver reassignment blocked by existing return_order_protected; orders staff active read/replay succeeds, inactive/permissionremoved both denied. Files in continuation30; pending next evidence save. Supabase dashboard secure login returned declined: do NOT retry unless user asks. App MFA/session remains valid, not provider login.
+
 # Current .30 — account AND current-resource guards before replay
 
 Source abe3a5144894b82327a27944c4f1358959d83cf8; hosting40; deployment appgdep_6aef85cf84c08191a42f9a122a0beed6 succeeded2026-11-07T20:11:12.810364Z. Gate21/integrity14; exact archive+commit checked before save. See continuation30/REPORT.md and registry.

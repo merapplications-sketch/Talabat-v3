@@ -1,0 +1,1 @@
+begin; set local role authenticated; do $$begin begin perform return_private.view_case(-30001,false);raise exception 'ASSERT direct helper call accepted';exception when insufficient_privilege then perform set_config('test.c30_private_helper',sqlerrm,true);end;end $$; reset role; select current_setting('test.c30_private_helper') as denied; rollback;

@@ -1,0 +1,32 @@
+[
+  {
+    "result": {
+      "outsider": "not_allowed",
+      "driver_keys": [
+        "can_document_departure",
+        "cancelled_at",
+        "confirmed_refund",
+        "currency",
+        "delivery_due",
+        "departed_at",
+        "open_claim",
+        "order_status",
+        "paid",
+        "pending",
+        "received_at",
+        "refused_at"
+      ],
+      "customer_keys": [
+        "can_document_departure",
+        "cancelled_at",
+        "departed_at",
+        "order_status",
+        "received_at"
+      ],
+      "driver_active": {
+        "synthetic_marker": "driver_cached"
+      },
+      "assignment_change": "return_order_protected"
+    }
+  }
+]

@@ -1,0 +1,321 @@
+{
+  "release": ".30",
+  "source_commit": "abe3a5144894b82327a27944c4f1358959d83cf8",
+  "test_project": "fsvrsvqfknogwmhccera",
+  "status_counts_preserved": {
+    "untested": 331,
+    "failed": 2,
+    "not_applicable": 12
+  },
+  "canonical_matrix_modified": false,
+  "first_fix_commit_inference": false,
+  "registry_note": "DB named migrations are separate from Sites source/evidence commits; registry links copied only as supporting provenance, not inferred first-introduction history.",
+  "method": "Read actual saved SQL, result files, local scripts, live MFA summary, release report and defect registry; no test rerun or source/provider change.",
+  "updates": [
+    {
+      "req_id": "V1.1.1",
+      "official_requirement": "Verify that input is decoded or unescaped into a canonical form only once, it is only decoded when encoded data in that form is expected, and that this is done before processing the input further, for example it is not performed after input validation or sanitization.",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "actual_local_source_execution",
+      "proven_partial_evidence": "25 local route/cart/deep-link cases passed; inventory separates URL parser normalization, percent decoding, JSON and HTML interpretation.",
+      "missing_coverage": "All SDK/provider boundaries, form consumers, image validator/consumer paths and current saved SQL attribution not exhaustive.",
+      "next_executable_step": "Inventory current image URL validation and downstream interpretation; then add only uncovered encoded-path cases with local fixtures.",
+      "evidence": [
+        {
+          "path": "continuation27/CANONICALIZATION.md",
+          "sha256": "a19474c5dfc2086de51e9015932e276520237c80fc239827f52e3bac328eb692"
+        },
+        {
+          "path": "continuation27/canonicalization.mjs",
+          "sha256": "2f3b4ee48b156eb976bda2eb1d38975adf9ea5fbe5db68d84c5005073f46d656"
+        },
+        {
+          "path": "continuation27/canonicalization-result.json",
+          "sha256": "b0859ae84828a0e50e06085e9492189cbc88b566bb7d59c1cbc2be7a0bb6c57e"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V1.2.4",
+      "official_requirement": "Verify that data selection or database queries (e.g., SQL, HQL, NoSQL, Cypher) use parameterized queries, ORMs, entity frameworks, or are otherwise protected from SQL Injection and other database injection attacks. This is also relevant when writing stored procedures.",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "SQL_inventory_and_rollback_text_roundtrip",
+      "proven_partial_evidence": "Inventory152 functions in public/finance_private/security_private: actual EXECUTE candidate check_promo uses fixed text with USING; four ticket text samples roundtrip literally without staff escalation.",
+      "missing_coverage": "Not every provider/private schema or dynamic query builder audited; literal roundtrip alone is not injection immunity.",
+      "next_executable_step": "Enumerate unreviewed schemas and query construction callsites read-only; trace each interpolated value to parameter binding before choosing new bounded payloads.",
+      "evidence": [
+        {
+          "path": "continuation27/sql-function-inventory.json",
+          "sha256": "d62d25a799d433948ff1326c07994bdef98193384fbbbab7964eb9a7828422bf"
+        },
+        {
+          "path": "continuation27/ticket-literal.sql",
+          "sha256": "ce4975fda9e8a1710af80d5f37ba0a375309783085410accd5ac01980e7698ea"
+        },
+        {
+          "path": "continuation27/ticket-literal-result.json",
+          "sha256": "373db1be7daec333de9bcdfd8c2e9b4ae5c888ca2e46744c1153e2a9fa441128"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V8.2.1",
+      "official_requirement": "Verify that the application ensures that function-level access is restricted to consumers with explicit permissions.",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "authenticated_SQL_role_with_synthetic_claims",
+      "proven_partial_evidence": "Account guards precede cached results in customer_confirm_order/merchant_review_order/order_return_action. Banned denial and active acceptance demonstrated; return revoked/AAL1 denied, new AAL2 accepted.",
+      "missing_coverage": "All function/role combinations, approval revoked/AAL combinations and noncached mutation branches remain incomplete.",
+      "next_executable_step": "Compare remaining cache/replay branches against account and function guards; prepare rollback negative/positive cases only for uncovered functions.",
+      "evidence": [
+        {
+          "path": "continuation27/approval-replay-after.json",
+          "sha256": "26c6b5ed76aada18b6a65487a8420b2a879d1ede4b469efe28f7374aa8e07482"
+        },
+        {
+          "path": "continuation29/merchant-role-after.json",
+          "sha256": "8b822baec54dc5d7c87ed3f09b95852b362f1d36c949e774c71f5d5d6af24753"
+        },
+        {
+          "path": "continuation29/return-role-after.json",
+          "sha256": "0a19ed3d5694dd359aab499c3f1833b4084afa0a9848344ca15043d314594d17"
+        },
+        {
+          "path": "continuation29/return-regression-current.json",
+          "sha256": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2"
+        },
+        {
+          "path": "continuation27/return-replay-regression.sql",
+          "sha256": "9ca9de862ae23168f88e73aec913c9a7b29ee8d46ce06ee8bc6bc9fe1923929f"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V8.2.2",
+      "official_requirement": "Verify that the application ensures that data-specific access is restricted to consumers with explicit permissions to specific data items to mitigate insecure direct object reference (IDOR) and broken object level authorization (BOLA).",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "authenticated_SQL_current_resource_differential",
+      "proven_partial_evidence": "Current resource check denies old merchant/return cached result after store ownership removal while account remains active; customer confirmation unrelated to store ownership still accepted.",
+      "missing_coverage": "Other resources, actions and role transitions, changed order participants and live HTTP IDs not comprehensively tested.",
+      "next_executable_step": "Enumerate remaining cached-result consumers and mutable ownership attributes; test an uncovered actor/object transition with rollback and a valid current actor control.",
+      "evidence": [
+        {
+          "path": "continuation27/approval-role-removal.sql",
+          "sha256": "e06067fc408dd50b059739bdd107b5371e123a25686f20d2c9eab72b068ce7e0"
+        },
+        {
+          "path": "continuation27/return-role-removal.sql",
+          "sha256": "872755e4c7529a31ad21ddd4bb148ce723106bfd5157035638a32bf62973b71d"
+        },
+        {
+          "path": "continuation29/merchant-role-before.json",
+          "sha256": "e6101a3429fe2eab95d3829dfd83567348f2597366d8cf769f8cbbf3b2658e05"
+        },
+        {
+          "path": "continuation29/merchant-role-after.json",
+          "sha256": "8b822baec54dc5d7c87ed3f09b95852b362f1d36c949e774c71f5d5d6af24753"
+        },
+        {
+          "path": "continuation29/return-role-before.json",
+          "sha256": "bbf2b479346d2bed94b642b0768d586cd0802f1a3bd62d29dc063eba6fe10883"
+        },
+        {
+          "path": "continuation29/return-role-after.json",
+          "sha256": "0a19ed3d5694dd359aab499c3f1833b4084afa0a9848344ca15043d314594d17"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V8.3.1",
+      "official_requirement": "Verify that the application enforces authorization rules at a trusted service layer and doesn't rely on controls that an untrusted consumer could manipulate, such as client-side JavaScript.",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "trusted_database_boundary_with_synthetic_identity",
+      "proven_partial_evidence": "Denials enforced inside database routines under authenticated SQL role; cannot be attributed merely to UI guard.",
+      "missing_coverage": "Synthetic claims bypass identity-provider validation; exhaustive service/API entry points and direct table policies still incomplete.",
+      "next_executable_step": "Trace unreviewed trusted-service entry points and direct write policies to these guards; retain SQL versus HTTP distinction and add only missing endpoint evidence.",
+      "evidence": [
+        {
+          "path": "continuation27/approval-replay-after.json",
+          "sha256": "26c6b5ed76aada18b6a65487a8420b2a879d1ede4b469efe28f7374aa8e07482"
+        },
+        {
+          "path": "continuation29/merchant-role-after.json",
+          "sha256": "8b822baec54dc5d7c87ed3f09b95852b362f1d36c949e774c71f5d5d6af24753"
+        },
+        {
+          "path": "continuation29/return-role-after.json",
+          "sha256": "0a19ed3d5694dd359aab499c3f1833b4084afa0a9848344ca15043d314594d17"
+        },
+        {
+          "path": "continuation29/return-regression-current.json",
+          "sha256": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V8.3.2",
+      "official_requirement": "Verify that changes to values on which authorization decisions are made are applied immediately. Where changes cannot be applied immediately, (such as when relying on data in self-contained tokens), there must be mitigating controls to alert when a consumer performs an action when they are no longer authorized to do so and revert the change. Note that this alternative would not mitigate information leakage.",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "SQL_permission_change_differential",
+      "proven_partial_evidence": "In same synthetic authorization context, removal of store ownership changes cached-result access immediately; return account ban/revoked-session after reenable/MFA gate survives moved resource check.",
+      "missing_coverage": "Every permission dependency/cache, staff role change, subscriptions and long-lived channels not covered.",
+      "next_executable_step": "Find next mutable permission dependency used before replay/cache access; test immediate withdrawal and allowed control without repeating passed ownership case.",
+      "evidence": [
+        {
+          "path": "continuation27/approval-replay-after.json",
+          "sha256": "26c6b5ed76aada18b6a65487a8420b2a879d1ede4b469efe28f7374aa8e07482"
+        },
+        {
+          "path": "continuation29/merchant-role-after.json",
+          "sha256": "8b822baec54dc5d7c87ed3f09b95852b362f1d36c949e774c71f5d5d6af24753"
+        },
+        {
+          "path": "continuation29/return-role-after.json",
+          "sha256": "0a19ed3d5694dd359aab499c3f1833b4084afa0a9848344ca15043d314594d17"
+        },
+        {
+          "path": "continuation29/return-regression-current.json",
+          "sha256": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V7.4.2",
+      "official_requirement": "Verify that the application terminates all active sessions when a user account is disabled or deleted (such as an employee leaving the company).",
+      "status_preserved": "فاشل",
+      "evidence_type": "SQL_claim_simulation_not_real_token_invalidation",
+      "proven_partial_evidence": "Return replay refuses synthetic session ID present in revocation ledger after account reenable; newly identified AAL2 context accepted. This is operation denial, not session termination.",
+      "missing_coverage": "All active sessions after disable/delete, retained real JWT/Auth endpoints, refresh families and existing Realtime channels remain unproved; rejected broad deletion remains outside scope.",
+      "next_executable_step": "Read current scoped revocation paths and retained-token coverage; design permitted synthetic multi-session check without retrying rejected broad Auth deletion.",
+      "evidence": [
+        {
+          "path": "continuation29/return-regression-current.json",
+          "sha256": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2"
+        },
+        {
+          "path": "continuation27/return-replay-regression.sql",
+          "sha256": "9ca9de862ae23168f88e73aec913c9a7b29ee8d46ce06ee8bc6bc9fe1923929f"
+        },
+        {
+          "path": "continuation30/REPORT.md",
+          "sha256": "32364e36b3a01950418aa1940a8ac54a822ba09108d85cdc779553e961615a7f"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V6.3.3",
+      "official_requirement": "Verify that either a multi-factor authentication mechanism or a combination of single-factor authentication mechanisms, must be used in order to access the application. For L3, one of the factors must be a hardware-based authentication mechanism which provides compromise and impersonation resistance against phishing attacks while verifying the intent to authenticate by requiring a user-initiated action (such as a button press on a FIDO hardware key or a mobile phone). Relaxing any of the considerations in this requirement requires a fully documented rationale and a comprehensive set of mitigating controls.",
+      "status_preserved": "فاشل",
+      "evidence_type": "live_synthetic_UI_and_provider_metadata_success_only",
+      "proven_partial_evidence": "One synthetic verified factor and one live AAL2 session recorded; published home restored, Auth200 and refresh200. .30 home reuse documented.",
+      "missing_coverage": "Requirement text applies more broadly than admin-only testing: complete required-role enforcement plus documented rationale/mitigations for approved single-factor customer experience not established. Factor-loss/recovery and all sensitive administrative flows incomplete.",
+      "next_executable_step": "Read current sensitive-operation roster against MFA enforcement and document scope/rationale gaps without changing customer login; prepare controlled recovery cases while secure test mailbox remains unavailable.",
+      "evidence": [
+        {
+          "path": "continuation27/mfa-live-current.json",
+          "sha256": "d4067b239da9627ac35464078301b0b7aad26013bb8a9ee4f8e3b765e0e55bee"
+        },
+        {
+          "path": "continuation27/aal2-home.jpg",
+          "sha256": "dbd87b95d0f5b5ef60add8cb6593c69ab8e5d72f3184d6284ab51d9239091f5c"
+        },
+        {
+          "path": "continuation30/aal2-home.jpg",
+          "sha256": "dbd87b95d0f5b5ef60add8cb6593c69ab8e5d72f3184d6284ab51d9239091f5c"
+        },
+        {
+          "path": "continuation30/REPORT.md",
+          "sha256": "32364e36b3a01950418aa1940a8ac54a822ba09108d85cdc779553e961615a7f"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V6.8.4",
+      "official_requirement": "Verify that, if an application uses a separate Identity Provider (IdP) and expects specific authentication strength, methods, or recentness for specific functions, the application verifies this using the information returned by the IdP. For example, if OIDC is used, this might be achieved by validating ID Token claims such as 'acr', 'amr', and 'auth_time' (if present). If the IdP does not provide this information, the application must have a documented fallback approach that assumes that the minimum strength authentication mechanism was used (for example, single-factor authentication using username and password).",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "live_AAL2_plus_separate_SQL_claim_tests",
+      "proven_partial_evidence": "Real synthetic AAL2 session established; separate SQL return regression denies required AAL1 and permits new AAL2 claims.",
+      "missing_coverage": "These are two different evidence sources, not live replay of same function with real JWTs. All sensitive functions, auth freshness and provider-error fallback not exhaustive.",
+      "next_executable_step": "Map each sensitive operation to returned IdP assurance and freshness checks; compare existing tests and add only missing permitted AAL behavior evidence.",
+      "evidence": [
+        {
+          "path": "continuation27/mfa-live-current.json",
+          "sha256": "d4067b239da9627ac35464078301b0b7aad26013bb8a9ee4f8e3b765e0e55bee"
+        },
+        {
+          "path": "continuation29/return-regression-current.json",
+          "sha256": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V14.3.1",
+      "official_requirement": "Verify that authenticated data is cleared from client storage, such as the browser DOM, after the client or session is terminated. The 'Clear-Site-Data' HTTP response header field may be able to help with this but the client-side should also be able to clear up if the server connection is not available when the session is terminated.",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "local_VM_partial_boundary_not_confidentiality_or_clearance",
+      "proven_partial_evidence": "Local cart test restores same-account cart, does not restore other-account cart, removes expired cart and handles malformed JSON.",
+      "missing_coverage": "Same-origin storage is still readable; logout does not erase retained cart. No broad client data clearing proof from isolation/expiry; approved retention policy and all DOM/cache/offline paths incomplete.",
+      "next_executable_step": "Classify retained cart fields against approved persistence behavior and inventory remaining logout/offline caches; preserve prior proof/passive-signout tests, test only uncovered clearing behavior.",
+      "evidence": [
+        {
+          "path": "continuation27/cart-boundary.cjs",
+          "sha256": "cd7a457007823b705d594731902cf69ff9acd751a9329d993aabcac76fffa94d"
+        },
+        {
+          "path": "continuation27/cart-boundary-result.json",
+          "sha256": "7a835ab33d2de85177d7fd0792666dd6fea3b40819d38d5944cc11b50a3ed14f"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V8.2.3",
+      "official_requirement": "Verify that the application ensures that field-level access is restricted to consumers with explicit permissions to specific fields to mitigate broken object property level authorization (BOPLA).",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "mapping_caution_no_new_field_level_pass",
+      "proven_partial_evidence": "No new field-level disclosure regression is established by cached-result ownership tests; earlier field isolation evidence remains separate.",
+      "missing_coverage": "Full read/write field matrix across roles/resources; account/resource guards do not automatically prove property-level authorization.",
+      "next_executable_step": "Reuse SEC-001 and existing cross-store reassignment evidence, then identify a genuinely uncovered protected field for rollback differential testing.",
+      "evidence": [
+        {
+          "path": "continuation30/REPORT.md",
+          "sha256": "32364e36b3a01950418aa1940a8ac54a822ba09108d85cdc779553e961615a7f"
+        },
+        {
+          "path": "continuation26/LEGACY-REGRESSION-INDEX.json",
+          "sha256": "7fd0b930b002a9b5c82187373583aad7c4c42383b51d2b70a3e68818f8e0da09"
+        }
+      ],
+      "full_requirement_pass": false
+    },
+    {
+      "req_id": "V2.4.1",
+      "official_requirement": "Verify that anti-automation controls are in place to protect against excessive calls to application functions that could lead to data exfiltration, garbage-data creation, quota exhaustion, rate-limit breaches, denial-of-service, or overuse of costly resources.",
+      "status_preserved": "غير مختبر",
+      "evidence_type": "report_corroboration_not_new_execution",
+      "proven_partial_evidence": "Report preserves bounded ticket20/21 sequential quota evidence and disabled GraphQL observation; neither new replay test is an anti-automation control test.",
+      "missing_coverage": "Concurrent quota races, endpoint-specific budgets, provider coverage and enforceable paid-service ceilings not established.",
+      "next_executable_step": "Locate remaining quota check/write atomicity in source; design bounded rollback-local concurrency only where permitted, without flood or permanent finance fixtures.",
+      "evidence": [
+        {
+          "path": "continuation30/REPORT.md",
+          "sha256": "32364e36b3a01950418aa1940a8ac54a822ba09108d85cdc779553e961615a7f"
+        }
+      ],
+      "full_requirement_pass": false
+    }
+  ],
+  "not_mapped_to_requirement_pass": [
+    "C26-RELEASE validates executed packaging path, not provider IAM/branch protection or complete supply-chain requirements.",
+    "Real AAL2 UI reuse does not establish live factor-loss recovery or all administrative enforcement.",
+    "A cached marker result is not a financial transfer; SQL rollback claim contexts are not real signed JWT verification."
+  ]
+}

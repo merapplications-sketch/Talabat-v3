@@ -1,0 +1,37 @@
+[
+  {
+    "result": {
+      "active": {
+        "replay": {
+          "value": {
+            "synthetic_marker": "staff_cached"
+          },
+          "accepted": true
+        },
+        "status": {
+          "accepted": true
+        }
+      },
+      "inactive": {
+        "replay": {
+          "error": "not_allowed",
+          "accepted": false
+        },
+        "status": {
+          "error": "not_allowed",
+          "accepted": false
+        }
+      },
+      "permission_removed": {
+        "replay": {
+          "error": "not_allowed",
+          "accepted": false
+        },
+        "status": {
+          "error": "not_allowed",
+          "accepted": false
+        }
+      }
+    }
+  }
+]

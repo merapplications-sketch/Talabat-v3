@@ -1,0 +1,30 @@
+[
+  {
+    "result": {
+      "active": {
+        "error": null,
+        "status": {
+          "marker": "synthetic-cache"
+        },
+        "execute": {
+          "marker": "synthetic-cache"
+        }
+      },
+      "inactive": {
+        "error": "not_allowed",
+        "status": null,
+        "execute": null
+      },
+      "cross_actor": {
+        "error": "request_conflict",
+        "status": null,
+        "execute": null
+      },
+      "permission_removed": {
+        "error": "not_allowed",
+        "status": null,
+        "execute": null
+      }
+    }
+  }
+]
