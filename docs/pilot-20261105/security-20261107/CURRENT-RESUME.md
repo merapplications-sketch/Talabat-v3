@@ -1,3 +1,9 @@
+## Current .20 — customer authentication scope locked
+
+Owner clarification implemented: normal customer bootstrap does not require the MFA module/API. No authenticator/QR/customer enrollment introduced. Synthetic MFA remains isolated; administrative gate and server account_enabled unchanged. Source fec375fb5860759813069c98ea2ab3a62940de26, hosting30, deployment appgdep_6aef38792f8c8191a8edfc15d4c5688f succeeded2026-11-07T14:41:15Z. Five scope regressions and existing MFA tests passed; four offline recovery cases passed. Required roster readback1 synthetic-only; protected accounts0; verified synthetic factors0. No minimum-device support claimed. Added actual-device/weak-network auth matrix and separate administrative recovery cases in auth-compatibility/ACCEPTANCE.md. Real old devices, actual recovery mailbox and user MFA enrollment remain unavailable/pending. Existing customer session verification after deploy is recorded separately when observed. No protected account/password/order changes.
+
+GitHub evidence/isolated patch checkpoint: 0324609ddae119d06dab1d41843cb02addb9b530 on candidate/pilot-readiness-20261105. Sites source is separately fd665456d30eb28612c13da93df7e6d71da9ec94 (.19). Work continues after required synthetic MFA enrollment.
+
 # Current continuation — TALABOT security and functional acceptance
 
 ## Current evidence checkpoint — .19, 2026-11-07, 13:45:27 UTC (work continues)
@@ -40,3 +46,5 @@ ASVS matrix now records343 untested,2 failed,0 passed: V3.4.3 and V3.4.7 move fr
 6. Continue provider/operations and supply-chain gaps according to actual access. Runbooks/tabletop are preparatory evidence; a real restore needs a separate destination. Save new source/evidence through the root workflow and record the exact new GitHub commit separately from Sites source.
 
 Historical .16/.17/.18 statements and full previous evidence are preserved in REPORT.md. This resume supersedes the prior .16 deployment and “post-policy HTTP pending” statements. Work continues; no final acceptance decision is recorded.
+
+Live .20 verification: existing customer session opened the complete customer home without MFA/QR; this is session reuse, not a fresh credential-entry or old-device test.

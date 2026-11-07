@@ -1,0 +1,41 @@
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index 71d1b5b..67c4bc5 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.19';
++  var VERSION = 'pilot-mobile-20261107.20';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -898,6 +898,9 @@
+     applyChrome();
+   }
+   async function enter(user) {
++    // Customer sign-in keeps its approved flow. MFA pilot is synthetic-only;
++    // administrative enforcement remains server-side, independent of this UI route.
++    if (need === 'customer' && user && user.id !== '85fea11e-738c-4221-ac29-51d4ff50d594') return enterAuthorized(user);
+     try {
+       if (!window.TLBMFA) throw new Error("mfa_unavailable");
+       await window.TLBMFA.ensure(sb, bootHide);
+diff --git a/tests/customer-auth-scope.cjs b/tests/customer-auth-scope.cjs
+new file mode 100644
+index 0000000..f3c3e55
+--- /dev/null
++++ b/tests/customer-auth-scope.cjs
+@@ -0,0 +1,12 @@
++const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
++const source=fs.readFileSync('public/talabat-core.js','utf8');
++const enter=source.slice(source.indexOf('  async function enter(user)'),source.indexOf('  function enterAuthorized(user)'));
++async function probe(need,id,mfa){let calls=0,authorized=0,failed=0;const ctx={need,window:{TLBMFA:mfa&&{ensure:async()=>{calls++;if(mfa==='fail')throw Error('offline');}}},sb:{},bootHide(){},bootFail(){failed++;},enterAuthorized(){authorized++;}};vm.createContext(ctx);vm.runInContext(enter+';this.run=enter;',ctx);await ctx.run({id});return {calls,authorized,failed};}
++(async()=>{
++ assert.deepEqual(await probe('customer','normal-customer',null),{calls:0,authorized:1,failed:0});
++ assert.deepEqual(await probe('customer','normal-customer','fail'),{calls:0,authorized:1,failed:0});
++ assert.deepEqual(await probe('customer','85fea11e-738c-4221-ac29-51d4ff50d594','fail'),{calls:1,authorized:0,failed:1});
++ assert.deepEqual(await probe('admin','test-admin','fail'),{calls:1,authorized:0,failed:1});
++ assert.deepEqual(await probe('admin','test-admin','ok'),{calls:1,authorized:1,failed:0});
++ console.log('5 customer/admin MFA scope regressions passed; no browser/device compatibility claim');
++})().catch(e=>{console.error(e);process.exitCode=1;});
