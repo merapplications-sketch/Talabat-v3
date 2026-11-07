@@ -1,0 +1,90 @@
+{
+  "base": "e32391266e343fc6bdaf42b5f272db7b4f1add6b",
+  "head": "2491da72befb3bffcfc7d7a9ebb902a2173fd868",
+  "new_commits": 3,
+  "new_text_blobs_scanned": 16,
+  "secret_pattern_matches": [],
+  "changed_files": [
+    {
+      "path": "dist/server/index.js",
+      "bytes": 2447209,
+      "sha256": "c2c08422976220a8ab8c41020ac1b6b44eb813c08d4f018991a54e2df2691c6a"
+    },
+    {
+      "path": "public/admin.html",
+      "bytes": 132461,
+      "sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d"
+    },
+    {
+      "path": "public/assets/mfa.js",
+      "bytes": 8627,
+      "sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721"
+    },
+    {
+      "path": "public/customer.html",
+      "bytes": 550305,
+      "sha256": "763ff6ea9115f24f95d67a4179070833f01d1db372d70df2fd60230cb2281b45"
+    },
+    {
+      "path": "public/driver.html",
+      "bytes": 64728,
+      "sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704"
+    },
+    {
+      "path": "public/merchant.html",
+      "bytes": 78250,
+      "sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d"
+    },
+    {
+      "path": "public/talabat-core.js",
+      "bytes": 163805,
+      "sha256": "2b70b8d6b2688d6b9df46060eac999e83c69aa39ed7fd6894a680393114cb3e6"
+    },
+    {
+      "path": "tests/admin-idle.cjs",
+      "bytes": 663,
+      "sha256": "2dc238e2f17ab461303ece03b248e4298c8d9ab3925f4b048277e45d9cd292c7"
+    },
+    {
+      "path": "tests/image-limits.cjs",
+      "bytes": 1836,
+      "sha256": "1d3e924d6e26b691f9fcdba35b026bec43500f172ac9aaf948c58ad635e62cd2"
+    },
+    {
+      "path": "tests/mfa.cjs",
+      "bytes": 2649,
+      "sha256": "87deb565b295103d9336bbdbfd438c3b475c023f32b9770a56b5753c2bb6e011"
+    }
+  ],
+  "unchanged_component_git_identity": {
+    "scripts/build.mjs": true,
+    "worker/index.js": true,
+    ".openai/hosting.json": true,
+    "public/assets/vendor/supabase-2.117.2.js": true,
+    "public/assets/vendor/supabase-LICENSE": true
+  },
+  "build": {
+    "node": "v24.22.1",
+    "exit_code": 0,
+    "byte_identical_output": true,
+    "total_assets": 74,
+    "changed_assets_verified": [
+      "/admin.html",
+      "/assets/mfa.js",
+      "/customer.html",
+      "/driver.html",
+      "/merchant.html",
+      "/talabat-core.js"
+    ],
+    "removed_assets": [],
+    "unchanged_assets_reused": 68
+  },
+  "limits": "Incremental pattern scan and offline build only; no complete source/security audit, no custom-password/entropy/binary/remote-history scan, no new advisory search. Previous .15 advisory evidence is dated and reused only for byte-identical dependency.",
+  "dependency_delta": {
+    "leaflet_loader_identical": true,
+    "new_local_module": "public/assets/mfa.js",
+    "new_module_external_imports_or_script_urls": false,
+    "new_module_sdk_dependency": "Uses existing client.auth.mfa APIs; no added package/vendor dependency",
+    "scope": "Site checkout only; GitHub candidate CI dependency files not re-fetched"
+  }
+}

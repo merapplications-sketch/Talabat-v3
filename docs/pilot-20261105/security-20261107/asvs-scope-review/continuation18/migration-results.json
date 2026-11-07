@@ -1,0 +1,34 @@
+{
+  "passed": 7,
+  "total": 7,
+  "rows": [
+    {
+      "name": "different dormant legacy args migrate with original UUIDs",
+      "pass": true
+    },
+    {
+      "name": "malformed JSON and non-object args remain untouched",
+      "pass": true
+    },
+    {
+      "name": "other users and unknown operations remain untouched",
+      "pass": true
+    },
+    {
+      "name": "valid hash conflict preserved without overwrite or destructive retry",
+      "pass": true
+    },
+    {
+      "name": "same valid hashed UUID permits legacy removal",
+      "pass": true
+    },
+    {
+      "name": "write failure preserves old request UUID",
+      "pass": true
+    },
+    {
+      "name": "changed signed-in identity stops migration",
+      "pass": true
+    }
+  ]
+}

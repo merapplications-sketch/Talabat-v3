@@ -1,0 +1,58 @@
+[
+  {
+    "path": "/customer",
+    "method": "HEAD",
+    "exit": 0,
+    "headers": [
+      "HTTP/1.1 200 OK",
+      "HTTP/2 200 ",
+      "strict-transport-security: max-age=31536000; includeSubDomains",
+      "content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; connect-src 'self' https://fsvrsvqfknogwmhccera.supabase.co wss://fsvrsvqfknogwmhccera.supabase.co; form-action 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; report-uri /csp-report",
+      "cross-origin-opener-policy: same-origin",
+      "x-content-type-options: nosniff"
+    ],
+    "error": ""
+  },
+  {
+    "path": "/talabat-core.js",
+    "method": "HEAD",
+    "exit": 0,
+    "headers": [
+      "HTTP/1.1 200 OK",
+      "HTTP/2 200 ",
+      "strict-transport-security: max-age=31536000; includeSubDomains",
+      "content-security-policy: default-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; report-uri /csp-report",
+      "cross-origin-opener-policy: same-origin",
+      "x-content-type-options: nosniff"
+    ],
+    "error": ""
+  },
+  {
+    "path": "/asvs-missing-19",
+    "method": "HEAD",
+    "exit": 0,
+    "headers": [
+      "HTTP/1.1 200 OK",
+      "HTTP/2 404 ",
+      "strict-transport-security: max-age=31536000; includeSubDomains",
+      "content-security-policy: default-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; report-uri /csp-report",
+      "cross-origin-opener-policy: same-origin",
+      "x-content-type-options: nosniff"
+    ],
+    "error": ""
+  },
+  {
+    "path": "/csp-report",
+    "method": "POST",
+    "exit": 0,
+    "headers": [
+      "HTTP/1.1 200 OK",
+      "HTTP/2 204 ",
+      "strict-transport-security: max-age=31536000; includeSubDomains",
+      "content-security-policy: default-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; report-uri /csp-report",
+      "cross-origin-opener-policy: same-origin",
+      "x-content-type-options: nosniff"
+    ],
+    "error": ""
+  }
+]

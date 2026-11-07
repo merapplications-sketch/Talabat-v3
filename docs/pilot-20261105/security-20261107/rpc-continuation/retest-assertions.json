@@ -1,0 +1,49 @@
+{
+  "group_get": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "group_add": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "group_remove": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "group_set": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "request_store": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "driver_accept": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "driver_decline": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "set_my_free_delivery": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "my_offers": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "my_rating": {
+    "active_pass": true,
+    "disabled_pass": true
+  },
+  "active_content": {
+    "accept_true": true,
+    "decline_changed": true,
+    "price_changed": true,
+    "offer_valid": true,
+    "rating_valid": true
+  }
+}

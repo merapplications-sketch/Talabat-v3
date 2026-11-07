@@ -1,0 +1,60 @@
+[
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.3",
+    "req_description": "Verify that HTTP responses include a Content-Security-Policy response header field which defines directives to ensure the browser only loads and executes trusted content or resources, in order to limit execution of malicious JavaScript. As a minimum, a global policy must be used which includes the directives object-src 'none' and base-uri 'none' and defines either an allowlist or uses nonces or hashes. For an L3 application, a per-response policy with nonces or hashes must be defined.",
+    "L": "2",
+    "status": "غير مختبر",
+    "implementation": "Sites Worker serves static assets and response headers; browser calls Supabase directly. Existing CSP retains inline allowances. Required implementation target: Verify that HTTP responses include a Content-Security-Policy response header field which defines directives to ensure the browser only loads and executes trusted content or resources, in order to limit execution of malicious JavaScript. As a minimum, a global policy must be used which includes the directives object-src 'none' and base-uri 'none' and defines either an allowlist or uses nonces or hashes. For an L3 application, a per-response policy with nonces or hashes must be defined.",
+    "test_method": "Apply/test minimum global object-src/base-uri/resource policy for every relevant response, inventory inline execution and use appropriate hashes/nonces/external scripts; regress CDN/maps/chat. Do not infer global compliance from one200 response.",
+    "evidence": "Customer .10 CSP now object-src none/base-uri none/frame-ancestors none. Worker fallback and assets without meta CSP remain frame-ancestors-only; inline scripts remain allowed. | .19: first-party default policy/report-uri implemented; source84/84 tests passed. Deployed curl customer HEAD200, core HEAD200, missing HEAD404 carry required minimum/report-uri; /csp-report POST204.",
+    "limits": "Known first-party defects remediated with bounded local/live evidence. Full requirement acceptance absent: resource trust/inline allowances, provider-generated responses and other endpoints, browser-automatic report delivery, durable retention remain unverified. Earlier urllib403 is a client-path limitation, not application block proof.",
+    "owner": "Frontend + hosting owner",
+    "priority": "P0",
+    "blocking_dependency": "Browser fixtures and hosting/provider configuration",
+    "applicability": "REQUIRES_REVIEW",
+    "evidence_baseline": "Site .10 5e80ea2271c628b50241eb6042e265adfb4973f0, hosting20; pilot_structured_client_error_telemetry applied per root",
+    "evidence_files": [
+      "security-20261107/deployed-v20-headers.txt",
+      "security-20261107/csp19/REPORT.md",
+      "security-20261107/csp19/deployed-curl-safe.json"
+    ],
+    "coverage": "Partial remediation evidence; full requirement remains untested; no PASS.",
+    "current_snapshot": "Site .19 fd665456d30eb28612c13da93df7e6d71da9ec94; hosting29; deployment appgdep_6aef2b64e05c819181b2d2aa9a925f1b; 2026-11-07 13:45:27UTC",
+    "current_checkpoint": "security-20261107/CURRENT-RESUME.md",
+    "current_evidence_kind": "Known first-party defect fixed and bounded live retest passed; wider coverage untested",
+    "remaining_category": "Untested provider/remaining response coverage and automatic report delivery/retention"
+  },
+  {
+    "chapter_id": "V3",
+    "chapter_name": "Web Frontend Security",
+    "section_id": "V3.4",
+    "section_name": "Browser Security Mechanism Headers",
+    "req_id": "V3.4.7",
+    "req_description": "Verify that the Content-Security-Policy header field specifies a location to report violations.",
+    "L": "3",
+    "status": "غير مختبر",
+    "implementation": "Sites Worker serves static assets and response headers; browser calls Supabase directly. Existing CSP retains inline allowances. Required implementation target: Verify that the Content-Security-Policy header field specifies a location to report violations.",
+    "test_method": "Select a sanitized CSP report receiver with retention/rate limits; send a controlled violation and verify delivery without leaking URLs/tokens.",
+    "evidence": "No CSP violation reporting directive/receiver is present in current Worker policy. | .19: first-party default policy/report-uri implemented; source84/84 tests passed. Deployed curl customer HEAD200, core HEAD200, missing HEAD404 carry required minimum/report-uri; /csp-report POST204.",
+    "limits": "Known first-party defects remediated with bounded local/live evidence. Full requirement acceptance absent: resource trust/inline allowances, provider-generated responses and other endpoints, browser-automatic report delivery, durable retention remain unverified. Earlier urllib403 is a client-path limitation, not application block proof.",
+    "owner": "Frontend + hosting owner",
+    "priority": "P0",
+    "blocking_dependency": "Browser fixtures and hosting/provider configuration",
+    "applicability": "REQUIRES_REVIEW",
+    "evidence_baseline": "Site .10 5e80ea2271c628b50241eb6042e265adfb4973f0, hosting20; pilot_structured_client_error_telemetry applied per root",
+    "evidence_files": [
+      "security-20261107/REPORT.md",
+      "security-20261107/csp19/REPORT.md",
+      "security-20261107/csp19/deployed-curl-safe.json"
+    ],
+    "coverage": "Partial remediation evidence; full requirement remains untested; no PASS.",
+    "current_snapshot": "Site .19 fd665456d30eb28612c13da93df7e6d71da9ec94; hosting29; deployment appgdep_6aef2b64e05c819181b2d2aa9a925f1b; 2026-11-07 13:45:27UTC",
+    "current_checkpoint": "security-20261107/CURRENT-RESUME.md",
+    "current_evidence_kind": "Known first-party defect fixed and bounded live retest passed; wider coverage untested",
+    "remaining_category": "Untested provider/remaining response coverage and automatic report delivery/retention"
+  }
+]
