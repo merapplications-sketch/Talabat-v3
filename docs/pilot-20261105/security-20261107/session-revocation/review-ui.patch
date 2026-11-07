@@ -1,0 +1,42 @@
+diff --git a/public/customer.html b/public/customer.html
+index b7eb471..757371f 100644
+--- a/public/customer.html
++++ b/public/customer.html
+@@ -2094,4 +2094,12 @@ function render(){
+ if(!window.__hhTick)window.__hhTick=setInterval(()=>{if(ME.phone&&TLB.happyHours&&TLB.happyHours().length&&!S.busy){syncStores();render()}},60000);
+ {const previewLang=new URLSearchParams(location.search).get('lang');if(previewLang==='ru'||previewLang==='en')TLB.setLang(previewLang)}
+ TLB.start('customer',me=>{ME={name:me.name,phone:me.phone};TLB.chrome(false);prefLoad();TLB.wantSupport();syncStores();cartLoad();TLB.on(()=>{syncStores();cartLoad();watchOrders();ptsWatch();render();openDeep();grpDeep()});watchOrders();ptsWatch();render();openDeep();grpDeep()});
++</script><script>
++if(new URLSearchParams(location.search).get('session')==='asvs-review'){
++ const box=document.createElement('aside');box.id='asvs-session-check';box.style='position:fixed;bottom:80px;right:8px;z-index:99999;background:white;border:1px solid #777;padding:8px;max-width:240px';
++ const b=document.createElement('button');b.textContent='فحص تجديد جلسة الاختبار';
++ const out=document.createElement('p');out.setAttribute('role','status');
++ b.onclick=async()=>{b.disabled=true;out.textContent='جارٍ الفحص';const r=await TLB.reviewSessionRefresh();out.textContent=(r.ok?'نجح تجديد الجلسة':'رُفض أو تعذّر تجديد الجلسة')+' · HTTP '+r.status;b.disabled=false;};
++ box.append(b,out);document.body.append(box);
++}
+ </script></body></html>
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index 8562932..327aa64 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.11';
++  var VERSION = 'pilot-mobile-20261107.12';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -908,6 +908,11 @@
+   var TLBref = null;
+   window.TLB = {
+     version: VERSION,
++    reviewSessionRefresh: async function () {
++      if (!sb || authStorageKey !== 'tlb-auth-customer-asvs-review') return {ok:false,status:403};
++      try { var r = await sb.auth.refreshSession(); return {ok:!r.error && !!(r.data && r.data.session),status:r.error ? (Number(r.error.status)||0) : 200}; }
++      catch (_) { return {ok:false,status:0}; }
++    },
+     loadFailed: function () { return !!secFail.stat; },
+     normPhone: normPhone,
+     t: t, esc: esc, applyI18n: applyI18n, setLang: setLang, lang: function () { return lang; },
