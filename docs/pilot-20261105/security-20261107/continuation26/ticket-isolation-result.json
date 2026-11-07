@@ -1,0 +1,12 @@
+[
+  {
+    "result": {
+      "foreign_reply": "not_allowed",
+      "own_reply_rows": 1,
+      "forged_staff_rows": 0,
+      "own_rows_privileged": 1,
+      "forged_staff_message": "new row violates row-level security policy for table \"ticket_messages\"",
+      "foreign_rows_privileged": 0
+    }
+  }
+]

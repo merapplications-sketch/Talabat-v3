@@ -1,0 +1,11 @@
+import path from 'node:path';import {execFileSync} from 'node:child_process';import {readFileSync} from 'node:fs';
+import {verify,digest,verifyCommit} from './release-integrity.mjs';import {checks} from './security-gate.mjs';
+const root=path.resolve(import.meta.dirname,'..'),archive=process.argv[2],expectedCommit=process.argv[3];
+if(!archive||!expectedCommit)throw Error('Archive path and pushed source commit are required');
+verifyCommit(root,expectedCommit);
+const receipt=verify(root,[...checks.map(x=>x[0]),'headers','csp-report']);
+const entries=execFileSync('tar',['-tf',archive],{encoding:'utf8'}).trim().split('\n');
+const files=entries.filter(p=>!p.endsWith('/'));
+if(JSON.stringify(files.sort())!==JSON.stringify(['dist/.openai/hosting.json','dist/server/index.js']))throw Error('Unexpected archive entries');
+for(const [p,h]of Object.entries(receipt.output))if(digest(execFileSync('tar',['-xOf',archive,`dist/${p}`],{maxBuffer:32*1024*1024}))!==h)throw Error(`Stale archive bytes: ${p}`);
+console.log(JSON.stringify({commit:expectedCommit,archive_sha256:digest(readFileSync(archive)),source_and_tests_match:true,archive_bytes_match:true}));

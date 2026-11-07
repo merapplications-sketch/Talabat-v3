@@ -1,0 +1,15 @@
+{
+  "release": ".26",
+  "source_commit": "0b700644507783ec7bf02fed0d4569f1da07698c",
+  "previous_source": "bb73be06f4f60d3125eccc7c6fd45fda9b72db42",
+  "hosting_version": 36,
+  "deployment_id": "appgdep_6aef781bf3dc8191b54df688a3e0bb63",
+  "deployed_at": "2026-11-07T19:12:45.451991+00:00",
+  "archive_raw_sha256": "d0b9d4f001d3cfa805f2f188384b2ca77cbff5dd598c740cbb36e6868fd44b03",
+  "provider_archive_content_hash": "sha256:b9054291dc389d2c1f46377e394320a0b7e2f6aaaac7ddf9fff193b7802fdad5",
+  "hash_note": "Provider content hash is recorded separately; not assumed equal to raw tar hash. Published six affected assets are byte-compared separately.",
+  "gate_groups": 21,
+  "integrity_cases": 10,
+  "test_project": "fsvrsvqfknogwmhccera",
+  "mfa_factors": 0
+}

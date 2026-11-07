@@ -1,0 +1,11 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const root=process.argv[2];if(!root)throw Error('source root required');const html=fs.readFileSync(root+'/public/customer.html','utf8');
+const source=html.slice(html.indexOf("const CK=()=>"),html.indexOf('function afterCart()'));
+const storage=new Map();let account='synthetic-a';const localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)};
+const make=()=>{const c={TLB:{me:()=>({id:account})},ALLS:[{id:'store-a',n:'Store A'}],S:{cart:{},pay:'cash'},localStorage};vm.createContext(c);vm.runInContext(source,c);return c};
+let c=make();vm.runInContext("cartLoaded=true;S.cart={dish:2};S.cartStore='Store A';S.note='synthetic note';S.tip=5;S.okey='synthetic-request';cartSave()",c);
+c=make();vm.runInContext('cartLoad()',c);assert.equal(c.S.cart.dish,2);assert.equal(c.S.note,'synthetic note');assert.equal(c.S.okey,'synthetic-request');
+account='synthetic-b';c=make();vm.runInContext('cartLoad()',c);assert.equal(Object.keys(c.S.cart).length,0);assert.equal(c.S.note,undefined);
+account='synthetic-a';const saved=JSON.parse(storage.get('tlb-cart-synthetic-a'));saved.at=Date.now()-86400001;storage.set('tlb-cart-synthetic-a',JSON.stringify(saved));c=make();vm.runInContext('cartLoad()',c);assert.equal(Object.keys(c.S.cart).length,0);assert.equal(storage.has('tlb-cart-synthetic-a'),false);
+storage.set('tlb-cart-synthetic-a','{bad');c=make();vm.runInContext('cartLoad()',c);assert.equal(Object.keys(c.S.cart).length,0);
+console.log(JSON.stringify({same_account_restore:true,other_account_no_restore:true,expired_cart_removed:true,malformed_cart_safe:true,limits:'VM source behavior only; same-origin storage remains readable and logout does not erase retained cart. Not device, UI or policy acceptance.'}));

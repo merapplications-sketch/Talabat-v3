@@ -1,3 +1,24 @@
+# Current .27 — MFA live success and exact commit/archive binding
+
+Source 5a85f8c0ade674fe7ec7db7845ae75ee9123749d; hosting 37; deployment appgdep_6aef7b93421c8191b7fe5e848362cccb succeeded. See continuation27/REPORT.md. Gate 21 groups / integrity 14 cases. Committed source byte comparison closes dirty checkout gap. Source and archive checked before save; published core/MFA bytes matched.
+
+User completed synthetic factor: verified=1, current session AAL2=1. UI .26 home opened and refresh/Auth HTTP200. Do not request enrollment again or read OTP/secret. Current tab4 same synthetic session. MFA recovery/factor loss remains separate. No protected account/order changes.
+
+New evidence continuation26: cross-store writes, ticket/chat isolation, ticket quota, zero cleanup, GraphQL disabled. continuation27: cart boundary source tests, publication, current registry. Canonical overall statuses unchanged, bounded partial evidence appended. Historical .26 and .25 descriptions below are historical, including factors0.
+
+Next available work: complete per-ID source/operation evidence from triage, supported live checks with retained synthetic AAL2 session; independent provider/recovery/backup/concurrency preparation. Do not claim all available work exhausted. Do not create permanent financial fixtures to bypass rejection.
+
+# Current .26 — 8 November2026 Asia/Dushanbe
+Source0b700644507783ec7bf02fed0d4569f1da07698c, hosting36, deploymentappgdep_6aef781bf3dc8191b54df688a3e0bb63 succeeded2026-11-07T19:12:45.451991Z. Source .25 and evidence5ec5794 verified first. See continuation26/REPORT.md and publication.json.
+
+New release integrity gate binds all checkout input files except.git/dist/node_modules/generated receipt,21 passed groups and exact Worker/manifest output. Packaging ran verify-release; verify-archive checked pushed HEAD and exact archive entries/bytes. Old .25 tar rejected. Six published assets byte-identical to tested source. Provider archive content hash separately recorded; never equate it with raw tar hash.
+
+New rollback-only SQL cases: own/cross-store menu writes/reassignment; own/foreign ticket reply/staff sender forgery; own/foreign chat/sender forgery; ticket20allowed/21rejected. Synthetic cleanup0; no protected records or permanent financial fixture changed. ASVS V8.2.1/2/3 andV2.4.1 partial only. Full matrix331untested/2failed/12NA unchanged.
+
+MFA factors still0. User step already explained: synthetic setup button, enroll manually, enterOTP inUI, confirm. Do not request another password or inspect MFA secret. Prior handoff tab4 synthetic scope may remain .25; do not reload during manual entry. Old-device/provider/backup/alert/concurrency blocks remain. Remaining technical work exists; no all-work-exhausted or readiness claim.
+
+Latest evidence commit5ec5794bdaf29ddfbef22bb2d22b626cbdf11634. Source/deploy .25 recorded below.
+
 # Current .25 — regression prevention added; review still open
 Source bb73be06f4f60d3125eccc7c6fd45fda9b72db42, hosting35, deployment appgdep_6aef74a0afc481918ac4eb9641b22fd5 succeeded2026-11-07T18:57:55.085244Z. See continuation25/REPORT.md, publication.json and regression-register.json. Previous .24 source7060283f2166390abab4291aa7d95cb9ba721e45.
 

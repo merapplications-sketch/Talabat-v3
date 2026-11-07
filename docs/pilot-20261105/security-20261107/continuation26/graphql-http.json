@@ -1,0 +1,5 @@
+{
+  "curl_exit": 0,
+  "response": "{\"errors\": [{\"message\": \"pg_graphql extension is not enabled.\"}]}\n200",
+  "transport_error": ""
+}

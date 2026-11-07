@@ -1,0 +1,150 @@
+[
+  {
+    "id": "C24-ERR",
+    "cause": "Raw RPC detail returned/logged and appended in customer error",
+    "affected_paths": [
+      "core.rpc",
+      "customer.errMsg"
+    ],
+    "source_fix_commit": "3f7c171ba95a71e4862f281c3f489b764982463b",
+    "test": "tests/security-errors-logout.cjs",
+    "evidence": "continuation24/REPORT.md",
+    "classification": "newly_discovered",
+    "migration": null,
+    "full_ASVS_closure": false,
+    "evidence_commit": "bb81d61a3d669d9eba8839af427c9d26740831d6"
+  },
+  {
+    "id": "C24-BOOT",
+    "cause": "Boot error-page logout removed local session without server signout",
+    "affected_paths": [
+      "core.bootFail",
+      "core.logout",
+      "role SDK namespaces"
+    ],
+    "source_fix_commit": "3f7c171ba95a71e4862f281c3f489b764982463b",
+    "test": "tests/security-errors-logout.cjs + tests/test-all.py",
+    "evidence": "continuation24/REPORT.md",
+    "classification": "newly_discovered",
+    "migration": null,
+    "full_ASVS_closure": false,
+    "evidence_commit": "bb81d61a3d669d9eba8839af427c9d26740831d6"
+  },
+  {
+    "id": "C24-CLIENT-01",
+    "cause": "Entity decoding in inline handler reintroduced JS quote",
+    "affected_paths": [
+      "customer.cxCard"
+    ],
+    "source_fix_commit": "7060283f2166390abab4291aa7d95cb9ba721e45",
+    "test": "tests/customer-recommendation-encoding.py",
+    "evidence": "continuation24/source-review/customer-handler-after.json",
+    "classification": "newly_discovered",
+    "migration": null,
+    "full_ASVS_closure": false,
+    "evidence_commit": "bb81d61a3d669d9eba8839af427c9d26740831d6"
+  },
+  {
+    "id": "C24-DATA-01",
+    "cause": "Pending proof download could repopulate cleared blob cache",
+    "affected_paths": [
+      "core.authenticatedProofUrl",
+      "pagehide",
+      "SIGN_OUT"
+    ],
+    "source_fix_commit": "7060283f2166390abab4291aa7d95cb9ba721e45",
+    "test": "tests/proof-epoch.cjs + tests/proof-access.cjs",
+    "evidence": "continuation24/data-crypto/proof-epoch-after.json",
+    "classification": "newly_discovered",
+    "migration": null,
+    "full_ASVS_closure": false,
+    "evidence_commit": "bb81d61a3d669d9eba8839af427c9d26740831d6"
+  },
+  {
+    "id": "C24-DATA-02",
+    "cause": "Passive signout retained private DOM and role closure state",
+    "affected_paths": [
+      "core.handleAuthSignedOut",
+      "explicit signout/recovery"
+    ],
+    "source_fix_commit": "7060283f2166390abab4291aa7d95cb9ba721e45",
+    "test": "tests/passive-signout.cjs + tests/test-all.py",
+    "evidence": "continuation24/data-crypto/passive-signout-after.json",
+    "classification": "newly_discovered",
+    "migration": null,
+    "full_ASVS_closure": false,
+    "evidence_commit": "bb81d61a3d669d9eba8839af427c9d26740831d6"
+  },
+  {
+    "id": "C24-FINITE",
+    "cause": "PostgreSQL numeric NaN/Infinity pass lower-only cash guard",
+    "affected_paths": [
+      "deliver_order",
+      "orders.cash_collected"
+    ],
+    "source_fix_commit": null,
+    "test": "security/db/cash-finite-test.sql",
+    "evidence": "continuation24/business-review/cash-after.json",
+    "classification": "newly_discovered",
+    "migration": "pilot_delivery_cash_finite_guard",
+    "full_ASVS_closure": false,
+    "evidence_commit": "bb81d61a3d669d9eba8839af427c9d26740831d6",
+    "source_fix_note": "DB deployment is a named migration, not a Sites commit. Exact SQL and result hashes in source security/db/tested-evidence.json at bb73be06f4f60d3125eccc7c6fd45fda9b72db42"
+  },
+  {
+    "id": "C24-PRICE",
+    "cause": "Lower-only price/fee checks accepted nonfinite numeric values",
+    "affected_paths": [
+      "menu_items.price",
+      "stores.fee_base",
+      "stores.fee_per_km"
+    ],
+    "source_fix_commit": null,
+    "test": "security/db/price-finite-test.sql",
+    "evidence": "continuation24/business-review/price-after.json",
+    "classification": "newly_discovered",
+    "migration": "pilot_price_delivery_fees_finite",
+    "full_ASVS_closure": false,
+    "evidence_commit": "bb81d61a3d669d9eba8839af427c9d26740831d6",
+    "source_fix_note": "DB deployment is a named migration, not a Sites commit. Exact SQL and result hashes in source security/db/tested-evidence.json at bb73be06f4f60d3125eccc7c6fd45fda9b72db42"
+  },
+  {
+    "id": "C25-AUTH-ERR",
+    "cause": "Unknown Auth errors appended raw provider message",
+    "affected_paths": [
+      "core.authErr"
+    ],
+    "source_fix_commit": "bb73be06f4f60d3125eccc7c6fd45fda9b72db42",
+    "test": "tests/auth-error-redaction.cjs",
+    "evidence": "continuation25/REPORT.md",
+    "classification": "newly_discovered",
+    "migration": null,
+    "full_ASVS_closure": false,
+    "evidence_commit": "current checkpoint"
+  },
+  {
+    "id": "C26-RELEASE",
+    "classification": "newly_discovered_remaining_gap",
+    "cause": "Packaging could accept stale output without checking current successful build receipt; HEAD name alone also did not bind dirty checkout bytes.",
+    "affected_paths": [
+      "build",
+      "source fingerprint",
+      "archive packaging",
+      "source commit",
+      "native save/deploy"
+    ],
+    "source_fix_commit": "5a85f8c0ade674fe7ec7db7845ae75ee9123749d",
+    "intermediate_fix_commit": "0b700644507783ec7bf02fed0d4569f1da07698c",
+    "test": "tests/release-integrity.test.mjs; scripts/verify-archive.mjs; tests/build-gate.cjs",
+    "evidence": [
+      "continuation27/gate.log",
+      "continuation27/publication.json",
+      "continuation27/published-assets.json"
+    ],
+    "severity": "Medium workflow-integrity risk; no unauthorized deployment observed",
+    "before": "Old .25 archive rejected after .26 fix; HEAD-only baseline accepted three dirty source variants, making expected rejection tests fail.",
+    "after": "14 integrity cases passed including clean allowed path; actual pushed source and archive verified before save.",
+    "limits": "Not provider IAM enforcement; prior .25 rollback must rebuild with current protections.",
+    "full_ASVS_closure": false
+  }
+]

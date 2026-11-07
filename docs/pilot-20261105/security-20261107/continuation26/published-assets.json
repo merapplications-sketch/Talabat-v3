@@ -1,0 +1,50 @@
+[
+  {
+    "path": "talabat-core.js",
+    "exit": 0,
+    "exact_bytes_match": true,
+    "expected_sha256": "f02b4dd03570e838b36c59bf0d185659c3d29f3225fd2cc599e169b532f8fcd8",
+    "observed_sha256": "f02b4dd03570e838b36c59bf0d185659c3d29f3225fd2cc599e169b532f8fcd8",
+    "error": null
+  },
+  {
+    "path": "customer.html",
+    "exit": 0,
+    "exact_bytes_match": true,
+    "expected_sha256": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+    "observed_sha256": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+    "error": null
+  },
+  {
+    "path": "merchant.html",
+    "exit": 0,
+    "exact_bytes_match": true,
+    "expected_sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+    "observed_sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+    "error": null
+  },
+  {
+    "path": "driver.html",
+    "exit": 0,
+    "exact_bytes_match": true,
+    "expected_sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+    "observed_sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+    "error": null
+  },
+  {
+    "path": "admin.html",
+    "exit": 0,
+    "exact_bytes_match": true,
+    "expected_sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+    "observed_sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+    "error": null
+  },
+  {
+    "path": "assets/mfa.js",
+    "exit": 0,
+    "exact_bytes_match": true,
+    "expected_sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+    "observed_sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+    "error": null
+  }
+]

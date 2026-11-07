@@ -1,0 +1,13 @@
+[
+  {
+    "result": {
+      "own_price": 11,
+      "foreign_price": 20,
+      "own_update_rows": 1,
+      "foreign_delete_rows": 0,
+      "foreign_update_rows": 0,
+      "reassignment_rejected": "new row violates row-level security policy for table \"menu_items\"",
+      "foreign_insert_rejected": "new row violates row-level security policy for table \"menu_items\""
+    }
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "result": {
+      "outsider": "new row violates row-level security policy for table \"order_chat\"",
+      "total_rows": 1,
+      "allowed_rows": 1,
+      "forged_sender": "new row violates row-level security policy for table \"order_chat\""
+    }
+  }
+]

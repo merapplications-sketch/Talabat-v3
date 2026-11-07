@@ -1,0 +1,571 @@
+{
+  "format": 1,
+  "review_date_utc": "2026-11-07",
+  "purpose": "Preserve legacy per-defect evidence without rerunning closed tests",
+  "test_project": "fsvrsvqfknogwmhccera",
+  "id_policy": "LEGACY-* are reconciliation labels introduced by this index, not claimed historical finding IDs.",
+  "commit_policy": "known_fixed_source_commit means a recorded source checkpoint containing/reported with repair, not proven first-fix commit. Database migrations are independent of frontend commits.",
+  "entries": [
+    {
+      "id": "SEC-001",
+      "original_id": "SEC-001",
+      "severity_as_reported": "high",
+      "cause": "finance grant in profiles_staff_read exposed driver lat/lng",
+      "affected_paths": [
+        "public.profiles / profiles_staff_read",
+        "finance_drivers"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": null,
+      "known_evidence_commit": null,
+      "migrations": [
+        "pilot_finance_profile_location_isolation"
+      ],
+      "negative_evidence": "Rollback synthetic coordinates readable under accountant before; direct rows0 after.",
+      "positive_evidence": "Restricted finance projection rows1 without coordinates; published accountant still displayed driver and due5.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/REPORT.md",
+          "sha256": "79798d9ba41325c647e2093e24a7c23e1a531f4361bcb3e64c6d74afce1c4601"
+        },
+        {
+          "path": "security-20261107/SEC-001.sql",
+          "sha256": "29e1e5c4aa693a691be7aaa4c14d1b9ddf11a1eeba1e2db8dd9abf31446ffed8"
+        }
+      ],
+      "current_local_tests": [],
+      "live_or_remaining_gap": "No automated local RLS regression in gate; current live role/field matrix must retain DB evidence separately.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "SEC-002",
+      "original_id": "SEC-002",
+      "severity_as_reported": "high",
+      "cause": "Privileged permission helpers did not reject banned_at",
+      "affected_paths": [
+        "is_admin",
+        "has_perm",
+        "my_perms",
+        "finance_private.accountant"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": null,
+      "known_evidence_commit": null,
+      "migrations": [
+        "pilot_disabled_privileged_account_checks"
+      ],
+      "negative_evidence": "Disabled synthetic admin before true/true/orders5; after false/false/null/orders0.",
+      "positive_evidence": "Active existing admin retains true and five expected permissions.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/REPORT.md",
+          "sha256": "79798d9ba41325c647e2093e24a7c23e1a531f4361bcb3e64c6d74afce1c4601"
+        },
+        {
+          "path": "security-20261107/SEC-002.sql",
+          "sha256": "fd33e0bebc22bb9d6957c5594efcb394811d1fc9658bbb85f1ae43af17721a9b"
+        },
+        {
+          "path": "security-20261107/test-privilege.sql",
+          "sha256": "23055a05cc97c6f5e3bddec86de793ced75bea2a199859b8edcf54b93153a82c"
+        }
+      ],
+      "current_local_tests": [],
+      "live_or_remaining_gap": "Does not invalidate Auth sessions; later session/account_enabled fixes are separate records.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "SEC-003",
+      "original_id": "SEC-003",
+      "severity_as_reported": "medium",
+      "cause": "HTML escaping was used inside JavaScript string context without proper JSON serialization and final attribute encoding",
+      "affected_paths": [
+        "public/admin.html supCard/vStaff",
+        "public/talabat-core.js staffSet"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "d49bb5aed421554cae80b3e1ac9f445935ec4400",
+      "known_evidence_commit": null,
+      "migrations": [],
+      "negative_evidence": "Harmless marker execution before; baseline4/13 versus fixed13/13.",
+      "positive_evidence": "Literal support values, staff email apostrophe and permission arrays preserved.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/REPORT.md",
+          "sha256": "79798d9ba41325c647e2093e24a7c23e1a531f4361bcb3e64c6d74afce1c4601"
+        },
+        {
+          "path": "security-20261107/source-review/findings.md",
+          "sha256": "bcc9ccb3d38bf4bc797dc3c42149094dc4cf1d5ad8c35be962e42191a183d721"
+        },
+        {
+          "path": "security-20261107/source-review/fix-candidate/baseline-results.json",
+          "sha256": "c635ea7e0467b5009b427180f5976211d732d8202852f229e9826362f91f3319"
+        },
+        {
+          "path": "security-20261107/source-review/fix-candidate/fixed-results.json",
+          "sha256": "5f6de547ed6f715567257c045f60cdfc6c34246b7f9ca7553909cefec1d68171"
+        }
+      ],
+      "current_local_tests": [
+        "tests/test-inline-context.py"
+      ],
+      "live_or_remaining_gap": "Local renderer proof only; lower-role persisted exploit and all sinks not established.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "SEC-004",
+      "original_id": "SEC-004",
+      "severity_as_reported": "medium",
+      "cause": "place_order accepted expired open group because bad_group gate omitted expiry",
+      "affected_paths": [
+        "public.place_order"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": null,
+      "known_evidence_commit": null,
+      "migrations": [
+        "pilot_expired_group_checkout_guard"
+      ],
+      "negative_evidence": "Expired group accepted before; post-fix bad_group with no order.",
+      "positive_evidence": "Existing points/coupon/gift assertions remain successful.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/REPORT.md",
+          "sha256": "79798d9ba41325c647e2093e24a7c23e1a531f4361bcb3e64c6d74afce1c4601"
+        },
+        {
+          "path": "security-20261107/functional-sql/SEC-group-expiry.sql",
+          "sha256": "6180f108e3f3be642b21a6f4c50ba986f1df27f3078ebe36a9945a1725d90097"
+        },
+        {
+          "path": "security-20261107/functional-sql/test-after-expiry-fix.sql",
+          "sha256": "0bbc56084ee778d42776b7e16b354ca7c198ace6dd4d5bcd3cfd84189fe1d994"
+        },
+        {
+          "path": "security-20261107/functional-sql/full-results.json",
+          "sha256": "84ecb586bd8d3abd50ca0a860633cea498bb9b309102fbfa6f281423ff170015"
+        }
+      ],
+      "current_local_tests": [],
+      "live_or_remaining_gap": "No current local live-SQL rerun; rollback fixture evidence distinct from concurrency.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "LEGACY-DISABLED-ACCOUNT",
+      "original_id": null,
+      "severity_as_reported": "high",
+      "cause": "Own-data RLS and selected mutations checked ownership/role without active-account state",
+      "affected_paths": [
+        "profiles",
+        "wallet",
+        "addresses",
+        "favorites",
+        "loyalty",
+        "support",
+        "create_group",
+        "create_ticket",
+        "ticket_reply",
+        "driver_arrive",
+        "deliver_order",
+        "owns_store",
+        "guard_profile",
+        "storage.objects"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "9cb4fa4534f9613ccec31c2692469479c8140d45",
+      "known_evidence_commit": "ff2144caf9a978ad3446a665c6f86218eac382ee",
+      "migrations": [
+        "pilot_disabled_account_read_and_action_guards",
+        "pilot_disabled_private_records_and_support_guard",
+        "pilot_disabled_driver_delivery_guard"
+      ],
+      "negative_evidence": "Banned synthetic actor read own private rows and executed actions; after restrictive guards reads0 and writes account_blocked/zero rows. Disabled store/profile writes and proof metadata denied.",
+      "positive_evidence": "Active values/actions retained; assigned-driver proof insertion accepted.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/REPORT.md",
+          "sha256": "79798d9ba41325c647e2093e24a7c23e1a531f4361bcb3e64c6d74afce1c4601"
+        },
+        {
+          "path": "security-20261107/functional-sql/disabled-results.json",
+          "sha256": "f0762e35ddc82b590fb8d92face960d10d18e58f99253c564cf2099d98afbd34"
+        },
+        {
+          "path": "security-20261107/functional-sql/scope-storage-results.json",
+          "sha256": "7080dc35f0c7f4784961ca1a75cd2007edc923535b28ef99672d3d7ed96fcb92"
+        },
+        {
+          "path": "security-20261107/functional-sql/disabled-batch.sql",
+          "sha256": "b5bb7c4c177fc04e8dee3da44df9794def12b80c96e9f1f8d657204766997750"
+        },
+        {
+          "path": "security-20261107/functional-sql/test-disabled-private-records.sql",
+          "sha256": "fe75785b900ea47d982134621fbfb812bde2e5094001c569e73f06acef91864f"
+        }
+      ],
+      "current_local_tests": [],
+      "live_or_remaining_gap": "Metadata/SQL denial does not prove byte denial or Auth invalidation. Earlier store/profile/storage migration identifiers not resolved here.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "LEGACY-SESSION-REVOCATION",
+      "original_id": null,
+      "severity_as_reported": "not_reassessed",
+      "cause": "Ban-only data guard allowed prior session to resume after reactivation; Auth termination broader than application guard",
+      "affected_paths": [
+        "account_enabled",
+        "revoked-session ledger",
+        "Auth token hook",
+        "REST pre-request",
+        "synthetic Auth sessions"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "3c611892b2c7b1135caf2d09f4bb504089612d00",
+      "known_evidence_commit": "2c96cbe14e3ba024fbeaa7070b01fc55b1544774",
+      "migrations": [],
+      "negative_evidence": "UI refresh200 before ban; data denied during/after reactivation; refresh403 after reactivation. Synthetic scoped Auth deletion later leaves0 sessions/refresh rows; UI400 session missing.",
+      "positive_evidence": "Fresh synthetic login and refresh200 on .13; active customer .12 still opens #3/proof.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/REPORT.md",
+          "sha256": "79798d9ba41325c647e2093e24a7c23e1a531f4361bcb3e64c6d74afce1c4601"
+        },
+        {
+          "path": "security-20261107/session-revocation/migration.sql",
+          "sha256": "54428cfab0e620dcb3810cdc9850495db27ff0c7a376879c86716f5fc20c3ccb"
+        },
+        {
+          "path": "security-20261107/session-revocation/sql-results.json",
+          "sha256": "bc76a5a3c14c1a1ab5b3730b2547be10fe44db4f747ea445af852330c4afe0bb"
+        },
+        {
+          "path": "security-20261107/session-revocation/ui-results.json",
+          "sha256": "5c3d6496c55fcba8c57a00090cc0eaf415382b871464a8d76ded3bd587d19a3a"
+        },
+        {
+          "path": "security-20261107/session-revocation/lifecycle-http-14.json",
+          "sha256": "95b3cdfea608bdfdd42588e5876c49a7a6f855fba73f4dbedc56a4476d282038"
+        },
+        {
+          "path": "security-20261107/session-revocation/auth-session-synthetic-only.sql",
+          "sha256": "e4395d23dc04c4446a787783440cc15aa0c6b79450b70ecc11b7d418788de3f6"
+        }
+      ],
+      "current_local_tests": [],
+      "live_or_remaining_gap": "V7.4.2 remains failed/open. Full retained-token getUser, multi-session, Realtime termination unproved. Broad Auth deletion was rejected, not applied. Exact migration registration name unresolved.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "LEGACY-RPC-SESSION-GUARDS",
+      "original_id": null,
+      "severity_as_reported": "not_reassessed",
+      "cause": "Additional RPC/helper paths omitted active/revoked-session checks",
+      "affected_paths": [
+        "18 additional RPCs in rpc-continuation/REPORT.md",
+        "is_admin",
+        "has_perm",
+        "owns_store",
+        "my_perms"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": null,
+      "known_evidence_commit": null,
+      "migrations": [
+        "pilot_remaining_disabled_rpc_guards",
+        "pilot_revoked_session_permission_helpers"
+      ],
+      "negative_evidence": "Additional18 disabled-account SQL retests deny; helper revoked/AAL1 previously allowed and now false/false/null/false.",
+      "positive_evidence": "Active caller controls and AAL2 admin/store-owner controls retained.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/rpc-continuation/REPORT.md",
+          "sha256": "306fe94a4755a2a252277c8802e9971b8550c18e5931c69b95cbcc69e907382f"
+        },
+        {
+          "path": "security-20261107/rpc-continuation/retest-all10-results.json",
+          "sha256": "83ad5a93b716e78f3b1a35a5631e914aa439e9d783354d8f7d5272314ed1305a"
+        },
+        {
+          "path": "security-20261107/rpc-continuation/results-four-more-after.json",
+          "sha256": "59320be9c67bed092c5dea1f38a685d2de5d8f62f53cd11ec1e1c7a2a48afbd8"
+        },
+        {
+          "path": "security-20261107/rpc-continuation/results-store-two-after.json",
+          "sha256": "e5ceea0b2c2764841fe65460fd8a5412b2516b10b12d43427e5c764ecd82db69"
+        },
+        {
+          "path": "security-20261107/rpc-continuation/results-customer-two-after.json",
+          "sha256": "6c6085449f1c7151e00a6f3ecd6cb81f17066d3893ca3453ce757ac478ed9956"
+        },
+        {
+          "path": "security-20261107/rpc-continuation/results-helpers-before.json",
+          "sha256": "a7802bf2be011d476a577c5c93a03c6617e3ba1aca02452cbc608935044bb361"
+        },
+        {
+          "path": "security-20261107/rpc-continuation/results-helpers-after.json",
+          "sha256": "cbeccf0c1088bce385c6580a5085e2c257d65bf24e771b2e08a9090017664f78"
+        }
+      ],
+      "current_local_tests": [],
+      "live_or_remaining_gap": "SQL synthetic claims, not HTTP bypass proof. Store/customer/four-more migration registration identifiers unresolved; exhaustive valid-object RPC matrix remains open.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "LEGACY-ACCOUNTANT-NAMESPACE",
+      "original_id": null,
+      "severity_as_reported": "not_reassessed",
+      "cause": "Accountant admin-page session did not reliably retain its distinct role namespace during bootstrap/error logout",
+      "affected_paths": [
+        "public/talabat-core.js start/bootFail",
+        "admin?session=accountant"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "5e80ea2271c628b50241eb6042e265adfb4973f0",
+      "known_evidence_commit": null,
+      "migrations": [],
+      "negative_evidence": "Current local bootstrap checks accountant chooses tlb-auth-accountant and boot logout delegates without local key removal; raw boot exception hidden.",
+      "positive_evidence": "Admin/customer/merchant/driver keep their own four keys.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/REPORT.md",
+          "sha256": "79798d9ba41325c647e2093e24a7c23e1a531f4361bcb3e64c6d74afce1c4601"
+        },
+        {
+          "path": "security-20261107/source-review/consolidated/all-results.json",
+          "sha256": "7f3c862671f878662f7fd179f8e8e1ac0d653a691939b18b04a96b61b63f01c0"
+        }
+      ],
+      "current_local_tests": [
+        "tests/test-all.py",
+        "tests/test-auth-telemetry.cjs"
+      ],
+      "live_or_remaining_gap": "This namespace repair is separate from F21-01 finance authorization; local mock does not establish fresh live login/session durability.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "F21-01",
+      "original_id": "F21-01",
+      "severity_as_reported": "medium",
+      "cause": "finance_private.accountant checked staff/ban but omitted account_enabled; revoked internal SQL caller retained finance access",
+      "affected_paths": [
+        "finance_private.accountant",
+        "finance_access"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "be4d6565c466664be1d67dacc678a3dea32d7888",
+      "known_evidence_commit": "a30dbb216719f9c57a7a7f0d8003f64252054c8b",
+      "migrations": [
+        "pilot_finance_revoked_session_guard"
+      ],
+      "negative_evidence": "Before account_enabled=false but execute=true and5 financial rows; after revoked execute=false/rows0; required-MFA AAL1 denied.",
+      "positive_evidence": "Valid finance access and AAL2 execute=true preserved; fixture cleanup0.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/continuation21/REPORT.md",
+          "sha256": "37935e04b4bb395e91cacf2692c54351e96140446e50c46588e0f03aa740b9c8"
+        },
+        {
+          "path": "security-20261107/finance-session-guard-21.sql",
+          "sha256": "61ca8cdab435bc99f0b5282e9f4b0b1aad9f5da63a53d31b76b58cfdeb3e6e0e"
+        },
+        {
+          "path": "security-20261107/finance-session-after-21.json",
+          "sha256": "7a9f8d86c98e9b3c9fa6993d7c1c0777f7ad9448a60b7a510d6e271f1d5ca88f"
+        },
+        {
+          "path": "security-20261107/continuation21/finance-mfa-results.json",
+          "sha256": "2bceeab7024656fdf52f17ae25e35af95848307305251b49e4577206cc3387af"
+        }
+      ],
+      "current_local_tests": [],
+      "live_or_remaining_gap": "Existing REST pre-request already denied; no HTTP bypass claimed. Synthetic AAL claims are not live OTP.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "LEGACY-PROOF-BEARER-LIFETIME",
+      "original_id": null,
+      "severity_as_reported": "not_reassessed",
+      "cause": "Previously issued signed bearer URL remains usable after account ban until expiry",
+      "affected_paths": [
+        "storage proofs policy",
+        "authenticatedProofUrl",
+        "proof-operation-policy.sql"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": null,
+      "known_evidence_commit": null,
+      "migrations": [],
+      "negative_evidence": "Historical URL200 at44seconds after ban,400 at175seconds; new owner single signing404/batch no signedUrl after policy. Nonowner download/sign404.",
+      "positive_evidence": "Owner authenticated download200/26651bytes; .21 info200/list200 matching item.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/CURRENT-RESUME.md",
+          "sha256": "09ab1be0151f1f570a834166ace5322d167614d4cbbd872b0e8db21de91035f3"
+        },
+        {
+          "path": "security-20261107/session-revocation/proof-operation-policy.sql",
+          "sha256": "ce76d06ff823b08ece6767447fe128a1f56c1b7d19801d65165325746ef2ccc4"
+        },
+        {
+          "path": "security-20261107/session-revocation/proof-operation-results.json",
+          "sha256": "e03c138eea9fc0a8976f401ffb6ea5345b42ad2b7bd0e544dabd76aed8d9cd23"
+        },
+        {
+          "path": "security-20261107/session-revocation/proof-http-17.json",
+          "sha256": "2d034bc3549473e55c0efce6c69c9865d2a901d70d430bf04f7cadc20708a225"
+        },
+        {
+          "path": "security-20261107/continuation21/REPORT.md",
+          "sha256": "37935e04b4bb395e91cacf2692c54351e96140446e50c46588e0f03aa740b9c8"
+        },
+        {
+          "path": "security-20261107/continuation21/proof-ui.json",
+          "sha256": "7dee88de161beafdb751c74e85cc5cbb4efd350fde5771aee27bdea0d8e946b2"
+        }
+      ],
+      "current_local_tests": [
+        "tests/proof-access.cjs",
+        "tests/proof-epoch.cjs"
+      ],
+      "live_or_remaining_gap": "Historical immediate revocation failure retained; new-signing denial does not revoke existing links. .21 negative combines nonowner with AAL1 and cannot isolate each cause. Exact initial policy fix commit/migration registration unresolved.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "LEGACY-CSP-MINIMUM-REPORTING",
+      "original_id": null,
+      "severity_as_reported": "not_reassessed",
+      "cause": "Some first-party responses lacked minimum CSP/report endpoint coverage",
+      "affected_paths": [
+        "worker/index.js",
+        "scripts/csp-policy.mjs",
+        "scripts/build.mjs"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "fd665456d30eb28612c13da93df7e6d71da9ec94",
+      "known_evidence_commit": null,
+      "migrations": [],
+      "negative_evidence": "Local malformed/oversized/cross-origin reports denied; secret fields omitted; fallback protections asserted; reports sampled10/min/isolate.",
+      "positive_evidence": "84 local checks in original bounded report; deployed customer/core200/missing404 with CSP and report POST204; normal asset bytes retained.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/csp19/REPORT.md",
+          "sha256": "06d919846b324ec3bb99d970c09a2e063c7d4b980c680f06f49f491623b75adc"
+        },
+        {
+          "path": "security-20261107/csp19/test-results.txt",
+          "sha256": "6aaf8a1dba649a3dae65e9dfb2999a046c6913566ee2e0de20d7bc3f60235df1"
+        },
+        {
+          "path": "security-20261107/csp19/deployed-curl-safe.json",
+          "sha256": "c805006b1ec928d7ed3ece800d06766edbc5c433bbdf44ff655d046e3db8bb71"
+        },
+        {
+          "path": "security-20261107/CURRENT-RESUME.md",
+          "sha256": "09ab1be0151f1f570a834166ace5322d167614d4cbbd872b0e8db21de91035f3"
+        }
+      ],
+      "current_local_tests": [
+        "tests/headers.test.mjs",
+        "tests/csp-report.test.mjs"
+      ],
+      "live_or_remaining_gap": "Whole V3.4.3/7 remain untested; inline allowances, provider responses, automatic browser delivery/durable retention unverified; local cap not global cost/DDoS ceiling.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "F22-01",
+      "original_id": "F22-01",
+      "severity_as_reported": "not_reassessed",
+      "cause": "Direct crypto.randomUUID calls failed on clients retaining getRandomValues/subtle but lacking randomUUID",
+      "affected_paths": [
+        "secureRequestId",
+        "approvalWrite",
+        "writeOrderReturn",
+        "finCommand"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "4c78c739cd65c53746b07db6426cf5f66f178d8a",
+      "known_evidence_commit": null,
+      "migrations": [],
+      "negative_evidence": "Before approval returned storage_unavailable without RPC; after missing secure RNG still sends no RPC; unresolved finance blocked.",
+      "positive_evidence": "Native and CSPRNG fallback work in three paths; approval/return retries keep same UUID.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/continuation22/REPORT.md",
+          "sha256": "ea5a4823660af85aa0243b3ad432106bb852304d11daeeea6da8f33c38341460"
+        },
+        {
+          "path": "security-20261107/continuation22/request-id-compat.cjs",
+          "sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b"
+        }
+      ],
+      "current_local_tests": [
+        "tests/request-id-compat.cjs"
+      ],
+      "live_or_remaining_gap": "Node capability simulation not old-device/weak-network acceptance; UUIDv4 is idempotency ID not128-bit secret; no real financial concurrency.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    },
+    {
+      "id": "LEGACY-ADMIN-IDLE",
+      "original_id": null,
+      "severity_as_reported": "not_reassessed",
+      "cause": "Idle termination needed a nonblocking one-shot logout rather than a blocking interaction/repeated request",
+      "affected_paths": [
+        "public/admin.html checkAdminIdle"
+      ],
+      "first_fix_commit": null,
+      "first_fix_commit_resolution": "Unresolved: deployment/evidence checkpoints below are not assumed to be the first introducing fix commit.",
+      "known_fixed_source_commit": "2491da72befb3bffcfc7d7a9ebb902a2173fd868",
+      "known_evidence_commit": null,
+      "migrations": [],
+      "negative_evidence": "At30min+1ms logout called once; later checks do not duplicate while pending; blocking alert forbidden.",
+      "positive_evidence": "At30min exactly no logout.",
+      "evidence_files": [
+        {
+          "path": "security-20261107/CURRENT-RESUME.md",
+          "sha256": "09ab1be0151f1f570a834166ace5322d167614d4cbbd872b0e8db21de91035f3"
+        },
+        {
+          "path": "security-20261107/asvs-scope-review/continuation18/REPORT.md",
+          "sha256": "303c56829599e4dc5081fc6c993a4336707d850863109ad7030db0002bd3afb0"
+        }
+      ],
+      "current_local_tests": [
+        "tests/admin-idle.cjs"
+      ],
+      "live_or_remaining_gap": "Original pre-fix reproduction/first introducing commit unresolved; current local threshold proof is not30min live-browser expiry or provider token invalidation.",
+      "coverage_status": "historical_partial_evidence_preserved_not_retested",
+      "asvs_full_pass": false
+    }
+  ],
+  "limitations": [
+    "No source/provider/data changes or tests performed in this reconciliation.",
+    "All existing referenced local files hashed; hashes establish artifact identity, not current deployed behavior.",
+    "First introducing fix commits unresolved unless separately established by history; null is intentional.",
+    "No whole ASVS requirement marked passed; original open failures and historical bearer-link failure retained."
+  ]
+}

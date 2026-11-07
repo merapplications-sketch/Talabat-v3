@@ -1,0 +1,14 @@
+[
+  {
+    "path": "talabat-core.js",
+    "curl_exit": 0,
+    "matches_source": true,
+    "sha256": "c648914c4624383c4862abbe3b89997f413aa34653ab6b31897b284f30b1f5ac"
+  },
+  {
+    "path": "assets/mfa.js",
+    "curl_exit": 0,
+    "matches_source": true,
+    "sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721"
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "cleanup": {
+      "fixture_chat": 0,
+      "fixture_store": 0,
+      "fixture_users": 0,
+      "fixture_orders": 0,
+      "fixture_tickets": 0,
+      "allowlist_restored": true,
+      "fixture_ticket_messages": 0
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "date_utc": "2026-11-07",
+  "synthetic_user": "85fea11e-738c-4221-ac29-51d4ff50d594",
+  "factors": 1,
+  "verified_factors": 1,
+  "UI_before_return": "Подтверждено · AAL2",
+  "published_UI_after_return": ".26 customer home with test catalogue",
+  "refresh_UI": "نجح تجديد الجلسة · HTTP 200",
+  "auth_UI": {
+    "ok": true,
+    "status": 200
+  },
+  "credential_or_OTP_read": false,
+  "limits": "Enrollment and allowed active session verified; recovery, factor loss, replay and global invalidation not established."
+}
