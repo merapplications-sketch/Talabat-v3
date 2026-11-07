@@ -1,0 +1,44 @@
+diff --git a/public/customer.html b/public/customer.html
+index 757371f..b3bae76 100644
+--- a/public/customer.html
++++ b/public/customer.html
+@@ -2100,6 +2100,9 @@ if(new URLSearchParams(location.search).get('session')==='asvs-review'){
+  const b=document.createElement('button');b.textContent='فحص تجديد جلسة الاختبار';
+  const out=document.createElement('p');out.setAttribute('role','status');
+  b.onclick=async()=>{b.disabled=true;out.textContent='جارٍ الفحص';const r=await TLB.reviewSessionRefresh();out.textContent=(r.ok?'نجح تجديد الجلسة':'رُفض أو تعذّر تجديد الجلسة')+' · HTTP '+r.status;b.disabled=false;};
+- box.append(b,out);document.body.append(box);
++ const path=document.createElement('input');path.id='asvs-proof-path';path.placeholder='مسار ملف الإثبات';path.setAttribute('aria-label','مسار ملف الإثبات');
++ const check=document.createElement('button');check.textContent='فحص صلاحية تنزيل الإثبات';
++ check.onclick=async()=>{check.disabled=true;out.textContent='جارٍ الفحص';out.textContent=JSON.stringify(await TLB.reviewProofAccess(path.value));check.disabled=false;};
++ box.append(b,path,check,out);document.body.append(box);
+ }
+ </script></body></html>
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index 327aa64..3bdce1c 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.12';
++  var VERSION = 'pilot-mobile-20261107.13';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -913,6 +913,15 @@
+       try { var r = await sb.auth.refreshSession(); return {ok:!r.error && !!(r.data && r.data.session),status:r.error ? (Number(r.error.status)||0) : 200}; }
+       catch (_) { return {ok:false,status:0}; }
+     },
++    reviewProofAccess: async function (path) {
++      if (!sb || authStorageKey !== 'tlb-auth-customer-asvs-review' || !/^[a-f0-9-]{36}\/[0-9]+\/[a-zA-Z0-9_-]+\.jpg$/.test(path || '')) return {allowed:false,status:403};
++      var summary = {};
++      try { var d = await sb.storage.from('proofs').download(path); summary.download = {ok:!d.error && !!d.data,status:d.error ? Number(d.error.statusCode || d.error.status)||0 : 200,bytes:d.data ? d.data.size : 0}; }
++      catch (_) { summary.download = {ok:false,status:0,bytes:0}; }
++      try { var u = await sb.storage.from('proofs').createSignedUrl(path,60); summary.sign = {ok:!u.error && !!(u.data && u.data.signedUrl),status:u.error ? Number(u.error.statusCode || u.error.status)||0 : 200}; }
++      catch (_) { summary.sign = {ok:false,status:0}; }
++      return summary;
++    },
+     loadFailed: function () { return !!secFail.stat; },
+     normPhone: normPhone,
+     t: t, esc: esc, applyI18n: applyI18n, setLang: setLang, lang: function () { return lang; },
