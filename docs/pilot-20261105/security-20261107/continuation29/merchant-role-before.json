@@ -1,0 +1,36 @@
+[
+  {
+    "result": {
+      "active": {
+        "customer": {
+          "value": {
+            "synthetic_marker": "customer_cached"
+          },
+          "accepted": true
+        },
+        "merchant": {
+          "value": {
+            "synthetic_marker": "merchant_cached"
+          },
+          "accepted": true
+        },
+        "owns_store": true
+      },
+      "role_removed": {
+        "customer": {
+          "value": {
+            "synthetic_marker": "customer_cached"
+          },
+          "accepted": true
+        },
+        "merchant": {
+          "value": {
+            "synthetic_marker": "merchant_cached"
+          },
+          "accepted": true
+        },
+        "owns_store": false
+      }
+    }
+  }
+]

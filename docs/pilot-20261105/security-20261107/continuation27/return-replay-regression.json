@@ -1,0 +1,32 @@
+[
+  {
+    "result": {
+      "cases": [
+        {
+          "case": "reenabled_revoked",
+          "error": "not_allowed",
+          "accepted": false
+        },
+        {
+          "case": "mfa_aal1",
+          "error": "not_allowed",
+          "accepted": false
+        },
+        {
+          "case": "new_active_aal2",
+          "result": {
+            "synthetic_marker": "cached_return"
+          },
+          "accepted": true
+        }
+      ],
+      "active": {
+        "synthetic_marker": "cached_return"
+      },
+      "banned": {
+        "error": "not_allowed",
+        "accepted": false
+      }
+    }
+  }
+]

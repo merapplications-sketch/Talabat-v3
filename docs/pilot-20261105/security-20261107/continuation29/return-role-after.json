@@ -1,0 +1,14 @@
+[
+  {
+    "result": {
+      "active": {
+        "synthetic_marker": "cached_return"
+      },
+      "role_removed": {
+        "error": "not_allowed",
+        "accepted": false
+      },
+      "account_banned": false
+    }
+  }
+]

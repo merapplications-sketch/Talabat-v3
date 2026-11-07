@@ -1,0 +1,39 @@
+{
+  "release": ".29",
+  "source_commit": "e02316d0941dff957e21907dc0c1aaadf5786b6b",
+  "save": {
+    "id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_83091c0e9cd481918a2937b21fcc6964",
+    "project_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6",
+    "version_number": 39,
+    "source": {
+      "commit_sha": "e02316d0941dff957e21907dc0c1aaadf5786b6b"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_0000000090908207abfe295ae1699d1c",
+      "content_hash": "sha256:17b70da8bab64491a58de045c7cf476a1e35eec68d58c1daca726fb81ada5293",
+      "size_bytes": 2467840,
+      "file_count": 2
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6aef8462c2d481919240b69d0e1aa737",
+    "project_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6",
+    "title": "TALABOT — isolated Safari test",
+    "version_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_83091c0e9cd481918a2937b21fcc6964",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://talabot-isolated-safari-20261106.alwarikahtan.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aeddd5fe9e4819188dcd8b644905fc6",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-07T20:05:09.298317+00:00"
+  },
+  "archive_raw_sha256": "c113b6143b6c8013e83bc0ddea33448c775278957938bcb135546dc84c3c3f75",
+  "gate_groups": 21,
+  "integrity_cases": 14
+}

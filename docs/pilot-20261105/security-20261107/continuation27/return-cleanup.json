@@ -1,0 +1,14 @@
+[
+  {
+    "cleanup": {
+      "cases": 0,
+      "users": 0,
+      "orders": 0,
+      "commands": 0,
+      "agreements": 0,
+      "mfa_roster": 0,
+      "revocations": 0,
+      "pilot_restored": true
+    }
+  }
+]

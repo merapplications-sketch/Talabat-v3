@@ -1,0 +1,239 @@
+{
+  "format": 2,
+  "source": {
+    ".openai/hosting.json": "232b96b3f4e9f2cdc21802c0aadaa50c4e50a5b344158570b3e66dbf0adca4f8",
+    "README.md": "5d9bdd703a2c9a1d201cfad21226b67aff30e9dbaa1f4ae2b3959a0281711714",
+    "public/admin.html": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+    "public/assets/3d/LICENSE-fluentui-emoji.txt": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+    "public/assets/3d/automobile.webp": "57de2fb6dd8b943a3425c56d9eff8f75d82f86a3512d2ce4a63c376686b68c3f",
+    "public/assets/3d/avocado.webp": "9e9fec3801456f094e1ae70aa771885428f2bace2e18ed22ffd8578a9c600ea4",
+    "public/assets/3d/balloon.webp": "1eff5dc10db047e7e14888c5bc0d0886b7182da8e558d31e2a375be145e23dda",
+    "public/assets/3d/basket.webp": "53efb0407ea95f11dbcbc8cff5b4f97b55af65e354e9b8d045da530cebd94e95",
+    "public/assets/3d/bell.webp": "807c52d7790111c10baaac5a4e74ebe77394997934cfac436e17c554b26fb277",
+    "public/assets/3d/birthday-cake.webp": "5fc73ea3315dba19221add2c3ffea72a0d3b6768d8a46f66edc232a74391e649",
+    "public/assets/3d/bouquet.webp": "bcdc5300e4a8afedf8acd35ec5c7b9d9c71893fdff87b33d0986016ef553f2d0",
+    "public/assets/3d/bread.webp": "b0370847a8affd262f1e99c068b32cee26997ae4322d0c5c2b79b06a5be2bd48",
+    "public/assets/3d/carrot.webp": "6dba8e904cde73498f47b18fd40b06d4ae040dac8cd1418cd25e13f4d36289f9",
+    "public/assets/3d/cityscape-at-dusk.webp": "f20376a70adb9868b8043da03756f902b6ce8404372c2a94bd97671228e5bb69",
+    "public/assets/3d/coin.webp": "b0f9553eaee16717b3c6181edc809ffbd89324c99c28efee3f68c36f77bf780a",
+    "public/assets/3d/couch-and-lamp.webp": "4d66fda173e76c24503ece440f9998f6ef981a54095d53cea820583a974c79fa",
+    "public/assets/3d/credit-card.webp": "5cd16b5ae346ab61a5648ae85c57ba87914a5f02211c642ab169917672c79e59",
+    "public/assets/3d/croissant.webp": "4e651f5dc4f6092ff96291a07365d4e72de83219af8781bdd9c5bf9a05eebdeb",
+    "public/assets/3d/ear-of-corn.webp": "59d973adecf129a3510c4e6e690450d9b4ee92f49026ba56342a4e2f6d9642e1",
+    "public/assets/3d/fire.webp": "9316c3505bfb2a53f08cc14b9a97b7dbc82886a1e3738253009d883b8725ed2e",
+    "public/assets/3d/flowers-gifts.webp": "c273f84d187b51c438f79ffa72cbf976d06646dacaed0baaf4e14761d534a2ca",
+    "public/assets/3d/french-fries.webp": "7e66e24eaec7cdad5b51f590d4a6cc3e1aae5a0ff8c84171b3003b14bdfbd42e",
+    "public/assets/3d/gem-stone.webp": "3851fa9f3173d8534480769355a9fa2caa0085dbfff68f5ca8bdcbc8a521bd5a",
+    "public/assets/3d/hamburger.webp": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+    "public/assets/3d/headphone.webp": "70dc4cff8506f7679d186972bed2d341c9552755ca34b2d2bca2dc0636be74c5",
+    "public/assets/3d/high-voltage.webp": "8af408eb30807b44c8365fc853ddb6790d628ab74727725959f553bf9d1e1f5f",
+    "public/assets/3d/hospital.webp": "570e178176ced3f379ca5ca25261d5de2ceeb7732bd63db69901cc6ce5e97182",
+    "public/assets/3d/leafy-green.webp": "e923b2c11411fb47bb97531a504d7a58b0e6558dda52a9103c849dac9a747c5a",
+    "public/assets/3d/lotion-bottle.webp": "9cb30aafd93e7c332b22ddb8a8b9b45466cb99c1892830ab953cd9dc21381549",
+    "public/assets/3d/mobile-phone.webp": "148529d7877bc8d8e37a03cfc3b8c9c9844b53a37d1aee830ebd5a931094323c",
+    "public/assets/3d/motor-scooter.webp": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+    "public/assets/3d/package.webp": "b64a33f758b944c3e9f1b58c40e33bde5669f08a62512cc81c1f4c8305582aba",
+    "public/assets/3d/party-popper.webp": "f5f114430adefae5706e4eeb326834b007bb76c26aa3020a721612f062ddab47",
+    "public/assets/3d/paw-prints.webp": "a343520d3826bd6e899ebf1bab44427b02ee2f00aa39d190083d8042350b9654",
+    "public/assets/3d/pill.webp": "55ea52fa52e7070cca23d9f9570ad471ace8d46805b3ccc08d9cd8c6a58c441a",
+    "public/assets/3d/pizza.webp": "d1afc0f4e56ccfa1e236c0e9ce4b66d77aae57cd04ab4f62c6fc99a152c7b3ea",
+    "public/assets/3d/red-apple.webp": "600b55159ca3c771917dfc2790e248c0c8477e3e652a51129e74d20df3b869a3",
+    "public/assets/3d/red-heart.webp": "2c34d8cc67db4bf84f2c88d622188b98314929da5acec22d782ad986436ac31e",
+    "public/assets/3d/rose.webp": "5efb1f692588b8c6234ecc15ca800444ab06aab25dac813969d8ee07375e46ab",
+    "public/assets/3d/round-pushpin.webp": "9db00ac7c79feaf2273056225d87cf790995477cdfacd54e2409d4ce45addbab",
+    "public/assets/3d/shopping-bags.webp": "0fb17dcf372ef633091ee3dc6cbf94d209ce2506c588092e96f8dcb71e6f9fef",
+    "public/assets/3d/shopping-cart.webp": "937189ed29ec583e5e8cfe860e1e1d931f70e50d24f1b124bdf2490b9753e2c3",
+    "public/assets/3d/shortcake.webp": "1ea3239c313253cbcb2a7dbc5808498bbe14461846cca653874f516735d3386e",
+    "public/assets/3d/sparkles.webp": "eba4030fb7cc746f92649679b2754e3465e5a95b4bbe2afcd8d13aaa8fa1cadb",
+    "public/assets/3d/star.webp": "aa9565e0075bb11ea068879d765db77652ccf280a37706906cf01ba8f0cddd68",
+    "public/assets/3d/sushi.webp": "617e74473aa2e2ed69ae4b27bd69fc744ea2c7948004e0c6a1c923c58b5c9bd8",
+    "public/assets/3d/teddy-bear.webp": "ba84791a077a4dbe687d3733dc851466f9d664c1dd20555354e357dc5f695c36",
+    "public/assets/3d/tulip.webp": "6e330664f665fea0c96d84f4582f07652787743403400efd7ab82a67a5f00003",
+    "public/assets/3d/wrapped-gift.webp": "426b30e64615a8960b71c82fb54d87ea7b9fd728da3e82f9b70fffa6d3aa548e",
+    "public/assets/admin-finance/admin-finance.css": "3cb9bd242c208264511120368be65a1ddf77264ea55fb477f8271ac658590dc0",
+    "public/assets/admin-finance/admin-finance.js": "10646ef7202b21080d9e3bf8cb8619a3d06ae617c763abf650ae0b69883c45f9",
+    "public/assets/driver-returns/panel.css": "bddf923f3bf622f363ee8b3d6c0568bfa7d40533395e92d5d0ef7753e19ff120",
+    "public/assets/driver-returns/panel.js": "282464636ea7b572582e235d50c88d1a9f620b605d14dba71733a1ca6c1f3450",
+    "public/assets/finance-receipt/receipt.css": "9bdc2cddb30924ac0bca206de51008a50c5ede0f7af5bb4c4cf97c7e06b4455b",
+    "public/assets/finance-receipt/receipt.js": "bb183a4e57e24db4edf11041b9f1b4d1d024ddfeb55f30a0591963d069a28167",
+    "public/assets/mfa.js": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+    "public/assets/mobile.css": "1124e80a6db47ff5e914dfc67ea0f240c9b5657a96dd20b2dd1bc10fbaf8bb9d",
+    "public/assets/mobile.js": "a35ef0e6d8e0eb7f79ac4fd387e170fcda0006c87a51b8bf36254110f5f0283b",
+    "public/assets/vendor/supabase-2.117.2.js": "59d39487c3589843b410322d8a3d562ce022aba1e5ccb16898ef3fb2a0da2ecd",
+    "public/assets/vendor/supabase-LICENSE": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+    "public/customer.html": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+    "public/driver.html": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+    "public/index.html": "758f609ee07903a63a35587e1198e1701854f8b7adb4577c6f746d3a75fee7b7",
+    "public/manifest.json": "58bf84194750ecbf54b76391749b961c7a1294e29f31378a5dc2664457dc59b0",
+    "public/merchant.html": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+    "public/review/baseline-admin.jpg": "484d4cd89de3df0f32a98c537b99fae0368e3d7a9e80664d7b2c925056cb2ce4",
+    "public/review/baseline-customer.jpg": "532c5dfa91d1677dec48ab0a3770c7cd06f93b92fd838cfc4184c82d0404edf8",
+    "public/review/baseline-driver.jpg": "077375746b0a9d5e3906d92594afd0d4d6533ea0d899423caf549bd8ae1e03bf",
+    "public/review/baseline-merchant.jpg": "58fa44955de6419e091b59d437c077a9d067431bd08160c75f7380768e33a789",
+    "public/review/candidate-admin.jpg": "cc3caf62351d129f8822fff095dcd6a9bad9a4137f6a6c07ba8c83fd0b016708",
+    "public/review/candidate-customer.jpg": "d599e4798e6df856dfbdce6d7a341a9154376db9babe9ebd50e931bf77664adc",
+    "public/review/candidate-driver.jpg": "077375746b0a9d5e3906d92594afd0d4d6533ea0d899423caf549bd8ae1e03bf",
+    "public/review/candidate-merchant.jpg": "dd727ec43e609f769521da7de7580f1ee0e0e11aa4306005432ff3828e2a58de",
+    "public/review.html": "e637b78f57458f92327319dedfc852f84d24c5338cb4d48480e468bf952d2823",
+    "public/safari-check.html": "c81db68df06d608ce0db0cc6566de887b820a489f38cadce8e0596e06eecf00a",
+    "public/talabat-core.js": "d3d5e819244187cb9f61965e1de2231531d6cc73f72a1fe3a0f40042232a19ce",
+    "scripts/build.mjs": "174f7fba7d45df8a67e40e71b8b3fb3e01732ba007c3f91a650e69d3d00c5695",
+    "scripts/csp-policy.mjs": "72e29e9332a59367935f382e2c4f52be2bc5e90fadc002fff741ecc93c44b0a2",
+    "scripts/release-integrity.mjs": "38c455912b4616803114f30e2f21891fc75bee99250176e61b6832f7a17732db",
+    "scripts/security-gate.mjs": "e0add8ebf3e6aed31f2dac3cfc3c3a59740bdbb2252be97023f375652ad73f26",
+    "scripts/verify-archive.mjs": "a7867616fd1bc83b1b72680e376fcae6935aa86caee2c96ffcb955abcba47f37",
+    "scripts/verify-release.mjs": "88a4f8745fe6b1700e5fa82e1f5ce6f641519b3b62744dc30419214988f123ee",
+    "security/db/approval-replay-after.json": "26c6b5ed76aada18b6a65487a8420b2a879d1ede4b469efe28f7374aa8e07482",
+    "security/db/approval-replay-ban.sql": "1d2b8d00e541f7001f99c834df97147eaa711f1247e7b9de9ee3ae69e61a8324",
+    "security/db/cash-after.json": "a4a8f56136e3810830b90a0203bdef27d93c8dea783e914a324ec7bde89fd786",
+    "security/db/cash-finite-test.sql": "8d463d6e7179d50bbe0384e9de446e18e0d4957dbaca5707ce027cc118a690a5",
+    "security/db/cash-rollback.json": "6d8bff1448993b05cdaf0739471ea63883fe3244d0722dc7583787f2f28fbb35",
+    "security/db/deliver_order.finite.sql": "40b5cf79fd31d08cb7f059cb38331e1bc21db62d74a14cd3d0a67f2a56dfb497",
+    "security/db/pilot_approval_account_guard.sql": "e2aa09d7677f5969b7fee34fe34c87adcd7ff47845e52e0149a7cb980d84d588",
+    "security/db/pilot_return_action_account_guard.sql": "040c2d06eeb61ed6ef817e0f09a3101875ca9ffe2931ff505e06cf1b7323a998",
+    "security/db/price-after.json": "c05401f560e58d6ab9d0c5b30a8e87ca6563cf7d52b8c3447437bcbdf2f6b546",
+    "security/db/price-finite-test.sql": "9290932cfe8b778e53834d160d84b3e06246e6445b402c558b93380de73dd37e",
+    "security/db/price-finite.sql": "93a84165e2e45fa9c4a849ef51b26b0dce96550673744374c6d98cff3b27096b",
+    "security/db/return-cleanup.json": "582e2252af108f4b6c46a7dcda241430849ae1c91d55758bb77161a5a5165f12",
+    "security/db/return-replay-regression.json": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2",
+    "security/db/return-replay-regression.sql": "9ca9de862ae23168f88e73aec913c9a7b29ee8d46ce06ee8bc6bc9fe1923929f",
+    "security/db/tested-evidence.json": "4b74620c8d422d501d19e0b4a2ae4b925ec47efdf37af6e4ec028737fc48d1cc",
+    "tests/admin-idle.cjs": "2dc238e2f17ab461303ece03b248e4298c8d9ab3925f4b048277e45d9cd292c7",
+    "tests/auth-error-redaction.cjs": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+    "tests/build-gate.cjs": "a37a9cd4c7b316d730151d4132ce6db5dd03f8676fb8496a86f7f67dcf9415fa",
+    "tests/csp-report.test.mjs": "6933c1ced0d41b21c233a41cf035b0545b31db5a1650b89e7878e821108021e1",
+    "tests/customer-auth-scope.cjs": "73c145907aa8da10778daea41cbb32ae1dad5caf817a3ce287a4a67d06a80e18",
+    "tests/customer-recommendation-encoding.py": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+    "tests/db-regression-evidence.cjs": "200cd301409c8e5f2b9dd08cc098921905efd7559546b61e014b34482b4745ca",
+    "tests/driver-chat.cjs": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+    "tests/headers.test.mjs": "36f862831f554406ca5c0394c1a9aa2166bcb24ae8f520a6dfea1557c02c372d",
+    "tests/image-limits.cjs": "1d3e924d6e26b691f9fcdba35b026bec43500f172ac9aaf948c58ad635e62cd2",
+    "tests/map-policy.cjs": "9794e54e55dfb07f66c0d4ff70e7b77f70f0c485bb849cfd3126f53a435feaff",
+    "tests/merchant-report.cjs": "bdfd9292abf5a4d24b582526e1b46b8adfb7699364037ebb400ce73ec95a42ef",
+    "tests/mfa.cjs": "87deb565b295103d9336bbdbfd438c3b475c023f32b9770a56b5753c2bb6e011",
+    "tests/passive-signout.cjs": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+    "tests/proof-access.cjs": "79117da4696288c8f8871dcc20fa0366da357529064f1501ed67f822334f66db",
+    "tests/proof-epoch.cjs": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+    "tests/release-integrity.test.mjs": "ebeb0d34e36bee3aeabffc9028128094b809a15fac5e4bf46664b0a0445d0d2b",
+    "tests/request-id-compat.cjs": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+    "tests/return-receipt.cjs": "f145ff130d5096b447419aa69512cf85348617f25bf0e144690b01ef830509b8",
+    "tests/security-errors-logout.cjs": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+    "tests/test-all.py": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+    "tests/test-auth-telemetry.cjs": "d7f76cb814fbb629109f0b6415067dab47709fe14706e4c30a5d113529102db6",
+    "tests/test-inline-context.py": "a712a8e370ba78ce61ec69f28d779608c9e59e749e0099a86cfe9d3320748a42",
+    "tests/test-signout.cjs": "f799985187f47257e10a8d719dc5bbe031256cef2709799978dce5111bf24d7e",
+    "worker/index.js": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c"
+  },
+  "output": {
+    "server/index.js": "4ec1b4e5cf63da9dc7ac1a94b9a0ea9f8a9753a42e7cdae680b5ddb5a02a83f2",
+    ".openai/hosting.json": "232b96b3f4e9f2cdc21802c0aadaa50c4e50a5b344158570b3e66dbf0adca4f8"
+  },
+  "checks": [
+    {
+      "id": "release-integrity",
+      "status": "passed",
+      "output_sha256": "b928e8dec01cfa6dbe1459daa1a9375a7d036a02733550b53267a70b177cdb0b"
+    },
+    {
+      "id": "db-evidence-binding",
+      "status": "passed",
+      "output_sha256": "a3b74111b5ac32084a8e48d3ac77bc48ebc63c94d22cfdf5ed92ac7cb0e3fa2c"
+    },
+    {
+      "id": "auth-logout-recovery",
+      "status": "passed",
+      "output_sha256": "7f3c862671f878662f7fd179f8e8e1ac0d653a691939b18b04a96b61b63f01c0"
+    },
+    {
+      "id": "auth-error-redaction",
+      "status": "passed",
+      "output_sha256": "3a841a140f8c7748258db2e546b08fe7d927ee2317db05feea4639b90833926e"
+    },
+    {
+      "id": "rpc-errors-boot-logout",
+      "status": "passed",
+      "output_sha256": "15c1f5746714ffda1de252256d3e0a11b2f173adadf0cf55f6a3408881da0d2c"
+    },
+    {
+      "id": "passive-signout",
+      "status": "passed",
+      "output_sha256": "378d5a3eb2eb4fb5b1eabdd1c5f398494f8ea782a49caf568bc4c21fdde2ca66"
+    },
+    {
+      "id": "proof-generation",
+      "status": "passed",
+      "output_sha256": "1dfd7b4343b3860bb4508132da6eeb9c52fe70be19ab838b8620883ccb242273"
+    },
+    {
+      "id": "proof-access",
+      "status": "passed",
+      "output_sha256": "b9696532f11118a189a890e3e2c7f1a72204816384fbc44b7d2b00a74f28eb00"
+    },
+    {
+      "id": "customer-auth-scope",
+      "status": "passed",
+      "output_sha256": "913f5c8f2fbf94b53303c3cf2c81ef97d9888c71324850dd22cebf1187d7a92c"
+    },
+    {
+      "id": "mfa",
+      "status": "passed",
+      "output_sha256": "d33d3b164514a848427a1406170601ddfdeb000e97bda49321c1e8dcc0a4a701"
+    },
+    {
+      "id": "request-id-retry",
+      "status": "passed",
+      "output_sha256": "aa83e812a4f792e285112a0fd1ce91f5cc675fbace29f37721d0b6b0874e5235"
+    },
+    {
+      "id": "customer-handler",
+      "status": "passed",
+      "output_sha256": "16be3ff32d0640c9fc2ca3b467051039b5ce2c70e3e9bfe3f838e024ceb3ce3a"
+    },
+    {
+      "id": "admin-handler",
+      "status": "passed",
+      "output_sha256": "5f6de547ed6f715567257c045f60cdfc6c34246b7f9ca7553909cefec1d68171"
+    },
+    {
+      "id": "image-limits",
+      "status": "passed",
+      "output_sha256": "11a6590da570c31605fb8d04fb0db23d767df219583618c4346c543c50529a56"
+    },
+    {
+      "id": "admin-idle",
+      "status": "passed",
+      "output_sha256": "cf387d75e60e16d428ad3b7e22e630be55ad4dfa3b8a3635a815ab05eef4539d"
+    },
+    {
+      "id": "driver-chat",
+      "status": "passed",
+      "output_sha256": "7bccd1d86f79a6ba6b65cf980e26194d93c8b5bf7241b86fb103ea1f1e1713c1"
+    },
+    {
+      "id": "merchant-report",
+      "status": "passed",
+      "output_sha256": "52312f001cc65994dc301b7783ca24d5c8713de87016a89fcbe6ccb16670a2f6"
+    },
+    {
+      "id": "return-receipt",
+      "status": "passed",
+      "output_sha256": "d266877a764032ca35c5027a4711b8da47f48fb512f5ee2f09e7006adc39b41d"
+    },
+    {
+      "id": "map-policy",
+      "status": "passed",
+      "output_sha256": "779e69a7e8f5e88d00bb753b5079d4ac3c1d8f9ab3c3e624dfb84fb8de1c1aca"
+    },
+    {
+      "id": "headers",
+      "status": "passed",
+      "output_sha256": "578c00c6d7b94043602bebbd3e291989b6279cdf0196e78218d14f8e1fb80e75"
+    },
+    {
+      "id": "csp-report",
+      "status": "passed",
+      "output_sha256": "78a2277129feead4e8fcfbf7234945ca041e17d81f17990d3c076573f331c0dc"
+    }
+  ],
+  "scope": "Local regression only; live/provider checks are separate"
+}

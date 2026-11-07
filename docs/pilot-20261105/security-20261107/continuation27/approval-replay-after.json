@@ -1,0 +1,30 @@
+[
+  {
+    "result": {
+      "active": {
+        "customer": {
+          "value": {
+            "synthetic_marker": "customer_cached"
+          },
+          "accepted": true
+        },
+        "merchant": {
+          "value": {
+            "synthetic_marker": "merchant_cached"
+          },
+          "accepted": true
+        }
+      },
+      "banned": {
+        "customer": {
+          "error": "not_allowed",
+          "accepted": false
+        },
+        "merchant": {
+          "error": "not_allowed",
+          "accepted": false
+        }
+      }
+    }
+  }
+]

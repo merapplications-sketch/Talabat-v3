@@ -146,5 +146,25 @@
     "after": "14 integrity cases passed including clean allowed path; actual pushed source and archive verified before save.",
     "limits": "Not provider IAM enforcement; prior .25 rollback must rebuild with current protections.",
     "full_ASVS_closure": false
+  },
+  {
+    "id": "C27-RETURN-REPLAY",
+    "classification": "newly_discovered",
+    "severity": "medium for proved cached-result disclosure",
+    "cause": "Cached prior result returned before checking account/session/MFA state",
+    "affected_paths": [
+      "public.order_return_action",
+      "public.account_enabled",
+      "return_private.commands",
+      "security_private.revoked_sessions",
+      "security_private.mfa_required_users"
+    ],
+    "migration": "pilot_return_action_account_guard",
+    "source_fix_commit": "pending .28 source package",
+    "before": "banned account received synthetic cached result",
+    "after": "active and new AAL2 accepted; banned, reenabled revoked, required AAL1 rejected",
+    "test": "continuation27/return-replay-regression.sql",
+    "limits": "Rollback SQL claims; not full live JWT/global session or monetary transition coverage",
+    "full_ASVS_closure": false
   }
 ]

@@ -1,0 +1,1218 @@
+[
+  {
+    "schema": "finance_private",
+    "name": "accountant",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "9dc5698a0dc21f78def5397336276d32"
+  },
+  {
+    "schema": "finance_private",
+    "name": "guard_cash_allocation",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "b34ff87047aadacd6a7950091ec92716"
+  },
+  {
+    "schema": "finance_private",
+    "name": "reader",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "1e3550b9da43d2825d74a4aba53c9cf0"
+  },
+  {
+    "schema": "finance_private",
+    "name": "receipt_immutable",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "88036534d9aa272a3ad8b21d870bbaa3"
+  },
+  {
+    "schema": "finance_private",
+    "name": "receipt_json",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "8422a9c5d4eaaf41b7d70b859158a39f"
+  },
+  {
+    "schema": "finance_private",
+    "name": "settlement_time",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "af375018724191b0245db43845a82eef"
+  },
+  {
+    "schema": "finance_private",
+    "name": "snapshot_cash",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "7463b507dac5d9ba892976f569e8ffb2"
+  },
+  {
+    "schema": "public",
+    "name": "account_enabled",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "5e218fd78bffc8e7132a848220541a9a"
+  },
+  {
+    "schema": "public",
+    "name": "active_contacts",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "6d1de1156994f07c095b5d6e3a811487"
+  },
+  {
+    "schema": "public",
+    "name": "addr_after_delete",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "7086b92ca3a7041a333f2f4f3d27d0d4"
+  },
+  {
+    "schema": "public",
+    "name": "addr_before_insert",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "60b31829002722c9502db904191d63d9"
+  },
+  {
+    "schema": "public",
+    "name": "admin_assign_driver",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "89dcb58e414a1f21733b8fd7d5c86b51"
+  },
+  {
+    "schema": "public",
+    "name": "admin_customers",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "076640772adf9690519165662dfdc4f6"
+  },
+  {
+    "schema": "public",
+    "name": "admin_set_customer_phone",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "885cee2f49dd2bcee1a1d0eec1522b1e"
+  },
+  {
+    "schema": "public",
+    "name": "apply_as_driver",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "fc18fcd29b6cce3e102ae89bc04fb3c2"
+  },
+  {
+    "schema": "public",
+    "name": "assign_owner",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "a801ea3f6861479d79b924ec295ac812"
+  },
+  {
+    "schema": "public",
+    "name": "audit_changes",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "928514fc191b652db50648b8c1913b6c"
+  },
+  {
+    "schema": "public",
+    "name": "best_dishes",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "416b2077803fe1327658e0aca05942a3"
+  },
+  {
+    "schema": "public",
+    "name": "branch_create",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "77e93165ab497fb1c430ae2c31f21698"
+  },
+  {
+    "schema": "public",
+    "name": "brand_attach",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "631c9557797304db9745e197c425a987"
+  },
+  {
+    "schema": "public",
+    "name": "brand_create",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "4e67e23297806436bff1eee730f6702b"
+  },
+  {
+    "schema": "public",
+    "name": "brand_detach",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "f5b183f51766d074c2ff8141e1accf22"
+  },
+  {
+    "schema": "public",
+    "name": "brand_route",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "ba396a55fc6f52c89ff2f970b8a441ff"
+  },
+  {
+    "schema": "public",
+    "name": "brand_stats",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "46281fb3d6f26a8a533989b038d77218"
+  },
+  {
+    "schema": "public",
+    "name": "brand_sync_menu",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "4a33c3907f4947c26d9d4f8ade5d8c48"
+  },
+  {
+    "schema": "public",
+    "name": "can_see_order",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "ae62e6b1ce4634090a433d52013e1d55"
+  },
+  {
+    "schema": "public",
+    "name": "cap_options",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "b9970ebdbb4caa0fbf6dd1b5a7c0afa2"
+  },
+  {
+    "schema": "public",
+    "name": "cash_balances",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "f541eadcaf0a917c312ad3e67511f769"
+  },
+  {
+    "schema": "public",
+    "name": "check_image_url",
+    "security_definer": false,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "b4b4cbf1d5773a81b7918df5b562a2fe"
+  },
+  {
+    "schema": "public",
+    "name": "check_promo",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": true,
+    "source_fingerprint": "f6d70e033a829649b0db60220cbd5ca0"
+  },
+  {
+    "schema": "public",
+    "name": "check_promo_base",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "38fc5725b1234f46c577d3950d9a0934"
+  },
+  {
+    "schema": "public",
+    "name": "configure_order_confirmation",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "98cdf465581c84a739588ff7584b0efe"
+  },
+  {
+    "schema": "public",
+    "name": "configure_pilot_admission",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "60a1a5512b00cc61c713ba17a8d091ee"
+  },
+  {
+    "schema": "public",
+    "name": "contacts_for",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "bf11139bf4eebad4e0f00fa7435c7a2e"
+  },
+  {
+    "schema": "public",
+    "name": "copy_menu",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "a70b5ccc27a78bc9f48a3d3caf1ec610"
+  },
+  {
+    "schema": "public",
+    "name": "courier_steps_version",
+    "security_definer": false,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "76f3782e257dfeff690bdc7e5868deb6"
+  },
+  {
+    "schema": "public",
+    "name": "create_ticket",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "7bd7d32db4a24eb76ee2e863b74d4534"
+  },
+  {
+    "schema": "public",
+    "name": "customer_confirm_order",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "1cb95fc4c0a1159938fdc600f59c7901"
+  },
+  {
+    "schema": "public",
+    "name": "decide_store_request",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "660303784ed9d8d03c35fff486877c4f"
+  },
+  {
+    "schema": "public",
+    "name": "deliver_order",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "ec3c24d948398e71b3042b5318f538c4"
+  },
+  {
+    "schema": "public",
+    "name": "delivery_calc",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "70657910e6d8e4a1c9d8bba4fa8f8653"
+  },
+  {
+    "schema": "public",
+    "name": "delivery_quote",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "def76e3defdf6d56d17be2883057e183"
+  },
+  {
+    "schema": "public",
+    "name": "dispatch_next",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "69b01ae8a30fd97a1f505309f3d7c954"
+  },
+  {
+    "schema": "public",
+    "name": "dispatch_tick",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "f07fb9ecf09822f2a2b017b9a14412ec"
+  },
+  {
+    "schema": "public",
+    "name": "dist_km",
+    "security_definer": false,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "08f96a6869bafbda3d8e1a2e9999ad55"
+  },
+  {
+    "schema": "public",
+    "name": "driver_accept",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "8e22b356458d226bf8300fad78760eef"
+  },
+  {
+    "schema": "public",
+    "name": "driver_arrived",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "71451840a666b7a732a64e34c9f399ff"
+  },
+  {
+    "schema": "public",
+    "name": "driver_decline",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "13b211d16831700fa7262dfbb9404e13"
+  },
+  {
+    "schema": "public",
+    "name": "driver_location",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "998e14d2860c0bdfab5ab9a8044a7382"
+  },
+  {
+    "schema": "public",
+    "name": "driver_ping",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "c81ed1ef675138527c2afee6459f3dd7"
+  },
+  {
+    "schema": "public",
+    "name": "eligible_couriers",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "1d919a8e1de05e3a7f8327f0e5354e9a"
+  },
+  {
+    "schema": "public",
+    "name": "finance_access",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": true,
+    "source_fingerprint": "72e2a8a55d7e7b312215129ae2191d69"
+  },
+  {
+    "schema": "public",
+    "name": "finance_actor_names",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "d0cd904e5e13d7eb2031b10655bbc9d0"
+  },
+  {
+    "schema": "public",
+    "name": "finance_audit",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "4f0e4e6a9d6899087d5a82fa362d11bb"
+  },
+  {
+    "schema": "public",
+    "name": "finance_command_status",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "af3dfa3eb8b9832b91d52ab01519bc44"
+  },
+  {
+    "schema": "public",
+    "name": "finance_customers",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "f2d919ce1087c767032c10900d975e36"
+  },
+  {
+    "schema": "public",
+    "name": "finance_driver_orders",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "acbcac283c66b04cdab037daff9b32e8"
+  },
+  {
+    "schema": "public",
+    "name": "finance_drivers",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "0e03184012b845bb75a92b72ec444a44"
+  },
+  {
+    "schema": "public",
+    "name": "finance_execute",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "3fea26e0b17af38b4fc7d889ff0c382e"
+  },
+  {
+    "schema": "public",
+    "name": "finance_settlement_events",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "5f535b54480296a8da074091f47b679c"
+  },
+  {
+    "schema": "public",
+    "name": "finance_settlement_receipts",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "9f4c66117ced23277aa35b3864905d24"
+  },
+  {
+    "schema": "public",
+    "name": "group_add",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "48e8be059502463a8207921f980d2cad"
+  },
+  {
+    "schema": "public",
+    "name": "group_create",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "0116d987088b1d8c337db0201005a733"
+  },
+  {
+    "schema": "public",
+    "name": "group_get",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "b192a830abab50fd3e26b81efe390e0e"
+  },
+  {
+    "schema": "public",
+    "name": "group_json",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "665685c03b5e3f99d6cc156875d469f0"
+  },
+  {
+    "schema": "public",
+    "name": "group_remove",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "9c3598a2e7c45a741dcb74c2c437fe08"
+  },
+  {
+    "schema": "public",
+    "name": "group_set",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "9a4679e769b8586a075994484adaf6be"
+  },
+  {
+    "schema": "public",
+    "name": "guard_item_approval",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "de68ca99b30703ce92b5328246c91ca3"
+  },
+  {
+    "schema": "public",
+    "name": "guard_profile",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "3a587e30f7be32078d704a4219bd6b05"
+  },
+  {
+    "schema": "public",
+    "name": "handle_new_user",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "2f359c2ab04801046d86dd304c244b2d"
+  },
+  {
+    "schema": "public",
+    "name": "happy_hour_pct",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "7dab12996f5aedf2eb3c33982aa9232e"
+  },
+  {
+    "schema": "public",
+    "name": "has_perm",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "bfb89166c032762469a0e1cf3ffbfd0e"
+  },
+  {
+    "schema": "public",
+    "name": "is_admin",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "cadbeb70e5a0908652072a068373c53f"
+  },
+  {
+    "schema": "public",
+    "name": "item_approval",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "95bb77346ef242686588ea5166fc68af"
+  },
+  {
+    "schema": "public",
+    "name": "log_order_event",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "460b7153021d5ee87479a24f3a8369e1"
+  },
+  {
+    "schema": "public",
+    "name": "loyalty_balance",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "891d20b6901cfc5bd002c46d30a5082f"
+  },
+  {
+    "schema": "public",
+    "name": "loyalty_setting",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "4d452dfc3b0917a38eb0dd23f755f48c"
+  },
+  {
+    "schema": "public",
+    "name": "loyalty_spend",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "10628250f9eae1a30ed8d9e703a8e4a1"
+  },
+  {
+    "schema": "public",
+    "name": "loyalty_summary",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "a28e17344eb23205a16c62af4d7da06e"
+  },
+  {
+    "schema": "public",
+    "name": "merchant_review_order",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "5b04dbfdc68eedfa0cde125660aa82a2"
+  },
+  {
+    "schema": "public",
+    "name": "my_offers",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "0f2b3d770069b7a4f620aa402e1f3f58"
+  },
+  {
+    "schema": "public",
+    "name": "my_perms",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "d5786b7ccc417625dd09de2218612bc7"
+  },
+  {
+    "schema": "public",
+    "name": "my_rating",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "966c8828450c2112be8547b3550775d1"
+  },
+  {
+    "schema": "public",
+    "name": "norm_phone",
+    "security_definer": false,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "045d340df91ccbbc116e08b54c079c70"
+  },
+  {
+    "schema": "public",
+    "name": "order_approval_states",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "db63ffaf92ef3a15eb9430745de91724"
+  },
+  {
+    "schema": "public",
+    "name": "order_change_quote",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "14329f5d6961145ecdff1bb759b21568"
+  },
+  {
+    "schema": "public",
+    "name": "order_confirmation_settings",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "7e58bf8aea7910a54484cb0d8fc9e1f8"
+  },
+  {
+    "schema": "public",
+    "name": "order_contacts",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "bfa9f5aca392c3b5535df54e357ae5aa"
+  },
+  {
+    "schema": "public",
+    "name": "order_courier_position",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "726a85fa635228c36f3582920728e6e7"
+  },
+  {
+    "schema": "public",
+    "name": "order_return_action",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "880bfbfefb149693f60b09966c474ad0"
+  },
+  {
+    "schema": "public",
+    "name": "order_return_status",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "a18c46e460d200d8163bfbe396ac869e"
+  },
+  {
+    "schema": "public",
+    "name": "order_wallet_entries",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "9ba4938ab56900d2451684a7db292287"
+  },
+  {
+    "schema": "public",
+    "name": "owns_store",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "e4e882d379b0ad16e348083ecc7772fb"
+  },
+  {
+    "schema": "public",
+    "name": "pilot_check_session",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "d26cbf86a7f0ea7a931bd345cf611b05"
+  },
+  {
+    "schema": "public",
+    "name": "pilot_session_token_hook",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "73bab9bb02ba2c9770b9c5869ee65d78"
+  },
+  {
+    "schema": "public",
+    "name": "place_order",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "e1c61fc1b4bb96b05c5e7921e1fd24f1"
+  },
+  {
+    "schema": "public",
+    "name": "points_snapshot",
+    "security_definer": false,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "d9c49a980793d684cc2d1b42cf62e3f5"
+  },
+  {
+    "schema": "public",
+    "name": "price_line",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "87cb285fbbe164fc7d03813de1e9e38d"
+  },
+  {
+    "schema": "public",
+    "name": "promo_eval",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "f0d4095db6b4fc58cd11298ff210dbec"
+  },
+  {
+    "schema": "public",
+    "name": "promo_guard_version",
+    "security_definer": false,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "4638bb23faecefc9b3d394bd003167e2"
+  },
+  {
+    "schema": "public",
+    "name": "rate_order",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "2065ea3896a1da6e8743673a4e744c1b"
+  },
+  {
+    "schema": "public",
+    "name": "record_return_agreement",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "b495469dcc24f0cd8415415ac6783bd5"
+  },
+  {
+    "schema": "public",
+    "name": "reject_order",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "59bb05597cef40caee459cd5b8a94db1"
+  },
+  {
+    "schema": "public",
+    "name": "reopen_rating",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "9fefd2dd6d356840cea941a66721f98e"
+  },
+  {
+    "schema": "public",
+    "name": "report_client_error",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "51ca44bb2f517438d1b7327736314f5b"
+  },
+  {
+    "schema": "public",
+    "name": "request_store",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "093023f4e93b6a5e9849c880525287ff"
+  },
+  {
+    "schema": "public",
+    "name": "resolve_rating",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "18b1124ada52c49d7c07c28e36926942"
+  },
+  {
+    "schema": "public",
+    "name": "set_customer_ban",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "b089abddbc36b2498948b47c5d732bcd"
+  },
+  {
+    "schema": "public",
+    "name": "set_default_address",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "19e6e702a6209cb5cdd684582d592a3a"
+  },
+  {
+    "schema": "public",
+    "name": "set_my_cashback",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "cd7eb8d01931b2d318dcd725c78b4d8d"
+  },
+  {
+    "schema": "public",
+    "name": "set_my_discount",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "76aa00e345ed576f476a4ba01d06de6b"
+  },
+  {
+    "schema": "public",
+    "name": "set_my_free_delivery",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "df45a3f6c5bb5d3e6699004baec0145d"
+  },
+  {
+    "schema": "public",
+    "name": "set_my_phone",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "d93cd6aa6da9aaac613c8109a62168f2"
+  },
+  {
+    "schema": "public",
+    "name": "set_order_status",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "295b554255bd425b05b9568564a47994"
+  },
+  {
+    "schema": "public",
+    "name": "set_page",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "03dca01d09a29168709d7584aded951e"
+  },
+  {
+    "schema": "public",
+    "name": "set_prep_time",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "596ca30aaa0c5a668a7b34c3390ef82b"
+  },
+  {
+    "schema": "public",
+    "name": "set_setting",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "39c97ccb3a71d9deff578179501f1c79"
+  },
+  {
+    "schema": "public",
+    "name": "set_store_earn",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "5eec3b6b67377353b4022a79b66f81ff"
+  },
+  {
+    "schema": "public",
+    "name": "set_store_free_delivery",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "d93be2eab5df71f0c792856d9a8ae3b1"
+  },
+  {
+    "schema": "public",
+    "name": "set_store_loyalty",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "2b9b5d1d153715c184ba67e898b978e2"
+  },
+  {
+    "schema": "public",
+    "name": "set_store_open",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "c15b6d3f1fc5aa50ee5a6fc090814511"
+  },
+  {
+    "schema": "public",
+    "name": "set_text_setting",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "a38416b4aaeadf8777666984a3c5b128"
+  },
+  {
+    "schema": "public",
+    "name": "settle_driver_cash",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "1cf80a1e217287448b72f6dd666872b6"
+  },
+  {
+    "schema": "public",
+    "name": "staff_list",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "0737d6a7d3f0dbd51d1610f2086c3e3f"
+  },
+  {
+    "schema": "public",
+    "name": "staff_remove",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "6ffe3aade48221e6a51ac160179c4a98"
+  },
+  {
+    "schema": "public",
+    "name": "staff_set",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "d5c1039eebd766fcd379513dab43a0a6"
+  },
+  {
+    "schema": "public",
+    "name": "store_owner_info",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "ed0ad760b55b07f0ca07f576d4f16be2"
+  },
+  {
+    "schema": "public",
+    "name": "store_private",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "659543195cb0694ec9239920c619ce7d"
+  },
+  {
+    "schema": "public",
+    "name": "store_speed",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "881920705cc56d01d8272fd585c6a9ce"
+  },
+  {
+    "schema": "public",
+    "name": "ticket_reason_ok",
+    "security_definer": false,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "03bfb361a651135a49dfe4b3d82d01f3"
+  },
+  {
+    "schema": "public",
+    "name": "ticket_refund_room",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "dd3933ed3cd471d4738675348a05c629"
+  },
+  {
+    "schema": "public",
+    "name": "ticket_reply",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "5764a041a921928f1b76dbfda1e2021e"
+  },
+  {
+    "schema": "public",
+    "name": "ticket_seen",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "6511575e7d60a633d4da3c847d97a88a"
+  },
+  {
+    "schema": "public",
+    "name": "ticket_set_status",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "064f22813427f71d59f44f53cd9a1d57"
+  },
+  {
+    "schema": "public",
+    "name": "ticket_staff_reply",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "6ee08386ec1467bc86280f21fbee3ba3"
+  },
+  {
+    "schema": "public",
+    "name": "trg_chat_limit",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "b618c3c027cb1c24d4e2b83dd7f42ffe"
+  },
+  {
+    "schema": "public",
+    "name": "trg_check_images",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "69036f5bd871cfc1e9eece8c4b9d9e19"
+  },
+  {
+    "schema": "public",
+    "name": "trg_dispatch",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "5a32890a81a87b98421bad53f681fa5e"
+  },
+  {
+    "schema": "public",
+    "name": "trg_fav_limit",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "90d6362da5a2eb4273ade283b4936728"
+  },
+  {
+    "schema": "public",
+    "name": "trg_loyalty",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "941aa47525934acbeece63eca8231b71"
+  },
+  {
+    "schema": "public",
+    "name": "trg_profile_phone",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "c3df1e32c834a1f778eac377b8b1ca3b"
+  },
+  {
+    "schema": "public",
+    "name": "trg_rating_aggregate",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "d11a56c47f25542aefa95f56975941c2"
+  },
+  {
+    "schema": "public",
+    "name": "trg_rating_reward",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "801c2df7dbd7a716c84934d0d5400e7a"
+  },
+  {
+    "schema": "public",
+    "name": "trg_store_phone",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "442b676e2b7a4d9bceeac6a59f811964"
+  },
+  {
+    "schema": "public",
+    "name": "trg_wallet_immutable",
+    "security_definer": false,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "8af29247c2d22ad26dc9ebb75063e7e4"
+  },
+  {
+    "schema": "public",
+    "name": "trg_wallet_return",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "675fd231232001634f99e45f1005b278"
+  },
+  {
+    "schema": "public",
+    "name": "update_my_store",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "0633fc7664135d50a0f8e8fbf1820417"
+  },
+  {
+    "schema": "public",
+    "name": "validate_item",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "fc1d07ce08c6dae8cfa7413a8b654da5"
+  },
+  {
+    "schema": "public",
+    "name": "validate_store",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "b99b6bce16fc4a9ee7638be42839b661"
+  },
+  {
+    "schema": "public",
+    "name": "wallet_adjust",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "1cf80a1e217287448b72f6dd666872b6"
+  },
+  {
+    "schema": "public",
+    "name": "wallet_balance",
+    "security_definer": true,
+    "language": "sql",
+    "execute_keyword": false,
+    "source_fingerprint": "87e393097bc0caff6a3387da80ecb24e"
+  },
+  {
+    "schema": "security_private",
+    "name": "revoke_on_ban",
+    "security_definer": true,
+    "language": "plpgsql",
+    "execute_keyword": false,
+    "source_fingerprint": "1e7088313c569df0943bd5037f1dcdd2"
+  }
+]

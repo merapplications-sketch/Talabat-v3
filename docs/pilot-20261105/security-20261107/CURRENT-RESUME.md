@@ -1,3 +1,23 @@
+# Current .30 — account AND current-resource guards before replay
+
+Source abe3a5144894b82327a27944c4f1358959d83cf8; hosting40; deployment appgdep_6aef85cf84c08191a42f9a122a0beed6 succeeded2026-11-07T20:11:12.810364Z. Gate21/integrity14; exact archive+commit checked before save. See continuation30/REPORT.md and registry.
+
+Applied test-only migrations: pilot_return_action_account_guard, pilot_approval_account_guard, pilot_merchant_replay_current_access, pilot_return_replay_current_access. All succeeded; do NOT retry expired earlier request. Banned replay in3RPCs fixed, active allowed. Removed store owner replay in merchant+return fixed; owner allowed, unrelated customer retained. Return revoked-after-reactivation and MFA AAL1/AAL2 regression preserved. Latest cleanup allsynthetic0/pilotrestoredtrue. SQL evidence in continuation27/29, source security/db bindings .30.
+
+MFA IS COMPLETE for synthetic: verified1/AAL2session1, UI .27 + refresh/Auth200. User timeout not auth failure. Preserve tab4/session; no reenrollment/password reset. Source report/SQL account tests not blanket live JWT proof.
+
+Next independent work remains: cached customer order ownership/state coverage, full operation/sink/private schema inventory, provider/recovery/backup/alerts/concurrency blocks per report. Do not declare exhausted or ready. Preserve five accounts and1/2/3, #3unsettled. Historical notes below may mention older pending migrations/factors0; superseded above.
+
+# Current .29 — three cached-result account guard fixes applied and retested
+
+Source e02316d0941dff957e21907dc0c1aaadf5786b6b; hosting39; deployment appgdep_6aef8462c2d481919240b69d0e1aa737 succeeded2026-11-07T20:05:09.298317Z. Exact archive and committed source passed verify-archive, gate21 groups / integrity14 cases. See continuation29/REPORT.md and publication.json.
+
+MFA completed, NOT blocked: verified factor1/sessionAAL2=1, UI .27 home survived reload, refresh/Auth200. User timeout did not prove Auth failure; no reenrollment/password change. Browser tab4 preserved synthetic session.
+
+New DB migrations pilot_return_action_account_guard and pilot_approval_account_guard applied to test only. Banned cached reads were demonstrated in order_return_action/customer_confirm_order/merchant_review_order; now rejected with active allowed. Return tests also reject revoked session after reenabling and required AAL1, allow fresh AAL2. All temporary fixtures rolled back. Exact SQL and before/after in continuation27; migration/evidence bindings in .29 source security/db. Approval migration first malformed separator then confirmation expired; corrected request succeeded; do NOT retry applied migration.
+
+Independent evidence:25 local canonicalization cases,4 literal ticket text cases,152-function public/finance/security inventory. No fullASVS closure. Matrix statuses331 incomplete/2failed/12NA retained. Current role removal with active account on cached results remains next separate test; all monetary/old JWT/provider/recovery/backup/alert acceptance remains explicit. Do not claim work exhausted. Protected1/2/3 unchanged,3unsettled.
+
 # Current .27 — MFA live success and exact commit/archive binding
 
 Source 5a85f8c0ade674fe7ec7db7845ae75ee9123749d; hosting 37; deployment appgdep_6aef7b93421c8191b7fe5e848362cccb succeeded. See continuation27/REPORT.md. Gate 21 groups / integrity 14 cases. Committed source byte comparison closes dirty checkout gap. Source and archive checked before save; published core/MFA bytes matched.

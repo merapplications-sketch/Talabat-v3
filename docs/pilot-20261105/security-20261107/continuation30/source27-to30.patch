@@ -1,0 +1,831 @@
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index d4bfb7e..340f824 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -179,7 +179,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.27';
++  var VERSION = 'pilot-mobile-20261107.30';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+diff --git a/security/db/approval-replay-after.json b/security/db/approval-replay-after.json
+new file mode 100644
+index 0000000..7724322
+--- /dev/null
++++ b/security/db/approval-replay-after.json
+@@ -0,0 +1,30 @@
++[
++  {
++    "result": {
++      "active": {
++        "customer": {
++          "value": {
++            "synthetic_marker": "customer_cached"
++          },
++          "accepted": true
++        },
++        "merchant": {
++          "value": {
++            "synthetic_marker": "merchant_cached"
++          },
++          "accepted": true
++        }
++      },
++      "banned": {
++        "customer": {
++          "error": "not_allowed",
++          "accepted": false
++        },
++        "merchant": {
++          "error": "not_allowed",
++          "accepted": false
++        }
++      }
++    }
++  }
++]
+diff --git a/security/db/approval-replay-ban.sql b/security/db/approval-replay-ban.sql
+new file mode 100644
+index 0000000..947f64c
+--- /dev/null
++++ b/security/db/approval-replay-ban.sql
+@@ -0,0 +1,29 @@
++begin;
++set local lock_timeout='2s'; set local statement_timeout='15s';
++-- Entire synthetic fixture and all delivery effects roll back. Never use orders 1/2/3.
++select set_config('test.c27_return_config_before',md5(value::text),true) from pilot_private.config where id;
++update pilot_private.config set value=jsonb_set(jsonb_set(value,'{customers}',value->'customers'||'"90000000-0000-0000-0000-000000002741"'::jsonb),'{stores}',value->'stores'||'"90000000-0000-0000-0000-000000002743"'::jsonb) where id;
++insert into auth.users(id,raw_user_meta_data) values
++('90000000-0000-0000-0000-000000002741','{"name":"Synthetic return guard customer"}'),
++('90000000-0000-0000-0000-000000002742','{"name":"Synthetic return guard driver"}');
++update profiles set role='driver',driver_status='approved' where id='90000000-0000-0000-0000-000000002742';
++insert into stores(id,name,category) values('90000000-0000-0000-0000-000000002743','Synthetic return guard store','rest');
++insert into orders(id,store_id,customer_id,driver_id,status,lat,lng,payment,total,delivery_fee,driver_payout,subtotal) overriding system value values(-27041,'90000000-0000-0000-0000-000000002743','90000000-0000-0000-0000-000000002741','90000000-0000-0000-0000-000000002742','pickedup',38.56,68.79,'cash',40,15,15,0);
++update stores set owner_id='90000000-0000-0000-0000-000000002741' where id='90000000-0000-0000-0000-000000002743';
++insert into fulfillment_private.approval_requests(request,actor,operation,order_id,payload,result)values
++('90000000-0000-0000-0000-000000002751','90000000-0000-0000-0000-000000002741','customer_confirm',-27041,'{"revision":1}','{"synthetic_marker":"customer_cached"}'),
++('90000000-0000-0000-0000-000000002752','90000000-0000-0000-0000-000000002741','merchant_review',-27041,'{"minutes":15,"items":null,"note":""}','{"synthetic_marker":"merchant_cached"}');
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++do $$declare a jsonb;b jsonb;begin
++begin a:=customer_confirm_order(-27041,1,'90000000-0000-0000-0000-000000002751');a:=jsonb_build_object('accepted',true,'value',a);exception when raise_exception then a:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++begin b:=merchant_review_order(-27041,15,'90000000-0000-0000-0000-000000002752',null,null);b:=jsonb_build_object('accepted',true,'value',b);exception when raise_exception then b:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++perform set_config('test.c28_active',jsonb_build_object('customer',a,'merchant',b)::text,true);end $$;
++reset role; select set_config('request.jwt.claims','{}',true); update profiles set banned_at=now() where id='90000000-0000-0000-0000-000000002741';
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++do $$declare a jsonb;b jsonb;begin
++begin a:=customer_confirm_order(-27041,1,'90000000-0000-0000-0000-000000002751');a:=jsonb_build_object('accepted',true,'value',a);exception when raise_exception then a:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++begin b:=merchant_review_order(-27041,15,'90000000-0000-0000-0000-000000002752',null,null);b:=jsonb_build_object('accepted',true,'value',b);exception when raise_exception then b:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++perform set_config('test.c28_banned',jsonb_build_object('customer',a,'merchant',b)::text,true);end $$;
++reset role; select jsonb_build_object('active',current_setting('test.c28_active')::jsonb,'banned',current_setting('test.c28_banned')::jsonb)as result; rollback;
+diff --git a/security/db/approval-role-removal.sql b/security/db/approval-role-removal.sql
+new file mode 100644
+index 0000000..711e03a
+--- /dev/null
++++ b/security/db/approval-role-removal.sql
+@@ -0,0 +1,29 @@
++begin;
++set local lock_timeout='2s'; set local statement_timeout='15s';
++-- Entire synthetic fixture and all delivery effects roll back. Never use orders 1/2/3.
++select set_config('test.c27_return_config_before',md5(value::text),true) from pilot_private.config where id;
++update pilot_private.config set value=jsonb_set(jsonb_set(value,'{customers}',value->'customers'||'"90000000-0000-0000-0000-000000002741"'::jsonb),'{stores}',value->'stores'||'"90000000-0000-0000-0000-000000002743"'::jsonb) where id;
++insert into auth.users(id,raw_user_meta_data) values
++('90000000-0000-0000-0000-000000002741','{"name":"Synthetic return guard customer"}'),
++('90000000-0000-0000-0000-000000002742','{"name":"Synthetic return guard driver"}');
++update profiles set role='driver',driver_status='approved' where id='90000000-0000-0000-0000-000000002742';
++insert into stores(id,name,category) values('90000000-0000-0000-0000-000000002743','Synthetic return guard store','rest');
++insert into orders(id,store_id,customer_id,driver_id,status,lat,lng,payment,total,delivery_fee,driver_payout,subtotal) overriding system value values(-27041,'90000000-0000-0000-0000-000000002743','90000000-0000-0000-0000-000000002741','90000000-0000-0000-0000-000000002742','pickedup',38.56,68.79,'cash',40,15,15,0);
++update stores set owner_id='90000000-0000-0000-0000-000000002741' where id='90000000-0000-0000-0000-000000002743';
++insert into fulfillment_private.approval_requests(request,actor,operation,order_id,payload,result)values
++('90000000-0000-0000-0000-000000002751','90000000-0000-0000-0000-000000002741','customer_confirm',-27041,'{"revision":1}','{"synthetic_marker":"customer_cached"}'),
++('90000000-0000-0000-0000-000000002752','90000000-0000-0000-0000-000000002741','merchant_review',-27041,'{"minutes":15,"items":null,"note":""}','{"synthetic_marker":"merchant_cached"}');
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++do $$declare a jsonb;b jsonb;begin
++begin a:=customer_confirm_order(-27041,1,'90000000-0000-0000-0000-000000002751');a:=jsonb_build_object('accepted',true,'value',a);exception when raise_exception then a:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++begin b:=merchant_review_order(-27041,15,'90000000-0000-0000-0000-000000002752',null,null);b:=jsonb_build_object('accepted',true,'value',b);exception when raise_exception then b:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++perform set_config('test.c28_active',jsonb_build_object('customer',a,'merchant',b,'owns_store',public.owns_store('90000000-0000-0000-0000-000000002743'))::text,true);end $$;
++reset role; select set_config('request.jwt.claims','{}',true); update stores set owner_id=null where id='90000000-0000-0000-0000-000000002743';
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++do $$declare a jsonb;b jsonb;begin
++begin a:=customer_confirm_order(-27041,1,'90000000-0000-0000-0000-000000002751');a:=jsonb_build_object('accepted',true,'value',a);exception when raise_exception then a:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++begin b:=merchant_review_order(-27041,15,'90000000-0000-0000-0000-000000002752',null,null);b:=jsonb_build_object('accepted',true,'value',b);exception when raise_exception then b:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++perform set_config('test.c29_removed',jsonb_build_object('customer',a,'merchant',b,'owns_store',public.owns_store('90000000-0000-0000-0000-000000002743'))::text,true);end $$;
++reset role; select jsonb_build_object('active',current_setting('test.c28_active')::jsonb,'role_removed',current_setting('test.c29_removed')::jsonb)as result; rollback;
+diff --git a/security/db/merchant-role-after.json b/security/db/merchant-role-after.json
+new file mode 100644
+index 0000000..2e5d25b
+--- /dev/null
++++ b/security/db/merchant-role-after.json
+@@ -0,0 +1,34 @@
++[
++  {
++    "result": {
++      "active": {
++        "customer": {
++          "value": {
++            "synthetic_marker": "customer_cached"
++          },
++          "accepted": true
++        },
++        "merchant": {
++          "value": {
++            "synthetic_marker": "merchant_cached"
++          },
++          "accepted": true
++        },
++        "owns_store": true
++      },
++      "role_removed": {
++        "customer": {
++          "value": {
++            "synthetic_marker": "customer_cached"
++          },
++          "accepted": true
++        },
++        "merchant": {
++          "error": "not_allowed",
++          "accepted": false
++        },
++        "owns_store": false
++      }
++    }
++  }
++]
+diff --git a/security/db/pilot_approval_account_guard.sql b/security/db/pilot_approval_account_guard.sql
+new file mode 100644
+index 0000000..1a493e1
+--- /dev/null
++++ b/security/db/pilot_approval_account_guard.sql
+@@ -0,0 +1,91 @@
++CREATE OR REPLACE FUNCTION public.customer_confirm_order(p_order bigint, p_revision integer, p_request uuid)
++ RETURNS jsonb
++ LANGUAGE plpgsql
++ SECURITY DEFINER
++ SET search_path TO 'public'
++AS $function$
++declare o orders;a fulfillment_private.order_approvals;r fulfillment_private.approval_requests;payload jsonb;result_json jsonb;line jsonb;prev_write text;
++begin
++ if not public.account_enabled() then raise exception 'not_allowed'; end if;
++ if auth.uid()is null or p_request is null then raise exception'bad_value';end if;
++ payload:=jsonb_build_object('revision',p_revision);
++ perform pg_advisory_xact_lock(hashtextextended('approval:'||p_request::text,0));
++ select *into r from fulfillment_private.approval_requests where request=p_request;
++ if found then
++  if r.actor<>auth.uid()or r.operation<>'customer_confirm'or r.order_id<>p_order or r.payload<>payload then raise exception'request_conflict';end if;return r.result;end if;
++ select *into o from orders where id=p_order for update;
++ if not found or o.customer_id<>auth.uid()then raise exception'not_allowed';end if;
++ select *into a from fulfillment_private.order_approvals where order_id=p_order for update;
++ if not found or a.revision is distinct from p_revision then raise exception'approval_changed';end if;
++ if o.status not in('pending','preparing','ready','pickedup')then raise exception'bad_transition';end if;
++ if a.state<>'awaiting_customer'then raise exception'approval_changed';end if;
++ if a.deadline is not null and now()>a.deadline then raise exception'confirmation_expired';end if;
++ if o.total is distinct from(a.snapshot->>'base_total')::numeric then raise exception'approval_changed';end if;
++ if o.scheduled_for is not null and now()<o.scheduled_for-interval'60 minutes'then raise exception'too_early';end if;
++ prev_write:=current_setting('talabot.approval_write',true);perform set_config('talabot.approval_write',p_order::text,true);
++ if coalesce((a.snapshot->>'apply_items')::boolean,false)then
++  if o.driver_id is not null or coalesce(o.wallet_used,0)>0 or coalesce(o.points_used,0)>0 then raise exception'change_requires_support';end if;
++  delete from order_items where order_id=p_order;
++  for line in select value from jsonb_array_elements(a.snapshot->'lines')loop
++   insert into order_items(order_id,item_id,name,price,qty,note,options)values(p_order,(line->>'item_id')::uuid,line->>'name',(line->>'price')::numeric,(line->>'qty')::int,line->>'note',line->'options');
++  end loop;
++  update orders set subtotal=(a.snapshot->>'subtotal')::numeric,total=(a.snapshot->>'total')::numeric,
++   commission=round((a.snapshot->>'subtotal')::numeric*coalesce(o.commission_pct,0)/100,2)where id=p_order;
++ end if;
++ update fulfillment_private.order_approvals set state='accepted',accepted_revision=revision,accepted_prep_minutes=(snapshot->>'prep_minutes')::int,
++ customer_actor=auth.uid(),customer_at=now()where order_id=p_order;
++ update orders set prep_time=(a.snapshot->>'prep_minutes')::int,status=case when status='pending'then'preparing'::order_status else status end where id=p_order;
++ perform set_config('talabot.approval_write',coalesce(prev_write,''),true);
++ insert into fulfillment_private.approval_events(order_id,revision,kind,actor,snapshot)values(p_order,a.revision,'customer_confirm',auth.uid(),a.snapshot);
++ result_json:=jsonb_build_object('request',p_request,'order_id',p_order,'revision',a.revision,'state','accepted');
++ insert into fulfillment_private.approval_requests values(p_request,auth.uid(),'customer_confirm',p_order,payload,result_json,now());return result_json;
++end $function$;
++
++CREATE OR REPLACE FUNCTION public.merchant_review_order(p_order bigint, p_minutes integer, p_request uuid, p_items jsonb DEFAULT NULL::jsonb, p_note text DEFAULT NULL::text)
++ RETURNS jsonb
++ LANGUAGE plpgsql
++ SECURITY DEFINER
++ SET search_path TO 'public'
++AS $function$
++declare o orders;a fulfillment_private.order_approvals;cfg fulfillment_private.confirmation_config;r fulfillment_private.approval_requests;
++ payload jsonb;snap jsonb;old_snap jsonb;quoted jsonb;needs_accept boolean;price_change boolean;time_change boolean;result_json jsonb;prev_write text;
++begin
++ if not public.account_enabled() then raise exception 'not_allowed'; end if;
++ if auth.uid()is null or p_request is null or p_minutes is null or p_minutes not between 5 and 90 then raise exception'bad_value';end if;
++ payload:=jsonb_build_object('minutes',p_minutes,'items',p_items,'note',left(coalesce(p_note,''),200));
++ perform pg_advisory_xact_lock(hashtextextended('approval:'||p_request::text,0));
++ select * into r from fulfillment_private.approval_requests where request=p_request;
++ if found then
++  if r.actor<>auth.uid()or r.operation<>'merchant_review'or r.order_id<>p_order or r.payload<>payload then raise exception'request_conflict';end if;return r.result;end if;
++ select * into o from orders where id=p_order for update;
++ if not found or not(owns_store(o.store_id)or has_perm('orders'))then raise exception'not_allowed';end if;
++ if o.status not in('pending','preparing','ready','pickedup')then raise exception'bad_transition';end if;
++ if o.scheduled_for is not null and now()<o.scheduled_for-interval'60 minutes'then raise exception'too_early';end if;
++ insert into fulfillment_private.order_approvals(order_id,customer_id,state,snapshot,accepted_revision,accepted_prep_minutes)
++ values(o.id,o.customer_id,'checkout_accepted',fulfillment_private.snapshot(o.id),0,o.prep_time)on conflict do nothing;
++ select * into a from fulfillment_private.order_approvals where order_id=p_order for update;
++ select * into cfg from fulfillment_private.confirmation_config where id;
++ old_snap:=fulfillment_private.snapshot(p_order);snap:=old_snap||jsonb_build_object('prep_minutes',p_minutes,'previous_total',o.total,'previous_prep_minutes',o.prep_time);
++ if p_items is not null then quoted:=fulfillment_private.quote_lines(p_order,p_items);snap:=snap||quoted;end if;
++ price_change:=p_items is not null and(snap->'lines'is distinct from old_snap->'lines'or snap->'total'is distinct from old_snap->'total');
++ time_change:=a.accepted_prep_minutes is not null and p_minutes>a.accepted_prep_minutes and
++  (not cfg.delay_approved or cfg.material_delay_minutes is null or p_minutes-a.accepted_prep_minutes>=cfg.material_delay_minutes);
++ needs_accept:=a.state in('awaiting_merchant','awaiting_customer')or price_change or time_change;
++ snap:=snap||jsonb_build_object('reason',case when a.state='awaiting_merchant'then'first_cash'when price_change then'items_or_price'when time_change and not cfg.delay_approved then'delay_policy_unapproved'when time_change then'material_delay'else'nonmaterial_time'end,
++ 'apply_items',price_change,'base_total',o.total,'base_subtotal',o.subtotal);
++ update fulfillment_private.order_approvals set revision=revision+1,snapshot=snap,
++ state=case when needs_accept then'awaiting_customer'else state end,
++ deadline=case when needs_accept and cfg.timeout_approved then now()+make_interval(secs=>cfg.timeout_seconds)else null end,
++ merchant_actor=auth.uid(),merchant_at=now(),accepted_prep_minutes=case when not needs_accept and(accepted_prep_minutes is null or p_minutes<accepted_prep_minutes)then p_minutes else accepted_prep_minutes end
++ where order_id=p_order returning *into a;
++ if needs_accept then
++  update order_offers set state='cancelled'where order_id=p_order and state='pending';
++ else
++  prev_write:=current_setting('talabot.approval_write',true);perform set_config('talabot.approval_write',p_order::text,true);
++  update orders set prep_time=p_minutes where id=p_order;
++  perform set_config('talabot.approval_write',coalesce(prev_write,''),true);
++ end if;
++ insert into fulfillment_private.approval_events(order_id,revision,kind,actor,snapshot)values(p_order,a.revision,'merchant_review',auth.uid(),snap);
++ result_json:=jsonb_build_object('request',p_request,'order_id',p_order,'revision',a.revision,'state',a.state,'needs_customer',needs_accept);
++ insert into fulfillment_private.approval_requests values(p_request,auth.uid(),'merchant_review',p_order,payload,result_json,now());return result_json;
++end $function$;
+diff --git a/security/db/pilot_merchant_replay_current_access.sql b/security/db/pilot_merchant_replay_current_access.sql
+new file mode 100644
+index 0000000..bbe0370
+--- /dev/null
++++ b/security/db/pilot_merchant_replay_current_access.sql
+@@ -0,0 +1,51 @@
++CREATE OR REPLACE FUNCTION public.merchant_review_order(p_order bigint, p_minutes integer, p_request uuid, p_items jsonb DEFAULT NULL::jsonb, p_note text DEFAULT NULL::text)
++ RETURNS jsonb
++ LANGUAGE plpgsql
++ SECURITY DEFINER
++ SET search_path TO 'public'
++AS $function$
++declare o orders;a fulfillment_private.order_approvals;cfg fulfillment_private.confirmation_config;r fulfillment_private.approval_requests;
++ payload jsonb;snap jsonb;old_snap jsonb;quoted jsonb;needs_accept boolean;price_change boolean;time_change boolean;result_json jsonb;prev_write text;
++begin
++ if not public.account_enabled() then raise exception 'not_allowed'; end if;
++ if auth.uid()is null or p_request is null or p_minutes is null or p_minutes not between 5 and 90 then raise exception'bad_value';end if;
++ payload:=jsonb_build_object('minutes',p_minutes,'items',p_items,'note',left(coalesce(p_note,''),200));
++ perform pg_advisory_xact_lock(hashtextextended('approval:'||p_request::text,0));
++ select * into r from fulfillment_private.approval_requests where request=p_request;
++ if found then
++  if r.actor<>auth.uid()or r.operation<>'merchant_review'or r.order_id<>p_order or r.payload<>payload then raise exception'request_conflict';end if;
++  if not exists(select 1 from public.orders current_order where current_order.id=p_order and (public.owns_store(current_order.store_id) or public.has_perm('orders'))) then raise exception 'not_allowed'; end if;
++  return r.result;end if;
++ select * into o from orders where id=p_order for update;
++ if not found or not(owns_store(o.store_id)or has_perm('orders'))then raise exception'not_allowed';end if;
++ if o.status not in('pending','preparing','ready','pickedup')then raise exception'bad_transition';end if;
++ if o.scheduled_for is not null and now()<o.scheduled_for-interval'60 minutes'then raise exception'too_early';end if;
++ insert into fulfillment_private.order_approvals(order_id,customer_id,state,snapshot,accepted_revision,accepted_prep_minutes)
++ values(o.id,o.customer_id,'checkout_accepted',fulfillment_private.snapshot(o.id),0,o.prep_time)on conflict do nothing;
++ select * into a from fulfillment_private.order_approvals where order_id=p_order for update;
++ select * into cfg from fulfillment_private.confirmation_config where id;
++ old_snap:=fulfillment_private.snapshot(p_order);snap:=old_snap||jsonb_build_object('prep_minutes',p_minutes,'previous_total',o.total,'previous_prep_minutes',o.prep_time);
++ if p_items is not null then quoted:=fulfillment_private.quote_lines(p_order,p_items);snap:=snap||quoted;end if;
++ price_change:=p_items is not null and(snap->'lines'is distinct from old_snap->'lines'or snap->'total'is distinct from old_snap->'total');
++ time_change:=a.accepted_prep_minutes is not null and p_minutes>a.accepted_prep_minutes and
++  (not cfg.delay_approved or cfg.material_delay_minutes is null or p_minutes-a.accepted_prep_minutes>=cfg.material_delay_minutes);
++ needs_accept:=a.state in('awaiting_merchant','awaiting_customer')or price_change or time_change;
++ snap:=snap||jsonb_build_object('reason',case when a.state='awaiting_merchant'then'first_cash'when price_change then'items_or_price'when time_change and not cfg.delay_approved then'delay_policy_unapproved'when time_change then'material_delay'else'nonmaterial_time'end,
++ 'apply_items',price_change,'base_total',o.total,'base_subtotal',o.subtotal);
++ update fulfillment_private.order_approvals set revision=revision+1,snapshot=snap,
++ state=case when needs_accept then'awaiting_customer'else state end,
++ deadline=case when needs_accept and cfg.timeout_approved then now()+make_interval(secs=>cfg.timeout_seconds)else null end,
++ merchant_actor=auth.uid(),merchant_at=now(),accepted_prep_minutes=case when not needs_accept and(accepted_prep_minutes is null or p_minutes<accepted_prep_minutes)then p_minutes else accepted_prep_minutes end
++ where order_id=p_order returning *into a;
++ if needs_accept then
++  update order_offers set state='cancelled'where order_id=p_order and state='pending';
++ else
++  prev_write:=current_setting('talabot.approval_write',true);perform set_config('talabot.approval_write',p_order::text,true);
++  update orders set prep_time=p_minutes where id=p_order;
++  perform set_config('talabot.approval_write',coalesce(prev_write,''),true);
++ end if;
++ insert into fulfillment_private.approval_events(order_id,revision,kind,actor,snapshot)values(p_order,a.revision,'merchant_review',auth.uid(),snap);
++ result_json:=jsonb_build_object('request',p_request,'order_id',p_order,'revision',a.revision,'state',a.state,'needs_customer',needs_accept);
++ insert into fulfillment_private.approval_requests values(p_request,auth.uid(),'merchant_review',p_order,payload,result_json,now());return result_json;
++end $function$
++
+diff --git a/security/db/pilot_return_action_account_guard.sql b/security/db/pilot_return_action_account_guard.sql
+new file mode 100644
+index 0000000..59ec06b
+--- /dev/null
++++ b/security/db/pilot_return_action_account_guard.sql
+@@ -0,0 +1,120 @@
++CREATE OR REPLACE FUNCTION public.order_return_action(p_order bigint, p_request uuid, p_action text, p_ref text DEFAULT NULL::text, p_amount numeric DEFAULT NULL::numeric, p_method text DEFAULT NULL::text)
++ RETURNS jsonb
++ LANGUAGE plpgsql
++ SECURITY DEFINER
++ SET search_path TO ''
++AS $function$
++declare
++  v_actor uuid := auth.uid();
++  o public.orders;
++  c return_private.cases;
++  agreement return_private.agreements;
++  prior return_private.commands;
++  refund return_private.refunds;
++  ref text := nullif(upper(btrim(p_ref)), '');
++  payload jsonb := jsonb_build_object('ref', ref, 'amount', p_amount, 'method', p_method);
++  result jsonb;
++  remaining numeric;
++  merchant boolean;
++  driver boolean;
++begin
++  if v_actor is null or not public.account_enabled() then raise exception 'not_allowed'; end if;
++  if p_request is null or p_action is null or length(ref) > 200
++     or (p_amount is not null and (p_amount <= 0 or p_amount > 9999999999.99 or scale(p_amount) > 2)) then
++    raise exception 'bad_value';
++  end if;
++  if (p_action in ('depart', 'report_refund', 'confirm_refund', 'dispute_refund') and p_amount is null)
++     or (p_action not in ('depart', 'report_refund', 'confirm_refund', 'dispute_refund') and p_amount is not null)
++     or (p_action = 'report_refund' and (p_method is null or p_method not in ('cash', 'transfer')))
++     or (p_action <> 'report_refund' and p_method is not null)
++     or (p_action = 'cancel' and ref is not null)
++     or (p_action <> 'cancel' and ref is null) then
++    raise exception 'bad_value';
++  end if;
++  -- Lock request first, then the shared order. Different keys still serialize per order.
++  perform pg_advisory_xact_lock(hashtextextended(v_actor::text || ':' || p_request::text, 771606));
++  select * into prior from return_private.commands where request = p_request and commands.actor = v_actor;
++  if found then
++    if (prior.order_id, prior.action, prior.payload) is distinct from (p_order, p_action, payload) then
++      raise exception 'request_conflict';
++    end if;
++    return prior.result;
++  end if;
++  select * into o from public.orders where id = p_order for update;
++  if not found then raise exception 'not_allowed'; end if;
++  merchant := public.owns_store(o.store_id);
++  driver := v_actor is not distinct from o.driver_id;
++  case p_action
++    when 'depart', 'confirm_refund', 'dispute_refund' then
++      if not driver then raise exception 'not_allowed'; end if;
++    when 'cancel' then
++      if v_actor <> o.customer_id then raise exception 'not_allowed'; end if;
++    when 'receive', 'report_refund' then
++      if not merchant then raise exception 'not_allowed'; end if;
++    when 'refuse_refund' then
++      if not (merchant or public.has_perm('orders')) then raise exception 'not_allowed'; end if;
++    else raise exception 'bad_value';
++  end case;
++  select * into c from return_private.cases where order_id = p_order;
++
++  if p_action = 'depart' then
++    if c.order_id is not null or o.status <> 'pickedup' or o.payment is distinct from 'cash' then
++      raise exception 'return_bad_state';
++    end if;
++    select * into agreement from return_private.agreements
++    where store_id = o.store_id and recorded_at < o.created_at
++    order by recorded_at desc, id desc limit 1;
++    if not found or not agreement.active then raise exception 'return_no_agreement'; end if;
++    insert into return_private.cases(order_id, store_id, agreement_id, driver_id, customer_id, paid, payment_ref)
++    values (p_order, o.store_id, agreement.id, o.driver_id, o.customer_id, p_amount, ref);
++  elsif p_action = 'cancel' then
++    if c.order_id is null or c.cancelled_at is not null or o.status <> 'pickedup' then
++      raise exception 'return_bad_state';
++    end if;
++    update return_private.cases set cancelled_at = clock_timestamp() where order_id = p_order;
++    insert into return_private.delivery_due(order_id, driver_id, amount, currency)
++    values (p_order, c.driver_id, round(o.driver_payout - o.tip, 2), c.currency);
++    update public.orders set status = 'cancelled', done_at = clock_timestamp(), cancelled_by = 'customer'
++    where id = p_order;
++  else
++    if c.cancelled_at is null or o.status <> 'cancelled' then raise exception 'return_bad_state'; end if;
++    if p_action = 'receive' then
++      if c.received_at is not null then raise exception 'return_bad_state'; end if;
++      update return_private.cases set received_at = clock_timestamp(), received_by = v_actor, receipt_ref = ref
++      where order_id = p_order;
++    else
++      if c.received_at is null then raise exception 'return_waiting_receipt'; end if;
++      select c.paid - coalesce(sum(amount), 0) into remaining
++      from return_private.refunds where order_id = p_order and state = 'confirmed';
++      if remaining <= 0 then raise exception 'return_bad_state'; end if;
++      case p_action
++        when 'refuse_refund' then
++          if c.refused_at is not null or exists (
++            select 1 from return_private.refunds where order_id = p_order and state = 'pending'
++          ) then raise exception 'return_bad_state'; end if;
++          update return_private.cases set refused_at = clock_timestamp(), refused_by = v_actor, refusal_ref = ref
++          where order_id = p_order;
++        when 'report_refund' then
++          if p_amount > remaining then raise exception 'return_exceeds_claim'; end if;
++          insert into return_private.refunds(order_id, store_id, source_ref, amount, method, reported_by)
++          values (p_order, o.store_id, ref, p_amount, p_method, v_actor);
++        else
++          select * into refund from return_private.refunds
++          where order_id = p_order and store_id = o.store_id and source_ref = ref;
++          if not found or refund.state <> 'pending' or refund.amount <> p_amount then
++            raise exception 'return_bad_state';
++          end if;
++          if refund.amount > remaining then raise exception 'return_exceeds_claim'; end if;
++          update return_private.refunds set state = case when p_action = 'confirm_refund' then 'confirmed' else 'disputed' end,
++            checked_by = v_actor, checked_at = clock_timestamp()
++          where store_id = o.store_id and source_ref = ref;
++      end case;
++    end if;
++  end if;
++
++  result := return_private.view_case(p_order, p_action = 'cancel');
++  insert into return_private.commands(actor, request, order_id, action, payload, result)
++  values (v_actor, p_request, p_order, p_action, payload, result);
++  return result;
++end $function$
++
+diff --git a/security/db/pilot_return_replay_current_access.sql b/security/db/pilot_return_replay_current_access.sql
+new file mode 100644
+index 0000000..bfc67e5
+--- /dev/null
++++ b/security/db/pilot_return_replay_current_access.sql
+@@ -0,0 +1,120 @@
++CREATE OR REPLACE FUNCTION public.order_return_action(p_order bigint, p_request uuid, p_action text, p_ref text DEFAULT NULL::text, p_amount numeric DEFAULT NULL::numeric, p_method text DEFAULT NULL::text)
++ RETURNS jsonb
++ LANGUAGE plpgsql
++ SECURITY DEFINER
++ SET search_path TO ''
++AS $function$
++declare
++  v_actor uuid := auth.uid();
++  o public.orders;
++  c return_private.cases;
++  agreement return_private.agreements;
++  prior return_private.commands;
++  refund return_private.refunds;
++  ref text := nullif(upper(btrim(p_ref)), '');
++  payload jsonb := jsonb_build_object('ref', ref, 'amount', p_amount, 'method', p_method);
++  result jsonb;
++  remaining numeric;
++  merchant boolean;
++  driver boolean;
++begin
++  if v_actor is null or not public.account_enabled() then raise exception 'not_allowed'; end if;
++  if p_request is null or p_action is null or length(ref) > 200
++     or (p_amount is not null and (p_amount <= 0 or p_amount > 9999999999.99 or scale(p_amount) > 2)) then
++    raise exception 'bad_value';
++  end if;
++  if (p_action in ('depart', 'report_refund', 'confirm_refund', 'dispute_refund') and p_amount is null)
++     or (p_action not in ('depart', 'report_refund', 'confirm_refund', 'dispute_refund') and p_amount is not null)
++     or (p_action = 'report_refund' and (p_method is null or p_method not in ('cash', 'transfer')))
++     or (p_action <> 'report_refund' and p_method is not null)
++     or (p_action = 'cancel' and ref is not null)
++     or (p_action <> 'cancel' and ref is null) then
++    raise exception 'bad_value';
++  end if;
++  -- Lock request first, then the shared order. Different keys still serialize per order.
++  perform pg_advisory_xact_lock(hashtextextended(v_actor::text || ':' || p_request::text, 771606));
++  select * into prior from return_private.commands where request = p_request and commands.actor = v_actor;
++  select * into o from public.orders where id = p_order for update;
++  if not found then raise exception 'not_allowed'; end if;
++  merchant := public.owns_store(o.store_id);
++  driver := v_actor is not distinct from o.driver_id;
++  case p_action
++    when 'depart', 'confirm_refund', 'dispute_refund' then
++      if not driver then raise exception 'not_allowed'; end if;
++    when 'cancel' then
++      if v_actor <> o.customer_id then raise exception 'not_allowed'; end if;
++    when 'receive', 'report_refund' then
++      if not merchant then raise exception 'not_allowed'; end if;
++    when 'refuse_refund' then
++      if not (merchant or public.has_perm('orders')) then raise exception 'not_allowed'; end if;
++    else raise exception 'bad_value';
++  end case;
++  if prior.request is not null then
++    if (prior.order_id, prior.action, prior.payload) is distinct from (p_order, p_action, payload) then
++      raise exception 'request_conflict';
++    end if;
++    return prior.result;
++  end if;
++  select * into c from return_private.cases where order_id = p_order;
++
++  if p_action = 'depart' then
++    if c.order_id is not null or o.status <> 'pickedup' or o.payment is distinct from 'cash' then
++      raise exception 'return_bad_state';
++    end if;
++    select * into agreement from return_private.agreements
++    where store_id = o.store_id and recorded_at < o.created_at
++    order by recorded_at desc, id desc limit 1;
++    if not found or not agreement.active then raise exception 'return_no_agreement'; end if;
++    insert into return_private.cases(order_id, store_id, agreement_id, driver_id, customer_id, paid, payment_ref)
++    values (p_order, o.store_id, agreement.id, o.driver_id, o.customer_id, p_amount, ref);
++  elsif p_action = 'cancel' then
++    if c.order_id is null or c.cancelled_at is not null or o.status <> 'pickedup' then
++      raise exception 'return_bad_state';
++    end if;
++    update return_private.cases set cancelled_at = clock_timestamp() where order_id = p_order;
++    insert into return_private.delivery_due(order_id, driver_id, amount, currency)
++    values (p_order, c.driver_id, round(o.driver_payout - o.tip, 2), c.currency);
++    update public.orders set status = 'cancelled', done_at = clock_timestamp(), cancelled_by = 'customer'
++    where id = p_order;
++  else
++    if c.cancelled_at is null or o.status <> 'cancelled' then raise exception 'return_bad_state'; end if;
++    if p_action = 'receive' then
++      if c.received_at is not null then raise exception 'return_bad_state'; end if;
++      update return_private.cases set received_at = clock_timestamp(), received_by = v_actor, receipt_ref = ref
++      where order_id = p_order;
++    else
++      if c.received_at is null then raise exception 'return_waiting_receipt'; end if;
++      select c.paid - coalesce(sum(amount), 0) into remaining
++      from return_private.refunds where order_id = p_order and state = 'confirmed';
++      if remaining <= 0 then raise exception 'return_bad_state'; end if;
++      case p_action
++        when 'refuse_refund' then
++          if c.refused_at is not null or exists (
++            select 1 from return_private.refunds where order_id = p_order and state = 'pending'
++          ) then raise exception 'return_bad_state'; end if;
++          update return_private.cases set refused_at = clock_timestamp(), refused_by = v_actor, refusal_ref = ref
++          where order_id = p_order;
++        when 'report_refund' then
++          if p_amount > remaining then raise exception 'return_exceeds_claim'; end if;
++          insert into return_private.refunds(order_id, store_id, source_ref, amount, method, reported_by)
++          values (p_order, o.store_id, ref, p_amount, p_method, v_actor);
++        else
++          select * into refund from return_private.refunds
++          where order_id = p_order and store_id = o.store_id and source_ref = ref;
++          if not found or refund.state <> 'pending' or refund.amount <> p_amount then
++            raise exception 'return_bad_state';
++          end if;
++          if refund.amount > remaining then raise exception 'return_exceeds_claim'; end if;
++          update return_private.refunds set state = case when p_action = 'confirm_refund' then 'confirmed' else 'disputed' end,
++            checked_by = v_actor, checked_at = clock_timestamp()
++          where store_id = o.store_id and source_ref = ref;
++      end case;
++    end if;
++  end if;
++
++  result := return_private.view_case(p_order, p_action = 'cancel');
++  insert into return_private.commands(actor, request, order_id, action, payload, result)
++  values (v_actor, p_request, p_order, p_action, payload, result);
++  return result;
++end $function$
++
+diff --git a/security/db/return-cleanup.json b/security/db/return-cleanup.json
+new file mode 100644
+index 0000000..74ab498
+--- /dev/null
++++ b/security/db/return-cleanup.json
+@@ -0,0 +1,14 @@
++[
++  {
++    "cleanup": {
++      "cases": 0,
++      "users": 0,
++      "orders": 0,
++      "commands": 0,
++      "agreements": 0,
++      "mfa_roster": 0,
++      "revocations": 0,
++      "pilot_restored": true
++    }
++  }
++]
+diff --git a/security/db/return-regression-current.json b/security/db/return-regression-current.json
+new file mode 100644
+index 0000000..f6c8691
+--- /dev/null
++++ b/security/db/return-regression-current.json
+@@ -0,0 +1,32 @@
++[
++  {
++    "result": {
++      "cases": [
++        {
++          "case": "reenabled_revoked",
++          "error": "not_allowed",
++          "accepted": false
++        },
++        {
++          "case": "mfa_aal1",
++          "error": "not_allowed",
++          "accepted": false
++        },
++        {
++          "case": "new_active_aal2",
++          "result": {
++            "synthetic_marker": "cached_return"
++          },
++          "accepted": true
++        }
++      ],
++      "active": {
++        "synthetic_marker": "cached_return"
++      },
++      "banned": {
++        "error": "not_allowed",
++        "accepted": false
++      }
++    }
++  }
++]
+diff --git a/security/db/return-replay-regression.json b/security/db/return-replay-regression.json
+new file mode 100644
+index 0000000..f6c8691
+--- /dev/null
++++ b/security/db/return-replay-regression.json
+@@ -0,0 +1,32 @@
++[
++  {
++    "result": {
++      "cases": [
++        {
++          "case": "reenabled_revoked",
++          "error": "not_allowed",
++          "accepted": false
++        },
++        {
++          "case": "mfa_aal1",
++          "error": "not_allowed",
++          "accepted": false
++        },
++        {
++          "case": "new_active_aal2",
++          "result": {
++            "synthetic_marker": "cached_return"
++          },
++          "accepted": true
++        }
++      ],
++      "active": {
++        "synthetic_marker": "cached_return"
++      },
++      "banned": {
++        "error": "not_allowed",
++        "accepted": false
++      }
++    }
++  }
++]
+diff --git a/security/db/return-replay-regression.sql b/security/db/return-replay-regression.sql
+new file mode 100644
+index 0000000..5780153
+--- /dev/null
++++ b/security/db/return-replay-regression.sql
+@@ -0,0 +1,41 @@
++begin;
++set local lock_timeout='2s'; set local statement_timeout='15s';
++-- Entire synthetic fixture and all delivery effects roll back. Never use orders 1/2/3.
++select set_config('test.c27_return_config_before',md5(value::text),true) from pilot_private.config where id;
++update pilot_private.config set value=jsonb_set(jsonb_set(value,'{customers}',value->'customers'||'"90000000-0000-0000-0000-000000002741"'::jsonb),'{stores}',value->'stores'||'"90000000-0000-0000-0000-000000002743"'::jsonb) where id;
++insert into auth.users(id,raw_user_meta_data) values
++('90000000-0000-0000-0000-000000002741','{"name":"Synthetic return guard customer"}'),
++('90000000-0000-0000-0000-000000002742','{"name":"Synthetic return guard driver"}');
++update profiles set role='driver',driver_status='approved' where id='90000000-0000-0000-0000-000000002742';
++insert into stores(id,name,category) values('90000000-0000-0000-0000-000000002743','Synthetic return guard store','rest');
++insert into orders(id,store_id,customer_id,driver_id,status,lat,lng,payment,total,delivery_fee,driver_payout,subtotal) overriding system value values(-27041,'90000000-0000-0000-0000-000000002743','90000000-0000-0000-0000-000000002741','90000000-0000-0000-0000-000000002742','pickedup',38.56,68.79,'cash',40,15,15,0);
++insert into return_private.agreements(id,store_id,active,evidence,recorded_by)values('90000000-0000-0000-0000-000000002746','90000000-0000-0000-0000-000000002743',true,'Synthetic rollback agreement','90000000-0000-0000-0000-000000002741');
++insert into return_private.cases(order_id,store_id,agreement_id,driver_id,customer_id,paid,payment_ref)values(-27041,'90000000-0000-0000-0000-000000002743','90000000-0000-0000-0000-000000002746','90000000-0000-0000-0000-000000002742','90000000-0000-0000-0000-000000002741',25,'SYNTHETIC-ROLLBACK');
++insert into return_private.commands(actor,request,order_id,action,payload,result)values('90000000-0000-0000-0000-000000002741','90000000-0000-0000-0000-000000002745',-27041,'cancel','{"ref":null,"amount":null,"method":null}','{"synthetic_marker":"cached_return"}');
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++select set_config('test.c27_return_active',public.order_return_action(-27041,'90000000-0000-0000-0000-000000002745','cancel')::text,true);
++reset role;
++select set_config('request.jwt.claims','{}',true);
++update public.profiles set banned_at=now() where id='90000000-0000-0000-0000-000000002741';
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++do $$declare r jsonb;begin
++begin r:=public.order_return_action(-27041,'90000000-0000-0000-0000-000000002745','cancel');r:=jsonb_build_object('accepted',true,'result',r);exception when raise_exception then r:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++perform set_config('test.c27_return_banned',r::text,true);end $$;
++reset role;
++select set_config('request.jwt.claims','{}',true);
++update public.profiles set banned_at=null where id='90000000-0000-0000-0000-000000002741';
++insert into security_private.revoked_sessions(user_id,session_id)values('90000000-0000-0000-0000-000000002741','90000000-0000-0000-0000-000000002747');
++insert into security_private.mfa_required_users(user_id)values('90000000-0000-0000-0000-000000002741');
++set local role authenticated;
++do $$declare item jsonb;r jsonb;outcome jsonb:='[]';begin
++for item in select value from jsonb_array_elements('[{"session_id":"90000000-0000-0000-0000-000000002747","aal":"aal2","expect":false,"case":"reenabled_revoked"},{"session_id":"90000000-0000-0000-0000-000000002748","aal":"aal1","expect":false,"case":"mfa_aal1"},{"session_id":"90000000-0000-0000-0000-000000002748","aal":"aal2","expect":true,"case":"new_active_aal2"}]'::jsonb) loop
++perform set_config('request.jwt.claims',(item||'{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}'::jsonb)::text,true);
++begin r:=public.order_return_action(-27041,'90000000-0000-0000-0000-000000002745','cancel');r:=jsonb_build_object('accepted',true,'result',r);exception when raise_exception then r:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++if (r->>'accepted')::boolean<>(item->>'expect')::boolean then raise exception 'ASSERT %',item->>'case';end if;
++outcome:=outcome||jsonb_build_array(jsonb_build_object('case',item->>'case')||r);
++end loop;perform set_config('test.c27_return_more',outcome::text,true);end $$;
++reset role;
++select jsonb_build_object('cases',current_setting('test.c27_return_more')::jsonb,'active',current_setting('test.c27_return_active')::jsonb,'banned',current_setting('test.c27_return_banned')::jsonb)as result;
++rollback;
+diff --git a/security/db/return-role-after.json b/security/db/return-role-after.json
+new file mode 100644
+index 0000000..1578bcd
+--- /dev/null
++++ b/security/db/return-role-after.json
+@@ -0,0 +1,14 @@
++[
++  {
++    "result": {
++      "active": {
++        "synthetic_marker": "cached_return"
++      },
++      "role_removed": {
++        "error": "not_allowed",
++        "accepted": false
++      },
++      "account_banned": false
++    }
++  }
++]
+diff --git a/security/db/return-role-removal.sql b/security/db/return-role-removal.sql
+new file mode 100644
+index 0000000..5250343
+--- /dev/null
++++ b/security/db/return-role-removal.sql
+@@ -0,0 +1,29 @@
++begin;
++set local lock_timeout='2s'; set local statement_timeout='15s';
++-- Entire synthetic fixture and all delivery effects roll back. Never use orders 1/2/3.
++select set_config('test.c27_return_config_before',md5(value::text),true) from pilot_private.config where id;
++update pilot_private.config set value=jsonb_set(jsonb_set(value,'{customers}',value->'customers'||'"90000000-0000-0000-0000-000000002741"'::jsonb),'{stores}',value->'stores'||'"90000000-0000-0000-0000-000000002743"'::jsonb) where id;
++insert into auth.users(id,raw_user_meta_data) values
++('90000000-0000-0000-0000-000000002741','{"name":"Synthetic return guard customer"}'),
++('90000000-0000-0000-0000-000000002742','{"name":"Synthetic return guard driver"}');
++update profiles set role='driver',driver_status='approved' where id='90000000-0000-0000-0000-000000002742';
++insert into stores(id,name,category) values('90000000-0000-0000-0000-000000002743','Synthetic return guard store','rest');
++insert into orders(id,store_id,customer_id,driver_id,status,lat,lng,payment,total,delivery_fee,driver_payout,subtotal) overriding system value values(-27041,'90000000-0000-0000-0000-000000002743','90000000-0000-0000-0000-000000002741','90000000-0000-0000-0000-000000002742','pickedup',38.56,68.79,'cash',40,15,15,0);
++update stores set owner_id='90000000-0000-0000-0000-000000002741' where id='90000000-0000-0000-0000-000000002743';
++insert into return_private.agreements(id,store_id,active,evidence,recorded_by)values('90000000-0000-0000-0000-000000002746','90000000-0000-0000-0000-000000002743',true,'Synthetic rollback agreement','90000000-0000-0000-0000-000000002741');
++insert into return_private.cases(order_id,store_id,agreement_id,driver_id,customer_id,paid,payment_ref)values(-27041,'90000000-0000-0000-0000-000000002743','90000000-0000-0000-0000-000000002746','90000000-0000-0000-0000-000000002742','90000000-0000-0000-0000-000000002741',25,'SYNTHETIC-ROLLBACK');
++insert into return_private.commands(actor,request,order_id,action,payload,result)values('90000000-0000-0000-0000-000000002741','90000000-0000-0000-0000-000000002745',-27041,'receive','{"ref":"SYNTHETIC","amount":null,"method":null}','{"synthetic_marker":"cached_return"}');
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++select set_config('test.c27_return_active',public.order_return_action(-27041,'90000000-0000-0000-0000-000000002745','receive','SYNTHETIC')::text,true);
++reset role;
++select set_config('request.jwt.claims','{}',true);
++update stores set owner_id=null where id='90000000-0000-0000-0000-000000002743';
++set local role authenticated;
++select set_config('request.jwt.claims','{"sub":"90000000-0000-0000-0000-000000002741","role":"authenticated"}',true);
++do $$declare r jsonb;begin
++begin r:=public.order_return_action(-27041,'90000000-0000-0000-0000-000000002745','receive','SYNTHETIC');r:=jsonb_build_object('accepted',true,'result',r);exception when raise_exception then r:=jsonb_build_object('accepted',false,'error',sqlerrm);end;
++perform set_config('test.c30_return_removed',r::text,true);end $$;
++reset role;
++select jsonb_build_object('active',current_setting('test.c27_return_active')::jsonb,'role_removed',current_setting('test.c30_return_removed')::jsonb,'account_banned',(select banned_at is not null from profiles where id='90000000-0000-0000-0000-000000002741')) as result;
++rollback;
+diff --git a/security/db/tested-evidence.json b/security/db/tested-evidence.json
+index 89bc6e4..7899cb6 100644
+--- a/security/db/tested-evidence.json
++++ b/security/db/tested-evidence.json
+@@ -9,6 +9,25 @@
+     "price-finite-test.sql": "9290932cfe8b778e53834d160d84b3e06246e6445b402c558b93380de73dd37e",
+     "cash-after.json": "a4a8f56136e3810830b90a0203bdef27d93c8dea783e914a324ec7bde89fd786",
+     "price-after.json": "c05401f560e58d6ab9d0c5b30a8e87ca6563cf7d52b8c3447437bcbdf2f6b546",
+-    "cash-rollback.json": "6d8bff1448993b05cdaf0739471ea63883fe3244d0722dc7583787f2f28fbb35"
++    "cash-rollback.json": "6d8bff1448993b05cdaf0739471ea63883fe3244d0722dc7583787f2f28fbb35",
++    "pilot_return_action_account_guard.sql": "040c2d06eeb61ed6ef817e0f09a3101875ca9ffe2931ff505e06cf1b7323a998",
++    "return-replay-regression.sql": "9ca9de862ae23168f88e73aec913c9a7b29ee8d46ce06ee8bc6bc9fe1923929f",
++    "return-replay-regression.json": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2",
++    "return-cleanup.json": "582e2252af108f4b6c46a7dcda241430849ae1c91d55758bb77161a5a5165f12",
++    "pilot_approval_account_guard.sql": "e2aa09d7677f5969b7fee34fe34c87adcd7ff47845e52e0149a7cb980d84d588",
++    "approval-replay-ban.sql": "1d2b8d00e541f7001f99c834df97147eaa711f1247e7b9de9ee3ae69e61a8324",
++    "approval-replay-after.json": "26c6b5ed76aada18b6a65487a8420b2a879d1ede4b469efe28f7374aa8e07482",
++    "pilot_merchant_replay_current_access.sql": "8515b43630881feea6f4ba54b5830f783cdb0562977cf287ba280bb5f0dbe603",
++    "pilot_return_replay_current_access.sql": "4b79e1bbd50e6270298b5919884d65952835fd0982514e80dede22f7b64185cf",
++    "merchant-role-after.json": "8b822baec54dc5d7c87ed3f09b95852b362f1d36c949e774c71f5d5d6af24753",
++    "return-role-after.json": "0a19ed3d5694dd359aab499c3f1833b4084afa0a9848344ca15043d314594d17",
++    "return-regression-current.json": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2",
++    "approval-role-removal.sql": "e06067fc408dd50b059739bdd107b5371e123a25686f20d2c9eab72b068ce7e0",
++    "return-role-removal.sql": "872755e4c7529a31ad21ddd4bb148ce723106bfd5157035638a32bf62973b71d"
++  },
++  "latest_rpc_migrations": {
++    "merchant_review_order": "pilot_merchant_replay_current_access.sql",
++    "order_return_action": "pilot_return_replay_current_access.sql",
++    "customer_confirm_order": "pilot_approval_account_guard.sql"
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/tests/db-regression-evidence.cjs b/tests/db-regression-evidence.cjs
+index 84dd364..521d9d3 100644
+--- a/tests/db-regression-evidence.cjs
++++ b/tests/db-regression-evidence.cjs
+@@ -7,3 +7,30 @@ const cleanup=JSON.parse(fs.readFileSync(base+'cash-rollback.json'))[0].verifica
+ assert.equal(cleanup.synthetic_auth_remaining,0);assert.equal(cleanup.synthetic_order_remaining,0);assert.equal(cleanup.synthetic_store_remaining,0);assert.equal(cleanup.synthetic_allowlist_remaining,false);
+ assert.equal(cleanup.protected_orders.find(x=>x.id===3).settled,null);
+ console.log('PASS: hashes bind DB migrations/tests to recorded rollback evidence; this does not rerun live SQL');
++
++const rr=JSON.parse(fs.readFileSync(base+'return-replay-regression.json'))[0].result;
++assert.equal(rr.active.synthetic_marker,'cached_return');assert.equal(rr.banned.accepted,false);assert.equal(rr.banned.error,'not_allowed');
++for(const r of rr.cases){assert.equal(r.accepted,r.case==='new_active_aal2');if(!r.accepted)assert.equal(r.error,'not_allowed');}
++assert.deepEqual(rr.cases.map(r=>r.case),['reenabled_revoked','mfa_aal1','new_active_aal2']);
++const rc=JSON.parse(fs.readFileSync(base+'return-cleanup.json'))[0].cleanup;
++for(const [k,v]of Object.entries(rc))assert.equal(v,k==='pilot_restored'?true:0);
++const guard=fs.readFileSync(base+'pilot_return_action_account_guard.sql','utf8');
++assert.ok(guard.indexOf("if v_actor is null or not public.account_enabled() then raise exception 'not_allowed'; end if;")>0);
++assert.ok(guard.indexOf('not public.account_enabled()')<guard.indexOf('select * into prior'));
++console.log('PASS: return replay guard and active/revoked/MFA rollback evidence bound; live rerun remains separate');
++
++const ar=JSON.parse(fs.readFileSync(base+'approval-replay-after.json'))[0].result;
++for(const op of ['customer','merchant']){assert.equal(ar.active[op].accepted,true);assert.equal(ar.banned[op].accepted,false);assert.equal(ar.banned[op].error,'not_allowed');}
++const ag=fs.readFileSync(base+'pilot_approval_account_guard.sql','utf8');
++assert.equal((ag.match(/if not public\.account_enabled\(\) then raise exception 'not_allowed'; end if;/g)||[]).length,2);
++console.log('PASS: customer/merchant approval replay active and banned evidence bound');
++
++const mr=JSON.parse(fs.readFileSync(base+'merchant-role-after.json'))[0].result;
++assert.equal(mr.active.owns_store,true);assert.equal(mr.active.merchant.accepted,true);assert.equal(mr.role_removed.owns_store,false);assert.equal(mr.role_removed.merchant.accepted,false);assert.equal(mr.role_removed.customer.accepted,true);
++const cr=JSON.parse(fs.readFileSync(base+'return-role-after.json'))[0].result;
++assert.equal(cr.active.synthetic_marker,'cached_return');assert.equal(cr.role_removed.accepted,false);assert.equal(cr.role_removed.error,'not_allowed');assert.equal(cr.account_banned,false);
++const currentReturn=fs.readFileSync(base+a.latest_rpc_migrations.order_return_action,'utf8');
++assert.ok(currentReturn.indexOf('case p_action')<currentReturn.indexOf('return prior.result'));
++assert.ok(currentReturn.indexOf('not public.account_enabled()')<currentReturn.indexOf('return prior.result'));
++const currentMerchant=fs.readFileSync(base+a.latest_rpc_migrations.merchant_review_order,'utf8');assert.ok(currentMerchant.indexOf('current_order.id=p_order')<currentMerchant.indexOf('return r.result'));
++console.log('PASS: current resource access precedes cached merchant/return results; allowed ownership retained');

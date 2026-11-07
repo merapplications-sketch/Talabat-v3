@@ -1,0 +1,21 @@
+{
+  "project": "fsvrsvqfknogwmhccera",
+  "executed_date": "2026-11-07",
+  "method": "Actual SQL role calls on rollback-only synthetic fixtures; not live HTTP/concurrency proof",
+  "sha256": {
+    "deliver_order.finite.sql": "40b5cf79fd31d08cb7f059cb38331e1bc21db62d74a14cd3d0a67f2a56dfb497",
+    "price-finite.sql": "93a84165e2e45fa9c4a849ef51b26b0dce96550673744374c6d98cff3b27096b",
+    "cash-finite-test.sql": "8d463d6e7179d50bbe0384e9de446e18e0d4957dbaca5707ce027cc118a690a5",
+    "price-finite-test.sql": "9290932cfe8b778e53834d160d84b3e06246e6445b402c558b93380de73dd37e",
+    "cash-after.json": "a4a8f56136e3810830b90a0203bdef27d93c8dea783e914a324ec7bde89fd786",
+    "price-after.json": "c05401f560e58d6ab9d0c5b30a8e87ca6563cf7d52b8c3447437bcbdf2f6b546",
+    "cash-rollback.json": "6d8bff1448993b05cdaf0739471ea63883fe3244d0722dc7583787f2f28fbb35",
+    "pilot_return_action_account_guard.sql": "040c2d06eeb61ed6ef817e0f09a3101875ca9ffe2931ff505e06cf1b7323a998",
+    "return-replay-regression.sql": "9ca9de862ae23168f88e73aec913c9a7b29ee8d46ce06ee8bc6bc9fe1923929f",
+    "return-replay-regression.json": "9a8869fa7a4bcd521a7da24af44fd527eb99549ae1a4d2a513e486caab97aae2",
+    "return-cleanup.json": "582e2252af108f4b6c46a7dcda241430849ae1c91d55758bb77161a5a5165f12",
+    "pilot_approval_account_guard.sql": "e2aa09d7677f5969b7fee34fe34c87adcd7ff47845e52e0149a7cb980d84d588",
+    "approval-replay-ban.sql": "1d2b8d00e541f7001f99c834df97147eaa711f1247e7b9de9ee3ae69e61a8324",
+    "approval-replay-after.json": "26c6b5ed76aada18b6a65487a8420b2a879d1ede4b469efe28f7374aa8e07482"
+  }
+}

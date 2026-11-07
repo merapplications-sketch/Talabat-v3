@@ -1,0 +1,26 @@
+{
+  "partial_only": true,
+  "overall_status_changes": false,
+  "evidence": {
+    "V1.1.1": [
+      "continuation27/canonicalization-result.json",
+      "continuation27/CANONICALIZATION.md"
+    ],
+    "V1.2.4": [
+      "continuation27/sql-function-inventory.json",
+      "continuation27/ticket-literal-result.json"
+    ],
+    "V8.2.1": [
+      "continuation27/approval-replay-after.json",
+      "continuation29/merchant-role-after.json",
+      "continuation29/return-role-after.json"
+    ],
+    "V8.2.2": [
+      "continuation29/merchant-role-after.json",
+      "continuation29/return-role-after.json"
+    ],
+    "V7.4.2": [
+      "continuation29/return-regression-current.json"
+    ]
+  }
+}

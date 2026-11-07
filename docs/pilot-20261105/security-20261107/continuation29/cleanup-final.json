@@ -1,0 +1,13 @@
+[
+  {
+    "cleanup": {
+      "users": 0,
+      "orders": 0,
+      "stores": 0,
+      "return_cases": 0,
+      "pilot_restored": true,
+      "return_commands": 0,
+      "approval_requests": 0
+    }
+  }
+]

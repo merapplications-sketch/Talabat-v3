@@ -1,0 +1,16 @@
+[
+  {
+    "result": {
+      "active": {
+        "synthetic_marker": "cached_return"
+      },
+      "banned": {
+        "result": {
+          "synthetic_marker": "cached_return"
+        },
+        "accepted": true
+      },
+      "account_banned": true
+    }
+  }
+]
