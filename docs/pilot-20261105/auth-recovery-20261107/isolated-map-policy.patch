@@ -1,0 +1,125 @@
+diff --git a/dist/admin.html b/dist/admin.html
+index 5c13b56..e46191e 100644
+--- a/dist/admin.html
++++ b/dist/admin.html
+@@ -69,12 +69,12 @@ small{color:var(--mut)}
+ .tph{display:block}
+ </style><link rel="stylesheet" href="assets/mobile.css?v=20261106.1"><script defer src="assets/mobile.js?v=20261106.1"></script></head><body data-app="admin"><div class="w" id="app"></div>
+ <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';var en=(window.TLB?TLB.lang():window.tlbPreferredLanguage())==='en';d.textContent=en?'Something went wrong. Tap to reload.':'Что-то пошло не так. Нажмите, чтобы обновить.';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
+-<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.3</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
++<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.4</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
+ <script>
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
+-<script src="talabat-core.js?v=pilot-mobile-20261107.3"></script>
++<script src="talabat-core.js?v=pilot-mobile-20261107.4"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+ <link rel="stylesheet" href="assets/finance-receipt/receipt.css?v=1">
+diff --git a/dist/customer.html b/dist/customer.html
+index b6ecaa8..f8d3bf4 100644
+--- a/dist/customer.html
++++ b/dist/customer.html
+@@ -1098,12 +1098,12 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
+ </style><link rel="stylesheet" href="assets/mobile.css?v=20261106.1"><script defer src="assets/mobile.js?v=20261106.1"></script></head><body data-app="customer">
+ <div id="app"></div>
+ <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';var en=(window.TLB?TLB.lang():window.tlbPreferredLanguage())==='en';d.textContent=en?'Something went wrong. Tap to reload.':'Что-то пошло не так. Нажмите, чтобы обновить.';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
+-<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.3</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
++<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.4</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
+ <script>
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
+-<script src="talabat-core.js?v=pilot-mobile-20261107.3"></script>
++<script src="talabat-core.js?v=pilot-mobile-20261107.4"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+ <script>
+diff --git a/dist/driver.html b/dist/driver.html
+index 1772917..0dcd8d4 100644
+--- a/dist/driver.html
++++ b/dist/driver.html
+@@ -95,12 +95,12 @@ body.mapmode{background:#e8edf2;padding-bottom:0}body.mapmode .hd{position:relat
+ .fc .av2{width:40px;height:40px;border-radius:50%;background:#f1f1f4;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}.cxl .md{border-top:6px solid var(--bad)}.cxl h3{color:var(--bad);font-size:17px}.dmk{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}.dmk.me{width:20px;height:20px;background:#2563eb;border-width:3px}
+ </style><link rel="stylesheet" href="assets/mobile.css?v=20261106.1"><script defer src="assets/mobile.js?v=20261106.1"></script></head><body data-app="driver"><div id="dmap" aria-hidden="true"></div><div id="app"></div>
+ <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';var en=(window.TLB?TLB.lang():window.tlbPreferredLanguage())==='en';d.textContent=en?'Something went wrong. Tap to reload.':'Что-то пошло не так. Нажмите, чтобы обновить.';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
+-<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.3</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
++<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.4</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
+ <script>
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
+-<script src="talabat-core.js?v=pilot-mobile-20261107.3"></script>
++<script src="talabat-core.js?v=pilot-mobile-20261107.4"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+ <link rel="stylesheet" href="assets/finance-receipt/receipt.css?v=1">
+@@ -220,7 +220,7 @@ function sheetH(a){return `<div class="sht ${SHF?'full':''}"><div class="shh"><b
+   <div class="shb">${activeCard(a)}</div><div class="shf">${swipeH(a)}</div></div>`}
+ /* the map stays outside the re-drawn page: only its markers change */
+ function mapUpd(a,force){const box=$('dmap');if(!a||!box)return;if(!window.L){if(!DM){DM=1;TLB.leaflet&&TLB.leaflet(()=>{DM=null;render()})}return}
+-  if(!DM||DM===1){DM=L.map(box,{zoomControl:false,attributionControl:true});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'\u00a9 OpenStreetMap'}).addTo(DM);DM.__l=L.layerGroup().addTo(DM);DM.setView([38.5598,68.787],13)}
++  if(!DM||DM===1){DM=L.map(box,{zoomControl:false,attributionControl:true});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,referrerPolicy:'origin',attribution:'\u00a9 OpenStreetMap'}).addTo(DM);DM.__l=L.layerGroup().addTo(DM);DM.setView([38.5598,68.787],13)}
+   const sp=storePt(a.store),cp=a.lat!=null&&isFinite(+a.lat)?[+a.lat,+a.lng]:null,me=GEO.lat!=null?[GEO.lat,GEO.lng]:null,ot=a.status=='pickedup';
+   const key=[a.id,stepOf(a),sp,cp].join('|');const ic=(c,h,cls)=>L.divIcon({className:'',html:`<div class="dmk ${cls||''}" style="background:${c}">${h||''}</div>`,iconSize:[30,30],iconAnchor:[15,15]});
+   DM.__l.clearLayers();if(sp)L.marker(sp,{icon:ic(ot?'#9aa0aa':'#f1511b',ico('store',15))}).addTo(DM.__l);if(cp)L.marker(cp,{icon:ic(ot?'#1fa05a':'#9aa0aa',ico('home',15))}).addTo(DM.__l);
+diff --git a/dist/merchant.html b/dist/merchant.html
+index 046ceaf..9e6f6e6 100644
+--- a/dist/merchant.html
++++ b/dist/merchant.html
+@@ -72,12 +72,12 @@ select{border:0;border-radius:999px;font-weight:600}
+ .rjl{display:grid;gap:8px}.rjta{display:block;width:100%;margin-top:12px;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#f7f7f9;font:inherit;font-size:14px;resize:vertical;min-height:64px}.rjta:focus{outline:0;border-color:#d92d20;background:#fff}.rjk,.rjb{height:46px;border-radius:999px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}.rjk{flex:1;border:1.5px solid #e6e6ea;background:#fff;color:#1c1c21}.rjb{flex:2;border:0;background:#d92d20;color:#fff}.rjb:disabled{opacity:.45;cursor:default}.rjl button{text-align:start;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#fff;font:inherit;font-weight:600;cursor:pointer}.rjl button.on{border-color:var(--bad);background:#fdeceb;color:#a32d2d}.lnk{display:block;width:100%;background:none;border:0;padding:10px 0 2px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}.lnk.r{color:var(--bad,#d92d20)}
+ #approval-modal .md{max-height:calc(100dvh - 32px);overflow:auto}#approval-modal button,#approval-modal select,#approval-modal input[type=number]{min-height:44px}#approval-modal button:focus-visible,#approval-modal input:focus-visible,#approval-modal select:focus-visible{outline:2px solid currentColor;outline-offset:2px}</style><link rel="stylesheet" href="assets/mobile.css?v=20261106.1"><script defer src="assets/mobile.js?v=20261106.1"></script></head><body data-app="merchant"><div class="w" id="app"></div>
+ <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';var en=(window.TLB?TLB.lang():window.tlbPreferredLanguage())==='en';d.textContent=en?'Something went wrong. Tap to reload.':'Что-то пошло не так. Нажмите, чтобы обновить.';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
+-<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.3</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
++<section id="tlb-startup" role="status" style="position:fixed;inset:0;z-index:100000;background:#f6f6f8;color:#1c1c21;padding:calc(32px + env(safe-area-inset-top,0px)) 24px;font:16px/1.5 -apple-system,sans-serif"><h1 style="font-size:24px">TALABOT</h1><p id="tlb-startup-message">Загрузка приложения…</p><small>pilot-mobile-20261107.4</small><p><button id="tlb-startup-retry" hidden style="min-height:44px;padding:10px 20px">Обновить</button></p></section>
+ <script>
+ (function(){var en=window.tlbPreferredLanguage()==='en';var box=document.getElementById('tlb-startup'),msg=document.getElementById('tlb-startup-message'),retry=document.getElementById('tlb-startup-retry');if(en){msg.textContent='Loading application…';retry.textContent='Reload'}retry.onclick=function(){location.reload()};var poll=setInterval(function(){if(document.getElementById('tlb-ov')||document.getElementById('tlb-boot')||(document.getElementById('app')&&document.getElementById('app').children.length)){clearInterval(poll);clearTimeout(timer);box.remove()}},100);var timer=setTimeout(function(){msg.textContent=en?'The application files could not be loaded. Check your connection and reload.':'Не удалось загрузить файлы приложения. Проверьте соединение и обновите страницу.';box.setAttribute('role','alert');retry.hidden=false},15000)})();
+ </script>
+ <script src="assets/vendor/supabase-2.117.2.js"></script>
+-<script src="talabat-core.js?v=pilot-mobile-20261107.3"></script>
++<script src="talabat-core.js?v=pilot-mobile-20261107.4"></script>
+ <link rel="stylesheet" href="assets/driver-returns/panel.css?v=1">
+ <script src="assets/driver-returns/panel.js?v=1"></script>
+ <script>
+diff --git a/dist/talabat-core.js b/dist/talabat-core.js
+index 54183ba..33fb36d 100644
+--- a/dist/talabat-core.js
++++ b/dist/talabat-core.js
+@@ -28,7 +28,7 @@
+     document.documentElement.lang = lang;
+     var app = document.body && document.body.getAttribute('data-app');
+     var titles = {customer:['Заказ','Customer'],merchant:['Ресторан','Merchant'],driver:['Курьер','Driver'],admin:['Управление','Admin']};
+-    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261107.3');
++    if (titles[app]) document.title = 'TALABOT · ' + titles[app][lang === 'en' ? 1 : 0] + ' · ' + (VERSION || 'pilot-mobile-20261107.4');
+     [].forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
+     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function (el) { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
+   }
+@@ -125,7 +125,7 @@
+       document.body.appendChild(ov); applyI18n();
+       var st = (start && isFinite(+start[0]) && isFinite(+start[1]) && start[0] !== null && start[1] !== null) ? [+start[0], +start[1]] : null;
+       var map = L.map('tlb-map', { zoomControl: false }).setView(st || [38.5598, 68.787], st ? 17 : 14);
+-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '\u00a9 OpenStreetMap' }).addTo(map);
++      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, referrerPolicy: 'origin', attribution: '\u00a9 OpenStreetMap' }).addTo(map);
+       var show = function () { var c = map.getCenter(); $('tlb-co').textContent = c.lat.toFixed(6) + ', ' + c.lng.toFixed(6); };
+       map.on('movestart', function () { var p = $('tlb-pin'); if (p) p.style.transform = 'translateY(-10px)'; });
+       map.on('move', show);
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.3';
++  var VERSION = 'pilot-mobile-20261107.4';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -1229,7 +1229,7 @@
+       loadLeaflet(function () {
+         var box = $(elId); if (!box) return;
+         var map = L.map(elId).setView(center || [38.5598, 68.787], 12);
+-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
++        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, referrerPolicy: 'origin', attribution: '© OpenStreetMap' }).addTo(map);
+         var group = [];
+         (points || []).forEach(function (p) {
+           if (!isFinite(+p.lat) || !isFinite(+p.lng)) return;
