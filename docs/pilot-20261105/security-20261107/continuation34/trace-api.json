@@ -1,0 +1,23 @@
+{
+  "at": "2026-11-07T22:14:36.253274+00:00",
+  "requests": [
+    {
+      "path": "/auth/v1/health",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:14:22 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:14:22 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 36\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/rest/v1/",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:14:29 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:14:29 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 3\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/storage/v1/status",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:14:36 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:14:36 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 5\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    }
+  ]
+}

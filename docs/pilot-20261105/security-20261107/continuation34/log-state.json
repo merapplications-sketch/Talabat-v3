@@ -1,0 +1,14 @@
+{
+  "before_retry": {
+    "synthetic_users": 0,
+    "synthetic_audit_rows": 0,
+    "synthetic_error_rows": 0,
+    "matching_active_transactions": 0
+  },
+  "meaning": "No persistent fixture or matching active transaction observed. Cannot distinguish never executed from executed then rolled back using absence alone.",
+  "fresh_tool_attempt": {
+    "status": "expired",
+    "message": "This confirmation expired after 2 minutes.",
+    "execution_result_received": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "execution": "aborted before access assertions",
+  "sqlstate": "P0001",
+  "error": "cash_allocation_immutable",
+  "location": "finance_private.guard_cash_allocation() line 4",
+  "meaning": "Application financial invariant rejected direct fixture allocation on insert. This is not proof of banned-driver read acceptance or rejection. Do not disable or bypass the guard.",
+  "next": "Use a rollback-only fixture that obtains allocation through the supported application state transitions and valid proof object; otherwise keep candidate untested."
+}

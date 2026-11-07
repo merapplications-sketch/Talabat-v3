@@ -1,0 +1,5 @@
+{
+  "question_hint_columns": [],
+  "question_hint_functions": [],
+  "scope": "Pattern search of public/auth/security_private columns and public/security_private function definitions; corroborating only, not sufficient alone."
+}

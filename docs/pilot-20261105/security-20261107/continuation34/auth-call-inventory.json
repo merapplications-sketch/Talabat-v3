@@ -1,0 +1,29 @@
+[
+  {
+    "file": "talabat-core.js",
+    "calls": [
+      ".getSession",
+      ".getUser",
+      ".onAuthStateChange",
+      ".refreshSession",
+      ".resend",
+      ".resetPasswordForEmail",
+      ".signInWithPassword",
+      ".signOut",
+      ".signUp",
+      ".updateUser"
+    ],
+    "sha256": "99e67b31c99749759ec83f5763f09ee321fc2a34952b92d3e2e727f9c331099d"
+  },
+  {
+    "file": "assets/mfa.js",
+    "calls": [
+      ".getUser",
+      ".mfa.challengeAndVerify",
+      ".mfa.enroll",
+      ".mfa.getAuthenticatorAssuranceLevel",
+      ".mfa.listFactors"
+    ],
+    "sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721"
+  }
+]

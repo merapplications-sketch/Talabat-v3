@@ -1,0 +1,44 @@
+[
+  {
+    "signature": "best_dishes(uuid,integer)",
+    "definition": "CREATE OR REPLACE FUNCTION public.best_dishes(p_store uuid DEFAULT NULL::uuid, p_limit integer DEFAULT 20)\n RETURNS TABLE(item_id uuid, store_id uuid, cnt bigint)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select oi.item_id, o.store_id, sum(oi.qty)::bigint as cnt\n    from order_items oi join orders o on o.id = oi.order_id\n    join menu_items m on m.id = oi.item_id and m.available and m.approved\n    join stores s on s.id = o.store_id and s.is_active\n   where o.status = 'delivered' and o.created_at > now() - interval '30 days' and (p_store is null or o.store_id = p_store)\n   group by oi.item_id, o.store_id\n  having sum(oi.qty) >= 3\n   order by cnt desc\n   limit least(greatest(coalesce(p_limit, 20), 1), 50)\n$function$\n",
+    "anon_execute": false,
+    "auth_execute": true
+  },
+  {
+    "signature": "brand_route(uuid,double precision,double precision,text[])",
+    "definition": "CREATE OR REPLACE FUNCTION public.brand_route(p_brand uuid, p_lat double precision, p_lng double precision, p_names text[] DEFAULT '{}'::text[])\n RETURNS TABLE(store_id uuid, name text, branch_name text, dist_km numeric, is_open boolean, missing text[])\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  with want as (select distinct lower(btrim(x)) as n from unnest(coalesce(p_names, '{}')) x where btrim(x) <> '' limit 60),\n  b as (\n    select s.id, s.name, s.branch_name, s.is_open,\n           case when p_lat is null or p_lng is null or s.lat is null or s.lng is null then null else round(dist_km(p_lat, p_lng, s.lat, s.lng)::numeric, 2) end as d,\n           array(select w.n from want w where not exists(select 1 from menu_items i where i.store_id = s.id and i.available and i.approved and lower(btrim(i.name)) = w.n)) as miss\n      from stores s where s.brand_id = p_brand and s.is_active and auth.uid() is not null)\n  select id, name, branch_name, d, is_open, miss from b\n   order by (is_open and cardinality(miss) = 0) desc, is_open desc, cardinality(miss), d nulls last, name\n$function$\n",
+    "anon_execute": false,
+    "auth_execute": true
+  },
+  {
+    "signature": "cash_balances()",
+    "definition": "CREATE OR REPLACE FUNCTION public.cash_balances()\n RETURNS TABLE(driver_id uuid, balance numeric)\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nbegin\n if exists(select 1 from public.orders o where o.payment='cash' and o.status='delivered'\n and o.cash_collected is not null and o.cash_settled_at is null and o.cash_allocation_version is null\n and (public.has_perm('finance') or o.driver_id=auth.uid())) then raise exception 'legacy_cash_reconciliation_required'; end if;\n return query select o.driver_id,coalesce(sum(o.cash_platform_share),0)::numeric from public.orders o\n where o.payment='cash' and o.status='delivered' and o.cash_collected is not null and o.cash_settled_at is null\n and o.driver_id is not null and (public.has_perm('finance') or o.driver_id=auth.uid()) group by o.driver_id;\nend $function$\n",
+    "anon_execute": false,
+    "auth_execute": true
+  },
+  {
+    "signature": "contacts_for(bigint[])",
+    "definition": "CREATE OR REPLACE FUNCTION public.contacts_for(p_ids bigint[])\n RETURNS TABLE(order_id bigint, customer_phone text, driver_phone text)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select t.i, cp.phone, dp.phone\n    from unnest(case when cardinality(p_ids) > 200 then p_ids[1:200] else p_ids end) as t(i)\n    left join order_customer_phone cp on cp.order_id = t.i\n    left join order_driver_phone dp on dp.order_id = t.i\n   where (has_perm('orders') or has_perm('support'))\n$function$\n",
+    "anon_execute": false,
+    "auth_execute": true
+  },
+  {
+    "signature": "dispatch_tick()",
+    "definition": "CREATE OR REPLACE FUNCTION public.dispatch_tick()\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare r record;\nbegin\n  if auth.uid() is null or not exists (select 1 from profiles where id = auth.uid() and role in ('driver', 'admin', 'merchant')) then return; end if;\n  if not pg_try_advisory_xact_lock(hashtext('dispatch_tick')) then return; end if;\n  update order_offers set state = 'expired' where state = 'pending' and expires_at <= now();\n  for r in select id from orders\n            where driver_id is null and status in ('preparing', 'ready') and created_at > now() - interval '12 hours'\n            order by created_at loop\n    perform dispatch_next(r.id);\n  end loop;\nend $function$\n",
+    "anon_execute": false,
+    "auth_execute": true
+  },
+  {
+    "signature": "has_perm(text)",
+    "definition": "CREATE OR REPLACE FUNCTION public.has_perm(p text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$ SELECT public.account_enabled() AND EXISTS(SELECT 1 FROM public.profiles u WHERE u.id=auth.uid() AND u.banned_at IS NULL AND (u.role='admin' OR EXISTS(SELECT 1 FROM public.staff_members s WHERE s.user_id=u.id AND s.active AND p=ANY(s.perms)))) $function$\n",
+    "anon_execute": true,
+    "auth_execute": true
+  },
+  {
+    "signature": "ticket_refund_room(bigint)",
+    "definition": "CREATE OR REPLACE FUNCTION public.ticket_refund_room(p_ticket bigint)\n RETURNS TABLE(order_total numeric, refunded numeric, room numeric)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select o.total,\n         coalesce(w.sum_refunded, 0),\n         greatest(0, o.total - coalesce(w.sum_refunded, 0))\n    from support_tickets t\n    join orders o on o.id = t.order_id\n    left join lateral (select sum(x.amount) as sum_refunded from wallet_entries x where x.order_id = o.id and x.kind = 'refund') w on true\n   where t.id = p_ticket and has_perm('support')\n$function$\n",
+    "anon_execute": false,
+    "auth_execute": true
+  }
+]

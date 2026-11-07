@@ -1,0 +1,17 @@
+{
+  "source_commit":"ea65f5289f3d19ccc5d3dbb65b59650e23e01370",
+  "base_evidence_commit":"f8f9bc10217a2c24af76b62877c9b81182655a4c",
+  "status_changes":[{"id":"V6.4.2","before":"غير مختبر","after":"ناجح بدليل","scope":"TALABOT .31 implemented authentication paths","evidence":"V6.4.2.md"}],
+  "partial_updates":[
+    {"id":"V8.2.1","evidence":"permission-results.json","missing":"Authenticated role combinations and populated-resource cases across remaining operations"},
+    {"id":"V8.2.2","evidence":"current-operation-definitions.json; permission-results.json","missing":"Populated own/cross-user/disabled cash fixture; empty IDs are not IDOR proof"},
+    {"id":"V8.3.2","evidence":"cash-balance-probe-result.json","missing":"Ban/revoke/reactivation behavior of cash_balances; candidate unconfirmed because fixture insertion was rejected"},
+    {"id":"V16.4.2","evidence":"log-state.json","missing":"Native confirmation expired; no runtime assertions returned"},
+    {"id":"V13.4.4","evidence":"trace-site.json; trace-api.json; trace-worker-result.json","missing":"Managed-origin attribution beyond observed proxy path; production explicitly excluded. Do not promote to whole-scope pass."},
+    {"id":"V6.4.3","evidence":"mail-state.json","missing":"Approved recipient lacks available sender; no request/delivery/reset executed"},
+    {"id":"V16.4.3","evidence":"mail-state.json; OPTIONS-AR.md","missing":"Event-to-mail transport and human delivery confirmation"}
+  ],
+  "effective_totals":{"passed":1,"untested_or_partial":330,"failed":2,"not_applicable":12},
+  "failed_unchanged":["V6.3.3","V7.4.2"],
+  "application_source_changed":false
+}

@@ -1,0 +1,1 @@
+{"result":"PASS","trace_paths":["/","/customer","/merchant","/driver","/admin","/csp-report","/missing"],"allowed_methods":["GET","HEAD"],"scope":"actual built worker; deployed probes recorded separately"}

@@ -1,0 +1,16 @@
+{
+  "approved_recipient": "merapplications@gmail.com",
+  "recovery_limit": 2,
+  "alert_limit": 1,
+  "alert_subject_prefix": "TALABOT TEST",
+  "recovery_requests_sent": 0,
+  "alerts_sent": 0,
+  "recipient_auth_account_exists": false,
+  "custom_smtp_enabled": false,
+  "organization_team_member_count": 1,
+  "recipient_in_team": false,
+  "source": "Signed-in Supabase Team UI and exact email Auth-user query",
+  "account_form": "Opened and prefilled email only; password not entered; Create user not submitted; closed due sender prerequisite",
+  "mailbox_login_authorized": false,
+  "smtp_sender_use_authorized": false
+}

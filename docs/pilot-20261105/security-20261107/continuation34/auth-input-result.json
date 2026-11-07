@@ -1,0 +1,137 @@
+{
+  "result": "PASS",
+  "source_sha256": "99e67b31c99749759ec83f5763f09ee321fc2a34952b92d3e2e727f9c331099d",
+  "forms": [
+    {
+      "role": "customer",
+      "action": "login",
+      "inputs": [
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "customer",
+      "action": "signup",
+      "inputs": [
+        "tlb-nm",
+        "tlb-ph",
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "customer",
+      "action": "reset",
+      "inputs": [
+        "tlb-rem"
+      ]
+    },
+    {
+      "role": "customer",
+      "action": "new-password",
+      "inputs": [
+        "tlb-newpw",
+        "tlb-newpw2"
+      ]
+    },
+    {
+      "role": "merchant",
+      "action": "login",
+      "inputs": [
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "merchant",
+      "action": "signup",
+      "inputs": [
+        "tlb-nm",
+        "tlb-ph",
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "merchant",
+      "action": "reset",
+      "inputs": [
+        "tlb-rem"
+      ]
+    },
+    {
+      "role": "merchant",
+      "action": "new-password",
+      "inputs": [
+        "tlb-newpw",
+        "tlb-newpw2"
+      ]
+    },
+    {
+      "role": "driver",
+      "action": "login",
+      "inputs": [
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "driver",
+      "action": "signup",
+      "inputs": [
+        "tlb-nm",
+        "tlb-ph",
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "driver",
+      "action": "reset",
+      "inputs": [
+        "tlb-rem"
+      ]
+    },
+    {
+      "role": "driver",
+      "action": "new-password",
+      "inputs": [
+        "tlb-newpw",
+        "tlb-newpw2"
+      ]
+    },
+    {
+      "role": "admin",
+      "action": "login",
+      "inputs": [
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "admin",
+      "action": "signup",
+      "inputs": [
+        "tlb-em",
+        "tlb-pw"
+      ]
+    },
+    {
+      "role": "admin",
+      "action": "reset",
+      "inputs": [
+        "tlb-rem"
+      ]
+    },
+    {
+      "role": "admin",
+      "action": "new-password",
+      "inputs": [
+        "tlb-newpw",
+        "tlb-newpw2"
+      ]
+    }
+  ],
+  "scope": "Actual shared application forms rendered without submitting credentials; provider account support procedures are outside this source test"
+}

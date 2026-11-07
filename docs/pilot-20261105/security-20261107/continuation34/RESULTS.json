@@ -1,0 +1,39 @@
+{
+  "at": "2026-11-07T22:24:11.927499+00:00",
+  "source_commit": "ea65f5289f3d19ccc5d3dbb65b59650e23e01370",
+  "site_status": "active",
+  "hosting": 41,
+  "whole_requirement_closed": [
+    "V6.4.2"
+  ],
+  "no_app_source_changes": true,
+  "no_new_deployment": true,
+  "mail_sent": {
+    "recovery": 0,
+    "alert": 0
+  },
+  "protected_orders_untouched": true,
+  "cash_fixture_cleanup": "cash-cleanup.json",
+  "file_sha256": {
+    "trace-site.json": "9ab2c235f0cd974828fe0d6bc9836e834fbb7e6450eacf4e36c6c71c4c0e886b",
+    "trace-worker.mjs": "fbee0de0bff861d2c11711d6beedaa7c9262e7161f57a508f891a34431ba9b62",
+    "trace-worker-result.json": "5fb16d52bfbbb9342d27e3de46f459d3153f18aaf7bcf9685c808ae9ce22c7e0",
+    "kba-db-result.json": "cd8713b2cf62c0a6c177af9b055b0c8c15cf9d3bc87c8d8cf6bb48f650064771",
+    "cash-cleanup.json": "0ce88d4d4fe87b80db28b1250d617b08424b409e838e7a677b1ec00b311b14b9",
+    "auth-call-inventory.json": "d748b437a77338948851a8a49533a6718330381855df64357292b04fab8d6f15",
+    "trace-api.json": "dfbfdb7d0d9eb319caa91e73c4c5fa4ac2859bddbe7c5fc0450817da61d3cc41",
+    "V6.4.2.md": "e91c39111ad15912b3de439130a026e712aa95ca37ec8838f0862a6e1a3ae6e5",
+    "auth-input-inventory.cjs": "7a28039d3bc493149add8dc98938e49b2a512ff7f5b7991b71766fb42e4a4646",
+    "readonly-permission-probes.sql": "aeca93889cdd5f68ba4beef864ab0eeb6a25722de79d2559d3689d7ae7b68f8d",
+    "cash-balance-ban-probe.sql": "912345d42d81e21f27659150d63315ae0cb5411dd680343509bced9a09508a86",
+    "permission-results.json": "afedc95ce76de5e4b6b321a2646c8208897a00ab1f6b44a16b2bb9955909a275",
+    "OPTIONS-AR.md": "929a806663b30ba4445cd81249080d59e6000d2b9e5986d760a02b3f5311814f",
+    "auth-input-result.json": "be4562c87c57afcfdadc8eb329aa0d84fe9a013fb48bdfae8d2c51c064cfcfc3",
+    "cash-balance-probe-result.json": "6f2bb31622f4597ebd282c7f0ff1a8b27f4cd836004e045382a57187c62e7735",
+    "ASVS-DELTA.json": "d13313996d442c2334e53442ca56f2bef26ebde862c6c4194624dc44ade54a8a",
+    "log-state.json": "77ad6cf98ac53345b448e6012a1e3d6dfe8dea1e21a86856d9e4c3ef006d3b08",
+    "mail-state.json": "10339a367126f6cb41b11d0b91ffac3031cb83df6c86be84f827eabfbdbc36a5",
+    "REPORT-AR.md": "f50e6646d3dbcb4f72c12d599ac0c0ab524c938e7269b53b865f791f195b1e7a",
+    "current-operation-definitions.json": "7d416381eab0c86be259dd261fc42188c0351049dfed31843b32d28e3cc10e95"
+  }
+}

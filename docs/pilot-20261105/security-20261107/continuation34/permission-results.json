@@ -1,0 +1,21 @@
+{
+  "anonymous_sql_role": {
+    "cash_balances()": "42501",
+    "dispatch_tick()": "42501",
+    "best_dishes(null,1)": "42501",
+    "brand_route(null,0,0)": "42501",
+    "ticket_refund_room(-34001)": "42501",
+    "contacts_for(array[-34001]::bigint[])": "42501"
+  },
+  "active_synthetic_sql_role": {
+    "synthetic_enabled": true,
+    "finance_permission": false,
+    "orders_permission": false,
+    "support_permission": false,
+    "cash_rows": 0,
+    "contact_rows": 0,
+    "refund_rows": 0,
+    "catalogue_call_allowed_bounded": true
+  },
+  "scope": "Live database read-only transaction, simulated anon/authenticated SQL roles. Not an HTTP JWT lifecycle test. Empty nonexistent-ID results do not prove IDOR with populated fixtures."
+}

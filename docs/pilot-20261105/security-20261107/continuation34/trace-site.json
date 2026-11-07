@@ -1,0 +1,47 @@
+{
+  "at": "2026-11-07T22:13:39.955571+00:00",
+  "requests": [
+    {
+      "path": "/",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:12:55 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:12:55 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 54\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/customer",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:13:05 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:13:05 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 4\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/merchant",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:13:12 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:13:12 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 3\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/driver",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:13:19 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:13:19 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 4\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/admin",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:13:26 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:13:26 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 4\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/csp-report",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:13:33 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:13:33 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 3\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    },
+    {
+      "path": "/asvs-missing-34",
+      "exit_code": 0,
+      "response": "HTTP/1.1 200 OK\ndate: Sat, 07 Nov 2026 22:13:39 GMT\n\nHTTP/2 405 \nserver: envoy\ndate: Sat, 07 Nov 2026 22:13:39 GMT\ncontent-type: text/html\ncontent-length: 155\ncf-ray: -\nx-envoy-upstream-service-time: 3\n\n<html>\n<head><title>405 Not Allowed</title></head>\n<body>\n<center><h1>405 Not Allowed</h1></center>\n<hr><center>cloudflare</center>\n</body>\n</html>\n\nSTATUS:405\n",
+      "error": ""
+    }
+  ]
+}
