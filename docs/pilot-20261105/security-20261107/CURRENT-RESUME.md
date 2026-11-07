@@ -1,3 +1,16 @@
+# Current .25 — regression prevention added; review still open
+Source bb73be06f4f60d3125eccc7c6fd45fda9b72db42, hosting35, deployment appgdep_6aef74a0afc481918ac4eb9641b22fd5 succeeded2026-11-07T18:57:55.085244Z. See continuation25/REPORT.md, publication.json and regression-register.json. Previous .24 source7060283f2166390abab4291aa7d95cb9ba721e45.
+
+Build now runs20 local regression groups, removes stale output before testing and on post-build test failure. Mutation fixture proves reintroduced handler bug blocks build. DB migration/test evidence bound by hashes; no claim local binding reruns SQL. Auth unknown-error redaction repaired .25. Existing five role namespaces preserved.
+
+Secure login submitted successfully: Auth diagnostic200, synthetic not banned/new session not revoked, factors0 and MFA requiredtrue. Data denial is AAL1 gate, NOT incorrect password. Browser tab4 is the synthetic scope with MFA setup modal open; no factor enrolled or secret read. Manual enrollment requires user interaction; do not repeat password login or change customer MFA.
+
+Remaining open: full331 per-ID triage (continuation24), failedV6.3.3/V7.4.2, live MFA/recovery, full revoked-token/Realtime/file coverage, true finance concurrency, provider/backup/alerts, actual older devices. Do not claim all available work exhausted. Preserve protected1/2/3 and3unsettled. First live step after manual setup: verify factor status without reading secret, AAL2 current UI then expected allowed/denied operations; preserve completed local tests.
+
+Historical checkpoints follow.
+
+Latest evidence commit bb81d61a3d669d9eba8839af427c9d26740831d6 on candidate/pilot-readiness-20261105.
+
 # Current continuation24 — work remains open
 
 Application .24 source7060283f2166390abab4291aa7d95cb9ba721e45 hosting34 deployed2026-11-07T18:21:27.950632Z. Test database fsvrsvqfknogwmhccera only. See continuation24/publication.json and REPORT.md.

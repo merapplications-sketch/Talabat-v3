@@ -1,0 +1,12 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const s=fs.readFileSync('public/talabat-core.js','utf8');
+const fn=s.slice(s.indexOf('  function isConnectionError('),s.indexOf('  function authTabs('));
+const ctx={lang:'en',t:x=>x};vm.createContext(ctx);vm.runInContext(fn,ctx);
+const marker='INTERNAL_SECRET_MARKER private backend detail';
+assert.equal(ctx.authErr({message:marker}), 'err_generic');
+assert.equal(ctx.authErr({message:'Invalid login credentials',code:'invalid_credentials'}),'authWrong');
+assert.equal(ctx.authErr({message:'Too many requests',status:429}),'authRate');
+assert.equal(ctx.authErr({message:'Email not confirmed'}),'authUnconf');
+assert.equal(ctx.authErr({message:'Failed to fetch'}),'Connection failed. Check your connection and try again.');
+assert.equal(ctx.authErr({}),'err_generic');
+console.log('PASS: unknown Auth details redacted, credential/rate/confirmation/connection distinctions retained');

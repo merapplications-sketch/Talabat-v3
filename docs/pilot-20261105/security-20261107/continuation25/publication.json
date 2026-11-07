@@ -1,0 +1,23 @@
+{
+  "source_commit": "bb73be06f4f60d3125eccc7c6fd45fda9b72db42",
+  "previous_source": "7060283f2166390abab4291aa7d95cb9ba721e45",
+  "release": ".25",
+  "hosting_version": 35,
+  "deployment_id": "appgdep_6aef74a0afc481918ac4eb9641b22fd5",
+  "deployed_at": "2026-11-07T18:57:55.085244+00:00",
+  "test_project": "fsvrsvqfknogwmhccera",
+  "local_gate_groups_passed": 20,
+  "mutation_test": {
+    "regressed_handler_rejected": true,
+    "stale_bundle_removed": true,
+    "source_unchanged": true
+  },
+  "auth_observation_before_deploy": {
+    "auth_status": 200,
+    "banned": false,
+    "new_session_revoked": false,
+    "mfa_required": true,
+    "factor_count": 0,
+    "data_gate": "account_blocked at AAL1; no wrong-password finding"
+  }
+}

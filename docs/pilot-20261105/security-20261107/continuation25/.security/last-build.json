@@ -1,0 +1,135 @@
+{
+  "source": {
+    "public/admin.html": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+    "public/assets/mfa.js": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+    "public/customer.html": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+    "public/driver.html": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+    "public/merchant.html": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+    "public/talabat-core.js": "923e85126426746296b1f660d1018ab96e7576bb5ccd4768f7de25042d63b14b",
+    "scripts/build.mjs": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621",
+    "scripts/csp-policy.mjs": "72e29e9332a59367935f382e2c4f52be2bc5e90fadc002fff741ecc93c44b0a2",
+    "scripts/security-gate.mjs": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348",
+    "tests/admin-idle.cjs": "2dc238e2f17ab461303ece03b248e4298c8d9ab3925f4b048277e45d9cd292c7",
+    "tests/auth-error-redaction.cjs": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+    "tests/customer-auth-scope.cjs": "73c145907aa8da10778daea41cbb32ae1dad5caf817a3ce287a4a67d06a80e18",
+    "tests/customer-recommendation-encoding.py": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+    "tests/db-regression-evidence.cjs": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85",
+    "tests/driver-chat.cjs": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+    "tests/image-limits.cjs": "1d3e924d6e26b691f9fcdba35b026bec43500f172ac9aaf948c58ad635e62cd2",
+    "tests/map-policy.cjs": "9794e54e55dfb07f66c0d4ff70e7b77f70f0c485bb849cfd3126f53a435feaff",
+    "tests/merchant-report.cjs": "bdfd9292abf5a4d24b582526e1b46b8adfb7699364037ebb400ce73ec95a42ef",
+    "tests/mfa.cjs": "87deb565b295103d9336bbdbfd438c3b475c023f32b9770a56b5753c2bb6e011",
+    "tests/passive-signout.cjs": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+    "tests/proof-access.cjs": "79117da4696288c8f8871dcc20fa0366da357529064f1501ed67f822334f66db",
+    "tests/proof-epoch.cjs": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+    "tests/request-id-compat.cjs": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+    "tests/return-receipt.cjs": "f145ff130d5096b447419aa69512cf85348617f25bf0e144690b01ef830509b8",
+    "tests/security-errors-logout.cjs": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+    "tests/test-all.py": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+    "tests/test-inline-context.py": "a712a8e370ba78ce61ec69f28d779608c9e59e749e0099a86cfe9d3320748a42",
+    "worker/index.js": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c"
+  },
+  "checks": [
+    {
+      "id": "db-evidence-binding",
+      "status": "passed",
+      "output_sha256": "bb098b8ae4c3aa10b7f31929b77e5792dc6ab8ba9bfe9ba6c7290ebd2d980be9"
+    },
+    {
+      "id": "auth-logout-recovery",
+      "status": "passed",
+      "output_sha256": "7f3c862671f878662f7fd179f8e8e1ac0d653a691939b18b04a96b61b63f01c0"
+    },
+    {
+      "id": "auth-error-redaction",
+      "status": "passed",
+      "output_sha256": "3a841a140f8c7748258db2e546b08fe7d927ee2317db05feea4639b90833926e"
+    },
+    {
+      "id": "rpc-errors-boot-logout",
+      "status": "passed",
+      "output_sha256": "15c1f5746714ffda1de252256d3e0a11b2f173adadf0cf55f6a3408881da0d2c"
+    },
+    {
+      "id": "passive-signout",
+      "status": "passed",
+      "output_sha256": "378d5a3eb2eb4fb5b1eabdd1c5f398494f8ea782a49caf568bc4c21fdde2ca66"
+    },
+    {
+      "id": "proof-generation",
+      "status": "passed",
+      "output_sha256": "1dfd7b4343b3860bb4508132da6eeb9c52fe70be19ab838b8620883ccb242273"
+    },
+    {
+      "id": "proof-access",
+      "status": "passed",
+      "output_sha256": "b9696532f11118a189a890e3e2c7f1a72204816384fbc44b7d2b00a74f28eb00"
+    },
+    {
+      "id": "customer-auth-scope",
+      "status": "passed",
+      "output_sha256": "913f5c8f2fbf94b53303c3cf2c81ef97d9888c71324850dd22cebf1187d7a92c"
+    },
+    {
+      "id": "mfa",
+      "status": "passed",
+      "output_sha256": "d33d3b164514a848427a1406170601ddfdeb000e97bda49321c1e8dcc0a4a701"
+    },
+    {
+      "id": "request-id-retry",
+      "status": "passed",
+      "output_sha256": "aa83e812a4f792e285112a0fd1ce91f5cc675fbace29f37721d0b6b0874e5235"
+    },
+    {
+      "id": "customer-handler",
+      "status": "passed",
+      "output_sha256": "16be3ff32d0640c9fc2ca3b467051039b5ce2c70e3e9bfe3f838e024ceb3ce3a"
+    },
+    {
+      "id": "admin-handler",
+      "status": "passed",
+      "output_sha256": "5f6de547ed6f715567257c045f60cdfc6c34246b7f9ca7553909cefec1d68171"
+    },
+    {
+      "id": "image-limits",
+      "status": "passed",
+      "output_sha256": "11a6590da570c31605fb8d04fb0db23d767df219583618c4346c543c50529a56"
+    },
+    {
+      "id": "admin-idle",
+      "status": "passed",
+      "output_sha256": "cf387d75e60e16d428ad3b7e22e630be55ad4dfa3b8a3635a815ab05eef4539d"
+    },
+    {
+      "id": "driver-chat",
+      "status": "passed",
+      "output_sha256": "7bccd1d86f79a6ba6b65cf980e26194d93c8b5bf7241b86fb103ea1f1e1713c1"
+    },
+    {
+      "id": "merchant-report",
+      "status": "passed",
+      "output_sha256": "52312f001cc65994dc301b7783ca24d5c8713de87016a89fcbe6ccb16670a2f6"
+    },
+    {
+      "id": "return-receipt",
+      "status": "passed",
+      "output_sha256": "d266877a764032ca35c5027a4711b8da47f48fb512f5ee2f09e7006adc39b41d"
+    },
+    {
+      "id": "map-policy",
+      "status": "passed",
+      "output_sha256": "779e69a7e8f5e88d00bb753b5079d4ac3c1d8f9ab3c3e624dfb84fb8de1c1aca"
+    },
+    {
+      "id": "headers",
+      "status": "passed",
+      "output_sha256": "3225e0e7b140d4e73abc37d6a56916c7fac0110dd07ccf20720672d53b7d95b1"
+    },
+    {
+      "id": "csp-report",
+      "status": "passed",
+      "output_sha256": "ed5aa77595847db894c2e03513da26a3ba93a2c9f96ffeffe34a46c692dd407f"
+    }
+  ],
+  "scope": "Local regression only; live/provider checks are separate"
+}
