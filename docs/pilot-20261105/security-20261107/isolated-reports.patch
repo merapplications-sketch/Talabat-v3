@@ -1,0 +1,57 @@
+diff --git a/dist/merchant.html b/dist/merchant.html
+index 0c85bf0..9c8fd78 100644
+--- a/dist/merchant.html
++++ b/dist/merchant.html
+@@ -198,4 +198,11 @@ function sheet(){if(!SH)return '';const secs=[...new Set(TLB.getMenu(STORE).map(
+-function vStats(){const D=864e5,sp={dD:D,dW:7*D,dM:30*D,dY:365*D}[per],p=past().filter(o=>Date.now()-o.doneAt<sp),ms=TLB.myStores().find(x=>x.name==STORE)||{},cp=+ms.commission_pct||0;
+-  const ok=p.filter(o=>o.status=='delivered'),no=p.length-ok.length,rev=r2(ok.reduce((s,o)=>s+o.subtotal-o.discount,0)),net=r2(ok.reduce((s,o)=>{const b=o.subtotal-o.discount;return s+b-r2(o.commission)-(+o.pointsValue||0)-(+o.cashback||0)-(+o.feeWaived||0)},0)),mx=Math.max(ok.length,no,1);
+-  return `<div class="row" style="margin-bottom:10px">${['dD','dW','dM','dY'].map(k=>`<button class="tm ${per==k?'on':''}" onclick="per='${k}';render()">${t(k)}</button>`).join('')}</div>
+-  <div class="row" style="margin-bottom:12px"><div class="k"><b>${ok.length}</b><span>${t('done')}</span></div><div class="k"><b>${rev}</b><span>${t('stRevT')} TJS</span></div><div class="k"><b>${net}</b><span>${t('stNetT')} TJS</span></div></div>
++let MREPORT=null;
++function reportRefresh(){MREPORT=null;render()}
++function vStats(){const days={dD:1,dW:7,dM:30,dY:365}[per],ms=TLB.myStores().find(x=>x.name==STORE)||{},key=ms.id+':'+days;
++  if(!MREPORT||MREPORT.key!==key||(!MREPORT.pending&&Date.now()-MREPORT.at>60000)){
++    const state=MREPORT={key,pending:true,at:Date.now(),value:null};
++    TLB.merchantReport(ms.id,days).then(value=>{if(MREPORT===state){state.pending=false;state.value=value;state.at=Date.now();render()}});
++  }
++  const data=MREPORT.value,p=past().filter(o=>o.doneAt&&Date.now()-o.doneAt<days*864e5),ok={length:data?data.delivered:0},no=data?data.cancelled:0,rev=data?data.revenue:0,net=data?data.net:0,mx=Math.max(ok.length,no,1);
++  const controls=`<div class="row" style="margin-bottom:10px">${['dD','dW','dM','dY'].map(k=>`<button class="tm ${per==k?'on':''}" onclick="per='${k}';render()">${t(k)}</button>`).join('')}</div>`;
++  if(!data)return controls+`<div class="card" role="status">${MREPORT.pending?'…':(TLB.lang()==='ru'?'Не удалось загрузить полный отчёт. Итоги не показаны.':'Could not load the complete report. Totals are not shown.')} ${MREPORT.pending?'':`<button class="b" onclick="reportRefresh()">${TLB.lang()==='ru'?'Повторить':'Retry'}</button>`}</div>`;
++  return controls+`  <div class="row" style="margin-bottom:12px"><div class="k"><b>${ok.length}</b><span>${t('done')}</span></div><div class="k"><b>${rev}</b><span>${t('stRevT')} TJS</span></div><div class="k"><b>${net}</b><span>${t('stNetT')} TJS</span></div></div>
+@@ -203 +210 @@ function vStats(){const D=864e5,sp={dD:D,dW:7*D,dM:30*D,dY:365*D}[per],p=past().
+-  <h3 style="margin:6px 0 10px">${t('hist')}</h3>${past().length?past().map(o=>`<div class="hr" onclick="OD=${o.id};render()"><div class="mid"><b>#${o.id}</b> <span class="xs mut">${ddmm(o.doneAt||o.createdAt)} · ${hhmm(o.doneAt||o.createdAt)}</span><div class="xs mut">${o.items.reduce((a,i)=>a+i.qty,0)} · ${esc(t(o.payment))}</div></div><span class="pl ${o.status}" style="${o.status=='delivered'?'background:#e6f6ed;color:#27500a':'background:#fdeceb;color:#a32d2d'}">${t(o.status)}</span><b>${o.total} TJS</b>${ic('chev',14)}</div>`).join(''):emptyM(t('noH'),'doc')}`}
++  <h3 style="margin:6px 0 10px">${t('hist')} · ${TLB.lang()==='ru'?'Последние загруженные за период':'Recent loaded orders in period'}</h3>${p.length?p.map(o=>`<div class="hr" onclick="OD=${o.id};render()"><div class="mid"><b>#${o.id}</b> <span class="xs mut">${ddmm(o.doneAt||o.createdAt)} · ${hhmm(o.doneAt||o.createdAt)}</span><div class="xs mut">${o.items.reduce((a,i)=>a+i.qty,0)} · ${esc(t(o.payment))}</div></div><span class="pl ${o.status}" style="${o.status=='delivered'?'background:#e6f6ed;color:#27500a':'background:#fdeceb;color:#a32d2d'}">${t(o.status)}</span><b>${o.total} TJS</b>${ic('chev',14)}</div>`).join(''):emptyM(t('noH'),'doc')}`}
+diff --git a/dist/talabat-core.js b/dist/talabat-core.js
+index d328298..2334776 100644
+--- a/dist/talabat-core.js
++++ b/dist/talabat-core.js
+@@ -167 +167 @@
+-  var VERSION = 'pilot-mobile-20261107.6';
++  var VERSION = 'pilot-mobile-20261107.7';
+@@ -867,0 +868,21 @@
++  async function readMerchantReport(storeId, days) {
++    var end = new Date(), start = new Date(+end - Math.min(365, Math.max(1, Number(days) || 30)) * 86400000);
++    var cursor = 0, delivered = 0, cancelled = 0, revenue = 0, net = 0;
++    var cents = function (v) { var n = Number(v || 0); if (!Number.isFinite(n)) throw new Error('report_data'); return Math.round(n * 100); };
++    for (var page = 0; page < 100; page++) {
++      var r = await sb.from('orders').select('id,status,subtotal,discount,commission,points_value,cashback,fee_waived')
++        .eq('store_id', storeId).in('status', ['delivered', 'cancelled', 'rejected'])
++        .gte('done_at', start.toISOString()).lte('done_at', end.toISOString()).order('id', { ascending: true }).gt('id', cursor).limit(500);
++      if (r.error || !Array.isArray(r.data)) throw new Error('report_unavailable');
++      r.data.forEach(function (o) {
++        if (o.status === 'delivered') { delivered++; var base = cents(o.subtotal) - cents(o.discount); revenue += base; net += base - cents(o.commission) - cents(o.points_value) - cents(o.cashback) - cents(o.fee_waived); }
++        else cancelled++;
++      });
++      if (r.data.length < 500) return { delivered: delivered, cancelled: cancelled, revenue: revenue / 100, net: net / 100, from: start.toISOString(), to: end.toISOString() };
++      var next = r.data[r.data.length - 1].id;
++      if (!(Number(next) > Number(cursor))) throw new Error('report_cursor');
++      cursor = next;
++    }
++    throw new Error('report_too_large');
++  }
++  /* merchant report end */
+@@ -1364,0 +1386,4 @@
++    merchantReport: function (id, days) {
++      if (!ME || ME.role !== 'merchant' || !DB.stores.some(function (s) { return s.id === id && s.owner_id === ME.id; })) return Promise.resolve(null);
++      return readMerchantReport(id, days).catch(function () { return null; });
++    },

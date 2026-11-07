@@ -1,0 +1,1 @@
+ALTER POLICY profiles_staff_read ON public.profiles USING ((role = 'customer'::public.user_role AND public.has_perm('support')) OR (role = 'driver'::public.user_role AND public.has_perm('orders')));
