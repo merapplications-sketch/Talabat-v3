@@ -1,0 +1,9 @@
+diff --git a/dist/talabat-core.js b/dist/talabat-core.js
+index 44f025b..d328298 100644
+--- a/dist/talabat-core.js
++++ b/dist/talabat-core.js
+@@ -167 +167 @@
+-  var VERSION = 'pilot-mobile-20261107.5';
++  var VERSION = 'pilot-mobile-20261107.6';
+@@ -177,0 +178 @@
++        walletReturnedAt: o.wallet_returned_at || null, pointsReturnedAt: o.points_returned_at || null,
