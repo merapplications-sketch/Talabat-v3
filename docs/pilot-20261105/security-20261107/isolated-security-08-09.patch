@@ -1,0 +1,90 @@
+--- a/admin.html
++++ b/admin.html
+@@ -351,8 +351,8 @@
+   ${STF.list.length?STF.list.map(x=>`<div class="card"><div class="row"><b style="min-width:0;overflow:hidden;text-overflow:ellipsis">${esc(x.name||x.email)}</b><span class="s ${x.active?'approved':'suspended'}">${x.active?t('aStfOn'):t('aStfOff')}</span></div>
+   <small style="display:block;margin:4px 0 8px;color:#6b7280">${esc(x.email||'')}</small>
+   <div class="tg2">${PERMS.map(p=>`<label style="display:flex;gap:6px;align-items:center;background:#f1f1f4;border-radius:999px;padding:6px 12px;font-size:13px"><input type="checkbox" style="width:auto;margin:0" data-sp="${esc(x.user_id)}" value="${p}" ${(x.perms||[]).includes(p)?'checked':''}>${pl(p)}</label>`).join('')}</div>
+-  <div class="btns"><button class="b" onclick="stfSave('${esc(x.user_id)}','${esc(x.email)}')">${t('aSv')}</button>
+-  <button class="b g" onclick="stfActive('${esc(x.user_id)}','${esc(x.email)}',${JSON.stringify(x.perms||[])},${!x.active})">${x.active?t('aStfDis'):t('aStfEn')}</button>
++  <div class="btns"><button class="b" onclick="stfSave(${esc(JSON.stringify(x.user_id))},${esc(JSON.stringify(x.email))})">${t('aSv')}</button>
++  <button class="b g" onclick="stfActive(${esc(JSON.stringify(x.user_id))},${esc(JSON.stringify(x.email))},${esc(JSON.stringify(x.perms||[]))},${!x.active})">${x.active?t('aStfDis'):t('aStfEn')}</button>
+   <button class="b r" onclick="stfRm('${esc(x.user_id)}')">${t('aRm')}</button></div></div>`).join(''):emptyA(t('aStfNone'))}`}
+ function addPromo(){const code=v('pcode').toUpperCase(),kind=$('pkind').value,val=+v('pval'),mn=+v('pmin')||0,mx=v('pmax')===''?null:+v('pmax');
+ TLB.addPromo({code,kind,value:val,min_order:mn,max_uses:mx,starts_at:dIso($('pfr').value,false),ends_at:dIso($('pto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddP=false;render()}})}
+@@ -448,7 +448,7 @@
+ /* ---------- SUPPORT (tickets) ---------- */
+ const needsReply=k=>(k.status=='open'||k.status=='in_progress')&&(!k.last_staff_at||Date.parse(k.last_customer_at)>Date.parse(k.last_staff_at));
+ const tkChipA=s=>`<span class="s ${s=='resolved'?'approved':s=='rejected'?'suspended':'pending'}">${t('xs_'+s)}</span>`;
+-function supCard(){const sp=TLB.supportInfo();if(!SUP)return `<button class="b g" style="width:100%;padding:12px;margin-bottom:12px;display:flex;justify-content:space-between" onclick="SUP={ph:'${esc(sp.phone)}',hrs:'${esc(sp.hours)}'};render()"><span>${t('xSupSet')}</span><span>${esc(sp.phone)||'—'} · ${esc(sp.hours)||'—'}</span></button>`;
++function supCard(){const sp=TLB.supportInfo();if(!SUP)return `<button class="b g" style="width:100%;padding:12px;margin-bottom:12px;display:flex;justify-content:space-between" onclick="SUP=${esc(JSON.stringify({ph:sp.phone,hrs:sp.hours}))};render()"><span>${t('xSupSet')}</span><span>${esc(sp.phone)||'—'} · ${esc(sp.hours)||'—'}</span></button>`;
+   return `<div class="card"><div class="row"><b>${t('xSupSet')}</b><button class="b g" onclick="SUP=null;render()">${t('aClose')}</button></div><input id="supph" type="tel" placeholder="${t('xSupPh')}" value="${esc(SUP.ph)}" oninput="SUP.ph=this.value"><input id="suphrs" maxlength="60" placeholder="${t('xSupHrs')}" value="${esc(SUP.hrs)}" oninput="SUP.hrs=this.value"><button class="b" style="width:100%;padding:12px" onclick="supSave()">${t('xSupSave')}</button></div>`}
+ async function supSave(){let r=await TLB.setText('support_phone',SUP.ph);if(r&&r.error){alert(t('err_'+r.error));return}r=await TLB.setText('support_hours',SUP.hrs);if(r&&r.error){alert(t('err_'+r.error));return}SUP=null;render()}
+ function vSupportA(){if(TK.sel)return vTicketA();const all=TLB.adminTickets(),nd=all.filter(needsReply),op=all.filter(k=>k.status=='open'||k.status=='in_progress'),cl=all.filter(k=>k.status=='resolved'||k.status=='rejected');
+--- a/driver.html
++++ b/driver.html
+@@ -143,7 +143,12 @@
+ async function take(id){const r=await TLB.driverAccept(id);if(r.error)alert(t('err_'+r.error))}
+ async function step(id,s){const r=await TLB.setStatus(id,s);if(r.error)alert(t('trans'))}
+ function say(id,txt){chatOpen=true;TLB.chat(id,'driver',txt)}
+-function sendChat(id){const e=$('ci'),v=e.value.trim();if(!v)return;e.value='';TLB.chat(id,'driver',v)}
++TLB.addDict({chatFail:'Сообщение не отправлено. Текст сохранён — повторите отправку после восстановления связи.'},{chatFail:'Message not sent. Your text is kept — retry after reconnecting.'});
++const CD={},CS={},CE={};
++async function sendChat(id){const e=$('ci');if(e)CD[id]=e.value;const v=String(CD[id]||'').trim();if(!v||CS[id])return;CS[id]=v;CE[id]=false;render();let r;
++  try{r=await TLB.chat(id,'driver',v)}catch(x){r={error:'generic'}}
++  delete CS[id];if(r&&!r.error){if(String(CD[id]||'').trim()===v)CD[id]=''}else CE[id]=true;render()}
++
+ function sendLoc(id){TLB.pickLocation((la,ln)=>TLB.chat(id,'driver','LOC:'+la.toFixed(6)+','+ln.toFixed(6)))}
+ /* the last step: a photo when the customer asked to leave it at the door, the cash amount when he pays cash */
+ function deliverClick(id){const o=TLB.order(id);if(!o)return;const cash=TLB.isCash(o);
+@@ -253,7 +258,7 @@
+   return `<div class="ov" onclick="chatOpen=false;render()"><div class="md" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:10px"><h3 style="margin:0">${t('chatT')} · ${esc(a.client.name)}</h3><button class="round" onclick="chatOpen=false;render()" aria-label="${t('closeB')}">${ico('x',18)}</button></div>
+   <div class="qrow">${Q.map(n=>`<span class="chip" onclick="say(${a.id},t('q${n}t'))">${t('q'+n)}</span>`).join('')}</div>
+   <div class="chat" id="ch">${a.chat.map(m=>`<div class="m ${m.s=='driver'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
+-  <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" placeholder="${t('msgPh')}" style="margin:0;flex:1"><button class="round" onclick="sendLoc(${a.id})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" style="background:var(--o);color:#fff" onclick="sendChat(${a.id})" aria-label="${t('sendB')}">${ico('nav',20)}</button></div></div></div>`}
++  <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" placeholder="${t('msgPh')}" value="${esc(CD[a.id]||'')}" oninput="CD[${a.id}]=this.value;CE[${a.id}]=false" style="margin:0;flex:1"><button class="round" onclick="sendLoc(${a.id})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" style="background:var(--o);color:#fff" ${CS[a.id]?'disabled aria-busy="true"':''} onclick="sendChat(${a.id})" aria-label="${t('sendB')}">${ico('nav',20)}</button></div>${CE[a.id]?`<p role="alert" style="color:var(--bad)">${t('chatFail')}</p>`:''}</div></div>`}
+ /* one empty-state component: icon + title + hint */
+ const emptyD=(a,b,ic)=>`<div class="emp"><span class="eic">${ico(ic||'receipt',26)}</span><b>${a}</b>${b||''}</div>`;
+ function vHist(){const l=done();FinanceReceipt.load(l,false);return DriverReturns.finder('driver')+`<h3>${t('dHist')}</h3>${l.length?l.map(o=>`<div class="card"><div class="row"><b>#${o.id} (${esc(o.store)})</b><b style="color:#27ae60">${o.payout.toFixed(2)} TJS</b></div><p style="font-size:11px;color:#718096;margin-top:4px">🕒 ${new Date(o.doneAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} ${o.cashCollected!=null?` • 💵 ${o.cashCollected.toFixed(2)} TJS`:''}${o.cashNote?` • ${esc(o.cashNote)}`:''}</p>${FinanceReceipt.allocation(o)}${FinanceReceipt.history(o)}</div>`).join(''):emptyD(t('noH'),t('noHS'),'receipt')}`}
+--- a/talabat-core.js
++++ b/talabat-core.js
+@@ -106,8 +106,8 @@
+   }
+   function loadLeaflet(cb) {
+     if (window.L) return cb();
+-    var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(l);
+-    var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
++    var l = document.createElement('link'); l.rel = 'stylesheet'; l.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY='; l.crossOrigin = 'anonymous'; l.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(l);
++    var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'; s.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo='; s.crossOrigin = 'anonymous';
+     s.onload = cb; s.onerror = function () { toast(t('mapFail'), true); }; document.head.appendChild(s);
+   }
+   /* One-time (not live) location: map opens on the device position, the user can drag the pin or tap the map. */
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.7';
++  var VERSION = 'pilot-mobile-20261107.9';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+--- a/safari-check.html
++++ b/safari-check.html
+@@ -1,8 +1,17 @@
+ <!doctype html>
+-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'none'; img-src 'self' data:; object-src 'none'; base-uri 'none'"><title>TALABOT — فحص Safari</title><style>body{margin:0;background:#f7f7f9;color:#20212a;font:17px system-ui;line-height:1.8;padding:24px 18px calc(32px + env(safe-area-inset-bottom))}main{max-width:560px;margin:auto}h1{font-size:26px}button{font:inherit;background:#f1511b;color:white;border:0;border-radius:18px;padding:16px;width:100%;min-height:54px;touch-action:manipulation}section{background:white;border-radius:20px;padding:20px;margin:18px 0}small{color:#666}#result{min-height:3em}</style></head><body><main><h1>TALABOT · فحص Safari</h1><p>فحص واحد للصوت والتنبيه أثناء فتح الصفحة. لا يُنشئ طلباً ولا يغيّر الحساب أو الجلسة.</p><section><ol><li>افتح الرابط في Safari وارفع صوت الوسائط. افصل سماعة Bluetooth إن أردت السماع من الهاتف.</li><li>ابقَ في الصفحة واضغط الزر مرة واحدة.</li><li>المتوقع: نغمة قصيرة من ثلاث نبرات ورسالة خضراء أسفل الشاشة.</li></ol><button id="check" type="button">تشغيل الصوت والتنبيه</button><p id="result" role="status" aria-live="polite">جاهز للفحص.</p></section><p>أرسل النتيجة: «سمعت الصوت: نعم/لا — ظهرت الرسالة: نعم/لا».</p><small>يستخدم هذا الفحص صوت التطبيق ورسالة التنبيه نفسها. لا يثبت وصول طلب جديد أو إشعار نظام عند إغلاق Safari؛ الأحداث الحية فُحصت سابقاً بين التطبيقات المفتوحة. لا يُطلب إذن إشعارات أو موقع.</small></main><script>window.tlbPreferredLanguage=function(){var saved;try{saved=localStorage.getItem('tlb_lang')}catch(e){}if(saved==='ru'||saved==='en')return saved;var langs=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||''];for(var i=0;i<langs.length;i++){var l=String(langs[i]).toLowerCase().split('-')[0];if(l==='ru'||l==='en')return l}return 'ru'};document.documentElement.lang=window.tlbPreferredLanguage();</script><script src="/talabat-core.js?v=pilot-mobile-20261107.5"></script><script>
++<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'none'; img-src 'self' data: blob:; object-src 'none'; base-uri 'none'"><title>TALABOT — فحص Safari</title><style>body{margin:0;background:#f7f7f9;color:#20212a;font:17px system-ui;line-height:1.8;padding:24px 18px calc(32px + env(safe-area-inset-bottom))}main{max-width:560px;margin:auto}h1{font-size:26px}button{font:inherit;background:#f1511b;color:white;border:0;border-radius:18px;padding:16px;width:100%;min-height:54px;touch-action:manipulation}section{background:white;border-radius:20px;padding:20px;margin:18px 0}small{color:#666}#result{min-height:3em}</style></head><body><main><h1>TALABOT · فحص Safari</h1><p>فحص واحد للصوت والتنبيه أثناء فتح الصفحة. لا يُنشئ طلباً ولا يغيّر الحساب أو الجلسة.</p><section><ol><li>افتح الرابط في Safari وارفع صوت الوسائط. افصل سماعة Bluetooth إن أردت السماع من الهاتف.</li><li>ابقَ في الصفحة واضغط الزر مرة واحدة.</li><li>المتوقع: نغمة قصيرة من ثلاث نبرات ورسالة خضراء أسفل الشاشة.</li></ol><button id="check" type="button">تشغيل الصوت والتنبيه</button><p id="result" role="status" aria-live="polite">جاهز للفحص.</p></section><p>أرسل النتيجة: «سمعت الصوت: نعم/لا — ظهرت الرسالة: نعم/لا».</p><small>يستخدم هذا الفحص صوت التطبيق ورسالة التنبيه نفسها. لا يثبت وصول طلب جديد أو إشعار نظام عند إغلاق Safari؛ الأحداث الحية فُحصت سابقاً بين التطبيقات المفتوحة. لا يُطلب إذن إشعارات أو موقع.</small><section><h2>فحص الكاميرا على الهاتف</h2><p>صوّر ورقة فارغة أو غرضاً تجريبياً. الصورة تبقى في هذه الصفحة فقط ولا تُرفع إلى الخادم. هذا يفحص كاميرا Safari؛ رفع إثبات الطلب فحص مستقل.</p><label style="display:block;background:#f1511b;color:white;border-radius:18px;padding:16px;text-align:center">فتح الكاميرا<input id="camera" type="file" accept="image/*" capture="environment" style="display:block;max-width:100%"></label><img id="cameraPreview" alt="معاينة محلية لصورة الاختبار" hidden style="width:100%;margin-top:12px"><p id="cameraResult" role="status">لم يُنفّذ بعد.</p></section></main><script>window.tlbPreferredLanguage=function(){var saved;try{saved=localStorage.getItem('tlb_lang')}catch(e){}if(saved==='ru'||saved==='en')return saved;var langs=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||''];for(var i=0;i<langs.length;i++){var l=String(langs[i]).toLowerCase().split('-')[0];if(l==='ru'||l==='en')return l}return 'ru'};document.documentElement.lang=window.tlbPreferredLanguage();</script><script src="/talabat-core.js?v=pilot-mobile-20261107.5"></script><script>
+  document.getElementById('check').addEventListener('click',function(){
+   if(!window.TLB){document.getElementById('result').textContent='تعذر تحميل الفحص. حدّث الصفحة مرة واحدة.';return;}
+   TLB.testSound(); TLB.toast('تنبيه TALABOT التجريبي — التطبيق مفتوح');
+   document.getElementById('result').textContent='تم تشغيل الفحص. هل سمعت النغمة ورأيت الرسالة الخضراء؟';
+  });
++</script><script>
++let cameraUrl;
++document.getElementById('camera').addEventListener('change',function(){
++ const f=this.files&&this.files[0];if(!f)return;
++ if(cameraUrl)URL.revokeObjectURL(cameraUrl);
++ cameraUrl=URL.createObjectURL(f);const im=document.getElementById('cameraPreview');
++ im.onload=function(){im.hidden=false;document.getElementById('cameraResult').textContent='ظهرت المعاينة المحلية. لم تُرفع الصورة.'};
++ im.onerror=function(){im.hidden=true;document.getElementById('cameraResult').textContent='تم اختيار صورة لكن تعذّر عرضها. أبلغنا بالنتيجة.'};im.src=cameraUrl;
++});
+ </script></body></html>
