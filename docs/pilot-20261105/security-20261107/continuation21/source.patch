@@ -1,0 +1,24 @@
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index 67c4bc5..4a7258a 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.20';
++  var VERSION = 'pilot-mobile-20261107.21';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -991,6 +991,10 @@
+       var summary = {};
+       try { var d = await sb.storage.from('proofs').download(path); summary.download = {ok:!d.error && !!d.data,status:d.error ? Number(d.error.statusCode || d.error.status)||0 : 200,bytes:d.data ? d.data.size : 0}; }
+       catch (_) { summary.download = {ok:false,status:0,bytes:0}; }
++      try { var info = await sb.storage.from('proofs').info(path); summary.info = {ok:!info.error && !!info.data,status:info.error ? Number(info.error.statusCode || info.error.status)||0 : 200}; }
++      catch (_) { summary.info = {ok:false,status:0}; }
++      try { var listing = await sb.storage.from('proofs').list(path.slice(0,path.lastIndexOf('/')), {limit:10}); summary.list = {ok:!listing.error,status:listing.error ? Number(listing.error.statusCode || listing.error.status)||0 : 200,count:Array.isArray(listing.data)?listing.data.length:0,containsTarget:Array.isArray(listing.data)&&listing.data.some(function(x){return x.name===path.slice(path.lastIndexOf('/')+1);})}; }
++      catch (_) { summary.list = {ok:false,status:0,count:0,containsTarget:false}; }
+       try { var u = await sb.storage.from('proofs').createSignedUrl(path,60); summary.sign = {ok:!u.error && !!(u.data && u.data.signedUrl),status:u.error ? Number(u.error.statusCode || u.error.status)||0 : 200}; }
+       catch (_) { summary.sign = {ok:false,status:0}; }
+       try { var many = await sb.storage.from('proofs').createSignedUrls([path],60); summary.signMany = {ok:!many.error && Array.isArray(many.data) && many.data.some(function(x){return !!x.signedUrl;}),status:many.error ? Number(many.error.statusCode || many.error.status)||0 : 200}; }

@@ -1,0 +1,10 @@
+begin;set local lock_timeout='2s';set local statement_timeout='15s';
+insert into auth.users(id,raw_user_meta_data) values('93000000-0000-4000-8000-000000000001','{"name":"ASVS finance rollback"}');
+insert into public.staff_members(user_id,perms) values('93000000-0000-4000-8000-000000000001',array['finance']);
+insert into security_private.mfa_required_users(user_id) values('93000000-0000-4000-8000-000000000001');
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"93000000-0000-4000-8000-000000000001","session_id":"93000000-0000-4000-8000-000000000002","role":"authenticated","aal":"aal1"}',true);
+select set_config('test.results',jsonb_build_object('aal1',public.finance_access(),'aal1_enabled',public.account_enabled(),'aal1_financial_rows',(select count(*) from public.finance_driver_orders()))::text,true);
+select set_config('request.jwt.claims','{"sub":"93000000-0000-4000-8000-000000000001","session_id":"93000000-0000-4000-8000-000000000002","role":"authenticated","aal":"aal2"}',true);
+select set_config('test.results',(current_setting('test.results')::jsonb||jsonb_build_object('aal2',public.finance_access(),'aal2_enabled',public.account_enabled()))::text,true);
+reset role;select current_setting('test.results')::jsonb results;rollback;

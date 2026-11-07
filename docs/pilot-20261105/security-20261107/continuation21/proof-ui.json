@@ -1,0 +1,7 @@
+{
+ "version":".21",
+ "method":"Root-observed browser diagnostic output; not raw network capture",
+ "customer_authorized":{"download":{"ok":true,"status":200,"bytes":26651},"info":{"ok":true,"status":200},"list":{"ok":true,"status":200,"count":1,"containsTarget":true},"sign":{"ok":false,"status":404},"signMany":{"ok":false,"status":200}},
+ "synthetic_mfa_required_aal1_nonowner":{"download":{"ok":false,"status":404,"bytes":0},"info":{"ok":false,"status":404},"list":{"ok":true,"status":200,"count":0,"containsTarget":false},"sign":{"ok":false,"status":404},"signMany":{"ok":false,"status":200}},
+ "limits":"Synthetic case combines nonownership with insufficient AAL; does not isolate either predicate or prove a newly disabled live owner case. No bearer URLs, credentials or file bytes stored."
+}

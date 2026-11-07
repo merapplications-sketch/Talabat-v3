@@ -1,0 +1,10 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"success\": true,\n  \"zones\": [],\n  \"pagination\": {\n    \"page\": 1,\n    \"per_page\": 20,\n    \"total_pages\": 0,\n    \"count\": 0,\n    \"total_count\": 0\n  }\n}"
+    }
+  ],
+  "structuredContent": null,
+  "isError": false
+}
