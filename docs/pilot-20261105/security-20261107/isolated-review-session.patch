@@ -1,0 +1,22 @@
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index fef5fa1..8562932 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -164,7 +164,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.10';
++  var VERSION = 'pilot-mobile-20261107.11';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -918,6 +918,8 @@
+       need = role; onReady = cb;
+       var incomingRecovery = /(?:^|[&#])type=recovery(?:&|$)/.test(location.hash);
+       var sessionRole = role === 'admin' && new URLSearchParams(location.search).get('session') === 'accountant' ? 'accountant' : role;
++      // Isolated pilot review slot: storage isolation only; server permissions are unchanged.
++      if (role === 'customer' && new URLSearchParams(location.search).get('session') === 'asvs-review') sessionRole = 'customer-asvs-review';
+       authStorageKey = 'tlb-auth-' + sessionRole;
+       sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: authStorageKey }, global: { fetch: connectionFetch } });
+       bootShow();
