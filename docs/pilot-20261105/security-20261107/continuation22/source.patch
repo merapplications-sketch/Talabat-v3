@@ -1,0 +1,88 @@
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index 4a7258a..d767d5a 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -9,6 +9,21 @@
+   function $(id) { return document.getElementById(id); }
+   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+ 
++  // Secure UUIDv4 for idempotency, including browsers without randomUUID.
++  // Never substitute timestamps or Math.random when secure entropy is unavailable.
++  function secureRequestId() {
++    var c = window.crypto;
++    if (c && typeof c.randomUUID === 'function') return c.randomUUID();
++    if (!c || typeof c.getRandomValues !== 'function') throw new Error('secure_random_unavailable');
++    var bytes = new Uint8Array(16);
++    c.getRandomValues(bytes);
++    bytes[6] = (bytes[6] & 15) | 64;
++    bytes[8] = (bytes[8] & 63) | 128;
++    var hex = [];
++    for (var i = 0; i < bytes.length; i++) hex.push(('0' + bytes[i].toString(16)).slice(-2));
++    return hex.slice(0, 4).join('') + '-' + hex.slice(4, 6).join('') + '-' + hex.slice(6, 8).join('') + '-' + hex.slice(8, 10).join('') + '-' + hex.slice(10).join('');
++  }
++
+   /* ---------- i18n RU / EN ---------- */
+   var I = {
+     ru: { pending: 'Ожидание подтверждения', preparing: 'Готовится', ready: 'Готов к выдаче курьеру', pickedup: 'Курьер в пути', delivered: 'Доставлено', rejected: 'Отклонён рестораном', cancelled: 'Отменён',
+@@ -164,7 +179,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.21';
++  var VERSION = 'pilot-mobile-20261107.22';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -275,7 +290,7 @@
+   function finReceipts(orders,force){var todo=orders.filter(function(o){return o.cashSettledAt;}).slice(0,30).filter(function(o){var st=finReceiptState(o);return !st.flight&&(force||st.state==='idle');});if(!todo.length)return Promise.resolve();todo.forEach(function(o){finReceiptState(o).state='loading';});var flight=finSafe(sb.rpc('finance_settlement_receipts',{p_order_ids:todo.map(function(o){return String(o.id);})})).then(function(r){var good=!r.error&&Array.isArray(r.data);todo.forEach(function(o){var st=finReceiptState(o);st.state=good?'ok':'error';if(good){st.known=true;var row=r.data.find(function(x){return String(x.order_id)===String(o.id)&&Date.parse(x.cash_settled_at)===Date.parse(o.cashSettledAt);});st.receipt=row?row.receipt:null;}});}).finally(function(){todo.forEach(function(o){finReceiptState(o).flight=null;});fireSoon();});todo.forEach(function(o){finReceiptState(o).flight=flight;});return flight;}
+   function finSlot(op,target) { var k=op+':'+target;if(!FIN.commands[k]){try{FIN.commands[k]=JSON.parse(sessionStorage.getItem('tlb-fin:'+ME.id+':'+k)||'null');}catch(e){}if(!FIN.commands[k])FIN.commands[k]={state:'idle'};if(FIN.commands[k].state==='pending')FIN.commands[k].state='unresolved';}return FIN.commands[k]; }
+   function finPersist(op,target,st){try{sessionStorage.setItem('tlb-fin:'+ME.id+':'+op+':'+target,JSON.stringify({key:st.key,state:st.state}));return true;}catch(e){return false;}}
+-  function finCommand(op,target,amount,note){var st=finSlot(op,target);if(st.state==='pending'||st.state==='unresolved')return Promise.resolve({error:st.state,unresolved:st.state==='unresolved'});if(!FIN.access.execute)return Promise.resolve({error:'finance_authorization_required'});if(op==='settle_cash'&&!FIN.access.receipts)return Promise.resolve({error:'receipt_version_required'});try{st.key=crypto.randomUUID();}catch(e){return Promise.resolve({error:'storage_unavailable'});}st.state='pending';st.result=null;if(!finPersist(op,target,st)){st.state='error';return Promise.resolve({error:'storage_unavailable'});}if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}fireSoon();return finSafe(Promise.resolve().then(function(){return sb.rpc('finance_execute',{p_request:st.key,p_operation:op,p_target:target,p_amount:amount==null?null:amount,p_note:note||null});})).then(function(r){if(r.error){var definite=/^(not_allowed|bad_value|not_found|insufficient_funds|request_conflict|nothing_to_settle)$/.test(r.error.message||'');st.state=definite?'error':'unresolved';return {error:definite?r.error.message:'unresolved',unresolved:!definite};}if(!r.data||r.data.request!==st.key){st.state='unresolved';return {error:'unresolved',unresolved:true};}st.state='success';st.result=r.data;if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}toast(t('saved'));return {ok:true,result:r.data};}).finally(function(){finPersist(op,target,st);fireSoon();});}
++  function finCommand(op,target,amount,note){var st=finSlot(op,target);if(st.state==='pending'||st.state==='unresolved')return Promise.resolve({error:st.state,unresolved:st.state==='unresolved'});if(!FIN.access.execute)return Promise.resolve({error:'finance_authorization_required'});if(op==='settle_cash'&&!FIN.access.receipts)return Promise.resolve({error:'receipt_version_required'});try{st.key=secureRequestId();}catch(e){return Promise.resolve({error:'storage_unavailable'});}st.state='pending';st.result=null;if(!finPersist(op,target,st)){st.state='error';return Promise.resolve({error:'storage_unavailable'});}if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}fireSoon();return finSafe(Promise.resolve().then(function(){return sb.rpc('finance_execute',{p_request:st.key,p_operation:op,p_target:target,p_amount:amount==null?null:amount,p_note:note||null});})).then(function(r){if(r.error){var definite=/^(not_allowed|bad_value|not_found|insufficient_funds|request_conflict|nothing_to_settle)$/.test(r.error.message||'');st.state=definite?'error':'unresolved';return {error:definite?r.error.message:'unresolved',unresolved:!definite};}if(!r.data||r.data.request!==st.key){st.state='unresolved';return {error:'unresolved',unresolved:true};}st.state='success';st.result=r.data;if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}toast(t('saved'));return {ok:true,result:r.data};}).finally(function(){finPersist(op,target,st);fireSoon();});}
+   function finReconcile(op,target){var st=finSlot(op,target);if(!st.key||st.state!=='unresolved')return Promise.resolve({error:'bad_value'});return finSafe(sb.rpc('finance_command_status',{p_request:st.key})).then(function(r){/* Absence is not proof of rollback: the original transaction may still be running. */if(r.error||!r.data||r.data.request!==st.key)return {error:'unresolved',unresolved:true};st.state='success';st.result=r.data;if(op==='settle_cash'){FIN.cash.dirty=true;FIN.cash.epoch=(FIN.cash.epoch||0)+1;}finPersist(op,target,st);fireSoon();return {ok:true,result:r.data};});}
+   var LIMITS = { customer: 60, driver: 60, merchant: 200, admin: 300 };
+   var EVERY = {
+@@ -598,7 +613,7 @@
+       if (UUID.test(request || '') && UUID.test(legacyRequest || '') && request !== legacyRequest) return { error: 'approval_unavailable' };
+       if (!UUID.test(request || '')) {
+         request = legacyRequest;
+-        if (!UUID.test(request || '')) request = crypto.randomUUID();
++        if (!UUID.test(request || '')) request = secureRequestId();
+         localStorage.setItem(key, request);
+       }
+       // Preserve a pending retry's UUID before removing its older plaintext key.
+@@ -1454,7 +1469,7 @@
+         var key = 'tlb-return:' + ME.id + ':' + fingerprint;
+         var request = localStorage.getItem(key);
+         if (!UUID.test(request || '')) {
+-          request = crypto.randomUUID();
++          request = secureRequestId();
+           localStorage.setItem(key, request);
+         }
+         args.p_request = request;
+diff --git a/tests/request-id-compat.cjs b/tests/request-id-compat.cjs
+new file mode 100644
+index 0000000..e3b2b92
+--- /dev/null
++++ b/tests/request-id-compat.cjs
+@@ -0,0 +1,20 @@
++const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),{webcrypto}=require('node:crypto');
++const s=fs.readFileSync('public/talabat-core.js','utf8');
++const helper=(s.match(/  function secureRequestId\(\) \{[\s\S]*?\n  \}/)||[''])[0];
++const approval=s.slice(s.indexOf('  async function approvalWrite('),s.indexOf('  function rpc(',s.indexOf('  async function approvalWrite(')));
++const ret=s.slice(s.indexOf('    writeOrderReturn: async function'),s.indexOf('    driverAccept:',s.indexOf('    writeOrderReturn: async function'))).trim().replace(/^writeOrderReturn: async function/,'async function writeOrderReturn').replace(/,$/,'');
++const fin=s.match(/  function finCommand\([^\n]+/)[0];
++const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
++function setup(crypto){const calls=[],data=new Map(),st={state:'idle'},ctx={crypto,window:{crypto},Uint8Array,TextEncoder,UUID,ME:{id:'synthetic'},DB:{approvalReady:true},localStorage:{getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)},sb:{rpc:async(name,args)=>{calls.push({name,args:{...args}});return{data:{request:args.p_request}};}},refresh:async()=>{},errKey:e=>e.message,FIN:{access:{execute:true,receipts:true},cash:{}},finSlot:()=>st,finPersist:()=>true,fireSoon:()=>{},finSafe:p=>p,toast:()=>{},t:x=>x};vm.createContext(ctx);vm.runInContext(helper+'\n'+approval+'\n'+ret+'\n'+fin,ctx);return{ctx,calls,st};}
++(async()=>{
++ const crypto={getRandomValues:a=>webcrypto.getRandomValues(a),subtle:webcrypto.subtle};
++ const {ctx,calls}=setup(crypto);
++ const a=await ctx.approvalWrite('customer_confirm_order',{p_order:99,p_revision:1},1);assert.equal(a.error,undefined,'approval must work without randomUUID');
++ await ctx.approvalWrite('customer_confirm_order',{p_order:99,p_revision:1},1);assert.equal(calls[0].args.p_request,calls[1].args.p_request,'approval retry keeps key');
++ await ctx.writeOrderReturn(99,'confirm',null,1,'cash');await ctx.writeOrderReturn(99,'confirm',null,1,'cash');assert.equal(calls[2].args.p_request,calls[3].args.p_request,'return retry keeps key');
++ const result=await ctx.finCommand('settle_cash','synthetic',null,null);assert.equal(result.ok,true);for(const c of calls)assert.match(c.args.p_request,UUID);
++ const no=setup({subtle:webcrypto.subtle});assert.equal((await no.ctx.approvalWrite('confirm',{},1)).error,'storage_unavailable');await no.ctx.writeOrderReturn(99,'confirm');assert.equal((await no.ctx.finCommand('settle_cash','x')).error,'storage_unavailable');assert.equal(no.calls.length,0,'no weak randomness or RPC if crypto absent');
++ const held=setup(crypto);held.st.state='unresolved';assert.equal((await held.ctx.finCommand('settle_cash','x')).unresolved,true);assert.equal(held.calls.length,0);
++ const native=setup(webcrypto);assert.equal((await native.ctx.finCommand('settle_cash','x')).ok,true);assert.match(native.calls[0].args.p_request,UUID);
++ console.log('PASS: three request paths, stable approval/return retries, unresolved finance guard, native path and fail-closed crypto absence');
++})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -12,7 +12,7 @@ Test project fsvrsvqfknogwmhccera readback: required MFA roster has one entry, e
 
 No minimum device/OS/browser combination is accepted yet. Real-device evidence is missing; cloud Chrome and a phone-sized viewport do not establish compatibility. Device age alone is not a browser-engine version.
 
-Source constraint: existing unguarded crypto.randomUUID calls in approval/finance paths can fail when the API is absent. SHA-256 key migration additionally needs WebCrypto/TextEncoder. These are capability constraints, NOT proof of login failure and NOT a validated whole-app support floor. MDN describes randomUUID as a secure-context API, cross-browser baseline since March2022: https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID . Do not silently exclude older customers or substitute insecure randomness. Any compatibility fix must retain secure request IDs and idempotency.
+Updated .22: the confirmed direct randomUUID dependency in approval/return/finance paths is repaired with a secure getRandomValues UUIDv4 fallback; offline capability tests passed. This does not prove physical-device compatibility. SHA-256 key migration additionally needs WebCrypto/TextEncoder. These are capability constraints, NOT proof of login failure and NOT a validated whole-app support floor. MDN describes randomUUID as a secure-context API, cross-browser baseline since March2022: https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID . Do not silently exclude older customers or substitute insecure randomness. Any compatibility fix must retain secure request IDs and idempotency.
 
 ## Dedicated physical-device matrix (all NOT TESTED)
 

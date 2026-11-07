@@ -1,3 +1,15 @@
+## Current .22
+
+Source4c78c739cd65c53746b07db6426cf5f66f178d8a; hosting32; deploymentappgdep_6aef4245e3288191a1d08a9323c9c3d5 succeeded2026-11-07T15:23:04.612543Z. Secure request-ID compatibility repaired/tested in three paths; new read-only public table/policy inventory recorded. See continuation22/REPORT.md. .21 accountant-session proof preserved without retest. No database writes this continuation. No security acceptance.
+
+Latest evidence GitHub commit: a30dbb216719f9c57a7a7f0d8003f64252054c8b.
+
+## Current .21 — 2026-11-07
+
+Deployed source be4d6565c466664be1d67dacc678a3dea32d7888, hosting31. See continuation21/REPORT.md for finance session guard repair, proof info/list HTTP evidence, RPC inventory, provider/log evidence and exact blocks. No full security acceptance. Orders1/2/3 and receipts preserved; order3 unsettled. Prior statements below are historical.
+
+Latest GitHub checkpoint: 7839e061d5d23d2515cee7b19d7de85ddff7401b. Customer-scope decision is approved; no general MFA rollout.
+
 ## Current .20 — customer authentication scope locked
 
 Owner clarification implemented: normal customer bootstrap does not require the MFA module/API. No authenticator/QR/customer enrollment introduced. Synthetic MFA remains isolated; administrative gate and server account_enabled unchanged. Source fec375fb5860759813069c98ea2ab3a62940de26, hosting30, deployment appgdep_6aef38792f8c8191a8edfc15d4c5688f succeeded2026-11-07T14:41:15Z. Five scope regressions and existing MFA tests passed; four offline recovery cases passed. Required roster readback1 synthetic-only; protected accounts0; verified synthetic factors0. No minimum-device support claimed. Added actual-device/weak-network auth matrix and separate administrative recovery cases in auth-compatibility/ACCEPTANCE.md. Real old devices, actual recovery mailbox and user MFA enrollment remain unavailable/pending. Existing customer session verification after deploy is recorded separately when observed. No protected account/password/order changes.
