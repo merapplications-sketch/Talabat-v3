@@ -1,0 +1,14 @@
+{
+  "release": ".24",
+  "source_commit": "7060283f2166390abab4291aa7d95cb9ba721e45",
+  "hosting_version": 34,
+  "deployment_id": "appgdep_6aef6c15943c819198adb2fd2f361cc9",
+  "deployed_at": "2026-11-07T18:21:27.950632+00:00",
+  "test_project": "fsvrsvqfknogwmhccera",
+  "previous_source": {
+    "release": ".23",
+    "commit": "3f7c171ba95a71e4862f281c3f489b764982463b"
+  },
+  "db_migration": "pilot_delivery_cash_finite_guard",
+  "browser_observation": "Customer sign-in page visibly .24; previous browser sessions absent in current inventory. No fresh authenticated-session pass claimed."
+}

@@ -1,0 +1,103 @@
+{
+  "total": 331,
+  "classification_counts": {
+    "executable_now": 122,
+    "additional_test_needed": 90,
+    "external_blocked": 119
+  },
+  "chapters": {
+    "Encoding and Sanitization": {
+      "executable_now": 28,
+      "additional_test_needed": 2
+    },
+    "Validation and Business Logic": {
+      "executable_now": 3,
+      "additional_test_needed": 7,
+      "external_blocked": 3
+    },
+    "Web Frontend Security": {
+      "executable_now": 12,
+      "additional_test_needed": 15,
+      "external_blocked": 4
+    },
+    "API and Web Service": {
+      "additional_test_needed": 7,
+      "external_blocked": 6,
+      "executable_now": 3
+    },
+    "File Handling": {
+      "executable_now": 5,
+      "additional_test_needed": 7,
+      "external_blocked": 1
+    },
+    "Authentication": {
+      "executable_now": 14,
+      "external_blocked": 28,
+      "additional_test_needed": 4
+    },
+    "Session Management": {
+      "external_blocked": 11,
+      "executable_now": 3,
+      "additional_test_needed": 4
+    },
+    "Authorization": {
+      "executable_now": 4,
+      "external_blocked": 3,
+      "additional_test_needed": 6
+    },
+    "Self-contained Tokens": {
+      "additional_test_needed": 6,
+      "external_blocked": 1
+    },
+    "OAuth and OIDC": {
+      "executable_now": 10,
+      "additional_test_needed": 9,
+      "external_blocked": 17
+    },
+    "Cryptography": {
+      "external_blocked": 12,
+      "executable_now": 12
+    },
+    "Secure Communication": {
+      "external_blocked": 8,
+      "executable_now": 3,
+      "additional_test_needed": 1
+    },
+    "Configuration": {
+      "executable_now": 4,
+      "external_blocked": 12,
+      "additional_test_needed": 5
+    },
+    "Data Protection": {
+      "executable_now": 4,
+      "external_blocked": 4,
+      "additional_test_needed": 5
+    },
+    "Secure Coding and Architecture": {
+      "external_blocked": 5,
+      "executable_now": 11,
+      "additional_test_needed": 5
+    },
+    "Security Logging and Error Handling": {
+      "executable_now": 6,
+      "additional_test_needed": 7,
+      "external_blocked": 4
+    }
+  },
+  "canonical_matrix_unchanged": true,
+  "excluded": {
+    "failed": [
+      "V6.3.3",
+      "V7.4.2"
+    ],
+    "not_applicable": "12 V17 requirements remain as already classified by root"
+  },
+  "quality_limits": [
+    "Triage is not execution or acceptance; no database/browser/provider calls were performed by this agent.",
+    "Each untested requirement was assigned a distinct action and missing-coverage statement from its official text; categories describe the next scoped action, not guaranteed closure feasibility.",
+    "External-blocked rows retain an independent preparation action; no claim that all technical work is exhausted.",
+    "OAuth/SAML/LDAP/archives and other conditional technology rows remain untested until applicability is evidenced; no assumed non-applicability.",
+    "Provider-owned controls and production-only requirements are not inferred from test source.",
+    "Root-reported new fixes need final source/evidence association before acceptance; canonical status remains unchanged."
+  ]
+}

@@ -1,0 +1,106 @@
+diff --git a/public/customer.html b/public/customer.html
+index 22819ad..8a52dfc 100644
+--- a/public/customer.html
++++ b/public/customer.html
+@@ -1160,7 +1160,7 @@ TLB.addDict({holdL:'Удерживайте, чтобы заказать · {a}',
+ TLB.addDict({phPlov:'Найти: плов, лагман…',phPizza:'Найти: пицца, бургер…',phPharm:'Найти: аптека, витамины…',phFlowers:'Найти: цветы, торт…',phShawarma:'Найти: шаурма, самбуса…',catOffers:'Акции',hhRailT:'Счастливые часы ⏳',hhEndsIn:'ещё',myVch:'Купоны',toNextV:'Ещё {n} баллов до купона на {v} TJS',reorderGo:'Повторить',expT:'Быстро и рядом',expB:'Экспресс',bestT:'Хиты продаж 🔥',hotB:'Хит',addedT:'Добавлено в корзину',ndgT:'В корзине остались блюда',ndgS:'{n} шт. · {s}',ndgGo:'Оформить',ptsMinOrder:'Баллы можно списать при заказе блюд от {m} TJS',ptsVch:'У вас {b} баллов · {n} купон(ов) = −{v} TJS',ptsEarnRule:'{n} баллов за каждый 1 TJS',rateGot:'+{n} баллов за оценку!',optT:'Пожелания к заказу',subT:'Если какого-то блюда не будет',sub_call:'Позвонить мне',sub_replace:'Заменить похожим',sub_remove:'Убрать, остальное привезти',doorT:'Оставить у двери',doorS:'Курьер сфотографирует заказ у двери',giftT:'Заказ в подарок',giftS:'Укажите получателя — курьер позвонит ему',giftName:'Имя получателя',cfT:'Поздравляем!',cfS:'Вы накопили купон на {v} TJS. Используйте его при оплате.',cfOk:'Отлично',ptsT:'Баллы',ptsU:'баллов',ptsUse:'Оплатить баллами',ptsBal:'У вас {b} баллов',ptsNeed:'У вас {b} баллов. Списывать можно от {m}.',ptsLine:'Баллы',ptsEarn:'Вы получите {n} баллов',cbEarn:'кэшбэк {n} TJS',ptsGot:'Начислено {n} баллов',cbGot:'кэшбэк {n} TJS в кошелёк',ptsExp:'{n} баллов сгорят {d}',minU:'мин',ptsR1:'{n} баллов за 1 TJS',ptsR2:'{n} баллов = {v} TJS',ptsR3:'от {n} баллов, заказ от {m} TJS',ptsVal:'{n} купон(ов) = {v} TJS',ptsR4:'срок {n} дн.',ptsR5:'кэшбэк {n}%',ptsHist:'История баллов',pk_earn:'Начислено за заказ',pk_spend:'Оплата заказа',pk_return:'Возврат за отменённый заказ',pk_reward:'За оценку заказа',wk_cashback:'Кэшбэк за заказ',hhLine:'Счастливые часы',hhAll:'Во всех ресторанах',hhUntil:'до {t}',emNoResS:'Попробуйте другой запрос или уберите фильтры',emNoStoresS:'Скоро здесь появятся новые места',drvAssigned:'Курьер назначен',cartGoneL:'Нет в наличии',cartGoneT:'Некоторых блюд сейчас нет в наличии',cartGoneS:'Удалите их из корзины, чтобы продолжить.',cartGoneRm:'Удалить недоступные',placing:'Отправляем заказ…'},
+ {phPlov:'Search: plov, lagman…',phPizza:'Search: pizza, burger…',phPharm:'Search: pharmacy, vitamins…',phFlowers:'Search: flowers, cake…',phShawarma:'Search: shawarma, samsa…',catOffers:'Offers',hhRailT:'Happy hour ⏳',hhEndsIn:'ends in',myVch:'Vouchers',toNextV:'{n} more points to a {v} TJS voucher',reorderGo:'Reorder',expT:'Fast and nearby',expB:'Express',bestT:'Best sellers 🔥',hotB:'Hit',addedT:'Added to the cart',ndgT:'You left dishes in the cart',ndgS:'{n} pcs · {s}',ndgGo:'Check out',ptsMinOrder:'Points can be used for dishes from {m} TJS',ptsVch:'You have {b} points · {n} voucher(s) = −{v} TJS',ptsEarnRule:'{n} points for every 1 TJS',rateGot:'+{n} points for your rating!',optT:'Order preferences',subT:'If a dish is not available',sub_call:'Call me',sub_replace:'Replace with similar',sub_remove:'Remove it, bring the rest',doorT:'Leave at the door',doorS:'The courier will take a photo at the door',giftT:'Order as a gift',giftS:'Add the recipient — the courier will call them',giftName:'Recipient name',cfT:'Congratulations!',cfS:'You earned a {v} TJS voucher. Use it at checkout.',cfOk:'Great',ptsT:'Points',ptsU:'points',ptsUse:'Pay with points',ptsBal:'You have {b} points',ptsNeed:'You have {b} points. You can use them from {m}.',ptsLine:'Points',ptsEarn:'You will get {n} points',cbEarn:'cashback {n} TJS',ptsGot:'{n} points added',cbGot:'cashback {n} TJS to the wallet',ptsExp:'{n} points expire on {d}',minU:'min',ptsR1:'{n} points per 1 TJS',ptsR2:'{n} points = {v} TJS',ptsR3:'from {n} points, orders from {m} TJS',ptsVal:'{n} voucher(s) = {v} TJS',ptsR4:'valid {n} days',ptsR5:'cashback {n}%',ptsHist:'Points history',pk_earn:'Earned for an order',pk_spend:'Order payment',pk_return:'Returned for a cancelled order',pk_reward:'For rating an order',wk_cashback:'Cashback for an order',hhLine:'Happy hour',hhAll:'At all restaurants',hhUntil:'until {t}',emNoResS:'Try another search or clear the filters',emNoStoresS:'New places will appear here soon',drvAssigned:'Courier assigned',cartGoneL:'Not available',cartGoneT:'Some items are not available right now',cartGoneS:'Remove them from the cart to continue.',cartGoneRm:'Remove unavailable items',placing:'Sending your order…'});
+ const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
+-const errMsg=r=>t('err_'+r.error)+(r.error=='generic'&&r.detail?' ['+r.detail+']':'');
++const errMsg=r=>t('err_'+r.error);
+ /* ---------- icons: one stroke set ---------- */
+ const P={back:'<path d="M15 18l-6-6 6-6"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',heart:'<path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z"/>',
+ trash:'<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>',plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',
+@@ -1884,7 +1884,7 @@ function simDishes(o){const cat=(storeOf(o.store)||{}).c,w=[...new Set((o.items|
+   for(const s of STORES){if(s.n===o.store||!TLB.isOpen(s.n)||(cat&&s.c!==cat))continue;for(const it of menuOf(s.n)){if(!it.available||it.optsBlocked)continue;const nm=String(it.name).toLowerCase();if(w.some(x=>nm.includes(x))){out.push({s,it});break}}if(out.length>=6)break}return out}
+ function cxCard(o){if(o.status!='rejected'||!o.cancelReason)return '';const oos=o.cancelReason=='out_of_stock',ss=oos?simStores(o):[],dd=oos?simDishes(o):[];
+   return `<div class="card cxc"><b style="font-size:15px">${t('cxT')}</b><div class="sm" style="margin-top:6px">${t('cxS').replace('{r}',esc(t('cr_'+o.cancelReason)))}${o.cancelNote?` — ${esc(o.cancelNote)}`:''}</div></div>
+-  ${dd.length?`<h3 style="margin:14px 4px 8px">${t('cxDish')}</h3><div class="card" style="padding:4px 16px">${dd.map(({s,it})=>`<div class="sdi" onclick="openN(${JSON.stringify(s.n).replace(/"/g,'&quot;')})"><div style="min-width:0;flex:1"><b class="sm">${esc(it.name)}</b><div class="xs mut">${esc(s.n)}</div></div>${pxH(it,sdOf(s.n))}</div>`).join('')}</div>`:''}
++  ${dd.length?`<h3 style="margin:14px 4px 8px">${t('cxDish')}</h3><div class="card" style="padding:4px 16px">${dd.map(({s,it})=>`<div class="sdi" onclick="openN(${esc(JSON.stringify(s.n))})"><div style="min-width:0;flex:1"><b class="sm">${esc(it.name)}</b><div class="xs mut">${esc(s.n)}</div></div>${pxH(it,sdOf(s.n))}</div>`).join('')}</div>`:''}
+   ${ss.length?`<div class="sh" style="padding:0 4px"><h2>${t('cxSim')}</h2></div><div class="hs" style="margin:0 -16px">${ss.map(mini).join('')}</div>`:''}`}
+ /* a live notice when the restaurant cancels while the customer is anywhere in the app */
+ const PREV={};let prevInit=false;
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index d767d5a..ddd7caa 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -179,7 +179,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.22';
++  var VERSION = 'pilot-mobile-20261107.24';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -627,7 +627,7 @@
+   }
+   function rpc(name, args, okToast) {
+     return sb.rpc(name, args).then(function (r) {
+-      if (r.error) { console.error(r.error); return { error: errKey(r.error), detail: String((r.error && r.error.message) || '').slice(0, 140) }; }
++      if (r.error) { var key = errKey(r.error); console.error('rpc_failed', key); return { error: key }; }
+       if (okToast) toast(t('saved'));
+       return refresh().then(function () { return { data: r.data }; });
+     });
+@@ -724,13 +724,14 @@
+   }
+   function bootHide() { clearTimeout(bootTimer); var d = $('tlb-boot'); if (d) d.remove(); }
+   function validImageDimensions(im) { return Number.isInteger(im.width) && Number.isInteger(im.height) && im.width > 0 && im.height > 0 && im.width <= 16384 && im.height <= 16384 && im.width * im.height <= 64000000; }
+-  var proofObjectUrls = [];
+-  function clearProofUrls() { proofObjectUrls.forEach(function (url) { URL.revokeObjectURL(url); }); proofObjectUrls = []; }
++  var proofObjectUrls = [], proofUrlEpoch = 0;
++  function clearProofUrls() { proofUrlEpoch++; proofObjectUrls.forEach(function (url) { URL.revokeObjectURL(url); }); proofObjectUrls = []; }
+   window.addEventListener('pagehide', clearProofUrls);
+   function authenticatedProofUrl(path) {
+     if (!path || !sb || !sb.storage) return Promise.resolve(null);
++    var epoch = proofUrlEpoch;
+     return sb.storage.from('proofs').download(path).then(function (r) {
+-      if (r.error || !r.data || r.data.type !== 'image/jpeg' || r.data.size > 1048576) return null;
++      if (epoch !== proofUrlEpoch || r.error || !r.data || r.data.type !== 'image/jpeg' || r.data.size > 1048576) return null;
+       var url = URL.createObjectURL(r.data); proofObjectUrls.push(url); return url;
+     }, function () { return null; });
+   }
+@@ -744,9 +745,22 @@
+     }
+     overlay('<div style="text-align:center"><div style="width:58px;height:58px;border-radius:50%;background:#fff0e5;color:#c2410c;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px">!</div><b style="font-size:18px" data-i18n="bootT"></b><p style="color:#6b7280;font-size:14px;margin:8px 0 14px" data-i18n="bootS"></p>' + '</div><button id="tlb-rl" data-i18n="bootReload" ' + BT + '></button><button id="tlb-rs2" data-i18n="bootSignout" ' + BT.replace('#f1511b', '#f1f1f4').replace('color:#fff', 'color:#1c1c21') + '></button>', true);
+     $('tlb-rl').onclick = function () { location.reload(); };
+-    $('tlb-rs2').onclick = function () { try { if (authStorageKey) localStorage.removeItem(authStorageKey); } catch (e) { } location.reload(); };
+-  }
+-  function logout() { return sb.auth.signOut().then(function (r) { if (r.error) { showLogin(t('signoutIncomplete'), 'in'); return; } location.reload(); }, function () { showLogin(t('signoutIncomplete'), 'in'); }); }
++    $('tlb-rs2').onclick = function () { return logout(); };
++  }
++  var signOutPending = 0, passiveExitScheduled = false;
++  function signOutRemote(options) {
++    signOutPending++;
++    return Promise.resolve().then(function () { return sb.auth.signOut(options); }).finally(function () { signOutPending--; });
++  }
++  function handleAuthSignedOut() {
++    clearProofUrls();
++    if (signOutPending || !ME || passiveExitScheduled) return;
++    passiveExitScheduled = true;
++    // Hide stale private UI immediately, then discard all role caches outside the Auth callback.
++    if (document.body) document.body.style.visibility = 'hidden';
++    setTimeout(function () { location.reload(); }, 0);
++  }
++  function logout() { return signOutRemote().then(function (r) { if (r.error) { showLogin(t('signoutIncomplete'), 'in'); return; } location.reload(); }, function () { showLogin(t('signoutIncomplete'), 'in'); }); }
+   var authMode = 'in', resendAt = 0;
+   function isConnectionError(e) {
+     return /timed out|timeout|abort|failed to fetch|network|load failed/i.test(String((e && e.message) || e || ''));
+@@ -830,7 +844,7 @@
+         if (r.error) { busy = false; $('tlb-savepw').disabled = false; $('tlb-rerr').textContent = authErr(r.error); return; }
+         // A completed recovery requires a new sign-in; no privileged app is entered here.
+         recoveryPending = false;
+-        return sb.auth.signOut({ scope: 'global' }).then(function (r) { showLogin(t('resetDone') + (r.error ? ' ' + t('signoutIncomplete') : ''), 'in'); }, function () { showLogin(t('resetDone') + ' ' + t('signoutIncomplete'), 'in'); });
++        return signOutRemote({ scope: 'global' }).then(function (r) { showLogin(t('resetDone') + (r.error ? ' ' + t('signoutIncomplete') : ''), 'in'); }, function () { showLogin(t('resetDone') + ' ' + t('signoutIncomplete'), 'in'); });
+       }).catch(function () { busy = false; if ($('tlb-savepw')) $('tlb-savepw').disabled = false; if ($('tlb-rerr')) $('tlb-rerr').textContent = t('err_generic'); });
+     };
+   }
+@@ -1056,7 +1070,7 @@
+       sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: authStorageKey }, global: { fetch: connectionFetch } });
+       bootShow();
+       sb.auth.onAuthStateChange(function (event) {
+-        if (event === 'SIGNED_OUT') clearProofUrls();
++        if (event === 'SIGNED_OUT') handleAuthSignedOut();
+         if (event === 'PASSWORD_RECOVERY') { recoveryPending = true; setTimeout(showPasswordRecovery, 0); }
+       });
+       sb.auth.getSession().then(function (x) {

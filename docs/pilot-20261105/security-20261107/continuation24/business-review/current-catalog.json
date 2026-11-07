@@ -1,0 +1,577 @@
+[
+  {
+    "evidence": {
+      "columns": [
+        {
+          "type": "uuid",
+          "table": "order_items",
+          "column": "id",
+          "not_null": true
+        },
+        {
+          "type": "bigint",
+          "table": "order_items",
+          "column": "order_id",
+          "not_null": true
+        },
+        {
+          "type": "uuid",
+          "table": "order_items",
+          "column": "item_id",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "order_items",
+          "column": "name",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "order_items",
+          "column": "price",
+          "not_null": true
+        },
+        {
+          "type": "integer",
+          "table": "order_items",
+          "column": "qty",
+          "not_null": true
+        },
+        {
+          "type": "text",
+          "table": "order_items",
+          "column": "note",
+          "not_null": false
+        },
+        {
+          "type": "jsonb",
+          "table": "order_items",
+          "column": "options",
+          "not_null": true
+        },
+        {
+          "type": "bigint",
+          "table": "orders",
+          "column": "id",
+          "not_null": true
+        },
+        {
+          "type": "uuid",
+          "table": "orders",
+          "column": "store_id",
+          "not_null": true
+        },
+        {
+          "type": "uuid",
+          "table": "orders",
+          "column": "customer_id",
+          "not_null": true
+        },
+        {
+          "type": "uuid",
+          "table": "orders",
+          "column": "driver_id",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "customer_name",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "customer_phone",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "driver_name",
+          "not_null": false
+        },
+        {
+          "type": "order_status",
+          "table": "orders",
+          "column": "status",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "subtotal",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "discount",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "delivery_fee",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "tip",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "total",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "commission_pct",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "commission",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "driver_payout",
+          "not_null": true
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "payment",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "address",
+          "not_null": false
+        },
+        {
+          "type": "double precision",
+          "table": "orders",
+          "column": "lat",
+          "not_null": false
+        },
+        {
+          "type": "double precision",
+          "table": "orders",
+          "column": "lng",
+          "not_null": false
+        },
+        {
+          "type": "integer",
+          "table": "orders",
+          "column": "prep_time",
+          "not_null": true
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "created_at",
+          "not_null": true
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "done_at",
+          "not_null": false
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "cash_collected",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "cash_note",
+          "not_null": false
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "cash_settled_at",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "promo_code",
+          "not_null": false
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "promo_discount",
+          "not_null": true
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "client_key",
+          "not_null": false
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "delivery_base",
+          "not_null": false
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "delivery_extra",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "delivery_km",
+          "not_null": false
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "wallet_used",
+          "not_null": true
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "wallet_returned_at",
+          "not_null": false
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "hh_discount",
+          "not_null": true
+        },
+        {
+          "type": "integer",
+          "table": "orders",
+          "column": "hh_pct",
+          "not_null": true
+        },
+        {
+          "type": "integer",
+          "table": "orders",
+          "column": "points_used",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "points_value",
+          "not_null": true
+        },
+        {
+          "type": "integer",
+          "table": "orders",
+          "column": "points_earned",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "cashback",
+          "not_null": true
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "loyalty_done_at",
+          "not_null": false
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "points_returned_at",
+          "not_null": false
+        },
+        {
+          "type": "boolean",
+          "table": "orders",
+          "column": "leave_at_door",
+          "not_null": true
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "substitution",
+          "not_null": true
+        },
+        {
+          "type": "boolean",
+          "table": "orders",
+          "column": "is_gift",
+          "not_null": true
+        },
+        {
+          "type": "numeric",
+          "table": "orders",
+          "column": "fee_waived",
+          "not_null": true
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "scheduled_for",
+          "not_null": false
+        },
+        {
+          "type": "uuid",
+          "table": "orders",
+          "column": "group_id",
+          "not_null": false
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "arrived_store_at",
+          "not_null": false
+        },
+        {
+          "type": "timestamp with time zone",
+          "table": "orders",
+          "column": "arrived_cust_at",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "delivery_photo",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "cancel_reason",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "cancel_note",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "cancelled_by",
+          "not_null": false
+        },
+        {
+          "type": "integer",
+          "table": "orders",
+          "column": "cash_allocation_version",
+          "not_null": false
+        },
+        {
+          "type": "numeric(12,2)",
+          "table": "orders",
+          "column": "cash_platform_share",
+          "not_null": false
+        },
+        {
+          "type": "numeric(12,2)",
+          "table": "orders",
+          "column": "cash_driver_delivery_share",
+          "not_null": false
+        },
+        {
+          "type": "text",
+          "table": "orders",
+          "column": "cash_allocation_reference",
+          "not_null": false
+        }
+      ],
+      "triggers": [
+        {
+          "table": "order_items",
+          "function": "fulfillment_private.guard_lines()",
+          "definition": "CREATE TRIGGER approval_lines_guard BEFORE INSERT OR DELETE OR UPDATE ON public.order_items FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_lines()"
+        },
+        {
+          "table": "orders",
+          "function": "fulfillment_private.guard_order()",
+          "definition": "CREATE TRIGGER approval_order_guard BEFORE UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION fulfillment_private.guard_order()"
+        },
+        {
+          "table": "orders",
+          "function": "finance_private.guard_cash_allocation()",
+          "definition": "CREATE TRIGGER cash_allocation_guard BEFORE INSERT OR UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION finance_private.guard_cash_allocation()"
+        },
+        {
+          "table": "orders",
+          "function": "pilot_private.guard_order()",
+          "definition": "CREATE TRIGGER pilot_admission_guard BEFORE INSERT OR UPDATE OF driver_id ON public.orders FOR EACH ROW EXECUTE FUNCTION pilot_private.guard_order()"
+        },
+        {
+          "table": "orders",
+          "function": "pilot_private.record_admission()",
+          "definition": "CREATE TRIGGER pilot_admission_record AFTER INSERT ON public.orders FOR EACH ROW EXECUTE FUNCTION pilot_private.record_admission()"
+        },
+        {
+          "table": "orders",
+          "function": "return_private.guard_case_order()",
+          "definition": "CREATE TRIGGER return_order_guard BEFORE UPDATE OF status, store_id, driver_id, customer_id ON public.orders FOR EACH ROW EXECUTE FUNCTION return_private.guard_case_order()"
+        },
+        {
+          "table": "orders",
+          "function": "audit_changes()",
+          "definition": "CREATE TRIGGER trg_audit_orders AFTER UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION audit_changes('id', 'driver_id', 'cash_settled_at')"
+        },
+        {
+          "table": "orders",
+          "function": "trg_dispatch()",
+          "definition": "CREATE TRIGGER trg_order_dispatch AFTER UPDATE OF status ON public.orders FOR EACH ROW EXECUTE FUNCTION trg_dispatch()"
+        },
+        {
+          "table": "orders",
+          "function": "log_order_event()",
+          "definition": "CREATE TRIGGER trg_order_events AFTER INSERT OR UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION log_order_event()"
+        },
+        {
+          "table": "orders",
+          "function": "trg_loyalty()",
+          "definition": "CREATE TRIGGER trg_orders_loyalty BEFORE UPDATE OF status ON public.orders FOR EACH ROW EXECUTE FUNCTION trg_loyalty()"
+        },
+        {
+          "table": "orders",
+          "function": "trg_wallet_return()",
+          "definition": "CREATE TRIGGER trg_orders_wallet_return BEFORE UPDATE OF status ON public.orders FOR EACH ROW EXECUTE FUNCTION trg_wallet_return()"
+        }
+      ],
+      "functions": [
+        {
+          "signature": "deliver_order(bigint,numeric,text,text)",
+          "definition": "CREATE OR REPLACE FUNCTION public.deliver_order(p_id bigint, p_cash numeric DEFAULT NULL::numeric, p_note text DEFAULT NULL::text, p_photo text DEFAULT NULL::text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare o orders; iscash boolean;\nbegin\n  if not public.account_enabled() then raise exception 'account_blocked'; end if;\n  select * into o from orders where id = p_id for update;\n  if not found then raise exception 'not_found'; end if;\n  if o.driver_id is distinct from auth.uid() or o.status <> 'pickedup' then raise exception 'bad_transition'; end if;\n  -- the photo must be in this courier's folder for this order: <courier id>/<order id>/<file>.jpg\n  if p_photo is not null and p_photo !~ ('^' || auth.uid()::text || '/' || p_id::text || '/[A-Za-z0-9_-]{8,64}\\.jpg$') then raise exception 'bad_value'; end if;\n  if coalesce(o.leave_at_door, false) and p_photo is null then raise exception 'photo_required'; end if;\n  -- A well-shaped path is not evidence of a stored proof. Preserve optional\n  -- photos: resolve Storage only inside this branch; never block photo-less cash.\n  if p_photo is not null then\n    if to_regclass('storage.objects') is null then raise exception 'photo_service_unavailable'; end if;\n    perform 1 from storage.objects where bucket_id = 'proofs' and name = p_photo for key share;\n    if not found then raise exception 'photo_not_found'; end if;\n  end if;\n  iscash := o.payment ~ '^(cash|Cash|Наличн)';\n  if iscash then\n    if p_cash is null or p_cash < 0 then raise exception 'cash_required'; end if;\n    if p_cash <> (o.total - coalesce(o.wallet_used, 0)) and coalesce(trim(p_note), '') = '' then raise exception 'note_required'; end if;\n  end if;\n  update orders set status = 'delivered', done_at = now(),\n    cash_collected = case when iscash then p_cash end,\n    cash_note = case when iscash then left(p_note, 200) end,\n    delivery_photo = p_photo,\n    arrived_cust_at = coalesce(arrived_cust_at, now())\n  where id = p_id;\nend $function$\n"
+        },
+        {
+          "signature": "place_order(uuid,jsonb,numeric,text,text,double precision,double precision,text,text,numeric,numeric,integer,jsonb)",
+          "definition": "CREATE OR REPLACE FUNCTION public.place_order(p_store uuid, p_items jsonb, p_tip numeric DEFAULT 0, p_payment text DEFAULT 'cash'::text, p_address text DEFAULT ''::text, p_lat double precision DEFAULT NULL::double precision, p_lng double precision DEFAULT NULL::double precision, p_promo text DEFAULT NULL::text, p_key text DEFAULT NULL::text, p_fee numeric DEFAULT NULL::numeric, p_wallet numeric DEFAULT NULL::numeric, p_points integer DEFAULT NULL::integer, p_extra jsonb DEFAULT NULL::jsonb)\n RETURNS bigint\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare v_build_prev text; s stores; pr profiles; it record; v_item menu_items; pl jsonb; v_id bigint; v_sub numeric; v_fee numeric; v_pay numeric; v_disc numeric; v_base numeric; v_gate numeric;\n        v_promo numeric := 0; v_tip numeric; v_km float8; v_code text := null; v_dq jsonb; v_cphone text; v_total numeric; v_bal numeric; v_w numeric;\n        v_hh int := 0; v_all numeric; v_hdisc numeric := 0; v_rate numeric; v_min numeric; v_lb int; v_pts int := 0; v_pval numeric := 0; v_cap numeric;\n        v_step numeric; v_mo numeric; v_subst text; v_door boolean; v_gn text; v_gp text;\n        v_at timestamptz; v_waived numeric := 0; v_gid uuid; g group_orders;\nbegin\n  if p_wallet is not null and p_wallet < 0 then raise exception 'bad_value'; end if;\n  if p_points is not null and (p_points < 0 or p_points > 100000000) then raise exception 'bad_value'; end if;\n  -- order options (v50): leave at the door, what to do if a dish is missing, a gift for someone else\n  v_door := coalesce((p_extra->>'door')::boolean, false);\n  v_subst := coalesce(p_extra->>'subst', 'call');\n  if v_subst not in ('call', 'replace', 'remove') then raise exception 'bad_value'; end if;\n  -- scheduled delivery time (v51): from 45 minutes (with a little slack for the screen) to 3 days ahead\n  if nullif(p_extra->>'at', '') is not null then\n    begin v_at := (p_extra->>'at')::timestamptz; exception when others then raise exception 'bad_time'; end;\n    if v_at < now() + interval '40 minutes' or v_at > now() + interval '3 days' then raise exception 'bad_time'; end if;\n  end if;\n  -- office / group order (v51): only its host can place it, once\n  if nullif(p_extra->>'group', '') is not null then\n    begin v_gid := (p_extra->>'group')::uuid; exception when others then raise exception 'bad_group'; end;\n    select * into g from group_orders where id = v_gid for update;\n    if not found or g.host_id <> auth.uid() or g.status not in ('open', 'closed') or g.store_id <> p_store or g.expires_at <= now() then raise exception 'bad_group'; end if;\n  end if;\n  if p_extra ? 'gift' and jsonb_typeof(p_extra->'gift') = 'object' then\n    v_gn := btrim(coalesce(p_extra->'gift'->>'name', '')); v_gp := norm_phone(p_extra->'gift'->>'phone');\n    if char_length(v_gn) not between 2 and 60 or v_gp is null then raise exception 'bad_gift'; end if;\n  end if;   -- a negative amount would mean ADDING money: refuse it\n  if auth.uid() is null then raise exception 'auth'; end if;\n  -- idempotency: a retry of the SAME attempt (bad network, double tap) returns the order that already exists\n  if p_key is not null then\n    if p_key !~ '^[A-Za-z0-9_-]{8,64}$' then raise exception 'bad_value'; end if;\n    select o.id into v_id from orders o where o.customer_id = auth.uid() and o.client_key = p_key;\n    if found then return v_id; end if;\n  end if;\n  -- No external processor is configured. Only cash may be asserted by a caller;\n  -- existing wallet debit logic below alone may mark a fully funded order wallet.\n  -- Preserve existing-key recovery above; never rewrite historical payments.\n  if p_payment is distinct from 'cash' then raise exception 'payment_not_configured'; end if;\n  -- abuse guard: at most 20 orders per hour per customer\n  if (select count(*) from orders where customer_id = auth.uid() and created_at > now() - interval '1 hour') >= 20 then\n    raise exception 'too_many_orders';\n  end if;\n  -- spam / abuse guard: at most 5 unfinished orders per customer\n  if (select count(*) from orders where customer_id = auth.uid() and status in ('pending', 'preparing', 'ready', 'pickedup')) >= 5 then\n    raise exception 'too_many_orders';\n  end if;\n  if (p_lat is not null and (p_lat < -90 or p_lat > 90)) or (p_lng is not null and (p_lng < -180 or p_lng > 180)) then\n    raise exception 'bad_value';\n  end if;\n  -- a delivery address (text + map point) is mandatory\n  if p_lat is null or p_lng is null or char_length(btrim(coalesce(p_address, ''))) < 3 then\n    raise exception 'address_required';\n  end if;\n  select * into s from stores where id = p_store and is_active;\n  if not found then raise exception 'store_unavailable'; end if;\n  if not s.is_open then raise exception 'closed'; end if;\n  v_hh := happy_hour_pct(p_store);                                -- admin-scheduled happy hour (paid by the platform)\n  if jsonb_typeof(p_items) <> 'array' or jsonb_array_length(p_items) = 0 then raise exception 'empty'; end if;\n  if jsonb_array_length(p_items) > 60 then raise exception 'bad_value'; end if;\n  select * into pr from profiles where id = auth.uid() for update;\n\n  -- the customer phone is required (stored privately, see order_customer_phone) and the fee is calculated here, never by the app\n  if pr.banned_at is not null then raise exception 'account_blocked'; end if;   -- a suspended account cannot order\n  v_cphone := norm_phone(pr.phone);\n  if v_cphone is null then raise exception 'phone_required'; end if;\n  v_dq := delivery_calc(p_store, p_lat, p_lng, auth.uid());\n  v_fee := (v_dq->>'fee')::numeric;\n  v_pay := case s.fee_type when 'free' then s.fee_base else (v_dq->>'fee_full')::numeric end;   -- courier is always paid; the platform covers free delivery\n  v_tip := case when p_tip in (0,3,5,10) then p_tip else 0 end;\n\n  begin\n    insert into orders(store_id, customer_id, customer_name, payment, address, lat, lng, client_key, leave_at_door, substitution, is_gift, scheduled_for, group_id)\n    values (p_store, auth.uid(), pr.name, left(p_payment,40), left(p_address,200), p_lat, p_lng, p_key, v_door, v_subst, v_gn is not null, v_at, v_gid)\n    returning id into v_id;\n  exception when unique_violation then\n    -- two taps raced: the other attempt won, return its order\n    select o.id into v_id from orders o where o.customer_id = auth.uid() and o.client_key = p_key;\n    return v_id;\n  end;\n  v_build_prev:=current_setting('talabot.order_building',true);\n  perform set_config('talabot.order_building',v_id::text,true);\n  insert into order_customer_phone(order_id, phone) values (v_id, v_cphone);\n  if v_gn is not null then insert into order_recipient(order_id, name, phone) values (v_id, v_gn, v_gp); end if;\n\n  -- every line is priced by the DATABASE: base price + the chosen options (validated against the item's own option groups)\n  for it in select (x->>'item_id')::uuid as item_id,\n                   least(50, greatest(1, (x->>'qty')::int)) as qty,\n                   left(coalesce(x->>'note', ''), 120) as note,\n                   case when jsonb_typeof(x->'options') = 'array' then x->'options' else '[]'::jsonb end as opts\n              from jsonb_array_elements(p_items) x loop\n    select * into v_item from menu_items where id = it.item_id and store_id = p_store and available and approved;\n    if not found then raise exception 'unavailable'; end if;\n    pl := price_line(it.item_id, it.opts);\n    insert into order_items(order_id, item_id, name, price, qty, note, options)\n    values (v_id, v_item.id, v_item.name, (pl->>'unit')::numeric, it.qty, it.note, pl->'snap');\n  end loop;\n\n  -- each line gets the better of the store discount and its own item discount (they do not stack; paid by the restaurant).\n  -- A happy hour can only make it better. Owner decision (v48): the RESTAURANT pays it too, like its own offers: it is part of\n  -- orders.discount (so revenue and commission are on what the customer pays); orders.hh_discount says how much of it came from the happy hour.\n  select sum(oi.price * oi.qty),\n         coalesce(sum(round(oi.price * oi.qty * greatest(s.discount_pct, coalesce(m.discount_pct, 0)) / 100, 2)), 0),\n         coalesce(sum(round(oi.price * oi.qty * greatest(s.discount_pct, coalesce(m.discount_pct, 0), v_hh) / 100, 2)), 0),\n         coalesce(sum(oi.price * oi.qty) filter (where greatest(s.discount_pct, coalesce(m.discount_pct, 0), v_hh) = 0), 0)\n    into v_sub, v_disc, v_all, v_base\n    from order_items oi left join menu_items m on m.id = oi.item_id\n   where oi.order_id = v_id;\n  v_hdisc := v_all - v_disc;\n  -- free delivery above the restaurant's own threshold (v51): the restaurant pays the waived fee (orders.fee_waived)\n  if coalesce(s.free_delivery_min, 0) > 0 and v_sub - v_disc - v_hdisc >= s.free_delivery_min and v_fee > 0 then\n    v_waived := v_fee; v_fee := 0;\n  end if;\n  if p_fee is not null and abs(p_fee - v_fee) > 0.009 then raise exception 'fee_changed'; end if;   -- the price shown to the customer must be the price charged\n\n  if p_promo is not null and length(trim(p_promo)) > 0 then\n    if v_base <= 0 then raise exception 'promo_offer'; end if;     -- promo codes never apply to lines that already have an offer\n    if not exists (select 1 from promo_attempts where user_id = auth.uid() and ok and code = upper(trim(p_promo))\n                    and at > now() - interval '2 hours') then\n      raise exception 'promo_invalid';                             -- must be validated (rate-limited) in check_promo first\n    end if;\n    v_gate := v_sub - v_disc - v_hdisc;                                       -- the minimum order is checked on what the customer pays for items\n    v_promo := promo_eval(p_promo, v_base, auth.uid(), true, v_gate);\n    if v_promo > 0 then v_code := upper(trim(p_promo)); end if;\n  end if;\n\n  update orders set subtotal = v_sub, discount = v_disc + v_hdisc, delivery_fee = v_fee, fee_waived = v_waived, tip = v_tip,\n    delivery_base = (v_dq->>'base')::numeric, delivery_extra = (v_dq->>'extra')::numeric, delivery_km = (v_dq->>'km')::numeric,\n    promo_code = v_code, promo_discount = v_promo, hh_discount = v_hdisc, hh_pct = v_hh,\n    total = greatest(5, v_sub - v_disc - v_hdisc - v_promo + v_fee + v_tip),\n    commission_pct = s.commission_pct, commission = round((v_sub - v_disc - v_hdisc) * s.commission_pct / 100, 2),\n    driver_payout = v_pay + v_tip\n  where id = v_id;\n\n  -- POINTS: the customer may pay part of the items with loyalty points (all he can use, decided here, never by the app)\n  if coalesce(p_points, 0) > 0 then\n    v_rate := loyalty_setting('loyalty_points_per_tjs'); v_min := loyalty_setting('loyalty_min_redeem');\n    v_step := greatest(1, loyalty_setting('loyalty_voucher_points'));\n    v_mo := coalesce(s.points_min_order, loyalty_setting('loyalty_min_order'));\n    perform 1 from profiles where id = auth.uid() for update;          -- two orders at the same moment cannot spend the same points\n    v_lb := loyalty_balance(auth.uid());\n    if v_lb < v_min then raise exception 'points_min'; end if;\n    v_cap := v_sub - v_disc - v_hdisc - v_promo;                       -- points never pay for delivery or the tip\n    if v_cap < v_mo then raise exception 'points_min_order'; end if;  -- the order (dishes) must reach the minimum to use points\n    v_pts := (floor(least(v_lb, floor(greatest(v_cap, 0) * v_rate)) / v_step) * v_step)::int;   -- whole vouchers only (1000, 2000 ...)\n    if v_pts <= 0 or v_pts <> p_points then raise exception 'points_changed'; end if;   -- the customer saw another amount: ask again\n    v_pval := round(v_pts / v_rate, 2);\n    perform loyalty_spend(auth.uid(), v_pts, v_id);\n    update orders set points_used = v_pts, points_value = v_pval,\n      total = greatest(5, v_sub - v_disc - v_hdisc - v_promo - v_pval + v_fee + v_tip) where id = v_id;\n  end if;\n\n  -- WALLET: the customer may pay all or part of the order from his refund balance (the server decides the amount, never the app)\n  if coalesce(p_wallet, 0) > 0 then\n    select total into v_total from orders where id = v_id;\n    perform 1 from profiles where id = auth.uid() for update;           -- two orders at the same moment cannot spend the same money\n    v_bal := wallet_balance();\n    v_w := round(least(p_wallet, v_bal, v_total), 2);\n    if v_w <= 0 or abs(v_w - round(p_wallet, 2)) > 0.009 then raise exception 'wallet_changed'; end if;   -- the customer saw another amount: ask again\n    insert into wallet_entries(user_id, amount, kind, order_id) values (auth.uid(), -v_w, 'spend', v_id);\n    update orders set wallet_used = v_w, payment = case when v_w >= v_total then 'wallet' else payment end where id = v_id;\n  end if;\n  if v_gid is not null then update group_orders set status = 'placed', order_id = v_id, closed_at = coalesce(closed_at, now()) where id = v_gid; end if;\n  perform finance_private.snapshot_cash(v_id);\n  perform set_config('talabot.order_building',coalesce(v_build_prev,''),true);\n  perform fulfillment_private.register_order(v_id);\n  return v_id;\nend $function$\n"
+        },
+        {
+          "signature": "fulfillment_private.quote_lines(bigint,jsonb)",
+          "definition": "CREATE OR REPLACE FUNCTION fulfillment_private.quote_lines(p_order bigint, p_items jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare o orders;i record;m menu_items;pl jsonb;lines jsonb:='[]';sub numeric:=0;total_value numeric;\nbegin\n select * into o from orders where id=p_order;\n if o.driver_id is not null or o.status not in('pending','preparing','ready')then raise exception'change_requires_support';end if;\n -- A price proposal never invents refunds, reprices redeemed points, or changes a courier's agreed pay.\n if coalesce(o.wallet_used,0)>0 or coalesce(o.points_used,0)>0 or coalesce(o.discount,0)>0 or coalesce(o.promo_discount,0)>0\n  or coalesce(o.fee_waived,0)>0 or exists(select 1 from stores where id=o.store_id and(coalesce(discount_pct,0)>0 or coalesce(free_delivery_min,0)>0))\n  or happy_hour_pct(o.store_id)>0 then raise exception'change_requires_support';end if;\n if jsonb_typeof(p_items)<>'array'or jsonb_array_length(p_items)not between 1 and 60 then raise exception'bad_value';end if;\n for i in select (x->>'item_id')::uuid item_id,(x->>'qty')::int qty,coalesce(x->'options','[]'::jsonb)opts,left(coalesce(x->>'note',''),120)note from jsonb_array_elements(p_items)x loop\n  if i.qty not between 1 and 50 then raise exception'bad_value';end if;\n  select * into m from menu_items where id=i.item_id and store_id=o.store_id and available and approved;\n  if not found then raise exception'unavailable';end if;\n  if coalesce(m.discount_pct,0)>0 then raise exception'change_requires_support';end if;\n  pl:=price_line(i.item_id,i.opts);sub:=sub+(pl->>'unit')::numeric*i.qty;\n  lines:=lines||jsonb_build_array(jsonb_build_object('item_id',m.id,'name',m.name,'price',(pl->>'unit')::numeric,'qty',i.qty,'note',i.note,'options',pl->'snap'));\n end loop;\n total_value:=greatest(5,sub+coalesce(o.delivery_fee,0)+coalesce(o.tip,0));\n return jsonb_build_object('lines',lines,'subtotal',sub,'total',total_value,'cash_due',total_value,'apply_items',true);\nend $function$\n"
+        }
+      ],
+      "constraints": [
+        {
+          "name": "order_items_options_chk",
+          "table": "order_items",
+          "definition": "CHECK (((jsonb_typeof(options) = 'array'::text) AND (jsonb_array_length(options) <= 40))) NOT VALID"
+        },
+        {
+          "name": "order_items_order_id_fkey",
+          "table": "order_items",
+          "definition": "FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE"
+        },
+        {
+          "name": "order_items_pkey",
+          "table": "order_items",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "order_items_qty_check",
+          "table": "order_items",
+          "definition": "CHECK (((qty >= 1) AND (qty <= 50)))"
+        },
+        {
+          "name": "cash_allocation_consistent",
+          "table": "orders",
+          "definition": "CHECK ((((cash_allocation_version IS NULL) AND (cash_platform_share IS NULL) AND (cash_driver_delivery_share IS NULL) AND (cash_allocation_reference IS NULL)) OR ((cash_allocation_version = 1) AND (cash_platform_share IS NOT NULL) AND (cash_driver_delivery_share IS NOT NULL) AND (cash_allocation_reference IS NOT NULL) AND (cash_platform_share >= (0)::numeric) AND (cash_driver_delivery_share >= (0)::numeric) AND ((cash_platform_share + cash_driver_delivery_share) = delivery_fee))))"
+        },
+        {
+          "name": "orders_cancel_note_check",
+          "table": "orders",
+          "definition": "CHECK (((cancel_note IS NULL) OR (char_length(cancel_note) <= 200)))"
+        },
+        {
+          "name": "orders_cancel_reason_check",
+          "table": "orders",
+          "definition": "CHECK (((cancel_reason IS NULL) OR (cancel_reason = ANY (ARRAY['out_of_stock'::text, 'too_busy'::text, 'closing'::text, 'other'::text]))))"
+        },
+        {
+          "name": "orders_cancelled_by_check",
+          "table": "orders",
+          "definition": "CHECK (((cancelled_by IS NULL) OR (cancelled_by = ANY (ARRAY['store'::text, 'customer'::text, 'staff'::text]))))"
+        },
+        {
+          "name": "orders_customer_id_fkey",
+          "table": "orders",
+          "definition": "FOREIGN KEY (customer_id) REFERENCES profiles(id)"
+        },
+        {
+          "name": "orders_delivery_photo_check",
+          "table": "orders",
+          "definition": "CHECK (((delivery_photo IS NULL) OR (char_length(delivery_photo) <= 300)))"
+        },
+        {
+          "name": "orders_driver_id_fkey",
+          "table": "orders",
+          "definition": "FOREIGN KEY (driver_id) REFERENCES profiles(id)"
+        },
+        {
+          "name": "orders_fee_waived_check",
+          "table": "orders",
+          "definition": "CHECK ((fee_waived >= (0)::numeric))"
+        },
+        {
+          "name": "orders_group_id_fkey",
+          "table": "orders",
+          "definition": "FOREIGN KEY (group_id) REFERENCES group_orders(id) ON DELETE SET NULL"
+        },
+        {
+          "name": "orders_hh_discount_check",
+          "table": "orders",
+          "definition": "CHECK ((hh_discount >= (0)::numeric))"
+        },
+        {
+          "name": "orders_pkey",
+          "table": "orders",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "orders_points_used_check",
+          "table": "orders",
+          "definition": "CHECK ((points_used >= 0))"
+        },
+        {
+          "name": "orders_points_value_check",
+          "table": "orders",
+          "definition": "CHECK ((points_value >= (0)::numeric))"
+        },
+        {
+          "name": "orders_store_id_fkey",
+          "table": "orders",
+          "definition": "FOREIGN KEY (store_id) REFERENCES stores(id)"
+        },
+        {
+          "name": "orders_substitution_check",
+          "table": "orders",
+          "definition": "CHECK ((substitution = ANY (ARRAY['call'::text, 'replace'::text, 'remove'::text])))"
+        },
+        {
+          "name": "orders_wallet_used_check",
+          "table": "orders",
+          "definition": "CHECK ((wallet_used >= (0)::numeric))"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "file": "worker/index.js",
+    "sha256": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c",
+    "bytes": 5503
+  },
+  {
+    "file": "public/driver.html",
+    "sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+    "bytes": 64728
+  },
+  {
+    "file": "public/manifest.json",
+    "sha256": "58bf84194750ecbf54b76391749b961c7a1294e29f31378a5dc2664457dc59b0",
+    "bytes": 6330
+  },
+  {
+    "file": "public/admin.html",
+    "sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+    "bytes": 132461
+  },
+  {
+    "file": "public/safari-check.html",
+    "sha256": "c81db68df06d608ce0db0cc6566de887b820a489f38cadce8e0596e06eecf00a",
+    "bytes": 4556
+  },
+  {
+    "file": "public/index.html",
+    "sha256": "758f609ee07903a63a35587e1198e1701854f8b7adb4577c6f746d3a75fee7b7",
+    "bytes": 658
+  },
+  {
+    "file": "public/review.html",
+    "sha256": "e637b78f57458f92327319dedfc852f84d24c5338cb4d48480e468bf952d2823",
+    "bytes": 4779
+  },
+  {
+    "file": "public/merchant.html",
+    "sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+    "bytes": 78250
+  },
+  {
+    "file": "public/talabat-core.js",
+    "sha256": "d04d82649abe6590ffa6a5254f29026f876bfedacc4ba7c4a6a6e1a03240131a",
+    "bytes": 168976
+  },
+  {
+    "file": "public/customer.html",
+    "sha256": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+    "bytes": 550279
+  },
+  {
+    "file": "public/assets/mobile.js",
+    "sha256": "a35ef0e6d8e0eb7f79ac4fd387e170fcda0006c87a51b8bf36254110f5f0283b",
+    "bytes": 922
+  },
+  {
+    "file": "public/assets/mfa.js",
+    "sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+    "bytes": 8627
+  },
+  {
+    "file": "public/assets/admin-finance/admin-finance.js",
+    "sha256": "10646ef7202b21080d9e3bf8cb8619a3d06ae617c763abf650ae0b69883c45f9",
+    "bytes": 13133
+  },
+  {
+    "file": "public/assets/finance-receipt/receipt.js",
+    "sha256": "bb183a4e57e24db4edf11041b9f1b4d1d024ddfeb55f30a0591963d069a28167",
+    "bytes": 6572
+  },
+  {
+    "file": "public/assets/vendor/supabase-2.117.2.js",
+    "sha256": "59d39487c3589843b410322d8a3d562ce022aba1e5ccb16898ef3fb2a0da2ecd",
+    "bytes": 217945
+  },
+  {
+    "file": "public/assets/driver-returns/panel.js",
+    "sha256": "282464636ea7b572582e235d50c88d1a9f620b605d14dba71733a1ca6c1f3450",
+    "bytes": 9916
+  }
+]

@@ -1,3 +1,25 @@
+# Current continuation24 — work remains open
+
+Application .24 source7060283f2166390abab4291aa7d95cb9ba721e45 hosting34 deployed2026-11-07T18:21:27.950632Z. Test database fsvrsvqfknogwmhccera only. See continuation24/publication.json and REPORT.md.
+
+New six bounded repairs: raw RPC detail; boot error-page local-only logout; customer inline-handler entity escape; late proof download after clear; passive signout residual UI; nonfinite cash delivery (live DB migration pilot_delivery_cash_finite_guard, rollback before/after proof). No general ASVS acceptance. Original2 failures remain;331 detailed triage available,122 executable-now/90 additional-test/119 externally-dependent whole closures. Independent work remains even in external rows.
+
+Browser runtime changed: old role tabs absent; current .24 login page verified only. Must use secure browserAuth for renewed credentials; no password extraction or reset. Synthetic MFA completion and live recovery remain unproved.
+
+All synthetic finite-cash rows rolled back; protected orders1/2 delivered/settled unchanged,3 delivered/cash40/unsettled. Do not create durable finance fixtures to bypass prior rejection. Do not repeat successful tests unrelated to changed source.
+
+Next: continue per-ID actions, current finance numeric input constraints/write paths, complete source evidence persistence and independent reviewer package. .24 source and runtime tests exist; full live UI allowed-session regression awaits secure login. No source of production read or mutation authorized.
+
+Historical resume preserved below.
+
+Latest review evidence commit1df637e84def77a33cfb14e3004fdc49b2935510. Application remains .22.
+
+## Latest review checkpoint on .22
+
+See continuation23/UNIFIED-STATUS.md. New rollback-only permission-lifecycle case passed; V17 applicability reviewed; matrix retained345 IDs/253 L1+L2 and now331untested/2failed/12not-applicable. No new release. Four live workstreams have exact blockers recorded; other technical work remains open and is not labelled externally blocked.
+
+Latest GitHub evidence checkpoint: a5f48adb67c6f7c6f1e1c64d91979e6687a50ddd.
+
 ## Current .22
 
 Source4c78c739cd65c53746b07db6426cf5f66f178d8a; hosting32; deploymentappgdep_6aef4245e3288191a1d08a9323c9c3d5 succeeded2026-11-07T15:23:04.612543Z. Secure request-ID compatibility repaired/tested in three paths; new read-only public table/policy inventory recorded. See continuation22/REPORT.md. .21 accountant-session proof preserved without retest. No database writes this continuation. No security acceptance.

@@ -1,0 +1,114 @@
+[
+  {
+    "results": [
+      {
+        "field": "menu_price",
+        "input": "NaN",
+        "stored": "NaN",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "menu_price",
+        "input": "Infinity",
+        "stored": "Infinity",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "menu_price",
+        "input": "-Infinity",
+        "stored": null,
+        "outcome": "new row for relation \"menu_items\" violates check constraint \"menu_items_price_check\""
+      },
+      {
+        "field": "menu_price",
+        "input": "-1",
+        "stored": null,
+        "outcome": "new row for relation \"menu_items\" violates check constraint \"menu_items_price_check\""
+      },
+      {
+        "field": "menu_price",
+        "input": "0",
+        "stored": "0",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "menu_price",
+        "input": "10.25",
+        "stored": "10.25",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_base",
+        "input": "NaN",
+        "stored": "NaN",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_base",
+        "input": "Infinity",
+        "stored": "Infinity",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_base",
+        "input": "-Infinity",
+        "stored": null,
+        "outcome": "bad_value"
+      },
+      {
+        "field": "fee_base",
+        "input": "-1",
+        "stored": null,
+        "outcome": "bad_value"
+      },
+      {
+        "field": "fee_base",
+        "input": "0",
+        "stored": "0",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_base",
+        "input": "10.25",
+        "stored": "10.25",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_per_km",
+        "input": "NaN",
+        "stored": "NaN",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_per_km",
+        "input": "Infinity",
+        "stored": "Infinity",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_per_km",
+        "input": "-Infinity",
+        "stored": null,
+        "outcome": "bad_value"
+      },
+      {
+        "field": "fee_per_km",
+        "input": "-1",
+        "stored": null,
+        "outcome": "bad_value"
+      },
+      {
+        "field": "fee_per_km",
+        "input": "0",
+        "stored": "0",
+        "outcome": "accepted_then_rolled_back"
+      },
+      {
+        "field": "fee_per_km",
+        "input": "10.25",
+        "stored": "10.25",
+        "outcome": "accepted_then_rolled_back"
+      }
+    ]
+  }
+]

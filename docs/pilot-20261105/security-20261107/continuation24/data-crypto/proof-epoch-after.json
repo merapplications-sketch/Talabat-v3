@@ -1,0 +1,12 @@
+{
+  "result": "pass",
+  "cases": [
+    "overlapping_old_and_new_epoch",
+    "normal_authorized_completion",
+    "clear_revokes_current_url",
+    "fresh_epoch_completion",
+    "late_resolution_after_clear"
+  ],
+  "objectURLsCreated": 2,
+  "objectURLsRevoked": 2
+}

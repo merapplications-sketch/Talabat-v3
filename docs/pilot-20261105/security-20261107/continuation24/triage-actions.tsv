@@ -1,0 +1,331 @@
+V1.1.1	N	Trace URL/form/JSON decoding order and test percent/entity double-encoding at each actual boundary.	Canonicalization order and once-only decoding across all input boundaries.
+V1.1.2	N	Extend the renderer inventory beyond repaired handlers and verify escaping immediately before each sink.	All final interpreter contexts outside the repaired admin handlers.
+V1.2.1	N	Exercise HTML text/attribute/comment, CSS and response-header sinks with harmless delimiter fixtures.	Context-specific output encoding outside the bounded handler suite.
+V1.2.2	N	Inventory href/src/API URL builders and test encoded path/query values plus disallowed schemes.	Dynamic URL components and protocol allowlists across every navigation/resource path.
+V1.2.3	N	Enumerate dynamic handlers and JSON-in-script emitters; test quotes, slashes and line separators offline.	Remaining JavaScript/JSON sinks beyond SEC-003's13 cases.
+V1.2.4	N	Trace every query-producing client/server entry to bound parameters; inspect the remaining static function bodies.	Complete query surface review beyond the one reviewed dynamic EXECUTE site.
+V1.2.5	N	Inventory server and build command launch sites; establish application applicability and inspect arguments where present.	Evidence that application-controlled input cannot reach an OS command interpreter.
+V1.2.6	N	Search application dependencies and service inventory for LDAP usage; record applicability or inspect bind/query escaping.	LDAP applicability determination, not an assumed no-LDAP result.
+V1.2.7	N	Inventory XML/XPath query use and dependencies; if present, exercise parameterized expressions offline.	XPath applicability and parameter binding evidence.
+V1.2.8	N	Check report/export/build paths for LaTeX processors and shell-escape settings; resolve applicability.	LaTeX processing inventory and command allowlisting if used.
+V1.2.9	N	Find dynamic RegExp construction and test literal user punctuation against intended matching behavior.	All user-derived regex patterns and escaping at construction.
+V1.2.10	N	Exercise every CSV/spreadsheet exporter with leading formula characters, quotes, commas and newlines.	Formula-neutralization and RFC4180 behavior for each export column.
+V1.3.1	N	Identify rich-HTML/editor inputs and their render paths; test sanitizer policy or document confirmed absence.	HTML sanitization coverage and actual rich-content applicability.
+V1.3.2	N	Inspect eval/Function/string-timer and expression-engine call sites, including loaded modules.	Complete dynamic-code inventory and proof that untrusted values cannot be executed.
+V1.3.3	N	Map each dangerous sink to its type/length/character guard and test boundary values offline.	Context-specific sanitization and maximum lengths at remaining sinks.
+V1.3.4	T	Check accepted SVG paths and test harmless scriptable SVG rejection on a disposable upload path.	Trusted-side SVG handling; client JPEG conversion alone is insufficient.
+V1.3.5	N	Inventory Markdown/CSS/template-like input support and test allowed expression/tag grammar offline.	Scriptable content handling across stored text and configurable pages.
+V1.3.6	N	Complete outbound-call inventory through dependencies/configuration and test URL allowlist logic locally if present.	Complete untrusted URL-to-server-call coverage beyond Worker/SQL/Edge-function inventory.
+V1.3.7	N	Trace template compilation and HTML assembly inputs; test literal delimiters without executing remote payloads.	Whether untrusted values can alter template syntax rather than only rendered values.
+V1.3.8	N	Check application/runtime inventory for Java/JNDI; determine applicability before any query tests.	JNDI use or evidenced absence within the application boundary.
+V1.3.9	N	Inspect service/cache inventory for memcache and its serialization paths; determine applicability.	Memcache command-boundary controls if such a service exists.
+V1.3.10	N	Inventory format-string interpolation and logging/SQL formatting calls; test format delimiters as data.	All attacker-influenced format strings and argument separation.
+V1.3.11	N	Trace reset/notification mail construction and identify custom SMTP/IMAP commands versus provider APIs.	Mail header/command injection handling and delegated provider boundary.
+V1.3.12	N	Inventory regexes accepting untrusted input; run short bounded adversarial strings in offline tests with time limits.	Worst-case regex complexity without production load testing.
+V1.4.1	N	Inventory native/WASM parsers and memory-safe boundaries; document applicable modules and existing assurance evidence.	Memory-safety coverage of non-JavaScript dependencies and parsers.
+V1.4.2	N	Test numeric boundaries for amounts, quantities, timestamps and image dimensions in local/rollback fixtures.	Overflow/precision behavior beyond previously repaired decimal paths.
+V1.4.3	N	Inspect object URL, timer, listener and stream cleanup paths and test teardown with stubbed resources.	Resource release after failures, signout and repeated UI mounting.
+V1.5.1	N	Locate XML/SVG parser entry points and external-entity settings; determine actual XML parser applicability.	Restrictive XML configuration at all enabled parsers.
+V1.5.2	N	Inspect JSON/deserialization boundaries for type allowlists and prototype-sensitive merges; test malformed types locally.	Safe object-type acceptance across RPC and frontend deserializers.
+V1.5.3	T	Build duplicate-key/Unicode/path-encoding differential cases for browser, Worker, REST and PostgreSQL parsers.	Cross-parser consistency; isolated one-parser tests cannot close this requirement.
+V2.1.1	N	Extract field formats/ranges from RPC validators and reconcile them into an explicit validation catalogue.	Documented formats for all accepted fields, including phone, amounts and identifiers.
+V2.1.2	N	Document order/store/customer/address and financial-field consistency rules from current server code.	Cross-field consistency rules distinct from single-field validation.
+V2.1.3	N	Inventory per-user/global order, promo, chat, upload and financial limits; separate approved rules from gaps.	One authoritative limits catalogue with actual scope and units.
+V2.2.1	T	Generate boundary cases from the validation catalogue and execute safe rollback fixtures for uncovered RPC inputs.	All server-side input ranges/patterns, not just finance and phone examples.
+V2.2.2	T	Bypass client validation in dedicated fixtures and compare server rejection with allowed controls.	Trusted-layer enforcement for every input surface, especially files.
+V2.2.3	T	Exercise inconsistent related fields in rollback-only fixtures while preserving protected orders.	Cross-field checks for remaining store/order/options/address combinations.
+V2.3.1	T	Exercise each uncovered state transition and skipped-stage attempt on dedicated rollback fixtures.	Remaining branches beyond approved first-cash/return and settlement evidence.
+V2.3.2	T	Test documented quantity/value/frequency boundaries in bounded synthetic cases, reusing prior limit results.	Coverage of each business limit and its per-user/global scope.
+V2.3.3	T	Extend fault injection to uncovered multi-write operations and assert complete rollback without committed money.	Atomicity for operations beyond existing refund/settlement exception tests.
+V2.3.4	B	Review prepared two-connection settlement/refund scripts; do not execute rejected persistent fixture setup.	Actual overlapping transactions for settlement/refund and other scarce resources; prior wallet overlap is narrower.
+V2.3.5	B	Ask owner to define which high-value actions require two-person approval and thresholds, then test a synthetic workflow.	Approved separation-of-duties policy; changing accounting/approval rules is not authorized by inference.
+V2.4.1	B	Map each expensive endpoint to application quotas and provider enforcement; obtain inaccessible edge/cost controls.	End-to-end abuse/cost enforcement including direct Supabase paths, not local sampling or billing alerts.
+V2.4.2	T	Test bounded double-submit and short-interval actions on disposable fixtures against documented timing rules.	Server timing limits and normal-user tolerance across remaining high-value flows.
+V3.1.1	N	Draft capability requirements from deployed code and documented fallback behavior; mark device support provisional.	Security-feature support policy distinct from an untested minimum device list.
+V3.2.1	T	Inspect direct API/file loads with documented contexts and verify MIME, disposition and sandbox behavior.	Direct-load behavior across API, proof, public media and error resources.
+V3.2.2	N	Inventory user-text rendering and exercise literal HTML markers through each renderer offline.	All text-only sinks, beyond repaired dynamic handlers.
+V3.2.3	N	Test named elements and duplicate IDs against explicit globals/namespace lookups in extracted UI fixtures.	DOM clobbering resistance across dynamic UI construction.
+V3.3.1	T	Inventory application/provider cookies with names and flags only, then verify Secure and prefix semantics.	Complete cookie inventory and flag behavior; token values must not be recorded.
+V3.3.2	T	Map each cookie's purpose to SameSite behavior and test cross-origin browser contexts where applicable.	Purpose-specific SameSite choices and actual CSRF implications.
+V3.3.3	T	Verify cookie host/domain scope and __Host- use, documenting any intentional cross-host exception.	Evidence for every cookie's prefix and Domain/Path scope.
+V3.3.4	T	Identify cookies inaccessible to scripts and check header-only delivery without revealing credential values.	HttpOnly and delivery-channel evidence for every sensitive cookie.
+V3.3.5	N	Review code-written cookie length bounds and local oversized-value handling, then identify provider-owned cookies.	Combined name/value size limits and failure behavior for each cookie writer.
+V3.4.1	B	Reuse application HSTS results and obtain managed edge/provider error-response coverage without load tests.	All response classes, including inaccessible provider-generated responses and subdomain scope.
+V3.4.2	T	Run bounded allowed/disallowed Origin cases on documented test API endpoints and classify public responses.	Actual CORS behavior and sensitive response scope across APIs.
+V3.4.3	T	Extend CSP verification to all resource classes and browser enforcement; preserve prior header/receiver evidence.	Trusted-resource allowlist completeness and effective enforcement beyond minimum-policy repair.
+V3.4.4	T	Check nosniff on remaining file/API/error response classes and MIME mismatch behavior.	Coverage outside already measured customer/core/missing-route responses.
+V3.4.5	N	Inventory referrer policy and outbound links; test safe URL fixtures for path/query leakage.	Sensitive URL/referrer handling across external maps, images and links.
+V3.4.6	T	Verify frame-ancestors on remaining document/file responses and attempted embedding in a local harness.	Actual anti-framing coverage beyond existing X-Frame-Options or source declarations.
+V3.4.7	T	Trigger one controlled browser CSP violation and correlate report receipt without exposing user data.	Automatic browser delivery; direct report POST204 alone is insufficient.
+V3.4.8	T	Check remaining HTML response classes for COOP and verify window isolation in a controlled harness.	Document-rendering responses outside previously checked application pages.
+V3.5.1	T	Test cross-origin form/simple-request access to synthetic sensitive actions without committing financial state.	CSRF rejection across all sensitive endpoints not relying on preflight.
+V3.5.2	T	For endpoints relying on preflight, try allowed simple content types and omitted custom headers in bounded tests.	Proof that preflight cannot be bypassed by simple requests.
+V3.5.3	T	Inspect route method constraints and test safe-method rejection on sensitive endpoints with rollback fixtures.	No state-changing effect through GET/HEAD/OPTIONS or inappropriate navigation context.
+V3.5.4	B	Document same-origin role applications and their isolation controls; obtain owner architecture decision before hostname changes.	Approved hostname-isolation design; same-origin namespace separation is not this requirement's complete control.
+V3.5.5	N	Locate postMessage listeners and test untrusted origin/schema cases locally or document confirmed absence.	Origin and payload validation for every message listener.
+V3.5.6	N	Search loaded source/routes for JSONP callbacks and executable JSON responses; validate applicability.	Complete JSONP absence or disabled route evidence.
+V3.5.7	N	Inspect every emitted script/build asset for runtime user-data injection and per-user script responses.	No authorized data in script resources beyond bounded secret-pattern scans.
+V3.5.8	T	Test unintended cross-origin inclusion of proof/API resources using synthetic data and documented fetch contexts.	Resource embedding protections across authenticated media and documents.
+V3.6.1	N	Reconcile each external static asset with pinned URL, SRI hash and fallback behavior; reuse prior Leaflet work.	Complete external asset inventory and per-resource exceptions, not one library's SRI.
+V3.7.1	N	Inventory client technology tags/dependencies and compare supported technology usage with maintained runtimes.	Evidence that no obsolete embedded client technology remains.
+V3.7.2	N	Trace automatic redirect destinations and test untrusted host/scheme values in local routing fixtures.	Every automatic external redirect and its allowlist.
+V3.7.3	N	Inventory user-facing external navigation flows and inspect notification/cancel behavior before automatic redirects.	External redirection consent/notification behavior, not merely safe URL encoding.
+V3.7.4	B	Obtain current HSTS preload status for the hosting domain and provider control/commitment for changes.	Provider-owned domain preload coverage; the application owner cannot assume control of chatgpt.site.
+V3.7.5	B	Run the documented capability-failure cases on actual older iPhone/Android browsers when devices are available.	Physical browser security-feature behavior; viewport and offline simulations do not prove compatibility.
+V4.1.1	T	Compare actual bytes, Content-Type and charset for remaining HTML/JSON/image/error response classes.	Type/charset correctness across all response bodies, not source configuration alone.
+V4.1.2	T	Use credential-free bounded HTTP requests to distinguish UI HTTPS redirects from API rejection behavior.	Insecure-scheme behavior of each UI/API endpoint without transmitting credentials.
+V4.1.3	B	Obtain provider trust-boundary configuration for forwarded identity/IP headers; inspect app consumption separately.	Whether edge-set headers can be overwritten before trusted authorization/rate decisions.
+V4.1.4	T	Probe explicitly unsupported HTTP methods on test endpoints without business-state mutation.	Method allowlists across Worker, REST, Auth and Storage surfaces.
+V4.1.5	B	Determine whether approved high-sensitivity cross-system transactions require message signatures; obtain interface policy.	Applicability and approved signing expectations without inventing external payment integrations.
+V4.2.1	B	Request intermediary HTTP framing assurance or an isolated provider-approved test environment.	End-to-end framing across managed proxies; no smuggling/load probes against external production infrastructure.
+V4.2.2	N	Inspect application-generated Request/Response framing and test local conflicting length cases offline.	Generated message length consistency, with provider serialization still separately scoped.
+V4.2.3	B	Obtain managed HTTP2/3 connection-header validation evidence; do local header-construction checks meanwhile.	Protocol-edge enforcement beyond Worker source visibility.
+V4.2.4	B	Obtain provider validation of CR/LF in HTTP2/3 headers; locally inspect application header construction.	Raw protocol rejection evidence from inaccessible managed ingress.
+V4.2.5	N	Identify URI/header builders and test oversized input handling locally against documented receiver limits.	Bounded outgoing URL/header lengths and secure failure paths.
+V4.3.1	T	Inventory exposed GraphQL endpoints/configuration and execute only small bounded query-limit cases if enabled.	GraphQL applicability plus depth/cost/amount limits; no expensive query stress.
+V4.3.2	B	Confirm test GraphQL introspection configuration and record production configuration as out of scope.	Production-introspection setting cannot be certified by test-only evidence.
+V4.4.1	N	Trace configured Realtime/WebSocket URLs and reject ws or downgrade paths in source-level fixtures.	All websocket construction paths and fallback protocol choices.
+V4.4.2	T	Test one allowed and one disallowed Origin handshake with a synthetic session through permitted tooling.	Actual Realtime handshake Origin enforcement.
+V4.4.3	T	Identify whether standard Auth JWT or dedicated websocket tokens are used and test their relevant lifecycle.	WebSocket token type, validation and lifecycle coverage.
+V4.4.4	T	Trace HTTPS-session-to-Realtime handoff and test unauthenticated subscription initialization.	Authenticated bootstrap binding for each Realtime channel.
+V5.1.1	N	Create an upload/download policy per media/proof route using existing limits and identify unsafe-content decisions.	File-type/size/disposition/malware policy complete enough to test without inventing rules.
+V5.2.1	T	Bypass client limits with bounded disposable uploads near the server limit and verify clean rejection.	Server-enforced size/resource limits beyond .18 client checks.
+V5.2.2	T	Use harmless mislabeled image bytes in disposable storage fixtures and verify trusted-side content validation.	Actual content-to-type checking; MIME metadata or client re-encoding alone is insufficient.
+V5.2.3	N	Confirm archive-upload/decompression routes and libraries; if absent prepare applicability evidence.	Whether archive processing exists and, if so, pre-expansion count/size limits.
+V5.2.4	T	Inspect quota implementation and test small synthetic boundary fixtures without filling storage.	Per-user count/aggregate-byte quotas and races at the quota boundary.
+V5.2.5	N	Inventory archive acceptance and symlink extraction behavior using local benign archives if applicable.	Symlink rejection or documented supported targets.
+V5.2.6	T	Test server handling of a tiny encoded image declaring excessive dimensions on a disposable path.	Trusted-side pixel cap; local dimension guards are bypassable.
+V5.3.1	T	Upload a harmless non-executable marker file to an authorized disposable path and inspect direct response behavior.	Stored content served as inert bytes with no server execution surface.
+V5.3.2	T	Test path canonicalization/ownership with traversal-like names on synthetic storage objects only.	All upload and download path boundaries beyond existing proof owner access cases.
+V5.3.3	N	Identify server file extraction/path resolution code and run local nested-path fixtures if present.	Zip-slip applicability and trusted extraction root enforcement.
+V5.4.1	T	Check download Content-Disposition against synthetic user filenames and absent/invalid name parameters.	Server-selected safe download filenames across media/export/proof paths.
+V5.4.2	N	Test filename encoding helpers with quotes, CR/LF and Unicode; then identify delegated provider disposition paths.	Header-safe filename encoding and RFC6266 behavior.
+V5.4.3	B	Obtain the storage malware-scanning control and an approved isolated validation method before any malware-test fixture.	Malware scanner availability/coverage; no paid scanner activation or real malware upload authorized.
+V6.1.1	N	Document actual Auth rate limits, account/IP scope and lockout recovery from available test settings/evidence.	Credential-abuse policy including avoidance of malicious lockout.
+V6.1.2	B	Ask owner to approve a context-word denylist without imposing a new customer login rule silently.	Business-owned prohibited password vocabulary and scope.
+V6.1.3	N	Catalogue password, recovery, MFA, provider and role entry paths and link their server controls.	Complete authentication-path inventory and expected assurance consistency.
+V6.2.1	B	Check configured minimum and prepare synthetic registration/change boundary cases for manual secure entry.	Live password length acceptance without changing protected credentials.
+V6.2.2	B	Exercise synthetic password change through secure user entry and verify fresh login afterward.	Actual password-change journey, not reset UI source alone.
+V6.2.3	B	Test synthetic password-change reauthentication requirement with secure credential entry by user.	Current-password/reauth verification on ordinary change versus recovery.
+V6.2.4	B	Check provider common-password controls and arrange safe synthetic secure-entry cases; do not activate paid features.	Actual top3000 rejection and configured policy applicability.
+V6.2.5	B	Prepare Unicode/space/symbol password cases for manual synthetic registration/change without disclosing values.	Live composition acceptance and absence of unsupported mandatory character classes.
+V6.2.6	N	Inspect all password/recovery fields and test masking/show-hide behavior using noncredential local dummy strings.	Masking across all entry forms and accessibility state.
+V6.2.7	N	Inspect paste/autocomplete restrictions and test dummy-value paste in a local auth form harness.	Password-helper/paste usability across all credential fields.
+V6.2.8	N	Trace password values to SDK calls and test dummy leading/trailing spaces, Unicode and case locally.	No client normalization/truncation; provider exact-match behavior remains a live subtest.
+V6.2.9	B	Arrange secure synthetic64+character password entry and login boundary tests through user-controlled setup.	Provider acceptance of long passwords without truncation.
+V6.2.10	B	Obtain actual Auth credential-expiry/forced-rotation policy and validate it against owner-approved behavior.	Provider-enforced password validity policy over time.
+V6.2.11	B	After owner approves context-word policy, configure/test only the synthetic scope using secure entry.	Enforcement of the not-yet-approved context-specific denylist.
+V6.2.12	B	Confirm leaked-password protection availability/cost and obtain approval before enabling any paid feature.	Actual breached-password rejection; current advisor says protection disabled.
+V6.3.1	T	Use a small approved synthetic attempt budget to verify documented throttles, stopping on the first limit response.	Observed credential-abuse enforcement without lockout loops or flooding.
+V6.3.2	N	Inventory seeded/default account definitions and privileged grants without reading passwords or altering the protected five.	Default-account disposition and absence of usable vendor defaults.
+V6.3.4	N	Compare implemented auth routes with the path catalogue and inspect unlisted alternate endpoints.	Uniform controls across all actual login/recovery/MFA paths.
+V6.3.5	B	Select an owner-approved alert recipient/channel and deliver one labelled synthetic suspicious-login notification.	Actual user notification receipt/acknowledgement rather than audit-log availability.
+V6.3.6	N	Identify whether email is only an identifier/recovery channel or an authentication factor; document the exact boundary.	Authentication-method applicability and any email-factor exception requiring risk decision.
+V6.3.7	B	Use controlled test mailbox and user-authorized synthetic credential update to prove notification delivery.	Receipt of credential-change notifications without changing protected accounts.
+V6.3.8	T	Compare one known synthetic and one nonexistent identity response with a small bounded sample; avoid enumeration loops.	Login/registration/reset message, status and timing indistinguishability.
+V6.4.1	B	Identify generated activation secrets and prepare user-mediated single-use/expiry tests with a deliverable test mailbox.	Actual generated initial-secret lifetime/strength and mandatory replacement.
+V6.4.2	N	Inspect all recovery/UI/provider-enabled methods for password hints or security questions.	Complete absence or secure removal decision for knowledge-based recovery.
+V6.4.3	B	After synthetic MFA enrollment and controlled mailbox exist, perform reset and verify MFA still gates sensitive access.	Live reset delivery/token lifecycle and non-bypass of enabled MFA.
+V6.4.4	B	Have owner define independent identity proofing for lost-factor recovery, then exercise it on the synthetic account.	Approved identity-proofing procedure and its actual recovery result.
+V6.4.5	B	Inventory expiring factors and obtain notification recipient/policy to test advance renewal delivery if applicable.	Factor-expiry applicability and timely renewal instruction receipt.
+V6.4.6	B	Exercise admin-initiated reset against a controlled mailbox using user secure entry, without administrator choosing a password.	End-to-end separation between reset initiation and user-selected credential.
+V6.5.1	B	After user enrolls synthetic MFA, test one authorized replay/used-code rejection without recording codes.	Live one-time-use behavior for the enabled OTP/lookup mechanisms.
+V6.5.2	B	Obtain provider assurance/configuration for lookup-secret storage, without reading secrets or hashes.	Provider-owned low-entropy secret hashing/salt implementation.
+V6.5.3	B	Obtain provider generation assurance and code path for MFA/OOB seeds; do not export seed values.	CSPRNG provenance of provider-generated authentication secrets.
+V6.5.4	B	Inspect configured OOB code lengths/alphabet through metadata and provider documentation for enabled mechanisms.	Actual configured code entropy, not a UI field length assumption.
+V6.5.5	B	After synthetic factor/mailbox setup, verify expiry boundaries using user-entered codes and provider configuration.	Live OOB/TOTP lifetimes and boundary rejection.
+V6.5.6	B	Have user revoke only the synthetic factor through supported secure UI and verify its reuse is denied.	Actual factor revocation and remaining-session behavior.
+V6.5.7	N	Inventory biometric/passkey support and distinguish device-unlock convenience from an application factor.	Biometric applicability and factor-combination policy.
+V6.5.8	B	Obtain provider trusted-time behavior and test a synthetic OTP time-window boundary after enrollment.	Server-based TOTP timing and resistance to client-supplied time.
+V6.6.1	N	Inventory enabled phone/SMS factors and documented alternatives; do not activate SMS or change customer login.	PSTN applicability, prior phone verification and risk/alternative requirements.
+V6.6.2	B	With a controlled mailbox/factor, test code binding across two dedicated synthetic authentication transactions.	OOB transaction binding and rejection across requests.
+V6.6.3	B	After approved code-entry setup, make only bounded invalid-code attempts and verify throttling without lockout loops.	OOB brute-force control behavior for enabled delivery methods.
+V6.6.4	N	Inventory push-MFA support and determine applicability before planning any notification attempt.	Whether push MFA exists and, if so, its anti-bombing design.
+V6.7.1	B	Identify assertion-validation certificates and obtain provider access-control evidence for their storage.	Integrity protection of provider-owned cryptographic authentication keys/certificates.
+V6.7.2	B	Identify enabled cryptographic authenticators and obtain nonce generation/length assurance without secret extraction.	Actual challenge nonce entropy and uniqueness for applicable authenticators.
+V6.8.1	N	Inventory enabled identity providers and account-linking keys; inspect subject namespace handling.	IdP-specific uniqueness and whether multiple IdPs are in scope.
+V6.8.2	T	Prepare bounded invalid-signature assertion tests using synthetic nonsecret tokens through permitted clients.	Rejection at each consuming service, not SDK presence or SQL claim stubs.
+V6.8.3	N	Establish whether SAML is enabled and inventory assertion-consumption routes before planning replay tests.	SAML applicability and unique-consumption design.
+V6.8.4	T	Map each sensitive action to required AAL/AMR/recency and extend live synthetic tests after factor setup.	Consistent assurance enforcement across all sensitive actions beyond SQL AAL cases.
+V7.1.1	B	Ask owner to approve inactivity/absolute-session policy and risk rationale; retain current30minute admin behavior.	Approved lifetimes for each role and documented deviations; do not change customer login silently.
+V7.1.2	B	Ask owner to define allowed concurrent-session count and overflow behavior without terminating existing users.	Concurrent-session policy needed before testing enforcement.
+V7.1.3	N	Map session authorities for app, Supabase and any enabled federated IdP, including revocation propagation.	Complete authority/lifecycle documentation and federation applicability.
+V7.2.1	T	Exercise synthetic invalid/expired sessions on each trusted API/Storage/Realtime boundary.	All server verification paths beyond tested SQL guards and selected HTTP cases.
+V7.2.2	N	Trace session creation/storage and distinguish user JWT/refresh tokens from public project keys.	Evidence all user session paths use dynamic credentials rather than static identifiers.
+V7.2.3	B	Obtain provider reference-token generation/entropy assurance; inspect metadata only, not token contents.	Provider-owned reference-token CSPRNG/128-bit strength if used.
+V7.2.4	B	Use two secure synthetic sign-in/reauth sessions and test new token issuance plus old-session termination.	Live rotation and previous-token invalidation without exposing tokens.
+V7.3.1	T	Exercise idle expiry on a dedicated role session after approved policy, checking server access independently of UI logout.	Server enforcement and real elapsed-time behavior beyond idle-handler unit checks.
+V7.3.2	B	Obtain approved absolute lifetime and provider settings, then execute a timed synthetic expiry test.	Absolute expiration independent of refresh/activity.
+V7.4.1	T	Extend synthetic logout/expiry tests to retained Auth, Storage and existing Realtime access using permitted diagnostics.	Cross-service invalidation; frontend logout or selected RPC denial is not sufficient.
+V7.4.3	B	After user-mediated synthetic password/factor change, test termination of all other dedicated sessions.	Live credential-change revocation option and effect.
+V7.4.4	N	Inspect each role's authenticated page/state for a visible reachable logout control, including modal/error states.	Logout accessibility throughout every protected UI surface.
+V7.4.5	B	Review administrative session-termination controls and obtain a safe scoped mechanism before broad revocation testing.	Individual/all-session administration; prior broad Auth deletion rejection must not be retried.
+V7.5.1	B	Use synthetic user-controlled reauthentication to test email/phone/factor changes against stale session attempts.	Reauthentication of all security-sensitive attribute changes; existing phone result is narrower.
+V7.5.2	B	Review session-list/revoke UI then exercise synthetic reauthenticated session removal by user.	User visibility and secure control over every active session.
+V7.5.3	B	Obtain owner-approved step-up scope for highly sensitive administrative transactions before changing workflow.	Approved sensitive-action assurance policy and live enforcement.
+V7.6.1	B	Obtain federation/session policy and provider configuration, then test expiry synchronization if federation is enabled.	RP/IdP termination coordination rather than independent timeout settings.
+V7.6.2	T	Inspect initial/recovery session bootstrap and test that a fresh session cannot be silently created by an unrelated page action.	Consent/explicit-action binding for all session-creation paths.
+V8.1.1	N	Produce role-by-operation-and-record rules from current RPC/RLS contracts and approved business agreements.	Complete function/data authorization specification, not a list of UI buttons.
+V8.1.2	N	Catalogue field-level read/write permissions for profiles, money, orders, files and administrative settings.	All sensitive field rules including state-dependent restrictions.
+V8.1.3	N	Inventory contextual inputs actually used for access decisions and document their trusted source or absence.	Explicit environmental/context attribute catalogue.
+V8.1.4	B	Obtain approval for contextual risk thresholds and allow/challenge/deny actions without introducing new customer requirements.	Owner-approved adaptive authorization policy.
+V8.2.1	T	Execute remaining valid-target RPC role cases with rollback fixtures, reusing completed guard tests.	Function permission matrix beyond guard-presence inventory and selected negative cases.
+V8.2.2	T	Test cross-user/store/driver record identifiers using dedicated fixtures and read/write positive controls.	Complete object-ownership matrix across records and files.
+V8.2.3	T	Test forbidden field changes and redacted read projections on synthetic records while retaining approved profile tests.	All field-level read/write restrictions, not table-level RLS alone.
+V8.2.4	B	After context policy is approved, test start-session and ongoing-session context changes on synthetic accounts.	Adaptive controls whose thresholds and behavior are not yet approved.
+V8.3.1	T	Map each client action to its server guard and bypass UI controls in remaining rollback-only cases.	Trusted-service authorization across all operations and storage paths.
+V8.3.2	T	Reuse .21/.23 finance revocation and permission-removal results; test remaining role/branch/object permission changes only.	Immediate effect across non-finance permissions and live subscriptions, without repeating closed finance cases.
+V8.3.3	N	Trace delegated calls and SECURITY DEFINER functions to ensure originating subject context is retained.	No privilege substitution by intermediary/service identities across all delegated paths.
+V8.4.1	T	Build dedicated cross-store/branch fixtures and verify isolation for reads, writes and bulk/export operations.	Tenant boundary coverage beyond ordinary owner checks.
+V8.4.2	B	Document administrative access layers and obtain owner/provider decisions for contextual/device controls.	Administrative multi-layer assurance beyond synthetic MFA and application role checks.
+V9.1.1	T	Use bounded synthetic tampered/unsigned JWT cases at Auth/REST/Storage/Realtime consumers without reading real tokens.	Signature/MAC rejection at every consuming service.
+V9.1.2	T	Test none/unexpected algorithm cases using synthetic token fixtures and inspect verifier allowlists.	Algorithm allowlist and asymmetric/symmetric confusion rejection.
+V9.1.3	T	Test synthetic untrusted jku/x5u/jwk headers and verify no external key source is followed.	Trusted issuer key-source binding at each token verifier.
+V9.2.1	T	Use synthetic expired/not-yet-valid token cases and actual provider-expired session evidence where available.	nbf/exp enforcement across services and clock boundaries.
+V9.2.2	T	Present wrong-purpose synthetic token types to each consumer and verify rejection.	Access/ID/recovery/logout token type separation.
+V9.2.3	T	Test synthetic wrong-audience tokens against intended resource services with positive controls.	Audience enforcement beyond issuer/signature checks.
+V9.2.4	B	Obtain issuer audience/key-sharing configuration and evaluate cross-audience signing boundaries.	Provider issuance policy when one key serves multiple audiences.
+V10.1.1	N	Trace where access/refresh tokens are delivered and stored, distinguishing direct SPA architecture from any BFF.	Minimum token distribution across actual components; BFF conditions must not be assumed.
+V10.1.2	T	Inventory enabled OAuth/OIDC flows and test transaction-bound state/PKCE/nonce with synthetic sessions if applicable.	User-agent/transaction binding for enabled delegated flows.
+V10.2.1	T	If code flow is enabled, test missing/mismatched state or verifier without changing the approved customer login method.	OAuth client CSRF defense or evidenced non-applicability.
+V10.2.2	N	Determine whether multiple authorization servers are configured and inspect issuer binding at callbacks.	Mix-up applicability and issuer consistency checks.
+V10.2.3	N	Inventory requested OAuth scopes and reconcile each with an implemented feature.	Least-scope necessity across any enabled OAuth clients.
+V10.3.1	T	Reuse token audience analysis and test applicable delegated resource endpoints with wrong-audience fixtures.	Resource-server audience acceptance for enabled OAuth use.
+V10.3.2	N	Inspect delegated authorization claims-to-permission mappings without trusting user-editable metadata.	Use of authenticated sub/scope/authorization_details where delegated authorization exists.
+V10.3.3	N	Inspect persistent user keys and issuer namespace handling across enabled token consumers.	Non-reassignable user identity under issuer/sub mapping.
+V10.3.4	T	Map sensitive resource actions to required assurance/recency and test unfulfilled claims in synthetic sessions.	Delegated-resource AAL/AMR/auth_time checks beyond SQL MFA fixture.
+V10.3.5	B	Determine OAuth applicability and obtain provider support/policy for sender-constrained tokens before changes.	DPoP/mTLS replay defense; bearer-token presence alone is neither compliance nor proof of exploitation.
+V10.4.1	T	Inspect configured redirect allowlists and test one harmless mismatched callback URI in the test provider.	Exact client-specific redirect URI matching.
+V10.4.2	B	After enabling an approved synthetic delegated flow, exercise one authorization-code replay with user-controlled login.	Single-use code enforcement and related-token revocation on reuse.
+V10.4.3	B	Obtain configured authorization-code lifetime and perform a timed synthetic flow if code grant is used.	Actual code expiry at L1/L2 limits, not generic provider documentation.
+V10.4.4	B	Determine whether application password Auth constitutes an in-scope OAuth client grant; document owner/provider decision before migration.	Grant applicability and approved legacy-grant treatment without changing customer login.
+V10.4.5	T	Extend permitted synthetic refresh replay cases after confirming current token-rotation/reuse settings.	Refresh-family replay behavior beyond banned-session refresh denial.
+V10.4.6	T	If code grant is enabled, test missing/plain/wrong PKCE values in dedicated synthetic flow.	Required S256 challenge and verifier validation at authorization/token endpoints.
+V10.4.7	N	Establish whether unauthenticated dynamic client registration is enabled before any client registration action.	Dynamic-registration applicability and metadata/consent controls if present.
+V10.4.8	B	Obtain actual absolute refresh lifetime configuration and an approved timed-session test boundary.	Absolute expiry independent of sliding refresh renewal.
+V10.4.9	B	Exercise supported synthetic user token-revocation UI after secure login; do not revoke protected sessions.	User-authorized revocation of refresh/reference tokens in applicable authorization server UI.
+V10.4.10	B	Identify confidential-client backchannels and obtain provider authentication configuration without exporting secrets.	Backchannel client authentication for each applicable request type.
+V10.4.11	B	Obtain configured client scope grants and compare with documented required scopes.	Authorization-server scope assignment, not just frontend requested scopes.
+V10.4.12	B	Obtain client response_mode allowlist and run harmless invalid-mode checks if applicable.	Server restriction of response modes for each enabled client.
+V10.4.13	B	Determine PAR applicability/support and obtain owner approval before any authentication architecture change.	PAR use for applicable code grants; no silent new user-login condition.
+V10.4.14	B	Obtain provider DPoP/mTLS issuance capabilities and approved applicability decision for this level/scope.	Sender-constrained issuance for applicable authorization server.
+V10.4.15	N	Identify server-side OAuth clients/RAR usage and trace authorization_details provenance if present.	Applicable backend-origin integrity of rich authorization requests.
+V10.4.16	B	Determine confidential-client applicability and obtain provider client authentication capability/configuration.	Public-key replay-resistant client authentication for applicable client architecture.
+V10.5.1	T	If OIDC ID tokens are used, test a mismatched/reused nonce in an approved synthetic flow.	ID-token nonce binding and replay rejection.
+V10.5.2	N	Inspect OIDC user mapping and ensure user identifiers use stable issuer-scoped subject claims.	Applicable ID-token identity mapping and non-reassignment semantics.
+V10.5.3	N	Inspect OIDC metadata discovery issuer comparison against the preconfigured issuer; test mismatches locally.	Exact metadata issuer validation, if OIDC discovery is enabled.
+V10.5.4	T	Test wrong-audience ID token fixtures for applicable relying-party entry points.	ID token aud-to-client_id validation separate from access-token checks.
+V10.5.5	N	Inventory OIDC backchannel logout support; inspect type/events/nonce/expiry checks or establish absence.	Backchannel-logout applicability and cross-JWT confusion defenses.
+V10.6.1	B	Obtain actual OpenID Provider response-type/mode configuration if it is in scope.	Provider-side allowed OIDC flows; application source cannot certify provider configuration.
+V10.6.2	B	If RP-initiated logout exists, test synthetic consent/id_token_hint validation through approved user interaction.	Provider forced-logout mitigation for enabled flows.
+V10.7.1	B	Exercise consent only for an approved synthetic OAuth client and user; do not create new access grants without approval.	Actual consent behavior where client identity cannot be assured.
+V10.7.2	B	Review consent UI in an approved synthetic flow and compare displayed client/scopes/resources/duration to requested grant.	Complete human-readable delegated consent information.
+V10.7.3	B	Use approved synthetic consent to test review/modify/revoke UI without altering existing account grants.	Actual user management of delegated authorizations.
+V11.1.1	B	Draft test key lifecycle inventory, then obtain owner-approved custody/rotation/recovery policy and responsibilities.	Approved cryptographic key-management policy; no real key rotation is implied.
+V11.1.2	N	Inventory algorithms/key classes/certificate endpoints from source/config metadata without recording key values.	Complete use/purpose/owner mapping, including delegated provider keys.
+V11.1.3	N	Scan source/dependencies/config for crypto, hash, signing and encoding calls and classify security purpose.	Coverage of all cryptographic instances, not selected secret patterns.
+V11.1.4	B	Prepare crypto migration options and obtain owner/provider lifecycle and PQC migration commitments.	Approved maintained crypto inventory/migration plan, not speculative immediate algorithm replacement.
+V11.2.1	N	Trace each cryptographic call to maintained platform/library implementation and verify vendored provenance.	All cryptographic implementation provenance beyond SDK naming.
+V11.2.2	B	Map configurable algorithms/keys and provider migration procedures; obtain safe test migration environment before rotation.	Practical algorithm/key/data re-encryption agility across provider-managed components.
+V11.2.3	B	Obtain actual key sizes/algorithm settings from nonsecret metadata and provider evidence; compare security strengths.	Complete cryptographic strength inventory including provider-owned keys.
+V11.2.4	B	Review custom comparisons locally and obtain implementation assurance for delegated constant-time operations.	Timing behavior of provider crypto; browser latency samples are not reliable constant-time proof.
+V11.2.5	N	Fault-inject available crypto wrapper errors locally and verify no fallback to plaintext/weak randomness or sensitive errors.	Failure handling for all actual crypto use, beyond .22 ID-generation failure case.
+V11.3.1	N	Search application crypto configuration for ECB/weak padding and establish delegated encryption boundaries.	Actual cipher/mode/padding inventory with applicability, not assumptions about storage encryption.
+V11.3.2	B	Obtain storage/transport encryption algorithm configuration and assess approved cipher/mode usage.	Provider-owned encryption mode configuration and current assurance.
+V11.3.3	B	Identify encrypted data stores and obtain/test integrity protection on a separate synthetic storage target.	Authenticated encryption or MAC enforcement beyond encryption-at-rest labels.
+V11.3.4	N	Inspect nonce/IV generation and persistence for application-managed encryption; determine provider boundary if none.	Per-key/data uniqueness at every encryption site.
+V11.3.5	N	Identify combined encryption/MAC constructions and review operation order or document no custom construction.	Encrypt-then-MAC applicability and order evidence.
+V11.4.1	N	Classify hash usages by security purpose and verify approved functions; do not mistake nonsecurity hash keys for MACs.	Complete cryptographic hash use beyond SHA256 retry-key migration.
+V11.4.2	B	Obtain provider password-hashing algorithm/work-factor evidence through supported nonsecret configuration.	Actual password storage settings without extracting hashes or credentials.
+V11.4.3	N	Inspect every integrity/signature hash output length and collision requirement; compare purpose-specific strength.	Correct digest strength across all security-relevant hash operations.
+V11.4.4	B	Identify password-derived encryption keys and obtain KDF/work-factor configuration from provider or secure module.	Password-to-key derivation applicability and configured stretching parameters.
+V11.5.1	N	Separate non-guessable secrets from idempotency identifiers; inventory entropy sources/bit lengths for each secret class.	128-bit secret entropy; .22 UUIDv4 has122 random bits and is not a full pass for this requirement.
+V11.5.2	N	Inspect platform CSPRNG use/error handling and run small local generation-failure tests without provider load.	Secure randomness behavior under resource failure; no external stress proof.
+V11.6.1	B	Obtain provider key-generation/signature algorithm and parameter evidence, keeping private material undisclosed.	Actual generation/seeding/signing configuration for delegated keys.
+V11.6.2	B	Obtain deployed key-exchange parameters and certificate/TLS policy from the hosting/Auth providers.	Secure key-establishment configuration across all relevant channels.
+V11.7.1	B	Request provider attestation/configuration for full memory encryption where required by applicable level.	Infrastructure-owned memory-encryption capability, not an application-code control.
+V11.7.2	N	Trace plaintext secret/data lifetimes and minimize temporary copies in available source without reading real secrets.	Processing-time data minimization and delegated in-use protection boundaries.
+V12.1.1	B	Obtain actual managed-host/Auth TLS version policy or authorized bounded endpoint scan evidence.	Supported and preferred TLS versions at every external endpoint.
+V12.1.2	B	Obtain actual cipher-suite/preference configuration from providers; no infrastructure load testing.	Enabled/preferred cipher suites and level-specific forward secrecy.
+V12.1.3	N	Determine whether mTLS client authentication is configured; inspect trust decisions only if applicable.	mTLS applicability and client certificate validation paths.
+V12.1.4	B	Obtain certificate revocation/OCSP stapling configuration and observed handshake assurance from providers.	Actual revocation mechanism enabled on managed endpoints.
+V12.1.5	B	Obtain provider ECH capability/configuration for the managed domain without changing DNS or plans.	ECH support and deployment evidence beyond ordinary HTTPS.
+V12.2.1	N	Inventory all configured external URLs and downgrade/fallback paths, including image/map/auth endpoints.	No plaintext client-service connectivity across the complete endpoint inventory.
+V12.2.2	T	Inspect publicly presented certificates for authorized test endpoints without sending credentials.	Trust-chain/hostname/expiry evidence for all external-facing test services.
+V12.3.1	B	Document internal/management/monitoring connections and obtain provider encryption evidence for inaccessible links.	All inbound/outbound non-browser links, not only the public Site URL.
+V12.3.2	N	Inspect application TLS-client configuration for disabled validation; separate provider-owned clients.	Certificate validation for every application-controlled client and delegated boundary.
+V12.3.3	B	Obtain provider internal-service transport encryption configuration; no inference from external HTTPS.	Internal HTTP link encryption and downgrade resistance.
+V12.3.4	B	Obtain internal certificate trust model and CA pinning/allowlist evidence from providers.	Trusted internal certificates and restrictions on self-signed issuers.
+V12.3.5	B	Obtain provider internal-service identity/authentication architecture and replay-resistant controls.	Strong intra-service authentication outside application source visibility.
+V13.1.1	N	Build service/communication inventory from source, configuration and existing provider evidence.	All external dependencies and user-provided destinations with trust boundaries.
+V13.1.2	B	Document available connection limits and request provider pool/concurrency limits plus overflow behavior.	Complete per-service connection policy, including inaccessible managed pools.
+V13.1.3	N	Inventory timeout/retry/release logic and document bounded recovery paths per service.	Resource handling rules for each external dependency, not generic retry guidance.
+V13.1.4	B	Draft secret-class rotation schedule and obtain owner/provider approval without rotating current credentials.	Approved security-secret lifecycle tied to actual consumers and recovery plan.
+V13.2.1	B	Obtain service-to-service identity/configuration evidence without reading credentials; identify static shared auth exceptions.	Short-lived/individual service authentication across provider components.
+V13.2.2	B	Obtain actual service account grants and accessible developer/provider roles for least-privilege review.	Provider-account permissions beyond application RLS and staff roles.
+V13.2.3	B	Verify service credential provisioning policy with administrators, without attempting default-password guessing.	Assurance that applicable service accounts do not use default credentials.
+V13.2.4	N	Map application-controlled outbound destinations and test allowlist parsing in local fixtures.	Complete app-layer egress resource restrictions, with provider firewall scope separate.
+V13.2.5	B	Obtain web/application-server egress allowlist configuration from managed providers.	Infrastructure outbound restrictions not exposed through available Site/DB tools.
+V13.2.6	T	Fault-inject bounded connection failures/timeouts locally and compare actual behavior with documented limits.	Runtime fallback/retry/concurrency behavior for each available service client.
+V13.3.1	B	Review available source/build for secrets and obtain provider secret-vault lifecycle/access evidence.	Complete secret management assurance; zero pattern matches cannot prove absence or vault control.
+V13.3.2	B	Obtain actual secret-access roles/audit metadata from provider administrators without exporting secrets.	Least-privilege access to each secret class and backend consumer.
+V13.3.3	B	Obtain secure-module/HSM/vault execution assurance for applicable cryptographic operations.	Isolation of key material during provider-owned cryptographic execution.
+V13.3.4	B	Compare actual secret expiry/rotation configuration with owner-approved schedule in a disposable environment.	Enforced lifecycle and tested rotation without touching production/protected secrets.
+V13.4.1	T	Inspect packaged asset allowlist and make credential-free test requests for source-control metadata paths.	Runtime inaccessibility of repository metadata as well as absence from archive.
+V13.4.2	B	Review test debug surfaces and production deployment configuration supplied by its owner; do not access production.	Production debug-mode state is out of scope for direct testing.
+V13.4.3	T	Test directory-like and unknown asset paths on the approved Site and inspect no-listing response behavior.	Actual directory listing exposure across served prefixes.
+V13.4.4	B	Verify test TRACE rejection and request production configuration evidence without probing production.	Production TRACE policy cannot be inferred solely from test Worker handling.
+V13.4.5	T	Inventory documentation/diagnostic/monitoring routes and test access to only known test endpoints.	Intended audience and runtime authorization for every auxiliary endpoint.
+V13.4.6	N	Inspect error/header/body outputs for backend version disclosure and separate intentional app version display.	Backend fingerprint leakage across all response/error surfaces.
+V13.4.7	T	Compare packaged file allowlist with requests for unsupported suffixes and configuration filenames.	Only intended file types served; no accidental source/config fallback.
+V14.1.1	N	Classify profile/contact/location/chat/proof/ledger/token data and identify regulatory assumptions requiring owner review.	Complete data inventory and explicit protection-level assignment.
+V14.1.2	B	Draft controls per data class and obtain owner approval for retention/privacy obligations and required protections.	Approved requirements for each sensitive-data class.
+V14.2.1	N	Trace auth/reset/map/report URLs and request construction for sensitive query/path content without exposing actual tokens.	Body/header-only sensitive transfers across all code paths.
+V14.2.2	B	Inspect app cache behavior and obtain provider cache purge/isolation guarantees for sensitive responses.	Sensitive data in intermediary/load-balancer caches outside application control.
+V14.2.3	N	Inventory third-party endpoints/assets/analytics and map exactly which fields can be transmitted to each.	No unintended sensitive disclosure to external trackers/services.
+V14.2.4	B	After data protection policy approval, compare each implemented control with its required classification.	Policy-dependent retention/encryption/log/access controls across all data classes.
+V14.2.5	T	Test misleading file suffix/path variants on authorized test routes and confirm no dynamic sensitive fallback/cacheability.	Web cache deception resistance beyond one missing-route result.
+V14.2.6	T	Compare role-specific API/export projections with field-access rules using synthetic records.	Minimum sensitive fields across every endpoint and UI masking behavior.
+V14.2.7	B	Obtain owner-approved retention/deletion schedule before testing disposal in an isolated synthetic target.	Policy and actual deletion execution without touching protected evidence or accounts.
+V14.2.8	T	Upload a benign test image with synthetic EXIF metadata and inspect downloaded bytes for stripping.	End-to-end metadata removal, not merely canvas code presence.
+V14.3.1	T	Extend logout/offline/error cleanup checks to DOM, object URLs and each role namespace using synthetic sessions.	All authenticated client data cleared after termination without destroying valid other-role sessions.
+V14.3.2	T	Inspect authenticated proof/API/page response caching headers and browser retention in a controlled session.	No-store behavior for sensitive content across actual response paths.
+V14.3.3	N	Inventory all browser storage writers/migrations and classify stored fields without dumping live credential values.	Sensitive browser persistence outside bounded hashed approval/cart fixes.
+V15.1.1	B	Draft vulnerability remediation/update windows and obtain owner acceptance before declaring policy compliance.	Approved risk-based component update deadlines and ownership.
+V15.1.2	N	Complete SBOM/provenance from vendored bundles and build inputs, including transitive dependencies.	Full dependency catalogue with trusted maintained source provenance.
+V15.1.3	N	Identify expensive routes/queries/parsers and document limits, queues/timeouts and failure handling.	Complete costly-function inventory and availability strategy.
+V15.1.4	N	Label risky dependencies by privilege/parser/network surface and link threat assumptions and mitigations.	Explicit risky-component inventory beyond advisory-name scanning.
+V15.1.5	N	Catalogue dynamic execution, SECURITY DEFINER, raw HTML, uploads, export and financial operations as dangerous surfaces.	Documented high-risk functionality with owners and review boundaries.
+V15.2.1	B	Compare SBOM versions with accepted update/remediation policy once owner approves deadlines.	No-overdue-components verdict depends on a real remediation policy and complete provenance.
+V15.2.2	T	Run bounded local/rollback resource-failure cases for expensive functions; do not flood managed services.	Implemented availability defenses matching documented strategies.
+V15.2.3	B	Review test package contents and request production release-manifest evidence from owner without production access.	Production-only required functionality; test diagnostics are not automatically a production defect.
+V15.2.4	N	Verify lockfiles/vendor hashes/source origins and dependency resolution order for every direct/transitive input.	Complete dependency-confusion/provenance assurance beyond byte-identical build evidence.
+V15.2.5	N	Map each documented dangerous component to sandbox/privilege/isolation controls and test local boundaries where possible.	Additional containment for all high-risk components, including provider-owned boundaries.
+V15.3.1	T	Inspect each RPC response projection with synthetic role controls and compare to required fields.	No overbroad object serialization across all consumers.
+V15.3.2	N	Inventory backend URL clients and inspect redirect policy; establish non-applicability where no backend outbound client exists.	Explicit redirect-follow behavior for applicable server-side clients.
+V15.3.3	T	Exercise extra/forbidden JSON fields on dedicated rollback fixtures and verify no mass assignment.	Allowlisted writable properties across all mutating controllers/RPCs.
+V15.3.4	B	Obtain proxy header trust-chain evidence and compare application logging/rate-limit use of original IP.	Spoof-resistant originating-IP propagation at managed intermediary layers.
+V15.3.5	N	Test null/string/array/boolean numeric coercions at JS and SQL boundaries with local fixtures.	Strict type/comparison behavior throughout security/business decisions.
+V15.3.6	N	Trace object merges/dictionaries and test __proto__/constructor/prototype keys in isolated local harnesses.	Prototype pollution resistance beyond merely using some Map/Set instances.
+V15.3.7	T	Test duplicate query/body parameters and conflicting sources in bounded synthetic requests.	Consistent parameter-source precedence and duplicate handling across parsers.
+V15.4.1	N	Inventory shared caches/state and inspect locks or per-request isolation; locally interleave asynchronous operations.	Shared-state safety beyond the already tested financial command case.
+V15.4.2	T	Inspect check/action transactions and test remaining TOCTOU cases with safe rollback fixtures.	Atomic permission/state checks for all mutable resources; real multi-connection cases remain separately gated.
+V15.4.3	N	Review advisory/row-lock order and scope across finance, refund, dispatch and limits for deadlock/retry risks.	Consistent lock ownership/order and bounded retry behavior.
+V15.4.4	B	Obtain provider thread/pool scheduling policy and an explicitly approved isolated contention-test setup.	Fair resource access/starvation behavior without unauthorized provider stress testing.
+V16.1.1	N	Build logging inventory across app, Auth, DB, Storage, edge and audit tables with known retention/access gaps.	Complete event/format/store/owner/retention catalogue.
+V16.2.1	T	Correlate safe synthetic events with actor/time/action/outcome metadata; record missing fields without secrets.	Investigative metadata completeness across each logging source.
+V16.2.2	B	Check visible UTC timestamps and obtain provider clock synchronization assurance for inaccessible components.	Synchronized time sources, not timestamp formatting alone.
+V16.2.3	N	Trace logging sinks and compare emitted events with the log inventory, including console and remote error reporters.	Only documented destinations receive logs.
+V16.2.4	T	Parse and correlate one safe event across available sources with actual request IDs/time fields.	Working log-processor correlation, not just the existence of JSON output.
+V16.2.5	N	Inspect every logging path for passwords/tokens/PII and test synthetic secret-shaped markers in local handlers.	Data-class-specific redaction outside bounded CSP/RPC fixes.
+V16.3.1	B	After synthetic factor/mailbox setup, correlate successful/failed login, MFA, reset and logout events without recording codes.	All authentication operations and factors, beyond existing login/token event aggregates.
+V16.3.2	T	Trigger one harmless synthetic denied operation and locate its authorization-denial log with actor/result metadata.	Failed-authorization logging across RPC, RLS and Storage; returned denial alone is insufficient.
+V16.3.3	T	Map documented security events to bounded test triggers and verify actual log records for uncovered controls.	Validation/business/anti-automation bypass-attempt event coverage.
+V16.3.4	T	Inject local resource/TLS/control failures and verify safe error logging, distinguishing provider inaccessible paths.	Unexpected error/security-control failure coverage across components.
+V16.4.1	N	Test local log formatters with CR/LF/delimiter and oversized synthetic values; reuse closed CSP sanitizer cases.	Injection-safe encoding at remaining log sinks.
+V16.4.2	B	Obtain log access/immutability/retention controls from providers and inspect available audit-table permissions.	Tamper resistance and unauthorized access prevention across all log stores.
+V16.4.3	B	Select approved incident recipient and separate log/alert destination, then deliver and acknowledge one synthetic event.	Secure independent log delivery, detection/escalation and real recipient receipt.
+V16.5.1	N	Extend sanitized RPC/error regression to all remaining error renderers and raw console/log boundaries.	All unexpected/security-sensitive error consumers beyond the newly repaired common RPC/customer path.
+V16.5.2	T	Inject bounded unavailable/slow dependency conditions in local harnesses and test secure degraded behavior.	Graceful failure/circuit-breaking across Auth, Storage, Realtime and application resources.
+V16.5.3	T	Extend fault injection to uncovered validation/transaction branches and verify no fail-open side effects.	Secure exception behavior beyond existing finance rollback and new signout/RPC cases.
+V16.5.4	N	Inspect top-level promise/event/fetch handlers and test unhandled exceptions in local harnesses.	Last-resort handling that preserves diagnostics and availability without leaking secrets.

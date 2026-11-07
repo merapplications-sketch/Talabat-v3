@@ -1,0 +1,33 @@
+[
+  {
+    "verification": {
+      "protected_orders": [
+        {
+          "id": 1,
+          "total": 40,
+          "status": "delivered",
+          "settled": "2026-11-06T18:43:49.043221+00:00",
+          "cash_collected": 40
+        },
+        {
+          "id": 2,
+          "total": 40,
+          "status": "delivered",
+          "settled": "2026-11-07T06:00:07.617518+00:00",
+          "cash_collected": 40
+        },
+        {
+          "id": 3,
+          "total": 40,
+          "status": "delivered",
+          "settled": null,
+          "cash_collected": 40
+        }
+      ],
+      "synthetic_auth_remaining": 0,
+      "synthetic_order_remaining": 0,
+      "synthetic_store_remaining": 0,
+      "synthetic_allowlist_remaining": false
+    }
+  }
+]

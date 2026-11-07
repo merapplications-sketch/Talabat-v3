@@ -1,0 +1,36 @@
+[
+  {
+    "results": [
+      {
+        "input": "NaN",
+        "outcome": "accepted_then_rolled_back",
+        "stored_cash": "NaN"
+      },
+      {
+        "input": "Infinity",
+        "outcome": "accepted_then_rolled_back",
+        "stored_cash": "Infinity"
+      },
+      {
+        "input": "-Infinity",
+        "outcome": "cash_required",
+        "stored_cash": null
+      },
+      {
+        "input": "-1",
+        "outcome": "cash_required",
+        "stored_cash": null
+      },
+      {
+        "input": "0",
+        "outcome": "accepted_then_rolled_back",
+        "stored_cash": "0"
+      },
+      {
+        "input": "40",
+        "outcome": "accepted_then_rolled_back",
+        "stored_cash": "40"
+      }
+    ]
+  }
+]

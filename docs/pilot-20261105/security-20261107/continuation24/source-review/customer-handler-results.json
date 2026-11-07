@@ -1,0 +1,146 @@
+{
+  "file_sha256": "907a64eb5375668c063d4d8c197808f1f5b3f304f4ee6f85e10c95cb4600a0ca",
+  "method": "actual cxCard renderer, HTMLParser attribute decoding, local VM stub; no browser/network/DB",
+  "results": [
+    {
+      "candidate_only": false,
+      "input": "Normal restaurant",
+      "result": {
+        "value": "Normal restaurant",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": false,
+      "input": "O'Hara",
+      "result": {
+        "value": "O'Hara",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": false,
+      "input": "Double \" quote",
+      "result": {
+        "value": "Double \" quote",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": false,
+      "input": "&quot; plain entity",
+      "result": {
+        "error": "SyntaxError",
+        "marker": 0
+      },
+      "preserves_literal_argument": false,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": false,
+      "input": "&quot;);globalThis.__audit=1;//",
+      "result": {
+        "value": "",
+        "marker": 1
+      },
+      "preserves_literal_argument": false,
+      "marker_not_executed": false
+    },
+    {
+      "candidate_only": false,
+      "input": "&#34;);globalThis.__audit=1;//",
+      "result": {
+        "value": "",
+        "marker": 1
+      },
+      "preserves_literal_argument": false,
+      "marker_not_executed": false
+    },
+    {
+      "candidate_only": false,
+      "input": "line separator end",
+      "result": {
+        "value": "line separator end",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": true,
+      "input": "Normal restaurant",
+      "result": {
+        "value": "Normal restaurant",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": true,
+      "input": "O'Hara",
+      "result": {
+        "value": "O'Hara",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": true,
+      "input": "Double \" quote",
+      "result": {
+        "value": "Double \" quote",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": true,
+      "input": "&quot; plain entity",
+      "result": {
+        "value": "&quot; plain entity",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": true,
+      "input": "&quot;);globalThis.__audit=1;//",
+      "result": {
+        "value": "&quot;);globalThis.__audit=1;//",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": true,
+      "input": "&#34;);globalThis.__audit=1;//",
+      "result": {
+        "value": "&#34;);globalThis.__audit=1;//",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    },
+    {
+      "candidate_only": true,
+      "input": "line separator end",
+      "result": {
+        "value": "line separator end",
+        "marker": 0
+      },
+      "preserves_literal_argument": true,
+      "marker_not_executed": true
+    }
+  ]
+}

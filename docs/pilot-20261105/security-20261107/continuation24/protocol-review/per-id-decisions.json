@@ -1,0 +1,416 @@
+[
+  {
+    "req_id": "V1.1.1",
+    "official_requirement": "Verify that input is decoded or unescaped into a canonical form only once, it is only decoded when encoded data in that form is expected, and that this is done before processing the input further, for example it is not performed after input validation or sanitization.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Trace URL/form/JSON decoding order and test percent/entity double-encoding at each actual boundary.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.1.2",
+    "official_requirement": "Verify that the application performs output encoding and escaping either as a final step before being used by the interpreter for which it is intended or by the interpreter itself.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Extend the renderer inventory beyond repaired handlers and verify escaping immediately before each sink.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.1",
+    "official_requirement": "Verify that output encoding for an HTTP response, HTML document, or XML document is relevant for the context required, such as encoding the relevant characters for HTML elements, HTML attributes, HTML comments, CSS, or HTTP header fields, to avoid changing the message or document structure.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Exercise HTML text/attribute/comment, CSS and response-header sinks with harmless delimiter fixtures.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.2",
+    "official_requirement": "Verify that when dynamically building URLs, untrusted data is encoded according to its context (e.g., URL encoding or base64url encoding for query or path parameters). Ensure that only safe URL protocols are permitted (e.g., disallow javascript: or data:).",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Inventory href/src/API URL builders and test encoded path/query values plus disallowed schemes.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.3",
+    "official_requirement": "Verify that output encoding or escaping is used when dynamically building JavaScript content (including JSON), to avoid changing the message or document structure (to avoid JavaScript and JSON injection).",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Enumerate dynamic handlers and JSON-in-script emitters; test quotes, slashes and line separators offline.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.4",
+    "official_requirement": "Verify that data selection or database queries (e.g., SQL, HQL, NoSQL, Cypher) use parameterized queries, ORMs, entity frameworks, or are otherwise protected from SQL Injection and other database injection attacks. This is also relevant when writing stored procedures.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Trace every query-producing client/server entry to bound parameters; inspect the remaining static function bodies.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.5",
+    "official_requirement": "Verify that the application protects against OS command injection and that operating system calls use parameterized OS queries or use contextual command line output encoding.",
+    "decision": "scoped_application_not_applicable_candidate",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Worker exposes only Fetch/Response and static asset lookup/CSP JSON intake; no process invocation API. Browser runs JS only. Database/provider native processes are not attested.",
+    "next_action": "Inventory server and build command launch sites; establish application applicability and inspect arguments where present.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.6",
+    "official_requirement": "Verify that the application protects against LDAP injection vulnerabilities, or that specific security controls to prevent LDAP injection have been implemented.",
+    "decision": "scoped_application_not_applicable_candidate",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Application identity goes through Supabase Auth, data through REST/RPC; no directory/LDAP connector in the supplied deployable components. Provider identity internals are outside supplied source.",
+    "next_action": "Search application dependencies and service inventory for LDAP usage; record applicability or inspect bind/query escaping.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.7",
+    "official_requirement": "Verify that the application is protected against XPath injection attacks by using query parameterization or precompiled queries.",
+    "decision": "scoped_application_not_applicable_candidate",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Application accepts CSP JSON and browser JSON data, not XML queries; no XPath query engine in deployable runtime. Provider parser internals not attested.",
+    "next_action": "Inventory XML/XPath query use and dependencies; if present, exercise parameterized expressions offline.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.8",
+    "official_requirement": "Verify that LaTeX processors are configured securely (such as not using the \"--shell-escape\" flag) and an allowlist of commands is used to prevent LaTeX injection attacks.",
+    "decision": "scoped_application_not_applicable_candidate",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Receipt output is escaped HTML/print, not TeX compilation; no server document rendering pipeline in Worker.",
+    "next_action": "Check report/export/build paths for LaTeX processors and shell-escape settings; resolve applicability.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.9",
+    "official_requirement": "Verify that the application escapes special characters in regular expressions (typically using a backslash) to prevent them from being misinterpreted as metacharacters.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Find dynamic RegExp construction and test literal user punctuation against intended matching behavior.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.2.10",
+    "official_requirement": "Verify that the application is protected against CSV and Formula Injection. The application must follow the escaping rules defined in RFC 4180 sections 2.6 and 2.7 when exporting CSV content. Additionally, when exporting to CSV or other spreadsheet formats (such as XLS, XLSX, or ODF), special characters (including '=', '+', '-', '@', '\\t' (tab), and '\\0' (null character)) must be escaped with a single quote if they appear as the first character in a field value.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Exercise every CSV/spreadsheet exporter with leading formula characters, quotes, commas and newlines.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.1",
+    "official_requirement": "Verify that all untrusted HTML input from WYSIWYG editors or similar is sanitized using a well-known and secure HTML sanitization library or framework feature.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Identify rich-HTML/editor inputs and their render paths; test sanitizer policy or document confirmed absence.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.2",
+    "official_requirement": "Verify that the application avoids the use of eval() or other dynamic code execution features such as Spring Expression Language (SpEL). Where there is no alternative, any user input being included must be sanitized before being executed.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Inspect eval/Function/string-timer and expression-engine call sites, including loaded modules.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.3",
+    "official_requirement": "Verify that data being passed to a potentially dangerous context is sanitized beforehand to enforce safety measures, such as only allowing characters which are safe for this context and trimming input which is too long.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Map each dangerous sink to its type/length/character guard and test boundary values offline.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.4",
+    "official_requirement": "Verify that user-supplied Scalable Vector Graphics (SVG) scriptable content is validated or sanitized to contain only tags and attributes (such as draw graphics) that are safe for the application, e.g., do not contain scripts and foreignObject.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Check accepted SVG paths and test harmless scriptable SVG rejection on a disposable upload path.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.5",
+    "official_requirement": "Verify that the application sanitizes or disables user-supplied scriptable or expression template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Inventory Markdown/CSS/template-like input support and test allowed expression/tag grammar offline.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.6",
+    "official_requirement": "Verify that the application protects against Server-side Request Forgery (SSRF) attacks, by validating untrusted data against an allowlist of protocols, domains, paths and ports and sanitizing potentially dangerous characters before using the data to call another service.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Complete outbound-call inventory through dependencies/configuration and test URL allowlist logic locally if present.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.7",
+    "official_requirement": "Verify that the application protects against template injection attacks by not allowing templates to be built based on untrusted input. Where there is no alternative, any untrusted input being included dynamically during template creation must be sanitized or strictly validated.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Trace template compilation and HTML assembly inputs; test literal delimiters without executing remote payloads.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.8",
+    "official_requirement": "Verify that the application appropriately sanitizes untrusted input before use in Java Naming and Directory Interface (JNDI) queries and that JNDI is configured securely to prevent JNDI injection attacks.",
+    "decision": "scoped_application_not_applicable_candidate",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Worker/browser are JavaScript; no JVM or JNDI component in supplied runtime. Managed provider internals not attested.",
+    "next_action": "Check application/runtime inventory for Java/JNDI; determine applicability before any query tests.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.9",
+    "official_requirement": "Verify that the application sanitizes content before it is sent to memcache to prevent injection attacks.",
+    "decision": "scoped_application_not_applicable_candidate",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Worker has no network or cache binding; browser uses memory and web storage plus Supabase. No application memcache interface. Provider backing caches not attested.",
+    "next_action": "Inspect service/cache inventory for memcache and its serialization paths; determine applicability.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.10",
+    "official_requirement": "Verify that format strings which might resolve in an unexpected or malicious way when used are sanitized before being processed.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Inventory format-string interpolation and logging/SQL formatting calls; test format delimiters as data.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.11",
+    "official_requirement": "Verify that the application sanitizes user input before passing to mail systems to protect against SMTP or IMAP injection.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Trace reset/notification mail construction and identify custom SMTP/IMAP commands versus provider APIs.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.3.12",
+    "official_requirement": "Verify that regular expressions are free from elements causing exponential backtracking, and ensure untrusted input is sanitized to mitigate ReDoS or Runaway Regex attacks.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Inventory regexes accepting untrusted input; run short bounded adversarial strings in offline tests with time limits.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.4.1",
+    "official_requirement": "Verify that the application uses memory-safe string, safer memory copy and pointer arithmetic to detect or prevent stack, buffer, or heap overflows.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Inventory native/WASM parsers and memory-safe boundaries; document applicable modules and existing assurance evidence.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.4.2",
+    "official_requirement": "Verify that sign, range, and input validation techniques are used to prevent integer overflows.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Test numeric boundaries for amounts, quantities, timestamps and image dimensions in local/rollback fixtures.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.4.3",
+    "official_requirement": "Verify that dynamically allocated memory and resources are released, and that references or pointers to freed memory are removed or set to null to prevent dangling pointers and use-after-free vulnerabilities.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Inspect object URL, timer, listener and stream cleanup paths and test teardown with stubbed resources.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.5.1",
+    "official_requirement": "Verify that the application configures XML parsers to use a restrictive configuration and that unsafe features such as resolving external entities are disabled to prevent XML eXternal Entity (XXE) attacks.",
+    "decision": "scoped_application_not_applicable_candidate",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Only request-body intake in Worker is bounded strict UTF-8 JSON. Frontend consists of native HTML and JSON SDK calls, not XML document parser calls; static SVG/assets are not XML request parsing. Provider import/API parser behavior not attested.",
+    "next_action": "Locate XML/SVG parser entry points and external-entity settings; determine actual XML parser applicability.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.5.2",
+    "official_requirement": "Verify that deserialization of untrusted data enforces safe input handling, such as using an allowlist of object types or restricting client-defined object types, to prevent deserialization attacks. Deserialization mechanisms that are explicitly defined as insecure must not be used with untrusted input.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable: Worker JSON.parse, local cart/preference JSON.parse, SDK response JSON and Realtime binary framing. Worker only projects primitive directive/status fields and does not instantiate client types. Need complete SDK/message and persisted-object assignment review before closing.",
+    "next_action": "Inspect JSON/deserialization boundaries for type allowlists and prototype-sensitive merges; test malformed types locally.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V1.5.3",
+    "official_requirement": "Verify that different parsers used in the application for the same data type (e.g., JSON parsers, XML parsers, URL parsers), perform parsing in a consistent way and use the same character encoding mechanism to avoid issues such as JSON Interoperability vulnerabilities or different URI or file parsing behavior being exploited in Remote File Inclusion (RFI) or Server-side Request Forgery (SSRF) attacks.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable across browser URL/JSON parsers, Worker WHATWG URL/UTF-8 JSON, and Supabase/PostgREST JSON. Need cross-boundary duplicate-key, Unicode and URI interpretation evidence; source-only Worker proof insufficient.",
+    "next_action": "Build duplicate-key/Unicode/path-encoding differential cases for browser, Worker, REST and PostgreSQL parsers.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.1.1",
+    "official_requirement": "Verify that every HTTP response with a message body contains a Content-Type header field that matches the actual content of the response, including the charset parameter to specify safe character encoding (e.g., UTF-8, ISO-8859-1) according to IANA Media Types, such as \"text/\", \"/+xml\" and \"/xml\".",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Compare actual bytes, Content-Type and charset for remaining HTML/JSON/image/error response classes.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.1.2",
+    "official_requirement": "Verify that only user-facing endpoints (intended for manual web-browser access) automatically redirect from HTTP to HTTPS, while other services or endpoints do not implement transparent redirects. This is to avoid a situation where a client is erroneously sending unencrypted HTTP requests, but since the requests are being automatically redirected to HTTPS, the leakage of sensitive data goes undiscovered.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Use credential-free bounded HTTP requests to distinguish UI HTTPS redirects from API rejection behavior.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.1.3",
+    "official_requirement": "Verify that any HTTP header field used by the application and set by an intermediary layer, such as a load balancer, a web proxy, or a backend-for-frontend service, cannot be overridden by the end-user. Example headers might include X-Real-IP, X-Forwarded-*, or X-User-ID.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Obtain provider trust-boundary configuration for forwarded identity/IP headers; inspect app consumption separately.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.1.4",
+    "official_requirement": "Verify that only HTTP methods that are explicitly supported by the application or its API (including OPTIONS during preflight requests) can be used and that unused methods are blocked.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Worker explicitly permits GET/HEAD and CSP POST only. Supabase Auth/REST/Storage/Realtime methods are separate surfaces; full requirement needs actual allowed-method inventory/tests there.",
+    "next_action": "Probe explicitly unsupported HTTP methods on test endpoints without business-state mutation.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.1.5",
+    "official_requirement": "Verify that per-message digital signatures are used to provide additional assurance on top of transport protections for requests or transactions which are highly sensitive or which traverse a number of systems.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Determine whether approved high-sensitivity cross-system transactions require message signatures; obtain interface policy.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.2.1",
+    "official_requirement": "Verify that all application components (including load balancers, firewalls, and application servers) determine boundaries of incoming HTTP messages using the appropriate mechanism for the HTTP version to prevent HTTP request smuggling. In HTTP/1.x, if a Transfer-Encoding header field is present, the Content-Length header must be ignored per RFC 2616. When using HTTP/2 or HTTP/3, if a Content-Length header field is present, the receiver must ensure that it is consistent with the length of the DATA frames.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Protocol framing is controlled by Cloudflare edge and Supabase ingress. Worker Fetch API receives parsed requests; local Request tests cannot prove anti-smuggling.",
+    "next_action": "Request intermediary HTTP framing assurance or an isolated provider-approved test environment.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.2.2",
+    "official_requirement": "Verify that when generating HTTP messages, the Content-Length header field does not conflict with the length of the content as determined by the framing of the HTTP protocol, in order to prevent request smuggling attacks.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Worker uses Response API without manually setting Content-Length. Provider and edge emitted framing needs external/runtime evidence.",
+    "next_action": "Inspect application-generated Request/Response framing and test local conflicting length cases offline.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.2.3",
+    "official_requirement": "Verify that the application does not send nor accept HTTP/2 or HTTP/3 messages with connection-specific header fields such as Transfer-Encoding to prevent response splitting and header injection attacks.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Browser/Worker platform generates headers but provider/edge accepts HTTP2/3. Need actual ingress evidence; source absence insufficient.",
+    "next_action": "Obtain managed HTTP2/3 connection-header validation evidence; do local header-construction checks meanwhile.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.2.4",
+    "official_requirement": "Verify that the application only accepts HTTP/2 and HTTP/3 requests where the header fields and values do not contain any CR (\\r), LF (\\n), or CRLF (\\r\\n) sequences, to prevent header injection attacks.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Managed ingress parses header bytes before Worker. Need provider guarantees and bounded protocol test; JS Headers normalization cannot prove entire path.",
+    "next_action": "Obtain provider validation of CR/LF in HTTP2/3 headers; locally inspect application header construction.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.2.5",
+    "official_requirement": "Verify that, if the application (backend or frontend) builds and sends requests, it uses validation, sanitization, or other mechanisms to avoid creating URIs (such as for API calls) or HTTP request header fields (such as Authorization or Cookie), which are too long to be accepted by the receiving component. This could cause a denial of service, such as when sending an overly long request (e.g., a long cookie header field), which results in the server always responding with an error status.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable or unresolved. Prior triage next action remains required; bounded protocol inventory does not cover all sinks/providers.",
+    "next_action": "Identify URI/header builders and test oversized input handling locally against documented receiver limits.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.3.1",
+    "official_requirement": "Verify that a query allowlist, depth limiting, amount limiting, or query cost analysis is used to prevent GraphQL or data layer expression Denial of Service (DoS) as a result of expensive, nested queries.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Do not mark NA: application uses PostgREST data-layer expressions and managed Supabase may expose GraphQL separately. Need enabled-schema/endpoint inventory and actual query/resource controls.",
+    "next_action": "Inventory exposed GraphQL endpoints/configuration and execute only small bounded query-limit cases if enabled.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.3.2",
+    "official_requirement": "Verify that GraphQL introspection queries are disabled in the production environment unless the GraphQL API is meant to be used by other parties.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "No application GraphQL caller is not evidence of disabled Supabase GraphQL endpoint. Obtain project exposure/configuration and endpoint introspection policy evidence.",
+    "next_action": "Confirm test GraphQL introspection configuration and record production configuration as out of scope.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.4.1",
+    "official_requirement": "Verify that WebSocket over TLS (WSS) is used for all WebSocket connections.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable: subscribeRealtime uses sb.channel; client URL fixed to HTTPS and SDK changes protocol http to ws, producing wss. Source supports intended WSS only. Need loaded deployment/actual handshake evidence before global closure.",
+    "next_action": "Trace configured Realtime/WebSocket URLs and reject ws or downgrade paths in source-level fixtures.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.4.2",
+    "official_requirement": "Verify that, during the initial HTTP WebSocket handshake, the Origin header field is checked against a list of origins allowed for the application.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Applicable: handshake terminated by managed Supabase Realtime, not Worker. Need provider Origin policy and limited valid/invalid-Origin handshake test. CORS headers on REST do not establish this.",
+    "next_action": "Test one allowed and one disallowed Origin handshake with a synthetic session through permitted tooling.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.4.3",
+    "official_requirement": "Verify that, if the application's standard session management cannot be used, dedicated tokens are being used for this, which comply with the relevant Session Management security requirements.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Realtime SDK uses auth access tokens; inspect lifecycle and authenticated-channel semantics. No dedicated-token NA conclusion until standard-session reuse and provider validation established.",
+    "next_action": "Identify whether standard Auth JWT or dedicated websocket tokens are used and test their relevant lifecycle.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  },
+  {
+    "req_id": "V4.4.4",
+    "official_requirement": "Verify that dedicated WebSocket session management tokens are initially obtained or validated through the previously authenticated HTTPS session when transitioning an existing HTTPS session to a WebSocket channel.",
+    "decision": "remain_unclosed",
+    "full_requirement_closure_proposed": false,
+    "evidence_and_gap": "Realtime is real application functionality. Need trace token provenance/session refresh into channel and provider enforcement; HTTPS base alone does not prove validation.",
+    "next_action": "Trace HTTPS-session-to-Realtime handoff and test unauthenticated subscription initialization.",
+    "provider_boundary": "Supabase Auth, REST/PostgREST, Storage, Realtime, optional GraphQL and Cloudflare ingress not source-complete here."
+  }
+]

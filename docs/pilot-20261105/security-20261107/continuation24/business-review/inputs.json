@@ -1,0 +1,22 @@
+[
+  {
+    "path": "rpc21-inventory.json",
+    "sha256": "33c3f94596f7b43ed6ab4ea05e9cf5a440e00abc70c8f83b289c626fce30a424"
+  },
+  {
+    "path": "continuation21/private-guards.json",
+    "sha256": "4a42b08b07bb88c1ec526ed236fc8328d8315d97dba81995bf3dc5c48e042e19"
+  },
+  {
+    "path": "functional-sql/finance-valid-report.md",
+    "sha256": "0fba138b4e8d49e8851eef7c4d21815929e007f1f29ec7f622580f946bcdc313"
+  },
+  {
+    "path": "functional-sql/REPORT.md",
+    "sha256": "452ab27dc6c5880a4c3ec120fb5705f36c7323ab09643e1bb8089505c5e6e7fe"
+  },
+  {
+    "path": "asvs-5.0.0.csv",
+    "sha256": "000f6d034ebba1e99d53c87f3bccc72b1f77346f7355b3921af8121a89357340"
+  }
+]

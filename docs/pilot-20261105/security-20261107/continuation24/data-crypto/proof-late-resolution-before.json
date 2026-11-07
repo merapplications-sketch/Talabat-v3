@@ -1,0 +1,11 @@
+{
+  "result": "blob:synthetic-1",
+  "created": [
+    "blob:synthetic-1"
+  ],
+  "revoked": [],
+  "remainingUrls": [
+    "blob:synthetic-1"
+  ],
+  "clearedBeforeDownloadResolved": true
+}

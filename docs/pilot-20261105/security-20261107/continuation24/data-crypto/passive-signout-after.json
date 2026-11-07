@@ -1,0 +1,14 @@
+{
+  "result": "pass",
+  "cases": [
+    "passive_immediate_hide_and_single_reload",
+    "repeat_event_deduplicated",
+    "initial_no_identity_no_reload",
+    "explicit_error_result_warning_preserved",
+    "explicit_rejection_warning_preserved",
+    "synchronous_throw_warning_preserved",
+    "counter_recovers",
+    "global_scope_forwarded"
+  ],
+  "limit": "Extracted application helpers with synthetic DOM/Auth. Does not prove real provider events, browser navigation completion, or erasure of memory before reload."
+}
