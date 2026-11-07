@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "source_sha256": "99e67b31c99749759ec83f5763f09ee321fc2a34952b92d3e2e727f9c331099d",
+  "covered": [
+    "invalid_email_no_request",
+    "normalization",
+    "redirect_excludes_query_and_hash",
+    "double_click_single_request",
+    "generic_success",
+    "network_failure_manual_retry",
+    "429_no_automatic_retry",
+    "password_mismatch_no_write",
+    "password_update_single_write",
+    "global_signout_requested",
+    "update_failure_no_login",
+    "signout_failure_warning"
+  ],
+  "limitations": [
+    "Auth responses mocked",
+    "no mail delivery",
+    "no token expiry/reuse proof",
+    "no provider session revocation proof",
+    "no MFA recovery closure",
+    "no device compatibility proof"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "source_commit": "ea65f5289f3d19ccc5d3dbb65b59650e23e01370",
+  "status_changes": [],
+  "entries": [
+    {"id":"V6.4.3","evidence":"recovery-source-result.json","coverage":"Actual recovery handlers exercised with mocked Auth and DOM; 12 bounded behaviors","missing":"Delivered email, token expiry and one-use, live reset, MFA not bypassed, administrative recovery"},
+    {"id":"V6.1.1","evidence":"EXECUTION-PLAN.md section 4; offline-tests.log","coverage":"Endpoint scope, NAT risk and bounded exercise plan; offline driver stop/budget tests","missing":"Isolated Auth target and dedicated egress; actual provider throttling and shared-IP recovery"},
+    {"id":"V7.4.2","evidence":"recovery-source-result.json","coverage":"Recovery handler requests global sign-out and reports its failure","missing":"Provider enforcement across retained JWT, Auth, Realtime and signed URLs; no change to failed status"},
+    {"id":"V16.2.5","evidence":"offline-tests.log","coverage":"Preparation-only incident payload discards arbitrary fields; secret marker negative test","missing":"Production implementation inventory and actual delivery; utility is not deployed"},
+    {"id":"V16.4.1","evidence":"offline-tests.log","coverage":"Preparation-only incident kind injection rejected","missing":"Not a full application logging encoding review"},
+    {"id":"V16.4.3","evidence":"EXECUTION-PLAN.md section 3","coverage":"Transport acknowledgment explicitly separated from human receipt; bounded simulated retries","missing":"Separate real log system, secure transmission, monitoring and delivery escalation exercise"}
+  ],
+  "operational_restore":"Bundle verification uses synthetic files, not a PostgreSQL restore. No ASVS closure or measured RPO/RTO.",
+  "matrix_totals_unchanged":{"untested_or_partial":331,"failed":2,"not_applicable":12,"whole_pass":0}
+}

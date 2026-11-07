@@ -1,0 +1,24 @@
+test_alert_arbitrary_secrets_dropped (test_offline_checks.PreparationTests.test_alert_arbitrary_secrets_dropped) ... ok
+test_alert_injection_in_allowed_field_rejected (test_offline_checks.PreparationTests.test_alert_injection_in_allowed_field_rejected) ... ok
+test_alert_no_retry_on_429_or_permanent_error (test_offline_checks.PreparationTests.test_alert_no_retry_on_429_or_permanent_error) ... ok
+test_alert_requires_synthetic_test_project (test_offline_checks.PreparationTests.test_alert_requires_synthetic_test_project) ... ok
+test_bundle_positive_and_no_restore_claim (test_offline_checks.PreparationTests.test_bundle_positive_and_no_restore_claim) ... ok
+test_customer_admin_recovery_requirements_separate (test_offline_checks.PreparationTests.test_customer_admin_recovery_requirements_separate) ... ok
+test_database_tamper_rejected (test_offline_checks.PreparationTests.test_database_tamper_rejected) ... ok
+test_duplicate_rejected (test_offline_checks.PreparationTests.test_duplicate_rejected) ... ok
+test_missing_inventory_entry_rejected (test_offline_checks.PreparationTests.test_missing_inventory_entry_rejected) ... ok
+test_missing_object_rejected (test_offline_checks.PreparationTests.test_missing_object_rejected) ... ok
+test_protected_targets_refused_even_when_allowlisted (test_offline_checks.PreparationTests.test_protected_targets_refused_even_when_allowlisted) ... ok
+test_rate_stops_on_lockout_timeout_failure (test_offline_checks.PreparationTests.test_rate_stops_on_lockout_timeout_failure) ... ok
+test_rate_success_and_budget (test_offline_checks.PreparationTests.test_rate_success_and_budget) ... ok
+test_recovery_fixture_cannot_target_real_mail (test_offline_checks.PreparationTests.test_recovery_fixture_cannot_target_real_mail) ... ok
+test_retry_bounded_and_stable_event_id (test_offline_checks.PreparationTests.test_retry_bounded_and_stable_event_id) ... ok
+test_storage_tamper_rejected (test_offline_checks.PreparationTests.test_storage_tamper_rejected) ... ok
+test_symlink_rejected (test_offline_checks.PreparationTests.test_symlink_rejected) ... ok
+test_traversal_and_absolute_rejected (test_offline_checks.PreparationTests.test_traversal_and_absolute_rejected) ... ok
+test_wrong_source_refused (test_offline_checks.PreparationTests.test_wrong_source_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.007s
+
+OK

@@ -1,0 +1,40 @@
+{
+  "created_at": "2026-11-07T21:48:07.547234+00:00",
+  "source_commit": "ea65f5289f3d19ccc5d3dbb65b59650e23e01370",
+  "prior_evidence_commit": "dc66c91f3fed6195ce22ba61b3df932c6f459f8c",
+  "offline_unit_tests": 19,
+  "source_cases": [
+    "invalid_email_no_request",
+    "normalization",
+    "redirect_excludes_query_and_hash",
+    "double_click_single_request",
+    "generic_success",
+    "network_failure_manual_retry",
+    "429_no_automatic_retry",
+    "password_mismatch_no_write",
+    "password_update_single_write",
+    "global_signout_requested",
+    "update_failure_no_login",
+    "signout_failure_warning"
+  ],
+  "network_requests": 0,
+  "provider_mutations": 0,
+  "app_source_modified": false,
+  "whole_asvs_requirements_closed": 0,
+  "files": {
+    "log-integrity-attempt.json": "1e1574178e70865a948711bbeffd195d354aedf7fd646020a45da669ff792ea0",
+    "offline_checks.py": "b76a7e969b1b0bef91fcffdecf1ed5438e4e7f86b86b3e4ba254ee7e5d055513",
+    "offline-tests.log": "6f6eb7d103d4d828fe21f397cf46b514b1bf5ef73e5053246de87895cb4fcdc3",
+    "recovery-source-result.json": "d486396f6290cda07e07920720b00940c5a6322e3466ae7ab5ef5207914f6e31",
+    "ASVS-DELTA.json": "52aca3cd42551b27a1a185893fa6d76165b585376dd51e9d3569cedb0ced3faf",
+    "REPORT-AR.md": "93859ef6ad5f86aad0db31161a883b52e9c0dff06e438723f38423debffe7438",
+    "recovery-source.cjs": "839aca59a53c2f82d5c98473365f10e8f6f0e75dbd93b7e6cc0df0ace8f09760",
+    "EXECUTION-PLAN.md": "165d7973ef471b53f499db1b6139f1860261375947bc195bda3606ed4ed8d369",
+    "test_offline_checks.py": "40e5ca4ad3e6fdcce5716c0e926fbe4f4e3929390eda69597bf01c29de20ee45"
+  },
+  "scope": "Offline preparation and actual-source tests only; separate SQL attempt recorded separately",
+  "publication_check": {
+    "status": "active",
+    "latest_version_number": 41
+  }
+}
