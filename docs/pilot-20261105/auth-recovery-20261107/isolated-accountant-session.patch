@@ -1,0 +1,6 @@
+--- a/talabat-core.js
++++ b/talabat-core.js
+@@ -879 +879,2 @@
+-      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + role }, global: { fetch: connectionFetch } });
++      var sessionRole = role === 'admin' && new URLSearchParams(location.search).get('session') === 'accountant' ? 'accountant' : role;
++      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + sessionRole }, global: { fetch: connectionFetch } });
