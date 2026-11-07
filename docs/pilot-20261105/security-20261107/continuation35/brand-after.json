@@ -1,0 +1,19 @@
+[
+  {
+    "result": {
+      "active_sync": {
+        "added": 0,
+        "updated": 0
+      },
+      "active_stats": 2,
+      "banned_stats": 0,
+      "active_create": true,
+      "banned_enabled": false,
+      "foreign_denied": true,
+      "banned_sync_error": "account_blocked",
+      "banned_sync_result": null,
+      "banned_create_error": "account_blocked",
+      "banned_create_accepted": false
+    }
+  }
+]

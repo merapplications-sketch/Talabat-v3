@@ -1,0 +1,11 @@
+{
+  "custom_smtp_enabled": false,
+  "observed_ui": "Supabase test project Emails > SMTP Settings toggle=0; Save disabled",
+  "approved_recipient": "merapplications@gmail.com",
+  "recovery_sent": 0,
+  "recovery_limit": 2,
+  "alert_sent": 0,
+  "alert_limit": 1,
+  "recipient_membership_evidence": "../continuation34/mail-state.json",
+  "blocker": "No approved SMTP sender available; no org membership changes or messages sent"
+}

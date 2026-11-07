@@ -1,0 +1,12 @@
+[
+  {
+    "cleanup": {
+      "audit": 0,
+      "users": 0,
+      "brands": 0,
+      "stores": 0,
+      "revocations": 0,
+      "mfa_requirements": 0
+    }
+  }
+]

@@ -1,3 +1,17 @@
+# .31 continuation35 — verified save and deployed brand guards
+
+Base evidence f459640509eb550b5f7c86784c1a305720536399 was already saved; fresh compare to branch identical ahead0/behind0. Do not repeat earlier push. Source ea65f5289f3d19ccc5d3dbb65b59650e23e01370 clean; site active hosting41. No frontend redeploy needed or performed.
+
+NEW DB CHANGE: pilot_brand_account_guards applied successfully ONLY fsvrsvqfknogwmhccera. C35-BRAND new medium defense-in-depth gap: banned brand owner read stats/created branch/called empty-menu sync through SQL roles. Fixed branch_create, brand_stats, brand_sync_menu with account_enabled. Live positive owner/cross-owner/ban passed; reenabled-revoked and required-MFA AAL1 denied; new AAL2 permitted. No actual JWT/HTTP/UI bypass or full ASVS closure claimed. Files and precise limits in continuation35/REPORT-AR.md. Cleanup users/brands/stores/audit/revocations/MFA0. Preserve fix; old source commit rollback does not roll back DB.
+
+Support search and private readers gained bounded evidence. store_private owner/ban overlaps earlier test-four-more and is not counted as new closure. Matrix canonical plus continuation35/ASVS-DELTA.json; totals unchanged1/330/2/12. Do not overwrite canonical evidence or promote based on this delta. Regression SQL+assertions retained, not automatic live-DB deployment gate.
+
+MAIL: fresh SMTP UI off; no sender ready.0/2 recovery,0/1 incident sent. Prior recipient/team check still applicable; no new credential/account/membership. Next mail prerequisite approved existing sender/provider+domain, secret entered in Supabase SMTP UI only.
+
+Next independent work: remaining operation/resource inventory; supported cash fixture and isolated dispatch test, not direct allocation bypass. External prerequisites and expired log-test confirmation remain as below. Do not repeat successful unrelated tests.
+
+## Prior checkpoint retained for continuity
+
 # .31 continuation34 — application audit and mail transport gate
 
 Source ea65f5289f3d19ccc5d3dbb65b59650e23e01370 unchanged/clean; Sites active hosting41 verified. Previous evidence f8f9bc10217a2c24af76b62877c9b81182655a4c. No new deployment, migrations or persistent application writes.

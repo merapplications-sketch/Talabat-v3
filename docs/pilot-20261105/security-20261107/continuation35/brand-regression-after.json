@@ -1,0 +1,42 @@
+[
+  {
+    "result": {
+      "active_sync": {
+        "added": 0,
+        "updated": 0
+      },
+      "active_stats": 2,
+      "banned_stats": 0,
+      "active_create": true,
+      "session_cases": [
+        {
+          "case": "reenabled_revoked",
+          "allowed": false,
+          "stats_rows": 0,
+          "sync_accepted": false,
+          "create_accepted": false
+        },
+        {
+          "case": "required_mfa_aal1",
+          "allowed": false,
+          "stats_rows": 0,
+          "sync_accepted": false,
+          "create_accepted": false
+        },
+        {
+          "case": "new_active_aal2",
+          "allowed": true,
+          "stats_rows": 3,
+          "sync_accepted": true,
+          "create_accepted": true
+        }
+      ],
+      "banned_enabled": false,
+      "foreign_denied": true,
+      "banned_sync_error": "account_blocked",
+      "banned_sync_result": null,
+      "banned_create_error": "account_blocked",
+      "banned_create_accepted": false
+    }
+  }
+]

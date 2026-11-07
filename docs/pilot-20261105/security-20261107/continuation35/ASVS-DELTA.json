@@ -1,0 +1,41 @@
+{
+  "source_commit": "ea65f5289f3d19ccc5d3dbb65b59650e23e01370",
+  "base_evidence_commit": "f459640509eb550b5f7c86784c1a305720536399",
+  "test_project": "fsvrsvqfknogwmhccera",
+  "db_migration": "pilot_brand_account_guards",
+  "new_finding": "C35-BRAND",
+  "finding_status": "fixed and live SQL regression passed; HTTP/UI not independently verified",
+  "status_changes": [],
+  "partial_updates": [
+    {
+      "id": "V1.2.4",
+      "evidence": "support-search-result.json;dynamic-sql-definitions.json",
+      "remaining": "complete remaining input-to-query paths"
+    },
+    {
+      "id": "V8.2.1",
+      "evidence": "private-readers-result.json;brand-regression-after.json",
+      "remaining": "remaining operations plus HTTP/UI"
+    },
+    {
+      "id": "V8.2.2",
+      "evidence": "private-readers-result.json;brand-regression-after.json",
+      "remaining": "remaining populated cross-resource/tenant operations"
+    },
+    {
+      "id": "V8.3.2",
+      "evidence": "support-search-result.json;brand-regression-after.json",
+      "remaining": "remaining guards and actual JWT lifecycle"
+    }
+  ],
+  "effective_totals": {
+    "passed": 1,
+    "untested_or_partial": 330,
+    "failed": 2,
+    "not_applicable": 12
+  },
+  "failed_unchanged": [
+    "V6.3.3",
+    "V7.4.2"
+  ]
+}
