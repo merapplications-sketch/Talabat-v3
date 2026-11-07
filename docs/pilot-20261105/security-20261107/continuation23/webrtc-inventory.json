@@ -1,0 +1,96 @@
+{
+  "source": "4c78c739cd65c53746b07db6426cf5f66f178d8a",
+  "files_scanned": 22,
+  "matches": [],
+  "files": [
+    {
+      "path": "public/safari-check.html",
+      "sha256": "c81db68df06d608ce0db0cc6566de887b820a489f38cadce8e0596e06eecf00a"
+    },
+    {
+      "path": "public/driver.html",
+      "sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704"
+    },
+    {
+      "path": "public/review.html",
+      "sha256": "e637b78f57458f92327319dedfc852f84d24c5338cb4d48480e468bf952d2823"
+    },
+    {
+      "path": "public/talabat-core.js",
+      "sha256": "de907da9b2b3fe7575921ab442d0ae5b029525c7a44f1e79122c7baf4a02f8b9"
+    },
+    {
+      "path": "public/manifest.json",
+      "sha256": "58bf84194750ecbf54b76391749b961c7a1294e29f31378a5dc2664457dc59b0"
+    },
+    {
+      "path": "public/merchant.html",
+      "sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d"
+    },
+    {
+      "path": "public/customer.html",
+      "sha256": "8745eae192fad9282577e6a9cf28c605ed318ce842bdc43f044ef4f7c6316668"
+    },
+    {
+      "path": "public/index.html",
+      "sha256": "758f609ee07903a63a35587e1198e1701854f8b7adb4577c6f746d3a75fee7b7"
+    },
+    {
+      "path": "public/admin.html",
+      "sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d"
+    },
+    {
+      "path": "public/assets/mobile.css",
+      "sha256": "1124e80a6db47ff5e914dfc67ea0f240c9b5657a96dd20b2dd1bc10fbaf8bb9d"
+    },
+    {
+      "path": "public/assets/mfa.js",
+      "sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721"
+    },
+    {
+      "path": "public/assets/mobile.js",
+      "sha256": "a35ef0e6d8e0eb7f79ac4fd387e170fcda0006c87a51b8bf36254110f5f0283b"
+    },
+    {
+      "path": "public/assets/driver-returns/panel.css",
+      "sha256": "bddf923f3bf622f363ee8b3d6c0568bfa7d40533395e92d5d0ef7753e19ff120"
+    },
+    {
+      "path": "public/assets/driver-returns/panel.js",
+      "sha256": "282464636ea7b572582e235d50c88d1a9f620b605d14dba71733a1ca6c1f3450"
+    },
+    {
+      "path": "public/assets/finance-receipt/receipt.js",
+      "sha256": "bb183a4e57e24db4edf11041b9f1b4d1d024ddfeb55f30a0591963d069a28167"
+    },
+    {
+      "path": "public/assets/finance-receipt/receipt.css",
+      "sha256": "9bdc2cddb30924ac0bca206de51008a50c5ede0f7af5bb4c4cf97c7e06b4455b"
+    },
+    {
+      "path": "public/assets/admin-finance/admin-finance.css",
+      "sha256": "3cb9bd242c208264511120368be65a1ddf77264ea55fb477f8271ac658590dc0"
+    },
+    {
+      "path": "public/assets/admin-finance/admin-finance.js",
+      "sha256": "10646ef7202b21080d9e3bf8cb8619a3d06ae617c763abf650ae0b69883c45f9"
+    },
+    {
+      "path": "public/assets/vendor/supabase-2.117.2.js",
+      "sha256": "59d39487c3589843b410322d8a3d562ce022aba1e5ccb16898ef3fb2a0da2ecd"
+    },
+    {
+      "path": "worker/index.js",
+      "sha256": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c"
+    },
+    {
+      "path": "scripts/csp-policy.mjs",
+      "sha256": "72e29e9332a59367935f382e2c4f52be2bc5e90fadc002fff741ecc93c44b0a2"
+    },
+    {
+      "path": "scripts/build.mjs",
+      "sha256": "b5ec4e0be6621b6ae4d3c00bc11b109d5858070f68f7b8fdd3bbe2468a9643b3"
+    }
+  ],
+  "scope": "Application source/build inputs including vendored JavaScript; no test calls or stress traffic. Edge function inventory separately empty. No WebRTC/TURN/media signaling feature in this application."
+}

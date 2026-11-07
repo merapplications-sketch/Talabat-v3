@@ -1,0 +1,13 @@
+begin;set local lock_timeout='2s';set local statement_timeout='15s';
+insert into auth.users(id,raw_user_meta_data) values('94000000-0000-4000-8000-000000000001','{"name":"ASVS permission lifecycle rollback"}');
+insert into public.staff_members(user_id,perms) values('94000000-0000-4000-8000-000000000001',array['finance']);
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"94000000-0000-4000-8000-000000000001","session_id":"94000000-0000-4000-8000-000000000002","role":"authenticated","aal":"aal1"}',true);
+select set_config('test.results',jsonb_build_object('before',public.finance_access())::text,true);
+reset role;update public.staff_members set active=false where user_id='94000000-0000-4000-8000-000000000001';
+set local role authenticated;
+select set_config('test.results',(current_setting('test.results')::jsonb||jsonb_build_object('inactive',public.finance_access(),'inactive_rows',(select count(*) from public.finance_driver_orders())))::text,true);
+reset role;update public.staff_members set active=true,perms=array[]::text[] where user_id='94000000-0000-4000-8000-000000000001';
+set local role authenticated;
+select set_config('test.results',(current_setting('test.results')::jsonb||jsonb_build_object('permission_removed',public.finance_access(),'removed_rows',(select count(*) from public.finance_driver_orders())))::text,true);
+reset role;select current_setting('test.results')::jsonb results;rollback;
