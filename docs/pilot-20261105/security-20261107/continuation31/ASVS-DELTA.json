@@ -1,0 +1,50 @@
+[
+  {
+    "req_id": "V16.2.5",
+    "req_description": "Verify that when logging sensitive data, the application enforces logging based on the data's protection level. For example, it may not be allowed to log certain data, such as credentials or payment details. Other data, such as session tokens, may only be logged by being hashed or masked, either in full or partially.",
+    "status": "غير مختبر",
+    "evidence_files": [
+      "security-20261107/source-review/consolidated/all-results.json",
+      "security-20261107/REPORT.md",
+      "continuation31/FINDING.md",
+      "continuation31/log-boundary-before.json",
+      "continuation31/log-boundary-after.json",
+      "continuation31/published-bytes.json"
+    ],
+    "current_evidence_kind": "Partial: synthetic raw browser-console error disclosure fixed; current published changed bytes match. All provider/SDK logs not covered."
+  },
+  {
+    "req_id": "V16.4.1",
+    "req_description": "Verify that all logging components appropriately encode data to prevent log injection.",
+    "status": "غير مختبر",
+    "evidence_files": [
+      "continuation31/FINDING.md",
+      "continuation31/log-boundary-before.json",
+      "continuation31/log-boundary-after.json",
+      "continuation31/published-bytes.json"
+    ],
+    "current_evidence_kind": "Partial: synthetic raw browser-console error disclosure fixed; current published changed bytes match. All provider/SDK logs not covered."
+  },
+  {
+    "req_id": "V16.4.2",
+    "req_description": "Verify that logs are protected from unauthorized access and cannot be modified.",
+    "status": "غير مختبر",
+    "evidence_files": [
+      "continuation31/log-tamper.sql",
+      "continuation31/interrupted-check-status.json"
+    ],
+    "current_evidence_kind": "Metadata read; synthetic runtime tamper test prepared but tool confirmation expired. NO runtime pass/fail result."
+  },
+  {
+    "req_id": "V16.5.1",
+    "req_description": "Verify that a generic message is returned to the consumer when an unexpected or security-sensitive error occurs, ensuring no exposure of sensitive internal system data such as stack traces, queries, secret keys, and tokens.",
+    "status": "غير مختبر",
+    "evidence_files": [
+      "continuation31/FINDING.md",
+      "continuation31/log-boundary-before.json",
+      "continuation31/log-boundary-after.json",
+      "continuation31/published-bytes.json"
+    ],
+    "current_evidence_kind": "Partial: synthetic raw browser-console error disclosure fixed; current published changed bytes match. All provider/SDK logs not covered."
+  }
+]

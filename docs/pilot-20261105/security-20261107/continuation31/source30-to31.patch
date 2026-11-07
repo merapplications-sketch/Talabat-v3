@@ -1,0 +1,191 @@
+diff --git a/public/customer.html b/public/customer.html
+index 8a52dfc..5d2f6bd 100644
+--- a/public/customer.html
++++ b/public/customer.html
+@@ -1440,7 +1440,7 @@ async function place(){
+     const r=await TLB.placeOrder({store:S.cartStore,lines,tip:S.tip,payment:S.pay,promo:S.promo&&S.promo.code,address:addrText(ad),lat:ad.lat,lng:ad.lng,fee:calc().fw>0?0:q.fee,wallet:calc().w>0?calc().w:null,points:calc().pts||null,extra:optExtra(),key:S.okey});
+     if(r.error){if(r.error=='wallet_changed')TLB.loadWallet(true);if(r.error=='points_changed'||r.error=='points_min')TLB.reload&&TLB.reload().then(render);if(r.error=='unavailable'||r.error=='bad_options'){TLB.reload&&TLB.reload().then(render);go('cart')}if(r.error=='fee_changed'||r.error=='too_far'){S.quote=null;S.quoteErr=null;quoteNow()}if(/^promo_|too_many$/.test(r.error)){S.promo=null;S.perr=r.error;go('cart')}if(r.error=='bad_time')S.at=null;if(r.error=='bad_group'){grpEnd();go('home')}alert(errMsg(r));return}
+     S.cart={};S.tip=0;S.promo=null;S.perr='';S.pm=null;S.note='';S.pcode='';S.quote=null;S.okey=null;S.gift=null;S.door=false;S.subst='call';S.usePts=false;S.at=null;if(S.gCheckout)grpEnd();prefSave();go('track',{tid:r.id,fresh:r.id})}
+-  catch(e){console.error(e);alert(t('err_generic'))}
++  catch(e){console.error('checkout_failed');alert(t('err_generic'))}
+   finally{S.busy=false;if(S.v=='pay')render()}}
+ let phErr='';
+ async function savePhone(){const r=await TLB.setMyPhone(($('ph')||{}).value);if(r.error){phErr=t('err_'+r.error);if(ME.phone)alert(phErr);render();return}phErr='';ME.phone=r.phone;render()}
+diff --git a/public/talabat-core.js b/public/talabat-core.js
+index 340f824..69d5d0e 100644
+--- a/public/talabat-core.js
++++ b/public/talabat-core.js
+@@ -5,7 +5,7 @@
+   var SB_KEY = 'sb_publishable_pX3MiHp2C7WxLqPgKLtcig_Y2yTU8Gz';   /* publishable key: safe in the browser, RLS protects data */
+   var LK = 'tlb_lang';
+   var subs = [];
+-  function fire() { subs.forEach(function (f) { try { f(); } catch (e) { console.error(e); } }); }
++  function fire() { subs.forEach(function (f) { try { f(); } catch (e) { console.error('client_error', errKey(e)); } }); }
+   function $(id) { return document.getElementById(id); }
+   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+ 
+@@ -179,7 +179,7 @@
+   function storeName(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? s.name : '?'; }
+   function storePhone(id) { var s = DB.stores.find(function (x) { return x.id === id; }); return s ? (s.phone || '') : ''; }
+   var ALL_PERMS = ['orders', 'support', 'finance', 'stores', 'content'], MYPERMS = [];
+-  var VERSION = 'pilot-mobile-20261107.30';
++  var VERSION = 'pilot-mobile-20261107.31';
+   function groupsOf(id) { return DB.groups.filter(function (g) { return g.item_id === id; }); }
+   function availOpts(g) { return DB.options.filter(function (o) { return o.group_id === g.id && o.available; }); }
+   function shapeItem(i) { return { id: i.id, name: i.name, price: +i.price, image: i.image_url || '', available: i.available, popular: i.popular, approved: i.approved, section: i.section || '', discount: +i.discount_pct || 0, hasOpts: groupsOf(i.id).some(function (g) { return availOpts(g).length > 0; }), optsBlocked: groupsOf(i.id).some(function (g) { return g.required && availOpts(g).length === 0; }), store: storeName(i.store_id) }; }
+@@ -472,7 +472,7 @@
+     // a restaurant needs to know its own stores before it can ask for its orders
+     var p = (name === 'orders' && ME.role === 'merchant' && !DB.stores.length) ? loadStat().then(go) : go();
+     secRun[name] = p.then(function (ch) { secFail[name] = 0; if (!secFail.stat && !secFail.orders) unbanner('tlb-err'); return !!ch; }, function (e) {
+-      secFail[name] = (secFail[name] || 0) + 1; console.error(name, e); lastErr = String((e && e.message) || e);
++      secFail[name] = (secFail[name] || 0) + 1; console.error('client_error', errKey(e)); lastErr = String((e && e.message) || e);
+       if (/failed to fetch|networkerror|load failed|network request failed/i.test(lastErr)) checkNet();
+       if ((name === 'stat' && !DB.stores.length) || ((name === 'stat' || name === 'orders') && secFail[name] >= 2)) banner('tlb-err', t('loadFail'), '#1c1c21', 86);
+       return false;
+@@ -484,7 +484,7 @@
+     var names = which ? [].concat(which) : ['stat', 'orders', 'misc'].concat(ME.role === 'driver' ? ['offers'] : []);
+     return Promise.all(names.map(runSection)).then(function (res) {
+       if (res.some(Boolean)) { ORD = shape(); notify(); fireSoon(); maybeTick(); }
+-    }).catch(function (e) { console.error(e); lastErr = String((e && e.message) || e); });
++    }).catch(function (e) { console.error('client_error', errKey(e)); lastErr = String((e && e.message) || e); });
+   }
+   function kick(sec) {
+     if (kicks[sec]) return;
+@@ -633,7 +633,7 @@
+     });
+   }
+   function done(r, quiet) {
+-    if (r.error) { console.error(r.error); toast(t('err_generic'), true); return { error: 'generic', toasted: true }; }
++    if (r.error) { console.error('client_error', errKey(r.error)); toast(t('err_generic'), true); return { error: 'generic', toasted: true }; }
+     if (!quiet) toast(t('saved'));
+     return refresh().then(function () { return { ok: true }; });
+   }
+@@ -958,13 +958,13 @@
+         if (need === 'driver' && ME.driver_status !== 'approved') { bootHide(); return blocked('pendingApp'); }
+         var o = $('tlb-ov'); if (o) o.remove();
+         return Promise.all([refresh(), finAccess()]).then(function () {
+-          try { subscribeRealtime(); } catch (e) { console.error(e); }
++          try { subscribeRealtime(); } catch (e) { console.error('client_error', errKey(e)); }
+           startScheduler();
+           bootHide();
+           onReady(me());
+         });
+       });
+-    }).catch(function (e) { console.error(e); bootFail(e); });
++    }).catch(function (e) { console.error('client_error', errKey(e)); bootFail(e); });
+   }
+ 
+   /* ---------- API ---------- */
+@@ -1078,7 +1078,7 @@
+         if (x.data.session) { if (recoveryPending) return showPasswordRecovery(); if (incomingRecovery) { bootHide(); return showLogin(t('resetExpired')); } return enter(x.data.session.user); }
+         bootHide(); showLogin(incomingRecovery ? t('resetExpired') : '');
+       })
+-        .catch(function (e) { console.error(e); bootFail(e); });
++        .catch(function (e) { console.error('client_error', errKey(e)); bootFail(e); });
+     },
+     reload: function () { return refresh(); },
+     me: me, logout: logout, toast: toast, beep: beep, ring: ring, audioReady: audioOk, unlockAudio: unlockNow, testSound: function () { unlockNow(); ringBeep(); }, fmtMsg: fmtMsg, pickLocation: pickLocation,
+@@ -1110,7 +1110,7 @@
+     updateOption: function (id, f) { var u = {}; if ('name' in f) { var n = String(f.name || '').trim(); if (!n || n.length > 60) return badStore(); u.name = n; } if ('price' in f) { var p = +f.price; if (!isFinite(p) || p < 0 || p > 100000) return badStore(); u.price_delta = Math.round(p * 100) / 100; } if ('available' in f) u.available = !!f.available; return sb.from('item_options').update(u).eq('id', id).then(function (r) { return done(r, true); }); },
+     deleteOption: function (id) { return sb.from('item_options').delete().eq('id', id).then(done); },
+     addresses: function () { return DB.addresses; },
+-    addAddress: function (f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').insert(Object.assign({ user_id: ME.id }, c)).select('id').single().then(function (r) { if (r.error) { console.error(r.error); toast(t('err_generic'), true); return { error: 'generic', toasted: true }; } return refresh().then(function () { return { ok: true, id: r.data ? r.data.id : null }; }); }); },
++    addAddress: function (f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').insert(Object.assign({ user_id: ME.id }, c)).select('id').single().then(function (r) { if (r.error) { console.error('client_error', errKey(r.error)); toast(t('err_generic'), true); return { error: 'generic', toasted: true }; } return refresh().then(function () { return { ok: true, id: r.data ? r.data.id : null }; }); }); },
+     updateAddress: function (id, f) { var c = cleanAddr(f); if (!c) return badStore(); return sb.from('addresses').update(c).eq('id', id).then(done); },
+     deleteAddress: function (id) { return sb.from('addresses').delete().eq('id', id).then(done); },
+     setDefaultAddress: function (id) { return sb.rpc('set_default_address', { p_id: id }).then(function (r) { return refresh().then(function () { return r.error ? { error: errKey(r.error) } : { ok: true }; }); }); },
+@@ -1172,7 +1172,7 @@
+               var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+               var path = ME.id + '/' + id + '.jpg';
+               sb.storage.from('media').upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false }).then(function (r) {
+-                if (r.error) { console.error(r.error); return failUpload(); }
++                if (r.error) { console.error('client_error', errKey(r.error)); return failUpload(); }
+                 resolve(sb.storage.from('media').getPublicUrl(path).data.publicUrl);
+               }, function () { failUpload(); });
+             }, 'image/jpeg', q);
+@@ -1192,7 +1192,7 @@
+         (r[0].error ? [] : (r[0].data || [])).forEach(function (c) { if (!seen[c.id]) { DB.chat.push(c); seen[c.id] = 1; } });
+         DB.events = DB.events.filter(function (e) { return e.order_id !== id; }).concat(r[1].error ? [] : (r[1].data || []));
+         ORD = shape(); fireSoon();
+-      }).catch(function (e) { console.error(e); });
++      }).catch(function (e) { console.error('client_error', errKey(e)); });
+     },
+     /* ---------- About / Privacy pages (edited by the admin) ---------- */
+     pages: function () { return DB.pages; },
+@@ -1251,14 +1251,14 @@
+       if (!m && reason !== 'other') m = String(t('rs_' + reason) || reason);      // no message typed: the first line of the conversation is the chosen reason
+       if (['not_delivered', 'wrong_order', 'missing_items', 'quality', 'late', 'courier', 'restaurant', 'payment', 'other'].indexOf(reason) < 0 || m.length < (reason === 'other' ? 5 : 1) || m.length > 500) return Promise.resolve({ error: 'bad_value' });
+       return sb.rpc('create_ticket', { p_order: orderId == null ? null : orderId, p_reason: reason, p_message: m }).then(function (r) {
+-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
++        if (r.error) { console.error('client_error', errKey(r.error)); return { error: errKey(r.error) }; }
+         return refresh(['misc']).then(function () { return { id: r.data }; });
+       }, function () { return { error: 'generic' }; });
+     },
+     ticketReply: function (id, body) {
+       var m = String(body || '').trim(); if (!m || m.length > 500) return Promise.resolve({ error: 'bad_value' });
+       return sb.rpc('ticket_reply', { p_ticket: id, p_body: m }).then(function (r) {
+-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
++        if (r.error) { console.error('client_error', errKey(r.error)); return { error: errKey(r.error) }; }
+         extraLoaded['t' + id] = 0; return Promise.all([refresh(['misc']), TLBref.loadTicket(id, true)]).then(function () { return { ok: true }; });
+       }, function () { return { error: 'generic' }; });
+     },
+@@ -1268,7 +1268,7 @@
+     ticketStaffReply: function (id, body) {
+       var m = String(body || '').trim(); if (!m || m.length > 500) return Promise.resolve({ error: 'bad_value' });
+       return sb.rpc('ticket_staff_reply', { p_ticket: id, p_body: m }).then(function (r) {
+-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
++        if (r.error) { console.error('client_error', errKey(r.error)); return { error: errKey(r.error) }; }
+         extraLoaded['t' + id] = 0; return Promise.all([refresh(['misc']), TLBref.loadTicket(id, true)]).then(function () { return { ok: true }; });
+       }, function () { return { error: 'generic' }; });
+     },
+@@ -1277,7 +1277,7 @@
+       if (['open', 'in_progress', 'resolved', 'rejected'].indexOf(status) < 0 || (rf !== null && (isNaN(rf) || rf < 0))) return Promise.resolve({ error: 'bad_value' });
+       if (status === 'rejected' && String(note || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
+       return sb.rpc('ticket_set_status', { p_ticket: id, p_status: status, p_note: String(note || '').slice(0, 300), p_refund: rf }).then(function (r) {
+-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
++        if (r.error) { console.error('client_error', errKey(r.error)); return { error: errKey(r.error) }; }
+         return refresh(['misc']).then(function () { return { ok: true }; });
+       }, function () { return { error: 'generic' }; });
+     },
+@@ -1291,14 +1291,14 @@
+       if (!ph) return Promise.resolve({ error: 'bad_phone' });
+       if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return Promise.resolve({ error: 'bad_value' });
+       return sb.rpc('request_store', { p_name: name, p_category: f.category, p_phone: ph, p_address: String(f.address || '').trim().slice(0, 200), p_lat: lat, p_lng: lng, p_note: String(f.note || '').trim().slice(0, 500) }).then(function (r) {
+-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
++        if (r.error) { console.error('client_error', errKey(r.error)); return { error: errKey(r.error) }; }
+         return refresh(['misc']).then(function () { return { ok: true, id: r.data }; });
+       }, function () { return { error: 'generic' }; });
+     },
+     decideStoreRequest: function (id, approve, note) {
+       if (!approve && String(note || '').trim().length < 3) return Promise.resolve({ error: 'note_required' });
+       return sb.rpc('decide_store_request', { p_id: id, p_approve: !!approve, p_note: String(note || '').slice(0, 300) }).then(function (r) {
+-        if (r.error) { console.error(r.error); return { error: errKey(r.error) }; }
++        if (r.error) { console.error('client_error', errKey(r.error)); return { error: errKey(r.error) }; }
+         sigs = {}; return refresh().then(function () { return { ok: true, store: r.data }; });
+       }, function () { return { error: 'generic' }; });
+     },
+@@ -1587,7 +1587,7 @@
+       DB.favs = has ? DB.favs.filter(function (x) { return x !== storeId; }) : DB.favs.concat([storeId]);
+       fireSoon();
+       var q = has ? sb.from('favorites').delete().eq('user_id', ME.id).eq('store_id', storeId) : sb.from('favorites').insert({ user_id: ME.id, store_id: storeId });
+-      return q.then(function (r) { if (r.error) console.error(r.error); sigs = {}; return refresh(['misc']); });
++      return q.then(function (r) { if (r.error) console.error('client_error', errKey(r.error)); sigs = {}; return refresh(['misc']); });
+     }
+   };
+   TLBref = window.TLB;
+diff --git a/tests/security-errors-logout.cjs b/tests/security-errors-logout.cjs
+index e16ea82..5bf7415 100644
+--- a/tests/security-errors-logout.cjs
++++ b/tests/security-errors-logout.cjs
+@@ -9,6 +9,11 @@ const marker='INTERNAL_ONLY_MARKER query failed SELECT secret_column';
+  const result=await ctx.rpc('test',{});assert.equal(result.error,'generic');assert.equal(JSON.stringify(result).includes(marker),false,'RPC must not return internal text');assert.equal(JSON.stringify(logs).includes(marker),false,'RPC must not log raw internal text');assert.equal(refreshes,0);
+  response={error:{message:'note_required'}};assert.equal((await ctx.rpc('test',{})).error,'note_required');assert.equal(refreshes,0);
+  response={data:{ok:true}};assert.equal((await ctx.rpc('test',{})).data.ok,true);assert.equal(refreshes,1);
++ const done=src.slice(src.indexOf('  function done('),src.indexOf('  function storeByName('));vm.runInContext(done,ctx);logs=[];
++ const denied=ctx.done({error:{message:marker,details:marker,token:marker}});assert.equal(denied.error,'generic');assert.equal(denied.toasted,true);assert.equal(JSON.stringify(logs).includes(marker),false,'write completion must not log raw error objects');
++ const allowed=await ctx.done({data:{ok:true}});assert.equal(allowed.ok,true);assert.equal(refreshes,2,'successful completion still refreshes');
++ assert.equal(/console\.error\(\s*(?:e|r\.error|name\s*,\s*e)\s*\)/.test(src),false,'all first-party core error sites must use safe codes');
++ assert.equal(/console\.error\(\s*e\s*\)/.test(html),false,'checkout catch must not log raw error');
+  const fn=html.match(/const errMsg=r=>[^\n]+/)[0];const render={t:x=>x};vm.createContext(render);vm.runInContext(fn+'\nglobalThis.renderError=errMsg',render);assert.equal(render.renderError({error:'generic',detail:marker}).includes(marker),false,'customer must ignore unexpected raw details');
+  let called=0,removed=0,reloaded=0;const nodes={'tlb-rl':{},'tlb-rs2':{}};const b={lastErr:'',bootHide:()=>{},clearProofUrls:()=>{},showLogin:()=>{},lang:'en',BT:'',overlay:()=>{},$:x=>nodes[x],logout:()=>{called++;return Promise.resolve();},authStorageKey:'synthetic',localStorage:{removeItem:()=>removed++},location:{reload:()=>reloaded++}};vm.createContext(b);vm.runInContext(boot,b);b.bootFail('network');await nodes['tlb-rs2'].onclick();assert.equal(called,1,'boot signout must invoke existing server logout');assert.equal(removed,0);assert.equal(reloaded,0);
+  console.log('PASS: sanitized RPC/customer error, domain error and success retained; boot logout delegates to existing server flow');

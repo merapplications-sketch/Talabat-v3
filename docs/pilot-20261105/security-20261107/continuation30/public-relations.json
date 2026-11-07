@@ -1,0 +1,362 @@
+[
+  {
+    "relname": "addresses",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "app_pages",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": false
+  },
+  {
+    "relname": "app_settings",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "app_texts",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "audit_log",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "banners",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "brands",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": false
+  },
+  {
+    "relname": "client_errors",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "favorites",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "group_items",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": false,
+    "auth_write": false
+  },
+  {
+    "relname": "group_orders",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": false,
+    "auth_write": false
+  },
+  {
+    "relname": "happy_hours",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "item_option_groups",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "item_options",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "loyalty_ledger",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": false
+  },
+  {
+    "relname": "loyalty_lots",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": false
+  },
+  {
+    "relname": "menu_items",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "order_chat",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "order_customer_phone",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": false,
+    "auth_write": false
+  },
+  {
+    "relname": "order_driver_phone",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": false,
+    "auth_write": false
+  },
+  {
+    "relname": "order_events",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "order_items",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "order_offers",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "order_recipient",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": false
+  },
+  {
+    "relname": "orders",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "profiles",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "promo_attempts",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "promo_codes",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "promo_guess",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": false,
+    "auth_write": false
+  },
+  {
+    "relname": "ratings",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "staff_members",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": false
+  },
+  {
+    "relname": "store_requests",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "stores",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": false,
+    "auth_write": true
+  },
+  {
+    "relname": "support_tickets",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "ticket_messages",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": true
+  },
+  {
+    "relname": "wallet_entries",
+    "relkind": "r",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "reloptions": null,
+    "anon_select": false,
+    "auth_select": true,
+    "auth_write": false
+  }
+]

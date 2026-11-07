@@ -1,0 +1,17 @@
+{
+  "raw_marker_logged": false,
+  "rejected": {
+    "error": "generic",
+    "toasted": true
+  },
+  "accepted": {
+    "ok": true
+  },
+  "refreshes": 1,
+  "logs": [
+    [
+      "client_error",
+      "generic"
+    ]
+  ]
+}

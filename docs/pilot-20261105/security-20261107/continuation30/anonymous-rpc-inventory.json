@@ -1,0 +1,51 @@
+[
+  {
+    "proname": "account_enabled",
+    "args": "",
+    "result": "boolean",
+    "prosecdef": true,
+    "definition": "CREATE OR REPLACE FUNCTION public.account_enabled()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n SELECT EXISTS(SELECT 1 FROM public.profiles p WHERE p.id=auth.uid() AND p.banned_at IS NULL)\n AND NOT EXISTS(SELECT 1 FROM security_private.revoked_sessions r\n WHERE r.user_id=auth.uid() AND r.session_id::text=auth.jwt()->>'session_id')\n AND (NOT EXISTS(SELECT 1 FROM security_private.mfa_required_users m WHERE m.user_id=auth.uid()) OR coalesce(auth.jwt()->>'aal','')='aal2')\n$function$\n"
+  },
+  {
+    "proname": "courier_steps_version",
+    "args": "",
+    "result": "integer",
+    "prosecdef": false,
+    "definition": "CREATE OR REPLACE FUNCTION public.courier_steps_version()\n RETURNS integer\n LANGUAGE sql\n IMMUTABLE\nAS $function$ select 34 $function$\n"
+  },
+  {
+    "proname": "happy_hour_pct",
+    "args": "p_store uuid, p_at timestamp with time zone",
+    "result": "integer",
+    "prosecdef": true,
+    "definition": "CREATE OR REPLACE FUNCTION public.happy_hour_pct(p_store uuid, p_at timestamp with time zone DEFAULT now())\n RETURNS integer\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  with l as (select (p_at at time zone 'Asia/Dushanbe') as t)\n  select coalesce(max(h.discount_pct), 0)::int\n    from happy_hours h, l\n   where h.active and (h.store_id is null or h.store_id = p_store)\n     and (\n       (h.start_time < h.end_time and extract(isodow from l.t)::smallint = any(h.days) and l.t::time >= h.start_time and l.t::time < h.end_time)\n       or (h.start_time > h.end_time and (\n            (extract(isodow from l.t)::smallint = any(h.days) and l.t::time >= h.start_time)\n         or (extract(isodow from (l.t - interval '1 day'))::smallint = any(h.days) and l.t::time < h.end_time)))\n     )\n$function$\n"
+  },
+  {
+    "proname": "has_perm",
+    "args": "p text",
+    "result": "boolean",
+    "prosecdef": true,
+    "definition": "CREATE OR REPLACE FUNCTION public.has_perm(p text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$ SELECT public.account_enabled() AND EXISTS(SELECT 1 FROM public.profiles u WHERE u.id=auth.uid() AND u.banned_at IS NULL AND (u.role='admin' OR EXISTS(SELECT 1 FROM public.staff_members s WHERE s.user_id=u.id AND s.active AND p=ANY(s.perms)))) $function$\n"
+  },
+  {
+    "proname": "my_perms",
+    "args": "",
+    "result": "text[]",
+    "prosecdef": true,
+    "definition": "CREATE OR REPLACE FUNCTION public.my_perms()\n RETURNS text[]\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$ SELECT CASE WHEN NOT public.account_enabled() THEN NULL WHEN NOT EXISTS(SELECT 1 FROM public.profiles WHERE id=auth.uid() AND banned_at IS NULL) THEN NULL WHEN public.is_admin() THEN ARRAY['orders','support','finance','stores','content'] ELSE (SELECT s.perms FROM public.staff_members s WHERE s.user_id=auth.uid() AND s.active AND cardinality(s.perms)>0) END $function$\n"
+  },
+  {
+    "proname": "pilot_check_session",
+    "args": "",
+    "result": "void",
+    "prosecdef": true,
+    "definition": "CREATE OR REPLACE FUNCTION public.pilot_check_session()\n RETURNS void\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nBEGIN\n IF auth.role()='authenticated' AND NOT public.account_enabled() THEN\n  RAISE SQLSTATE '42501' USING MESSAGE='account_blocked';\n END IF;\nEND $function$\n"
+  },
+  {
+    "proname": "promo_guard_version",
+    "args": "",
+    "result": "integer",
+    "prosecdef": false,
+    "definition": "CREATE OR REPLACE FUNCTION public.promo_guard_version()\n RETURNS integer\n LANGUAGE sql\n STABLE\nAS $function$ select 30 $function$\n"
+  }
+]

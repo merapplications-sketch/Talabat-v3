@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-11-07T21:18:51.168011+00:00",
+  "synthetic_users": 0,
+  "synthetic_audit": 0,
+  "synthetic_errors": 0,
+  "verified_factors": 1,
+  "aal2_sessions": 1,
+  "log_tamper_test": "NOT EXECUTED/NO SUCCESS EVIDENCE: prior call aborted; current confirmation expired after 2 minutes",
+  "provider_dashboard": "secure email request submitted; hCaptcha challenge visible; project dashboard not reached"
+}

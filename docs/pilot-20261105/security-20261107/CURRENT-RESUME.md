@@ -1,3 +1,15 @@
+# Current .31 — published, session verified; dashboard at hCaptcha
+
+Source ea65f5289f3d19ccc5d3dbb65b59650e23e01370; hosting41; deployment appgdep_6aef8f620d948191904f9bae3c2b27e5 succeeded20:52:03Z 2026-11-07. Both published changed files match source. Source clean.
+MFA remains verified1/AAL2 sessions1; .31 home loaded without credentials. Never reenroll or reset passwords.
+New C31-LOG low severity bounded raw console error exposure fixed18 sites, existing regression extended,21 groups passed; evidence continuation31/FINDING.md, before/after, patch, test, published-bytes, screenshot.
+Latest prior GitHub evidence42a2ae1658dae0f28856eb834d0730a344736fbb; Library workingZIP version18.
+Provider login: user newly authorized retry; secure email method submitted, now hCaptcha. No dashboard success. Need user challenge completion then inspect final state; do not resend credentials. CUA supaConfig30 tab14; live24 tab4 is TALABOT .31 session. Request handoff once.
+log-tamper.sql has no result: first call aborted; current execute_sql confirmation expired after2minutes. Do not label pass/fail. Before attempt cleanup users/audit/errors0. Next run only after fresh tool confirmation; no bypass or weakening test. Test is explicitrollback synthetic only.
+Continue remaining independent matrix rows; not all available work exhausted. Preserve prior return/finance/helper/accountant/employee/proof evidence. Protected1/2/3, #3 unpaid, production/main/routes unchanged.
+
+Latest evidence pushed: 42a2ae1658dae0f28856eb834d0730a344736fbb. Source .30 unchanged abe3a5144894b82327a27944c4f1358959d83cf8. Eight finance cached-access assertions passed, all fixtures rollback/cleanup zero. MFA complete; provider dashboard secure login declined, do not retry without user request. Next independent step: remaining public RPC/non-trigger ACL and mutable search-path reachability audit; preserve completed private/helper/finance/return cells.
+
 Latest evidence commit a76bc38759db2858c25bf6a010248aa8f8ddfccf, Library17. Additional .30 unchanged-source tests after that commit: direct private helper denied; customer order reassignment denied by table privileges; return status customer5keys/driver12keys/outsider denied; return driver reassignment blocked by existing return_order_protected; orders staff active read/replay succeeds, inactive/permissionremoved both denied. Files in continuation30; pending next evidence save. Supabase dashboard secure login returned declined: do NOT retry unless user asks. App MFA/session remains valid, not provider login.
 
 # Current .30 — account AND current-resource guards before replay

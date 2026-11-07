@@ -1,0 +1,10 @@
+{
+  "talabat-core.js": {
+    "matches": true,
+    "sha256": "99e67b31c99749759ec83f5763f09ee321fc2a34952b92d3e2e727f9c331099d"
+  },
+  "customer.html": {
+    "matches": true,
+    "sha256": "2bfd0802d24fc4d8f907103dc0221e993f7b03b65a8b5c6388966a3dbfd5d245"
+  }
+}

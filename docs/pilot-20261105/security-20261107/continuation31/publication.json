@@ -1,0 +1,11 @@
+{
+  "source": "ea65f5289f3d19ccc5d3dbb65b59650e23e01370",
+  "version": ".31",
+  "hosting": 41,
+  "deployment": "appgdep_6aef8f620d948191904f9bae3c2b27e5",
+  "status": "succeeded",
+  "updated_at": "2026-11-07T20:52:03.422706+00:00",
+  "archive_sha256": "b4290a9b55f2354087abede0cac1e15d660f5d0f2b893be813318a6a2f47964c",
+  "provider_content_hash": "sha256:221f8e5d80351cc4e0572611ac0cb0c54d8cdabff9b7c86fb35d7db801b4a049",
+  "url": "https://talabot-isolated-safari-20261106.alwarikahtan.chatgpt.site/customer"
+}

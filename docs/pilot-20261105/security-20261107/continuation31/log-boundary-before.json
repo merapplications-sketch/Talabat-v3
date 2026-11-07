@@ -1,0 +1,20 @@
+{
+  "raw_marker_logged": true,
+  "rejected": {
+    "error": "generic",
+    "toasted": true
+  },
+  "accepted": {
+    "ok": true
+  },
+  "refreshes": 1,
+  "logs": [
+    [
+      {
+        "message": "SYNTHETIC_PRIVATE_MARKER",
+        "details": "SYNTHETIC_PRIVATE_MARKER",
+        "token": "SYNTHETIC_PRIVATE_MARKER"
+      }
+    ]
+  ]
+}
