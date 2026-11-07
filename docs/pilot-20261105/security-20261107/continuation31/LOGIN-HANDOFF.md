@@ -1,0 +1,3 @@
+# Supabase handoff — latest visible state
+
+After secure email submission, hCaptcha appeared. On final reinspection it had disappeared and the Sign in form was enabled again; no signed-in dashboard and no visible incorrect-password error. Do not claim provider authentication succeeded or guess the reason. Request manual authentication handoff on existing tab14; user completes Sign in/challenge. Do not reenroll TALABOT MFA, reset passwords or resend credentials automatically. TALABOT tab4 remains .31 signed-in. After handoff ends, inspect fresh target project state; use canonical test project only fsvrsvqfknogwmhccera.
