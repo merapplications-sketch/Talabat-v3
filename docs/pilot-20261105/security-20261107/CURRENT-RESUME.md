@@ -1,3 +1,15 @@
+# .31 continuation36 — HTTP anonymous denial, UI MFA blocker, SMTP readiness
+
+Base evidence43c85f40242836b536252addf17c4b8ac02ec311 verified unchanged. Published core SHA256 matches .31. No migration/redeployment or old cleanup repeated.
+
+New: three anonymous HTTP RPC POSTs brand_stats/branch_create/brand_sync_menu returned401/code42501; null targets, publishable key only, no user bearer token. This is not authenticated owner/banned HTTP proof. Existing synthetic UI Auth check returnedok/status200. Merchant UI secure login reachedMFA, secure OTP submission returned generic unable-to-confirm message; no automatic retry. No credentials read/reset, no re-enrollment. Need successful authorized UI session before brand button acceptance; do not mark it passed.
+
+New SQL store reward configuration tests with populated synthetic store: active stores-permission writes, 11 invalid values denied, removal and ban denied, unchanged allowed values. Transaction rolled back; synthetic user/staff/store0. Existing tests only covered null target for these functions; this adds populated/validation coverage. No orders/wallet/settlements. No new defect/fix. Partial V2.2.1,V2.2.2,V8.2.1,V8.3.2 only; totalsunchanged.
+
+Mail: signed-in dashboard confirms SMTPoff, hooks list contains only JWT public.pilot_session_token_hook enabled, noSendEmailhook.0/2recovery,0/1alert. Owner decision: existing authorized SMTP sender or ResendFree plus owned sending domain/DNS access; no mailbox password or secrets in chat. Free/nooverages proposal only; no activation/purchase. SMTPAuth alone does not wire incident alerts.
+
+See continuation36/REPORT-AR.md and executable SQL/HTTP probes. Preserve browser sessions and protected cases. Remaining prior work below remains open.
+
 # .31 continuation35 — verified save and deployed brand guards
 
 Base evidence f459640509eb550b5f7c86784c1a305720536399 was already saved; fresh compare to branch identical ahead0/behind0. Do not repeat earlier push. Source ea65f5289f3d19ccc5d3dbb65b59650e23e01370 clean; site active hosting41. No frontend redeploy needed or performed.

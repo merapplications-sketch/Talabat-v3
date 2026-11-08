@@ -1,0 +1,24 @@
+{
+  "synthetic_existing_auth_check": {
+    "ok": true,
+    "status": 200
+  },
+  "merchant_ui": {
+    "login_form_observed": true,
+    "secure_login_request": "submitted",
+    "mfa_form_observed": true,
+    "secure_mfa_request": "submitted",
+    "visible_result": "Не удалось подтвердить. Попробуйте снова.",
+    "retries": 0,
+    "authenticated_brand_ui_completed": false
+  },
+  "mail": {
+    "custom_smtp_enabled": false,
+    "configured_hooks": [
+      "public.pilot_session_token_hook"
+    ],
+    "send_email_hook_configured": false,
+    "recovery_sent": 0,
+    "alert_sent": 0
+  }
+}
