@@ -15,9 +15,9 @@ def snap():
  return {t:a.execute('select coalesce(jsonb_agg(to_jsonb(t) order by to_jsonb(t)::text),\'[]\'::jsonb) from '+t+' t').fetchone()[0] for t in ['orders','order_items','wallet_entries','fulfillment_private.order_approvals']}
 try:
  c1=session();c2=session();p1=c1.info.backend_pid;p2=c2.info.backend_pid;assert p1!=p2
- first=order(c1,'same95'); box={}
+ first=order(c1,'request95_same'); box={}
  def second():
-  try:box['id']=order(c2,'same95');c2.commit()
+  try:box['id']=order(c2,'request95_same');c2.commit()
   except Exception as e:box['error']=type(e).__name__;c2.rollback()
  t=threading.Thread(target=second);t.start(); blocked=False
  for _ in range(100):
@@ -31,20 +31,20 @@ try:
  results.append({'case':'same key two independent connections','passed':True,'pids':[p1,p2],'blocking_observed':blocked,'orders':1,'wallet_spends':1})
  c1.close();c2.close()
  before=snap()
- with session() as c:assert order(c,'same95')==first
+ with session() as c:assert order(c,'request95_same')==first
  assert snap()==before;results.append({'case':'committed result discarded then retry','passed':True,'note':'ACK loss modeled by discarding result; not a TCP fault'})
- with session() as c:assert order(c,'same95',3)==first
+ with session() as c:assert order(c,'request95_same',3)==first
  assert snap()==before;results.append({'case':'same key changed quantity preserves original','passed':True})
- with session(O) as c:other=order(c,'same95')
+ with session(O) as c:other=order(c,'request95_same')
  assert other!=first and str(a.execute('select customer_id from orders where id=%s',(other,)).fetchone()[0])==O
  results.append({'case':'same key different account returns own order','passed':True})
  a.execute("update fulfillment_private.order_approvals set state='accepted',customer_at=now() where order_id=%s",(first,))
  before=snap();c=session();c.execute("select set_config('test92.fail_end','yes',false)")
- try:order(c,'fail95');raise AssertionError('expected failure')
+ try:order(c,'request95_failure');raise AssertionError('expected failure')
  except psycopg.Error as e:assert 'synthetic_final_failure' in str(e);c.rollback()
  finally:c.close()
  assert snap()==before
- with session() as c:order(c,'fail95')
+ with session() as c:order(c,'request95_failure')
  assert len(snap()['orders'])==len(before['orders'])+1
  assert len(snap()['wallet_entries'])==len(before['wallet_entries'])+1
  results.append({'case':'late failure rolls back then retry has one effect','passed':True})
