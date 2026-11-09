@@ -2,7 +2,7 @@ name: sql97-public
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: ['ci97/**', 'tests/native95/**', 'tests/native96/**', 'tests/native97/**', '.github/workflows/sql97.yml', '.github/workflows/native95.yml']
+    paths: ['ci97/**', 'tests/native95/**', 'tests/native96/**', 'tests/native97/**', 'tests/native98/**', 'tests/http98/**', '.github/workflows/sql97.yml', '.github/workflows/native95.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,6 +20,17 @@ jobs:
         working-directory: isolated97
         env:
           PGLITE_MODULE: ${{ github.workspace }}/isolated97/tests/dispatch-isolated/node_modules/@electric-sql/pglite/dist/index.js
+      - run: |
+          mkdir -p isolated97/tests/http98 isolated97/tests/native98
+          cp tests/http98/*.mjs isolated97/tests/http98/
+          cp tests/native98/place_order.fixed.sql isolated97/tests/native98/
+      - run: node --test tests/http98/runner.test.mjs
+        working-directory: isolated97
+      - run: node tests/order-transaction94.mjs
+        working-directory: isolated97
+        env:
+          PGLITE_MODULE: ${{ github.workspace }}/isolated97/tests/dispatch-isolated/node_modules/@electric-sql/pglite/dist/index.js
+          ORDER_FUNCTION: tests/native98/place_order.fixed.sql
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
