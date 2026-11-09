@@ -6,6 +6,14 @@ on:
 permissions:
   contents: read
 jobs:
+  fast-definition-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 -m py_compile tests/native95/contention.py tests/native96/faults.py tests/native96/restore.py
   contention:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -53,7 +61,7 @@ jobs:
           docker exec "$PG_CONTAINER" pg_dump -U postgres --no-owner postgres > "$RUNNER_TEMP/native95.sql"
           docker exec "$PG_CONTAINER" createdb -U postgres native95_restored
           docker exec -i "$PG_CONTAINER" psql -v ON_ERROR_STOP=1 -U postgres -d native95_restored < "$RUNNER_TEMP/native95.sql"
-          python3 tests/native95-restore.py
+          python3 tests/native96/restore.py
           rm "$RUNNER_TEMP/native95.sql"
       - name: Bounded synthetic evidence
         if: always()
@@ -64,5 +72,17 @@ jobs:
             native95-result.json
             native96-result.json
             native95-restore.json
+            native96-restore.json
           if-no-files-found: warn
           retention-days: 7
+  native96-required:
+    if: always()
+    needs: [fast-definition-check, contention]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - name: Require every job in this native suite
+        env:
+          FAST: ${{ needs.fast-definition-check.result }}
+          POSTGRES: ${{ needs.contention.result }}
+        run: test "$FAST" = success && test "$POSTGRES" = success
