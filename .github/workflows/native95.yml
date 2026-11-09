@@ -2,7 +2,7 @@ name: Native95 isolated order contention
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: [tests/native95/**, tests/native95-restore.py, .github/workflows/native95.yml]
+    paths: [tests/native95/**, tests/native96/**, tests/native95-restore.py, .github/workflows/native95.yml]
 permissions:
   contents: read
 jobs:
@@ -41,7 +41,7 @@ jobs:
           PGUSER: postgres
           PGPASSWORD: synthetic-local-only
         run: |
-          python3 tests/native95/contention.py
+          python3 tests/native96/faults.py
       - name: Restore synthetic backup to separate database
         env:
           PGHOST: 127.0.0.1
@@ -62,6 +62,7 @@ jobs:
           name: native95-${{ github.sha }}
           path: |
             native95-result.json
+            native96-result.json
             native95-restore.json
           if-no-files-found: warn
           retention-days: 7
