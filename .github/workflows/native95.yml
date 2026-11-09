@@ -1,0 +1,53 @@
+name: Native95 isolated order contention
+on:
+  push:
+    branches: [review/ci-native95-20261110]
+    paths: [tests/native95/**, .github/workflows/native95.yml]
+permissions:
+  contents: read
+jobs:
+  contention:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17.6@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+        env:
+          POSTGRES_PASSWORD: synthetic-local-only
+          POSTGRES_DB: postgres
+        ports: ['127.0.0.1:5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - name: Read exact public source without stored credentials
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git init .
+          git remote add origin https://github.com/merapplications-sketch/Talabat-v3.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+      - name: Install pinned local PostgreSQL client driver
+        run: python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
+      - name: New multi-connection tests only
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: '5432'
+          PGUSER: postgres
+          PGPASSWORD: synthetic-local-only
+        run: |
+          python3 tests/native95/contention.py
+          python3 -c "raise SystemExit('CI95_NEGATIVE_CONTROL: mandatory failure must fail workflow')"
+      - name: Bounded synthetic evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: native95-${{ github.sha }}
+          path: native95-result.json
+          if-no-files-found: warn
+          retention-days: 7
