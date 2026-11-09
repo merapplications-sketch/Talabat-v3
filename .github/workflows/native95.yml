@@ -45,6 +45,7 @@ jobs:
       - name: New multi-connection tests only
         env:
           PGHOST: 127.0.0.1
+          TALABOT_TEST_SETUP: tests/native98/setup.sql
           PGPORT: '5432'
           PGUSER: postgres
           PGPASSWORD: synthetic-local-only
@@ -54,6 +55,7 @@ jobs:
       - name: Restore synthetic backup to separate database
         env:
           PGHOST: 127.0.0.1
+          TALABOT_TEST_SETUP: tests/native98/setup.sql
           PGPORT: '5432'
           PGUSER: postgres
           PGPASSWORD: synthetic-local-only
