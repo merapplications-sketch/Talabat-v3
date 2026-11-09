@@ -78,6 +78,12 @@ try:
  assert len(set(ids))==1
  assert a.execute("select count(*) from wallet_entries where order_id=%s and kind='spend'",(ids[0],)).fetchone()[0]==1
  results.append({'case':'four concurrent same-key requests','passed':True,'connections':4,'distinct_orders':1,'wallet_spends':1})
+ c=session();code=None
+ try:order(c,'request96_fresh_over_limit')
+ except psycopg.Error as e:code=str(e).split('\n')[0];c.rollback()
+ finally:c.close()
+ assert code=='too_many_orders',code
+ results.append({'case':'new key still denied at existing unfinished-order limit','passed':True,'error':code})
  # Deliberate two-row deadlock in fixture transactions; no claim of business-path deadlock.
  d1=psycopg.connect();d2=psycopg.connect()
  for c in [d1,d2]:c.execute("set deadlock_timeout='100ms';set statement_timeout='5s'")
