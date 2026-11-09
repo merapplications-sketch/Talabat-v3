@@ -2,7 +2,7 @@ name: sql97-public
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: ['ci97/**', '.github/workflows/sql97.yml']
+    paths: ['ci97/**', 'tests/native95/**', 'tests/native96/**', 'tests/native97/**', '.github/workflows/sql97.yml', '.github/workflows/native95.yml']
   workflow_dispatch:
 permissions:
   contents: read
