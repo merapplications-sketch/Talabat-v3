@@ -2,7 +2,7 @@ name: Native95 isolated order contention
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: [tests/native95/**, .github/workflows/native95.yml]
+    paths: [tests/native95/**, tests/native95-restore.py, .github/workflows/native95.yml]
 permissions:
   contents: read
 jobs:
@@ -42,12 +42,26 @@ jobs:
           PGPASSWORD: synthetic-local-only
         run: |
           python3 tests/native95/contention.py
-          python3 -c "raise SystemExit('CI95_NEGATIVE_CONTROL: mandatory failure must fail workflow')"
+      - name: Restore synthetic backup to separate database
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: '5432'
+          PGUSER: postgres
+          PGPASSWORD: synthetic-local-only
+          PG_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          docker exec "$PG_CONTAINER" pg_dump -U postgres --no-owner postgres > "$RUNNER_TEMP/native95.sql"
+          docker exec "$PG_CONTAINER" createdb -U postgres native95_restored
+          docker exec -i "$PG_CONTAINER" psql -v ON_ERROR_STOP=1 -U postgres -d native95_restored < "$RUNNER_TEMP/native95.sql"
+          python3 tests/native95-restore.py
+          rm "$RUNNER_TEMP/native95.sql"
       - name: Bounded synthetic evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: native95-${{ github.sha }}
-          path: native95-result.json
+          path: |
+            native95-result.json
+            native95-restore.json
           if-no-files-found: warn
           retention-days: 7
