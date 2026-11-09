@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
-      - run: python3 -m py_compile tests/native95/contention.py tests/native96/faults.py tests/native96/restore.py
+      - run: python3 -m py_compile tests/native95/contention.py tests/native97/locks.py tests/native96/restore.py
   contention:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -49,7 +49,7 @@ jobs:
           PGUSER: postgres
           PGPASSWORD: synthetic-local-only
         run: |
-          python3 tests/native96/faults.py
+          python3 tests/native97/locks.py
       - name: Restore synthetic backup to separate database
         env:
           PGHOST: 127.0.0.1
@@ -71,6 +71,7 @@ jobs:
           path: |
             native95-result.json
             native96-result.json
+            native97-result.json
             native95-restore.json
             native96-restore.json
           if-no-files-found: warn
