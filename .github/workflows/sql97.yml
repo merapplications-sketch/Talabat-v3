@@ -42,12 +42,20 @@ jobs:
           name: fast97-${{ github.sha }}
           path: ${{ runner.temp }}/fast97/report.json
           retention-days: 7
-  required:
-    if: always()
-    needs: [sql, fast]
+  gate-control:
     runs-on: ubuntu-latest
     steps:
-      - run: test "$SQL_RESULT" = success && test "$FAST_RESULT" = success
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 -c "import json; assert json.load(open('ci97/gate-control.json'))['inject_failure'] is False, 'deliberate CI gate negative control'"
+  required:
+    if: always()
+    needs: [sql, fast, gate-control]
+    runs-on: ubuntu-latest
+    steps:
+      - run: test "$SQL_RESULT" = success && test "$FAST_RESULT" = success && test "$CONTROL_RESULT" = success
         env:
           SQL_RESULT: ${{ needs.sql.result }}
           FAST_RESULT: ${{ needs.fast.result }}
+          CONTROL_RESULT: ${{ needs.gate-control.result }}
