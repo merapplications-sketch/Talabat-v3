@@ -1,6 +1,6 @@
 import base64,gzip,json,hashlib
 from pathlib import Path
-x=json.loads(gzip.decompress(base64.b64decode(Path('ci97/source.b64').read_bytes())))
+x=json.loads(gzip.decompress(base64.b64decode(b''.join(Path('ci97/source-part'+str(i)+'.b64').read_bytes() for i in range(5)))))
 root=Path('isolated97').resolve();root.mkdir(exist_ok=True)
 for name,content in x['files'].items():
  p=(root/name).resolve()
