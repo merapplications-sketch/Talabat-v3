@@ -2,7 +2,7 @@ name: Native95 isolated order contention
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: [tests/native95/**, tests/native96/**, tests/native95-restore.py, .github/workflows/native95.yml]
+    paths: [tests/native95/**, tests/native96/**, tests/native97/**, ci97/**, tests/native95-restore.py, .github/workflows/native95.yml, .github/workflows/sql97.yml]
 permissions:
   contents: read
 jobs:
