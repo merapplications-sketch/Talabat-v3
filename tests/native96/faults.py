@@ -1,7 +1,9 @@
-import runpy, socket, select, threading, struct, time, json
+import runpy, socket, select, threading, struct, time, json, os
 from pathlib import Path
 import psycopg
-source=Path('tests/native95/contention.py').read_text().replace("Path('tests/native95/setup.sql')","Path('tests/native96/setup.sql')")
+selected=os.environ.get('TALABOT_TEST_SETUP','tests/native96/setup.sql')
+assert selected in ['tests/native96/setup.sql','tests/native98/setup.sql']
+source=Path('tests/native95/contention.py').read_text().replace("Path('tests/native95/setup.sql')",'Path('+repr(selected)+')')
 x={'__name__':'native96_fixture'};exec(compile(source,'tests/native95/contention.py','exec'),x)
 B=x['B']; O=x['O']; order=x['order']; session=x['session']
 a=psycopg.connect(autocommit=True); results=[]
