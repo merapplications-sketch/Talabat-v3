@@ -1,7 +1,8 @@
 import runpy, socket, select, threading, struct, time, json
 from pathlib import Path
 import psycopg
-x=runpy.run_path('tests/native95/contention.py')
+source=Path('tests/native95/contention.py').read_text().replace("Path('tests/native95/setup.sql')","Path('tests/native96/setup.sql')")
+x={'__name__':'native96_fixture'};exec(compile(source,'tests/native95/contention.py','exec'),x)
 B=x['B']; O=x['O']; order=x['order']; session=x['session']
 a=psycopg.connect(autocommit=True); results=[]
 def release_consent():a.execute("update fulfillment_private.order_approvals set state='accepted',customer_at=now()")
