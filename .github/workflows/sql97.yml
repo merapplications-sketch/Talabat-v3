@@ -1,0 +1,36 @@
+name: sql97-public
+on:
+  push:
+    branches: [review/ci-native95-20261110]
+    paths: ['ci97/**', '.github/workflows/sql97.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 ci97/unpack.py
+      - run: npm ci --ignore-scripts --prefix isolated97/tests/dispatch-isolated
+      - run: node scripts/ci97/sql.mjs "$RUNNER_TEMP/sql97"
+        working-directory: isolated97
+        env:
+          PGLITE_MODULE: ${{ github.workspace }}/isolated97/tests/dispatch-isolated/node_modules/@electric-sql/pglite/dist/index.js
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sql97-${{ github.sha }}
+          path: ${{ runner.temp }}/sql97/report.json
+          retention-days: 7
+  required:
+    if: always()
+    needs: [sql]
+    runs-on: ubuntu-latest
+    steps:
+      - run: test "$SQL_RESULT" = success
+        env:
+          SQL_RESULT: ${{ needs.sql.result }}
