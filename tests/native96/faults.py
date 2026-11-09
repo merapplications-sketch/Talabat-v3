@@ -68,6 +68,28 @@ try:
  try:c2.execute('update profiles set name=name where id=%s',(B,))
  except psycopg.Error as e:code=e.sqlstate;c2.rollback()
  assert code=='55P03';c1.rollback();c2.execute('update profiles set name=name where id=%s',(B,));c2.commit();c1.close();c2.close();results.append({'case':'lock timeout and retry','passed':True,'sqlstate':code})
+ # Four independent connections, bounded burst; no hosted load.
+ release_consent()
+ import concurrent.futures
+ def contender(_):
+  with session() as c:return order(c,'request96_four')
+ with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:ids=list(pool.map(contender,range(4)))
+ assert len(set(ids))==1
+ assert a.execute("select count(*) from wallet_entries where order_id=%s and kind='spend'",(ids[0],)).fetchone()[0]==1
+ results.append({'case':'four concurrent same-key requests','passed':True,'connections':4,'distinct_orders':1,'wallet_spends':1})
+ # Deliberate two-row deadlock in fixture transactions; no claim of business-path deadlock.
+ d1=psycopg.connect();d2=psycopg.connect()
+ for c in [d1,d2]:c.execute("set deadlock_timeout='100ms';set statement_timeout='5s'")
+ d1.execute('update profiles set name=name where id=%s',(B,));d2.execute('update profiles set name=name where id=%s',(O,));out=[]
+ def cross(c,uid):
+  try:c.execute('update profiles set name=name where id=%s',(uid,));out.append('ok')
+  except psycopg.Error as e:out.append(e.sqlstate)
+  finally:c.rollback();c.close()
+ ts=[threading.Thread(target=cross,args=(d1,O)),threading.Thread(target=cross,args=(d2,B))]
+ for t in ts:t.start()
+ for t in ts:t.join(7);assert not t.is_alive()
+ assert sorted(out)==['40P01','ok'],out
+ results.append({'case':'synthetic two-row deadlock releases victim transaction','passed':True,'outcomes':sorted(out)})
 finally:a.close()
 Path('native96-result.json').write_text(json.dumps({'results':results,'limits':['native95 captured minimal schema and declared doubles remain','synthetic consent release, not customer approval UI','timeout is fixture-row contention; no claim that place_order deadlocks']},indent=2))
 print(json.dumps({'native96_passed':len(results)}))
