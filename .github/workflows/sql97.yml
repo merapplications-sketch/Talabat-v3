@@ -26,11 +26,28 @@ jobs:
           name: sql97-${{ github.sha }}
           path: ${{ runner.temp }}/sql97/report.json
           retention-days: 7
+  fast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 ci97/unpack.py
+      - run: node scripts/ci97/fast.mjs "$RUNNER_TEMP/fast97"
+        working-directory: isolated97
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: fast97-${{ github.sha }}
+          path: ${{ runner.temp }}/fast97/report.json
+          retention-days: 7
   required:
     if: always()
-    needs: [sql]
+    needs: [sql, fast]
     runs-on: ubuntu-latest
     steps:
-      - run: test "$SQL_RESULT" = success
+      - run: test "$SQL_RESULT" = success && test "$FAST_RESULT" = success
         env:
           SQL_RESULT: ${{ needs.sql.result }}
+          FAST_RESULT: ${{ needs.fast.result }}
