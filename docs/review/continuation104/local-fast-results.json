@@ -1,0 +1,157 @@
+{
+  "scope": "local VM and test runner units; no hosted HTTP",
+  "results": [
+    {
+      "id": "finance-lost-ack51",
+      "status": "passed"
+    },
+    {
+      "id": "loyalty-settings-render",
+      "status": "passed"
+    },
+    {
+      "id": "merchant-report-boundaries54",
+      "status": "passed"
+    },
+    {
+      "id": "retired-pilot-consumers",
+      "status": "passed"
+    },
+    {
+      "id": "qa-network67",
+      "status": "passed"
+    },
+    {
+      "id": "auth-telemetry",
+      "status": "passed"
+    },
+    {
+      "id": "signout-error",
+      "status": "passed"
+    },
+    {
+      "id": "http97-runner-unit",
+      "status": "passed"
+    },
+    {
+      "id": "cart-resume91",
+      "status": "passed"
+    },
+    {
+      "id": "measure79-local",
+      "status": "passed"
+    },
+    {
+      "id": "release-path90",
+      "status": "passed"
+    },
+    {
+      "id": "finance-stability90",
+      "status": "passed"
+    },
+    {
+      "id": "dependency-advisory90",
+      "status": "passed"
+    },
+    {
+      "id": "archive-integrity",
+      "status": "passed"
+    },
+    {
+      "id": "release-integrity",
+      "status": "passed"
+    },
+    {
+      "id": "auth-logout-recovery",
+      "status": "passed"
+    },
+    {
+      "id": "auth-error-redaction",
+      "status": "passed"
+    },
+    {
+      "id": "rpc-errors-boot-logout",
+      "status": "passed"
+    },
+    {
+      "id": "session-rejection",
+      "status": "passed"
+    },
+    {
+      "id": "passive-signout",
+      "status": "passed"
+    },
+    {
+      "id": "proof-generation",
+      "status": "passed"
+    },
+    {
+      "id": "proof-access",
+      "status": "passed"
+    },
+    {
+      "id": "proof-fresh-authorization",
+      "status": "passed"
+    },
+    {
+      "id": "customer-auth-scope",
+      "status": "passed"
+    },
+    {
+      "id": "merchant-review-scope",
+      "status": "passed"
+    },
+    {
+      "id": "admin-review-scope",
+      "status": "passed"
+    },
+    {
+      "id": "retired-pilot-fixtures",
+      "status": "passed"
+    },
+    {
+      "id": "mfa",
+      "status": "passed"
+    },
+    {
+      "id": "request-id-retry",
+      "status": "passed"
+    },
+    {
+      "id": "customer-handler",
+      "status": "passed"
+    },
+    {
+      "id": "admin-store-driver-controls",
+      "status": "passed"
+    },
+    {
+      "id": "admin-handler",
+      "status": "passed"
+    },
+    {
+      "id": "image-limits",
+      "status": "passed"
+    },
+    {
+      "id": "admin-idle",
+      "status": "passed"
+    },
+    {
+      "id": "driver-chat",
+      "status": "passed"
+    },
+    {
+      "id": "merchant-report",
+      "status": "passed"
+    },
+    {
+      "id": "return-receipt",
+      "status": "passed"
+    },
+    {
+      "id": "map-policy",
+      "status": "passed"
+    }
+  ]
+}

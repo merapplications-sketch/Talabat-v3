@@ -1,0 +1,33 @@
+[
+  {
+    "id": "QA103-C01",
+    "expected_protection": false,
+    "detail": {
+      "activeAfterLateFirstAck": null,
+      "thirdCreateRPCs": 1
+    }
+  },
+  {
+    "id": "QA103-C03",
+    "expected_protection": false,
+    "detail": {
+      "writes": 1,
+      "corrected": "unresolved",
+      "replacement": "previous_attempt_unresolved",
+      "api": [
+        "submit",
+        "recover",
+        "retrySaved"
+      ],
+      "note": "No reconciliation-aware cancel/edit API; safety retained but flow stuck"
+    }
+  },
+  {
+    "id": "QA103-C02",
+    "expected_protection": false,
+    "detail": {
+      "cartAfterReply": {},
+      "note": "VM mutation during asynchronous send; not a real browser UI journey"
+    }
+  }
+]

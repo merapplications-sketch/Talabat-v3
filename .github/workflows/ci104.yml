@@ -22,6 +22,12 @@ jobs:
         env:
           PLAYWRIGHT_MODULE: ${{ runner.temp }}/pw104/node_modules/playwright
           CANDIDATE_UI: ${{ runner.temp }}/client104/customer.html
+      - name: Preserved five cart regression assertions on generated104 UI
+        run: |
+          mkdir -p "$RUNNER_TEMP/cart104/public"
+          cp "$RUNNER_TEMP/client104/customer.html" "$RUNNER_TEMP/cart104/public/customer.html"
+          cd "$RUNNER_TEMP/cart104"
+          node --test "$GITHUB_WORKSPACE/tests/native104/cart-regression.test.mjs"
       - run: node --check "$RUNNER_TEMP/client104/talabat-core.js"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
