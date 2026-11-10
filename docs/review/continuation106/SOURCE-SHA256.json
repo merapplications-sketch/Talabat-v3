@@ -1,0 +1,11 @@
+{
+  "tests/native106/native.py": "bb1e9a34c2f8b6ff072bcd69968c5e364a6dd8fccd96ed0bcb0ab7925e337dc5",
+  "tests/native106/baseline.py": "9eaca97b65d151f4122242c24eb8a54dd513d4f44761629d55baed7c1f3dc3fb",
+  "tests/native106/resources.py": "6b5300ff286cd2fa85d62d5af393be0e1f512a09259e799c37583aea5aed3e11",
+  "tests/native106/admission.py": "140ef8caeac1112564eac1bba1e9b2627090d51fc6eb3a27850830120299a058",
+  "tests/native106/regression.py": "b60ed77d182689852fc91e6e8042ba08cc7acfba82fd254deb7542e674afc36c",
+  "tests/native106/client.test.mjs": "565fa2134fc3757d540f050fa9ac9af46251b8d84ccfc7d6e6879aca96e1f55c",
+  "tests/native106/restore.py": "f579f75e2b5733b58a1ca34a6f3202fb79563c4a72ef42279761ea86d567eb98",
+  "tests/native106/isolation.sql": "9503a027d7c3c7f764e49145073fcba5607a7589b13e6e262d7b0bfdf2425e0d",
+  ".github/workflows/ci106.yml": "200c16c0a0d33aa3e449cfe36ababd1373f8c3741c82d7c52193b5b373ee94e3"
+}

@@ -1,0 +1,201 @@
+{
+  "status": "ISOLATED TESTED / REVIEW106 PENDING / NOT READY",
+  "source_sha": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+  "baseline_commit": "564a79080bfef76ef000885e02617c57791dc73e",
+  "ci": {
+    "id": 42829377671,
+    "sha": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42829377671"
+  },
+  "baseline": {
+    "baseline": "unmodified105",
+    "version": "17.6 (Debian 17.6-2.pgdg13+1)",
+    "isolation": "repeatable read",
+    "closure_committed_before_create": true,
+    "response": "created",
+    "closure_rows": 1,
+    "orders_spends_amount_bindings": [
+      1,
+      1,
+      -5,
+      1
+    ],
+    "S03_reproduced": true
+  },
+  "postgres_passed_cases": [
+    "test_s03_all_entries_all_isolation_levels (__main__.Isolation106.test_s03_all_entries_all_isolation_levels)",
+    "test_supported_isolations_create_once_then_recover (__main__.Isolation106.test_supported_isolations_create_once_then_recover)",
+    "test_unsupported_isolation_rejects_new_and_invalid_before_any_effect (__main__.Isolation106.test_unsupported_isolation_rejects_new_and_invalid_before_any_effect)",
+    "test_committed_closure_and_fresh_transaction_cannot_reopen (__main__.Isolation106.test_committed_closure_and_fresh_transaction_cannot_reopen)",
+    "test_success_wins_race_no_false_closure (__main__.Isolation106.test_success_wins_race_no_false_closure)",
+    "test_closure_wins_waiting_create_no_spend (__main__.Isolation106.test_closure_wins_waiting_create_no_spend)",
+    "test_unsupported_then_explicit_fresh_rc_recovery_original_key (__main__.Isolation106.test_unsupported_then_explicit_fresh_rc_recovery_original_key)",
+    "test_rollback_and_atomic_reupgrade_preserve_fence (__main__.Isolation106.test_rollback_and_atomic_reupgrade_preserve_fence)",
+    "test_catalog_and_grants_no_unlisted_candidate_creator (__main__.Isolation106.test_catalog_and_grants_no_unlisted_candidate_creator)",
+    "test_real_40001_fault_after_creation_rolls_back_all_effects (__main__.Isolation106.test_real_40001_fault_after_creation_rolls_back_all_effects)",
+    "test_unconfigured_never_claims_terminal_rejection (retained105.Resources105.test_unconfigured_never_claims_terminal_rejection)",
+    "test_account_cap_and_same_key_ack_replay (retained105.Resources105.test_account_cap_and_same_key_ack_replay)",
+    "test_global_cap_across_accounts_concurrent (retained105.Resources105.test_global_cap_across_accounts_concurrent)",
+    "test_same_account_distinct_keys_concurrent (retained105.Resources105.test_same_account_distinct_keys_concurrent)",
+    "test_resource_retry_original_payload_and_success_replay (retained105.Resources105.test_resource_retry_original_payload_and_success_replay)",
+    "test_long_reason_does_not_write_or_claim_closure (retained105.Resources105.test_long_reason_does_not_write_or_claim_closure)",
+    "test_acl_and_no_delete_or_reopen (retained105.Resources105.test_acl_and_no_delete_or_reopen)",
+    "test_rollback_and_reupgrade_preserve_fence_and_budget (retained105.Resources105.test_rollback_and_reupgrade_preserve_fence_and_budget)",
+    "test_policy_lock_timeout_is_unresolved_without_closure (retained105.Resources105.test_policy_lock_timeout_is_unresolved_without_closure)",
+    "test_closure_tcp_before_after_commit (retained105.Resources105.test_closure_tcp_before_after_commit)",
+    "test_binding_failure_atomicity_and_missing_binding (regression104.SQL103.test_binding_failure_atomicity_and_missing_binding)",
+    "test_canonical_equivalence_and_difference (regression104.SQL103.test_canonical_equivalence_and_difference)",
+    "test_concurrent_same_group_and_different_keys (regression104.SQL103.test_concurrent_same_group_and_different_keys)",
+    "test_conversion_existing102_no_historical_fabrication (regression104.SQL103.test_conversion_existing102_no_historical_fabrication)",
+    "test_deadlock_reports_unknown_without_blind_retry (regression104.SQL103.test_deadlock_reports_unknown_without_blind_retry)",
+    "test_first_install_interrupted_rolls_back_schema_and_function (regression104.SQL103.test_first_install_interrupted_rolls_back_schema_and_function)",
+    "test_historical_normal_group_scheduled_readonly (regression104.SQL103.test_historical_normal_group_scheduled_readonly)",
+    "test_hmac_independent_vector_and_immutable_key (regression104.SQL103.test_hmac_independent_vector_and_immutable_key)",
+    "test_identity_revocation_and_group_access (regression104.SQL103.test_identity_revocation_and_group_access)",
+    "test_invalid_inputs_and_unknown_status (regression104.SQL103.test_invalid_inputs_and_unknown_status)",
+    "test_key_rotation_privacy_and_acl (regression104.SQL103.test_key_rotation_privacy_and_acl)",
+    "test_lock_timeout_preserves_key_without_retry (regression104.SQL103.test_lock_timeout_preserves_key_without_retry)",
+    "test_normal_group_schedule_verified_replay (regression104.SQL103.test_normal_group_schedule_verified_replay)",
+    "test_old_writer_overlap_and_no_duplicate (regression104.SQL103.test_old_writer_overlap_and_no_duplicate)",
+    "test_other_account_same_key_never_recovers_first_id (regression104.SQL103.test_other_account_same_key_never_recovers_first_id)",
+    "test_promo_loyalty_wallet_atomic_with_captured_helpers (regression104.SQL103.test_promo_loyalty_wallet_atomic_with_captured_helpers)",
+    "test_rollback_reupgrade_and_interrupted_migration (regression104.SQL103.test_rollback_reupgrade_and_interrupted_migration)",
+    "test_target_identity_uuid_fk_overlay (regression104.SQL103.test_target_identity_uuid_fk_overlay)",
+    "test_tcp_before_after_commit (regression104.SQL103.test_tcp_before_after_commit)",
+    "test_float_context_rollback_reupgrade (__main__.New104.test_float_context_rollback_reupgrade)",
+    "test_existing103_fingerprint_preserved (__main__.New104.test_existing103_fingerprint_preserved)",
+    "test_rejected_fence_and_correction (__main__.New104.test_rejected_fence_and_correction)",
+    "test_unresolved_never_gets_closure (__main__.New104.test_unresolved_never_gets_closure)",
+    "test_rejection_fence_concurrency (__main__.New104.test_rejection_fence_concurrency)",
+    "test_closure_acl_and_other_account (__main__.New104.test_closure_acl_and_other_account)",
+    "test_closure_survives_rollback_reupgrade (__main__.New104.test_closure_survives_rollback_reupgrade)"
+  ],
+  "admission": [
+    {
+      "case": "open_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        },
+        {
+          "order": 6
+        }
+      ],
+      "count_after": 5,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "hour_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        },
+        {
+          "order": 21
+        }
+      ],
+      "count_after": 20,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "three_keys",
+      "passed": true,
+      "connections": 3,
+      "independent_account_observed": true,
+      "wallet_spends": 3,
+      "distinct_spends": 3,
+      "wallet_amount": "-15.00",
+      "outcomes": {
+        "0": {
+          "order": 4
+        },
+        "1": {
+          "order": 5
+        },
+        "2": {
+          "order": 3
+        }
+      }
+    },
+    {
+      "case": "two_accounts",
+      "passed": true,
+      "connections": 2,
+      "independent_account_observed": true,
+      "wallet_spends": 2,
+      "distinct_spends": 2,
+      "wallet_amount": "-10.00",
+      "outcomes": {
+        "0": {
+          "order": 4
+        },
+        "1": {
+          "order": 3
+        }
+      }
+    }
+  ],
+  "counts": {
+    "new_isolation_groups": 10,
+    "matrix_subcases": 16,
+    "retained_resource_groups": 10,
+    "retained_sql_groups": 26,
+    "admission_cases": 4,
+    "client_contract_cases": 3
+  },
+  "restore": {
+    "passed": true,
+    "scope": "separate PostgreSQL pg_dump/restore, successful order/fingerprint/key and closed-key receipt/policy/triggers; not provider recovery"
+  },
+  "artifacts": [
+    {
+      "id": 13770627035,
+      "name": "native106-synthetic-86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+      "size_in_bytes": 3187,
+      "url": "https://api.github.com/repos/merapplications-sketch/Talabat-v3/actions/artifacts/13770627035",
+      "archive_download_url": "https://api.github.com/repos/merapplications-sketch/Talabat-v3/actions/artifacts/13770627035/zip",
+      "expired": false,
+      "created_at": "2026-11-10T13:58:30Z",
+      "expires_at": "2026-11-17T13:58:29Z",
+      "updated_at": "2026-11-10T13:58:30Z",
+      "digest": "sha256:b21fa3a1f7ae4d99066c45813b4ae6c67b0affdcc616e3132d4c84f054854029",
+      "workflow_run": {
+        "id": 42829377671,
+        "repository_id": 1401170651,
+        "head_repository_id": 1401170651,
+        "head_branch": "review/batch106-20261110",
+        "head_sha": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df"
+      }
+    }
+  ],
+  "retained_unchanged": {
+    "batch105_source": "3893352541f8a2a94ed87ee11863519e69ad45fb",
+    "ci": 42822666873,
+    "chromium": 15,
+    "client_vm": 15,
+    "cart": 5,
+    "local_fast": 38,
+    "rerun": false
+  },
+  "superseded_test": {
+    "test": "test_repeatable_read_cannot_over_admit_stale_snapshot",
+    "reason": "106 refuses unsupported isolation before quota admission; replaced by four-entry no-effect matrix;105 test remains unchanged"
+  },
+  "limits": [
+    "partial synthetic schema, not target Supabase parity",
+    "no hosted HTTP/E2E/Safari or cross-device locking proof",
+    "supported RC/RU; RR/SERIALIZABLE creation endpoints refuse unresolved",
+    "trusted owner SQL and unlisted target writers are outside verified entry set",
+    "S02 operational quotas/rate/body/CPU/WAL acceptance remains open"
+  ]
+}
