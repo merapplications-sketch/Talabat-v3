@@ -1,0 +1,311 @@
+{
+  "scope": "Existing repository files read as text only; no scripts/SQL/tests executed. Git blob IDs bind repository sources, not deployed artifacts or raw AUDIT107 evidence.",
+  "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222",
+  "files": [
+    {
+      "path": ".github/workflows/pilot-external-restore.yml",
+      "git_blob_sha": "d46f147d148e842e033a564d1c1f33878f085dc1",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "admin.html",
+      "git_blob_sha": "062a68cfa740f2733cad39b5c4c5b0c635f54e55",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.js",
+      "git_blob_sha": "05397c64e49013bac3129d49eb7e6e61589b3502",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "assets/driver-returns/panel.js",
+      "git_blob_sha": "7be28930ab1a989a86efedde29001636151b1309",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "customer.html",
+      "git_blob_sha": "9bc335f52ad58d7feab12ad8a2214bde9ab32330",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "docs/review/continuation101/HANDOFF.md",
+      "git_blob_sha": "c76c3596839f08fea30f180d03b4bb6f9a92ed19",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "docs/review/continuation103/CONTRACT.md",
+      "git_blob_sha": "44ad851367ae444f1823e3bb7a4b1982eb1d7536",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "docs/review/continuation105/CONTRACT.md",
+      "git_blob_sha": "436ac4e9ac6f20d1f507aa59012b747195df0bba",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "docs/review/continuation106/RESULTS.md",
+      "git_blob_sha": "b4db8fcd590d5e29aede12a764b74acb22e8d1d5",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "docs/review/continuation107/EVIDENCE-MANIFEST.json",
+      "git_blob_sha": "097df73fd6b88f108a4fc42821823b44a94732af",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "docs/review/continuation107/REPORT-AR.txt",
+      "git_blob_sha": "52a698ac6f64678e7991916d96500953d0a10000",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "driver.html",
+      "git_blob_sha": "086929844b2080d7aa2afe1c2c57267cde245d40",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "merchant.html",
+      "git_blob_sha": "5f09dd5cc3d5abc9d6b0d3afa031342b05f5212c",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "ops/pilot-watchdog.py",
+      "git_blob_sha": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/pilot_read_connections_20261107.sql",
+      "git_blob_sha": "7fbad42a103529ea6dc8233552e7708d71225e2e",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+      "git_blob_sha": "6b19870cc1939094c761a255e26f1fd7c5658952",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/admin_finance_preflight_readonly_20261101.sql",
+      "git_blob_sha": "0fff97e204e4965d169267ed51b08b1d00015047",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+      "git_blob_sha": "76f0d8106739ab19a656ee419d829b064fa78487",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/admin_finance_safe_hold_20261101.sql",
+      "git_blob_sha": "045c9c440ce0ebbbbb1956f6b3bfcdd6dacff05a",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
+      "git_blob_sha": "33ba6f3735a00eb124447ffad785c5da2382318d",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_driver_claim_20261105.sql",
+      "git_blob_sha": "e416465eda7ef5c2063ac1a88e2e3e859b663a56",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_payment_guard_20261105.sql",
+      "git_blob_sha": "23370e52d551922680d9709fb6127da04ed5fc12",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_refund_cap_20261105.sql",
+      "git_blob_sha": "21c82c3729d538bf9190c132433c3d9d4488efac",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+      "git_blob_sha": "e6a1395e2492b33e3bcfaf6af4009462009c5441",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_zz_admission_20261105.sql",
+      "git_blob_sha": "ef681e3a4a5ed90548db5e0014e998b6af33c9ab",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+      "git_blob_sha": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql",
+      "git_blob_sha": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch17.sql",
+      "git_blob_sha": "11f1bdea7e1c5c375c602995d5398bf140b56932",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch18.sql",
+      "git_blob_sha": "4e9958f2dd3566f88d14becd3835a937daee304d",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch19.sql",
+      "git_blob_sha": "edff05be29cec8233b11fc2ec68b5a998c4f4deb",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch20.sql",
+      "git_blob_sha": "f678c7efcd320e6f95c4cfa11816ac9bac45b11d",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch21.sql",
+      "git_blob_sha": "736bbf58ed5a1fb6a5e9ecb75cd74998b96a3cbf",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch22.sql",
+      "git_blob_sha": "d27ce310c9e34ce9c13fd8f7284b6f34c95198cd",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch23.sql",
+      "git_blob_sha": "0a2f9c7b0ed90dfe3ec62c70ddda3b5adfbbcef1",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch24.sql",
+      "git_blob_sha": "39612d6144c2ee6b91e51995ef02a5e3ad704b8a",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch25.sql",
+      "git_blob_sha": "e9a6dbf624b06e699c35ea77133abb24a00b4d08",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch26.sql",
+      "git_blob_sha": "2a0091e499f63c5b09c36d47346d6aced16c0475",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch27.sql",
+      "git_blob_sha": "273b5922236a050f46c2ebfd96e37fb04b6a1755",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch28.sql",
+      "git_blob_sha": "8af3283df2257ba7c81f25338cb179d17ab71914",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch29.sql",
+      "git_blob_sha": "64135f5b7988960b5374a60c8a531fab3e613f83",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch30.sql",
+      "git_blob_sha": "cf6aba5c33601538f5ed32f395df6d6f7731fdf9",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch31.sql",
+      "git_blob_sha": "49886aefe1be70bfb1d4b2de2670adf1c74df7c7",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch32.sql",
+      "git_blob_sha": "e78bbeefe1d4ff258bab62b11402172b3d857f8e",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch33.sql",
+      "git_blob_sha": "2adb670ba7857d6cfc4d4a90307406f179a5bdb6",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/schema_patch34.sql",
+      "git_blob_sha": "c969801b0d0e83d84bd704e12184dc4d1678b457",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch26.sql",
+      "git_blob_sha": "0fb721e1531ddf1d1fbe86aa690aba7cc02a9ef7",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch27.sql",
+      "git_blob_sha": "7e6fcc648db4a7b99d4dec00d7dd037dd44082aa",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch28.sql",
+      "git_blob_sha": "c391881c270f003c8fd93b435f4d52f0162485fe",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch29.sql",
+      "git_blob_sha": "99cff19a43b0e38a2bfe1bd94b9036a288d1720a",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch30.sql",
+      "git_blob_sha": "2bcdb175fc835ce2533e6afaa7d8078632df0ff9",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch30_case.sql",
+      "git_blob_sha": "892a213315891df5d62eb79eccce6d9cf279a3a7",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch32.sql",
+      "git_blob_sha": "4abb9b9dac666d590fabd9e70a74ee8b480096a8",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch33.sql",
+      "git_blob_sha": "8351d155b0c3fe7315442419fa57f9b49826b411",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "sql/test_patch34.sql",
+      "git_blob_sha": "8e3f06da4aee9723371aec7eadeab58e6f0adccd",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "talabat-core.js",
+      "git_blob_sha": "f639bec1d23a812866e06eb1110940c77563387c",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "tests/native103/dependencies.sql",
+      "git_blob_sha": "7272feb9182ec9415454f82a53576a4b22710799",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "tests/native103/schema.sql",
+      "git_blob_sha": "a77cccdcf818d9509db39c643a600f5e59324143",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "tests/native105/build-client.py",
+      "git_blob_sha": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "tests/native106/isolation.sql",
+      "git_blob_sha": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "tests/native106/restore.py",
+      "git_blob_sha": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    },
+    {
+      "path": "tests/pilot/external-restore.py",
+      "git_blob_sha": "376ab92c8a476ade52383bccd997133fc5af8d18",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222"
+    }
+  ]
+}
