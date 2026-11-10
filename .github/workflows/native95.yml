@@ -2,7 +2,7 @@ name: Native95 isolated order contention
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: [tests/http99/**, scripts/ci99/**, .github/workflows/ci99.yml, tests/native95/**, tests/native96/**, tests/native97/**, tests/native98/**, ci97/**, tests/native95-restore.py, .github/workflows/native95.yml, .github/workflows/sql97.yml]
+    paths: ['tests/acceptance100/**', 'tests/fixtures100/**', 'scripts/ci100/**', '.github/workflows/ci100.yml', tests/http99/**, scripts/ci99/**, .github/workflows/ci99.yml, tests/native95/**, tests/native96/**, tests/native97/**, tests/native98/**, ci97/**, tests/native95-restore.py, .github/workflows/native95.yml, .github/workflows/sql97.yml]
 permissions:
   contents: read
 jobs:

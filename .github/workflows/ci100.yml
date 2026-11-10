@@ -1,0 +1,30 @@
+name: CI100 recovered fixtures and acceptance
+on:
+  push:
+    branches: [review/ci-native95-20261110]
+    paths: ['ci97/**', 'tests/acceptance100/**', 'tests/fixtures100/**', 'scripts/ci100/**', '.github/workflows/ci100.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 ci97/unpack.py
+      - run: |
+          cp -r tests/acceptance100 tests/fixtures100 isolated97/tests/
+          cp -r tests/native98 isolated97/tests/
+          cp -r scripts/ci100 isolated97/scripts/
+      - run: node scripts/ci100/run.mjs "$RUNNER_TEMP/ci100"
+        working-directory: isolated97
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ci100-public-${{ github.sha }}
+          path: ${{ runner.temp }}/ci100/report.json
+          if-no-files-found: error
+          retention-days: 30
