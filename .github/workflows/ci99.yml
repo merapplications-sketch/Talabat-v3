@@ -1,0 +1,33 @@
+name: Safe CI99 integration evidence
+on:
+  push:
+    branches: [review/ci-native95-20261110]
+    paths: ['ci97/**', 'tests/http99/**', 'scripts/ci99/**', '.github/workflows/ci99.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 ci97/unpack.py
+      - run: |
+          mkdir -p isolated97/scripts/ci99 isolated97/tests/http99
+          cp scripts/ci99/*.mjs isolated97/scripts/ci99/
+          cp tests/http99/*.mjs isolated97/tests/http99/
+      - run: npm ci --ignore-scripts --prefix isolated97/tests/dispatch-isolated
+      - run: node scripts/ci99/run.mjs "$RUNNER_TEMP/ci99"
+        working-directory: isolated97
+        env:
+          PGLITE_MODULE: ${{ github.workspace }}/isolated97/tests/dispatch-isolated/node_modules/@electric-sql/pglite/dist/index.js
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ci99-public-${{ github.sha }}
+          path: ${{ runner.temp }}/ci99/report.json
+          if-no-files-found: error
+          retention-days: 30
