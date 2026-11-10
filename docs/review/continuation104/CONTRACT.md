@@ -37,3 +37,5 @@ Real PostgreSQL uses a partial synthetic fixture, not full Supabase target parit
 Upgrade of already-open103 browser tabs / existing103 localStorage attempts is not automatically migrated by this development overlay. Production rollout must inventory/reconcile retained attempts and retire old client writers without discarding unknown outcomes. No keys, accounts or live policies were changed here.
 
 Independent REVIEW104 should rerun S01/C01/C02 reproducers, all new terminal-rejection races, browser crash/reopen, reverse replies and cart revision tests, and inspect original103 compatibility and target ACL/trigger closure. Acceptance cannot rely on the programmer report alone.
+
+Further acceptance limits: the no_effects receipt covers the transactional candidate order/wallet/promo/loyalty paths. Target QA must exclude non-transactional financial side effects in unseen triggers before treating it as hosted proof. Existing102 JSONB is used exactly as recorded; precision already lost before that record was written cannot be reconstructed or asserted as original input. Such records need explicit reconciliation, not silent rehashing or a changed v1 contract.

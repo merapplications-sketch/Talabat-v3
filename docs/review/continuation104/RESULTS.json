@@ -1,0 +1,144 @@
+{
+  "tested_commit": "fc4d914f54bb9c846c38a3f2d449046980fc8857",
+  "ci_url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42813660670",
+  "ci": "success",
+  "native": {
+    "tests": 26,
+    "passed": true,
+    "admission": [
+      {
+        "case": "open_limit",
+        "blocking_observed": true,
+        "outcomes": [
+          {
+            "order": 6
+          },
+          {
+            "error": "too_many_orders",
+            "sqlstate": "P0001"
+          }
+        ],
+        "count_after": 5,
+        "wallet_spends": 1,
+        "wallet_amount": "-5.00",
+        "passed": true
+      },
+      {
+        "case": "hour_limit",
+        "blocking_observed": true,
+        "outcomes": [
+          {
+            "order": 21
+          },
+          {
+            "error": "too_many_orders",
+            "sqlstate": "P0001"
+          }
+        ],
+        "count_after": 20,
+        "wallet_spends": 1,
+        "wallet_amount": "-5.00",
+        "passed": true
+      },
+      {
+        "case": "three_keys",
+        "passed": true,
+        "connections": 3,
+        "independent_account_observed": true,
+        "wallet_spends": 3,
+        "distinct_spends": 3,
+        "wallet_amount": "-15.00",
+        "outcomes": {
+          "0": {
+            "order": 5
+          },
+          "1": {
+            "order": 4
+          },
+          "2": {
+            "order": 3
+          }
+        }
+      },
+      {
+        "case": "two_accounts",
+        "passed": true,
+        "connections": 2,
+        "independent_account_observed": true,
+        "wallet_spends": 2,
+        "distinct_spends": 2,
+        "wallet_amount": "-10.00",
+        "outcomes": {
+          "0": {
+            "order": 4
+          },
+          "1": {
+            "order": 3
+          }
+        }
+      }
+    ],
+    "restore": {
+      "passed": true,
+      "key_fingerprint_and_rejection_fence": true
+    },
+    "scope": "PostgreSQL17.6 real server, partial synthetic fixture"
+  },
+  "browser": {
+    "cases": [
+      {
+        "name": "C01 late first reply cannot clear a newer tab attempt",
+        "passed": true
+      },
+      {
+        "name": "three tabs atomically admit one distinct key",
+        "passed": true
+      },
+      {
+        "name": "lost ACK survives page close and blocks replacement",
+        "passed": true
+      },
+      {
+        "name": "confirmed server rejection closes only after re-read and permits new key",
+        "passed": true
+      },
+      {
+        "name": "absence or plain rejection cannot end an uncertain attempt",
+        "passed": true
+      },
+      {
+        "name": "late reply after identity switch cannot confirm prior account",
+        "passed": true
+      },
+      {
+        "name": "C02 actual generated place preserves cart edited during send",
+        "passed": true
+      },
+      {
+        "name": "foreign cart mirror is detected before stale success can clear it",
+        "passed": true
+      },
+      {
+        "name": "network timeout remains unresolved and cannot authorize replacement",
+        "passed": true
+      },
+      {
+        "name": "malformed success cannot release durable attempt or clear cart",
+        "passed": true
+      },
+      {
+        "name": "actual browser process crash and persistent profile reopen preserves unresolved fence",
+        "passed": true
+      }
+    ],
+    "cart_regression_assertions": 5,
+    "scope": "actual Chromium tabs/IndexedDB and SIGKILL of disposable browser process; synthetic RPC; not hosted HTTP/Safari"
+  },
+  "local_fast": {
+    "groups": 38,
+    "passed": 38,
+    "scope": "generated104 customer/core; cart harness adaptation retains original assertions"
+  },
+  "production_ready": false,
+  "qa_acceptance": "pending"
+}

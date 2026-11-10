@@ -1,0 +1,15 @@
+{
+  "tests/native104/schema.sql": "a6446c2d0ba2b2b596af21a20e45f163db379713c8d3d1d74903beebd62f4acc",
+  "tests/native104/functions.sql": "2ba0ceaf5362cadd30991d1b6bb2053f6ea8b13252dafb6c89333c4c9dcc2d4a",
+  "tests/native104/native.py": "89d9c02f820b1a07aa2e9a8b407f6142fe9b2787075b483015cee782b2e43370",
+  "tests/native104/browser.mjs": "4bcafcfd2d80667131caab4e6c82c84891110c2ae37289509fe09678f4a04195",
+  "tests/native104/cart-regression.test.mjs": "5d708c9e772fac4f9010457d4a498bb2b2738d3e0609d3c4040ddc2ec0bd55f7",
+  "tests/native104/admission.py": "48ad62dce6326485df4329d84690f4f254d16322cd5b2080185dc396d12341f0",
+  "tests/native104/rollback.sql": "29e8ac8d1ad56e43a4dcd09339f8235ba32b89e4f47f053d0b8bda4e0c5b0287",
+  "tests/native104/client.js": "7906be47421af3ec434e22bf62db98e8eb7da8e8412e3af479a974fbc47ed6cd",
+  "tests/native104/fast.mjs": "91c6d882a4961fd25ef7ce43faa2991a651022e6f4cd9e7ac27ed0525cd63465",
+  "tests/native104/restore.py": "cea5c42ea8b1d60c568d6dfeda5b1cb77c05ca10046c19415e8a468c6a7b9c3d",
+  "tests/native104/lifecycle.sql": "4f1a0f7e66d6ea7387fdd7817744aa1cc832a556b988bc58f53e849e540863d9",
+  "tests/native104/build-client.py": "f8b7cbbed8103249933cec5832cf2e763583581d5001bd5f78b1036e1c54e5c4",
+  ".github/workflows/ci104.yml": "6dd9c325a80dda75242ce9bbf1f13aeec15b1ab11fecbdf0004e6632bcc21630"
+}
