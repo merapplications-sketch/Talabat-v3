@@ -1,0 +1,54 @@
+{
+  "source": "bb7b9e585a9995be7d5154baf6bc256377e0f86f",
+  "evidence": "651696a3fdc51d393bcddef3effd71d6b9634845",
+  "independent_test_commit": "4cb516cc8d1a2ffa2bc8274ceaef3196404fc4a1",
+  "native_run": 42808981791,
+  "native_job": 129805281176,
+  "tests": [
+    {
+      "case": "historical-read-only-independent",
+      "passed": true,
+      "detail": {
+        "modes": 3,
+        "read_only": true,
+        "no_bindings": true,
+        "cross_account_hidden": true
+      }
+    },
+    {
+      "case": "unicode-hmac-independent-oracle",
+      "passed": true,
+      "detail": {
+        "unicode_python_oracle": true,
+        "no_unicode_normalization": true
+      }
+    },
+    {
+      "case": "missing-old-secret-safe-classification",
+      "passed": true,
+      "detail": {
+        "verify": "unresolved",
+        "status_only": "replayed-without-input-match",
+        "no_mutation": true,
+        "fault_injection": "owner removed FK and secret in disposable DB"
+      }
+    },
+    {
+      "case": "QA103-S01-rollback-float-context",
+      "passed": false,
+      "error_type": "AssertionError",
+      "detail": "{\"same_typed_inputs\": true, \"normal\": \"replayed\", \"after_rollback\": \"conflict\", \"reason\": \"idempotency_mismatch\"}"
+    },
+    {
+      "case": "conversion-failure-atomic-independent",
+      "passed": true,
+      "detail": {
+        "old_bindings_retained": 2,
+        "new_bindings": 0,
+        "partial_markers": 0
+      }
+    }
+  ],
+  "source_verified_files": 16,
+  "candidate_unchanged": true
+}
