@@ -1,0 +1,501 @@
+{
+  "scope": "Independent source/document verification only. No SQL/scripts from repository executed; no operational tests, provider queries or hosted changes.",
+  "submission": "0d25e451fa99d5d60f834257ccf70a8f5d2de52e",
+  "source_ref": "9a5d3145ddaec9ab4d653053424ed9197d784222",
+  "source_manifest_count": 61,
+  "unique_paths": 61,
+  "sql_manifest_count": 40,
+  "remote_tree_truncated": false,
+  "remote_tree_entries": 1155,
+  "remote_tree_blob_mismatches": 0,
+  "remote_sql_count": 40,
+  "source_checks": [
+    {
+      "path": ".github/workflows/pilot-external-restore.yml",
+      "expected_git_blob_sha": "d46f147d148e842e033a564d1c1f33878f085dc1",
+      "actual_git_blob_sha": "d46f147d148e842e033a564d1c1f33878f085dc1",
+      "bytes": 4030,
+      "match": true
+    },
+    {
+      "path": "admin.html",
+      "expected_git_blob_sha": "062a68cfa740f2733cad39b5c4c5b0c635f54e55",
+      "actual_git_blob_sha": "062a68cfa740f2733cad39b5c4c5b0c635f54e55",
+      "bytes": 132255,
+      "match": true
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.js",
+      "expected_git_blob_sha": "05397c64e49013bac3129d49eb7e6e61589b3502",
+      "actual_git_blob_sha": "05397c64e49013bac3129d49eb7e6e61589b3502",
+      "bytes": 13133,
+      "match": true
+    },
+    {
+      "path": "assets/driver-returns/panel.js",
+      "expected_git_blob_sha": "7be28930ab1a989a86efedde29001636151b1309",
+      "actual_git_blob_sha": "7be28930ab1a989a86efedde29001636151b1309",
+      "bytes": 9916,
+      "match": true
+    },
+    {
+      "path": "customer.html",
+      "expected_git_blob_sha": "9bc335f52ad58d7feab12ad8a2214bde9ab32330",
+      "actual_git_blob_sha": "9bc335f52ad58d7feab12ad8a2214bde9ab32330",
+      "bytes": 547802,
+      "match": true
+    },
+    {
+      "path": "docs/review/continuation101/HANDOFF.md",
+      "expected_git_blob_sha": "c76c3596839f08fea30f180d03b4bb6f9a92ed19",
+      "actual_git_blob_sha": "c76c3596839f08fea30f180d03b4bb6f9a92ed19",
+      "bytes": 11453,
+      "match": true
+    },
+    {
+      "path": "docs/review/continuation103/CONTRACT.md",
+      "expected_git_blob_sha": "44ad851367ae444f1823e3bb7a4b1982eb1d7536",
+      "actual_git_blob_sha": "44ad851367ae444f1823e3bb7a4b1982eb1d7536",
+      "bytes": 11960,
+      "match": true
+    },
+    {
+      "path": "docs/review/continuation105/CONTRACT.md",
+      "expected_git_blob_sha": "436ac4e9ac6f20d1f507aa59012b747195df0bba",
+      "actual_git_blob_sha": "436ac4e9ac6f20d1f507aa59012b747195df0bba",
+      "bytes": 9473,
+      "match": true
+    },
+    {
+      "path": "docs/review/continuation106/RESULTS.md",
+      "expected_git_blob_sha": "b4db8fcd590d5e29aede12a764b74acb22e8d1d5",
+      "actual_git_blob_sha": "b4db8fcd590d5e29aede12a764b74acb22e8d1d5",
+      "bytes": 3734,
+      "match": true
+    },
+    {
+      "path": "docs/review/continuation107/EVIDENCE-MANIFEST.json",
+      "expected_git_blob_sha": "097df73fd6b88f108a4fc42821823b44a94732af",
+      "actual_git_blob_sha": "097df73fd6b88f108a4fc42821823b44a94732af",
+      "bytes": 8164,
+      "match": true
+    },
+    {
+      "path": "docs/review/continuation107/REPORT-AR.txt",
+      "expected_git_blob_sha": "52a698ac6f64678e7991916d96500953d0a10000",
+      "actual_git_blob_sha": "52a698ac6f64678e7991916d96500953d0a10000",
+      "bytes": 20387,
+      "match": true
+    },
+    {
+      "path": "driver.html",
+      "expected_git_blob_sha": "086929844b2080d7aa2afe1c2c57267cde245d40",
+      "actual_git_blob_sha": "086929844b2080d7aa2afe1c2c57267cde245d40",
+      "bytes": 63944,
+      "match": true
+    },
+    {
+      "path": "merchant.html",
+      "expected_git_blob_sha": "5f09dd5cc3d5abc9d6b0d3afa031342b05f5212c",
+      "actual_git_blob_sha": "5f09dd5cc3d5abc9d6b0d3afa031342b05f5212c",
+      "bytes": 77445,
+      "match": true
+    },
+    {
+      "path": "ops/pilot-watchdog.py",
+      "expected_git_blob_sha": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+      "actual_git_blob_sha": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+      "bytes": 7666,
+      "match": true
+    },
+    {
+      "path": "sql/pilot_read_connections_20261107.sql",
+      "expected_git_blob_sha": "7fbad42a103529ea6dc8233552e7708d71225e2e",
+      "actual_git_blob_sha": "7fbad42a103529ea6dc8233552e7708d71225e2e",
+      "bytes": 2595,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+      "expected_git_blob_sha": "6b19870cc1939094c761a255e26f1fd7c5658952",
+      "actual_git_blob_sha": "6b19870cc1939094c761a255e26f1fd7c5658952",
+      "bytes": 12840,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/admin_finance_preflight_readonly_20261101.sql",
+      "expected_git_blob_sha": "0fff97e204e4965d169267ed51b08b1d00015047",
+      "actual_git_blob_sha": "0fff97e204e4965d169267ed51b08b1d00015047",
+      "bytes": 3065,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+      "expected_git_blob_sha": "76f0d8106739ab19a656ee419d829b064fa78487",
+      "actual_git_blob_sha": "76f0d8106739ab19a656ee419d829b064fa78487",
+      "bytes": 7522,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/admin_finance_safe_hold_20261101.sql",
+      "expected_git_blob_sha": "045c9c440ce0ebbbbb1956f6b3bfcdd6dacff05a",
+      "actual_git_blob_sha": "045c9c440ce0ebbbbb1956f6b3bfcdd6dacff05a",
+      "bytes": 907,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
+      "expected_git_blob_sha": "33ba6f3735a00eb124447ffad785c5da2382318d",
+      "actual_git_blob_sha": "33ba6f3735a00eb124447ffad785c5da2382318d",
+      "bytes": 2058,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_driver_claim_20261105.sql",
+      "expected_git_blob_sha": "e416465eda7ef5c2063ac1a88e2e3e859b663a56",
+      "actual_git_blob_sha": "e416465eda7ef5c2063ac1a88e2e3e859b663a56",
+      "bytes": 1613,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_payment_guard_20261105.sql",
+      "expected_git_blob_sha": "23370e52d551922680d9709fb6127da04ed5fc12",
+      "actual_git_blob_sha": "23370e52d551922680d9709fb6127da04ed5fc12",
+      "bytes": 12774,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_refund_cap_20261105.sql",
+      "expected_git_blob_sha": "21c82c3729d538bf9190c132433c3d9d4488efac",
+      "actual_git_blob_sha": "21c82c3729d538bf9190c132433c3d9d4488efac",
+      "bytes": 2965,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+      "expected_git_blob_sha": "e6a1395e2492b33e3bcfaf6af4009462009c5441",
+      "actual_git_blob_sha": "e6a1395e2492b33e3bcfaf6af4009462009c5441",
+      "bytes": 36463,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_zz_admission_20261105.sql",
+      "expected_git_blob_sha": "ef681e3a4a5ed90548db5e0014e998b6af33c9ab",
+      "actual_git_blob_sha": "ef681e3a4a5ed90548db5e0014e998b6af33c9ab",
+      "bytes": 8595,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+      "expected_git_blob_sha": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+      "actual_git_blob_sha": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+      "bytes": 13944,
+      "match": true
+    },
+    {
+      "path": "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql",
+      "expected_git_blob_sha": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+      "actual_git_blob_sha": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+      "bytes": 11377,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch17.sql",
+      "expected_git_blob_sha": "11f1bdea7e1c5c375c602995d5398bf140b56932",
+      "actual_git_blob_sha": "11f1bdea7e1c5c375c602995d5398bf140b56932",
+      "bytes": 22879,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch18.sql",
+      "expected_git_blob_sha": "4e9958f2dd3566f88d14becd3835a937daee304d",
+      "actual_git_blob_sha": "4e9958f2dd3566f88d14becd3835a937daee304d",
+      "bytes": 25292,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch19.sql",
+      "expected_git_blob_sha": "edff05be29cec8233b11fc2ec68b5a998c4f4deb",
+      "actual_git_blob_sha": "edff05be29cec8233b11fc2ec68b5a998c4f4deb",
+      "bytes": 28855,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch20.sql",
+      "expected_git_blob_sha": "f678c7efcd320e6f95c4cfa11816ac9bac45b11d",
+      "actual_git_blob_sha": "f678c7efcd320e6f95c4cfa11816ac9bac45b11d",
+      "bytes": 9471,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch21.sql",
+      "expected_git_blob_sha": "736bbf58ed5a1fb6a5e9ecb75cd74998b96a3cbf",
+      "actual_git_blob_sha": "736bbf58ed5a1fb6a5e9ecb75cd74998b96a3cbf",
+      "bytes": 17994,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch22.sql",
+      "expected_git_blob_sha": "d27ce310c9e34ce9c13fd8f7284b6f34c95198cd",
+      "actual_git_blob_sha": "d27ce310c9e34ce9c13fd8f7284b6f34c95198cd",
+      "bytes": 11687,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch23.sql",
+      "expected_git_blob_sha": "0a2f9c7b0ed90dfe3ec62c70ddda3b5adfbbcef1",
+      "actual_git_blob_sha": "0a2f9c7b0ed90dfe3ec62c70ddda3b5adfbbcef1",
+      "bytes": 2391,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch24.sql",
+      "expected_git_blob_sha": "39612d6144c2ee6b91e51995ef02a5e3ad704b8a",
+      "actual_git_blob_sha": "39612d6144c2ee6b91e51995ef02a5e3ad704b8a",
+      "bytes": 7420,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch25.sql",
+      "expected_git_blob_sha": "e9a6dbf624b06e699c35ea77133abb24a00b4d08",
+      "actual_git_blob_sha": "e9a6dbf624b06e699c35ea77133abb24a00b4d08",
+      "bytes": 6111,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch26.sql",
+      "expected_git_blob_sha": "2a0091e499f63c5b09c36d47346d6aced16c0475",
+      "actual_git_blob_sha": "2a0091e499f63c5b09c36d47346d6aced16c0475",
+      "bytes": 28531,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch27.sql",
+      "expected_git_blob_sha": "273b5922236a050f46c2ebfd96e37fb04b6a1755",
+      "actual_git_blob_sha": "273b5922236a050f46c2ebfd96e37fb04b6a1755",
+      "bytes": 13165,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch28.sql",
+      "expected_git_blob_sha": "8af3283df2257ba7c81f25338cb179d17ab71914",
+      "actual_git_blob_sha": "8af3283df2257ba7c81f25338cb179d17ab71914",
+      "bytes": 4245,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch29.sql",
+      "expected_git_blob_sha": "64135f5b7988960b5374a60c8a531fab3e613f83",
+      "actual_git_blob_sha": "64135f5b7988960b5374a60c8a531fab3e613f83",
+      "bytes": 26372,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch30.sql",
+      "expected_git_blob_sha": "cf6aba5c33601538f5ed32f395df6d6f7731fdf9",
+      "actual_git_blob_sha": "cf6aba5c33601538f5ed32f395df6d6f7731fdf9",
+      "bytes": 4715,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch31.sql",
+      "expected_git_blob_sha": "49886aefe1be70bfb1d4b2de2670adf1c74df7c7",
+      "actual_git_blob_sha": "49886aefe1be70bfb1d4b2de2670adf1c74df7c7",
+      "bytes": 12967,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch32.sql",
+      "expected_git_blob_sha": "e78bbeefe1d4ff258bab62b11402172b3d857f8e",
+      "actual_git_blob_sha": "e78bbeefe1d4ff258bab62b11402172b3d857f8e",
+      "bytes": 25325,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch33.sql",
+      "expected_git_blob_sha": "2adb670ba7857d6cfc4d4a90307406f179a5bdb6",
+      "actual_git_blob_sha": "2adb670ba7857d6cfc4d4a90307406f179a5bdb6",
+      "bytes": 28586,
+      "match": true
+    },
+    {
+      "path": "sql/schema_patch34.sql",
+      "expected_git_blob_sha": "c969801b0d0e83d84bd704e12184dc4d1678b457",
+      "actual_git_blob_sha": "c969801b0d0e83d84bd704e12184dc4d1678b457",
+      "bytes": 7686,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch26.sql",
+      "expected_git_blob_sha": "0fb721e1531ddf1d1fbe86aa690aba7cc02a9ef7",
+      "actual_git_blob_sha": "0fb721e1531ddf1d1fbe86aa690aba7cc02a9ef7",
+      "bytes": 22442,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch27.sql",
+      "expected_git_blob_sha": "7e6fcc648db4a7b99d4dec00d7dd037dd44082aa",
+      "actual_git_blob_sha": "7e6fcc648db4a7b99d4dec00d7dd037dd44082aa",
+      "bytes": 15485,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch28.sql",
+      "expected_git_blob_sha": "c391881c270f003c8fd93b435f4d52f0162485fe",
+      "actual_git_blob_sha": "c391881c270f003c8fd93b435f4d52f0162485fe",
+      "bytes": 7713,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch29.sql",
+      "expected_git_blob_sha": "99cff19a43b0e38a2bfe1bd94b9036a288d1720a",
+      "actual_git_blob_sha": "99cff19a43b0e38a2bfe1bd94b9036a288d1720a",
+      "bytes": 17301,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch30.sql",
+      "expected_git_blob_sha": "2bcdb175fc835ce2533e6afaa7d8078632df0ff9",
+      "actual_git_blob_sha": "2bcdb175fc835ce2533e6afaa7d8078632df0ff9",
+      "bytes": 1119,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch30_case.sql",
+      "expected_git_blob_sha": "892a213315891df5d62eb79eccce6d9cf279a3a7",
+      "actual_git_blob_sha": "892a213315891df5d62eb79eccce6d9cf279a3a7",
+      "bytes": 4462,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch32.sql",
+      "expected_git_blob_sha": "4abb9b9dac666d590fabd9e70a74ee8b480096a8",
+      "actual_git_blob_sha": "4abb9b9dac666d590fabd9e70a74ee8b480096a8",
+      "bytes": 15936,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch33.sql",
+      "expected_git_blob_sha": "8351d155b0c3fe7315442419fa57f9b49826b411",
+      "actual_git_blob_sha": "8351d155b0c3fe7315442419fa57f9b49826b411",
+      "bytes": 16836,
+      "match": true
+    },
+    {
+      "path": "sql/test_patch34.sql",
+      "expected_git_blob_sha": "8e3f06da4aee9723371aec7eadeab58e6f0adccd",
+      "actual_git_blob_sha": "8e3f06da4aee9723371aec7eadeab58e6f0adccd",
+      "bytes": 17565,
+      "match": true
+    },
+    {
+      "path": "talabat-core.js",
+      "expected_git_blob_sha": "f639bec1d23a812866e06eb1110940c77563387c",
+      "actual_git_blob_sha": "f639bec1d23a812866e06eb1110940c77563387c",
+      "bytes": 153924,
+      "match": true
+    },
+    {
+      "path": "tests/native103/dependencies.sql",
+      "expected_git_blob_sha": "7272feb9182ec9415454f82a53576a4b22710799",
+      "actual_git_blob_sha": "7272feb9182ec9415454f82a53576a4b22710799",
+      "bytes": 3281,
+      "match": true
+    },
+    {
+      "path": "tests/native103/schema.sql",
+      "expected_git_blob_sha": "a77cccdcf818d9509db39c643a600f5e59324143",
+      "actual_git_blob_sha": "a77cccdcf818d9509db39c643a600f5e59324143",
+      "bytes": 9725,
+      "match": true
+    },
+    {
+      "path": "tests/native105/build-client.py",
+      "expected_git_blob_sha": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "actual_git_blob_sha": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "bytes": 3866,
+      "match": true
+    },
+    {
+      "path": "tests/native106/isolation.sql",
+      "expected_git_blob_sha": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "actual_git_blob_sha": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "bytes": 15465,
+      "match": true
+    },
+    {
+      "path": "tests/native106/restore.py",
+      "expected_git_blob_sha": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "actual_git_blob_sha": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "bytes": 2453,
+      "match": true
+    },
+    {
+      "path": "tests/pilot/external-restore.py",
+      "expected_git_blob_sha": "376ab92c8a476ade52383bccd997133fc5af8d18",
+      "actual_git_blob_sha": "376ab92c8a476ade52383bccd997133fc5af8d18",
+      "bytes": 16452,
+      "match": true
+    }
+  ],
+  "saved107_check": {
+    "count": 49,
+    "present": 49,
+    "sha256_and_size_matches": 49,
+    "scope": "Availability for current reviewer; no private handoff or current-target parity claimed. Raw contents not published or re-audited."
+  },
+  "quality_verdict": "REVISE",
+  "finding_id": "P1-QA-01",
+  "gates": [
+    {
+      "gate": "G1-A",
+      "status": "PARTIAL / BLOCKED",
+      "verified": "61/61 source blobs match pinned tree; SQL set40/40. Saved107 evidence49/49 present and hash-matched for this reviewer only.",
+      "missing": "Approved private handoff/access for responsible parties; deployed artifact bindings; target scope/isolation evidence and authoritative definitions. Old snapshot does not prove current state.",
+      "provider": "Current107 custodian/reviewer for existing files; deployment operator for source-to-deployment binding",
+      "acceptor": "Independent QA"
+    },
+    {
+      "gate": "G1-B",
+      "status": "PARTIAL / BLOCKED",
+      "verified": "Four app callers, shared core dispatch_tick, historical SQL and financial wrappers.",
+      "missing": "Explicit group_get/check_promo/rating-reward paths; signature-by-signature and trigger-by-trigger inventory, all external deployed writers, actual transaction boundaries and drainability.",
+      "provider": "Programmer/DB for existing-source correction; each service deployment operator for deployed writer inventory",
+      "acceptor": "Independent financial/security QA"
+    },
+    {
+      "gate": "G1-C",
+      "status": "PARTIAL / BLOCKED",
+      "verified": "Source round sites and synthetic settings identified; independent results absent.",
+      "missing": "Approved financial contract, intermediate types/conversion map and independent oracle; real settings provenance without private balances.",
+      "provider": "DB plus financial specialist; owner only for demonstrated policy conflict",
+      "acceptor": "Independent financial QA"
+    },
+    {
+      "gate": "G1-D",
+      "status": "PARTIAL / BLOCKED",
+      "verified": "Candidate isolation guard and inherited107 permissions; no live API proof.",
+      "missing": "Existing authorized request-scoped role/isolation proof linked to gateway configuration for each RPC.",
+      "provider": "API/gateway operator and security",
+      "acceptor": "Independent security QA"
+    },
+    {
+      "gate": "G1-E",
+      "status": "PARTIAL / BLOCKED",
+      "verified": "HMAC schema/old-key contracts and unknown reconciliation; no production key availability proven.",
+      "missing": "Custodian, authorized secure key retrieval/backup/rotation evidence, cross-service/device reconciliation and measured resource policy.",
+      "provider": "Key custodian, DB and operations; owner for new policy/quotas after measurement",
+      "acceptor": "Independent security QA"
+    },
+    {
+      "gate": "G1-F",
+      "status": "PARTIAL / BLOCKED",
+      "verified": "Prior synthetic recovery report, restore source and encrypted external-restore workflow exist.",
+      "missing": "Actual provider DB/Storage/key backup evidence and separate restore target access; RPO/RTO, NOT VALID impact contract and later test/private CI/session/device channels.",
+      "provider": "Backup operator/provider plus QA coordinator; owner for scope/RPO/RTO",
+      "acceptor": "Independent QA"
+    }
+  ],
+  "phase1_complete": false,
+  "phase2": "NO-GO"
+}
