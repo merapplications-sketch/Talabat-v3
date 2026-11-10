@@ -1,0 +1,77 @@
+name: CI102 SQL candidate acceptance
+on:
+  push:
+    branches: [review/ci-native95-20261110]
+    paths: ['tests/native102/**', '.github/workflows/ci102.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 ci97/unpack.py
+      - run: cp -r tests/native98 tests/native102 isolated97/tests/
+      - run: npm ci --ignore-scripts --prefix isolated97/tests/dispatch-isolated
+      - run: node --test tests/native102/replay.test.mjs
+        working-directory: isolated97
+        env:
+          PGLITE_MODULE: ${{ github.workspace }}/isolated97/tests/dispatch-isolated/node_modules/@electric-sql/pglite/dist/index.js
+  postgres:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17.6@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+        env:
+          POSTGRES_PASSWORD: synthetic-local-only
+          POSTGRES_DB: postgres
+        ports: ['127.0.0.1:5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: synthetic-local-only
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
+      - run: python3 tests/native102/native.py
+      - run: python3 tests/native102/admission.py
+      - name: Restore candidate and private bindings to separate synthetic database
+        env:
+          PG_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          docker exec "$PG_CONTAINER" pg_dump -U postgres --no-owner postgres > "$RUNNER_TEMP/candidate102.sql"
+          docker exec "$PG_CONTAINER" createdb -U postgres candidate102_restored
+          docker exec -i "$PG_CONTAINER" psql -v ON_ERROR_STOP=1 -U postgres -d candidate102_restored < "$RUNNER_TEMP/candidate102.sql"
+          python3 tests/native102/restore.py
+          rm "$RUNNER_TEMP/candidate102.sql"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: native102-synthetic-${{ github.sha }}
+          path: |
+            native102-result.json
+            native102-admission.json
+            native102-restore.json
+          retention-days: 7
+  required102:
+    if: always()
+    needs: [replay, postgres]
+    runs-on: ubuntu-24.04
+    steps:
+      - run: test "$REPLAY" = success && test "$POSTGRES" = success
+        env:
+          REPLAY: ${{ needs.replay.result }}
+          POSTGRES: ${{ needs.postgres.result }}

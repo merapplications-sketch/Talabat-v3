@@ -2,7 +2,7 @@ name: CI100 recovered fixtures and acceptance
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: ['ci97/**', 'tests/acceptance100/**', 'tests/fixtures100/**', 'scripts/ci100/**', '.github/workflows/ci100.yml']
+    paths: ['tests/native102/**', '.github/workflows/ci102.yml', 'ci97/**', 'tests/acceptance100/**', 'tests/fixtures100/**', 'scripts/ci100/**', '.github/workflows/ci100.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,3 +28,4 @@ jobs:
           path: ${{ runner.temp }}/ci100/report.json
           if-no-files-found: error
           retention-days: 30
+

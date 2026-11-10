@@ -2,7 +2,7 @@ name: Safe CI99 integration evidence
 on:
   push:
     branches: [review/ci-native95-20261110]
-    paths: ['tests/acceptance100/**', 'tests/fixtures100/**', 'scripts/ci100/**', '.github/workflows/ci100.yml', 'ci97/**', 'tests/http99/**', 'scripts/ci99/**', '.github/workflows/ci99.yml']
+    paths: ['tests/native102/**', '.github/workflows/ci102.yml', 'tests/acceptance100/**', 'tests/fixtures100/**', 'scripts/ci100/**', '.github/workflows/ci100.yml', 'ci97/**', 'tests/http99/**', 'scripts/ci99/**', '.github/workflows/ci99.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,3 +31,4 @@ jobs:
           path: ${{ runner.temp }}/ci99/report.json
           if-no-files-found: error
           retention-days: 30
+
