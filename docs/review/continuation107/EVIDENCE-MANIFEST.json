@@ -1,0 +1,253 @@
+{
+  "scope": "Inventory of the 49 pre-existing AUDIT107 evidence files. SHA256 binds local evidence; raw catalog exports, SQL definitions, scripts, runtime logs and synthetic seed data are NOT published in this commit. This is not an archival backup of those files.",
+  "candidate_source": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+  "documentation_parent": "bf65738951e802bc29b64076cd9440476152fee7",
+  "evidence_count": 49,
+  "files": [
+    {
+      "name": "TALABOT-TARGET-READINESS-AUDIT107-AR.txt",
+      "bytes": 24255,
+      "sha256": "a0f20b508c257bb1462a3bf284c1d27910d49d43e4d6e9a605a87b2bd8a7feb8"
+    },
+    {
+      "name": "TARGET107-FINANCIAL-DEPENDENCIES.svg",
+      "bytes": 5604,
+      "sha256": "4515c61cf36c18bb6bd9c8af93d6ef1a900db43e89af2f6860e62cf3986cf4cf"
+    },
+    {
+      "name": "audit-scope.json",
+      "bytes": 2787,
+      "sha256": "251b3b76f3ddf587fb1d437a0abf680e0d5eb6770dce80c672da4e8572ab2b0e"
+    },
+    {
+      "name": "capture-consistency.json",
+      "bytes": 1081,
+      "sha256": "a28d9127999f2f4973c79721eb95f36bc48255dd4d996a259ad767f719e1ccd5"
+    },
+    {
+      "name": "catalog-comparison.json",
+      "bytes": 24330,
+      "sha256": "37e22c34a64aca871420e2e6b19a6700828e3f57bf8f0835902af7d14a0016c9"
+    },
+    {
+      "name": "catalog-queries.json",
+      "bytes": 8199,
+      "sha256": "e9b3f1ddea1c7f4823b732cc7674752e4d375a5aeb8fa3af69ef88f0beff35c5"
+    },
+    {
+      "name": "compare-catalog.py",
+      "bytes": 3176,
+      "sha256": "2d4b8fd4a347183cd89bd5f22eb2976bc7bed1d8bb872731c0b5d1b6d5f62c59"
+    },
+    {
+      "name": "customer_confirm_order.sql",
+      "bytes": 3569,
+      "sha256": "b56c15ca27d8f16a52820ad821a46b5656b09573a4d9693a63ca017b38aa321f"
+    },
+    {
+      "name": "extract-local-fixture.py",
+      "bytes": 2124,
+      "sha256": "4cb41da2c5ab5f7a4b623019c9395fd16accb1251ea870786fb55474140dbcf1"
+    },
+    {
+      "name": "finance_execute.sql",
+      "bytes": 4235,
+      "sha256": "f6e0582ee2de8bc78f1edb43d423d56537d18b66b6c6e255c47696bf62169274"
+    },
+    {
+      "name": "finance_private-snapshot_cash.sql",
+      "bytes": 1070,
+      "sha256": "d7f14f6b869627e4529ecbcb3443573b652a1b7d3881742d55aab1ad18281eb4"
+    },
+    {
+      "name": "fixture-aux.json",
+      "bytes": 578,
+      "sha256": "b10391dcf01a0247c7a32248088499a5fc3ace830dfdf3270fcc50d986782285"
+    },
+    {
+      "name": "fixture-columns.json",
+      "bytes": 48569,
+      "sha256": "0fd936c6185bb8ef671e223b9daa391f7b45f79d1967265d948a61a95f2885fd"
+    },
+    {
+      "name": "fixture-constraints.json",
+      "bytes": 19534,
+      "sha256": "c262c9a3853196b1a3e28a41cdef9ec56260ad69168c7ce55a81d9f4c861ef49"
+    },
+    {
+      "name": "fixture-definitions.json",
+      "bytes": 43870,
+      "sha256": "71a1deb35e92a18e65d38e0bf6beebd751e492ecb59c880972c03c58ed0c6def"
+    },
+    {
+      "name": "fixture-effective.json",
+      "bytes": 11656,
+      "sha256": "e88a0c5df988b601c8431b809c2355fdc6c5204d60cfacf96f99381918dae43c"
+    },
+    {
+      "name": "fixture-extract.log",
+      "bytes": 93,
+      "sha256": "5e3372f24831aadbd3bb4470278d5f2a1f5a0f9902d5d8bb53997418d71d9c7b"
+    },
+    {
+      "name": "fixture-indexes.json",
+      "bytes": 6989,
+      "sha256": "55906c00d3f9459ddb3c9cc092e7a711855f4566d6b57b7c7caabb0e54ccb0df"
+    },
+    {
+      "name": "fixture-optional-dependencies.json",
+      "bytes": 3333,
+      "sha256": "2eecf1a54cff78a2bff20d8c3bbbaeaf81e3b8712bd1e38230716d31f1349f2b"
+    },
+    {
+      "name": "fixture-policies.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "fixture-relations.json",
+      "bytes": 8134,
+      "sha256": "41a6e96dbacb750f1c160d9508e047810e0ab15a5a01c764f17f958508ec0a6b"
+    },
+    {
+      "name": "fixture-routines.json",
+      "bytes": 15505,
+      "sha256": "9a558183a85780807210d058fcbb7999d1afca90df7120d86b1f87eddbb847e8"
+    },
+    {
+      "name": "fixture-triggers.json",
+      "bytes": 32502,
+      "sha256": "a637965eba2009f6af38c3ba2b1a876f610657875525dc4c642f67cd1066b417"
+    },
+    {
+      "name": "local-pg.log",
+      "bytes": 2039,
+      "sha256": "cf46bf36fe0cf0ab27b68186edd3e1642428ba84c4b0913185ca0cd31f070d69"
+    },
+    {
+      "name": "make-report-assets.py",
+      "bytes": 9920,
+      "sha256": "79ee507e67b2028b17647174ab752154414b80ad8fb6dce19976fd4ada5de71d"
+    },
+    {
+      "name": "order_return_action.sql",
+      "bytes": 6447,
+      "sha256": "dfdd49773d34e355e62532e5246e612ffe234d91457e4190e8dcc43f08a48a8a"
+    },
+    {
+      "name": "public-delivery_calc.sql",
+      "bytes": 2370,
+      "sha256": "ed72c8bbf1c6cb07969979ee39f5451e63e042cd2808c45ec7bc8f9444bba656"
+    },
+    {
+      "name": "public-pilot_check_session.sql",
+      "bytes": 308,
+      "sha256": "74e42c3f5787fed27ded284206642beaae9d93ff7e7e23ba8c7b6673581da37d"
+    },
+    {
+      "name": "public-place_order.sql",
+      "bytes": 13127,
+      "sha256": "7621d57db6e3b3830af3607f5b415e2219239bd98eae027871cb222aa2608cfa"
+    },
+    {
+      "name": "public-price_line.sql",
+      "bytes": 1761,
+      "sha256": "496fe8c544506a65e4465628fbc07ccff02299b610ccada9af616f97f74b6813"
+    },
+    {
+      "name": "readiness-matrix.csv",
+      "bytes": 5841,
+      "sha256": "8a6a7943dd47e00c24d99e40a977eaff80fd8f7c3bb345374bd7932ae6927ba7"
+    },
+    {
+      "name": "readiness-matrix.json",
+      "bytes": 8214,
+      "sha256": "97d3945b62fa23975976793068820bb71426e2e6aeb27166ce8aa89fba288aa1"
+    },
+    {
+      "name": "target-additional.json",
+      "bytes": 7124,
+      "sha256": "17534bf5ce1bc26634d260eace5d6f6c4dc6664110f7202b36cfff2a8064d9a6"
+    },
+    {
+      "name": "target-aux.json",
+      "bytes": 6841,
+      "sha256": "a4a87a49ba6cb681048e7817e7330ca8d70442de767ddfda47393a8a10c8f207"
+    },
+    {
+      "name": "target-columns.json",
+      "bytes": 130970,
+      "sha256": "77bb17bd276307bf90390f8b09a742a12e95a87bf8eca28eb8953c255d75ef96"
+    },
+    {
+      "name": "target-constraints.json",
+      "bytes": 83565,
+      "sha256": "cc39f8e3dbd1ec47b4576df5580193ae7f0c52ff45f0de3fab53e8e67c5c9bdb"
+    },
+    {
+      "name": "target-definitions.json",
+      "bytes": 182141,
+      "sha256": "d66e617b85de1a5b891aa975cbf33457390b3f1a927dd22ccfebbf9223248d2c"
+    },
+    {
+      "name": "target-dependencies.json",
+      "bytes": 242802,
+      "sha256": "294b11b4fb7fe1abc128f6b4e19a867b72a0741cfb81bcd8973f69d11f073ca3"
+    },
+    {
+      "name": "target-effective.json",
+      "bytes": 50987,
+      "sha256": "4f1c4cce38c6077b372d4f424d825d61b37ebfd45661373b9d109f1dce6c955e"
+    },
+    {
+      "name": "target-function-privileges.json",
+      "bytes": 72092,
+      "sha256": "1d1970e2616424c643db71503782f5b7a3f66d71ab5bf2d07b76563c933416ea"
+    },
+    {
+      "name": "target-indexes.json",
+      "bytes": 31764,
+      "sha256": "92ae67ddc2eb8070b9100d98059a4d36ce6871db338a8885597cd3c869cdfdf6"
+    },
+    {
+      "name": "target-outside.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "name": "target-policies.json",
+      "bytes": 16221,
+      "sha256": "6b1f78c3876ee32dd219f5eb673eef9932a0383f1188fe1a8f37c87f0d2b8e40"
+    },
+    {
+      "name": "target-relations.json",
+      "bytes": 23033,
+      "sha256": "ad140e4221f883cd7df605dfd9dd1ecd68b96bfc84980b0faa4fee62060069fe"
+    },
+    {
+      "name": "target-roles.json",
+      "bytes": 9260,
+      "sha256": "46980f349630932af3848f05c8ea4feed335b140502acbeb62f04f2665703ef8"
+    },
+    {
+      "name": "target-routines.json",
+      "bytes": 94084,
+      "sha256": "1a258b9494cb9b12b24918bce711534c38dacb377bf201355516f9a2bba33ea6"
+    },
+    {
+      "name": "target-triggers.json",
+      "bytes": 133474,
+      "sha256": "71529574ae52382edee2801de629b6f415261c138cdf51a5cc69fe205dfc4069"
+    },
+    {
+      "name": "ticket_set_status.sql",
+      "bytes": 2836,
+      "sha256": "15f6aa95ae3dab9b4c6def10ce05e4b24c4a15e55f73f192b45bad064ff1941d"
+    },
+    {
+      "name": "writer-scan.json",
+      "bytes": 13610,
+      "sha256": "4e97265f9b8190581c91dcf85c19275f4e0c80da56f7a454d762a8eaf6ba5d34"
+    }
+  ]
+}
