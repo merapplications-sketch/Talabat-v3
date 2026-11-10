@@ -1,0 +1,111 @@
+{
+  "tested_commit": "bb7b9e585a9995be7d5154baf6bc256377e0f86f",
+  "run_id": 42784056173,
+  "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42784056173",
+  "conclusion": "success",
+  "postgres": "17.6",
+  "native_cases": [
+    "test_binding_failure_atomicity_and_missing_binding",
+    "test_canonical_equivalence_and_difference",
+    "test_concurrent_same_group_and_different_keys",
+    "test_conversion_existing102_no_historical_fabrication",
+    "test_deadlock_reports_unknown_without_blind_retry",
+    "test_first_install_interrupted_rolls_back_schema_and_function",
+    "test_historical_normal_group_scheduled_readonly",
+    "test_hmac_independent_vector_and_immutable_key",
+    "test_identity_revocation_and_group_access",
+    "test_invalid_inputs_and_unknown_status",
+    "test_key_rotation_privacy_and_acl",
+    "test_lock_timeout_preserves_key_without_retry",
+    "test_normal_group_schedule_verified_replay",
+    "test_old_writer_overlap_and_no_duplicate",
+    "test_other_account_same_key_never_recovers_first_id",
+    "test_promo_loyalty_wallet_atomic_with_captured_helpers",
+    "test_rollback_reupgrade_and_interrupted_migration",
+    "test_target_identity_uuid_fk_overlay",
+    "test_tcp_before_after_commit"
+  ],
+  "admission": [
+    {
+      "case": "open_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        },
+        {
+          "order": 6
+        }
+      ],
+      "count_after": 5,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "hour_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "order": 21
+        },
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        }
+      ],
+      "count_after": 20,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "three_keys",
+      "passed": true,
+      "connections": 3,
+      "independent_account_observed": true,
+      "wallet_spends": 3,
+      "distinct_spends": 3,
+      "wallet_amount": "-15.00",
+      "outcomes": {
+        "0": {
+          "order": 5
+        },
+        "1": {
+          "order": 3
+        },
+        "2": {
+          "order": 4
+        }
+      }
+    },
+    {
+      "case": "two_accounts",
+      "passed": true,
+      "connections": 2,
+      "independent_account_observed": true,
+      "wallet_spends": 2,
+      "distinct_spends": 2,
+      "wallet_amount": "-10.00",
+      "outcomes": {
+        "0": {
+          "order": 4
+        },
+        "1": {
+          "order": 3
+        }
+      }
+    }
+  ],
+  "restore": {
+    "passed": true,
+    "scope": "separate disposable synthetic PostgreSQL database; workflow restore step passed"
+  },
+  "client": {
+    "passed": 15,
+    "scope": "controller and VM mocked API, not hosted HTTP"
+  },
+  "artifact_id": 13748250691,
+  "production_ready": false
+}

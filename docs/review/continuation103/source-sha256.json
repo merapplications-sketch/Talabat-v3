@@ -1,0 +1,18 @@
+{
+  "tests/native103/schema.sql": "8b1d697efbc7f299b5a02867c74eee45be00913901a916f9c7c05d4716ef1a95",
+  "tests/native103/functions.sql": "459617b162cb8882b4ea3659c3995acac7510cf4290c909bbba1bad8702f606f",
+  "tests/native103/migrate102.sql": "16fd6dcde2dc919084ddac9e28aef2c3a532d76b873112221235eeb1f7728693",
+  "tests/native103/captured-dependency-hashes.json": "1fc15206995f057deeae26b48169ef738ad43f1b96f2a46b3723f46c4b62df8c",
+  "tests/native103/ui-source-hashes.json": "5af60be0ee9393acd83cba3976e78c0c1d64d9f14a8b2ca15b2fab014ec3130e",
+  "tests/native103/fidelity.sql": "3308a68e37c4c14679ff55892403380a6eadb6448bdde3a52e4f5b005feeccf6",
+  "tests/native103/admission.py": "b35866feadeda0e0d7b78f4e70795e3a4838068c5c6bcbd8781a0d66df7ac3ce",
+  "tests/native103/rollback.sql": "2101fc015e11ddb48ec3239878d84a355867aec97467442055389d056b9544a2",
+  "tests/native103/client.js": "f7ae293d89332d8703021ce0478cfff2324eab7203b091d2934a3fa57acf3616",
+  "tests/native103/client.test.mjs": "0ac58e01f10cad9ad881b8baa5d36c250c84be7fb054dcd37342909b5c87be66",
+  "tests/native103/restore.py": "dd5373cfbee68cf017bbe5ee09793c1ee14f2548c8ebf5fe71c35d824851cbdc",
+  "tests/native103/ui.test.mjs": "1a220a4a5d07926dc1ca44874931d6a5848c0a97a240d142f289263028e47b2b",
+  "tests/native103/test_sql.py": "e0c6c14158b5a73e210845a741b765ed720c2225e427e1ff0260541e93db03dc",
+  "tests/native103/dependencies.sql": "df23c2f1e989abe912dc7cf1275676a33c25c515cb56b5ce0172f99a85c7f05c",
+  "tests/native103/build-client.py": "ac05540d522889bbfe52c95aeab04a1323793294f4a5c6d48beeb182e7bd8d6b",
+  ".github/workflows/ci103.yml": "253fd89b0122e986fc7520d8619a40d21b2839493d02cd8b4377744294589944"
+}
