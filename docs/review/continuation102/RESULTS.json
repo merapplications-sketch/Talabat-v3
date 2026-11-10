@@ -1,0 +1,230 @@
+{
+  "batch": 102,
+  "status": "CANDIDATE_FOR_INDEPENDENT_REVIEW; RELEASE_BLOCKED",
+  "tested_commit": "7297d5fcf2fcf21a844461fd132066c4b7660896",
+  "candidate_sha256": "6c5f668e6f843d8c6b6a8a46f9c947e9119443a61801e7f2e9799a80c3d8affc",
+  "local": {
+    "candidate_PGlite": 17,
+    "fast_groups": 38,
+    "SQL_groups": 18,
+    "CI99_stages": 8,
+    "acceptance100_tests": 11,
+    "HTTP98_tests": 7,
+    "fixture_cache56": "passed",
+    "SQL98_transaction_suite": "passed",
+    "scope": "Available public suites only; old suites retain historical candidate; new102 suite exercises candidate102."
+  },
+  "native": {
+    "passed": 13,
+    "results": [
+      {
+        "case": "group concurrent replay and discarded ACK",
+        "passed": true,
+        "blocking_observed": true,
+        "orders": 1,
+        "wallet_spends": 1,
+        "wallet_amount": "-5",
+        "bindings": 1
+      },
+      {
+        "case": "group changed payload denied atomically",
+        "passed": true
+      },
+      {
+        "case": "group new key admission preserved",
+        "passed": true
+      },
+      {
+        "case": "scheduled concurrent replay and discarded ACK",
+        "passed": true,
+        "blocking_observed": true,
+        "orders": 1,
+        "wallet_spends": 1,
+        "wallet_amount": "-5",
+        "bindings": 1
+      },
+      {
+        "case": "scheduled changed payload denied atomically",
+        "passed": true
+      },
+      {
+        "case": "scheduled new key admission preserved",
+        "passed": true
+      },
+      {
+        "case": "plain concurrent replay and discarded ACK",
+        "passed": true,
+        "blocking_observed": true,
+        "orders": 1,
+        "wallet_spends": 1,
+        "wallet_amount": "-5",
+        "bindings": 1
+      },
+      {
+        "case": "plain changed payload denied atomically",
+        "passed": true
+      },
+      {
+        "case": "same key distinct identities return own order",
+        "passed": true
+      },
+      {
+        "case": "real TCP cut before COMMIT",
+        "passed": true,
+        "orders": 1,
+        "wallet_spends": 1,
+        "bindings": 1
+      },
+      {
+        "case": "real TCP cut after COMMIT",
+        "passed": true,
+        "orders": 1,
+        "wallet_spends": 1,
+        "bindings": 1
+      },
+      {
+        "case": "candidate lock timeout and retry",
+        "passed": true
+      },
+      {
+        "case": "candidate versus opposite-order caller: deadlock and recovery",
+        "passed": true,
+        "sqlstate": "40P01",
+        "global_deadlock_freedom": false
+      }
+    ]
+  },
+  "admission": [
+    {
+      "case": "open_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        },
+        {
+          "order": 6
+        }
+      ],
+      "count_after": 5,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "hour_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "order": 21
+        },
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        }
+      ],
+      "count_after": 20,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "three_keys",
+      "passed": true,
+      "connections": 3,
+      "independent_account_observed": true,
+      "wallet_spends": 3,
+      "distinct_spends": 3,
+      "wallet_amount": "-15.00",
+      "outcomes": {
+        "0": {
+          "order": 4
+        },
+        "1": {
+          "order": 3
+        },
+        "2": {
+          "order": 5
+        }
+      }
+    },
+    {
+      "case": "two_accounts",
+      "passed": true,
+      "connections": 2,
+      "independent_account_observed": true,
+      "wallet_spends": 2,
+      "distinct_spends": 2,
+      "wallet_amount": "-10.00",
+      "outcomes": {
+        "0": {
+          "order": 4
+        },
+        "1": {
+          "order": 3
+        }
+      }
+    }
+  ],
+  "restore": {
+    "status": "passed",
+    "job": 129694416132,
+    "scope": "separate synthetic PostgreSQL database, replay binding restored; no provider or Storage recovery"
+  },
+  "runs": [
+    {
+      "id": 42775965347,
+      "name": "Safe CI99 integration evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "7297d5fcf2fcf21a844461fd132066c4b7660896",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42775965347"
+    },
+    {
+      "id": 42775965222,
+      "name": "CI100 recovered fixtures and acceptance",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "7297d5fcf2fcf21a844461fd132066c4b7660896",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42775965222"
+    },
+    {
+      "id": 42775965458,
+      "name": "Native95 isolated order contention",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "7297d5fcf2fcf21a844461fd132066c4b7660896",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42775965458"
+    },
+    {
+      "id": 42775965943,
+      "name": "CI102 SQL candidate acceptance",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "7297d5fcf2fcf21a844461fd132066c4b7660896",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42775965943"
+    },
+    {
+      "id": 42775965211,
+      "name": "sql97-public",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "7297d5fcf2fcf21a844461fd132066c4b7660896",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42775965211"
+    }
+  ],
+  "artifact": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42775965943/artifacts/13743434093",
+  "blocked": [
+    "independent SQL acceptance, including legacy-key compatibility and new private relation",
+    "full target catalog/trigger/RLS/grant equivalence",
+    "original private DB evidence and build-gate",
+    "repository mandatory-check enforcement",
+    "hosted HTTP/RBAC user sessions",
+    "four-app hosted E2E",
+    "provider backup/Storage recovery",
+    "Storage same URL/token revocation",
+    "actual Safari device"
+  ],
+  "private_QA_bundle_sha256": "7003115c7a81f8420b30a7acfd1b35b3678ac1ae6e9e6b2b519a15ffc1d64abb"
+}
