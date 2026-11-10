@@ -16,9 +16,11 @@
   const uid=deps.user(),key=payload&&payload.p_key;
   if(!uid||!/^[A-Za-z0-9_-]{8,64}$/.test(key||''))return unknown('identity_or_key_missing');
   const name=slot(uid,key);if(pending.has(name))return unknown('pending');
-  let record;
-  try{const raw=deps.storage.getItem(name);record=raw?JSON.parse(raw):null;
+  let record;const activeSlot='tlb-order103-active:'+uid;
+  try{const active=deps.storage.getItem(activeSlot);if(active&&active!==key)return Object.assign(unknown('previous_attempt_unresolved'),{recoveryKey:active});
+   const raw=deps.storage.getItem(name);record=raw?JSON.parse(raw):null;
    if(!record){record={version:1,user:uid,key,payload:JSON.parse(JSON.stringify(payload)),state:fresh?'new':'unresolved'};deps.storage.setItem(name,JSON.stringify(record));}
+   deps.storage.setItem(activeSlot,key);
    if(record.user!==uid||record.key!==key||record.version!==1)return unknown('stored_request_invalid');
   }catch(e){return unknown('storage_unavailable');}
   pending.set(name,true);
@@ -28,9 +30,14 @@
    record.state='pending';deps.storage.setItem(name,JSON.stringify(record));
    const r=await deps.rpc(create?'place_order103':'order_request_status103',create?record.payload:{p_key:key});
    if(deps.user()!==uid)return unknown('identity_changed');
-   const result=normalize(r,key);
+   let result=normalize(r,key);
+   if(result.id){
+    if(typeof deps.readOrder!=='function'||await deps.readOrder(result.id)!==true)result=unknown('saved_order_reload_failed');
+    if(deps.user()!==uid)return unknown('identity_changed');
+   }
    result.keepCart=result.keepCart||JSON.stringify(payload)!==JSON.stringify(record.payload);
    record.state=result.status;record.reason=result.reason||null;record.orderId=result.id||null;deps.storage.setItem(name,JSON.stringify(record));
+   if(result.id)deps.storage.removeItem(activeSlot);
    if(!result.keepCart&&result.id)deps.storage.removeItem(name);
    return result;
   }catch(e){record.state='unresolved';try{deps.storage.setItem(name,JSON.stringify(record));}catch(_){}return unknown('transport_or_storage');}

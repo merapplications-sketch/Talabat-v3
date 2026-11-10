@@ -13,7 +13,7 @@ anchor='    placeOrder: function (o) {'
 core=core.replace(anchor,"    recoverOrder103: function(key){return orderClient103().recover(key);},\n    retryOrder103: function(key,approved){return orderClient103().retrySaved(key,approved);},\n"+anchor,1)
 # Helper lies inside core closure so auth follows the current ME, not a stale captured identity.
 pos=core.index('  function finCommand(')
-core=core[:pos]+"  var client103; function orderClient103(){return client103||(client103=globalThis.TalabotOrder103({user:function(){return ME&&ME.id;},storage:localStorage,rpc:function(n,p){return sb.rpc(n,p);}}));}\n"+core[pos:]
+core=core[:pos]+"  var client103; function orderClient103(){return client103||(client103=globalThis.TalabotOrder103({user:function(){return ME&&ME.id;},storage:localStorage,readOrder:function(id){return sb.from('orders').select('id').eq('id',id).eq('customer_id',ME.id).maybeSingle().then(function(r){if(r.error||!r.data||String(r.data.id)!==String(id))return false;return refresh('orders').then(function(){return true;});}).catch(function(){return false;});},rpc:function(n,p){return sb.rpc(n,p);}}));}\n"+core[pos:]
 core=Path('tests/native103/client.js').read_text()+'\n'+core
 start=html.index('async function place(){');end=html.index("let phErr=''",start);block=html[start:end]
 block=block.replace('  if(S.busy)return;', '''  if(S.busy)return;
@@ -31,7 +31,7 @@ block=block.replace('  if(S.busy)return;', '''  if(S.busy)return;
 block=block.replace('S.busy=true;if(!S.okey)S.okey=newKey();render();','S.busy=true;render();')
 block=block.replace('    const r=await TLB.placeOrder(', '    if(!S.okey)S.okey=newKey();render();\n    const r=await TLB.placeOrder(')
 block=block.replace('key:S.okey});','key:S.okey,freshAttempt:true});')
-block=block.replace('    if(r.error){',"    if(!r||!['created','replayed','historical_recovered'].includes(r.status)||!r.id){if(r&&!r.error)r.error='order_outcome_unknown';if(!r){alert(t('err_generic'));return;}\n    if(r.error){",1)
+block=block.replace('    if(r.error){',"    if(!r||!['created','replayed','historical_recovered'].includes(r.status)||!r.id){if(r&&r.recoveryKey)S.okey=r.recoveryKey;if(r&&!r.error)r.error='order_outcome_unknown';if(!r){alert(t('err_generic'));return;}\n    if(r.error){",1)
 block=block.replace('alert(errMsg(r));return}\n    S.cart=',"alert(errMsg(r));return}}\n    if(r.keepCart){alert(TLB.lang()==='ru'?'Открыт сохранённый заказ. Корзина сохранена.':'Opening the saved order. Cart preserved.');go('track',{tid:r.id});return;}\n    S.cart=",1)
 html=html[:start]+block+html[end:]
 (out/'talabat-core.js').write_text(core);(out/'customer.html').write_text(html)

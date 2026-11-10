@@ -74,3 +74,20 @@ declare o public.orders;f security_private.order_request_fingerprints103;s bytea
 end$$;
 create or replace function public.order_request_status103(p_key text) returns jsonb language plpgsql security definer set search_path=pg_catalog,public as $$begin
  return coalesce(security_private.resolve103(p_key,null,false),jsonb_build_object('status','unresolved','reason','not_visible','key',p_key));end$$;
+-- Guard core uniqueness/FK invariants on reapplication; owner must inspect any other catalog drift.
+do $$begin
+ if not exists(select 1 from pg_constraint where conrelid='security_private.order_request_keys103'::regclass and contype='p' and conkey=array[1]::smallint[])
+ or not exists(select 1 from pg_constraint where conrelid='security_private.order_request_fingerprints103'::regclass and contype='p' and conkey=array[1,2]::smallint[])
+ or not exists(select 1 from pg_constraint where conrelid='security_private.order_request_fingerprints103'::regclass and contype='u' and conkey=array[3]::smallint[])
+ or not exists(select 1 from pg_constraint where conrelid='security_private.order_request_fingerprints103'::regclass and contype='f' and conkey=array[3]::smallint[] and confrelid='public.orders'::regclass)
+ or not exists(select 1 from pg_constraint where conrelid='security_private.order_request_fingerprints103'::regclass and contype='f' and conkey=array[5]::smallint[] and confrelid='security_private.order_request_keys103'::regclass)
+ then raise exception 'request103_schema_drift';end if;
+ if exists(select 1 from pg_roles where rolname='service_role') then
+  execute 'revoke all on security_private.order_request_keys103,security_private.order_request_fingerprints103 from service_role';
+ end if;
+end$$;
+create or replace function security_private.guard_request_key103() returns trigger language plpgsql set search_path=pg_catalog as $$begin
+ if new.key_id is distinct from old.key_id or new.secret is distinct from old.secret then raise exception 'request_key_immutable';end if;return new;end$$;
+drop trigger if exists request_key103 on security_private.order_request_keys103;
+create trigger request_key103 before update on security_private.order_request_keys103 for each row execute function security_private.guard_request_key103();
+revoke all on function security_private.guard_request_key103() from public,anon,authenticated;

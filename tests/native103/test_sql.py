@@ -7,7 +7,7 @@ from tcp_proxy import CutProxy
 assert os.environ.get('PGHOST')=='127.0.0.1'
 B='10000000-0000-4000-8000-000000000092';O='20000000-0000-4000-8000-000000000092';S='30000000-0000-4000-8000-000000000092';I='40000000-0000-4000-8000-000000000092';G='60000000-0000-4000-8000-000000000092'
 SIG='(uuid,jsonb,numeric,text,text,float8,float8,text,text,numeric,numeric,int,jsonb)'
-BASE=Path('tests/native98/setup.sql').read_text().replace('create role authenticated;create role anon;','')+Path('tests/native102/constraints.sql').read_text()
+BASE=Path('tests/native98/setup.sql').read_text().replace('create role authenticated;create role anon;','')+Path('tests/native102/constraints.sql').read_text()+Path('tests/native103/fidelity.sql').read_text()
 MIGRATION=''.join(Path('tests/native103/'+p).read_text() for p in ['schema.sql','functions.sql','migrate102.sql'])
 ROOT=psycopg.connect(autocommit=True)
 for role in ['authenticated','anon']:
@@ -130,6 +130,9 @@ class SQL103(unittest.TestCase):
   self.upgrade()
   with self.actor() as c:oid=call(c,args())['id']
   self.a.execute(Path('tests/native103/rollback.sql').read_text());before=self.snapshot()
+  with self.actor() as c:
+   self.assertEqual(call(c,args('rollback_new103'))['reason'],'rollback_read_only')
+   changed=args(qty=2);self.assertEqual(call(c,changed)['status'],'conflict')
   with self.actor() as c:self.assertEqual(c.execute('select order_request_status103(%s)',(args()[8],)).fetchone()[0]['id'],oid)
   self.a.execute(MIGRATION);self.assertEqual(before,self.snapshot())
   with self.actor() as c:self.assertEqual(call(c,args())['status'],'replayed')
@@ -202,6 +205,46 @@ class SQL103(unittest.TestCase):
   with self.actor() as c:state=c.execute('select order_request_status103(%s)',(aa[8],)).fetchone()[0]
   with self.actor() as c:r=call(c,aa)
   self.assertIn(r['status'],['created','replayed']);self.assertEqual(self.counts(),(1,1,-5,1))
+ def test_promo_loyalty_wallet_atomic_with_captured_helpers(self):
+  self.upgrade();self.a.execute(Path('tests/native103/dependencies.sql').read_text())
+  self.a.execute("insert into promo_codes values('TEST103',true,null,null,0,1,'fixed',5)");self.a.execute("insert into promo_attempts values(%s,true,'TEST103',now())",(B,))
+  self.a.execute("insert into loyalty_lots(user_id,points_left,expires_at)values(%s,100,now()+interval '1 day')",(B,))
+  aa=args('deps103');aa[7]='TEST103';aa[11]=100
+  self.a.execute("create function security_private.faildeps103() returns trigger language plpgsql as $$begin raise exception 'synthetic_binding_failure';end$$;create trigger faildeps103 before insert on security_private.order_request_fingerprints103 for each row execute function security_private.faildeps103()")
+  before=self.snapshot()
+  with self.actor() as c:self.assertEqual(call(c,aa)['status'],'rejected')
+  self.assertEqual(before,self.snapshot());self.assertEqual(self.a.execute('select points_left from loyalty_lots').fetchone()[0],100);self.assertEqual(self.a.execute('select count(*) from loyalty_ledger').fetchone()[0],0)
+  self.a.execute('drop trigger faildeps103 on security_private.order_request_fingerprints103')
+  with self.actor() as c:r=call(c,aa);self.assertEqual(r['status'],'created')
+  self.assertEqual(self.a.execute('select promo_discount,points_used,points_value,total,wallet_used from orders').fetchone(),(5,100,10,7,5))
+  self.assertEqual(self.a.execute('select points_left from loyalty_lots').fetchone()[0],0);self.assertEqual(self.a.execute('select count(*),sum(points) from loyalty_ledger').fetchone(),(1,-100))
+  before=self.snapshot()
+  with self.actor() as c:self.assertEqual(call(c,aa)['status'],'replayed')
+  self.assertEqual(before,self.snapshot());self.assertEqual(self.a.execute('select count(*) from loyalty_ledger').fetchone()[0],1)
+ def test_target_identity_uuid_fk_overlay(self):
+  self.upgrade()
+  self.assertEqual(self.a.execute("select attidentity from pg_attribute where attrelid='orders'::regclass and attname='id'").fetchone()[0],'a')
+  self.assertEqual(self.a.execute("select format_type(atttypid,atttypmod) from pg_attribute where attrelid='order_items'::regclass and attname='id'").fetchone()[0],'uuid')
+  with self.assertRaises(psycopg.errors.ForeignKeyViolation):self.a.execute("insert into group_orders(id,host_id,status,store_id,expires_at)values(%s,%s,'open',%s,now())",(G,I,S))
+ def test_first_install_interrupted_rolls_back_schema_and_function(self):
+  with psycopg.connect(dbname='candidate103') as c:c.execute(MIGRATION);c.rollback()
+  self.assertIsNone(self.a.execute("select to_regclass('security_private.order_request_fingerprints103')").fetchone()[0])
+  self.upgrade()
+  with self.actor() as c:self.assertEqual(call(c,args())['status'],'created')
+ def test_hmac_independent_vector_and_immutable_key(self):
+  import hmac
+  self.upgrade();secret=os.urandom(32)
+  payload=[S,[],0,'cash','synthetic',38.5,68.7,None,None,5,None,None]
+  normalized=payload[:-1]+[{}]
+  expected=hmac.new(secret,json.dumps(['TALABOT/order-create',1,B,'request103_vector',normalized],separators=(',',':')).encode(),hashlib.sha256).digest()
+  actual=self.a.execute('select security_private.mac103(%s::jsonb,%s::uuid,%s,%s)',(json.dumps(payload),B,'request103_vector',secret)).fetchone()[0]
+  self.assertEqual(bytes(actual),expected)
+  with self.assertRaises(psycopg.errors.RaiseException):self.a.execute('update security_private.order_request_keys103 set secret=%s where key_id=1',(os.urandom(32),))
+ def test_other_account_same_key_never_recovers_first_id(self):
+  self.upgrade()
+  with self.actor() as c:first=call(c,args())
+  with self.actor(O) as c:second=call(c,args())
+  self.assertEqual(first['status'],'created');self.assertEqual(second['status'],'created');self.assertNotEqual(first['id'],second['id']);self.assertEqual(self.counts(),(2,2,-10,2))
 if __name__=='__main__':
  suite=unittest.defaultTestLoader.loadTestsFromTestCase(SQL103)
  names=[t.id() for t in suite]
