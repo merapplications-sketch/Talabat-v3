@@ -1,0 +1,273 @@
+{
+  "scope": "Documentation-only continuation. Existing 61-file collection and P1-QA-01 accepted review inherited; this list identifies sources used for added deployment/contract analysis, not a new full inventory or execution result. No live provider/Supabase reads or raw AUDIT107 access.",
+  "parent_commit": "2848327f6aa1bd2e5d8c4f1ce61974733a9a412f",
+  "source_snapshot": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+  "accepted_collection": "0d25e451fa99d5d60f834257ccf70a8f5d2de52e",
+  "accepted_qa01": "2848327f6aa1bd2e5d8c4f1ce61974733a9a412f",
+  "accepted_plan": "9a5d3145ddaec9ab4d653053424ed9197d784222",
+  "audit107": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+  "candidate106": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+  "pinned_reference_identity_checks": [
+    {
+      "path": "docs/review/continuation107/EVIDENCE-MANIFEST.json",
+      "ref": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+      "sha": "097df73fd6b88f108a4fc42821823b44a94732af",
+      "identical": true
+    },
+    {
+      "path": "docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "ref": "9a5d3145ddaec9ab4d653053424ed9197d784222",
+      "sha": "11be73017b4744054566c3a71d3422d8b679309f",
+      "identical": true
+    }
+  ],
+  "original_49_status": "Owner states verified49/49 held by independent reviewer; raw files not read or transferred in this continuation.",
+  "files": [
+    {
+      "path": "CHANGES-v48.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "91fd0645c0d635e4de33c4177da15a298676a890",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "CHANGES-v51.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "422a2ff097997ffde38726ee2ac574b5ce0f6864",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/OWNER-AGREEMENTS-AR.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "d671e93233ae91e361af292e688d15460e06b992",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/RESUME-AR.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "de6cc3d5e2eda2a612244297a6d6cd84ea858d7c",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "0fe978f967716da074e0ad49b54ac4384a0f65c4",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/cash/HANDOFF.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "1c63c8d6f8e52030b30716fda165914775b09c1b",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/hosted/published-source.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "3cbef9612b08611706511baf980f41de5fe4df7a",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/hosted/schema-manifest.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "7cf208421f15d4b856fba98b11749de9bad4573f",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/hosted/startup-20261106/deployment.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "b292b28b6b885b2a64e83e1da4b5c5c53adaf88c",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/CURRENT-RESUME.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "aaf17a58cf3ef645cce086406290b64af664211f",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation31/REPORT.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "2f78acf2d6b4d612b4c5d43f2c99ab97ea792035",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation31/publication.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "38ef490ca00f48b9b134a0c06e3057c6a58e5670",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation31/published-bytes.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "8e3c171349a977ce4b0f2ddcea01f554b94c61ba",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation35/deployment-state.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "d96240bb2e0b254aac889a48c0f5013dfeb43539",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/continuation103/CONTRACT.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "44ad851367ae444f1823e3bb7a4b1982eb1d7536",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/continuation104/CONTRACT.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "376b11e3a621990280d44f8af7df5a472cd0e1d8",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/continuation105/CONTRACT.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "436ac4e9ac6f20d1f507aa59012b747195df0bba",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/continuation106/CONTRACT.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "777896d1ac24fb07704d39054a97321f695569fa",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/continuation107/EVIDENCE-MANIFEST.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "097df73fd6b88f108a4fc42821823b44a94732af",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "11be73017b4744054566c3a71d3422d8b679309f",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/phase1-evidence/P1-QA-01.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "73eeffddd57e56298fe05e580cb9feb56df0c5be",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/phase1-evidence/REPORT-AR.md",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "06b0107f3565813f54bed76ca6c7328232d6bcf9",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "docs/review/phase1-evidence/SOURCES.json",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "68ab288f9b53cd4203e0911ee5453b9219a473a1",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "76f0d8106739ab19a656ee419d829b064fa78487",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "33ba6f3735a00eb124447ffad785c5da2382318d",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "e6a1395e2492b33e3bcfaf6af4009462009c5441",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/schema_patch17.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "11f1bdea7e1c5c375c602995d5398bf140b56932",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/schema_patch19.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "edff05be29cec8233b11fc2ec68b5a998c4f4deb",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/schema_patch20.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "f678c7efcd320e6f95c4cfa11816ac9bac45b11d",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/schema_patch21.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "736bbf58ed5a1fb6a5e9ecb75cd74998b96a3cbf",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/schema_patch29.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "64135f5b7988960b5374a60c8a531fab3e613f83",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/schema_patch31.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "49886aefe1be70bfb1d4b2de2670adf1c74df7c7",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "sql/schema_patch33.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "2adb670ba7857d6cfc4d4a90307406f179a5bdb6",
+      "classification": "historical or proposed SQL source; read only"
+    },
+    {
+      "path": "talabat-core.js",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "f639bec1d23a812866e06eb1110940c77563387c",
+      "classification": "saved source/document/record; not current deployment proof"
+    },
+    {
+      "path": "tests/native103/dependencies.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "7272feb9182ec9415454f82a53576a4b22710799",
+      "classification": "isolated candidate/test source; read only"
+    },
+    {
+      "path": "tests/native106/isolation.sql",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "classification": "isolated candidate/test source; read only"
+    },
+    {
+      "path": "tests/native106/restore.py",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "classification": "isolated candidate/test source; read only"
+    },
+    {
+      "path": "tests/pilot/external-restore.py",
+      "ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "376ab92c8a476ade52383bccd997133fc5af8d18",
+      "classification": "isolated candidate/test source; read only"
+    }
+  ],
+  "inherited_source_manifest": {
+    "path": "docs/review/phase1-evidence/SOURCES.json",
+    "ref": "0d25e451fa99d5d60f834257ccf70a8f5d2de52e",
+    "action": "preserved unchanged; no repeat of accepted 61-file inventory"
+  },
+  "checks": "Static documentation references/counts/change scope only. No operational tests or SQL. No new pass claims for hosted services."
+}
