@@ -1,0 +1,40 @@
+{
+  "scope": "Documents inspected from pinned repository revisions, not target catalog recapture or functional tests. Local filename hashes bind exact retrieved UTF-8 inputs.",
+  "sources": [
+    {
+      "name": "CONTRACT106.md",
+      "sha256": "59339b495f901d33d4bdb07506384caa32e6e69e6a21953873554a7ef4b134bb",
+      "bytes": 7436,
+      "git_blob_sha1": "777896d1ac24fb07704d39054a97321f695569fa"
+    },
+    {
+      "name": "MATRIX107.json",
+      "sha256": "89f5244f1dc8e0c40c287ffcb2b2ed3448935543decc2793ecf2100edb7f1996",
+      "bytes": 16826,
+      "git_blob_sha1": "8b04b67916eb80d6715b1a2da37d7c7d2086ac97"
+    },
+    {
+      "name": "REPORT107.txt",
+      "sha256": "d715061706bd4cb83b28076e5a0e9356c89acfba7e5d77b4ed7d460e7939fb4a",
+      "bytes": 20387,
+      "git_blob_sha1": "52a698ac6f64678e7991916d96500953d0a10000"
+    },
+    {
+      "name": "TARGET-ALIGNMENT-PLAN.md",
+      "sha256": "1e31e0abd0264d4ddf12953ee8857d54806c7e320638d31028b19c8b388e5ec2",
+      "bytes": 31190,
+      "git_blob_sha1": "122151358cce800d21dcc23e6b0559e2abedf02b"
+    }
+  ],
+  "bindings": {
+    "TARGET-ALIGNMENT-PLAN.md": "c305e0630184fb6affcca0837ba25ae12fa78dd1:docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+    "MATRIX107.json": "60bbc90d4c8d03311464be049063d0fac3ae18f1:docs/review/continuation107/MATRIX.json",
+    "REPORT107.txt": "60bbc90d4c8d03311464be049063d0fac3ae18f1:docs/review/continuation107/REPORT-AR.txt",
+    "CONTRACT106.md": "60bbc90d4c8d03311464be049063d0fac3ae18f1:docs/review/continuation106/CONTRACT.md"
+  },
+  "notes": [
+    "CONTRACT106.md does not exist at implementation revision86eb978; it was correctly retrieved at the AUDIT107 reference used by the plan. This is a document chronology fact, not a regression finding.",
+    "Raw49 evidence files were not re-audited. Prior accepted findings are inherited with their limits.",
+    "BATCH108 compared with AUDIT107: one documentation file added; no runtime/SQL/test/CI change."
+  ]
+}

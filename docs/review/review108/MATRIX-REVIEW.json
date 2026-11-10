@@ -1,0 +1,538 @@
+{
+  "verdict": "REVISE",
+  "scope": "Independent planning review only; no Supabase queries, tests, runtime changes or deployment. Original AUDIT107 statuses retained. Proposed predecessors are review recommendations, not approved rollout policy.",
+  "plan_source": "c305e0630184fb6affcca0837ba25ae12fa78dd1",
+  "audit_source": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+  "accepted_candidate": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+  "rows": [
+    {
+      "id": "P01",
+      "audit107_status": "MATCHED",
+      "plan108_status": "MATCHED",
+      "classification_match": true,
+      "plan_line": 19,
+      "area": "البيئة المعزولة المحددة",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "وثيقة نطاق وعناوين مسموحة وحظر الإنتاج والطلبات المحمية",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "C01",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 20,
+      "area": "حزمة106 في الهدف",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "جرد الكائنات والتواقيع قبل/بعد؛ جميع مداخل الإنشاء تمر بالحراس",
+      "limits": "خطة تجهيز منفصلة ومراجعة قبل تطبيق المرشح؛ لا تطبيق ضمن107.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "C02",
+      "audit107_status": "MATCHED",
+      "plan108_status": "MATCHED",
+      "classification_match": true,
+      "plan_line": 21,
+      "area": "توقيع public.place_order القديم",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "اختبارات العملاء القدامى والجدد؛ unknown لا ينتج مفتاحاً بديلاً",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "C01",
+        "I01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "C03",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 22,
+      "area": "proconfig وحارس العزل",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "بصمة متطابقة عبر إعدادات الجلسة والرجوع؛ RC/RU آمنان وRR/Serializable بلا آثار",
+      "limits": "خطة تجهيز منفصلة ومراجعة قبل تطبيق المرشح؛ لا تطبيق ضمن107.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "C01",
+        "I01",
+        "M02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "D01",
+      "audit107_status": "MATCHED",
+      "plan108_status": "MATCHED",
+      "classification_match": true,
+      "plan_line": 23,
+      "area": "price_line/account_enabled/wallet_balance/snapshot_cash/register_order",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "عقود نتائج وأخطاء وآثار متعدية على مخطط مطابق",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "D02",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 24,
+      "area": "حساب التوصيل delivery_calc",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "حالات الإعدادات والسجل والحدود والتقريب؛ نتائج متوقعة من العقد المعتمد؛ قرار المالك فقط إن تعارضت المراجع",
+      "limits": "تمثيل الاعتماديات الفعلية والتحقق الموجه لاحقاً؛ لم تُقرأ قيم الإعدادات أو تُحسب مبالغ حية.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "S02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "D03",
+      "audit107_status": "MATCHED",
+      "plan108_status": "MATCHED",
+      "classification_match": true,
+      "plan_line": 25,
+      "area": "نص promo_eval/loyalty_balance/loyalty_spend الاختياري",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "صلاحية العرض والنقاط والانتهاء والخصم والإرجاع والتراجع الذري",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "S02",
+        "D05"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "S01",
+      "audit107_status": "MATCHED",
+      "plan108_status": "MATCHED",
+      "classification_match": true,
+      "plan_line": 26,
+      "area": "أعمدة order_items وهويات orders/wallet",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "UUID/default/identity وتسلسل الاستعادة والعلاقات مطابق ضمن النطاق",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "S02",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 27,
+      "area": "Enums/dimensions/FKs/defaults",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "اختبارات الدقة والفيض وNULL والقيم غير المسموحة وauth.users/tickets الاصطناعية دون تغيير نوع الهدف",
+      "limits": "تمثيل اعتماديات الهدف في fixture وخريطة جميع الكتّاب، ثم تحقق موجه بتكليف مستقل.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "S01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "S03",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 28,
+      "area": "التريغرات والسياسات على الجداول الخمس الأساسية",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "مصفوفة before/after/row/statement/security context؛ إثبات عدم ازدواج النقد والولاء والإرجاع",
+      "limits": "تمثيل اعتماديات الهدف في fixture وخريطة جميع الكتّاب، ثم تحقق موجه بتكليف مستقل.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "S02",
+        "W01",
+        "A02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "S04",
+      "audit107_status": "NOT VERIFIED",
+      "plan108_status": "NOT VERIFIED",
+      "classification_match": true,
+      "plan_line": 29,
+      "area": "صلاحية البيانات السابقة للقيود NOT VALID",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "تقرير خاص يعد المخالفات دون نشر صفوف؛ خطة تصحيح/validation وأقفالها بموافقة مستقلة",
+      "limits": "تقييم مخول مستقل لصلاحية الصفوف السابقة عند الحاجة؛ لا VALIDATE أو قراءة بيانات ضمن107.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "S02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "A01",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 30,
+      "area": "المنح الفعالة ومنها TRUNCATE order_items",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "تحليل ACL والموروث ومسارات SQL/RPC؛ اختبار صلاحيات على نسخة اصطناعية ثم مقترح محدد الأثر",
+      "limits": "تقييم ضرورة المنح ومسار الوصول الفعلي؛ مقترح أقل صلاحيات للمراجعة فقط، دون REVOKE أو اختبار TRUNCATE.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "A02",
+      "audit107_status": "MATCHED",
+      "plan108_status": "MATCHED",
+      "classification_match": true,
+      "plan_line": 31,
+      "area": "تقييد مساعدات المال الخاصة ونوع pilot_active_account",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "رفض مباشر وغير مباشر لغير المخول؛ فحص security definer/search_path/BYPASSRLS",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "W01",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 32,
+      "area": "الكاتب القديم ومداخل دورة الطلب",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "لكل كاتب مدخل/دور/جدول/قفل/أثر/مسار إيقاف/بديل؛ لا مدخل إنشاء يتجاوز closure",
+      "limits": "تمثيل اعتماديات الهدف في fixture وخريطة جميع الكتّاب، ثم تحقق موجه بتكليف مستقل.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "W02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "W02",
+      "audit107_status": "NOT VERIFIED",
+      "plan108_status": "NOT VERIFIED",
+      "classification_match": true,
+      "plan_line": 33,
+      "area": "كل كاتب خارجي يستخدم service_role",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "مطابقة المصدر والنشر والمسارات والسجلات الخاصة؛ توقيع مسؤول التشغيل على اكتمال الجرد",
+      "limits": "بيان نشر وحصر الخدمات الخارجية والكتّاب باستخدام service_role، دون نشر أسرار.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "I01",
+      "audit107_status": "BLOCKED",
+      "plan108_status": "BLOCKED",
+      "classification_match": true,
+      "plan_line": 34,
+      "area": "عزل HTTP/RPC الفعلي",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "دور وعزل فعليان لكل مدخل HTTP/RPC؛ جلسة postgres RC ليست بديلاً",
+      "limits": "دليل مخول من إعدادات PostgREST/gateway ومسار الطلب الفعلي يثبت الدور والعزل؛ جلسة المدير لا تكفي، ولا إنشاء دالة فحص.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "M01",
+      "audit107_status": "MATCHED",
+      "plan108_status": "MATCHED",
+      "classification_match": true,
+      "plan_line": 35,
+      "area": "ترتيب الترحيل والرجوع في المصدر106",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "اختبار انقطاع/rollback/re-upgrade واستعادة مع بقاء الحراس والبصمات والفواصل",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "C01",
+        "C02",
+        "C03",
+        "S03",
+        "M02",
+        "R01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "M02",
+      "audit107_status": "BLOCKED",
+      "plan108_status": "BLOCKED",
+      "classification_match": true,
+      "plan_line": 36,
+      "area": "المفاتيح والحصة والمحاولات غير المحسومة",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "تحقق مفاتيح قديمة بعد التدوير؛ عدم اصطناع binding تاريخي؛ unknown لا يغلق ولا يعاد بمفتاح جديد",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "R01",
+      "audit107_status": "NOT VERIFIED",
+      "plan108_status": "NOT VERIFIED",
+      "classification_match": true,
+      "plan_line": 37,
+      "area": "نسخة احتياطية/استعادة مزود حالية",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "استعادة منفصلة وقياس الزمن والفقد ومصالحة ما بعد النسخة قبل فتح الكتابة",
+      "limits": "أدلة نسخ Supabase وStorage والمفاتيح وRPO/RTO وتجربة استعادة معتمدة منفصلة.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "M02",
+        "W01",
+        "W02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "H01",
+      "audit107_status": "BLOCKED",
+      "plan108_status": "BLOCKED",
+      "classification_match": true,
+      "plan_line": 38,
+      "area": "HTTP/RBAC وأربع تطبيقات حية",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "GET/PATCH/RPC وRBAC وأربع تطبيقات عبر الخدمات الفعلية؛ لا آثار بعد الرفض ولا خصم مزدوج",
+      "limits": "قناة آمنة بجلسات الأدوار المصرح بها ونطاق اختبار مستضاف معتمد؛ لا أسرار بالمحادثة.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "M01",
+        "A01",
+        "A02",
+        "I01",
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "S04"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "H02",
+      "audit107_status": "BLOCKED",
+      "plan108_status": "BLOCKED",
+      "classification_match": true,
+      "plan_line": 39,
+      "area": "Storage SU-543851 وSafari والتعافي",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "Storage GET/HEAD/Range بنفسURL/token بعد الإبطال مع cache ساخن؛ Safari جهاز فعلي؛ لا إغلاق بتنظيف cache",
+      "limits": "لا يتجاوز الحكم حدود الأدلة المذكورة؛ لا اختبار وظيفي جديد.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "F01",
+      "audit107_status": "BLOCKED",
+      "plan108_status": "BLOCKED",
+      "classification_match": true,
+      "plan_line": 40,
+      "area": "اختبار وظيفي مستضاف للمرشح106 الآن",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "تفويض منفصل ثم أدلة محددة الـcommit والبيئة؛ قبول QA مستقل قبل أي تشغيل إنتاجي",
+      "limits": "إغلاق تجهيز الهدف وعقد HTTP والكتّاب والتعافي، ثم موافقة منفصلة قبل أي اختبار مستضاف.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "H01",
+        "H02",
+        "R01"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01"
+      ]
+    },
+    {
+      "id": "D04",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 41,
+      "area": "Happy Hour",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "بدايات/نهايات الفترة والمنطقة الزمنية والتداخل وعدم الأهلية حسب التعريف المعتمد",
+      "limits": "تمثيل منطق الوقت والعروض والاعتماديات في fixture؛ اختبار موجه لاحق بتفويض مستقل.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "S02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    },
+    {
+      "id": "D05",
+      "audit107_status": "DIFFERENT",
+      "plan108_status": "DIFFERENT",
+      "classification_match": true,
+      "plan_line": 42,
+      "area": "إعدادات الولاء loyalty_setting",
+      "explanation_review": "SUPPORTED_WITHIN_AUDIT107_LIMITS",
+      "treatment_review": "APPROPRIATE_AS_PLAN_ONLY",
+      "acceptance_evidence_in_plan": "اختبارات الإعداد المفقود/غير الصالح والانتهاء والخصم/الإرجاع؛ لا افتراض قيم مالية إنتاجية",
+      "limits": "مطابقة المخطط وعقد الإعدادات دون كشف أرصدة أو اعتماد قيم مالية افتراضية.",
+      "predecessors_explicit_in_plan_row": false,
+      "reviewer_proposed_closure_predecessors": [
+        "P01",
+        "S02"
+      ],
+      "predecessor_note": "مقترح للمراجعة لا اعتماد جديد؛ يخص إغلاق البند لا بدء جمع أدلته، ويمكن جمع الأدلة بالتوازي. لا يعيد فتح MATCHED.",
+      "required_corrections": [
+        "R108-01",
+        "R108-02"
+      ]
+    }
+  ]
+}
