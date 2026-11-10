@@ -81,3 +81,6 @@ CI100 passing certifies its public tests only. Production acceptance remains BLO
 | hosted HTTP/full E2E/private evidence/Safari/provider restore | unavailable dependencies | BLOCKED | not run | never READY |
 
 CI99's per-stage report still describes its own original export limitations; CI100 supersedes the aggregate fixture-cache56 recovery status. No failed original build-gate result is hidden by the new negative control.
+
+## Fingerprint correction
+Initial CI100 rejected the SQL98 fingerprint. Reproduction established that the earlier local transfer appended one blank line (13511 versus 13510 bytes). The authoritative Git blob is `7e0fbec87940a714b844f354832cc4b57cfbbb7a`, SHA256 `9195c50736beda188008053e671a0288093edee78497cf459d974a79c370ac29`. Corrected the earlier handoff and expected fingerprint; upstream SQL bytes and exact-equality assertions are unchanged. Failure diagnostics are now emitted for these public tests.

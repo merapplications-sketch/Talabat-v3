@@ -55,7 +55,7 @@ GET retries transport failure once. PATCH/RPC never retry automatically after a 
 SHA-256:
 - 92: d150ecfcfad5db659d4150ea29bb5ad196d11c8ff8a1289b4b7c8ad082f5d6dd
 - 96: 938448863e8208c605174642bd0ad8f5eba59531d2e293df43e9f70c9bb00021
-- 98: e37d815eaaee6c0f85c18a6cbd166ced98ec9ac86dc4f940fcf2e3e9f4489204
+- 98: 9195c50736beda188008053e671a0288093edee78497cf459d974a79c370ac29
 
 96 adds transaction advisory lock per caller/key before lookup. 98 moves the profile row lock before admission counts. Existing-key replay remains before admission. Fixture uniqueness is (customer_id,client_key) WHERE client_key IS NOT NULL. Do NOT deploy 92/96 alone as a replacement for 98's admission serialization.
 Group row lock precedes advisory key lock, then profile lock. Other business-path lock orders and group/loyalty/promotion branches are not globally proven deadlock-free. No live catalog equivalence was established. Independent QA must compare current definitions/indexes/triggers to these pinned inputs before approving any future application.
