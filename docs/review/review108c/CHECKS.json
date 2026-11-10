@@ -1,0 +1,355 @@
+{
+  "source_before": "c305e0630184fb6affcca0837ba25ae12fa78dd1",
+  "source_after": "9a5d3145ddaec9ab4d653053424ed9197d784222",
+  "review": "6271510ca9a23addfcdf5b78083b80f3f400e304",
+  "scope": "DOCUMENT_VALIDATION_ONLY",
+  "row_count": 24,
+  "unique_ids": 24,
+  "statuses_match": true,
+  "original_five_columns_preserved": true,
+  "counts": {
+    "MATCHED": 7,
+    "DIFFERENT": 9,
+    "NOT VERIFIED": 3,
+    "BLOCKED": 5
+  },
+  "missing_dependency_ids": [],
+  "acyclic": true,
+  "each_row_has_ten_nonempty_columns": true,
+  "rows": [
+    {
+      "id": "P01",
+      "status": "MATCHED",
+      "line": 19,
+      "predecessors": [],
+      "evidence_stage": "1",
+      "preparer": "المنسق/مسؤول البيئة",
+      "acceptor": "QA مستقل",
+      "blocking_condition": "حظر جميع المراحل المعتمدة على النطاق"
+    },
+    {
+      "id": "C01",
+      "status": "DIFFERENT",
+      "line": 20,
+      "predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "evidence_stage": "1 عقد؛2 مطابقة؛4 انتقال",
+      "preparer": "مبرمج قاعدة البيانات",
+      "acceptor": "QA مستقل",
+      "blocking_condition": "حظر قبول الحزمة في4 ثم5"
+    },
+    {
+      "id": "C02",
+      "status": "MATCHED",
+      "line": 21,
+      "predecessors": [
+        "C01",
+        "I01"
+      ],
+      "evidence_stage": "1 عقد؛2 اختبار؛5 مستضاف",
+      "preparer": "مبرمج العميل وDB",
+      "acceptor": "QA مستقل",
+      "blocking_condition": "حظر قبول توافق العملاء في4/5"
+    },
+    {
+      "id": "C03",
+      "status": "DIFFERENT",
+      "line": 22,
+      "predecessors": [
+        "C01",
+        "I01",
+        "M02"
+      ],
+      "evidence_stage": "1 عقد؛2 اختبار؛4 انتقال",
+      "preparer": "مبرمج DB",
+      "acceptor": "QA مستقل أمني",
+      "blocking_condition": "حظر الانتقال4 وفتح المداخل5"
+    },
+    {
+      "id": "D01",
+      "status": "MATCHED",
+      "line": 23,
+      "predecessors": [
+        "P01"
+      ],
+      "evidence_stage": "1 عقد مالي؛2 إثبات",
+      "preparer": "مبرمج DB ومختص مالي",
+      "acceptor": "QA مالي مستقل",
+      "blocking_condition": "حظر اعتماد الاختبارات المالية2 والانتقال4"
+    },
+    {
+      "id": "D02",
+      "status": "DIFFERENT",
+      "line": 24,
+      "predecessors": [
+        "P01",
+        "S02"
+      ],
+      "evidence_stage": "1 عقد مالي؛2 إثبات",
+      "preparer": "مبرمج DB ومختص التسعير",
+      "acceptor": "QA مالي مستقل",
+      "blocking_condition": "حظر بناء المطابقة المالية2 ثم4"
+    },
+    {
+      "id": "D03",
+      "status": "MATCHED",
+      "line": 25,
+      "predecessors": [
+        "P01",
+        "S02",
+        "D05"
+      ],
+      "evidence_stage": "1 عقد مالي؛2 إثبات",
+      "preparer": "مبرمج DB ومختص الولاء",
+      "acceptor": "QA مالي مستقل",
+      "blocking_condition": "حظر قبول مسار promo/loyalty في2 ثم4"
+    },
+    {
+      "id": "S01",
+      "status": "MATCHED",
+      "line": 26,
+      "predecessors": [
+        "P01"
+      ],
+      "evidence_stage": "1 مخطط؛2 تحقق",
+      "preparer": "مبرمج DB",
+      "acceptor": "QA مستقل",
+      "blocking_condition": "حظر قبول مطابقة المخطط2"
+    },
+    {
+      "id": "S02",
+      "status": "DIFFERENT",
+      "line": 27,
+      "predecessors": [
+        "P01",
+        "S01"
+      ],
+      "evidence_stage": "1 أنواع ودقة؛2 تحقق",
+      "preparer": "مبرمج DB ومختص مالي",
+      "acceptor": "QA مستقل مالي",
+      "blocking_condition": "حظر المطابقة المعتمدة عليها2 ثم4"
+    },
+    {
+      "id": "S03",
+      "status": "DIFFERENT",
+      "line": 28,
+      "predecessors": [
+        "S02",
+        "W01",
+        "A02"
+      ],
+      "evidence_stage": "1 جرد وحدود؛2/3 إثبات",
+      "preparer": "مبرمج DB وأمن",
+      "acceptor": "QA مستقل مالي وأمني",
+      "blocking_condition": "حظر قبول مسارات المال2 والانتقال4"
+    },
+    {
+      "id": "S04",
+      "status": "NOT VERIFIED",
+      "line": 29,
+      "predecessors": [
+        "P01",
+        "S02"
+      ],
+      "evidence_stage": "1 عقد أثر؛3 تقييم مخول",
+      "preparer": "مسؤول بيانات مخول",
+      "acceptor": "QA بيانات مستقل",
+      "blocking_condition": "عدم صلاحية البيانات غير المحسوم يمنع الانتقال4 وأي اختبار5 يعتمد عليها؛ لا يمنع تمثيل القيد ببيانات اصطناعية بعد قبول عقد1"
+    },
+    {
+      "id": "A01",
+      "status": "DIFFERENT",
+      "line": 30,
+      "predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "evidence_stage": "1 مسارات؛3 تحقق",
+      "preparer": "مسؤول أمن وDB",
+      "acceptor": "QA أمني مستقل؛ المالك لأي تغيير",
+      "blocking_condition": "حظر قبول الأمن3 والانتقال4؛ لا تنفيذ تغيير منح"
+    },
+    {
+      "id": "A02",
+      "status": "MATCHED",
+      "line": 31,
+      "predecessors": [
+        "P01"
+      ],
+      "evidence_stage": "1 عقد؛3 تحقق؛5 أدوار",
+      "preparer": "مسؤول أمن",
+      "acceptor": "QA أمني مستقل",
+      "blocking_condition": "حظر قبول الأمن3 وRBAC في5"
+    },
+    {
+      "id": "W01",
+      "status": "DIFFERENT",
+      "line": 32,
+      "predecessors": [
+        "P01",
+        "W02"
+      ],
+      "evidence_stage": "1 جرد مثبت؛2 آثار؛4 تصريف",
+      "preparer": "مبرمج DB ومسؤول التشغيل",
+      "acceptor": "QA مستقل مالي وأمني",
+      "blocking_condition": "حظر الانتقال1→2 إن كان كاتب/أثر مجهولاً؛ وحظر4 دون تصريف مثبت"
+    },
+    {
+      "id": "W02",
+      "status": "NOT VERIFIED",
+      "line": 33,
+      "predecessors": [
+        "P01"
+      ],
+      "evidence_stage": "1",
+      "preparer": "مسؤول نشر كل خدمة والمنسق",
+      "acceptor": "QA مستقل أمني",
+      "blocking_condition": "حظر1→2 حتى اكتمال الجرد بدليل النشر؛ توقيع وحده لا يكفي"
+    },
+    {
+      "id": "I01",
+      "status": "BLOCKED",
+      "line": 34,
+      "predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "evidence_stage": "1",
+      "preparer": "مسؤول API/gateway",
+      "acceptor": "QA مستقل أمني",
+      "blocking_condition": "حظر1→2 إن غاب إثبات دور/عزل مدخل معتمد عليه"
+    },
+    {
+      "id": "M01",
+      "status": "MATCHED",
+      "line": 35,
+      "predecessors": [
+        "C01",
+        "C02",
+        "C03",
+        "S03",
+        "M02",
+        "R01"
+      ],
+      "evidence_stage": "1 خطة؛3 تعافٍ؛4 تجربة",
+      "preparer": "مبرمج DB ومسؤول التشغيل",
+      "acceptor": "QA مستقل",
+      "blocking_condition": "حظر4 دون أدلة3؛ لا إعادة فتح قبول ترتيب المصدر"
+    },
+    {
+      "id": "M02",
+      "status": "BLOCKED",
+      "line": 36,
+      "predecessors": [
+        "P01",
+        "W01",
+        "W02"
+      ],
+      "evidence_stage": "1 عقد وإتاحة؛2/3 تحقق",
+      "preparer": "مسؤول المفاتيح وDB",
+      "acceptor": "QA أمني مستقل؛ المالك لسياسة جديدة",
+      "blocking_condition": "حظر1→2 عند غياب عقد/إتاحة آمنة؛ حظر4 دون تحقق الحفظ والمصالحة"
+    },
+    {
+      "id": "R01",
+      "status": "NOT VERIFIED",
+      "line": 37,
+      "predecessors": [
+        "P01",
+        "M02",
+        "W01",
+        "W02"
+      ],
+      "evidence_stage": "1 عقد وإتاحة؛3 استعادة",
+      "preparer": "مسؤول النسخ والتعافي",
+      "acceptor": "QA مستقل؛ المالك لـRPO/RTO",
+      "blocking_condition": "حظر4 دون تجربة3 مقبولة؛ لا ادعاء استعادة من خطة1"
+    },
+    {
+      "id": "H01",
+      "status": "BLOCKED",
+      "line": 38,
+      "predecessors": [
+        "M01",
+        "A01",
+        "A02",
+        "I01",
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "S04"
+      ],
+      "evidence_stage": "1 نطاق وإتاحة؛5 تنفيذ",
+      "preparer": "QA التكامل ومشغلو التطبيقات",
+      "acceptor": "مراجع مستقل مالي وأمني",
+      "blocking_condition": "حظر قبول5 ثم6 دون دليل مستضاف"
+    },
+    {
+      "id": "H02",
+      "status": "BLOCKED",
+      "line": 39,
+      "predecessors": [
+        "P01"
+      ],
+      "evidence_stage": "1 احتياجات؛5 إثبات",
+      "preparer": "مسؤول Storage ومختبر الجهاز",
+      "acceptor": "QA مستقل",
+      "blocking_condition": "يبقى منع قبول5/6؛ يجوز جمع وثائق مستقلة فقط"
+    },
+    {
+      "id": "F01",
+      "status": "BLOCKED",
+      "line": 40,
+      "predecessors": [
+        "H01",
+        "H02",
+        "R01"
+      ],
+      "evidence_stage": "1 شروط؛4 تجهيز؛5 قبول شامل",
+      "preparer": "منسق الإصدار وQA التكامل",
+      "acceptor": "QA مستقل ثم المالك للإذن",
+      "blocking_condition": "لا فتح اختبارات5 قبل بوابة تجهيز4؛ لا قبول5/6 قبل إغلاقH01/H02/R01"
+    },
+    {
+      "id": "D04",
+      "status": "DIFFERENT",
+      "line": 41,
+      "predecessors": [
+        "P01",
+        "S02"
+      ],
+      "evidence_stage": "1 عقد مالي؛2 إثبات",
+      "preparer": "مبرمج DB ومختص العروض",
+      "acceptor": "QA مالي مستقل",
+      "blocking_condition": "حظر المطابقة المالية2 ثم4"
+    },
+    {
+      "id": "D05",
+      "status": "DIFFERENT",
+      "line": 42,
+      "predecessors": [
+        "P01",
+        "S02"
+      ],
+      "evidence_stage": "1 إعدادات ودقة؛2 إثبات",
+      "preparer": "مبرمج DB ومختص الولاء",
+      "acceptor": "QA مالي مستقل",
+      "blocking_condition": "حظر المطابقة المالية2 ثم4"
+    }
+  ],
+  "verdicts": {
+    "R108_01": "ACCEPTED",
+    "R108_02": "ACCEPTED",
+    "financial_precision_requirement": "ACCEPTED_PLAN_REQUIREMENT_ONLY",
+    "corrected_plan": "ACCEPTED_PLAN_ONLY"
+  },
+  "no_runtime_tests": true,
+  "no_supabase_queries": true
+}
