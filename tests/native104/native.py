@@ -18,6 +18,14 @@ class New104(BASE):
     with self.actor() as c:
      c.execute('set extra_float_digits='+str(digits));c.execute("set timezone='Asia/Dushanbe'");c.execute("set datestyle='SQL, DMY'");got=call(c,p,'place_order104');self.assertEqual(got['status'],'replayed');self.assertEqual(got['id'],r['id'])
   self.assertEqual(self.counts(),(1,1,-5,1))
+ def test_existing103_fingerprint_preserved(self):
+  original=''.join(Path('tests/native103/'+n).read_text() for n in ['schema.sql','functions.sql','migrate102.sql']);self.a.execute(original);self.a.execute('insert into security_private.order_request_keys103 values(1,%s,true)',(os.urandom(32),));p=args('existing103_key');p[5]=38.123456789012344
+  with self.actor() as c:self.assertEqual(call(c,p)['status'],'created')
+  before=self.snapshot();self.a.execute(overlay)
+  for sql in ['',Path('tests/native104/rollback.sql').read_text()]:
+   if sql:self.a.execute(sql)
+   with self.actor() as c:c.execute('set extra_float_digits=0');self.assertEqual(call(c,p,'place_order104')['status'],'replayed')
+  self.assertEqual(before,self.snapshot())
  def test_rejected_fence_and_correction(self):
   self.upgrade();p=args('rejected104_key');p[4]='';before=self.snapshot()
   with self.actor() as c:r=call(c,p,'place_order104');self.assertEqual(r['status'],'rejected');self.assertTrue(r['closed']);self.assertTrue(r['no_effects']);receipt=r['closure_id']

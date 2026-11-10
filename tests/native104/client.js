@@ -8,6 +8,7 @@
  g.TalabotOrder104=function(deps){
   const unknown=reason=>({status:'unresolved',error:'order_outcome_unknown',reason,keepCart:true});
   const current=uid=>deps.user()===uid;
+  async function bounded(p){let timer;try{return await Promise.race([p,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('response_timeout')),deps.timeoutMs||15000);})]);}finally{clearTimeout(timer);}}
   const transact=(uid,fn)=>deps.store.transact(uid,fn);
   const keyOK=k=>typeof k==='string'&&/^[A-Za-z0-9_-]{8,64}$/.test(k);
   const closed=d=>d.status==='rejected'&&d.closed===true&&d.no_effects===true&&d.state_version===1&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(d.closure_id||'');
@@ -18,11 +19,12 @@
   }
   async function submit(payload,fresh=false,context={}){
    const uid=deps.user(),key=payload&&payload.p_key;if(!uid||!keyOK(key))return unknown('identity_or_key_missing');let claim;
+   let cartDigest=null;try{if(context.cartToken!==undefined){const bytes=await g.crypto.subtle.digest('SHA-256',new TextEncoder().encode(context.cartToken));cartDigest=Array.from(new Uint8Array(bytes),v=>v.toString(16).padStart(2,'0')).join('');}}catch(e){return unknown('cart_revision_unavailable');}
    try{claim=await transact(uid,s=>{
     if(!current(uid))return{stop:unknown('identity_changed')};
     if(s.active&&s.active!==key)return{stop:Object.assign(unknown('previous_attempt_unresolved'),{recoveryKey:s.active})};
     let a=s.attempts[key];
-    if(!a){const id=deps.uuid();if(!id)throw Error('attempt_id_unavailable');a=s.attempts[key]={id,key,version:0,state:fresh===true?'new':'unresolved',payload:copy(payload),sent:false,cartToken:context.cartToken||null};}
+    if(!a){const id=deps.uuid();if(!id)throw Error('attempt_id_unavailable');a=s.attempts[key]={id,key,version:0,state:fresh===true?'new':'unresolved',payload:copy(payload),sent:false,cartToken:cartDigest};}
     if(a.state==='ended_rejected')return{stop:{status:'rejected',error:'attempt_closed',reason:'attempt_closed',keepCart:true,ended:true}};
     // A committed success may be re-read; it cannot resurrect a create.
     const create=(fresh===true&&a.state==='new')||(fresh==='retry'&&a.sent&&a.state==='unresolved'&&a.reason==='not_visible');
@@ -32,16 +34,16 @@
    });if(claim.stop)return claim.stop;}catch(e){return unknown('durable_state_unavailable');}
    let result;
    try{
-    const r=await deps.rpc(claim.create?'place_order104':'order_request_status104',claim.create?claim.payload:{p_key:key});
+    const r=await bounded(deps.rpc(claim.create?'place_order104':'order_request_status104',claim.create?claim.payload:{p_key:key}));
     if(!current(uid))return unknown('identity_changed');result=normalize(r,key);
-    if(result.id&&(typeof deps.readOrder!=='function'||await deps.readOrder(result.id)!==true))result=unknown('saved_order_reload_failed');
+    if(result.id&&(typeof deps.readOrder!=='function'||await bounded(deps.readOrder(result.id))!==true))result=unknown('saved_order_reload_failed');
     if(!current(uid))return unknown('identity_changed');
-   }catch(e){result=unknown('transport_or_storage');}
+   }catch(e){result=unknown(e&&e.message==='response_timeout'?'response_timeout':'transport_or_storage');}
    try{return await transact(uid,s=>{
     if(!current(uid))return unknown('identity_changed');const a=s.attempts[key];
     if(!a||a.id!==claim.id||a.version!==claim.version)return unknown('stale_reply');
     a.version++;a.state=result.status;a.reason=result.reason||null;a.closureId=result.closureId||null;a.closed=result.closed===true;
-    result.keepCart=result.keepCart||!claim.create||context.cartToken!==undefined&&context.cartToken!==claim.cartToken||JSON.stringify(payload)!==JSON.stringify(claim.payload);
+    result.keepCart=result.keepCart||!claim.create||context.cartToken!==undefined&&cartDigest!==claim.cartToken||JSON.stringify(payload)!==JSON.stringify(claim.payload);
     if(result.id){a.orderId=result.id;a.payload=null;a.cartToken=null;if(s.active===key)s.active=null;}
     return result;
    });}catch(e){return unknown('durable_state_unavailable');}
