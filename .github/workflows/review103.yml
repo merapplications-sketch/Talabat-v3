@@ -1,0 +1,48 @@
+name: Independent REVIEW103 gap tests
+on:
+  push:
+    branches: [review/qa103-independent-20261110]
+    paths: ['review103/**', '.github/workflows/review103.yml']
+permissions:
+  contents: read
+jobs:
+  independent:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17.6@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+        env:
+          POSTGRES_PASSWORD: synthetic-local-only
+          POSTGRES_DB: postgres
+        ports: ['127.0.0.1:5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: synthetic-local-only
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify unmodified candidate files
+        run: |
+          python3 - <<'PYCODE'
+          import json,hashlib,pathlib
+          for p,h in json.loads(pathlib.Path('docs/review/continuation103/source-sha256.json').read_text()).items():
+            assert hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()==h,p
+          print('16 candidate source/test/workflow hashes verified')
+          PYCODE
+      - run: python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
+      - run: python3 review103/native-independent.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: independent-review103-synthetic
+          path: review103/native-results.json
+          retention-days: 7
