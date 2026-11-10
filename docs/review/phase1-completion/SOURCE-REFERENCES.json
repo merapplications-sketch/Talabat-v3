@@ -1,5 +1,5 @@
 {
-  "scope": "Documentation-only continuation. Existing 61-file collection and P1-QA-01 accepted review inherited; this list identifies sources used for added deployment/contract analysis, not a new full inventory or execution result. No live provider/Supabase reads or raw AUDIT107 access.",
+  "scope": "Documentation-only received-evidence alignment. Existing source files/identity checks below are inherited, not rerun. Current alignment is recorded in received_evidence_alignment. No hosted database/service requests or operational tests.",
   "parent_commit": "2848327f6aa1bd2e5d8c4f1ce61974733a9a412f",
   "source_snapshot": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
   "accepted_collection": "0d25e451fa99d5d60f834257ccf70a8f5d2de52e",
@@ -21,7 +21,7 @@
       "identical": true
     }
   ],
-  "original_49_status": "Owner states verified49/49 held by independent reviewer; raw files not read or transferred in this continuation.",
+  "original_49_status": "RECEIVED PASS 49/49 in recipient receipt; original bytes retained read-only; targeted analysis, no retransfers or hash recomputation in this delta.",
   "files": [
     {
       "path": "CHANGES-v48.md",
@@ -269,5 +269,72 @@
     "ref": "0d25e451fa99d5d60f834257ccf70a8f5d2de52e",
     "action": "preserved unchanged; no repeat of accepted 61-file inventory"
   },
-  "checks": "Static documentation references/counts/change scope only. No operational tests or SQL. No new pass claims for hosted services."
+  "checks": "Static documentation references/counts/change scope only. No operational tests or SQL. No new pass claims for hosted services.",
+  "original_49_status_before_receipt": "Owner states verified49/49 held by independent reviewer; raw files not read or transferred in this continuation.",
+  "received_evidence_alignment": {
+    "documentation_base": "ab9794f2b9290ab4d8d43f5fe30ea6221cd5a181",
+    "pc_qa_01": "Accepted documentation per owner current instruction; subsequent independent-acceptance commit not supplied; earlier e867dda is not relabelled as acceptance.",
+    "audit_closeout": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+    "source_callsite_ref": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+    "receipt": {
+      "role": "TALABOT programmer",
+      "result": "PASS 49/49",
+      "finished_at": "2026-11-11T01:05:56+05:00",
+      "private_log": "AUDIT107-RECIPIENT-VERIFICATION.json",
+      "manifest_bytes": 8164,
+      "manifest_sha256_from_prior_receipt": "8151ea9d7ad3863523d7395d3899d0e595122682fc80d8eff5ef9585e09ec8ad",
+      "originals_bytes": 1422029,
+      "version": 0,
+      "recomputed_here": false
+    },
+    "used_original_names": [
+      "customer_confirm_order.sql",
+      "finance_execute.sql",
+      "finance_private-snapshot_cash.sql",
+      "order_return_action.sql",
+      "public-delivery_calc.sql",
+      "public-pilot_check_session.sql",
+      "public-place_order.sql",
+      "public-price_line.sql",
+      "target-additional.json",
+      "target-columns.json",
+      "target-constraints.json",
+      "target-definitions.json",
+      "target-dependencies.json",
+      "target-effective.json",
+      "target-function-privileges.json",
+      "target-indexes.json",
+      "target-policies.json",
+      "target-relations.json",
+      "target-routines.json",
+      "target-triggers.json",
+      "ticket_set_status.sql",
+      "writer-scan.json"
+    ],
+    "limited_scope_original_names": [
+      "audit-scope.json",
+      "capture-consistency.json",
+      "catalog-comparison.json",
+      "target-aux.json",
+      "target-outside.json",
+      "target-roles.json"
+    ],
+    "source_callsite_paths": [
+      "customer.html",
+      "merchant.html",
+      "driver.html",
+      "admin.html",
+      "talabat-core.js",
+      "assets/admin-finance/admin-finance.js",
+      "assets/driver-returns/panel.js"
+    ],
+    "existing_writer_ids": "W01..W37 retained with same meanings; evidence columns updated",
+    "additional_writer_ids": "W38..W49 grouped writer families, not 12 deployed services",
+    "existing_helper_ids": "T01..T23 retained; T24..T37 appended",
+    "raw_definitions_uploaded": false,
+    "private_log_uploaded": false,
+    "phase1_complete": false,
+    "phase2": "NO-GO",
+    "verification": "Document structure, citations, scope and privacy review only; no application/SQL/CI tests."
+  }
 }

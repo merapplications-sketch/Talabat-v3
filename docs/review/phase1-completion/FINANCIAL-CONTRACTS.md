@@ -62,3 +62,33 @@ R2(x) أدناه تعني تحديداً `round(numeric_expression,2)` حيث ظ
 3. التحويل عند INSERT إلى numeric(12,2) ليسمرادفاًلتقريب إرادي قبل تجميع السطور؛ لا يمكن تعميم هذه الفرضية على orders/items/receipts.
 4. اختلاف مصدر تاريخي عن مرشح 106 لا يسمح بتغيير معادلة أواختيار إعداد؛ يُربط التعريف بالنشر ثم بالقرار المعتمد.
 5. كل أثر مالي داخلي يحتاج T، والخارجي إن ثبت يحتاج X، وكلاهما R في الخطة 108. المسؤول DB+مختصمالي؛ المراجعة QA مستقل. لا تشغيل لهذه الحزم ضمن هذا التكليف.
+
+## تحديث RECEIVED EVIDENCE ALIGNMENT — لقطة الهدف المقروءة
+
+هذا الملحق يحدّث درجة إثبات تعريف الهدف في F01..F17 ؛ لا يغير القواعد أو الأمثلة المعتمدة أعلاه. عبارة «غير متاح/غير مثبت من الخام» في الوصف السابق تخص حالة الحزمة قبل الاستلام. الاستلام 49/49 ثابت بالإيصال؛ القراءة الحالية ليست اختباراً أو oracle مستقلاً. ترميز R/D/P/TT/COL/IX كما في سجل الكتّاب، وأسماء الملفات إحالات خاصة لا نسخ عامة.
+
+| العقد | ما أصبح موثقاً من الأصل | الدقة والتحويل والأثر | ما بقي ناقصاً |
+|---|---|---|---|
+|F01|D/R(18487) price_line مع menu_items/options/groups ؛ D(18485) يضرب السعر بكمية البنود ثم يجمع|السعر والوسائط numeric ؛ COL(public.order_items.price)=numeric ؛ لا numeric(12,2) مفترض لهذا العمود؛ خيارات snap من الجسم|إصدار أسعار/خيارات معتمد ونتائج مرجعية مستقلة؛ لا استعمال ناتج الدالة نفسها oracle|
+|F02|D(18485) يختار الأكبر من خصم المطعم والصنف لكل سطر|round(numeric,2) لكل سطر ثم الجمع؛ orders.discount= numeric ؛ قراءة التعريف لا تقرر سياسة كسور جديدة|قيم الأسعار والنسب والإعدادات المعتمدة ومطابقة نتائجها مستقلاً|
+|F03|D(18469) يقرأ happy_hours بتوقيت Dushanbe ويعالج النافذة العابرة لمنتصف الليل؛ D(18485) يدمج الخصم ويحسب فرق HappyHour|اختيار أقصى نسبة ملائمة؛ التقريب في مسار السطر؛ لا ثبات صفر fixture ولا تبنّي قيمة fallback|الإعدادات والنوافذ المعتمدة وإصدارها؛ قبول O3 السابق محفوظ|
+|F04|public-delivery_calc.sql و D(18449)، المساعد dist_km في D(18453)، stores/app_settings/orders|المسافة float8 ؛ حاصل ضرب عامل الطريق يتحول إلى numeric ثم round(...,2)؛ عدد الخطوات ceil بعد round(...,6)؛ الباقي numeric ؛ إعدادات السائق النقدية لاحقاً عبر T09|قيم الإعدادات غير ملتقطة هنا؛ لا تُعامل ثوابت COALESCE كقيم تشغيل؛ oracle مسافة مستقل وعقد القيم الحديّة ناقصان|
+|F05|D(18485) يطبق threshold إعفاء رسوم المطعم؛ D(18449) يراجع تاريخ الطلبات لأول توصيل مجاني|fee_waived/delivery_fee في COL نوعهما numeric ؛ لا تحويل 12,2 عام؛ بيانات الطلبات السابقة لم تُقرأ|اعتماد الإعداد وقواعد التوقعات؛ لا أمثلة ببيانات حقيقية|
+|F06|D(18441/18442/18488): promo_guess و promo_attempts ؛ price_line ثم promo_eval ؛ place_order يتطلب محاولة تحقق سابقة|الفروع والاستثناءات وأقفال العرض موثقة في W26/W38/T04 ؛ السجلات داخل caller وليست أثر خصم خارجي|لا حصر حملة فعالة أو سباق تحديثها أو نجاح rate limit من النص وحده|
+|F07|D(18485) يجمع المكونات ويقرب العمولة؛ D(18835) يعيد حساب عمولة تعديل الطلب بمساره المقيد|COL orders subtotal/total/commission/driver_payout نوع numeric ؛ subtotal NOT NULL مع default0 ؛ لا يجعل default دليلاً على طلب فارغ محفوظ|عقد التقريب للحالات الحدية/NULL/الفيض ومصدر expected values المعتمد خارج fixture|
+|F08|D(18474/18475/18476/18485): lots ثم قسائم صحيحة وتحويل قيمة النقاط|floor للقسائم؛ points_value round(...,2)؛ lots/ledger points integer ؛ قفل lots بترتيب expiry,id|إعدادات loyalty الفعلية و expiry والتوافق مع account/request isolation ؛ لا رصيد حي مقروء|
+|F09|D(18528) + TT(18675): عند التسليم earn/ledger و cashback ؛ عند الإلغاء/الرفض return points|earn يستخدم ceil مع offset الموجود في التعريف؛ cashback round(...,2) ثم wallet_entries.amount numeric(12,2)؛ markers ضمن NEW ؛ IX على lots/wallet لا على ledger نفسه|إثبات عدم تكرار كل أثر/rollback و restore مع triggers كاملة؛ لا تغيير معادلة أو اعتماد نسبة جديدة|
+|F10|D(18485/18539) و COL/IX(wallet_entries): spend مع profilelock و one_spend_per_order|round للأقل بينالمطلوب/الرصيد/الإجمالي ثم تخزين amount numeric(12,2)؛ كُتّاب refund/return/cashback/adjust متعدّون|حصر كل service/owner writer ، أثرالعزل، قبول rollback/ACK من تنفيذ مستقل لاحق|
+|F11|D(18999/19000) و TT(19001): snapshot_cash والسياسة والحارس|cash_delivery_policy.platform_amount و orders.cash_platform_share/cash_driver_delivery_share نوع numeric(12,2)؛ التحويل عند التخزين؛ driver_payout numeric ؛ قفل order ثم policy SHARE|صف سياسة معتمد بإصدار ومرجعه الخارجي؛ لا استنتاج القيمة من fixture أو التعريف|
+|F12|D(18697/18698/18751/18754)، TT(18752/18753): command/result/receipt وربطه بالطلبات|wallet_adjust يقرب 2 ثم amount12,2 ؛ settlement_receipts.amount و settlement_receipt_orders.amount نوع numeric ؛ جمعالحصة من orders المحددة المقفلة|دليل استلام نقد خارجي ومصالحة ACK/restore ؛ سجل receipt وحده لا يثبت النقل المادي|
+|F13|D(18978/18975/18980)، TT(18981): اتفاق/عودة/مطالبة/refund/command|refund و delivery_due.amount نوع numeric(12,2)؛ body يرفض scale>2 لمبلغالطلب، ويقرب delivery_due ؛ ledger النقدي الخارجي ليسداخل SQL|مرجع الاتفاق الحقيقي وربط source_ref بالفعل الخارجي وآلية dedup/مصالحة؛ تبقى BLOCKED|
+|F14|D(18522/18534) +TT(18669): ticketrefund بقفل ticket ثم order وسقف تراكمي؛ walletreturn مستقل عند cancel/reject|round(p_refund,2)؛ amount12,2 ؛ IXone_refund_per_ticket و one_return_per_order ؛ تعريف ticket الحالي لا يكتب ticket_messages|لا يثبت رداً نقدياً خارجياً؛ قبولالتزامن/التراجع الحالي يحتاج تنفيذمخوّل لاحقاً|
+|F15|D(18831/18833/18835) مع TT لحراس order/items/offers|quote numeric ؛ تأكيد items مشروط ويعيد commission ؛ no wallet/points repricing فيمسار quote المقيد|مصدر نتائج مستقل لكلحالة وقبول الآثارالمتعدية؛ لا تغيرعقدالموافقة المقبول|
+|F16|D(18490/18531/18530)، TT(18674/18665)، IXratings_pkey و loyalty_one_reward_per_order|rate_order→ratings→rewardlot/ledger و aggregate→stores ؛ ledger للمكافأة فقطعندإنشاء lot ؛ مقدارالمكافأة من loyalty_setting|ربطكانمحتملًاوأصبحمثبتاًبنيوياً؛ قيمةإعدادالمكافأة واعتمادها/تنفيذها لاتثبتان من الكتالوج|
+|F17|D(18448) و COL(orders.cash_collected) و storage.objects dependency|cash_collected نوع numeric لا 12,2 ؛ لا round صريح في body ؛ orderlock ثم storage KEY SHARE عند photo ؛ تسجيل DB لااستلاممال|بايتات Storage والتفويض CDN/الإبطال، ومصدرإقرارالكاش الخارجي؛ جميعها غير مختبرة|
+
+### حدود قبول الآثار المالية
+
+الكتابات المتزامنة في W01/W05/W06/W08/W13–W18 والتريغرات المرتبطة مثبتة **بنيوياً ضمن معاملة caller** فقط. لم تُجرّب نقاط فشل أو انقطاع أو استعادة. W12 يلتقط خطأ حدث الوصول ويواصل؛ W26/W38 لديهما معالجة استثناءات محلية؛ يجب اختبار الأثر المطلوب لكل فرع لاحقاً، لا قبول عبارة ذرية عامة.
+
+مسؤول DB يقدّم حدود المستدعي وترتيب الأقفال لجميع الكتّاب الفعلية، و QA المالي/الأمني يقبل دليل التنفيذ لاحقاً بعد التفويض. مسؤول المالية/التشغيل يقدّم سجل الاستلام/التحويل ومرجع المستلم والمصالحة؛ لا نفترض آلية idempotency خارجية. يبقى أي مسار بلا آلية إثبات BLOCKED. لم تتغير قيم أو نسب أو قواعد عمل، ولم تُعتمد سياسة تقريب أو احتفاظ أو RPO/RTO جديدة.
