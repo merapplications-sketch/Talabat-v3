@@ -33,11 +33,26 @@ jobs:
           persist-credentials: false
       - run: python3 -m pip install --disable-pip-version-check 'psycopg[binary]==3.2.10' 'typing_extensions==4.15.0'
       - run: python3 tests/native106/baseline.py
+      - run: python3 tests/native106/native.py
+      - run: python3 tests/native106/resources.py
+      - run: python3 tests/native106/regression.py
+      - run: python3 tests/native106/admission.py
+      - run: node tests/native106/client.test.mjs
+      - name: Restore candidate and closed-key fences to separate database
+        env:
+          PG_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          PREPARE_RESTORE=1 python3 tests/native106/restore.py
+          docker exec "$PG_CONTAINER" pg_dump -U postgres --no-owner restore106_source > "$RUNNER_TEMP/candidate106.sql"
+          docker exec "$PG_CONTAINER" createdb -U postgres restore106_target
+          docker exec -i "$PG_CONTAINER" psql -v ON_ERROR_STOP=1 -U postgres -d restore106_target < "$RUNNER_TEMP/candidate106.sql"
+          python3 tests/native106/restore.py
+          rm "$RUNNER_TEMP/candidate106.sql"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: native106-synthetic-${{ github.sha }}
-          path: native106-baseline.json
+          path: native106-*.json
           retention-days: 7
   required106:
     if: always()
