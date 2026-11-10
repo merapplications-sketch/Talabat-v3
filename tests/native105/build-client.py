@@ -7,7 +7,7 @@ helper=r'''
 // Versions catch edit-away/edit-back (ABA), including nested object edits.
 function ensureDraft105(){
  if(S.draftWatch105)return;
- const fields=new Set(['cart','cartAt','cartStore','tip','pay','note','promo','perr','pcode','pm','gift','door','subst','usePts','useWallet','at','addrId','tmp','useTmp','quote','quoteErr','gCheckout','gNotes','gKeep','grp','group']);
+ const fields=new Set(['cart','cartAt','cartStore','tip','pay','note','promo','perr','pcode','pm','gift','door','subst','usePts','useWallet','at','addrId','tmp','useTmp','quote','quoteErr','gCheckout','gNotes','gKeep','gid','grp','group']);
  let revision=0;const cache=new WeakMap();
  function nested(x){if(!x||typeof x!=='object')return x;if(cache.has(x))return cache.get(x);const p=new Proxy(x,{get(t,k){return nested(t[k]);},set(t,k,v){revision++;t[k]=v;return true;},deleteProperty(t,k){revision++;delete t[k];return true;}});cache.set(x,p);cache.set(p,p);return p;}
  const target=S;target.draftWatch105=true;S=new Proxy(target,{get(t,k){if(k==='draftRevision105')return revision;return fields.has(k)?nested(t[k]):t[k];},set(t,k,v){if(fields.has(k))revision++;t[k]=v;return true;},deleteProperty(t,k){if(fields.has(k))revision++;delete t[k];return true;}});
