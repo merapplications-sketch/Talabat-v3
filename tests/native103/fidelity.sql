@@ -1,5 +1,6 @@
 -- Isolated fixture overlay from REVIEW102 target catalog; not a live migration.
 -- Match captured ID mechanisms and FKs where both referenced tables exist in fixture.
+do $$declare t text;s text;begin foreach t in array array['orders','wallet_entries'] loop s:=pg_get_serial_sequence(t,'id');execute format('alter sequence %s owned by none',s);end loop;end$$;
 alter table orders alter column id drop default;
 alter table orders alter column id add generated always as identity;
 select setval(pg_get_serial_sequence('orders','id'),greatest(coalesce((select max(id) from orders),0),1),(select count(*)>0 from orders));

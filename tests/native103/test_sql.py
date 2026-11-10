@@ -209,7 +209,7 @@ class SQL103(unittest.TestCase):
   self.upgrade();self.a.execute(Path('tests/native103/dependencies.sql').read_text())
   self.a.execute("insert into promo_codes values('TEST103',true,null,null,0,1,'fixed',5)");self.a.execute("insert into promo_attempts values(%s,true,'TEST103',now())",(B,))
   self.a.execute("insert into loyalty_lots(user_id,points_left,expires_at)values(%s,100,now()+interval '1 day')",(B,))
-  aa=args('deps103');aa[7]='TEST103';aa[11]=100
+  aa=args('deps103_case');aa[7]='TEST103';aa[11]=100
   self.a.execute("create function security_private.faildeps103() returns trigger language plpgsql as $$begin raise exception 'synthetic_binding_failure';end$$;create trigger faildeps103 before insert on security_private.order_request_fingerprints103 for each row execute function security_private.faildeps103()")
   before=self.snapshot()
   with self.actor() as c:self.assertEqual(call(c,aa)['status'],'rejected')
