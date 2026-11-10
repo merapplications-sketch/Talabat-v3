@@ -32,6 +32,7 @@ def history(a):
   if mode=='group':a.execute("insert into group_orders(id,host_id,status,store_id,expires_at)values(%s,%s,'open',%s,now()+interval '1 hour')",(G,U,S));extra={'group':G}
   if mode=='scheduled':extra={'at':a.execute("select now()+interval '60 minutes'").fetchone()[0].isoformat()}
   with actor() as c:ids.append(call(c,payload('qa103_old_'+mode,extra),'place_order'))
+  a.execute("update fulfillment_private.order_approvals set state='accepted',customer_at=now()")
  upgrade(a);before=counts(a)
  with psycopg.connect(dbname='independent_review103') as c:
   c.execute('set transaction read only');c.execute("select set_config('request.jwt.claims',%s,false)",(json.dumps({'sub':U}),));c.execute('set role authenticated')
@@ -70,6 +71,7 @@ def conversion_atomic(a):
  a.execute(Path('tests/native102/candidate.sql').read_text())
  for k in ['qa103_convert_a','qa103_convert_b']:
   with actor() as c:call(c,payload(k),'place_order')
+  a.execute("update fulfillment_private.order_approvals set state='accepted',customer_at=now()")
  upgrade(a)
  a.execute("create function security_private.qa_fail103() returns trigger language plpgsql as $$begin if new.client_key='qa103_convert_b' then raise exception 'synthetic_conversion_failure';end if;return new;end$$;create trigger qa_fail103 before insert on security_private.order_request_fingerprints103 for each row execute function security_private.qa_fail103()")
  try:a.execute('select security_private.convert_bindings102_to103()');raise AssertionError('injection did not fire')
