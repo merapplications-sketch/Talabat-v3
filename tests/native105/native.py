@@ -78,7 +78,7 @@ class Resources105(BASE):
    if mode=='after':self.assertEqual(again['closure_id'],r['closure_id'])
   self.assertEqual(self.rows(),2);self.assertEqual(self.counts(),(0,0,0,0))
  def test_repeatable_read_cannot_over_admit_stale_snapshot(self):
-  self.upgrade();self.policy(1,1);c=self.actor(O);c.rollback();c.execute('set transaction isolation level repeatable read');c.execute("select set_config('request.jwt.claims',%s,false)",(json.dumps({'sub':O}),));c.execute('set role authenticated');c.execute('select count(*) from orders')
+  self.upgrade();self.policy(1,1);c=self.actor(O);c.rollback();c.execute('set transaction isolation level repeatable read');c.execute("select set_config('request.jwt.claims',%s,false)",(json.dumps({'sub':O}),));c.execute('set role authenticated');c.execute('select pg_current_snapshot()')
   self.reject('snapshot105_first');p=args('snapshot105_second');p[4]=''
   with self.assertRaises(ns['psycopg'].errors.SerializationFailure):call(c,p,'place_order104')
   c.rollback();c.close();self.assertEqual(self.rows(),1);self.assertEqual(self.counts(),(0,0,0,0))

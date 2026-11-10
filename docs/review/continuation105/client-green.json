@@ -30,5 +30,33 @@
   {
     "name": "C04 unedited bad_time keeps existing correction behavior",
     "passed": true
+  },
+  {
+    "name": "C04 ABA edits retain user intent even when final value equals original",
+    "passed": true
+  },
+  {
+    "name": "C04 addrId edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 tmp edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 gift edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 gid edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 nested recipient ABA is versioned",
+    "passed": true
+  },
+  {
+    "name": "C03 old UI success cannot clear newer draft key",
+    "passed": true
   }
 ]

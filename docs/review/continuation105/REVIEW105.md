@@ -1,0 +1,11 @@
+# Independent REVIEW105 handoff
+
+Pin source commit from RESULTS.md, verify SOURCE-SHA256.json and GENERATED-SHA256.json, read original Actions logs/artifacts. Do not accept based on programmer summary alone.
+
+1. Run `python3 ci97/unpack.py`; generate104 and105 separately with their build-client.py scripts. `CANDIDATE_UI=<104>/customer.html node tests/native105/client.test.mjs` reproduces C03/C04;105 must pass. Baseline red evidence records the initial eight cases before repair; expanded cases add ABA/address/recipient/stale-owner tests.
+2. Run `tests/native105/browser.mjs` with PLAYWRIGHT_MODULE and CANDIDATE_UI pointing to generated105. It retains11 Chromium104 cases and adds4 UI-level cases with real IndexedDB/cart mirror, three tabs, reload, explicit next send and late bad_time. RPC/readOrder are synthetic, not hosted HTTP. Check exact new payload/key and absence of automatic writes, not just cart screenshots.
+3. PostgreSQL17.6 localhost only: baseline.py observes12 rejected keys/12rows on unchanged104; native.py tests policy absent/full/size, global and account concurrent admission, saved closure replay, late corrected old key, lock timeout, TCP before/afterCOMMIT, stale repeatable-read snapshots, ACL/immutable fences and rollback/re-upgrade. Test values are not production limits.
+4. regression.py retains26 original assertions on105 overlay; admission.py retains4 order admission/concurrency cases. restore.py plus workflow pg_dump restores separate synthetic DB, HMAC keys/bindings/closure receipt and105 policy/triggers. Inspect fixtures and unproven target dependencies explicitly.
+5. Adversarially vary session/identity, nested fields/ABA, response order, foreign-cart mirror, quota saturation and old/new writer overlap. Confirm unknown resources cannot be ended as terminal, and existing keys are never reopened.
+6. Evaluate scalability of serialized closure budget and count queries; request approved gateway/body/rate controls and numerical budgets before any production acceptance. Review migration's atomic installation/drained writers and trusted-owner trigger permissions.
+7. Separate verdicts for C03, C04, bounded closure storage, external rate/body defenses, historical/HMAC protection, client device scope and production readiness. No live execution authorized.

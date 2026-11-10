@@ -1,0 +1,13 @@
+{
+  "tests/native105/native.py": "80d01bb20890052c388a5fd12acb4be7341b757e2eef4fe02f43ce841eab8445",
+  "tests/native105/resources.sql": "ee5a257db3345ca409d6e048fb857d8d6ed875fc808648cb1e0091ef58728145",
+  "tests/native105/baseline.py": "6ebe65e13c4fa8b5babb652cc347ccb94ba3f0134ca45ed929810933e8062c42",
+  "tests/native105/browser.mjs": "08040d0662d9b505e0b429398d9de10c980fcb79023a7ccb97e4c2e2a96b6f65",
+  "tests/native105/browser-cases.mjs": "aa52f9db6f4113cf5d5c598bc5cd79ac55765bfe4a1280787b47cb361d96f308",
+  "tests/native105/admission.py": "aa16372e180540edae4c0dee829f52a92288af49645a7caf149a8b9ff9c03e5c",
+  "tests/native105/regression.py": "baf7c35a012d5ca398e0ec553fa3d673365b9f1709384eee94c1541422862eb8",
+  "tests/native105/client.test.mjs": "73e9bc5f9049c3e6e53ced75f1850bf910d1584f06d490335b673c5fdf801fa2",
+  "tests/native105/restore.py": "207ea36e4a019a174eb263e378106fd0b2a46e598823a04f6c7f1e02e30d4af9",
+  "tests/native105/build-client.py": "8971e8704faa886163e8fb3402cadfb009a4cf8c16f4a35f64205888cbbfe87e",
+  ".github/workflows/ci105.yml": "8c60049cc457964f35bf95c594721425c1398c32595e3f59904c744087e261dd"
+}
