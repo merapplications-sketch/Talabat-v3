@@ -1,0 +1,277 @@
+{
+  "title": "TALABOT G1-C independent financial contract references",
+  "date": "2026-11-11",
+  "timezone": "Asia/Dushanbe",
+  "package_base": "ab9794f2b9290ab4d8d43f5fe30ea6221cd5a181",
+  "scope": "existing_sources_only_no_new_catalog_queries_no_operational_tests_no_source_changes",
+  "public_sources": [
+    {
+      "alias": "F-BASE",
+      "path": "docs/review/phase1-completion/FINANCIAL-CONTRACTS.md",
+      "commit": "ab9794f2b9290ab4d8d43f5fe30ea6221cd5a181",
+      "git_blob_sha": "053cd7cbef8e2e190e78375ce5ea11a15e828402",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/ab9794f2b9290ab4d8d43f5fe30ea6221cd5a181/docs/review/phase1-completion/FINANCIAL-CONTRACTS.md",
+      "role": "reviewed_documentation_not_business_authority"
+    },
+    {
+      "alias": "PLAN",
+      "path": "docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "commit": "9a5d3145ddaec9ab4d653053424ed9197d784222",
+      "git_blob_sha": "11be73017b4744054566c3a71d3422d8b679309f",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/9a5d3145ddaec9ab4d653053424ed9197d784222/docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "role": "accepted_gate_requirements"
+    },
+    {
+      "alias": "O1",
+      "path": "docs/OWNER-AGREEMENTS-AR.md",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "d671e93233ae91e361af292e688d15460e06b992",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/docs/OWNER-AGREEMENTS-AR.md",
+      "role": "saved_explicit_owner_decisions"
+    },
+    {
+      "alias": "O2",
+      "path": "docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "0fe978f967716da074e0ad49b54ac4384a0f65c4",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md",
+      "role": "saved_explicit_owner_decisions"
+    },
+    {
+      "alias": "O48",
+      "path": "CHANGES-v48.md",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "91fd0645c0d635e4de33c4177da15a298676a890",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/CHANGES-v48.md",
+      "role": "historical_owner_decisions_as_recorded_in_release_notes_not_current_configuration"
+    },
+    {
+      "alias": "O51",
+      "path": "CHANGES-v51.md",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "422a2ff097997ffde38726ee2ac574b5ce0f6864",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/CHANGES-v51.md",
+      "role": "historical_owner_decisions_as_recorded_in_release_notes_not_current_configuration"
+    },
+    {
+      "alias": "C107",
+      "path": "docs/review/continuation107/REPORT-AR.txt",
+      "commit": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+      "git_blob_sha": "52a698ac6f64678e7991916d96500953d0a10000",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/60bbc90d4c8d03311464be049063d0fac3ae18f1/docs/review/continuation107/REPORT-AR.txt",
+      "role": "accepted_catalog_interpretation_limits"
+    },
+    {
+      "alias": "S106",
+      "path": "tests/native106/isolation.sql",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/tests/native106/isolation.sql",
+      "role": "source_behavior_not_policy"
+    },
+    {
+      "alias": "S103-DEPS",
+      "path": "tests/native103/dependencies.sql",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "7272feb9182ec9415454f82a53576a4b22710799",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/tests/native103/dependencies.sql",
+      "role": "synthetic_dependency_source_not_oracle"
+    },
+    {
+      "alias": "O46",
+      "path": "CHANGES-v46.md",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "e8194034fd4a09ce21a3952d13e0ecca2b79b378",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/CHANGES-v46.md",
+      "role": "historical_owner_decisions_as_recorded_in_release_notes_not_current_configuration"
+    },
+    {
+      "alias": "O49",
+      "path": "CHANGES-v49.md",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "c4c3bc7e470ad463cf1d3dfb253e28101abffcd2",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/CHANGES-v49.md",
+      "role": "historical_owner_decisions_as_recorded_in_release_notes_not_current_configuration"
+    },
+    {
+      "alias": "O50",
+      "path": "CHANGES-v50.md",
+      "commit": "611b0ebdaa3ed83dd34b623528ea374935a9d8e1",
+      "git_blob_sha": "ae053df5cd17324d24a8e33210e6f8995073f38d",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/611b0ebdaa3ed83dd34b623528ea374935a9d8e1/CHANGES-v50.md",
+      "role": "historical_owner_decisions_as_recorded_in_release_notes_not_current_configuration"
+    }
+  ],
+  "conversation_authority": [
+    {
+      "alias": "U1",
+      "location": "Owner message: قرارات واجهة الزبون التي يجب الحفاظ عليها",
+      "literal": "الإكرامية 5 و10 و20.",
+      "role": "direct_owner_reference_decision_not_execution_evidence",
+      "git_commit": null
+    }
+  ],
+  "private_manifest": {
+    "commit": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+    "path": "docs/review/continuation107/EVIDENCE-MANIFEST.json",
+    "bytes": 8164,
+    "sha256": "8151ea9d7ad3863523d7395d3899d0e595122682fc80d8eff5ef9585e09ec8ad",
+    "limits": "metadata_is_not_a_substitute_for_private_originals; no raw evidence included"
+  },
+  "private_sources_used": [
+    {
+      "alias": "P-columns",
+      "file_name": "target-columns.json",
+      "bytes": 130970,
+      "sha256": "77bb17bd276307bf90390f8b09a742a12e95a87bf8eca28eb8953c255d75ef96",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-defs",
+      "file_name": "target-definitions.json",
+      "bytes": 182141,
+      "sha256": "d66e617b85de1a5b891aa975cbf33457390b3f1a927dd22ccfebbf9223248d2c",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-constraints",
+      "file_name": "target-constraints.json",
+      "bytes": 83565,
+      "sha256": "cc39f8e3dbd1ec47b4576df5580193ae7f0c52ff45f0de3fab53e8e67c5c9bdb",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-price_line",
+      "file_name": "public-price_line.sql",
+      "bytes": 1761,
+      "sha256": "496fe8c544506a65e4465628fbc07ccff02299b610ccada9af616f97f74b6813",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-place_order",
+      "file_name": "public-place_order.sql",
+      "bytes": 13127,
+      "sha256": "7621d57db6e3b3830af3607f5b415e2219239bd98eae027871cb222aa2608cfa",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-delivery_calc",
+      "file_name": "public-delivery_calc.sql",
+      "bytes": 2370,
+      "sha256": "ed72c8bbf1c6cb07969979ee39f5451e63e042cd2808c45ec7bc8f9444bba656",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-snapshot_cash",
+      "file_name": "finance_private-snapshot_cash.sql",
+      "bytes": 1070,
+      "sha256": "d7f14f6b869627e4529ecbcb3443573b652a1b7d3881742d55aab1ad18281eb4",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-finance_execute",
+      "file_name": "finance_execute.sql",
+      "bytes": 4235,
+      "sha256": "f6e0582ee2de8bc78f1edb43d423d56537d18b66b6c6e255c47696bf62169274",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-return_action",
+      "file_name": "order_return_action.sql",
+      "bytes": 6447,
+      "sha256": "dfdd49773d34e355e62532e5246e612ffe234d91457e4190e8dcc43f08a48a8a",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-confirm_order",
+      "file_name": "customer_confirm_order.sql",
+      "bytes": 3569,
+      "sha256": "b56c15ca27d8f16a52820ad821a46b5656b09573a4d9693a63ca017b38aa321f",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    },
+    {
+      "alias": "P-ticket_set_status",
+      "file_name": "ticket_set_status.sql",
+      "bytes": 2836,
+      "sha256": "15f6aa95ae3dab9b4c6def10ce05e4b24c4a15e55f73f192b45bad064ff1941d",
+      "access": "existing_authorized_private_evidence_only",
+      "interpretation": "isolated_target_catalog_snapshot_not_atomic_not_production_or_functional_proof"
+    }
+  ],
+  "private_definition_coordinates": {
+    "convention": "P-defs coordinates are 1-based lines within each stored function definition, not JSON container line numbers. Other private SQL-file coordinates are 1-based lines in the original byte-preserved file.",
+    "functions": [
+      "fulfillment_private.quote_lines",
+      "public.deliver_order",
+      "public.dist_km",
+      "public.happy_hour_pct",
+      "public.loyalty_setting",
+      "public.promo_eval",
+      "public.trg_loyalty",
+      "public.trg_rating_reward",
+      "public.trg_wallet_return",
+      "public.wallet_balance"
+    ]
+  },
+  "preserved_pc_qa_01_acceptance": {
+    "commit": "d8ba5815959564e6bd5a8b87c95ac17081459a1f",
+    "path": "docs/review/phase1-independent/PC-QA-01-DELTA-AR.txt",
+    "git_blob_sha": "6ca9f4e00a87684f42da872708e667d72c743a01",
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/d8ba5815959564e6bd5a8b87c95ac17081459a1f/docs/review/phase1-independent/PC-QA-01-DELTA-AR.txt",
+    "scope": "existing_ACCEPTED_PC-QA-01_and_F17_formatting_not_reopened"
+  },
+  "independent_arithmetic_verification": {
+    "method": "Python Fraction / exact rational arithmetic and ceil; manually derived from cited decisions, never by executing candidate, fixture, SQL, evidence scripts or API",
+    "numeric_expected_fields_checked": [
+      "ER01.customer_cash_tjs",
+      "ER01.driver_keeps_tjs",
+      "ER01.driver_net_tjs",
+      "ER01.platform_due_tjs",
+      "ER02.customer_cash_tjs",
+      "ER02.driver_keeps_tjs",
+      "ER02.driver_net_tjs",
+      "ER02.platform_due_tjs",
+      "ER03.aggregate_settlement_tjs",
+      "ER03.additional_settlement_tjs",
+      "ER03.receipt_count",
+      "ER04.original_order_due_tjs",
+      "ER05.earned_points",
+      "ER06.earned_points",
+      "ER07.food_reduction_tjs",
+      "ER08.earned_points",
+      "ER08.nominal_value_tjs",
+      "ER08.nominal_percentage",
+      "ER09.first_reward_points",
+      "ER09.repeat_increment_points",
+      "ER09.aggregate_reward_points",
+      "ER10.cashback_tjs",
+      "ER10.new_cashback_credit_count",
+      "ER11.customer_delivery_fee_tjs",
+      "ER12.threshold_waiver_tjs",
+      "ER13.before_confirmed_receipt_remaining_tjs",
+      "ER13.after_full_confirmed_receipt_remaining_tjs",
+      "ER14.tip_if_order_accepted_tjs"
+    ],
+    "conditional_precision_contrast": {
+      "input_paid_tjs": "12.00000001",
+      "rate_points_per_tjs": "10",
+      "exact_points": "120.0000001",
+      "business_ceil": "121",
+      "read_expression_after_epsilon_ceil": "120",
+      "classification": "conditional_analytic_counterexample_not_runtime_test"
+    },
+    "limits": "Contract invariants, symbolic cases and preconditions are document assertions, not verified application behavior. Number of arithmetic checks is not a test-suite result."
+  },
+  "g1_c": "PARTIAL / BLOCKED",
+  "phase2": "NO-GO"
+}

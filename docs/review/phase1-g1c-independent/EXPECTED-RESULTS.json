@@ -1,0 +1,496 @@
+{
+  "title": "TALABOT G1-C independent expected results",
+  "date": "2026-11-11",
+  "timezone": "Asia/Dushanbe",
+  "package_base": "ab9794f2b9290ab4d8d43f5fe30ea6221cd5a181",
+  "status": "CONTRACT_REFERENCES_ONLY_NOT_EXECUTION_RESULTS",
+  "method": "Exact decimal/integer/rational derivations from recorded owner rules; no candidate, SQL, fixture or real financial data executed",
+  "g1_c": "PARTIAL / BLOCKED",
+  "phase2": "NO-GO",
+  "cases": [
+    {
+      "id": "ER01",
+      "accounts": [
+        "F11",
+        "F17"
+      ],
+      "classification": "EXACT_ARITHMETIC",
+      "authority": [
+        "O1:7-11"
+      ],
+      "preconditions": [
+        "مثال CASH-01 المعتمد؛ طعام نهائي25 وتوصيل15؛ لا بقشيش أو محفظة أو خصم إضافي",
+        "حصة المنصة5 وحصة السائق10 مثبتتان للمثال فقط"
+      ],
+      "inputs": {
+        "food_tjs": "25",
+        "delivery_tjs": "15",
+        "platform_share_tjs": "5"
+      },
+      "steps": [
+        "25 + 15 = 40",
+        "15 - 5 = 10",
+        "25 + 10 = 35",
+        "35 - 25 = 10"
+      ],
+      "expected": {
+        "customer_cash_tjs": "40",
+        "driver_keeps_tjs": "35",
+        "driver_net_tjs": "10",
+        "platform_due_tjs": "5"
+      },
+      "limits": [
+        "لا يعيد تسعير الوجبة ولا يثبت تعرفة عامة أو قبضاً فعلياً"
+      ]
+    },
+    {
+      "id": "ER02",
+      "accounts": [
+        "F11",
+        "F12",
+        "F17"
+      ],
+      "classification": "EXACT_ARITHMETIC",
+      "authority": [
+        "O1:10-11"
+      ],
+      "preconditions": [
+        "مثال CASH-01 الثاني؛ الطعام25، التوصيل15 كله للسائق؛ دون محفظة أو بقشيش"
+      ],
+      "inputs": {
+        "food_tjs": "25",
+        "delivery_tjs": "15",
+        "platform_share_tjs": "0"
+      },
+      "steps": [
+        "25 + 15 = 40",
+        "15 - 0 = 15",
+        "40 - 25 = 15"
+      ],
+      "expected": {
+        "customer_cash_tjs": "40",
+        "driver_keeps_tjs": "40",
+        "driver_net_tjs": "15",
+        "platform_due_tjs": "0",
+        "required_cash_settlement": "none",
+        "fabricated_zero_receipt_allowed": false
+      },
+      "limits": [
+        "لا تفرض حصة صفر عند غياب السياسة"
+      ]
+    },
+    {
+      "id": "ER03",
+      "accounts": [
+        "F12"
+      ],
+      "classification": "CONTRACT_INVARIANT",
+      "authority": [
+        "O2:11-13",
+        "O1:9"
+      ],
+      "preconditions": [
+        "تسوية المثال ER01 محفوظة منطقياً بمبلغ5",
+        "نفس مفتاح العملية والمدخلات والمنفذ المخوّل عند استرجاعها، بما فيه فقد ACK"
+      ],
+      "inputs": {
+        "original_settlement_tjs": "5",
+        "same_attempt_retried": true
+      },
+      "steps": [
+        "الأثر الأصلي5؛ أثر الاسترجاع الإضافي0",
+        "5 + 0 = 5"
+      ],
+      "expected": {
+        "aggregate_settlement_tjs": "5",
+        "additional_settlement_tjs": "0",
+        "receipt_identity": "same",
+        "receipt_count": "1"
+      },
+      "limits": [
+        "نتيجة عقد فقط؛ لا إثبات لذرية SQL أو تزامن أو فقد ACK حي"
+      ]
+    },
+    {
+      "id": "ER04",
+      "accounts": [
+        "F11"
+      ],
+      "classification": "CONTRACT_INVARIANT",
+      "authority": [
+        "O1:9-12"
+      ],
+      "preconditions": [
+        "تخصيص الطلب الاصطناعي القديم مطابق ER01 بحصة5",
+        "تبدلت سياسة لاحقة للمثال الآخر ذي الحصة0"
+      ],
+      "inputs": {
+        "saved_share_tjs": "5",
+        "later_policy_share_tjs": "0"
+      },
+      "steps": [
+        "المستحق من اللقطة المعتمدة للطلب = 5؛ لا إعادة حساب من السياسة اللاحقة"
+      ],
+      "expected": {
+        "original_order_due_tjs": "5",
+        "retroactive_recalculation": false
+      },
+      "limits": [
+        "لا تغيير إعداد ولا إنشاء سجل تاريخي"
+      ]
+    },
+    {
+      "id": "ER05",
+      "accounts": [
+        "F09"
+      ],
+      "classification": "EXACT_ARITHMETIC",
+      "authority": [
+        "O46:7",
+        "O48:9",
+        "O51:6"
+      ],
+      "preconditions": [
+        "تسليم مؤهل لأول كسب؛ خط الأساس10نقاط/TJS بلا override",
+        "صافي الطعام المعتمد للمثال10؛ الرسوم والبقشيش خارج وعاء الكسب"
+      ],
+      "inputs": {
+        "eligible_food_tjs": "10",
+        "earn_points_per_tjs": "10"
+      },
+      "steps": [
+        "10 × 10 = 100 نقطة؛ لا كسر يستدعي تقريباً"
+      ],
+      "expected": {
+        "earned_points": "100"
+      },
+      "limits": [
+        "لا تثبت الأهلية أو الإعداد الفعال أو الكتابة مرة واحدة"
+      ]
+    },
+    {
+      "id": "ER06",
+      "accounts": [
+        "F09"
+      ],
+      "classification": "EXACT_ARITHMETIC",
+      "authority": [
+        "O50:10",
+        "O51:6"
+      ],
+      "preconditions": [
+        "مثال12.35 المحفوظ في قرار الكسب؛ خط الأساس10نقاط/TJS",
+        "تسليم مؤهل بلا كسب سابق"
+      ],
+      "inputs": {
+        "eligible_food_tjs": "12.35",
+        "earn_points_per_tjs": "10"
+      },
+      "steps": [
+        "12.35 × 10 = 123.5",
+        "التقريب للأعلى إلى عدد نقاط صحيح = 124"
+      ],
+      "expected": {
+        "earned_points": "124"
+      },
+      "limits": [
+        "قاعدة الكسب للأعلى معتمدة؛ ليست اعتماداً لتقريب الأموال"
+      ]
+    },
+    {
+      "id": "ER07",
+      "accounts": [
+        "F08"
+      ],
+      "classification": "EXACT_ARITHMETIC",
+      "authority": [
+        "O49:3-5",
+        "O51:5-10"
+      ],
+      "preconditions": [
+        "خط الأساس1000نقطة=1TJS",
+        "قسيمة1000 مؤهلة غير منتهية، وحد الطعام/الاستبدال متحققان صراحةً؛ لا افتراض تحققها في التشغيل"
+      ],
+      "inputs": {
+        "redeemed_points": "1000",
+        "points_per_tjs": "1000"
+      },
+      "steps": [
+        "1000 ÷ 1000 = 1TJS"
+      ],
+      "expected": {
+        "food_reduction_tjs": "1",
+        "funding_party": "redeeming_restaurant"
+      },
+      "limits": [
+        "لا يحدد كامل الإجمالي أو أثر حد5 أو شروط استخدام القسيمة الفعلية"
+      ]
+    },
+    {
+      "id": "ER08",
+      "accounts": [
+        "F08",
+        "F09"
+      ],
+      "classification": "EXACT_ARITHMETIC",
+      "authority": [
+        "O51:6"
+      ],
+      "preconditions": [
+        "خط الأساس10نقاط/TJS كسباً و1000نقطة/TJS استخداماً بلا override",
+        "طعام مؤهل100TJS؛ الأهلية محفوظة كشرط، لا تجربة طلب"
+      ],
+      "inputs": {
+        "eligible_food_tjs": "100",
+        "earn_points_per_tjs": "10",
+        "redeem_points_per_tjs": "1000"
+      },
+      "steps": [
+        "100 × 10 = 1000 نقطة",
+        "1000 ÷ 1000 = 1TJS قيمة اسمية",
+        "1 ÷ 100 × 100 = 1%"
+      ],
+      "expected": {
+        "earned_points": "1000",
+        "nominal_value_tjs": "1",
+        "nominal_percentage": "1"
+      },
+      "limits": [
+        "ليست cashback نقدية، ولا ضمان نسبة فعالة لكل مبلغ بعد تقريب الكسب أو صلاحية القسائم"
+      ]
+    },
+    {
+      "id": "ER09",
+      "accounts": [
+        "F16"
+      ],
+      "classification": "CONTRACT_INVARIANT",
+      "authority": [
+        "O50:10"
+      ],
+      "preconditions": [
+        "تقييم مؤهل وفق العقد السابق المقبول",
+        "خط الأساس التاريخي+10، دون ادعاء إعداد حالي مختلف"
+      ],
+      "inputs": {
+        "first_qualifying_rating": true,
+        "repeated_same_order_rating": true
+      },
+      "steps": [
+        "المكافأة الأولى10؛ التكرار يضيف0",
+        "10 + 0 = 10"
+      ],
+      "expected": {
+        "first_reward_points": "10",
+        "repeat_increment_points": "0",
+        "aggregate_reward_points": "10"
+      },
+      "limits": [
+        "لا إعادة فحص rate_order أو تريغر النشر؛ لا إعطاء reward جديد من default مجهول"
+      ]
+    },
+    {
+      "id": "ER10",
+      "accounts": [
+        "F09"
+      ],
+      "classification": "CONDITIONAL_CONTRACT",
+      "authority": [
+        "O48:3-4",
+        "O49:3-5"
+      ],
+      "preconditions": [
+        "cashback غير مفعّل؛ لا قيمة موجبة معتمدة للمثال"
+      ],
+      "inputs": {
+        "cashback_enabled": false
+      },
+      "steps": [
+        "حالة التعطيل لا تُنشئ استحقاق cashback"
+      ],
+      "expected": {
+        "cashback_tjs": "0",
+        "new_cashback_credit_count": "0"
+      },
+      "limits": [
+        "ليس تصريحاً بأن إعداد التشغيل الحالي صفر؛ لا نسبة مختارة"
+      ]
+    },
+    {
+      "id": "ER11",
+      "accounts": [
+        "F05"
+      ],
+      "classification": "SYMBOLIC_BOUNDARY",
+      "authority": [
+        "O51:12-17"
+      ],
+      "preconditions": [
+        "حد مطعم معتمد T>0",
+        "رسم توصيل معتمد F>0",
+        "لا promo أو نقاط كي لا نفترض معنى خصومات مختلفاً"
+      ],
+      "inputs": {
+        "food_after_restaurant_discounts": "T",
+        "threshold": "T",
+        "quoted_fee": "F"
+      },
+      "steps": [
+        "B = T ⇒ B ≥ T",
+        "الرسم على الزبون يصبح0؛ المبلغ المعفىF"
+      ],
+      "expected": {
+        "customer_delivery_fee_tjs": "0",
+        "waived_fee": "F",
+        "funding_party": "restaurant"
+      },
+      "limits": [
+        "لا مبلغ T أو F مختار؛ لا يحسم توزيع حصة المنصة أو أجر السائق بعد الإعفاء"
+      ]
+    },
+    {
+      "id": "ER12",
+      "accounts": [
+        "F05"
+      ],
+      "classification": "SYMBOLIC_BOUNDARY",
+      "authority": [
+        "O51:12-17"
+      ],
+      "preconditions": [
+        "الحالة أ: T=0 تعطيل؛ الحالة ب: T>0 وB<T",
+        "لا سبب إعفاء آخر؛ F رسم معتمد سابقاً"
+      ],
+      "inputs": {
+        "threshold_off": "0",
+        "below_threshold": "B < T"
+      },
+      "steps": [
+        "التعطيل أو عدم بلوغ الحد لا يفعّل إعفاء الحد"
+      ],
+      "expected": {
+        "delivery_fee": "F",
+        "threshold_waiver_tjs": "0"
+      },
+      "limits": [
+        "لا يقرر first-free أو نوع free أو سياسات أخرى"
+      ]
+    },
+    {
+      "id": "ER13",
+      "accounts": [
+        "F13"
+      ],
+      "classification": "CONTRACT_INVARIANT",
+      "authority": [
+        "O1:9",
+        "O1:15-17"
+      ],
+      "preconditions": [
+        "أصل مطالبة اصطناعية بثمن وجبة25 فقط",
+        "تصريح المطعم/استلام الوجبة أولاً دون قبض؛ ثم استلام كامل25 موثق في الفرع الثاني"
+      ],
+      "inputs": {
+        "food_claim_tjs": "25",
+        "reported_refund_tjs": "25"
+      },
+      "steps": [
+        "دون استلام مؤكد: 25 - 0 = 25",
+        "بعد استلام كامل مؤكد: 25 - 25 = 0 لأصل المطالبة"
+      ],
+      "expected": {
+        "before_confirmed_receipt_remaining_tjs": "25",
+        "after_full_confirmed_receipt_remaining_tjs": "0"
+      },
+      "limits": [
+        "لا يعتمد الرد الجزئي أو أجرة الرجوع، ولا يغلق نزاعاً أو التزاماً آخر"
+      ]
+    },
+    {
+      "id": "ER14",
+      "accounts": [
+        "F07"
+      ],
+      "classification": "CONTRACT_INVARIANT",
+      "authority": [
+        "U1"
+      ],
+      "preconditions": [
+        "اختيار المالك المعتمد للإكرامية20 ضمن5/10/20",
+        "طلب صالح في بقية شروطه؛ هذا توقع للعقد وليس نجاح إنشاء"
+      ],
+      "inputs": {
+        "selected_tip_tjs": "20"
+      },
+      "steps": [
+        "المبلغ المختار المعتمد20 يجب أن يبقى20 أو يظهر رفض صريح إذا تعذر الالتزام؛ لا تحويل صامت إلى0"
+      ],
+      "expected": {
+        "tip_if_order_accepted_tjs": "20",
+        "silent_zero_conversion_allowed": false
+      },
+      "limits": [
+        "S106:97 يختلف عن هذا التوقع؛ لا اختبار RPC أو تصريح بنشر الإصلاح"
+      ]
+    },
+    {
+      "id": "ER15",
+      "accounts": [
+        "F02",
+        "F03"
+      ],
+      "classification": "SYMBOLIC_CONTRACT",
+      "authority": [
+        "O46:9",
+        "O48:7-8"
+      ],
+      "preconditions": [
+        "نسب R/I/H معتمدة مسبقاً للسطور المقصودة",
+        "لا تحديد قيم جديدة أو حالة نقدية تعتمد قاعدة تقريب مفقودة"
+      ],
+      "inputs": {
+        "restaurant_percent": "R",
+        "item_percent": "I",
+        "happy_hour_percent": "H"
+      },
+      "steps": [
+        "النسبة المختارة=max(R,I,H)؛ ليستR+I+H"
+      ],
+      "expected": {
+        "selected_percent": "max(R,I,H)",
+        "additive_stacking": false
+      },
+      "limits": [
+        "مبلغ الخصم النهائي BLOCKED إلى حين المدخلات وعقد التقريب"
+      ]
+    },
+    {
+      "id": "ER16",
+      "accounts": [
+        "F07",
+        "F08"
+      ],
+      "classification": "CONTRACT_INVARIANT",
+      "authority": [
+        "O49:3-9"
+      ],
+      "preconditions": [
+        "نفس الطلب/نسبة العمولة المعتمدين؛ تغيير دفع جزء من الطعام بالنقاط فقط",
+        "لا تغيير للخصومات الأخرى أو البقشيش أو الرسوم"
+      ],
+      "inputs": {
+        "redeemed_points_change": "only change"
+      },
+      "steps": [
+        "تتحمل جهة الاستبدال قيمة النقاط؛ عمولة المنصة لا تنخفض بسبب النقاط"
+      ],
+      "expected": {
+        "commission_after_points": "same_as_before_points"
+      },
+      "limits": [
+        "لا يحسم قيمة نسبة العمولة أو تمويل promo أو إجمالي المتجر"
+      ]
+    }
+  ]
+}
+
