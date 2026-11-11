@@ -1,0 +1,82 @@
+[
+  {
+    "name": "created: every persisted completion checkpoint / later=null",
+    "passed": true
+  },
+  {
+    "name": "created: every persisted completion checkpoint / later=3",
+    "passed": true
+  },
+  {
+    "name": "created: every persisted completion checkpoint / later=99",
+    "passed": true
+  },
+  {
+    "name": "created: every persisted completion checkpoint / later=invalid",
+    "passed": true
+  },
+  {
+    "name": "replayed: every persisted completion checkpoint / later=null",
+    "passed": true
+  },
+  {
+    "name": "replayed: every persisted completion checkpoint / later=3",
+    "passed": true
+  },
+  {
+    "name": "replayed: every persisted completion checkpoint / later=99",
+    "passed": true
+  },
+  {
+    "name": "replayed: every persisted completion checkpoint / later=invalid",
+    "passed": true
+  },
+  {
+    "name": "historical_recovered: every persisted completion checkpoint / later=null",
+    "passed": true
+  },
+  {
+    "name": "historical_recovered: every persisted completion checkpoint / later=3",
+    "passed": true
+  },
+  {
+    "name": "historical_recovered: every persisted completion checkpoint / later=99",
+    "passed": true
+  },
+  {
+    "name": "historical_recovered: every persisted completion checkpoint / later=invalid",
+    "passed": true
+  },
+  {
+    "name": "recovery branch persists reset and detached key together",
+    "passed": true
+  },
+  {
+    "name": "failed completion storage write restores old key then recovers safely",
+    "passed": true
+  },
+  {
+    "name": "late response cannot retire a newer key or explicit tip",
+    "passed": true
+  },
+  {
+    "name": "foreign-tab saved draft is not overwritten by late success",
+    "passed": true
+  },
+  {
+    "name": "real controller frozen payload survives ACK loss and edited draft",
+    "passed": true
+  },
+  {
+    "name": "real controller permits next explicit confirmation only with cleared consumed tip",
+    "passed": true
+  },
+  {
+    "name": "older sequence with the same key cannot clear a later selection",
+    "passed": true
+  },
+  {
+    "name": "ending confirmed rejection detaches key without consuming chosen tip",
+    "passed": true
+  }
+]

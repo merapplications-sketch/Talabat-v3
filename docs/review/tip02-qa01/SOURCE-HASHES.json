@@ -1,0 +1,8 @@
+{
+  "tests/tip02/build-client.py": "46ec53dc498039abec8f28dbf181245b579c08bd11f7e7e450ca6faffead9e0e",
+  "tests/tip02/ui.js": "273a80cdce5133ff3f2c1de5f652ab65e832548a87756c45368b0e2bb17752eb",
+  "tests/tip02-qa01/recovery.test.mjs": "13a38794a104b630f07a739272f629637a801cecbc0a49b34229014c6cce30e6",
+  "tests/tip02-qa01/README.md": "8f9f8a9ffca5cfafa784a9bab5723f5e098f4029d5c15f7a71e7bab702a6b443",
+  "generated/customer.html": "dc258f29082fb61cd051e1cd548e96d54a4f1b82cc62c37a2d60f9c7f6608118",
+  "generated/talabat-core.js": "1e515219465616c22d0839501f84b2a3f8e3b7472dc1a0f80b9cefa1d318e076"
+}

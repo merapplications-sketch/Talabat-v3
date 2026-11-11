@@ -1,0 +1,519 @@
+{
+  "scope": "Node VM generated UI; synthetic localStorage/RPC/transactional store, NOT browser or IndexedDB",
+  "results": [
+    {
+      "name": "created: every persisted completion checkpoint / later=null",
+      "passed": true
+    },
+    {
+      "name": "created: every persisted completion checkpoint / later=3",
+      "passed": true
+    },
+    {
+      "name": "created: every persisted completion checkpoint / later=99",
+      "passed": true
+    },
+    {
+      "name": "created: every persisted completion checkpoint / later=invalid",
+      "passed": true
+    },
+    {
+      "name": "replayed: every persisted completion checkpoint / later=null",
+      "passed": true
+    },
+    {
+      "name": "replayed: every persisted completion checkpoint / later=3",
+      "passed": true
+    },
+    {
+      "name": "replayed: every persisted completion checkpoint / later=99",
+      "passed": true
+    },
+    {
+      "name": "replayed: every persisted completion checkpoint / later=invalid",
+      "passed": true
+    },
+    {
+      "name": "historical_recovered: every persisted completion checkpoint / later=null",
+      "passed": true
+    },
+    {
+      "name": "historical_recovered: every persisted completion checkpoint / later=3",
+      "passed": true
+    },
+    {
+      "name": "historical_recovered: every persisted completion checkpoint / later=99",
+      "passed": true
+    },
+    {
+      "name": "historical_recovered: every persisted completion checkpoint / later=invalid",
+      "passed": true
+    },
+    {
+      "name": "recovery branch persists reset and detached key together",
+      "passed": true
+    },
+    {
+      "name": "failed completion storage write restores old key then recovers safely",
+      "passed": true
+    },
+    {
+      "name": "late response cannot retire a newer key or explicit tip",
+      "passed": true
+    },
+    {
+      "name": "foreign-tab saved draft is not overwritten by late success",
+      "passed": true
+    },
+    {
+      "name": "real controller frozen payload survives ACK loss and edited draft",
+      "passed": true
+    },
+    {
+      "name": "real controller permits next explicit confirmation only with cleared consumed tip",
+      "passed": true
+    },
+    {
+      "name": "older sequence with the same key cannot clear a later selection",
+      "passed": true
+    },
+    {
+      "name": "ending confirmed rejection detaches key without consuming chosen tip",
+      "passed": true
+    }
+  ],
+  "checkpoints": [
+    {
+      "status": "created",
+      "later": null,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": null,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": null,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": 3,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": 3,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": 3,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": 99,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": 99,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": 99,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": "invalid",
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": "invalid",
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "created",
+      "later": "invalid",
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": null,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": null,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": null,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": 3,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": 3,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": 3,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": 99,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": 99,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": 99,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": "invalid",
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": "invalid",
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "replayed",
+      "later": "invalid",
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": null,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": null,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": null,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 0,
+      "raw": "",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": 3,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": 3,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": 3,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 3,
+      "raw": "3",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": 99,
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": 99,
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": 99,
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 99,
+      "raw": "99",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": "invalid",
+      "boundary": "before completion save",
+      "pending": true,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": "invalid",
+      "boundary": "after save 0",
+      "pending": false,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    },
+    {
+      "status": "historical_recovered",
+      "later": "invalid",
+      "boundary": "after save 1",
+      "pending": false,
+      "tip": 99,
+      "raw": "invalid",
+      "cart": {
+        "newitem": 3
+      },
+      "key": null
+    }
+  ]
+}
