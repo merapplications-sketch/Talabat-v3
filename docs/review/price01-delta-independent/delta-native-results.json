@@ -1,0 +1,309 @@
+{
+  "source": "50b796985112002f4c47aa4dd2bd1373ffd7aeff",
+  "scope": "Native PostgreSQL17.6; synthetic fixture; loopback TCP",
+  "results": [
+    {
+      "case": "test_options_complete_all_entries",
+      "status": "PASS"
+    },
+    {
+      "case": "test_real_client_proofs_four_entries_and_replay",
+      "status": "PASS"
+    },
+    {
+      "case": "test_concurrent_decimal_payload_then_changed_proof",
+      "status": "PASS"
+    },
+    {
+      "case": "test_tcp_loss_and_recovery",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q14_full_fingerprint_sources_and_creator_metadata",
+      "status": "PASS"
+    }
+  ],
+  "observations": [
+    {
+      "case": "added",
+      "entry": "place_order",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "added",
+      "entry": "place_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "added",
+      "entry": "place_order104",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "added",
+      "entry": "security_private.create_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "removed",
+      "entry": "place_order",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "removed",
+      "entry": "place_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "removed",
+      "entry": "place_order104",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "removed",
+      "entry": "security_private.create_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "duplicate",
+      "entry": "place_order",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "duplicate",
+      "entry": "place_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "duplicate",
+      "entry": "place_order104",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "duplicate",
+      "entry": "security_private.create_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "identity",
+      "entry": "place_order",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "identity",
+      "entry": "place_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "identity",
+      "entry": "place_order104",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "identity",
+      "entry": "security_private.create_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "offset",
+      "entry": "place_order",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "offset",
+      "entry": "place_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "offset",
+      "entry": "place_order104",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "offset",
+      "entry": "security_private.create_order103",
+      "result": "price_changed",
+      "effects": 0
+    },
+    {
+      "case": "quantity",
+      "entry": "place_order",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "quantity",
+      "entry": "place_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "quantity",
+      "entry": "place_order104",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "quantity",
+      "entry": "security_private.create_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "positive-option",
+      "entry": "place_order",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "positive-option",
+      "entry": "place_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "positive-option",
+      "entry": "place_order104",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "positive-option",
+      "entry": "security_private.create_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "negative-option",
+      "entry": "place_order",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "negative-option",
+      "entry": "place_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "negative-option",
+      "entry": "place_order104",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "negative-option",
+      "entry": "security_private.create_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "discount-hh",
+      "entry": "place_order",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "discount-hh",
+      "entry": "place_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "discount-hh",
+      "entry": "place_order104",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "discount-hh",
+      "entry": "security_private.create_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "boundary-quantity",
+      "entry": "place_order",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "boundary-quantity",
+      "entry": "place_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "boundary-quantity",
+      "entry": "place_order104",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "boundary-quantity",
+      "entry": "security_private.create_order103",
+      "created_once": true,
+      "replay_unchanged": true
+    },
+    {
+      "case": "race",
+      "responses": [
+        {
+          "id": "1",
+          "key": "delta_concurrent",
+          "status": "created",
+          "input_match": true,
+          "contract_version": 1
+        },
+        {
+          "id": "1",
+          "key": "delta_concurrent",
+          "status": "replayed",
+          "input_match": true,
+          "contract_version": 1
+        },
+        {
+          "id": "1",
+          "key": "delta_concurrent",
+          "status": "replayed",
+          "input_match": true,
+          "contract_version": 1
+        }
+      ],
+      "changed_proof": {
+        "key": "delta_concurrent",
+        "reason": "idempotency_mismatch",
+        "status": "conflict"
+      }
+    },
+    {
+      "case": "tcp_before",
+      "orders_at_loss": 0,
+      "recovery": "created"
+    },
+    {
+      "case": "tcp_after",
+      "orders_at_loss": 1,
+      "recovery": "replayed"
+    }
+  ]
+}

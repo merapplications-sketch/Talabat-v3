@@ -1,0 +1,75 @@
+{
+  "source": "50b796985112002f4c47aa4dd2bd1373ffd7aeff",
+  "files": [
+    {
+      "name": "delta-report.md",
+      "bytes": 10146,
+      "sha256": "b45fe8771e593b475dfb5c819e87f2161e5a63a6cffcaaa1ef37c2dc451ab475"
+    },
+    {
+      "name": "delta-reproduce.md",
+      "bytes": 1569,
+      "sha256": "5fe32d051877ac1fd7c5bb94e9a2fb1c7ba9fabd0758ce268412105597c5fdbd"
+    },
+    {
+      "name": "delta-native.py",
+      "bytes": 6711,
+      "sha256": "2811dccdd69cce363af70c500778d2a754c2e2eb95eea414412ddbd5481743ee"
+    },
+    {
+      "name": "delta-client.mjs",
+      "bytes": 2790,
+      "sha256": "c8b38bfad237051d7a899a9b795df0d257e7e51429792d9f79347a97c743dc4e"
+    },
+    {
+      "name": "delta-native-results.json",
+      "bytes": 6900,
+      "sha256": "44c0084631c0672b487fcafe4892234cee675f618eab4b5ac450f4e66fc7457f"
+    },
+    {
+      "name": "delta-client-new.json",
+      "bytes": 545,
+      "sha256": "9c12f948b688fa5602c838d5f97cab4af2879c67935bc859ee0ec22f5e901512"
+    },
+    {
+      "name": "delta-client-prior.json",
+      "bytes": 2440,
+      "sha256": "9d2e3357c703183232c14e3dd31a3ba4658671258bbe6e6ba2f72f4334077a3f"
+    },
+    {
+      "name": "delta-proofs.json",
+      "bytes": 4687,
+      "sha256": "5e2a3931e79a92e3dbb52b94297fc37b4617dae3dfb7ed61287f56fb99464777"
+    },
+    {
+      "name": "delta-native.log",
+      "bytes": 651,
+      "sha256": "5cad41d7d2b203afd7ed5b80e21acd51978ffae16ffff16980e5404bf6b50f2c"
+    },
+    {
+      "name": "delta-source-integrity.json",
+      "bytes": 19638,
+      "sha256": "e64525996f9621b2a16d695767810027cab27f9f8c07b27bf8ca73d5131f8dbf"
+    },
+    {
+      "name": "delta-sql.diff",
+      "bytes": 1405,
+      "sha256": "40f26aa128f7be9d4be8d909e8f7c2a16ecd424a60857d99ae7c9c0b917fffef"
+    },
+    {
+      "name": "independent_price_native.py",
+      "bytes": 8461,
+      "sha256": "a41e422065677eb33a0696ba0a8c443acb08af909af996f4d5426e5506f9e356"
+    },
+    {
+      "name": "independent_price_boundaries.py",
+      "bytes": 2702,
+      "sha256": "97ffdc1dce15dc921015ab6974ef4195b788e161fb1dce9b300aad4e34582f78"
+    },
+    {
+      "name": "independent_price_client.mjs",
+      "bytes": 6561,
+      "sha256": "83eaf932d531dec2d3c67eba82f990c3a652d35361a13010d5428959edee2d09"
+    }
+  ]
+}

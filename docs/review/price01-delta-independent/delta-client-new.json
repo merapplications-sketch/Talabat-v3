@@ -1,0 +1,30 @@
+{
+  "source": "50b796985112002f4c47aa4dd2bd1373ffd7aeff",
+  "scope": "NODE VM / MOCK RPC",
+  "results": [
+    {
+      "name": "quantity",
+      "status": "PASS"
+    },
+    {
+      "name": "positive-option",
+      "status": "PASS"
+    },
+    {
+      "name": "negative-option",
+      "status": "PASS"
+    },
+    {
+      "name": "discount-hh",
+      "status": "PASS"
+    },
+    {
+      "name": "boundary-quantity",
+      "status": "PASS"
+    },
+    {
+      "name": "codec exact finite exponents and no tolerance",
+      "status": "PASS"
+    }
+  ]
+}

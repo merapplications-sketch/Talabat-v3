@@ -1,0 +1,10 @@
+test_options_complete_all_entries (__main__.Delta.test_options_complete_all_entries) ... ok
+test_real_client_proofs_four_entries_and_replay (__main__.Delta.test_real_client_proofs_four_entries_and_replay) ... ok
+test_concurrent_decimal_payload_then_changed_proof (__main__.Delta.test_concurrent_decimal_payload_then_changed_proof) ... ok
+test_tcp_loss_and_recovery (__main__.Delta.test_tcp_loss_and_recovery) ... ok
+test_Q14_full_fingerprint_sources_and_creator_metadata (builtins.Boundary.test_Q14_full_fingerprint_sources_and_creator_metadata) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.601s
+
+OK

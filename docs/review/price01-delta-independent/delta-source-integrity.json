@@ -1,0 +1,584 @@
+{
+  "source": "50b796985112002f4c47aa4dd2bd1373ffd7aeff",
+  "verified_test_files": 95,
+  "all_match": true,
+  "mismatches": [],
+  "changed_existing_files": [
+    "tests/price01-impl/candidate.sql",
+    "tests/price01-impl/helpers.sql",
+    "tests/price01-impl/ui.js"
+  ],
+  "generated_core_equal": true,
+  "checks": [
+    {
+      "path": "tests/native102/admission.py",
+      "git_blob": "0e36c5a28c022f1533a3a91f1129b46c921db3c9",
+      "expected": "0e36c5a28c022f1533a3a91f1129b46c921db3c9",
+      "match": true
+    },
+    {
+      "path": "tests/native102/candidate.sql",
+      "git_blob": "cd3041c794048a0dc7d2f9a0820fa94e61900592",
+      "expected": "cd3041c794048a0dc7d2f9a0820fa94e61900592",
+      "match": true
+    },
+    {
+      "path": "tests/native102/constraints.sql",
+      "git_blob": "43ab286c487ff4d168de39d9ba22f8dfa7fca87c",
+      "expected": "43ab286c487ff4d168de39d9ba22f8dfa7fca87c",
+      "match": true
+    },
+    {
+      "path": "tests/native102/native.py",
+      "git_blob": "17ec2efe0dc0575845dc1edc12c3323852b56cb3",
+      "expected": "17ec2efe0dc0575845dc1edc12c3323852b56cb3",
+      "match": true
+    },
+    {
+      "path": "tests/native102/replay.test.mjs",
+      "git_blob": "b4c626a8b5528224332469fcf3d4569715086301",
+      "expected": "b4c626a8b5528224332469fcf3d4569715086301",
+      "match": true
+    },
+    {
+      "path": "tests/native102/restore.py",
+      "git_blob": "4df0a900768ab8772e48a37a70b99ea0fcbb7c12",
+      "expected": "4df0a900768ab8772e48a37a70b99ea0fcbb7c12",
+      "match": true
+    },
+    {
+      "path": "tests/native102/tcp_proxy.py",
+      "git_blob": "4cf8d80848d6506069ea9b242d994f564796da1f",
+      "expected": "4cf8d80848d6506069ea9b242d994f564796da1f",
+      "match": true
+    },
+    {
+      "path": "tests/native103/admission.py",
+      "git_blob": "051619048194ae2bce896cc7f4b20645892743e8",
+      "expected": "051619048194ae2bce896cc7f4b20645892743e8",
+      "match": true
+    },
+    {
+      "path": "tests/native103/build-client.py",
+      "git_blob": "89f5072521bf22113ea382492b9c163d6e7a1f2b",
+      "expected": "89f5072521bf22113ea382492b9c163d6e7a1f2b",
+      "match": true
+    },
+    {
+      "path": "tests/native103/captured-dependency-hashes.json",
+      "git_blob": "b0578c95ad575c39313ecf0c167edc97b64d4073",
+      "expected": "b0578c95ad575c39313ecf0c167edc97b64d4073",
+      "match": true
+    },
+    {
+      "path": "tests/native103/client.js",
+      "git_blob": "9d23cf8ec21480bdfa733516e3f80c0356d0a0fa",
+      "expected": "9d23cf8ec21480bdfa733516e3f80c0356d0a0fa",
+      "match": true
+    },
+    {
+      "path": "tests/native103/client.test.mjs",
+      "git_blob": "e456a21b8df34076af7539ef47db7a5a53281968",
+      "expected": "e456a21b8df34076af7539ef47db7a5a53281968",
+      "match": true
+    },
+    {
+      "path": "tests/native103/dependencies.sql",
+      "git_blob": "7272feb9182ec9415454f82a53576a4b22710799",
+      "expected": "7272feb9182ec9415454f82a53576a4b22710799",
+      "match": true
+    },
+    {
+      "path": "tests/native103/fidelity.sql",
+      "git_blob": "2903bd4c479eadbdfb96f2d5e01bbd32ef36409f",
+      "expected": "2903bd4c479eadbdfb96f2d5e01bbd32ef36409f",
+      "match": true
+    },
+    {
+      "path": "tests/native103/functions.sql",
+      "git_blob": "1213dd340b04f7b330ed2f9c7ce7a87ea0731746",
+      "expected": "1213dd340b04f7b330ed2f9c7ce7a87ea0731746",
+      "match": true
+    },
+    {
+      "path": "tests/native103/migrate102.sql",
+      "git_blob": "3e33c3929958b51f274c0acd9ad792d2114875e6",
+      "expected": "3e33c3929958b51f274c0acd9ad792d2114875e6",
+      "match": true
+    },
+    {
+      "path": "tests/native103/restore.py",
+      "git_blob": "c3e298d9a3ef2a2384b3b5d6d11caa4767460af1",
+      "expected": "c3e298d9a3ef2a2384b3b5d6d11caa4767460af1",
+      "match": true
+    },
+    {
+      "path": "tests/native103/rollback.sql",
+      "git_blob": "e52763d063cae7094919f64067d9fa8475082568",
+      "expected": "e52763d063cae7094919f64067d9fa8475082568",
+      "match": true
+    },
+    {
+      "path": "tests/native103/schema.sql",
+      "git_blob": "a77cccdcf818d9509db39c643a600f5e59324143",
+      "expected": "a77cccdcf818d9509db39c643a600f5e59324143",
+      "match": true
+    },
+    {
+      "path": "tests/native103/test_sql.py",
+      "git_blob": "cbfe5da4be4ec0934289e03414542dc7336de970",
+      "expected": "cbfe5da4be4ec0934289e03414542dc7336de970",
+      "match": true
+    },
+    {
+      "path": "tests/native103/ui-source-hashes.json",
+      "git_blob": "3f2681e886a4835cfc61797e5a30925a5cad684e",
+      "expected": "3f2681e886a4835cfc61797e5a30925a5cad684e",
+      "match": true
+    },
+    {
+      "path": "tests/native103/ui.test.mjs",
+      "git_blob": "85c11809682109c15a9f3b8c73ad4de7c9dae32c",
+      "expected": "85c11809682109c15a9f3b8c73ad4de7c9dae32c",
+      "match": true
+    },
+    {
+      "path": "tests/native104/admission.py",
+      "git_blob": "71342502f31d4d0fde431f8b32a0538b8c84630c",
+      "expected": "71342502f31d4d0fde431f8b32a0538b8c84630c",
+      "match": true
+    },
+    {
+      "path": "tests/native104/browser.mjs",
+      "git_blob": "19f44957d1910eddbfa36b8bc00df88b794d4fa6",
+      "expected": "19f44957d1910eddbfa36b8bc00df88b794d4fa6",
+      "match": true
+    },
+    {
+      "path": "tests/native104/build-client.py",
+      "git_blob": "1ce91b1d7bcdc18cede10b50b3ce6cd8a63a9591",
+      "expected": "1ce91b1d7bcdc18cede10b50b3ce6cd8a63a9591",
+      "match": true
+    },
+    {
+      "path": "tests/native104/cart-regression.test.mjs",
+      "git_blob": "30f1f3b98194a001de5b1ade9047455f8cf5ed6f",
+      "expected": "30f1f3b98194a001de5b1ade9047455f8cf5ed6f",
+      "match": true
+    },
+    {
+      "path": "tests/native104/client.js",
+      "git_blob": "f85ce2a6ace8dab2f90032b1f461608df4470af9",
+      "expected": "f85ce2a6ace8dab2f90032b1f461608df4470af9",
+      "match": true
+    },
+    {
+      "path": "tests/native104/fast.mjs",
+      "git_blob": "3068578e91968b76d7b7246abfe6002b1fadea09",
+      "expected": "3068578e91968b76d7b7246abfe6002b1fadea09",
+      "match": true
+    },
+    {
+      "path": "tests/native104/functions.sql",
+      "git_blob": "1bea43015833abe92e82c43cf90d8996f83df8cf",
+      "expected": "1bea43015833abe92e82c43cf90d8996f83df8cf",
+      "match": true
+    },
+    {
+      "path": "tests/native104/lifecycle.sql",
+      "git_blob": "2f4980f5c30f45d03353f3268e09033a0412fcf8",
+      "expected": "2f4980f5c30f45d03353f3268e09033a0412fcf8",
+      "match": true
+    },
+    {
+      "path": "tests/native104/native.py",
+      "git_blob": "57bbec890c54769b8c71d52a59a4cf83e523f9a6",
+      "expected": "57bbec890c54769b8c71d52a59a4cf83e523f9a6",
+      "match": true
+    },
+    {
+      "path": "tests/native104/restore.py",
+      "git_blob": "ecbb71cd37d2950835b5d37d6974cdb1f3ec5fa5",
+      "expected": "ecbb71cd37d2950835b5d37d6974cdb1f3ec5fa5",
+      "match": true
+    },
+    {
+      "path": "tests/native104/rollback.sql",
+      "git_blob": "6637340318f82faabc15277400969f047cfd8883",
+      "expected": "6637340318f82faabc15277400969f047cfd8883",
+      "match": true
+    },
+    {
+      "path": "tests/native104/schema.sql",
+      "git_blob": "69fb7bce1264a49d6a6ae6aa29108dbb375c7af0",
+      "expected": "69fb7bce1264a49d6a6ae6aa29108dbb375c7af0",
+      "match": true
+    },
+    {
+      "path": "tests/native105/admission.py",
+      "git_blob": "50594a749704324c323bf2faf49755389a47268b",
+      "expected": "50594a749704324c323bf2faf49755389a47268b",
+      "match": true
+    },
+    {
+      "path": "tests/native105/baseline.py",
+      "git_blob": "5cdb1ec69103216f784c44f32fca33f59bb0c43b",
+      "expected": "5cdb1ec69103216f784c44f32fca33f59bb0c43b",
+      "match": true
+    },
+    {
+      "path": "tests/native105/browser-cases.mjs",
+      "git_blob": "ec95df4b821a244dbc9e840d909881b6e8817d56",
+      "expected": "ec95df4b821a244dbc9e840d909881b6e8817d56",
+      "match": true
+    },
+    {
+      "path": "tests/native105/browser.mjs",
+      "git_blob": "e410cab1b28f130583a9313316aa37ed6e76f4c5",
+      "expected": "e410cab1b28f130583a9313316aa37ed6e76f4c5",
+      "match": true
+    },
+    {
+      "path": "tests/native105/build-client.py",
+      "git_blob": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "expected": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "match": true
+    },
+    {
+      "path": "tests/native105/client.test.mjs",
+      "git_blob": "cc551f5f7e763d3c73a2bb40f083fc3c7eb2e13e",
+      "expected": "cc551f5f7e763d3c73a2bb40f083fc3c7eb2e13e",
+      "match": true
+    },
+    {
+      "path": "tests/native105/native.py",
+      "git_blob": "df56132324e9460abba4d4ddb9989d9e7c0403a5",
+      "expected": "df56132324e9460abba4d4ddb9989d9e7c0403a5",
+      "match": true
+    },
+    {
+      "path": "tests/native105/regression.py",
+      "git_blob": "e5a4b1889a58b7a726e8b747e6ac70c325e9447b",
+      "expected": "e5a4b1889a58b7a726e8b747e6ac70c325e9447b",
+      "match": true
+    },
+    {
+      "path": "tests/native105/resources.sql",
+      "git_blob": "bdc12ed1ac33297e3a482617d503f39bb96eb1aa",
+      "expected": "bdc12ed1ac33297e3a482617d503f39bb96eb1aa",
+      "match": true
+    },
+    {
+      "path": "tests/native105/restore.py",
+      "git_blob": "9cab6fcfb1781c6d3b2767c98ec7e28ba567e141",
+      "expected": "9cab6fcfb1781c6d3b2767c98ec7e28ba567e141",
+      "match": true
+    },
+    {
+      "path": "tests/native106/admission.py",
+      "git_blob": "1991c5a7bb2e08fd3d99ef2b005afc84eab3fc8f",
+      "expected": "1991c5a7bb2e08fd3d99ef2b005afc84eab3fc8f",
+      "match": true
+    },
+    {
+      "path": "tests/native106/baseline.py",
+      "git_blob": "9e6901bdadc89616d286136433af08855ae34103",
+      "expected": "9e6901bdadc89616d286136433af08855ae34103",
+      "match": true
+    },
+    {
+      "path": "tests/native106/client.test.mjs",
+      "git_blob": "b5c3d2d32d64c1e1f22f5c14f1a24d803992d82f",
+      "expected": "b5c3d2d32d64c1e1f22f5c14f1a24d803992d82f",
+      "match": true
+    },
+    {
+      "path": "tests/native106/isolation.sql",
+      "git_blob": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "expected": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "match": true
+    },
+    {
+      "path": "tests/native106/native.py",
+      "git_blob": "9f68b2369501285d74a5816599630190b854e011",
+      "expected": "9f68b2369501285d74a5816599630190b854e011",
+      "match": true
+    },
+    {
+      "path": "tests/native106/regression.py",
+      "git_blob": "3e7e38bc46909807d1d30149ba6304085cff5159",
+      "expected": "3e7e38bc46909807d1d30149ba6304085cff5159",
+      "match": true
+    },
+    {
+      "path": "tests/native106/resources.py",
+      "git_blob": "3c721419fbb81f7ea434f9102129314399f3e608",
+      "expected": "3c721419fbb81f7ea434f9102129314399f3e608",
+      "match": true
+    },
+    {
+      "path": "tests/native106/restore.py",
+      "git_blob": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "expected": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "match": true
+    },
+    {
+      "path": "tests/native96/faults.py",
+      "git_blob": "d82d25c8d467e55716380ed394e76b5aae53cf35",
+      "expected": "d82d25c8d467e55716380ed394e76b5aae53cf35",
+      "match": true
+    },
+    {
+      "path": "tests/native96/place_order.fixed.sql",
+      "git_blob": "1d455c249073008f5a054a18b21e5b0a1aeb746d",
+      "expected": "1d455c249073008f5a054a18b21e5b0a1aeb746d",
+      "match": true
+    },
+    {
+      "path": "tests/native96/restore.py",
+      "git_blob": "d43f1df42be7b6a13e0677b8eaab27e6b5a92a86",
+      "expected": "d43f1df42be7b6a13e0677b8eaab27e6b5a92a86",
+      "match": true
+    },
+    {
+      "path": "tests/native96/setup.sql",
+      "git_blob": "139ac6b55aaf9cbbebfd1a5d5efc432fbe9e6809",
+      "expected": "139ac6b55aaf9cbbebfd1a5d5efc432fbe9e6809",
+      "match": true
+    },
+    {
+      "path": "tests/native98/admission.py",
+      "git_blob": "02cc1829e2e2e4e78559c843746ba509c274a672",
+      "expected": "02cc1829e2e2e4e78559c843746ba509c274a672",
+      "match": true
+    },
+    {
+      "path": "tests/native98/place_order.fixed.sql",
+      "git_blob": "7e0fbec87940a714b844f354832cc4b57cfbbb7a",
+      "expected": "7e0fbec87940a714b844f354832cc4b57cfbbb7a",
+      "match": true
+    },
+    {
+      "path": "tests/native98/setup.sql",
+      "git_blob": "71bb31bb0e2af27b80b135e15271e86569b80725",
+      "expected": "71bb31bb0e2af27b80b135e15271e86569b80725",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/README.md",
+      "git_blob": "896e8997f9ee37beb1193b73f7e3933dd7dbb3af",
+      "expected": "896e8997f9ee37beb1193b73f7e3933dd7dbb3af",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/build-client.py",
+      "git_blob": "ae8f0e74a69cbd6bf7e0e94598e8875276007fea",
+      "expected": "ae8f0e74a69cbd6bf7e0e94598e8875276007fea",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/build-sql.py",
+      "git_blob": "5fba68d2edbebec550d24a53bd9ccb1f96f92c11",
+      "expected": "5fba68d2edbebec550d24a53bd9ccb1f96f92c11",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/candidate.sql",
+      "git_blob": "6cd361704782fd4f55e458f125ef5dc9731ef2a4",
+      "expected": "6cd361704782fd4f55e458f125ef5dc9731ef2a4",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/client.test.mjs",
+      "git_blob": "1c47d87bda2f20352a40815685f99cb10eb8bd35",
+      "expected": "1c47d87bda2f20352a40815685f99cb10eb8bd35",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/contract.js",
+      "git_blob": "67494d6339c3203dacd6b3054084405d8b9b6a31",
+      "expected": "67494d6339c3203dacd6b3054084405d8b9b6a31",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/helpers.sql",
+      "git_blob": "b7037e0bb91e37590a9631fd91a69f1232f58b97",
+      "expected": "b7037e0bb91e37590a9631fd91a69f1232f58b97",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/native.py",
+      "git_blob": "16cc0c26ab6cca3885407ae42e236acab95bd21a",
+      "expected": "16cc0c26ab6cca3885407ae42e236acab95bd21a",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/rollback.sql",
+      "git_blob": "f2a4939bef67d6c792e361b7f8ec7c3e1fa9efc0",
+      "expected": "f2a4939bef67d6c792e361b7f8ec7c3e1fa9efc0",
+      "match": true
+    },
+    {
+      "path": "tests/price01-impl/ui.js",
+      "git_blob": "8f65b7e6a4f597f0fb50819d46870eb0be98af82",
+      "expected": "8f65b7e6a4f597f0fb50819d46870eb0be98af82",
+      "match": true
+    },
+    {
+      "path": "tests/price01-qa-fix/README.md",
+      "git_blob": "b52536607ca3069c1818595542dd8f825f80f524",
+      "expected": "b52536607ca3069c1818595542dd8f825f80f524",
+      "match": true
+    },
+    {
+      "path": "tests/price01-qa-fix/client.test.mjs",
+      "git_blob": "102652a7709d1a689b975801ce876715b054350a",
+      "expected": "102652a7709d1a689b975801ce876715b054350a",
+      "match": true
+    },
+    {
+      "path": "tests/price01-qa-fix/native.py",
+      "git_blob": "90e8a6e9bc62c11a25e99cee291254da092d861c",
+      "expected": "90e8a6e9bc62c11a25e99cee291254da092d861c",
+      "match": true
+    },
+    {
+      "path": "tests/tip01/README.md",
+      "git_blob": "e4e1fb5d88626a1c0ee84bda582db94d8b47a17d",
+      "expected": "e4e1fb5d88626a1c0ee84bda582db94d8b47a17d",
+      "match": true
+    },
+    {
+      "path": "tests/tip01/acceptance.sql",
+      "git_blob": "51b4aed1989e48d0ef677d072737351cdf3aed3b",
+      "expected": "51b4aed1989e48d0ef677d072737351cdf3aed3b",
+      "match": true
+    },
+    {
+      "path": "tests/tip01/admission.py",
+      "git_blob": "4f5f07bc0379d49323d9ff4403e9dc73ded59fd5",
+      "expected": "4f5f07bc0379d49323d9ff4403e9dc73ded59fd5",
+      "match": true
+    },
+    {
+      "path": "tests/tip01/native.py",
+      "git_blob": "c53d18c57a64ce9043b492faa8fcee14a4e27ba1",
+      "expected": "c53d18c57a64ce9043b492faa8fcee14a4e27ba1",
+      "match": true
+    },
+    {
+      "path": "tests/tip01/regression.py",
+      "git_blob": "9704840b9aac6c61899100712175b00e23670ad7",
+      "expected": "9704840b9aac6c61899100712175b00e23670ad7",
+      "match": true
+    },
+    {
+      "path": "tests/tip01/restore.py",
+      "git_blob": "45480d67edbddfaf3031546f9d6feb239c7bd9a4",
+      "expected": "45480d67edbddfaf3031546f9d6feb239c7bd9a4",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/README.md",
+      "git_blob": "126808ece7ccbfb7e1bb206d57df4dbcf34f6433",
+      "expected": "126808ece7ccbfb7e1bb206d57df4dbcf34f6433",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/acceptance.sql",
+      "git_blob": "8007194d956635bcb1e18d2700fc8dbf7b301f08",
+      "expected": "8007194d956635bcb1e18d2700fc8dbf7b301f08",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/build-client.py",
+      "git_blob": "bb620adf3d31c8e176ad7257c2ea83080b2fea6a",
+      "expected": "bb620adf3d31c8e176ad7257c2ea83080b2fea6a",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/client.test.mjs",
+      "git_blob": "02d2a3109ca11b8b2085470747e616e588d10105",
+      "expected": "02d2a3109ca11b8b2085470747e616e588d10105",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/contract.js",
+      "git_blob": "28f2c1fec82db2f929466db5b28852df03ec6811",
+      "expected": "28f2c1fec82db2f929466db5b28852df03ec6811",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/controller.test.mjs",
+      "git_blob": "9bd2802e0c842e8844ea9c16457d4d32b4cb3f7d",
+      "expected": "9bd2802e0c842e8844ea9c16457d4d32b4cb3f7d",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/isolation-client.test.mjs",
+      "git_blob": "a524c73431b9f7a79d6794e69f5bb5653c41c66f",
+      "expected": "a524c73431b9f7a79d6794e69f5bb5653c41c66f",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/native.py",
+      "git_blob": "8f5e3732ba0bfa679eef78ea6388e7ddf63b7f1c",
+      "expected": "8f5e3732ba0bfa679eef78ea6388e7ddf63b7f1c",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/regression.py",
+      "git_blob": "52adbb6df8b544d12fbdd0bc0496e848ab6511a7",
+      "expected": "52adbb6df8b544d12fbdd0bc0496e848ab6511a7",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/retained.py",
+      "git_blob": "0290b97f61e8929c00a31cb8fd4e0a17eaf2725f",
+      "expected": "0290b97f61e8929c00a31cb8fd4e0a17eaf2725f",
+      "match": true
+    },
+    {
+      "path": "tests/tip02/ui.js",
+      "git_blob": "b0a18dcbc95859ff69cbc3e23e043eb8a7cf8d36",
+      "expected": "b0a18dcbc95859ff69cbc3e23e043eb8a7cf8d36",
+      "match": true
+    },
+    {
+      "path": "tests/tip02-null01/README.md",
+      "git_blob": "c6ed46597f7ef4673ad68b08e7ff779f21e3536d",
+      "expected": "c6ed46597f7ef4673ad68b08e7ff779f21e3536d",
+      "match": true
+    },
+    {
+      "path": "tests/tip02-null01/acceptance.sql",
+      "git_blob": "4aa8b45c310bbc69e25c2c6c2d38199824c62e9a",
+      "expected": "4aa8b45c310bbc69e25c2c6c2d38199824c62e9a",
+      "match": true
+    },
+    {
+      "path": "tests/tip02-null01/client.test.mjs",
+      "git_blob": "adfea86d954139985c8bd14e4452ad4aa40a9768",
+      "expected": "adfea86d954139985c8bd14e4452ad4aa40a9768",
+      "match": true
+    },
+    {
+      "path": "tests/tip02-null01/native.py",
+      "git_blob": "aaca194c31313a1094a69aff4cafe9016e520b5f",
+      "expected": "aaca194c31313a1094a69aff4cafe9016e520b5f",
+      "match": true
+    },
+    {
+      "path": "tests/tip02-qa01/README.md",
+      "git_blob": "8110437d38616f7970e41948b54282f095797c82",
+      "expected": "8110437d38616f7970e41948b54282f095797c82",
+      "match": true
+    },
+    {
+      "path": "tests/tip02-qa01/recovery.test.mjs",
+      "git_blob": "0587ae645c454120d8bc38b93476c8bca4fb02cd",
+      "expected": "0587ae645c454120d8bc38b93476c8bca4fb02cd",
+      "match": true
+    }
+  ]
+}

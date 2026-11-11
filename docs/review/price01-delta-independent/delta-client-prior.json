@@ -1,0 +1,93 @@
+{
+  "scope": "Node VM / exact generated UI + controller / mocked RPC and persistence",
+  "source": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+  "results": [
+    {
+      "name": "U02 unchanged cent prices must not create floating point price drift",
+      "result": "PASS"
+    },
+    {
+      "name": "U04 review cannot replace unresolved payload after ACK loss",
+      "result": "PASS"
+    },
+    {
+      "name": "U05 fresh controller after loss retains exact price payload",
+      "result": "PASS"
+    },
+    {
+      "name": "U07 equal-total component changes need explicit approval then confirm",
+      "result": "PASS"
+    },
+    {
+      "name": "U09 quantity three cent price remains exact in consent",
+      "result": "PASS"
+    }
+  ],
+  "observations": [
+    {
+      "case": "U02",
+      "sent": {
+        "version": 1,
+        "lines": [
+          {
+            "item_id": "40000000-0000-4000-8000-000000000092",
+            "qty": 1,
+            "base_price": "19.9",
+            "options": [
+              {
+                "id": "70000000-0000-4000-8000-000000000092",
+                "price_delta": "0.2"
+              }
+            ],
+            "unit_price": "20.1",
+            "restaurant_discount": "0",
+            "happy_hour_discount": "0",
+            "net_items": "20.1"
+          }
+        ],
+        "totals": {
+          "subtotal": "20.1",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "promo_discount": "0",
+          "points_value": "0",
+          "delivery_fee": "2",
+          "tip": "0",
+          "wallet_used": "0",
+          "cash_due": "22.1",
+          "total": "22.1"
+        }
+      }
+    },
+    {
+      "case": "U09",
+      "sent": {
+        "version": 1,
+        "lines": [
+          {
+            "item_id": "40000000-0000-4000-8000-000000000092",
+            "qty": 3,
+            "base_price": "20.1",
+            "options": [],
+            "unit_price": "20.1",
+            "restaurant_discount": "0",
+            "happy_hour_discount": "0",
+            "net_items": "60.3"
+          }
+        ],
+        "totals": {
+          "subtotal": "60.3",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "promo_discount": "0",
+          "points_value": "0",
+          "delivery_fee": "2",
+          "tip": "0",
+          "wallet_used": "0",
+          "cash_due": "62.3",
+          "total": "62.3"
+        }
+      }
+    }
+  ]
+}
