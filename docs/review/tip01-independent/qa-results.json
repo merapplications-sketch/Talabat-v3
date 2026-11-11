@@ -1,0 +1,92 @@
+{
+  "start_utc": "2026-11-11T07:34:43.903585+00:00",
+  "end_utc": "2026-11-11T07:34:47.514052+00:00",
+  "server": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "candidate": "bcf651a7784617545354d2c6d7fe3d74d026c611",
+  "source": "independent_review.py; fixture from106; explicit synthetic financial values",
+  "scope": "NATIVE POSTGRESQL; not hosted HTTP or browser",
+  "tests": 16,
+  "passed": true,
+  "results": [
+    {
+      "case": "test_01_baseline_and_catalog_delta",
+      "result": "PASS",
+      "seconds": 0.158
+    },
+    {
+      "case": "test_02_matrix_48_cases_distinct_financial_fixture",
+      "result": "PASS",
+      "seconds": 1.157
+    },
+    {
+      "case": "test_03_bound_history_3_and_sent20_stored0",
+      "result": "PASS",
+      "seconds": 0.161
+    },
+    {
+      "case": "test_04_unbound_historical_recovery_not_match_claim",
+      "result": "PASS",
+      "seconds": 0.091
+    },
+    {
+      "case": "test_05_payload_conflict_canonical_and_float_context",
+      "result": "PASS",
+      "seconds": 0.205
+    },
+    {
+      "case": "test_06_same_key_accounts_and_group_authorization",
+      "result": "PASS",
+      "seconds": 0.095
+    },
+    {
+      "case": "test_07_binding_failure_atomic_wallet_points_then_retry",
+      "result": "PASS",
+      "seconds": 0.165
+    },
+    {
+      "case": "test_08_stale_snapshot_closed_key_all_entries",
+      "result": "PASS",
+      "seconds": 0.269
+    },
+    {
+      "case": "test_09_supported_create_and_unsupported_no_effect",
+      "result": "PASS",
+      "seconds": 0.193
+    },
+    {
+      "case": "test_10_three_concurrent_retries_plus_conflicting_tip",
+      "result": "PASS",
+      "seconds": 0.072
+    },
+    {
+      "case": "test_11_real_tcp_cut_before_after_commit",
+      "result": "PASS",
+      "seconds": 0.097
+    },
+    {
+      "case": "test_12_closure_budget_and_no_false_terminal",
+      "result": "PASS",
+      "seconds": 0.096
+    },
+    {
+      "case": "test_13_order_limits_open_and_hour",
+      "result": "PASS",
+      "seconds": 0.322
+    },
+    {
+      "case": "test_14_rollback_reupgrade_preserves_keys_and_fences",
+      "result": "PASS",
+      "seconds": 0.138
+    },
+    {
+      "case": "test_15_unsupported_inputs_unchanged_not_approved",
+      "result": "PASS",
+      "seconds": 0.182
+    },
+    {
+      "case": "test_16_separate_database_dump_restore",
+      "result": "PASS",
+      "seconds": 0.207
+    }
+  ]
+}

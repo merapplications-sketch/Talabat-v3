@@ -1,0 +1,16 @@
+{
+  "verified_tip_source_sha256": 6,
+  "pinned_local_git_blobs_matched": 63,
+  "programmer_reported_results_consistent_with_logs": {
+    "tip01-results.json": 23,
+    "tip01-regression.json": 46,
+    "tip01-admission.json": 4,
+    "tip01-client105.json": 15,
+    "native106-client.json": 3
+  },
+  "cart_reported": 5,
+  "restore_reported": true,
+  "independent_execution": "qa-results.json only; programmer suites not rerun",
+  "browser": "BLOCKED; no repeat launch",
+  "remote_ci": "NOT RUN; no claim"
+}

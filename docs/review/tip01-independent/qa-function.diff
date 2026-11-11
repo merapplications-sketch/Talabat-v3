@@ -1,0 +1,11 @@
+--- 106 complete function
++++ TIP01 complete function
+@@ -93,7 +93,7 @@
+   v_dq := delivery_calc(p_store, p_lat, p_lng, auth.uid());
+   v_fee := (v_dq->>'fee')::numeric;
+   v_pay := case s.fee_type when 'free' then s.fee_base else (v_dq->>'fee_full')::numeric end;   -- courier is always paid; the platform covers free delivery
+-  v_tip := case when p_tip in (0,3,5,10) then p_tip else 0 end;
++  v_tip := case when p_tip in (0,3,5,10,20) then p_tip else 0 end;
+ 
+   begin
+     insert into orders(store_id, customer_id, customer_name, payment, address, lat, lng, client_key, leave_at_door, substitution, is_gift, scheduled_for, group_id, request_contract_version)

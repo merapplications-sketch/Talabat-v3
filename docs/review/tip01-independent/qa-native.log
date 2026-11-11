@@ -1,0 +1,21 @@
+test_01_baseline_and_catalog_delta (__main__.QA.test_01_baseline_and_catalog_delta) ... ok
+test_02_matrix_48_cases_distinct_financial_fixture (__main__.QA.test_02_matrix_48_cases_distinct_financial_fixture) ... ok
+test_03_bound_history_3_and_sent20_stored0 (__main__.QA.test_03_bound_history_3_and_sent20_stored0) ... ok
+test_04_unbound_historical_recovery_not_match_claim (__main__.QA.test_04_unbound_historical_recovery_not_match_claim) ... ok
+test_05_payload_conflict_canonical_and_float_context (__main__.QA.test_05_payload_conflict_canonical_and_float_context) ... ok
+test_06_same_key_accounts_and_group_authorization (__main__.QA.test_06_same_key_accounts_and_group_authorization) ... ok
+test_07_binding_failure_atomic_wallet_points_then_retry (__main__.QA.test_07_binding_failure_atomic_wallet_points_then_retry) ... ok
+test_08_stale_snapshot_closed_key_all_entries (__main__.QA.test_08_stale_snapshot_closed_key_all_entries) ... ok
+test_09_supported_create_and_unsupported_no_effect (__main__.QA.test_09_supported_create_and_unsupported_no_effect) ... ok
+test_10_three_concurrent_retries_plus_conflicting_tip (__main__.QA.test_10_three_concurrent_retries_plus_conflicting_tip) ... ok
+test_11_real_tcp_cut_before_after_commit (__main__.QA.test_11_real_tcp_cut_before_after_commit) ... ok
+test_12_closure_budget_and_no_false_terminal (__main__.QA.test_12_closure_budget_and_no_false_terminal) ... ok
+test_13_order_limits_open_and_hour (__main__.QA.test_13_order_limits_open_and_hour) ... ok
+test_14_rollback_reupgrade_preserves_keys_and_fences (__main__.QA.test_14_rollback_reupgrade_preserves_keys_and_fences) ... ok
+test_15_unsupported_inputs_unchanged_not_approved (__main__.QA.test_15_unsupported_inputs_unchanged_not_approved) ... ok
+test_16_separate_database_dump_restore (__main__.QA.test_16_separate_database_dump_restore) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 3.608s
+
+OK
