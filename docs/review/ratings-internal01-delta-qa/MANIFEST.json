@@ -1,0 +1,20 @@
+{
+  "source": "f5a45b7362ea5777633d559d3e9b4ff8e37620f8",
+  "files": [
+    {
+      "name": "REPORT-AR.md",
+      "bytes": 9076,
+      "sha256": "2f44488590792a5696976ebb8b8b468f53ef8066bf63ad6aea864941454e5a31"
+    },
+    {
+      "name": "independent.test.mjs",
+      "bytes": 5948,
+      "sha256": "5a105289b2f1858c81d51f063f5394592a75bb883d3d6ea5d828a680191ce779"
+    },
+    {
+      "name": "independent.tap",
+      "bytes": 1077,
+      "sha256": "39e47a7cab7387cecee0e15d2c1ccb2ced56d2420d06d648116c25755accf72e"
+    }
+  ]
+}

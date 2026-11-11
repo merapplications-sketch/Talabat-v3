@@ -1,0 +1,18 @@
+✔ IQ01 isolated branches; one internal low star wins over any Google/cache value; driver excluded (3.636749ms)
+✔ IQ02 full history across pages: first350 low + last350 high; never recent300 only (4.304606ms)
+✔ IQ03 positive half tie1.25 ->1.3; immutable summaries and query-bound pages (1.334401ms)
+✔ IQ04 truncation, duplicate, foreign scope, version drift and empty progress never return partial (1.810538ms)
+✔ IQ05 failures after first page and open errors do not leak exception contents (3.96943ms)
+✔ IQ06 resource limits and malformed values fail closed, not zero (1.315221ms)
+✔ IQ07 mid-page cancellation discards partial state and releases snapshot (0.568156ms)
+✔ IQ08 delayed open timeout closes late session and no ready result (10.2739ms)
+✔ IQ09 comments withheld without property access, not presented as empty published reviews (0.297469ms)
+✔ IQ10 unproven source metadata and missing driver-only evidence rejected (0.470218ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 167.275288
