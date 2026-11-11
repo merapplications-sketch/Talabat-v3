@@ -21,7 +21,7 @@ CANDIDATE_CORE=LOCAL_OUTPUT_DIR/talabat-core.js node tests/tip02/isolation-clien
 CANDIDATE_UI=LOCAL_OUTPUT_DIR/customer.html node tests/native105/client.test.mjs
 ```
 
-Run native104/cart-regression.test.mjs in a disposable copy whose public/customer.html is the generated TIP02 file. Expected:7 new PostgreSQL groups,10 retained/manual transport groups,46 server regression tests;10 UI VM groups,6 core/controller groups,3 isolation client groups,15 C03/C04 VM groups,5 cart tests. Actual IndexedDB/browser/Safari/HTTP remain separate gates. No new browser PASS is claimed.
+Run native104/cart-regression.test.mjs in a disposable copy whose public/customer.html is the generated TIP02 file. Expected:7 new PostgreSQL groups,10 retained/manual transport groups,46 server regression tests;11 UI VM groups,6 core/controller groups,3 isolation client groups,15 C03/C04 VM groups,5 cart tests. Actual IndexedDB/browser/Safari/HTTP remain separate gates. No new browser PASS is claimed.
 
 The generator preserves original105 files and emits local customer/core candidates. UI choices remain5/10/20 plusOther amount, withNone=0;3 is manual only. Draft/raw invalid text is preserved. Validation is before allocating a new key, also after quote awaits, but after existing-key recovery. Consumed tips reset after success; a later explicit selection is preserved as a new draft choice. The controller checks existing attempt ownership before new non-null payload validation; no HMAC format or attempt-store version changes.
 

@@ -25,6 +25,7 @@ function tipComplete02(key){
  S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;cartSave();
 }
 function tipRestore02(d){
+ if(!Object.prototype.hasOwnProperty.call(d,'tip')){S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=undefined;return;}
  S.tipMode02=d.tipMode02==='other'?'other':'quick';S.tipRaw02=typeof d.tipRaw02==='string'?d.tipRaw02:'';
  S.tipSentKey02=Object.prototype.hasOwnProperty.call(d,'tipSentKey02')?d.tipSentKey02:undefined;
  if(tipNumber02(d.tip).ok){S.tip=d.tip;if(!d.tipMode02&&![0,5,10,20].includes(d.tip)){S.tipMode02='other';S.tipRaw02=String(d.tip);}}
