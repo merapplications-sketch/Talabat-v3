@@ -1,0 +1,73 @@
+{
+  "scope": "NativePG17.6 / synthetic schema / pinned QA6 + affected retained11",
+  "results": [
+    {
+      "case": "test_Q04_final_added_zero_option_must_not_be_hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q09_real_UI_unchanged_price_must_be_accepted",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q11_final_removed_zero_option_must_not_be_hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q12_final_unrequested_offset_pair_must_not_be_hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q13_new_price_mismatch_four_entries",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q14_full_fingerprint_sources_and_creator_metadata",
+      "status": "PASS"
+    },
+    {
+      "case": "test_04_exact_acceptance_all_entries_tip99_once",
+      "status": "PASS"
+    },
+    {
+      "case": "test_06_options_discount_hh_and_promo",
+      "status": "PASS"
+    },
+    {
+      "case": "test_07_precision_no_tolerance_and_numeric_scale",
+      "status": "PASS"
+    },
+    {
+      "case": "test_08_final_persisted_mutation_is_rolled_back",
+      "status": "PASS"
+    },
+    {
+      "case": "test_09_points_promo_wallet_atomicity_and_acceptance",
+      "status": "PASS"
+    },
+    {
+      "case": "test_10_bound_and_unbound_history_null_tip3_and_ack",
+      "status": "PASS"
+    },
+    {
+      "case": "test_13_lock_wait_price_change_and_closed_key",
+      "status": "PASS"
+    },
+    {
+      "case": "test_14_isolation_all_entries_and_rollback_reupgrade",
+      "status": "PASS"
+    },
+    {
+      "case": "test_15_group_schedule_null_and_fingerprint_conflict",
+      "status": "PASS"
+    },
+    {
+      "case": "test_17_106_stale_snapshot_closed_key_regression",
+      "status": "PASS"
+    },
+    {
+      "case": "test_20_rejection_ack_loss_reconciles_same_closure",
+      "status": "PASS"
+    }
+  ]
+}

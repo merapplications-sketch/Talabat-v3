@@ -1,0 +1,299 @@
+{
+  "scope": "PostgreSQL17.6 / synthetic schema, triggers and identities / no hosted services",
+  "results": [
+    {
+      "case": "test_Q04_added_zero_option",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q12_offset_options",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q09_real_ui_quantity",
+      "status": "PASS"
+    },
+    {
+      "case": "test_option_identity_count_price_and_removal_all_entries",
+      "status": "PASS"
+    },
+    {
+      "case": "test_known_option_offset_prices_same_total",
+      "status": "PASS"
+    },
+    {
+      "case": "test_complete_options_different_storage_order_accept_replay",
+      "status": "PASS"
+    },
+    {
+      "case": "test_real_client_decimal_matrix",
+      "status": "PASS"
+    },
+    {
+      "case": "test_decimal_ack_concurrency_then_reprice",
+      "status": "PASS"
+    }
+  ],
+  "observations": [
+    {
+      "case": "qa_zero_extra",
+      "entry": "place_order",
+      "result": {
+        "sqlstate": "P0001",
+        "message": "price_changed"
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "qa_zero_extra",
+      "entry": "place_order103",
+      "result": {
+        "key": "qa_zero_extra1",
+        "reason": "price_changed",
+        "status": "rejected",
+        "price_review": {
+          "lines": [
+            {
+              "qty": 1,
+              "item_id": "40000000-0000-4000-8000-000000000092",
+              "options": [
+                {
+                  "id": "71000000-0000-4000-8000-000000000092",
+                  "price_delta": "0"
+                }
+              ],
+              "net_items": "20",
+              "base_price": "20",
+              "unit_price": "20",
+              "happy_hour_discount": "0",
+              "restaurant_discount": "0"
+            }
+          ],
+          "totals": {
+            "tip": "0",
+            "total": "22",
+            "cash_due": "17",
+            "subtotal": "20",
+            "wallet_used": "5",
+            "delivery_fee": "2",
+            "points_value": "0",
+            "promo_discount": "0",
+            "happy_hour_discount": "0",
+            "restaurant_discount": "0"
+          },
+          "version": 1
+        }
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "qa_zero_extra",
+      "entry": "place_order104",
+      "result": {
+        "key": "qa_zero_extra2",
+        "closed": true,
+        "reason": "price_changed",
+        "status": "rejected",
+        "closure_id": "b541dd23-f64a-40f1-a1b6-e27e16055b93",
+        "no_effects": true,
+        "price_review": {
+          "lines": [
+            {
+              "qty": 1,
+              "item_id": "40000000-0000-4000-8000-000000000092",
+              "options": [
+                {
+                  "id": "71000000-0000-4000-8000-000000000092",
+                  "price_delta": "0"
+                }
+              ],
+              "net_items": "20",
+              "base_price": "20",
+              "unit_price": "20",
+              "happy_hour_discount": "0",
+              "restaurant_discount": "0"
+            }
+          ],
+          "totals": {
+            "tip": "0",
+            "total": "22",
+            "cash_due": "17",
+            "subtotal": "20",
+            "wallet_used": "5",
+            "delivery_fee": "2",
+            "points_value": "0",
+            "promo_discount": "0",
+            "happy_hour_discount": "0",
+            "restaurant_discount": "0"
+          },
+          "version": 1
+        },
+        "state_version": 1
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "qa_zero_extra",
+      "entry": "security_private.create_order103",
+      "result": {
+        "sqlstate": "P0102",
+        "message": "price_changed"
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "qa_offset_extra",
+      "entry": "place_order",
+      "result": {
+        "sqlstate": "P0001",
+        "message": "price_changed"
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "qa_offset_extra",
+      "entry": "place_order103",
+      "result": {
+        "key": "qa_offset_extra1",
+        "reason": "price_changed",
+        "status": "rejected",
+        "price_review": {
+          "lines": [
+            {
+              "qty": 1,
+              "item_id": "40000000-0000-4000-8000-000000000092",
+              "options": [
+                {
+                  "id": "71000000-0000-4000-8000-000000000092",
+                  "price_delta": "1"
+                },
+                {
+                  "id": "72000000-0000-4000-8000-000000000092",
+                  "price_delta": "-1"
+                }
+              ],
+              "net_items": "20",
+              "base_price": "20",
+              "unit_price": "20",
+              "happy_hour_discount": "0",
+              "restaurant_discount": "0"
+            }
+          ],
+          "totals": {
+            "tip": "0",
+            "total": "22",
+            "cash_due": "17",
+            "subtotal": "20",
+            "wallet_used": "5",
+            "delivery_fee": "2",
+            "points_value": "0",
+            "promo_discount": "0",
+            "happy_hour_discount": "0",
+            "restaurant_discount": "0"
+          },
+          "version": 1
+        }
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "qa_offset_extra",
+      "entry": "place_order104",
+      "result": {
+        "key": "qa_offset_extra2",
+        "closed": true,
+        "reason": "price_changed",
+        "status": "rejected",
+        "closure_id": "b2171a2c-4a64-4251-a08c-caa1b64b52d0",
+        "no_effects": true,
+        "price_review": {
+          "lines": [
+            {
+              "qty": 1,
+              "item_id": "40000000-0000-4000-8000-000000000092",
+              "options": [
+                {
+                  "id": "71000000-0000-4000-8000-000000000092",
+                  "price_delta": "1"
+                },
+                {
+                  "id": "72000000-0000-4000-8000-000000000092",
+                  "price_delta": "-1"
+                }
+              ],
+              "net_items": "20",
+              "base_price": "20",
+              "unit_price": "20",
+              "happy_hour_discount": "0",
+              "restaurant_discount": "0"
+            }
+          ],
+          "totals": {
+            "tip": "0",
+            "total": "22",
+            "cash_due": "17",
+            "subtotal": "20",
+            "wallet_used": "5",
+            "delivery_fee": "2",
+            "points_value": "0",
+            "promo_discount": "0",
+            "happy_hour_discount": "0",
+            "restaurant_discount": "0"
+          },
+          "version": 1
+        },
+        "state_version": 1
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "qa_offset_extra",
+      "entry": "security_private.create_order103",
+      "result": {
+        "sqlstate": "P0102",
+        "message": "price_changed"
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    }
+  ]
+}

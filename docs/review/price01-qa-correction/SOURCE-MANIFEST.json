@@ -1,0 +1,101 @@
+{
+  "source_commit": "50b796985112002f4c47aa4dd2bd1373ffd7aeff",
+  "base_commit": "019d1038681661ad3441d64e0f202139c704adcc",
+  "branch": "review/price01-isolated-20261111",
+  "source_files": [
+    {
+      "path": "tests/price01-impl/candidate.sql",
+      "sha": "6cd361704782fd4f55e458f125ef5dc9731ef2a4",
+      "status": "modified",
+      "additions": 5,
+      "deletions": 2,
+      "bytes": 29154,
+      "sha256": "a43c3c3f8216a179380285b263200c4f20582b50b94ea8928198c26c4425504e"
+    },
+    {
+      "path": "tests/price01-impl/helpers.sql",
+      "sha": "b7037e0bb91e37590a9631fd91a69f1232f58b97",
+      "status": "modified",
+      "additions": 5,
+      "deletions": 2,
+      "bytes": 7391,
+      "sha256": "1246232a3211f6094aa08a661305f961d3e9ba9ddfa3f4e414eca569115e02da"
+    },
+    {
+      "path": "tests/price01-impl/ui.js",
+      "sha": "8f65b7e6a4f597f0fb50819d46870eb0be98af82",
+      "status": "modified",
+      "additions": 24,
+      "deletions": 4,
+      "bytes": 7784,
+      "sha256": "66e099d1fb60bfbb03b46d0c346401c0e54346bb5a6df74f89c05f18b4690974"
+    },
+    {
+      "path": "tests/price01-qa-fix/README.md",
+      "sha": "b52536607ca3069c1818595542dd8f825f80f524",
+      "status": "added",
+      "additions": 66,
+      "deletions": 0,
+      "bytes": 6484,
+      "sha256": "0fe608df49aab73e4f5405273281746a48ae4c8e3703285fbffe8e14c191823e"
+    },
+    {
+      "path": "tests/price01-qa-fix/client.test.mjs",
+      "sha": "102652a7709d1a689b975801ce876715b054350a",
+      "status": "added",
+      "additions": 21,
+      "deletions": 0,
+      "bytes": 5017,
+      "sha256": "4f17f49baa1cb8ade719783fb0a322210a0f5eada7e85a5b2f666f63c44c5576"
+    },
+    {
+      "path": "tests/price01-qa-fix/native.py",
+      "sha": "90e8a6e9bc62c11a25e99cee291254da092d861c",
+      "status": "added",
+      "additions": 132,
+      "deletions": 0,
+      "bytes": 10204,
+      "sha256": "5543a5c8b0a5986432e85bc741f6531ae13613ccbb16d18f40769da68b87f865"
+    }
+  ],
+  "qa_commit": "7ed670824340e6a7ac4df62844d96516205fbb7a",
+  "qa_files": [
+    {
+      "path": "docs/review/price01-independent/independent_price_boundaries.py",
+      "sha": "91c05b7c357afd0a986205c2bb358b82b878e6ee",
+      "sha256": "97ffdc1dce15dc921015ab6974ef4195b788e161fb1dce9b300aad4e34582f78"
+    },
+    {
+      "path": "docs/review/price01-independent/independent_price_client.mjs",
+      "sha": "7bfb52d1378809c35c99329c31f0cef177df81a7",
+      "sha256": "83eaf932d531dec2d3c67eba82f990c3a652d35361a13010d5428959edee2d09"
+    },
+    {
+      "path": "docs/review/price01-independent/independent_price_followup.py",
+      "sha": "6bd21b3f3bc9f37994e9b78bf25b6a97f54bc124",
+      "sha256": "1671e6455ca47d959946656e701592b97151221054e7bb02de114b580bb98d65"
+    },
+    {
+      "path": "docs/review/price01-independent/independent_price_native.py",
+      "sha": "b2c8551284db536c03bbd83b54c5d9ce8f89790c",
+      "sha256": "a41e422065677eb33a0696ba0a8c443acb08af909af996f4d5426e5506f9e356"
+    }
+  ],
+  "actions_count": 0,
+  "verified_at_utc": "2026-11-11T20:32:21.888462+00:00",
+  "generated": {
+    "generated-after/customer.html": {
+      "bytes": 568997,
+      "sha256": "f5420463d8ddf8eff2714abd2e6c76b3ad094c81c02127fd82cc27515e9180ec"
+    },
+    "generated-after/talabat-core.js": {
+      "bytes": 184638,
+      "sha256": "4b9170c0ce7838a7404df0d2ff72d696a771e0ffd64eeae80db6ef59866b581d"
+    },
+    "generated-before/talabat-core.js": {
+      "bytes": 184638,
+      "sha256": "4b9170c0ce7838a7404df0d2ff72d696a771e0ffd64eeae80db6ef59866b581d"
+    }
+  },
+  "non_execution": "No hosted SQL/HTTP, no deployment, no main merge, no accounts or permissions changes."
+}

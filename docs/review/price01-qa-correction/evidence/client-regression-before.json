@@ -1,0 +1,53 @@
+{
+  "scope": "Node VM / real UI / mocked RPC and persistence / not Chromium or Safari",
+  "results": [
+    {
+      "name": "R01 U09 literal 20.1 x 3 and real submitted proof",
+      "status": "FAIL",
+      "detail": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '60.300000000000004'\n- '60.3'\n       ^\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '60.300000000000004'\n- '60.3'\n       ^\n\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:11:219\n    at test (file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:8:39)\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:11:7\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:647:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+    },
+    {
+      "name": "R02 options decimal addition and quantity",
+      "status": "FAIL",
+      "detail": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '60.300000000000004'\n- '60.3'\n       ^\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '60.300000000000004'\n- '60.3'\n       ^\n\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:12:234\n    at test (file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:8:39)\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:12:7"
+    },
+    {
+      "name": "R03 per-line discount and HH subtraction exact",
+      "status": "FAIL",
+      "detail": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '3.0100000000000002'\n- '3.01'\n       ^\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '3.0100000000000002'\n- '3.01'\n       ^\n\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:13:198\n    at test (file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:8:39)\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:13:7"
+    },
+    {
+      "name": "R04 multiple lines exact subtotal",
+      "status": "PASS"
+    },
+    {
+      "name": "R05 finite small values use plain decimals without rounding",
+      "status": "FAIL",
+      "detail": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(x.c.S.priceShown01)\n",
+      "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(x.c.S.priceShown01)\n\n    at proof (file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:10:50)\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:15:203\n    at test (file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:8:39)\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:15:7"
+    },
+    {
+      "name": "R06 unsupported/nonfinite representations fail closed",
+      "status": "PASS"
+    },
+    {
+      "name": "R07 negative option is not rounded or hidden",
+      "status": "FAIL",
+      "detail": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '60.300000000000004'\n- '60.3'\n       ^\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '60.300000000000004'\n- '60.3'\n       ^\n\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:17:252\n    at test (file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:8:39)\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:17:7"
+    },
+    {
+      "name": "R08 capped promo uses exact eligible line sum",
+      "status": "FAIL",
+      "detail": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '0.30000000000000004'\n- '0.3'\n      ^\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '0.30000000000000004'\n- '0.3'\n      ^\n\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:18:224\n    at test (file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:8:39)\n    at file:///workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/client.test.mjs:18:7"
+    },
+    {
+      "name": "R09 no tolerance for genuine fine-price change",
+      "status": "PASS"
+    }
+  ]
+}

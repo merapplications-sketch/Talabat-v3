@@ -1,0 +1,10 @@
+{
+  "scope": "PostgreSQL17.6 / synthetic schema, triggers and identities / no hosted services",
+  "results": [
+    {
+      "case": "test_real_client_decimal_matrix",
+      "status": "PASS"
+    }
+  ],
+  "observations": []
+}

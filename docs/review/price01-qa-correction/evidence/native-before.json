@@ -1,0 +1,21 @@
+{
+  "scope": "PostgreSQL17.6 / synthetic schema, triggers and identities / no hosted services",
+  "results": [
+    {
+      "case": "test_Q04_added_zero_option",
+      "status": "FAIL",
+      "detail": "Traceback (most recent call last):\n  File \"/workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/native.py\", line 31, in test_Q04_added_zero_option\n    self.reject_all('qa_zero_extra',[{'id':EX,'p':0}])\n  File \"/workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/native.py\", line 27, in reject_all\n    p=request(key+str(i));before=self.snapshot();r=self.reject_price(p,fn)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"fixture_only\", line 30, in reject_price\nAssertionError: 1 is not an instance of <class 'dict'> : must reject, not return a saved order\n"
+    },
+    {
+      "case": "test_Q12_offset_options",
+      "status": "FAIL",
+      "detail": "Traceback (most recent call last):\n  File \"/workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/native.py\", line 33, in test_Q12_offset_options\n    self.reject_all('qa_offset_extra',[{'id':EX,'p':1},{'id':EY,'p':-1}])\n  File \"/workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/native.py\", line 27, in reject_all\n    p=request(key+str(i));before=self.snapshot();r=self.reject_price(p,fn)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"fixture_only\", line 30, in reject_price\nAssertionError: 1 is not an instance of <class 'dict'> : must reject, not return a saved order\n"
+    },
+    {
+      "case": "test_Q09_real_ui_quantity",
+      "status": "FAIL",
+      "detail": "Traceback (most recent call last):\n  File \"/workspace/scratch/2395d442bd66/price01-qa-fix/tests/price01-qa-fix/native.py\", line 40, in test_Q09_real_ui_quantity\n    oid=r if isinstance(r,int) else r.get('id');self.assertIsNotNone(oid,r)\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: unexpectedly None : {'sqlstate': 'P0001', 'message': 'price_changed'}\n"
+    }
+  ],
+  "observations": []
+}

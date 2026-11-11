@@ -1,0 +1,41 @@
+{
+  "scope": "Node VM / real UI / mocked RPC and persistence / not Chromium or Safari",
+  "results": [
+    {
+      "name": "R01 U09 literal 20.1 x 3 and real submitted proof",
+      "status": "PASS"
+    },
+    {
+      "name": "R02 options decimal addition and quantity",
+      "status": "PASS"
+    },
+    {
+      "name": "R03 per-line discount and HH subtraction exact",
+      "status": "PASS"
+    },
+    {
+      "name": "R04 multiple lines exact subtotal",
+      "status": "PASS"
+    },
+    {
+      "name": "R05 finite small values use plain decimals without rounding",
+      "status": "PASS"
+    },
+    {
+      "name": "R06 unsupported/nonfinite representations fail closed",
+      "status": "PASS"
+    },
+    {
+      "name": "R07 negative option is not rounded or hidden",
+      "status": "PASS"
+    },
+    {
+      "name": "R08 capped promo uses exact eligible line sum",
+      "status": "PASS"
+    },
+    {
+      "name": "R09 no tolerance for genuine fine-price change",
+      "status": "PASS"
+    }
+  ]
+}

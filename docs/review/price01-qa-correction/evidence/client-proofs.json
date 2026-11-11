@@ -1,0 +1,231 @@
+[
+  {
+    "name": "quantity",
+    "price": "20.1",
+    "qty": 3,
+    "value": {
+      "version": 1,
+      "lines": [
+        {
+          "item_id": "40000000-0000-4000-8000-000000000092",
+          "qty": 3,
+          "base_price": "20.1",
+          "options": [],
+          "unit_price": "20.1",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "net_items": "60.3"
+        }
+      ],
+      "totals": {
+        "subtotal": "60.3",
+        "restaurant_discount": "0",
+        "happy_hour_discount": "0",
+        "promo_discount": "0",
+        "points_value": "0",
+        "delivery_fee": "2",
+        "tip": "0",
+        "wallet_used": "0",
+        "cash_due": "62.3",
+        "total": "62.3"
+      }
+    }
+  },
+  {
+    "name": "options",
+    "price": "19.9",
+    "qty": 3,
+    "option": ".2",
+    "value": {
+      "version": 1,
+      "lines": [
+        {
+          "item_id": "40000000-0000-4000-8000-000000000092",
+          "qty": 3,
+          "base_price": "19.9",
+          "options": [
+            {
+              "id": "70000000-0000-4000-8000-000000000092",
+              "price_delta": "0.2"
+            }
+          ],
+          "unit_price": "20.1",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "net_items": "60.3"
+        }
+      ],
+      "totals": {
+        "subtotal": "60.3",
+        "restaurant_discount": "0",
+        "happy_hour_discount": "0",
+        "promo_discount": "0",
+        "points_value": "0",
+        "delivery_fee": "2",
+        "tip": "0",
+        "wallet_used": "0",
+        "cash_due": "62.3",
+        "total": "62.3"
+      }
+    }
+  },
+  {
+    "name": "discount",
+    "price": "20.1",
+    "qty": 3,
+    "rd": 5,
+    "hh": 10,
+    "value": {
+      "version": 1,
+      "lines": [
+        {
+          "item_id": "40000000-0000-4000-8000-000000000092",
+          "qty": 3,
+          "base_price": "20.1",
+          "options": [],
+          "unit_price": "20.1",
+          "restaurant_discount": "3.02",
+          "happy_hour_discount": "3.01",
+          "net_items": "54.27"
+        }
+      ],
+      "totals": {
+        "subtotal": "60.3",
+        "restaurant_discount": "3.02",
+        "happy_hour_discount": "3.01",
+        "promo_discount": "0",
+        "points_value": "0",
+        "delivery_fee": "2",
+        "tip": "0",
+        "wallet_used": "0",
+        "cash_due": "56.27",
+        "total": "56.27"
+      }
+    }
+  },
+  {
+    "name": "multiple",
+    "price": "20.1",
+    "second": "20.2",
+    "qty": 1,
+    "value": {
+      "version": 1,
+      "lines": [
+        {
+          "item_id": "40000000-0000-4000-8000-000000000092",
+          "qty": 1,
+          "base_price": "20.1",
+          "options": [],
+          "unit_price": "20.1",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "net_items": "20.1"
+        },
+        {
+          "item_id": "41000000-0000-4000-8000-000000000092",
+          "qty": 1,
+          "base_price": "20.2",
+          "options": [],
+          "unit_price": "20.2",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "net_items": "20.2"
+        }
+      ],
+      "totals": {
+        "subtotal": "40.3",
+        "restaurant_discount": "0",
+        "happy_hour_discount": "0",
+        "promo_discount": "0",
+        "points_value": "0",
+        "delivery_fee": "2",
+        "tip": "0",
+        "wallet_used": "0",
+        "cash_due": "42.3",
+        "total": "42.3"
+      }
+    }
+  },
+  {
+    "name": "negative_option",
+    "price": "20.3",
+    "qty": 3,
+    "option": "-.2",
+    "value": {
+      "version": 1,
+      "lines": [
+        {
+          "item_id": "40000000-0000-4000-8000-000000000092",
+          "qty": 3,
+          "base_price": "20.3",
+          "options": [
+            {
+              "id": "70000000-0000-4000-8000-000000000092",
+              "price_delta": "-0.2"
+            }
+          ],
+          "unit_price": "20.1",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "net_items": "60.3"
+        }
+      ],
+      "totals": {
+        "subtotal": "60.3",
+        "restaurant_discount": "0",
+        "happy_hour_discount": "0",
+        "promo_discount": "0",
+        "points_value": "0",
+        "delivery_fee": "2",
+        "tip": "0",
+        "wallet_used": "0",
+        "cash_due": "62.3",
+        "total": "62.3"
+      }
+    }
+  },
+  {
+    "name": "promo_cap",
+    "price": "0.1",
+    "second": "0.2",
+    "qty": 1,
+    "promo": 1,
+    "value": {
+      "version": 1,
+      "lines": [
+        {
+          "item_id": "40000000-0000-4000-8000-000000000092",
+          "qty": 1,
+          "base_price": "0.1",
+          "options": [],
+          "unit_price": "0.1",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "net_items": "0.1"
+        },
+        {
+          "item_id": "41000000-0000-4000-8000-000000000092",
+          "qty": 1,
+          "base_price": "0.2",
+          "options": [],
+          "unit_price": "0.2",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "net_items": "0.2"
+        }
+      ],
+      "totals": {
+        "subtotal": "0.3",
+        "restaurant_discount": "0",
+        "happy_hour_discount": "0",
+        "promo_discount": "0.3",
+        "points_value": "0",
+        "delivery_fee": "2",
+        "tip": "0",
+        "wallet_used": "0",
+        "cash_due": "5",
+        "total": "5"
+      }
+    }
+  }
+]

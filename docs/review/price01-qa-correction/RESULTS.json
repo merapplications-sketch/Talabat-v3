@@ -1,0 +1,228 @@
+{
+  "source_commit": "50b796985112002f4c47aa4dd2bd1373ffd7aeff",
+  "timestamp_utc": "2026-11-11T20:32:21.888462+00:00",
+  "scope": "Local only; separate synthetic PostgreSQL and Node VM, no browser/hosted proof",
+  "native_targeted": [
+    {
+      "case": "test_Q04_added_zero_option",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q12_offset_options",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q09_real_ui_quantity",
+      "status": "PASS"
+    },
+    {
+      "case": "test_option_identity_count_price_and_removal_all_entries",
+      "status": "PASS"
+    },
+    {
+      "case": "test_known_option_offset_prices_same_total",
+      "status": "PASS"
+    },
+    {
+      "case": "test_complete_options_different_storage_order_accept_replay",
+      "status": "PASS"
+    },
+    {
+      "case": "test_real_client_decimal_matrix",
+      "status": "PASS"
+    },
+    {
+      "case": "test_decimal_ack_concurrency_then_reprice",
+      "status": "PASS"
+    }
+  ],
+  "native_retained_and_pinned_qa": [
+    {
+      "case": "test_Q04_final_added_zero_option_must_not_be_hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q09_real_UI_unchanged_price_must_be_accepted",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q11_final_removed_zero_option_must_not_be_hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q12_final_unrequested_offset_pair_must_not_be_hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q13_new_price_mismatch_four_entries",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q14_full_fingerprint_sources_and_creator_metadata",
+      "status": "PASS"
+    },
+    {
+      "case": "test_04_exact_acceptance_all_entries_tip99_once",
+      "status": "PASS"
+    },
+    {
+      "case": "test_06_options_discount_hh_and_promo",
+      "status": "PASS"
+    },
+    {
+      "case": "test_07_precision_no_tolerance_and_numeric_scale",
+      "status": "PASS"
+    },
+    {
+      "case": "test_08_final_persisted_mutation_is_rolled_back",
+      "status": "PASS"
+    },
+    {
+      "case": "test_09_points_promo_wallet_atomicity_and_acceptance",
+      "status": "PASS"
+    },
+    {
+      "case": "test_10_bound_and_unbound_history_null_tip3_and_ack",
+      "status": "PASS"
+    },
+    {
+      "case": "test_13_lock_wait_price_change_and_closed_key",
+      "status": "PASS"
+    },
+    {
+      "case": "test_14_isolation_all_entries_and_rollback_reupgrade",
+      "status": "PASS"
+    },
+    {
+      "case": "test_15_group_schedule_null_and_fingerprint_conflict",
+      "status": "PASS"
+    },
+    {
+      "case": "test_17_106_stale_snapshot_closed_key_regression",
+      "status": "PASS"
+    },
+    {
+      "case": "test_20_rejection_ack_loss_reconciles_same_closure",
+      "status": "PASS"
+    }
+  ],
+  "client_targeted": [
+    {
+      "name": "R01 U09 literal 20.1 x 3 and real submitted proof",
+      "status": "PASS"
+    },
+    {
+      "name": "R02 options decimal addition and quantity",
+      "status": "PASS"
+    },
+    {
+      "name": "R03 per-line discount and HH subtraction exact",
+      "status": "PASS"
+    },
+    {
+      "name": "R04 multiple lines exact subtotal",
+      "status": "PASS"
+    },
+    {
+      "name": "R05 finite small values use plain decimals without rounding",
+      "status": "PASS"
+    },
+    {
+      "name": "R06 unsupported/nonfinite representations fail closed",
+      "status": "PASS"
+    },
+    {
+      "name": "R07 negative option is not rounded or hidden",
+      "status": "PASS"
+    },
+    {
+      "name": "R08 capped promo uses exact eligible line sum",
+      "status": "PASS"
+    },
+    {
+      "name": "R09 no tolerance for genuine fine-price change",
+      "status": "PASS"
+    }
+  ],
+  "client_retained": [
+    {
+      "name": "PUI01 freezes displayed price into submitted payload",
+      "passed": true
+    },
+    {
+      "name": "PUI02 changed price requires closure and two explicit actions",
+      "passed": true
+    },
+    {
+      "name": "PUI03 edited cart invalidates review without ending key",
+      "passed": true
+    },
+    {
+      "name": "PUI04 late rejection cannot install a review over newer inputs",
+      "passed": true
+    },
+    {
+      "name": "PUI05 loss of ACK keeps original price payload and key",
+      "passed": true
+    },
+    {
+      "name": "PUI07 catalog changes since displayed checkout cannot be silently approved",
+      "passed": true
+    },
+    {
+      "name": "PUI08 stale approved review confirm cannot submit a different price",
+      "passed": true
+    },
+    {
+      "name": "PUI09 fresh display after edit replaces obsolete approval safely",
+      "passed": true
+    },
+    {
+      "name": "PUI10 completion checkpoints preserve cart and consume only sent tip",
+      "passed": true
+    },
+    {
+      "name": "PUI11 late success cannot retire a newer key or sequence",
+      "passed": true
+    },
+    {
+      "name": "PUI12 C04 newer and ABA context survives old bad_time",
+      "passed": true
+    },
+    {
+      "name": "PUI16 edits during closure verification survive without stale approval",
+      "passed": true
+    },
+    {
+      "name": "PUI17 equal total does not hide changed displayed item prices",
+      "passed": true
+    }
+  ],
+  "client_pinned_qa": [
+    {
+      "name": "U01 finite small option must serialize to supported decimal",
+      "result": "PASS"
+    },
+    {
+      "name": "U02 unchanged cent prices must not create floating point price drift",
+      "result": "PASS"
+    },
+    {
+      "name": "U09 quantity three cent price remains exact in consent",
+      "result": "PASS"
+    }
+  ],
+  "unique_test_cases_by_runner": {
+    "native": 25,
+    "node_vm": 25
+  },
+  "cross_layer_cases": 6,
+  "notes": [
+    "Cross-layer test was extended from5 to6 cases (promo cap); only that method was rerun after its fixture-only change.",
+    "Native initial test setup used ON CONFLICT on fixture item_options without a unique constraint; corrected test setup only, no schema or assertions weakened.",
+    "Native bootstrap initially used SQL_ASCII; a separate fresh UTF8 cluster was initialized before real tests.",
+    "Original QA Q10 is a diagnostic workaround requiring the old U09 error; not an acceptance assertion after correction.",
+    "Native fixture dependencies and identity claims are synthetic; PostgreSQL engine/TCP cuts/concurrent connections are real.",
+    "Old accepted entire suites not rerun; no new hosted or browser acceptance."
+  ]
+}

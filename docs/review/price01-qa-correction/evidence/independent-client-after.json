@@ -1,0 +1,129 @@
+{
+  "executed_candidate": "50b796985112002f4c47aa4dd2bd1373ffd7aeff",
+  "harness_commit": "7ed670824340e6a7ac4df62844d96516205fbb7a",
+  "note": "The unmodified upstream script hardcodes its original source field. It is retained below, not the identity of the candidate executed for this run. Source binding is in SOURCE-MANIFEST.json.",
+  "upstream_unmodified_output": {
+    "scope": "Node VM / exact generated UI + controller / mocked RPC and persistence",
+    "source": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+    "results": [
+      {
+        "name": "U01 finite small option must serialize to supported decimal",
+        "result": "PASS"
+      },
+      {
+        "name": "U02 unchanged cent prices must not create floating point price drift",
+        "result": "PASS"
+      },
+      {
+        "name": "U09 quantity three cent price remains exact in consent",
+        "result": "PASS"
+      }
+    ],
+    "observations": [
+      {
+        "case": "U01",
+        "shown": {
+          "context": "[\"synthetic-account\",\"[{\\\"40000000-0000-4000-8000-000000000092\\\":1},null,\\\"store\\\",0,\\\"cash\\\",null,null,null,null,null,null,null,null,null,null,null,null,null,null]\",{\"lat\":38,\"lng\":68},{\"version\":1,\"lines\":[{\"item_id\":\"40000000-0000-4000-8000-000000000092\",\"qty\":1,\"base_price\":\"20\",\"options\":[{\"id\":\"70000000-0000-4000-8000-000000000092\",\"price_delta\":\"0.0000001\"}],\"unit_price\":\"20\",\"restaurant_discount\":\"0\",\"happy_hour_discount\":\"0\",\"net_items\":\"20\"}],\"totals\":{\"subtotal\":\"20\",\"restaurant_discount\":\"0\",\"happy_hour_discount\":\"0\",\"promo_discount\":\"0\",\"points_value\":\"0\",\"delivery_fee\":\"2\",\"tip\":\"0\",\"wallet_used\":\"0\",\"cash_due\":\"22\",\"total\":\"22\"}}]",
+          "value": {
+            "version": 1,
+            "lines": [
+              {
+                "item_id": "40000000-0000-4000-8000-000000000092",
+                "qty": 1,
+                "base_price": "20",
+                "options": [
+                  {
+                    "id": "70000000-0000-4000-8000-000000000092",
+                    "price_delta": "0.0000001"
+                  }
+                ],
+                "unit_price": "20",
+                "restaurant_discount": "0",
+                "happy_hour_discount": "0",
+                "net_items": "20"
+              }
+            ],
+            "totals": {
+              "subtotal": "20",
+              "restaurant_discount": "0",
+              "happy_hour_discount": "0",
+              "promo_discount": "0",
+              "points_value": "0",
+              "delivery_fee": "2",
+              "tip": "0",
+              "wallet_used": "0",
+              "cash_due": "22",
+              "total": "22"
+            }
+          }
+        },
+        "optionPrice": 1e-07
+      },
+      {
+        "case": "U02",
+        "sent": {
+          "version": 1,
+          "lines": [
+            {
+              "item_id": "40000000-0000-4000-8000-000000000092",
+              "qty": 1,
+              "base_price": "19.9",
+              "options": [
+                {
+                  "id": "70000000-0000-4000-8000-000000000092",
+                  "price_delta": "0.2"
+                }
+              ],
+              "unit_price": "20.1",
+              "restaurant_discount": "0",
+              "happy_hour_discount": "0",
+              "net_items": "20.1"
+            }
+          ],
+          "totals": {
+            "subtotal": "20.1",
+            "restaurant_discount": "0",
+            "happy_hour_discount": "0",
+            "promo_discount": "0",
+            "points_value": "0",
+            "delivery_fee": "2",
+            "tip": "0",
+            "wallet_used": "0",
+            "cash_due": "22.1",
+            "total": "22.1"
+          }
+        }
+      },
+      {
+        "case": "U09",
+        "sent": {
+          "version": 1,
+          "lines": [
+            {
+              "item_id": "40000000-0000-4000-8000-000000000092",
+              "qty": 3,
+              "base_price": "20.1",
+              "options": [],
+              "unit_price": "20.1",
+              "restaurant_discount": "0",
+              "happy_hour_discount": "0",
+              "net_items": "60.3"
+            }
+          ],
+          "totals": {
+            "subtotal": "60.3",
+            "restaurant_discount": "0",
+            "happy_hour_discount": "0",
+            "promo_discount": "0",
+            "points_value": "0",
+            "delivery_fee": "2",
+            "tip": "0",
+            "wallet_used": "0",
+            "cash_due": "62.3",
+            "total": "62.3"
+          }
+        }
+      }
+    ]
+  }
+}
