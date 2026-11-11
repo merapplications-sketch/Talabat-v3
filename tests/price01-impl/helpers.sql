@@ -44,8 +44,11 @@ create or replace function security_private.price01_line(item uuid,q integer,u n
 language sql immutable set search_path=pg_catalog as $$
 select jsonb_build_object('item_id',item,'qty',q,'base_price',trim_scale(u-coalesce((select sum((o->>'p')::numeric) from jsonb_array_elements(snap) o),0))::text,
  'unit_price',trim_scale(u)::text,'restaurant_discount',trim_scale(rd)::text,'happy_hour_discount',trim_scale(ad-rd)::text,'net_items',trim_scale(u*q-ad)::text,
- 'options',coalesce((select jsonb_agg(jsonb_build_object('id',x.id,'price_delta',trim_scale((o->>'p')::numeric)::text) order by x.ord)
- from jsonb_array_elements_text(opts) with ordinality x(id,ord) join jsonb_array_elements(snap) o on o->>'id'=x.id),'[]'::jsonb))
+ -- Visit EVERY saved option once. opts supplies ordering only, never filtering.
+ -- Unknown IDs and repeated saved entries must survive into the strict comparison.
+ 'options',coalesce((select jsonb_agg(jsonb_build_object('id',s.o->>'id','price_delta',trim_scale((s.o->>'p')::numeric)::text)
+ order by (select min(x.ord) from jsonb_array_elements_text(opts) with ordinality x(id,ord) where x.id=s.o->>'id') nulls last,s.n)
+ from jsonb_array_elements(snap) with ordinality s(o,n)),'[]'::jsonb))
 $$;
 create or replace function security_private.price01_saved(oid bigint,ids uuid[],lines jsonb) returns jsonb
 language plpgsql stable set search_path=pg_catalog,public as $$declare o public.orders;ls jsonb;begin

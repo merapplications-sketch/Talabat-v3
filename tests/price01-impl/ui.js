@@ -1,10 +1,30 @@
 // Only ephemeral review/approval UI. Durable sent evidence lives in original attempt payload.
+// Exact base-10 evidence arithmetic, NOT a replacement for calc/baseOf/pctC.
+// Preserve the decimal value of each finite input, including sub-cent values.
+// No tolerance, fixed precision, toFixed or inferred recovery of lost input digits.
+function priceDecimal01(v){
+ if(typeof v!=='number'||!Number.isFinite(v))throw Error('price unavailable');
+ const m=String(v).match(/^(-?)(\d+)(?:\.(\d+))?(?:e([+-]?\d+))?$/i);
+ let n=BigInt(m[1]+m[2]+(m[3]||'')),s=(m[3]||'').length-Number(m[4]||0);
+ if(s<0){n*=10n**BigInt(-s);s=0;}return{n,s};
+}
+function priceAdd01(a,b,sign=1n){const s=Math.max(a.s,b.s);return{n:a.n*10n**BigInt(s-a.s)+sign*b.n*10n**BigInt(s-b.s),s};}
+function priceText01(a){
+ let n=a.n,s=a.s;while(s&&n%10n===0n){n/=10n;s--;}
+ const neg=n<0n?'-':'',digits=(n<0n?-n:n).toString().padStart(s+1,'0');
+ const t=neg+(s?digits.slice(0,-s)+'.'+digits.slice(-s):digits);
+ if(t.length>128)throw Error('price evidence unavailable');return t;
+}
 function priceSnapshot01(){
  const c=calc(),st=ALLS.find(x=>x.n===S.cartStore)||{},menu=menuOf(S.cartStore);
- const dec=v=>{if(typeof v!=='number'||!Number.isFinite(v))throw Error('price unavailable');return String(v);};
- const lines=Object.keys(S.cart).map(key=>{const p=pk(key),it=menu.find(x=>x.id===p.id);if(!it)throw Error('item unavailable');const q=S.cart[key],u=baseOf(it,p.ops),lt=u*q,rd=pctC(lt,Math.max(+st.rd||0,+it.discount||0)),ad=pctC(lt,Math.max(+st.rd||0,+it.discount||0,+st.hh||0)),ops=optRecs(it.id,p.ops);
-  return{item_id:p.id,qty:q,base_price:dec(it.price),options:p.ops.map(id=>{const o=ops.find(x=>x.id===id);if(!o)throw Error('option unavailable');return{id,price_delta:dec(o.price)};}),unit_price:dec(u),restaurant_discount:dec(rd),happy_hour_discount:dec(ad-rd),net_items:dec(lt-ad)};});
- const v={version:1,lines,totals:{subtotal:dec(c.sub),restaurant_discount:dec(c.d),happy_hour_discount:dec(c.h),promo_discount:dec(c.p),points_value:dec(c.pv),delivery_fee:dec(c.fee),tip:dec(S.tip),wallet_used:dec(c.w),cash_due:dec(c.due),total:dec(c.total)}};
+ const dec=v=>priceText01(priceDecimal01(v));let sub=priceDecimal01(0),promoBase=priceDecimal01(0);
+ const lines=Object.keys(S.cart).map(key=>{const p=pk(key),it=menu.find(x=>x.id===p.id);if(!it)throw Error('item unavailable');const q=S.cart[key];if(!Number.isInteger(q)||q<1||q>50)throw Error('quantity unavailable');
+  const u=baseOf(it,p.ops),lt=u*q,er=Math.max(+st.rd||0,+it.discount||0),ea=Math.max(er,+st.hh||0),rd=pctC(lt,er),ad=pctC(lt,ea),ops=optRecs(it.id,p.ops);
+  const unit=priceDecimal01(u),gross={n:unit.n*BigInt(q),s:unit.s};sub=priceAdd01(sub,gross);if(!ea)promoBase=priceAdd01(promoBase,gross);
+  return{item_id:p.id,qty:q,base_price:dec(it.price),options:p.ops.map(id=>{const o=ops.find(x=>x.id===id);if(!o)throw Error('option unavailable');return{id,price_delta:dec(o.price)};}),unit_price:dec(u),restaurant_discount:dec(rd),happy_hour_discount:priceText01(priceAdd01(priceDecimal01(ad),priceDecimal01(rd),-1n)),net_items:priceText01(priceAdd01(gross,priceDecimal01(ad),-1n))};});
+ // Same min(promo amount, undiscounted base) rule as calc, without binary sum noise.
+ const promo=priceDecimal01(S.promo?(+S.promo.d||0):0),p=S.promo&&priceAdd01(promo,promoBase,-1n).n>0n?promoBase:promo;
+ const v={version:1,lines,totals:{subtotal:priceText01(sub),restaurant_discount:dec(c.d),happy_hour_discount:dec(c.h),promo_discount:priceText01(p),points_value:dec(c.pv),delivery_fee:dec(c.fee),tip:dec(S.tip),wallet_used:dec(c.w),cash_due:dec(c.due),total:dec(c.total)}};
  if(!priceValid01(v))throw Error('price evidence unavailable');return v;
 }
 function priceContext01(){return JSON.stringify([ME.id,cartToken104(),curAddr(),priceSnapshot01()]);}
