@@ -1,6 +1,6 @@
 # TALABOT — سجل الاستمرارية للمدير الاحتياطي
 
-آخر تكليف: **PHASE1 / CASH-CHANGE-01 & G1 EVIDENCE FOLLOW-UP — 2026-11-12**. أحدث حالة موحدة في الإضافة الأخيرة أدناه؛ [التقرير السابق](../review/phase1-operational-coordination/REPORT-AR.md) مرجع تاريخي. **PHASE1 PARTIAL/BLOCKED؛ PHASE2 NO-GO. PRICE-01 REVISE، وتصحيحه بانتظار QA مستقل.**
+آخر تكليف: **PHASE1 / G1 EVIDENCE OWNER FOLLOW-UP — 2026-11-12 دوشنبه**. أحدث حالة موحدة في الإضافة الأخيرة أدناه؛ التقارير السابقة تاريخية. **PHASE1 PARTIAL/BLOCKED؛ PHASE2 NO-GO. PRICE-01: CORRECTION SUBMITTED / INDEPENDENT QA PENDING.**
 
 ## المراجع والقبول المحفوظ
 
@@ -207,3 +207,45 @@ T=total المحفوظ بعد النقاط؛ W=wallet_used؛ D=T−W؛ C=الن�
 - **نقطة الاستئناف:** حامل دفتر الصرف/المالية يورد CC-E01 أو يوثق عدم إتاحته؛ مسؤولو النشر/API والنسخ والمفاتيح يكملون CC-E02/E03 من المحفوظ؛ المبرمج وحافظ العقود يجهزان بطاقات D01..04. المستشار يراجع الجديد فقط، ثم يحسم المالك الفجوات الحقيقية و CC-AUTH لنطاق محلي محدد عند جاهزية اعتماداته. لا تنفيذ أو انتقال تلقائي.
 - **الموانع الحاسمة:** المستحق غير المدفوع وغير المستخدم وحجزه غير مثبت للمقاصة؛ القرارات الأربعة وعقد التنفيذ غير مكتملين؛ ربط النشر والكتّاب والعزل والمفاتيح والتعافي غير مكتمل؛ تصحيح PRICE مسلّم دون قبول مستقل. لا بوابة G1 مغلقة.
 - هذا الحفظ يعدل PHASE1-CURRENT.md وحده فوق 13659ce؛ لا دمج فروع متباعدة أو تغيير الخطة أو الحسابات أو الصلاحيات أو SQL أو CI أو البيانات. لا اختبار أو ضغط أو استعادة أو طلب مستضاف؛ لا نقل AUDIT107 ولا قراءة الطلبات#1/#2/#3 أو مستحق#3 ولا رسائل للفرق. هذا تنسيق أدلة وليس QA تنفيذياً. **PHASE1 PARTIAL/BLOCKED — PHASE2 NO-GO**.
+
+
+## دلتا G1 EVIDENCE OWNER FOLLOW-UP — 2026-11-12 دوشنبه
+
+استمرار فوق eddcfb27d305efe32d6b0cfc12af380f641a5442؛ هذه الإضافة حاكمة للحالة الحالية، وما سبق سجل تاريخي. قُرئت صفحتا الفروع (106 فروع)، وشجرة المرجع كاملة دون truncation. بقي رأس فرع المدير عند المرجع أعلاه، وفرعا PRICE عند efc80a38 و7ed6708، وقراءات التشغيل عند 464638؛ لم يظهر حكم PRICE أحدث في الفروع المفحوصة. لا إعادة مراجعة 106/107/108 أو اختبارات مكتملة.
+
+### دلتا المراجع المسترجعة فقط
+
+| المرجع الجديد في المتابعة | الإثبات وحدوده | الحالة |
+|---|---|---|
+| [CI run 42829377671](https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42829377671)، attempt 1، المصدر 86eb978e1aeb2be4a9d90999dc9b5a1267cb33df | استُكمل ربط الوظائف: postgres=129875085668 وrequired106=129875429873، كلاهما success. حزمة native106-synthetic رقم 13770627035، حجم 3187 bytes، digest sha256:b21fa3a1f7ae4d99066c45813b4ae6c67b0affdcc616e3132d4c84f054854029؛ أنشئت 2026-11-10T13:58:30Z وتنتهي 2026-11-17T13:58:29Z، expired=false وقت القراءة. metadata فقط، لا تنزيل أو إعادة اختبار | ACCEPTED للمرجع القائم وحدوده؛ G1-F باقٍ PARTIAL/BLOCKED |
+| [.github/workflows/ci106.yml عند المصدر المختبر](https://github.com/merapplications-sketch/Talabat-v3/blob/86eb978e1aeb2be4a9d90999dc9b5a1267cb33df/.github/workflows/ci106.yml) | مطابقة ملف workflow مع النسخة المحفوظة. PostgreSQL 17.6 محلي للـ runner، الاحتفاظ 7 أيام؛ required106 يفحص نجاح postgres. اسم الوظيفة لا يثبت فرضها كـ branch protection، ولا قناة خاصة لأدلة DB، ولا نشر المرشح | PARTIAL؛ مالك CI يقدم إعداد الحماية وقناة الأدلة وربط البيئة |
+| Releases API: /repos/merapplications-sketch/Talabat-v3/releases?per_page=20 | أعاد []؛ لا Release متاح عبر هذه القراءة يربط النسخة التشغيلية. Deployments API رفضه الموصل INVALID_ARGUMENT: endpoint غير مدعوم؛ ليس جواباً من المزود بأن النشر غير موجود | BLOCKED لإثبات active deployment؛ لا استنتاج غياب النظام |
+| [مرجع safari-alt2](https://github.com/merapplications-sketch/Talabat-v3/blob/eddcfb27d305efe32d6b0cfc12af380f641a5442/docs/pilot-20261105/hosted/safari-alt2/HANDOFF-AR.md) | استُرجعت سلسلة تاريخية إضافية: pilot-mobile-20261106.3؛ مصدر التطبيق 883e3fe839be5d6872fa2b79c52b08c3de6a1609؛ التغليف 268e43bb5d1dbd7734d592b97c27ac48f124736c؛ deployment appgdep_6aede3f2bcbc8191915ba0e3fcbc3d8c. الدليل المعلن Chromium لأربعة تطبيقات على نطاق talabot-isolated-safari-20261106، لا Safari فعلي ولا إثبات أنه النشر الفعّال اليوم | PARTIAL؛ نقطة بحث محددة لمسؤول النشر بدلاً من مسح الحساب |
+| [الاستعادة الخارجية المحفوظة](https://github.com/merapplications-sketch/Talabat-v3/blob/eddcfb27d305efe32d6b0cfc12af380f641a5442/docs/pilot-20261105/operations/external-acceptance/RESTORE-PASS.json) و[run 42111418834](https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42111418834) | تحققت metadata الحالية: completed/success على 6216cb570375705a764ed488c4ffd0f0dbec5c41، بدأ 2026-11-05T21:18:24Z. ملف النتيجة يصرح live=false وsynthetic_only=true وproduction_rpo_rto_accepted=false. قائمة artifacts لهذا التشغيل الآن []؛ المرجع التاريخي 13455151933 ليس حزمة متاحة مثبتة الآن، ولا يُحسم من القائمة هل انتهت أو حُذفت | ACCEPTED للدليل الاصطناعي التاريخي فقط؛ CC-E03/G1-F BLOCKED تشغيلياً |
+| [workflow الاستعادة](https://github.com/merapplications-sketch/Talabat-v3/blob/eddcfb27d305efe32d6b0cfc12af380f641a5442/.github/workflows/pilot-external-restore.yml) | retention-days=1، ومفتاح الاستقبال الخاص يبقى بالـ runner ويُحذف في التنظيف. يفسر حدود التجربة؛ لا نسخة تشغيلية دائمة أو حيازة مفتاح قديم مثبتة. 82.45s و44.827s قياسات تجربة قديمة لا RTO/RPO معتمدين | PARTIAL؛ مالك النسخ والمفاتيح |
+| [workflow Safari](https://github.com/merapplications-sketch/Talabat-v3/blob/eddcfb27d305efe32d6b0cfc12af380f641a5442/.github/workflows/pilot-safari-confirmation.yml) | قناة macos-15 وsafaridriver للـ desktop consent/summary موجودة بالمصدر. ليست جهاز iPhone أو قبول TIP-D/HTTP الجديد، ولم تُشغّل | PARTIAL؛ منسق QA يربط الجهاز والسيناريو والإصدار عند التفويض |
+| [إيصال R1](https://github.com/merapplications-sketch/Talabat-v3/blob/eddcfb27d305efe32d6b0cfc12af380f641a5442/docs/finance-receipts-20261102/README.md) و[مصدره](https://github.com/merapplications-sketch/Talabat-v3/blob/eddcfb27d305efe32d6b0cfc12af380f641a5442/sql/proposed/admin_finance_receipts_20261102.sql) | المرجع يصرح أن الإيصال لا يثبت صرف مستحقات. العمليات في مصدره settle_cash/wallet_adjust؛ أمر التسوية يحفظ الإيصال والأمر وروابط الطلبات ضمن معاملة DB، لكنه مرشح تاريخي وليس إثبات الكاتب الفعّال. جداول settlement_receipts ليست دفتر قبول وصرف وتخصيص مستحق سائق | CC-E01 PARTIAL للمصدر، OFFSET BLOCKED؛ لا إعادة فتح CASH-01 |
+| [watchdog](https://github.com/merapplications-sketch/Talabat-v3/blob/eddcfb27d305efe32d6b0cfc12af380f641a5442/ops/pilot-watchdog.py) | رأس الملف يصرح بأنه one-shot ولا يضبط scheduler أو وجهة حقيقية. deliver يطابق event_id وreceipt_id وstatus؛ إقرار النقل منفصل عن إقرار المناوب. هذا يحدد المطلوب لإثبات التشغيل بدقة؛ لا يثبت عدم وجود مشغل خارجي | CC-E02 وG1-A/B/E PARTIAL/BLOCKED |
+
+لم تُقرأ حزم AUDIT107 أو بيانات الطلبات المحمية أو أرصدة أشخاص. الأدلة القديمة المشار إليها أُضيف ربطها وحدودها، ولم تُعد اختبارات قبولها. لا يستبدل مرجع النشر التاريخي الجديد مراجع .31/41 أو S107 ولا يجمعها في إصدار واحد.
+
+### ما بقي دون إثبات — طلب محدد لحامل الدليل
+
+المسؤوليات أدناه أدوار حيازة دليل، وليست تعيين أشخاص أو إرسال تكليفات أو توسيع صلاحيات. يسترجع المسؤول الموجود عبر قناته الخاصة أولاً؛ لا أسرار أو حسابات إنتاج في المحادثة.
+
+| النقص | المالك والمصدر | الإثبات المطلوب قبل اعتباره مغلقاً |
+|---|---|---|
+| CC-E01 / G1-C/E: مستحق صالح للمقاصة | المالية / حامل دفتر الاستحقاق والصرف؛ المبرمج يحدد schema/API إن كان خارج ملفات المصدر المفحوصة | مرجع قبول المستحق + الدفعات والحجوزات والتخصيصات السابقة + المتبقي غير المستخدم عند وقت اتساق معلوم + writer وآلية حجز واستهلاك واحدة مشتركة مع الصرف. لا يكفي delivery_due أو payout أو إيصال CASH-01؛ عدم العثور هنا لا ينفي دفتر خدمة خارجية |
+| CC-E02 / G1-A: التطبيقات الأربعة وcore | مسؤول النشر؛ سجل المزود للمشروع/النطاق المحدد، بدءاً بمعرّف safari-alt2 أعلاه ومراجع .31/41 السابقة كل على حدة | active version/deployment/time/environment → source/build digest لكل customer/merchant/driver/admin وcore؛ تمييز التطبيق التشغيلي عن prototype وعن المرشح المعزول |
+| CC-E02 / G1-B: الكتاب الحقيقيون وحدود التسليم | مسؤول DB ومشغل كل Worker/Job؛ سجل النشر والجدولة وسجل استدعاء موجود | ربط W/T المقبولين بالتعريفات الفعالة لـdeliver_order/set_order_status وكتّاب orders/wallet/settlements؛ hash منقح موجود للتعريف والتريغرات، ترتيب النداء وحد COMMIT، كل كاتب مباشر أو service_role، معرّف خدمة/نسخة/schedule/آخر run ونتيجته. طلب HTTP خارجي أو watchdog receipt ليس جزءاً مفترضاً من معاملة DB |
+| G1-D: HTTP/RBAC والهوية والعزل | مسؤول API والأمن؛ trace موجود من gateway/API/DB | request_id واحد مع الوقت والمسار والنسخة والهوية المخولة والدور الفعلي والعزل والنتيجة؛ grants/defaults أو جلسة مراقبة لا تعوضه. لا إنشاء طلب أو جلسة للحصول عليه ضمن هذا التكليف |
+| G1-C: قرارات CC-D01..04 والدقة | حافظ السياسة والمالية؛ المراجع المعتمدة أولاً | يبقى النقص المسجل سابقاً فقط؛ لا إعادة اقتراح سياسة أو تغيير 20 TJS القابل للتعديل إدارياً أو CASH-01 |
+| CC-E03 / G1-E: المصالحة والمفاتيح | المالية ومسؤول الخدمة وحافظ المفاتيح؛ سندات القبض وإيصالات الطرف الآخر وmetadata خزينة المفاتيح | ربط credit/liability/event/command/receipt والقبض أو المقاصة دون تكرار، معالجة unknown وحد dedup؛ key ID/version/purpose/custodian/rotation/recovery reference دون قيم سرية أو بصمات مادة المفتاح |
+| CC-E03 / G1-F: نسخة قابلة للتعافي | مسؤول DB backup وStorage وحافظ المفاتيح؛ فهرس نسخ المزود وسجل PITR/objects | backup ID ووقت ونطاق/حجم واحتفاظ وحالة إتاحة وتشفير ومرجع الاسترجاع وهدف معزول؛ شمول بايتات Storage ومصالحة ما بعد snapshot وRPO/RTO المعتمدين. نجاح run الاصطناعي أو وجود سكربت لا يغلق هذا النقص |
+| G1-F: Storage/Safari/CI | مسؤول Storage لرد SU-543851؛ منسق QA لجهاز Safari؛ مسؤول CI لإعدادات القناة | رد دعم موجود وقيود الجلسة/Storage؛ جهاز وإصدار متصفح وسيناريو ومصدر محدد؛ قناة أدلة خاصة وbuild-gate/db-evidence-binding. لا نطلب إعادة الأصول التي ثبت توفرها |
+
+**PRICE-01: CORRECTION SUBMITTED / INDEPENDENT QA PENDING.** التصحيح 50b796985112002f4c47aa4dd2bd1373ffd7aeff وتسليمه efc80a38bf15f8f93f0016e980d180b2f3a546be. REVISE عند 7ed6708 حكم تاريخي للنسخة السابقة، لا عنوان الحالة الحالية ولا قبول للتصحيح. مراجعة QA-01/02 المستقلة الجارية محفوظة ولا تُكرر هنا. MAP-RESTAURANTS-01 وRATINGS-INTERNAL-01 وأعمال المبرمج والمصمم مستمرة دون لمس أو إعادة ترتيب.
+
+**نقطة استئناف واحدة:** استلام حزمة مراجع من حاملي الأدلة أعلاه، بدءاً بتسمية دفتر CC-E01 وربط active deployment للكتّاب؛ تسجيل ما يصل كدلتا في هذا الملف ثم عرضه للمستشار ضمن نطاقه. المراجع والأدلة الموجودة تُسترجع أولاً. إذا احتاج إغلاق نقص إلى طلب HTTP جديد أو جلسة أو استعادة أو وصول إضافي، يُجهز تكليف محدد الهدف والهوية والنطاق ومعيار القبول لموافقة منفصلة؛ لا يبدأ تلقائياً. لم تُرسل رسائل للفرق.
+
+لا بوابة G1 أُغلقت بهذا الربط. **PHASE1 PARTIAL/BLOCKED؛ PHASE2 NO-GO.** تعديل توثيقي لهذا السجل وحده، دون دمج الفروع أو تعديل الخطة أو الشيفرة أو SQL أو CI أو البيانات أو تشغيل اختبارات.
