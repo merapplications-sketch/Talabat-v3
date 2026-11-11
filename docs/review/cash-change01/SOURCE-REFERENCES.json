@@ -1,0 +1,200 @@
+{
+  "purpose": "CASH-CHANGE-01 source audit, documentation only",
+  "policy_commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+  "public_source_ref": "05428e37d9779fa2af0845e640fe85553c8b6974",
+  "private_evidence_closure": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+  "limitations": [
+    "No hosted SQL/API requests or operational tests.",
+    "Private AUDIT107 is a historical non-atomic isolated-target snapshot, not proof of present deployment.",
+    "Only relevant text/JSON selectors inspected; no renewed 49-file transfer or byte-receipt claim.",
+    "No raw private definitions, record data or secrets included."
+  ],
+  "public_sources": [
+    {
+      "path": "driver.html",
+      "git_blob": "086929844b2080d7aa2afe1c2c57267cde245d40",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/driver.html"
+    },
+    {
+      "path": "talabat-core.js",
+      "git_blob": "f639bec1d23a812866e06eb1110940c77563387c",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/talabat-core.js"
+    },
+    {
+      "path": "admin.html",
+      "git_blob": "062a68cfa740f2733cad39b5c4c5b0c635f54e55",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/admin.html"
+    },
+    {
+      "path": "customer.html",
+      "git_blob": "9bc335f52ad58d7feab12ad8a2214bde9ab32330",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/customer.html"
+    },
+    {
+      "path": "docs/OWNER-AGREEMENTS-AR.md",
+      "git_blob": "d671e93233ae91e361af292e688d15460e06b992",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/OWNER-AGREEMENTS-AR.md"
+    },
+    {
+      "path": "docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md",
+      "git_blob": "0fe978f967716da074e0ad49b54ac4384a0f65c4",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md"
+    },
+    {
+      "path": "docs/continuity/PHASE1-CURRENT.md",
+      "git_blob": "42c785e775f08bbfeab2115c2b6dbdb19e681eb4",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/continuity/PHASE1-CURRENT.md"
+    },
+    {
+      "path": "docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "git_blob": "a602710389166b65d8054e253b15ca796477283c",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md"
+    },
+    {
+      "path": "docs/review/phase1-completion/FINANCIAL-CONTRACTS.md",
+      "git_blob": "76bfa94cbca7885ab6b1ddaa58dfac6d9aa64a0d",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/review/phase1-completion/FINANCIAL-CONTRACTS.md"
+    },
+    {
+      "path": "docs/review/phase1-completion/SOURCE-DEPLOYMENT-WRITERS.md",
+      "git_blob": "898c55dc86b39b4e6402a0bc7d461262a143ce0e",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/review/phase1-completion/SOURCE-DEPLOYMENT-WRITERS.md"
+    },
+    {
+      "path": "docs/review/phase1-completion/KEYS-RECONCILIATION-RECOVERY.md",
+      "git_blob": "4cd7cd52c0f04b503702fc27aef6dd6386f8c37f",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/review/phase1-completion/KEYS-RECONCILIATION-RECOVERY.md"
+    },
+    {
+      "path": "docs/review/continuation107/EVIDENCE-MANIFEST.json",
+      "git_blob": "097df73fd6b88f108a4fc42821823b44a94732af",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/docs/review/continuation107/EVIDENCE-MANIFEST.json"
+    },
+    {
+      "path": "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+      "git_blob": "e6a1395e2492b33e3bcfaf6af4009462009c5441",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/sql/proposed/pilot_z_cash_confirmation_20261105.sql"
+    },
+    {
+      "path": "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql",
+      "git_blob": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/sql/proposed/pilot_zzzz_cash_allocation_20261106.sql"
+    },
+    {
+      "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
+      "git_blob": "33ba6f3735a00eb124447ffad785c5da2382318d",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/sql/proposed/pilot_delivery_proof_20261105.sql"
+    },
+    {
+      "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+      "git_blob": "6b19870cc1939094c761a255e26f1fd7c5658952",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/sql/proposed/admin_finance_integrity_20261101.sql"
+    },
+    {
+      "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+      "git_blob": "76f0d8106739ab19a656ee419d829b064fa78487",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/sql/proposed/admin_finance_receipts_20261102.sql"
+    },
+    {
+      "path": "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+      "git_blob": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/sql/proposed/pilot_zzz_driver_returns_20261106.sql"
+    },
+    {
+      "path": "assets/finance-receipt/receipt.js",
+      "git_blob": "3742dcf5346deb2495859653bf65339ad6a4b626",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/assets/finance-receipt/receipt.js"
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.js",
+      "git_blob": "05397c64e49013bac3129d49eb7e6e61589b3502",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/05428e37d9779fa2af0845e640fe85553c8b6974/assets/admin-finance/admin-finance.js"
+    }
+  ],
+  "private_references": [
+    {
+      "file": "target-definitions.json",
+      "selectors": [
+        "oid=18448 deliver_order",
+        "oid=18439 cash_balances",
+        "oid=18539 wallet_balance",
+        "oid=18695 accountant",
+        "oid=18697 finance_execute",
+        "oid=18698 finance_command_status",
+        "oid=18754 receipt_json",
+        "oid=19127 order_wallet_entries",
+        "oid=18505 set_setting",
+        "oid=18471 is_admin",
+        "oid=18470 has_perm",
+        "oid=18428 audit_changes",
+        "oid=18502 set_order_status",
+        "oid=18822 fulfillment guard",
+        "oid=18980 return guard",
+        "oid=18528 trg_loyalty",
+        "oid=18534 trg_wallet_return",
+        "oid=18533 trg_wallet_immutable",
+        "oid=18526 trg_dispatch",
+        "oid=18978 order_return_action",
+        "oid=18522 ticket_set_status",
+        "oid=18485 place_order"
+      ]
+    },
+    {
+      "file": "finance_execute.sql",
+      "lines": "1-52"
+    },
+    {
+      "file": "target-columns.json",
+      "lines": "3356-3366, 3473-3483, 3889-3899, 5397-5513",
+      "selectors": [
+        "orders.cash_collected",
+        "orders.wallet_used",
+        "profiles.cash_limit",
+        "wallet_entries"
+      ]
+    },
+    {
+      "file": "target-constraints.json",
+      "lines": "2594-2677",
+      "selectors": [
+        "wallet_entries_kind_check",
+        "wallet_entries_amount_check",
+        "wallet_entries FKs"
+      ]
+    },
+    {
+      "file": "target-triggers.json",
+      "lines": "271-280, 1381-1700, 2957-2981",
+      "selectors": [
+        "trg_audit_settings",
+        "orders named non-internal triggers",
+        "trg_wallet_no_update"
+      ]
+    },
+    {
+      "file": "target-indexes.json",
+      "lines": "777-826",
+      "selectors": [
+        "wallet_entries indexes"
+      ]
+    },
+    {
+      "file": "target-policies.json",
+      "lines": "39-49, 579-602",
+      "selectors": [
+        "settings_read",
+        "wallet_read",
+        "pilot_active_account"
+      ]
+    },
+    {
+      "file": "target-function-privileges.json",
+      "lines": "675-698, 2019-2042, 2907-2930",
+      "selectors": [
+        "oid=18448",
+        "oid=18505",
+        "oid=18697"
+      ]
+    }
+  ]
+}
