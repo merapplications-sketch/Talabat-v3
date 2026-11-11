@@ -1,0 +1,13 @@
+{
+  "tip02_full_body_only_range_guard_and_stored_tip_assignment": true,
+  "null01_full_body_only_null_rejection_and_comment": true,
+  "signature_security_search_path_unchanged": true,
+  "hmac_v1_and_financial_formula_text_unchanged": true,
+  "sha256": {
+    "tests/tip01/acceptance.sql": "e2dcac887090dead3d2f678333b56c2a77d302c3fdad659b104e9a86d97da5cd",
+    "tests/tip02/acceptance.sql": "4153ee212306420c013c4a5687eb61fff68c130e6dd6a545c3bc73631cc0b331",
+    "tests/tip02-null01/acceptance.sql": "d4c84cbf9d46073ae53883c7167ff4638c8f36833a7c9e786484f71556fe2fd9",
+    "generated/customer.html": "64f23f8afa649b1d6aa3125ce3851a9b9c5dc297057578860c254e695f8d243d",
+    "generated/talabat-core.js": "1e515219465616c22d0839501f84b2a3f8e3b7472dc1a0f80b9cefa1d318e076"
+  }
+}

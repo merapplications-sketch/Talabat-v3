@@ -1,0 +1,101 @@
+{
+  "scope": "independent non-sensitive QA records; synthetic data only",
+  "source": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "files": [
+    {
+      "path": "REPORT-AR.md",
+      "bytes": 20342,
+      "sha256": "e6d7449b3fcec826765d4a8a2df2d1dc9a2513540b0dc4797fce063ac133fde7"
+    },
+    {
+      "path": "REPRODUCE.md",
+      "bytes": 4367,
+      "sha256": "46a2688a39139d1e812a3e84be15bfe1c4a0c2eb9750772af6177a576429af61"
+    },
+    {
+      "path": "evidence/PINNED-INPUTS.json",
+      "bytes": 25816,
+      "sha256": "25f606bf25da5e10c258720f68469712cce6ba4dbf082070aed61891052be1aa"
+    },
+    {
+      "path": "evidence/RESULTS.json",
+      "bytes": 1323,
+      "sha256": "c989d454e083c5d719f2c610f2396da58a63dd46552458d2e77f43db96671675"
+    },
+    {
+      "path": "evidence/qa-client-reproduction.json",
+      "bytes": 352,
+      "sha256": "777deb31a4422adc557a0fc4dba0191310f25ecdc51517a8849ff66f996645f1"
+    },
+    {
+      "path": "evidence/qa-client-reproduction.log",
+      "bytes": 103,
+      "sha256": "dea8413a90f95e4ce2ba073466382b279d4189dceb84eaddddd46cbea6848b2d"
+    },
+    {
+      "path": "evidence/qa-client-results.json",
+      "bytes": 2791,
+      "sha256": "2328f946aca62ab7504be2b135541c200baf9bc65e282b0c66ed97d6b0c24cf6"
+    },
+    {
+      "path": "evidence/qa-client.log",
+      "bytes": 2400,
+      "sha256": "8c70448401f44df7e79a7f043465a2055a0a19ecf4a1e2d9b291ee41cb6f2da4"
+    },
+    {
+      "path": "evidence/qa-crash-checkpoint.json",
+      "bytes": 971,
+      "sha256": "8a47341b832fd01ba5481e55f1a1ad060b90553d317218900f9627d9a243c8c0"
+    },
+    {
+      "path": "evidence/qa-crash-integrated.json",
+      "bytes": 479,
+      "sha256": "7198a9305093424bbbe3ace68d68c0b523f76b765d33608a39e7fa90e7f281ef"
+    },
+    {
+      "path": "evidence/qa-input-verification.json",
+      "bytes": 4550,
+      "sha256": "3ae2bedf563356135be0738d43b7b7d5c616ae1bf25acb9c64ba6206293cea12"
+    },
+    {
+      "path": "evidence/qa-native-followup.json",
+      "bytes": 403,
+      "sha256": "f7a895fe98a6118816a5f81fc0a49297da14c8a8940b3fe9779038e32a873ebc"
+    },
+    {
+      "path": "evidence/qa-native-followup.log",
+      "bytes": 218,
+      "sha256": "af347ded5bc0844bb56f3587e93e3320619ca619bb3b8b298a4d0c5e05cd307a"
+    },
+    {
+      "path": "evidence/qa-native-results.json",
+      "bytes": 2756,
+      "sha256": "6f24d64d5493a32f79ba274ba5a57e172760b40147f4a9c2b8ac72af5c11ecfe"
+    },
+    {
+      "path": "evidence/qa-native.log",
+      "bytes": 3108,
+      "sha256": "223acae74f45f5f582060755332b0ad90ca751da8bf4b496a3d6f513d1539238"
+    },
+    {
+      "path": "evidence/qa-null-full.diff",
+      "bytes": 1543,
+      "sha256": "ecc5f8fb03f6655069b53aaebc7196849443f0f7b21589add24a140cda43490c"
+    },
+    {
+      "path": "evidence/qa-static.json",
+      "bytes": 771,
+      "sha256": "586e7a3bab8b8c72e965e5a4aa8c0c4a2c0f98d379e59d115e2e9934bba0811c"
+    },
+    {
+      "path": "independent_client.mjs",
+      "bytes": 15746,
+      "sha256": "f942872c3a45a4a66f264a5864ab96b827bc944be0024bc74a5810cec0011142"
+    },
+    {
+      "path": "independent_native.py",
+      "bytes": 17734,
+      "sha256": "86a7a7d2f2a4f496d176d9c3ed960b449b15be582b20a54e264052576c0cfcfe"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "candidate": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "scope": "LOCAL Node VM, synthetic RPC and transactional store; NOT browser/IndexedDB/HTTP",
+  "utc": "2026-11-11T09:40:42.601Z",
+  "tests": 1,
+  "passed": true,
+  "results": [
+    {
+      "case": "UI_12_integrated_controller_accepts_checkpoint_new_key",
+      "result": "PASS"
+    }
+  ]
+}

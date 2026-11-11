@@ -1,0 +1,684 @@
+{
+  "source": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "evidence": "306665d5b1fa26eb6457c0ad828d4934b3519f62",
+  "pinned_git_files": [
+    {
+      "path": "tests/native98/admission.py",
+      "bytes": 5644,
+      "git_blob": "02cc1829e2e2e4e78559c843746ba509c274a672",
+      "sha256": "ea75a270c056ec9220267ef908bef6850fd0bd0c0347d99f784c0e314b48726d"
+    },
+    {
+      "path": "tests/native98/setup.sql",
+      "bytes": 30411,
+      "git_blob": "71bb31bb0e2af27b80b135e15271e86569b80725",
+      "sha256": "223e9131a735f93f0767f0d18c4973caec94db63087be3f951df5fbb6710a553"
+    },
+    {
+      "path": "tests/native98/place_order.fixed.sql",
+      "bytes": 13510,
+      "git_blob": "7e0fbec87940a714b844f354832cc4b57cfbbb7a",
+      "sha256": "9195c50736beda188008053e671a0288093edee78497cf459d974a79c370ac29"
+    },
+    {
+      "path": "tests/native106/admission.py",
+      "bytes": 1408,
+      "git_blob": "1991c5a7bb2e08fd3d99ef2b005afc84eab3fc8f",
+      "sha256": "140ef8caeac1112564eac1bba1e9b2627090d51fc6eb3a27850830120299a058"
+    },
+    {
+      "path": "tests/native106/resources.py",
+      "bytes": 1037,
+      "git_blob": "3c721419fbb81f7ea434f9102129314399f3e608",
+      "sha256": "6b5300ff286cd2fa85d62d5af393be0e1f512a09259e799c37583aea5aed3e11"
+    },
+    {
+      "path": "tests/native106/regression.py",
+      "bytes": 428,
+      "git_blob": "3e7e38bc46909807d1d30149ba6304085cff5159",
+      "sha256": "b60ed77d182689852fc91e6e8042ba08cc7acfba82fd254deb7542e674afc36c"
+    },
+    {
+      "path": "tests/native106/client.test.mjs",
+      "bytes": 1815,
+      "git_blob": "b5c3d2d32d64c1e1f22f5c14f1a24d803992d82f",
+      "sha256": "565fa2134fc3757d540f050fa9ac9af46251b8d84ccfc7d6e6879aca96e1f55c"
+    },
+    {
+      "path": "tests/native106/isolation.sql",
+      "bytes": 15465,
+      "git_blob": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "sha256": "9503a027d7c3c7f764e49145073fcba5607a7589b13e6e262d7b0bfdf2425e0d"
+    },
+    {
+      "path": "tests/native106/native.py",
+      "bytes": 9736,
+      "git_blob": "9f68b2369501285d74a5816599630190b854e011",
+      "sha256": "bb1e9a34c2f8b6ff072bcd69968c5e364a6dd8fccd96ed0bcb0ab7925e337dc5"
+    },
+    {
+      "path": "tests/native106/restore.py",
+      "bytes": 2453,
+      "git_blob": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "sha256": "f579f75e2b5733b58a1ca34a6f3202fb79563c4a72ef42279761ea86d567eb98"
+    },
+    {
+      "path": "tests/native106/baseline.py",
+      "bytes": 1230,
+      "git_blob": "9e6901bdadc89616d286136433af08855ae34103",
+      "sha256": "9eaca97b65d151f4122242c24eb8a54dd513d4f44761629d55baed7c1f3dc3fb"
+    },
+    {
+      "path": "tests/native104/admission.py",
+      "bytes": 1301,
+      "git_blob": "71342502f31d4d0fde431f8b32a0538b8c84630c",
+      "sha256": "48ad62dce6326485df4329d84690f4f254d16322cd5b2080185dc396d12341f0"
+    },
+    {
+      "path": "tests/native104/build-client.py",
+      "bytes": 3797,
+      "git_blob": "1ce91b1d7bcdc18cede10b50b3ce6cd8a63a9591",
+      "sha256": "f8b7cbbed8103249933cec5832cf2e763583581d5001bd5f78b1036e1c54e5c4"
+    },
+    {
+      "path": "tests/native104/fast.mjs",
+      "bytes": 1675,
+      "git_blob": "3068578e91968b76d7b7246abfe6002b1fadea09",
+      "sha256": "91c6d882a4961fd25ef7ce43faa2991a651022e6f4cd9e7ac27ed0525cd63465"
+    },
+    {
+      "path": "tests/native104/browser.mjs",
+      "bytes": 11541,
+      "git_blob": "19f44957d1910eddbfa36b8bc00df88b794d4fa6",
+      "sha256": "4bcafcfd2d80667131caab4e6c82c84891110c2ae37289509fe09678f4a04195"
+    },
+    {
+      "path": "tests/native104/schema.sql",
+      "bytes": 1533,
+      "git_blob": "69fb7bce1264a49d6a6ae6aa29108dbb375c7af0",
+      "sha256": "a6446c2d0ba2b2b596af21a20e45f163db379713c8d3d1d74903beebd62f4acc"
+    },
+    {
+      "path": "tests/native104/lifecycle.sql",
+      "bytes": 3185,
+      "git_blob": "2f4980f5c30f45d03353f3268e09033a0412fcf8",
+      "sha256": "4f1a0f7e66d6ea7387fdd7817744aa1cc832a556b988bc58f53e849e540863d9"
+    },
+    {
+      "path": "tests/native104/cart-regression.test.mjs",
+      "bytes": 3615,
+      "git_blob": "30f1f3b98194a001de5b1ade9047455f8cf5ed6f",
+      "sha256": "5d708c9e772fac4f9010457d4a498bb2b2738d3e0609d3c4040ddc2ec0bd55f7"
+    },
+    {
+      "path": "tests/native104/rollback.sql",
+      "bytes": 1139,
+      "git_blob": "6637340318f82faabc15277400969f047cfd8883",
+      "sha256": "29e8ac8d1ad56e43a4dcd09339f8235ba32b89e4f47f053d0b8bda4e0c5b0287"
+    },
+    {
+      "path": "tests/native104/native.py",
+      "bytes": 6832,
+      "git_blob": "57bbec890c54769b8c71d52a59a4cf83e523f9a6",
+      "sha256": "89d9c02f820b1a07aa2e9a8b407f6142fe9b2787075b483015cee782b2e43370"
+    },
+    {
+      "path": "tests/native104/client.js",
+      "bytes": 6837,
+      "git_blob": "f85ce2a6ace8dab2f90032b1f461608df4470af9",
+      "sha256": "7906be47421af3ec434e22bf62db98e8eb7da8e8412e3af479a974fbc47ed6cd"
+    },
+    {
+      "path": "tests/native104/restore.py",
+      "bytes": 1903,
+      "git_blob": "ecbb71cd37d2950835b5d37d6974cdb1f3ec5fa5",
+      "sha256": "cea5c42ea8b1d60c568d6dfeda5b1cb77c05ca10046c19415e8a468c6a7b9c3d"
+    },
+    {
+      "path": "tests/native104/functions.sql",
+      "bytes": 19290,
+      "git_blob": "1bea43015833abe92e82c43cf90d8996f83df8cf",
+      "sha256": "2ba0ceaf5362cadd30991d1b6bb2053f6ea8b13252dafb6c89333c4c9dcc2d4a"
+    },
+    {
+      "path": "tests/native105/admission.py",
+      "bytes": 1358,
+      "git_blob": "50594a749704324c323bf2faf49755389a47268b",
+      "sha256": "aa16372e180540edae4c0dee829f52a92288af49645a7caf149a8b9ff9c03e5c"
+    },
+    {
+      "path": "tests/native105/build-client.py",
+      "bytes": 3866,
+      "git_blob": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "sha256": "8971e8704faa886163e8fb3402cadfb009a4cf8c16f4a35f64205888cbbfe87e"
+    },
+    {
+      "path": "tests/native105/browser.mjs",
+      "bytes": 600,
+      "git_blob": "e410cab1b28f130583a9313316aa37ed6e76f4c5",
+      "sha256": "08040d0662d9b505e0b429398d9de10c980fcb79023a7ccb97e4c2e2a96b6f65"
+    },
+    {
+      "path": "tests/native105/regression.py",
+      "bytes": 535,
+      "git_blob": "e5a4b1889a58b7a726e8b747e6ac70c325e9447b",
+      "sha256": "baf7c35a012d5ca398e0ec553fa3d673365b9f1709384eee94c1541422862eb8"
+    },
+    {
+      "path": "tests/native105/client.test.mjs",
+      "bytes": 5365,
+      "git_blob": "cc551f5f7e763d3c73a2bb40f083fc3c7eb2e13e",
+      "sha256": "73e9bc5f9049c3e6e53ced75f1850bf910d1584f06d490335b673c5fdf801fa2"
+    },
+    {
+      "path": "tests/native105/browser-cases.mjs",
+      "bytes": 4957,
+      "git_blob": "ec95df4b821a244dbc9e840d909881b6e8817d56",
+      "sha256": "aa52f9db6f4113cf5d5c598bc5cd79ac55765bfe4a1280787b47cb361d96f308"
+    },
+    {
+      "path": "tests/native105/resources.sql",
+      "bytes": 5831,
+      "git_blob": "bdc12ed1ac33297e3a482617d503f39bb96eb1aa",
+      "sha256": "ee5a257db3345ca409d6e048fb857d8d6ed875fc808648cb1e0091ef58728145"
+    },
+    {
+      "path": "tests/native105/native.py",
+      "bytes": 8036,
+      "git_blob": "df56132324e9460abba4d4ddb9989d9e7c0403a5",
+      "sha256": "80d01bb20890052c388a5fd12acb4be7341b757e2eef4fe02f43ce841eab8445"
+    },
+    {
+      "path": "tests/native105/restore.py",
+      "bytes": 2392,
+      "git_blob": "9cab6fcfb1781c6d3b2767c98ec7e28ba567e141",
+      "sha256": "207ea36e4a019a174eb263e378106fd0b2a46e598823a04f6c7f1e02e30d4af9"
+    },
+    {
+      "path": "tests/native105/baseline.py",
+      "bytes": 1048,
+      "git_blob": "5cdb1ec69103216f784c44f32fca33f59bb0c43b",
+      "sha256": "6ebe65e13c4fa8b5babb652cc347ccb94ba3f0134ca45ed929810933e8062c42"
+    },
+    {
+      "path": "tests/native102/admission.py",
+      "bytes": 1103,
+      "git_blob": "0e36c5a28c022f1533a3a91f1129b46c921db3c9",
+      "sha256": "a10c8d883e7bf4e47b633ac425c468d4d0a3a8228f5b28a6f73558b038603c1b"
+    },
+    {
+      "path": "tests/native102/replay.test.mjs",
+      "bytes": 8823,
+      "git_blob": "b4c626a8b5528224332469fcf3d4569715086301",
+      "sha256": "bfe9fd16cdc53a8d11c4eae963d571e633b973a3d06ed0119c05135da40401ad"
+    },
+    {
+      "path": "tests/native102/candidate.sql",
+      "bytes": 15458,
+      "git_blob": "cd3041c794048a0dc7d2f9a0820fa94e61900592",
+      "sha256": "6c5f668e6f843d8c6b6a8a46f9c947e9119443a61801e7f2e9799a80c3d8affc"
+    },
+    {
+      "path": "tests/native102/tcp_proxy.py",
+      "bytes": 1709,
+      "git_blob": "4cf8d80848d6506069ea9b242d994f564796da1f",
+      "sha256": "1e7828a7656d08390f01c829f0a85e90c625767fe899e9ed61d44dd761d299a9"
+    },
+    {
+      "path": "tests/native102/constraints.sql",
+      "bytes": 4632,
+      "git_blob": "43ab286c487ff4d168de39d9ba22f8dfa7fca87c",
+      "sha256": "a54c6ea4d4907a9044e47174766b50c90f5596574905ae909b02464e9bd77458"
+    },
+    {
+      "path": "tests/native102/native.py",
+      "bytes": 6759,
+      "git_blob": "17ec2efe0dc0575845dc1edc12c3323852b56cb3",
+      "sha256": "499d6296f046173a49a7eb4b2498f31a71e1def32cfb91e3d6b898852784c989"
+    },
+    {
+      "path": "tests/native102/restore.py",
+      "bytes": 1324,
+      "git_blob": "4df0a900768ab8772e48a37a70b99ea0fcbb7c12",
+      "sha256": "7013ebc840fd4efc4a1610280cbbc0c6744b067611280a9fb4af555ca06dad50"
+    },
+    {
+      "path": "tests/tip02-null01/README.md",
+      "bytes": 2478,
+      "git_blob": "c6ed46597f7ef4673ad68b08e7ff779f21e3536d",
+      "sha256": "2a2185e69fd26ddfa99d5b922b941eb93c09880427c71534896da3636870e387"
+    },
+    {
+      "path": "tests/tip02-null01/client.test.mjs",
+      "bytes": 3263,
+      "git_blob": "adfea86d954139985c8bd14e4452ad4aa40a9768",
+      "sha256": "d422266b3f633447cfee319b79505dc0c34cf367100fb93be27ec1ae5b375726"
+    },
+    {
+      "path": "tests/tip02-null01/acceptance.sql",
+      "bytes": 15715,
+      "git_blob": "4aa8b45c310bbc69e25c2c6c2d38199824c62e9a",
+      "sha256": "d4c84cbf9d46073ae53883c7167ff4638c8f36833a7c9e786484f71556fe2fd9"
+    },
+    {
+      "path": "tests/tip02-null01/native.py",
+      "bytes": 9733,
+      "git_blob": "aaca194c31313a1094a69aff4cafe9016e520b5f",
+      "sha256": "767490d8fc2eb6b08969d41416f865af8ffe1130ba7a086e5e4e26f1a2025e32"
+    },
+    {
+      "path": "tests/tip02/contract.js",
+      "bytes": 226,
+      "git_blob": "28f2c1fec82db2f929466db5b28852df03ec6811",
+      "sha256": "9da1bb7c1191abce81c92663c8e0fe3dbbaa200c706e97387b145a5505818b39"
+    },
+    {
+      "path": "tests/tip02/ui.js",
+      "bytes": 3210,
+      "git_blob": "d860cce78a455ea603b6328400681e6843f940c2",
+      "sha256": "df92e3934664d0f2863b3e9f9449c0e99b098f2aed3f043c28fc96ba81997be0"
+    },
+    {
+      "path": "tests/tip02/build-client.py",
+      "bytes": 2869,
+      "git_blob": "2378b14e7b6ce2152be55f8f5a3876e83cdcb50b",
+      "sha256": "022b6d1007230539e405d0d7e93df5647b01fdfa1c293c94d3e9bdf5578f2ff6"
+    },
+    {
+      "path": "tests/tip02/README.md",
+      "bytes": 2969,
+      "git_blob": "126808ece7ccbfb7e1bb206d57df4dbcf34f6433",
+      "sha256": "10b577647d88bd1dd8c08adbb2e81e756d905ea3a85f7fe99846ca1ab7633824"
+    },
+    {
+      "path": "tests/tip02/retained.py",
+      "bytes": 2200,
+      "git_blob": "0290b97f61e8929c00a31cb8fd4e0a17eaf2725f",
+      "sha256": "8919e45b799075b71baa6acec9b658227a7ccdd46edcdd668a81263a5d77bbab"
+    },
+    {
+      "path": "tests/tip02/controller.test.mjs",
+      "bytes": 3948,
+      "git_blob": "9bd2802e0c842e8844ea9c16457d4d32b4cb3f7d",
+      "sha256": "101bf349825c7803223f8aa182189d287b8417663c79a69b1cc2aea65219c92e"
+    },
+    {
+      "path": "tests/tip02/regression.py",
+      "bytes": 799,
+      "git_blob": "52adbb6df8b544d12fbdd0bc0496e848ab6511a7",
+      "sha256": "3c996198778e76fd2d10fbc01dc0fc8918023928d51c11c608aed7d075ac2d99"
+    },
+    {
+      "path": "tests/tip02/client.test.mjs",
+      "bytes": 4780,
+      "git_blob": "02d2a3109ca11b8b2085470747e616e588d10105",
+      "sha256": "2fdc1b5f0014ed7e087c186553c8cd71f86e09a8272d911cfc5ca1fc5dfa276e"
+    },
+    {
+      "path": "tests/tip02/acceptance.sql",
+      "bytes": 15719,
+      "git_blob": "8007194d956635bcb1e18d2700fc8dbf7b301f08",
+      "sha256": "4153ee212306420c013c4a5687eb61fff68c130e6dd6a545c3bc73631cc0b331"
+    },
+    {
+      "path": "tests/tip02/isolation-client.test.mjs",
+      "bytes": 509,
+      "git_blob": "a524c73431b9f7a79d6794e69f5bb5653c41c66f",
+      "sha256": "f9b369e5bfca21204eb05329a1f8cf2e254b2af13ff4c9f942f5c1162cf82ed7"
+    },
+    {
+      "path": "tests/tip02/native.py",
+      "bytes": 6455,
+      "git_blob": "8f5e3732ba0bfa679eef78ea6388e7ddf63b7f1c",
+      "sha256": "190193aa10d24861d488624fe8b1d4d15f5ca4c654b9f6554d1c00f9c0ebe07b"
+    },
+    {
+      "path": "tests/native103/admission.py",
+      "bytes": 1190,
+      "git_blob": "051619048194ae2bce896cc7f4b20645892743e8",
+      "sha256": "b35866feadeda0e0d7b78f4e70795e3a4838068c5c6bcbd8781a0d66df7ac3ce"
+    },
+    {
+      "path": "tests/native103/build-client.py",
+      "bytes": 4000,
+      "git_blob": "89f5072521bf22113ea382492b9c163d6e7a1f2b",
+      "sha256": "ac05540d522889bbfe52c95aeab04a1323793294f4a5c6d48beeb182e7bd8d6b"
+    },
+    {
+      "path": "tests/native103/migrate102.sql",
+      "bytes": 1969,
+      "git_blob": "3e33c3929958b51f274c0acd9ad792d2114875e6",
+      "sha256": "16fd6dcde2dc919084ddac9e28aef2c3a532d76b873112221235eeb1f7728693"
+    },
+    {
+      "path": "tests/native103/dependencies.sql",
+      "bytes": 3281,
+      "git_blob": "7272feb9182ec9415454f82a53576a4b22710799",
+      "sha256": "df23c2f1e989abe912dc7cf1275676a33c25c515cb56b5ce0172f99a85c7f05c"
+    },
+    {
+      "path": "tests/native103/fidelity.sql",
+      "bytes": 2167,
+      "git_blob": "2903bd4c479eadbdfb96f2d5e01bbd32ef36409f",
+      "sha256": "3308a68e37c4c14679ff55892403380a6eadb6448bdde3a52e4f5b005feeccf6"
+    },
+    {
+      "path": "tests/native103/client.test.mjs",
+      "bytes": 5366,
+      "git_blob": "e456a21b8df34076af7539ef47db7a5a53281968",
+      "sha256": "0ac58e01f10cad9ad881b8baa5d36c250c84be7fb054dcd37342909b5c87be66"
+    },
+    {
+      "path": "tests/native103/captured-dependency-hashes.json",
+      "bytes": 263,
+      "git_blob": "b0578c95ad575c39313ecf0c167edc97b64d4073",
+      "sha256": "1fc15206995f057deeae26b48169ef738ad43f1b96f2a46b3723f46c4b62df8c"
+    },
+    {
+      "path": "tests/native103/ui.test.mjs",
+      "bytes": 2525,
+      "git_blob": "85c11809682109c15a9f3b8c73ad4de7c9dae32c",
+      "sha256": "1a220a4a5d07926dc1ca44874931d6a5848c0a97a240d142f289263028e47b2b"
+    },
+    {
+      "path": "tests/native103/ui-source-hashes.json",
+      "bytes": 193,
+      "git_blob": "3f2681e886a4835cfc61797e5a30925a5cad684e",
+      "sha256": "5af60be0ee9393acd83cba3976e78c0c1d64d9f14a8b2ca15b2fab014ec3130e"
+    },
+    {
+      "path": "tests/native103/schema.sql",
+      "bytes": 9725,
+      "git_blob": "a77cccdcf818d9509db39c643a600f5e59324143",
+      "sha256": "8b1d697efbc7f299b5a02867c74eee45be00913901a916f9c7c05d4716ef1a95"
+    },
+    {
+      "path": "tests/native103/rollback.sql",
+      "bytes": 1121,
+      "git_blob": "e52763d063cae7094919f64067d9fa8475082568",
+      "sha256": "2101fc015e11ddb48ec3239878d84a355867aec97467442055389d056b9544a2"
+    },
+    {
+      "path": "tests/native103/client.js",
+      "bytes": 3794,
+      "git_blob": "9d23cf8ec21480bdfa733516e3f80c0356d0a0fa",
+      "sha256": "f7ae293d89332d8703021ce0478cfff2324eab7203b091d2934a3fa57acf3616"
+    },
+    {
+      "path": "tests/native103/restore.py",
+      "bytes": 1336,
+      "git_blob": "c3e298d9a3ef2a2384b3b5d6d11caa4767460af1",
+      "sha256": "dd5373cfbee68cf017bbe5ee09793c1ee14f2548c8ebf5fe71c35d824851cbdc"
+    },
+    {
+      "path": "tests/native103/functions.sql",
+      "bytes": 19088,
+      "git_blob": "1213dd340b04f7b330ed2f9c7ce7a87ea0731746",
+      "sha256": "459617b162cb8882b4ea3659c3995acac7510cf4290c909bbba1bad8702f606f"
+    },
+    {
+      "path": "tests/native103/test_sql.py",
+      "bytes": 20940,
+      "git_blob": "cbfe5da4be4ec0934289e03414542dc7336de970",
+      "sha256": "e0c6c14158b5a73e210845a741b765ed720c2225e427e1ff0260541e93db03dc"
+    },
+    {
+      "path": "tests/tip01/admission.py",
+      "bytes": 917,
+      "git_blob": "4f5f07bc0379d49323d9ff4403e9dc73ded59fd5",
+      "sha256": "979cd72cdcc599c0547979ed740810684e1aa25f6a37a574a410a5e4c9f568c9"
+    },
+    {
+      "path": "tests/tip01/README.md",
+      "bytes": 2447,
+      "git_blob": "e4e1fb5d88626a1c0ee84bda582db94d8b47a17d",
+      "sha256": "3288f79377e184fa571716be0851f09cebb96fcc7e4a656f6819e75e0ffb27a9"
+    },
+    {
+      "path": "tests/tip01/regression.py",
+      "bytes": 2141,
+      "git_blob": "9704840b9aac6c61899100712175b00e23670ad7",
+      "sha256": "b9f039371917dc953997d72fb24dbcc4aa2f699215a7750afdec892c0ad2fa73"
+    },
+    {
+      "path": "tests/tip01/acceptance.sql",
+      "bytes": 15684,
+      "git_blob": "51b4aed1989e48d0ef677d072737351cdf3aed3b",
+      "sha256": "e2dcac887090dead3d2f678333b56c2a77d302c3fdad659b104e9a86d97da5cd"
+    },
+    {
+      "path": "tests/tip01/native.py",
+      "bytes": 12746,
+      "git_blob": "c53d18c57a64ce9043b492faa8fcee14a4e27ba1",
+      "sha256": "dc177f080b63b9d1895354d2d45352931fe1d80806432810a35e395af1e4db66"
+    },
+    {
+      "path": "tests/tip01/restore.py",
+      "bytes": 932,
+      "git_blob": "45480d67edbddfaf3031546f9d6feb239c7bd9a4",
+      "sha256": "3469752bdcbc0454c651f773d792d6a643d673b78d906933e754c9419572610b"
+    },
+    {
+      "path": "docs/review/tip02-null01/SOURCE-HASHES.json",
+      "bytes": 422,
+      "git_blob": "eb6ec57840e3f6d539016d3f47dc082a363636fb",
+      "sha256": "186ffa1851dee29ce48bc8b414bb2b5e51db1a2e4b02dc1097396106f5d3ddb8"
+    },
+    {
+      "path": "docs/review/tip02-null01/SQL-DIFF.patch",
+      "bytes": 856,
+      "git_blob": "c18428fdf9411eb43e6d073e1f4303b62de34402",
+      "sha256": "da003820165eac14c493e3db703cc1cdef095cda217d6bed66422b79a6ea647b"
+    },
+    {
+      "path": "docs/review/tip02-null01/REPORT-AR.md",
+      "bytes": 9493,
+      "git_blob": "0af38b06387890074f00f9e35201f5532e88ec95",
+      "sha256": "e097244df608eae0451bf36a3874cff465d97e94b6de388bef2743c9e199daf8"
+    },
+    {
+      "path": "docs/review/tip02/preview.html",
+      "bytes": 6932,
+      "git_blob": "b0e707ab05d3843b92a88071e8753246edab0676",
+      "sha256": "7c49602b026f46be7a84235738aafc009c18d31d07696838acd86f165d8fdbff"
+    },
+    {
+      "path": "docs/review/tip02/SOURCE-HASHES.json",
+      "bytes": 1291,
+      "git_blob": "ab90d9e3d4ab270ec8996123d5935d38a08a90fe",
+      "sha256": "87d316be8da41d2e617caac215c9b37421cc0c02a187f5d0ecb2d1f03080127a"
+    },
+    {
+      "path": "docs/review/tip02/CLIENT-DIFF.patch",
+      "bytes": 17606,
+      "git_blob": "cde53a915e387358700436d21abc1f6b75420e24",
+      "sha256": "d638ac8b403f536f7ff6e3c4b8012da61c0b8eb765a6d24ee46e505f5e02dde3"
+    },
+    {
+      "path": "docs/review/tip02/SQL-DIFF.patch",
+      "bytes": 1489,
+      "git_blob": "3403fa2d3c6b000d1bc87df218913874ab812f19",
+      "sha256": "f6f692b28cca9c4e2bf111d16ac4153a6175e3c9dc196efcdc641c4854199530"
+    },
+    {
+      "path": "docs/review/tip02/REPORT-AR.md",
+      "bytes": 14897,
+      "git_blob": "5c507861b89facbaefede6fda9b14fa470c1af4b",
+      "sha256": "0a31fd7b92de18c882126ae282736c330925dbad4d727be15159dd1aab080117"
+    },
+    {
+      "path": "docs/review/tip02-null01/evidence/baseline.log",
+      "bytes": 4003,
+      "git_blob": "1bf18de2c270998de17a55d27318de5f29e08151",
+      "sha256": "fb4351902e435ce2cbd95abced2259bfe954e3bb8765ec0a4c334a55577a740a"
+    },
+    {
+      "path": "docs/review/tip02-null01/evidence/tip02-null-results.json",
+      "bytes": 53,
+      "git_blob": "253337dbdb43b7c30ebd46cf16b901ee401fbd4d",
+      "sha256": "c5c2ef4e1e7d49b3e13c55d15388c7ad0496d54f62c4e36634970dd8c465233c"
+    },
+    {
+      "path": "docs/review/tip02-null01/evidence/tip02-null-client.json",
+      "bytes": 317,
+      "git_blob": "cc55fd83d37657500897c826db2ba70fb9a13837",
+      "sha256": "71f7b860a6ca2a5392c168ff17fd82f4dc2318bb7939bd5968bdd98c9b28251f"
+    },
+    {
+      "path": "docs/review/tip02-null01/evidence/native.log",
+      "bytes": 1482,
+      "git_blob": "d09774948422deb3aea03e84056575330fc8427e",
+      "sha256": "c7d180663c4ace2b7e10736611fcf9650a58f4e77346d11ca87825044038246f"
+    },
+    {
+      "path": "docs/review/tip02-null01/evidence/client.log",
+      "bytes": 318,
+      "git_blob": "e8049b039178b8ca339d2b192a0bc818c46700e9",
+      "sha256": "d784c9ceabdcbcef1ae7ffa4c46af9721f1c35e40d60b720e3122b0dfb93e786"
+    },
+    {
+      "path": "docs/review/tip02/evidence/tip02-client.json",
+      "bytes": 1078,
+      "git_blob": "5baeef5b2f08d8775a134911715ec1ba5587063b",
+      "sha256": "85f864ac5ca079b9abd93cb14e0b55de2d65ef384c2163872e45935e3da1afea"
+    },
+    {
+      "path": "docs/review/tip02/evidence/baseline.log",
+      "bytes": 12337,
+      "git_blob": "4a7f277bb3111f4ffe8acd03d338a33030aab158",
+      "sha256": "349be3a2a21da4e5efa12c35026bf17d6a347de2009d54ae2800ba1ce299eb26"
+    },
+    {
+      "path": "docs/review/tip02/evidence/tip02-isolation-client.json",
+      "bytes": 541,
+      "git_blob": "f09a0368bbdf34f563483bb43fecf82a49d851fe",
+      "sha256": "8073a037b01a0c927e55d5255fd8934ad3532fe70c318beac8b8d4c5362bb2f7"
+    },
+    {
+      "path": "docs/review/tip02/evidence/client-baseline.log",
+      "bytes": 182,
+      "git_blob": "9c58f4bca82cbc9f05ee54175441a6996c62fc68",
+      "sha256": "4760f93bb6bfbf1d8552f3919687e604cc8c6645b1d3f2d9e029669852c78b73"
+    },
+    {
+      "path": "docs/review/tip02/evidence/tip02-retained.json",
+      "bytes": 196,
+      "git_blob": "f2d8d1645a259b622838ea2acc7a400b4c7cf7f1",
+      "sha256": "1af68466ad98047be4f81dcaaa966a168de707baac0571e88cd9e36c0abaac9e"
+    },
+    {
+      "path": "docs/review/tip02/evidence/tip02-regression.json",
+      "bytes": 146,
+      "git_blob": "7649e12f49510038a368c4999a63320ec91e1ad5",
+      "sha256": "2e91c81bf77ee3a29ad025a7d0c76c9da9edaaad3039a20ac7f01cd282feaa03"
+    },
+    {
+      "path": "docs/review/tip02/evidence/tip02-controller.json",
+      "bytes": 625,
+      "git_blob": "9f21d7f1923200540ac19e89f7ca93e86b7cb246",
+      "sha256": "a8a498616a1867121fe4ec9f814be65672f127751e980975d4b62d1b4bb49566"
+    },
+    {
+      "path": "docs/review/tip02/evidence/client-build.log",
+      "bytes": 359,
+      "git_blob": "f78d31a84248d55d11c0ab5c9cb9d049caa85433",
+      "sha256": "2f2d68b93ccc2a8afe7d7a8e95dcd70f24b03eda6577718af22a2caecf0b9322"
+    },
+    {
+      "path": "docs/review/tip02/evidence/controller.log",
+      "bytes": 626,
+      "git_blob": "bdf290af9106dd90b8161068d9d356a4849813c4",
+      "sha256": "b5955cb31e5aa952a04fb220573e9bfaaf9d1995db6656eb6386c630388e3488"
+    },
+    {
+      "path": "docs/review/tip02/evidence/client-quote-red.log",
+      "bytes": 1110,
+      "git_blob": "f6c22247018ce5f0a036d60e83968804754e8665",
+      "sha256": "65f10638d04f2cdfb5f7e056637f521b182ac9b030cdb21cecb057189e08ed81"
+    },
+    {
+      "path": "docs/review/tip02/evidence/regression.log",
+      "bytes": 5824,
+      "git_blob": "c0755446ee57ec599e85ce88476b64a536a0f7ce",
+      "sha256": "004a02963773d3f6bbd4a39999acb750eff6fd5811dd7997de010faf4fc07623"
+    },
+    {
+      "path": "docs/review/tip02/evidence/tip02-c03c04.json",
+      "bytes": 1434,
+      "git_blob": "e552f160a7c64fe5e3eefb5ee0e0456636e8a38d",
+      "sha256": "2b100391f214a3e0293a2c799dee7a10a36815739de0884469d865078574a2bd"
+    },
+    {
+      "path": "docs/review/tip02/evidence/isolation-client.log",
+      "bytes": 542,
+      "git_blob": "11b2816e739f54a1eadc751dc9f982621c3aea1d",
+      "sha256": "84b67fb8782311c5a72953e9e6365b7af11502deaa8d24cd84afddc5b51a5eaf"
+    },
+    {
+      "path": "docs/review/tip02/evidence/cart.log",
+      "bytes": 466,
+      "git_blob": "247e5a148196b961bd6b61db0a863a630e307cc0",
+      "sha256": "4ab9522ae6e97fe262462922125f33d644e905858ce3cd7aff03436cc61d5a57"
+    },
+    {
+      "path": "docs/review/tip02/evidence/c03c04.log",
+      "bytes": 1435,
+      "git_blob": "8d6c0d69fcb30704bec9cf683364bf0f6f0a014a",
+      "sha256": "bd2b40fc91a8005f1f22ffdf6334c998eabdd3ef2b04c4dd1e5f4aabd212c4ab"
+    },
+    {
+      "path": "docs/review/tip02/evidence/native.log",
+      "bytes": 1036,
+      "git_blob": "f5101c742297ae87b535ee03191d2a380d0b668e",
+      "sha256": "7975f514ab399accfa37187935397de5b889897eaea4958cdcc0b593e8b9751f"
+    },
+    {
+      "path": "docs/review/tip02/evidence/tip02-native.json",
+      "bytes": 52,
+      "git_blob": "62e96b5654f6cc15b6e20c39570207c7909cc308",
+      "sha256": "1436dcb140137f5e5dd13c3f91eb1d914e09fce434c8ad8813afef9c52094d92"
+    },
+    {
+      "path": "docs/review/tip02/evidence/client.log",
+      "bytes": 1079,
+      "git_blob": "f9c6f8541032366e1db1faa257ef2aef837fbc64",
+      "sha256": "1959a61e2e042b9fc104b79692114408599150559c2aac447458259dc6109d47"
+    },
+    {
+      "path": "docs/review/tip02/evidence/retained.log",
+      "bytes": 1223,
+      "git_blob": "d8bc95cc51c0c251a824c04ea1e4cfde7c49b2be",
+      "sha256": "31892760d28577cd1f987f2d81e467d5cfb95cc7d992e4d96b4b9e2003507bef"
+    },
+    {
+      "path": "docs/review/tip02/evidence/absence-red.log",
+      "bytes": 1186,
+      "git_blob": "9238b7c64ca571271defe1fd6a20a88439eaa7b2",
+      "sha256": "34858de3566765e26a7a7abd45c74cdd42228ccfac9982465667c8da625f5a0c"
+    }
+  ],
+  "recovered_ui_inputs": [
+    {
+      "path": "public/customer.html",
+      "bytes": 550295,
+      "sha256": "2bfd0802d24fc4d8f907103dc0221e993f7b03b65a8b5c6388966a3dbfd5d245"
+    },
+    {
+      "path": "public/talabat-core.js",
+      "bytes": 174888,
+      "sha256": "7b56879e5e96f28696345d298f914a89e964dba49ebcfd2a5998e849435156c7"
+    }
+  ],
+  "generated_outputs": [
+    {
+      "path": "generated/customer.html",
+      "bytes": 558824,
+      "sha256": "64f23f8afa649b1d6aa3125ce3851a9b9c5dc297057578860c254e695f8d243d"
+    },
+    {
+      "path": "generated/talabat-core.js",
+      "bytes": 183005,
+      "sha256": "1e515219465616c22d0839501f84b2a3f8e3b7472dc1a0f80b9cefa1d318e076"
+    }
+  ]
+}

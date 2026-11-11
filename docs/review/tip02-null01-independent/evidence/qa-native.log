@@ -1,0 +1,33 @@
+test_01_complete_definition_and_effective_catalog (__main__.QA.test_01_complete_definition_and_effective_catalog) ... ok
+test_02_new_domain_four_entries_three_modes (__main__.QA.test_02_new_domain_four_entries_three_modes) ... ok
+test_03_invalid_new_values_all_entries_no_finance (__main__.QA.test_03_invalid_new_values_all_entries_no_finance) ... ok
+test_04_default_zero_and_null_hmac_all_entries (__main__.QA.test_04_default_zero_and_null_hmac_all_entries) ... ok
+test_05_bound_legacy_null_and_invalid_payloads_unchanged (__main__.QA.test_05_bound_legacy_null_and_invalid_payloads_unchanged) ... ok
+test_06_pre_tip01_raw20_and_unbound_null_readonly (__main__.QA.test_06_pre_tip01_raw20_and_unbound_null_readonly) ... ERROR
+test_07_identity_account_and_original_group_authorization (__main__.QA.test_07_identity_account_and_original_group_authorization) ... ok
+test_08_deterministic_null_closure_wins_four_entries (__main__.QA.test_08_deterministic_null_closure_wins_four_entries) ... ok
+test_09_deterministic_zero_commit_wins_four_entries (__main__.QA.test_09_deterministic_zero_commit_wins_four_entries) ... ok
+test_10_tcp_cut_create_and_rejection_before_after_commit (__main__.QA.test_10_tcp_cut_create_and_rejection_before_after_commit) ... ok
+test_11_raw_null_success_ack_before_upgrade (__main__.QA.test_11_raw_null_success_ack_before_upgrade) ... ok
+test_12_isolation_closed_key_and_resource_fail_closed (__main__.QA.test_12_isolation_closed_key_and_resource_fail_closed) ... ok
+test_13_atomic_promo_points_wallet_and_full_tip (__main__.QA.test_13_atomic_promo_points_wallet_and_full_tip) ... ok
+test_14_rollback_reupgrade_and_canonical_history (__main__.QA.test_14_rollback_reupgrade_and_canonical_history) ... ok
+test_15_same_manual_key_three_connections_one_spend (__main__.QA.test_15_same_manual_key_three_connections_one_spend) ... ok
+test_16_order_limit_preserved_at_new_manual_boundary (__main__.QA.test_16_order_limit_preserved_at_new_manual_boundary) ... ok
+
+======================================================================
+ERROR: test_06_pre_tip01_raw20_and_unbound_null_readonly (__main__.QA.test_06_pre_tip01_raw20_and_unbound_null_readonly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/5a347b27fddd/qa-tip02/independent_native.py", line 85, in test_06_pre_tip01_raw20_and_unbound_null_readonly
+    self.done();Base.upgrade(self);self.policy(200,200);b=p('old20qa',20);r=self.invoke(b);self.assertEqual(self.a.execute('select tip from orders where id=%s',(oid(r),)).fetchone()[0],0)
+                                                                                                                                                                 ^^^^^^
+  File "/workspace/scratch/5a347b27fddd/qa-tip02/independent_native.py", line 13, in oid
+    def oid(r):return str(r if isinstance(r,int) else r['id'])
+                                                      ~^^^^^^
+KeyError: 'id'
+
+----------------------------------------------------------------------
+Ran 16 tests in 5.632s
+
+FAILED (errors=1)

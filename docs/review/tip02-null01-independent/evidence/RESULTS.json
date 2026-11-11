@@ -1,0 +1,39 @@
+{
+  "source": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "candidate": "TIP-02 plus NULL-01",
+  "judgments": {
+    "TIP-02": "REVISE",
+    "NULL-01": "ACCEPTED_ISOLATED",
+    "TIP-G": "ACCEPTED_CONTRACT_AND_ISOLATED_SQL",
+    "TIP-D": "PARTIAL_REPAIR_REQUIRED_BROWSER_UNVERIFIED",
+    "TIP-F": "PARTIAL_HOSTED_BLOCKED",
+    "phase1": "INCOMPLETE",
+    "phase2": "NO-GO"
+  },
+  "native": {
+    "scope": "NATIVE POSTGRESQL17.6 / partial synthetic fixture",
+    "unique_groups": 16,
+    "final_pass": 16,
+    "initial_harness_errors": 1,
+    "focused_followup_groups": 1,
+    "history_preserved": true
+  },
+  "client": {
+    "scope": "LOCAL Node VM / mocked RPC and serialized store / NOT actual browser or IndexedDB",
+    "acceptance_groups": 18,
+    "pass": 17,
+    "fail": 1,
+    "failed_case": "UI_11_success_crash_checkpoint_never_carries_consumed_tip"
+  },
+  "additional_reproduction": {
+    "case": "UI_12_integrated_controller_accepts_checkpoint_new_key",
+    "finding": "TIP02-QA-01",
+    "confirmed": true,
+    "counts_as_acceptance_pass": false
+  },
+  "programmer_runs": "Reviewed as supplied evidence; not counted as our executions",
+  "hosted_http": "NOT_TESTED",
+  "actual_browser_indexeddb": "NOT_RUN_PREEXISTING_BLOCKER_NOT_RETRIED",
+  "physical_safari": "NOT_TESTED",
+  "candidate_source_modified": false
+}

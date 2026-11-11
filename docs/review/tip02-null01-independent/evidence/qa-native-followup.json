@@ -1,0 +1,14 @@
+{
+  "start_utc": "2026-11-11T09:36:39.340934+00:00",
+  "end_utc": "2026-11-11T09:36:39.521362+00:00",
+  "candidate": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "scope": "NATIVE POSTGRESQL 17.6, partial synthetic fixture, independent assertions",
+  "tests": 1,
+  "passed": true,
+  "results": [
+    {
+      "case": "test_06_pre_tip01_raw20_and_unbound_null_readonly",
+      "result": "PASS"
+    }
+  ]
+}

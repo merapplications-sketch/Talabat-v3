@@ -1,0 +1,19 @@
+--- TIP02
++++ NULL01
+@@ -1,4 +1,4 @@
+--- TIP-02 isolated overlay AFTER TIP-01; no hosted application authorized.
++-- TIP-02-NULL-01: isolated overlay AFTER TIP-02. No historical data migration.
+ CREATE OR REPLACE FUNCTION security_private.create_order103(p_store uuid, p_items jsonb, p_tip numeric DEFAULT 0, p_payment text DEFAULT 'cash'::text, p_address text DEFAULT ''::text, p_lat double precision DEFAULT NULL::double precision, p_lng double precision DEFAULT NULL::double precision, p_promo text DEFAULT NULL::text, p_key text DEFAULT NULL::text, p_fee numeric DEFAULT NULL::numeric, p_wallet numeric DEFAULT NULL::numeric, p_points integer DEFAULT NULL::integer, p_extra jsonb DEFAULT NULL::jsonb)
+  RETURNS jsonb
+  LANGUAGE plpgsql
+@@ -53,8 +53,8 @@
+   if v_result is not null then return v_result;end if;
+   if exists(select 1 from security_private.order_attempt_closures104 where customer_id=auth.uid() and client_key=p_key) then raise exception 'attempt_closed';end if;
+   -- TIP-02: only NEW creation is range-checked; prior-key recovery above is unchanged.
+-  -- Explicit NULL retains legacy behavior pending its separate owner contract.
+-  if p_tip is not null and (p_tip < 0 or p_tip > 100 or p_tip <> trunc(p_tip)) then
++  -- NULL-01 owner decision: explicit NULL is rejected only for NEW creation.
++  if p_tip is null or p_tip < 0 or p_tip > 100 or p_tip <> trunc(p_tip) then
+     raise exception 'bad_value';
+   end if;
+   select key_id,secret into v_key_id,v_secret from security_private.order_request_keys103 where active;

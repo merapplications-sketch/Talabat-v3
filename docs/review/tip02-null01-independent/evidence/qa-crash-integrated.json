@@ -1,0 +1,17 @@
+{
+  "finding": "TIP02-QA-01",
+  "reproduced": true,
+  "scope": "Generated UI + real candidate controller, mocked RPC and serialized transactional store; restart from saved checkpoint",
+  "priorAttemptState": "created",
+  "priorKey": "qa_537cc1332bf44024ad106281e1af718e",
+  "newKey": "qa_b43e0325534d43ed87dc5f521c5a818c",
+  "carriedTip": 99,
+  "newItems": [
+    {
+      "item_id": "newitem",
+      "qty": 3,
+      "options": []
+    }
+  ],
+  "automaticExtraConfirmation": false
+}

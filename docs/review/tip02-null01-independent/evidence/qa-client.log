@@ -1,0 +1,76 @@
+[
+  {
+    "case": "UI_01_all_integer_amounts_exact_and_no_automatic_next_tip",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_02_invalid_edit_preserved_no_new_rpc_or_key",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_03_default_and_explicit_null_draft_distinct",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_04_valid_edit_during_quote_sends_latest_and_invalid_stops",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_05_changed_cart_preserved_and_next_order_zero",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_06_explicit_later_selection_preserved_after_success_or_replay",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_07_rejection_and_unknown_keep_latest_draft_and_original_key",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_08_reload_recovery_preserves_unresolved_invalid_draft",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_09_empty_cart_resets_tip_but_later_confirmation_still_needed",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_10_stale_reply_cannot_clear_newer_attempt_tip",
+    "result": "PASS"
+  },
+  {
+    "case": "UI_11_success_crash_checkpoint_never_carries_consumed_tip",
+    "result": "FAIL",
+    "detail": "AssertionError [ERR_ASSERTION]: consumed tip survives a durable success checkpoint and is sent with a NEW key\n\n99 !== 0\n",
+    "stack": "AssertionError [ERR_ASSERTION]: consumed tip survives a durable success checkpoint and is sent with a NEW key\n\n99 !== 0\n\n    at file:///workspace/scratch/5a347b27fddd/qa-tip02/independent_client.mjs:59:448\n    at async test (file:///workspace/scratch/5a347b27fddd/qa-tip02/independent_client.mjs:7:51)\n    at async file:///workspace/scratch/5a347b27fddd/qa-tip02/independent_client.mjs:55:1"
+  },
+  {
+    "case": "CORE_01_all_valid_numbers_unchanged_invalid_no_durable_attempt",
+    "result": "PASS"
+  },
+  {
+    "case": "CORE_02_three_controllers_same_key_reverse_responses",
+    "result": "PASS"
+  },
+  {
+    "case": "CORE_03_ack_unknown_blocks_alternate_key_and_retries_frozen_payload",
+    "result": "PASS"
+  },
+  {
+    "case": "CORE_04_explicit_null_rejection_requires_committed_closure_to_end",
+    "result": "PASS"
+  },
+  {
+    "case": "CORE_05_null_ack_loss_historical_recovery_no_new_create",
+    "result": "PASS"
+  },
+  {
+    "case": "CORE_06_accounts_are_independent_without_cross_account_state",
+    "result": "PASS"
+  },
+  {
+    "case": "CORE_07_adapter_omitted_zero_null_type_identity",
+    "result": "PASS"
+  }
+]
