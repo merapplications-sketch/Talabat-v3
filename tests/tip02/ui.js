@@ -19,10 +19,10 @@ function tipInput02(raw){
  cartSave();render();
  if(typeof document!=='undefined'){const e=document.getElementById('tip02-amount');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length);}}
 }
-function tipComplete02(key){
+function tipComplete02(key,persist=true){
  // A deliberate later selection belongs to the preserved draft, not the completed order.
  if(S.tipSentKey02===null||S.tipSentKey02&&S.tipSentKey02!==key)return;
- S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;cartSave();
+ S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;if(persist)cartSave();
 }
 function tipRestore02(d){
  if(!Object.prototype.hasOwnProperty.call(d,'tip')){S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=undefined;return;}

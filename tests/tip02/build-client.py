@@ -16,8 +16,12 @@ s=once(s,old,'${tipPanel02()}')
 s=once(s,"  if(!ME.phone){alert(t('needPh'));", "  const tip02=tipGet02();if(!tip02.ok){alert(tipText02('error'));return;}\n  if(!ME.phone){alert(t('needPh'));")
 s=once(s,'    if(!S.okey)S.okey=newKey();render();',"    if(!tipGet02().ok){alert(tipText02('error'));return;}\n    if(!S.okey)S.okey=newKey();render();")
 s=once(s,'    const sentCart104=cartToken104();','    S.tipSentKey02=S.okey;cartSave();\n    const sentCart104=cartToken104();')
-s=once(s,'        if(!retireDraft105(recoverKey105,seq105))return;','        if(!retireDraft105(recoverKey105,seq105))return;tipComplete02(recoverKey105);')
-s=once(s,'    if(!retireDraft105(sentKey105,seq105))return;','    if(!retireDraft105(sentKey105,seq105))return;tipComplete02(sentKey105);')
+# Complete the owned tip and detach the completed key in ONE draft write.
+# Rejected attempts use the unchanged two-argument path; no tip was consumed.
+s=once(s,'function retireDraft105(key,seq){if(!draftResponse105(key,seq))return false;S.okey=null;cartSave();return true;}',
+ 'function retireDraft105(key,seq,completedTip=false){if(!draftResponse105(key,seq))return false;if(completedTip)tipComplete02(key,false);S.okey=null;cartSave();return true;}')
+s=once(s,'        if(!retireDraft105(recoverKey105,seq105))return;','        if(!retireDraft105(recoverKey105,seq105,true))return;')
+s=once(s,'    if(!retireDraft105(sentKey105,seq105))return;','    if(!retireDraft105(sentKey105,seq105,true))return;')
 # Emptying a draft must not silently carry a tip into a later cart. Attempts live separately.
 s=once(s,"if(!cartCount()){S.promo=null;", "if(!cartCount()){S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;S.promo=null;")
 p.write_text(s)
