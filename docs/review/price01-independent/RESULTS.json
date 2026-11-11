@@ -1,0 +1,36 @@
+{
+  "source": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+  "parent_evidence": "019d1038681661ad3441d64e0f202139c704adcc",
+  "verdict": "REVISE",
+  "native_independent": {
+    "total": 14,
+    "pass": 11,
+    "fail": 3
+  },
+  "vm_independent": {
+    "total": 9,
+    "pass": 7,
+    "fail": 2
+  },
+  "developer_cases_reexecuted": {
+    "total": 6,
+    "pass": 6,
+    "case_ids": [
+      9,
+      11,
+      13,
+      14,
+      20,
+      26
+    ]
+  },
+  "findings": [
+    "PRICE01-QA-01",
+    "PRICE01-QA-02"
+  ],
+  "chromium_indexeddb": "NOT VERIFIED; developer launch BLOCKED",
+  "safari": "NOT TESTED",
+  "hosted_http_catalog": "NOT TESTED / BLOCKED",
+  "phase2": "NO-GO",
+  "collected_at_utc": "2026-11-11T19:20:15.720226+00:00"
+}

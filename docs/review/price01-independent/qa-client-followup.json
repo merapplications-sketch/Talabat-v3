@@ -1,0 +1,66 @@
+{
+  "scope": "Node VM / exact generated UI + controller / mocked RPC and persistence",
+  "source": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+  "results": [
+    {
+      "name": "U01 finite small option must serialize to supported decimal",
+      "result": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: valid finite option value became unusable price evidence",
+      "stack": "AssertionError [ERR_ASSERTION]: valid finite option value became unusable price evidence\n    at file:///workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_client.mjs:12:2\n    at test (file:///workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_client.mjs:8:132)\n    at file:///workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_client.mjs:9:7\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:647:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+    },
+    {
+      "name": "U02 unchanged cent prices must not create floating point price drift",
+      "result": "PASS"
+    },
+    {
+      "name": "U04 review cannot replace unresolved payload after ACK loss",
+      "result": "PASS"
+    },
+    {
+      "name": "U07 equal-total component changes need explicit approval then confirm",
+      "result": "PASS"
+    }
+  ],
+  "observations": [
+    {
+      "case": "U01",
+      "shown": null,
+      "optionPrice": 1e-7
+    },
+    {
+      "case": "U02",
+      "sent": {
+        "version": 1,
+        "lines": [
+          {
+            "item_id": "40000000-0000-4000-8000-000000000092",
+            "qty": 1,
+            "base_price": "19.9",
+            "options": [
+              {
+                "id": "70000000-0000-4000-8000-000000000092",
+                "price_delta": "0.2"
+              }
+            ],
+            "unit_price": "20.1",
+            "restaurant_discount": "0",
+            "happy_hour_discount": "0",
+            "net_items": "20.1"
+          }
+        ],
+        "totals": {
+          "subtotal": "20.1",
+          "restaurant_discount": "0",
+          "happy_hour_discount": "0",
+          "promo_discount": "0",
+          "points_value": "0",
+          "delivery_fee": "2",
+          "tip": "0",
+          "wallet_used": "0",
+          "cash_due": "22.1",
+          "total": "22.1"
+        }
+      }
+    }
+  ]
+}

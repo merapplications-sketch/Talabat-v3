@@ -1,0 +1,7 @@
+test_Q13_new_price_mismatch_four_entries (__main__.Boundary.test_Q13_new_price_mismatch_four_entries) ... ok
+test_Q14_full_fingerprint_sources_and_creator_metadata (__main__.Boundary.test_Q14_full_fingerprint_sources_and_creator_metadata) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.449s
+
+OK

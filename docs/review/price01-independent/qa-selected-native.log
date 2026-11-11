@@ -1,0 +1,11 @@
+test_09_points_promo_wallet_atomicity_and_acceptance (__main__.Price01.test_09_points_promo_wallet_atomicity_and_acceptance) ... ok
+test_11_tcp_before_after_commit_then_price_change (__main__.Price01.test_11_tcp_before_after_commit_then_price_change) ... ok
+test_13_lock_wait_price_change_and_closed_key (__main__.Price01.test_13_lock_wait_price_change_and_closed_key) ... ok
+test_14_isolation_all_entries_and_rollback_reupgrade (__main__.Price01.test_14_isolation_all_entries_and_rollback_reupgrade) ... ok
+test_20_rejection_ack_loss_reconciles_same_closure (__main__.Price01.test_20_rejection_ack_loss_reconciles_same_closure) ... ok
+test_26_success_and_closure_win_contended_entries (__main__.Price01.test_26_success_and_closure_win_contended_entries) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.801s
+
+OK

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "lines": [
+    {
+      "item_id": "40000000-0000-4000-8000-000000000092",
+      "qty": 3,
+      "base_price": "20.1",
+      "options": [],
+      "unit_price": "20.1",
+      "restaurant_discount": "0",
+      "happy_hour_discount": "0",
+      "net_items": "60.300000000000004"
+    }
+  ],
+  "totals": {
+    "subtotal": "60.300000000000004",
+    "restaurant_discount": "0",
+    "happy_hour_discount": "0",
+    "promo_discount": "0",
+    "points_value": "0",
+    "delivery_fee": "2",
+    "tip": "0",
+    "wallet_used": "0",
+    "cash_due": "62.3",
+    "total": "62.3"
+  }
+}

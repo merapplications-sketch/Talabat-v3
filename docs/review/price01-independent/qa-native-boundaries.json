@@ -1,0 +1,13 @@
+{
+  "scope": "NativePG17.6/synthetic catalog",
+  "results": [
+    {
+      "case": "test_Q13_new_price_mismatch_four_entries",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q14_full_fingerprint_sources_and_creator_metadata",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "scope": "NATIVE POSTGRESQL17.6 / synthetic fixture / independent authored cases",
+  "source": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+  "results": [
+    {
+      "case": "test_Q01_entries_proof_and_component_identity",
+      "status": "PASS",
+      "seconds": 0.405
+    },
+    {
+      "case": "test_Q02_offset_base_and_option_same_unit_and_total",
+      "status": "PASS",
+      "seconds": 0.172
+    },
+    {
+      "case": "test_Q03_discount_split_same_total",
+      "status": "PASS",
+      "seconds": 0.2
+    },
+    {
+      "case": "test_Q04_final_added_zero_option_must_not_be_hidden",
+      "status": "FAIL",
+      "detail": "Traceback (most recent call last):\n  File \"/workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_native.py\", line 40, in test_Q04_final_added_zero_option_must_not_be_hidden\n    self.assertEqual(r.get('status'),'rejected','persisted options differ from approved empty selection');self.assertEqual(before,self.snapshot())\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'created' != 'rejected'\n- created\n+ rejected\n : persisted options differ from approved empty selection\n"
+    },
+    {
+      "case": "test_Q05_final_wallet_and_loyalty_rollback",
+      "status": "PASS",
+      "seconds": 0.189
+    },
+    {
+      "case": "test_Q06_no_price_old_payload_recovery_then_new_missing_reject",
+      "status": "PASS",
+      "seconds": 0.321
+    },
+    {
+      "case": "test_Q07_simultaneous_different_proofs_one_winner",
+      "status": "PASS",
+      "seconds": 0.296
+    },
+    {
+      "case": "test_Q08_hmac_definition_acl_unchanged",
+      "status": "PASS",
+      "seconds": 0.128
+    }
+  ],
+  "observations": [
+    {
+      "case": "Q04",
+      "response": {
+        "id": "1",
+        "key": "qa_late_free_option",
+        "status": "created",
+        "input_match": true,
+        "contract_version": 1
+      },
+      "saved_options": [
+        [
+          [
+            {
+              "p": 0,
+              "id": "71000000-0000-4000-8000-000000000092"
+            }
+          ]
+        ]
+      ],
+      "counts": [
+        1,
+        1,
+        "-5.00",
+        1
+      ]
+    },
+    {
+      "case": "Q07",
+      "responses": [
+        {
+          "id": "1",
+          "key": "qa_race_price",
+          "status": "created",
+          "input_match": true,
+          "contract_version": 1
+        },
+        {
+          "key": "qa_race_price",
+          "reason": "idempotency_mismatch",
+          "status": "conflict"
+        }
+      ],
+      "counts": [
+        1,
+        1,
+        "-5.00",
+        1
+      ]
+    }
+  ]
+}

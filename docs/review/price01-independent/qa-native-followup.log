@@ -1,0 +1,32 @@
+test_Q09_real_UI_unchanged_price_must_be_accepted (__main__.Followup.test_Q09_real_UI_unchanged_price_must_be_accepted) ... FAIL
+test_Q10_explicit_server_decimal_review_can_then_succeed (__main__.Followup.test_Q10_explicit_server_decimal_review_can_then_succeed) ... ok
+test_Q11_final_removed_zero_option_must_not_be_hidden (__main__.Followup.test_Q11_final_removed_zero_option_must_not_be_hidden) ... ok
+test_Q12_final_unrequested_offset_pair_must_not_be_hidden (__main__.Followup.test_Q12_final_unrequested_offset_pair_must_not_be_hidden) ... FAIL
+
+======================================================================
+FAIL: test_Q09_real_UI_unchanged_price_must_be_accepted (__main__.Followup.test_Q09_real_UI_unchanged_price_must_be_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_followup.py", line 12, in test_Q09_real_UI_unchanged_price_must_be_accepted
+    self.assertEqual(r['status'],'created','unchanged20.1 x3 was wrongly rejected as price_changed')
+AssertionError: 'rejected' != 'created'
+- rejected
++ created
+ : unchanged20.1 x3 was wrongly rejected as price_changed
+
+======================================================================
+FAIL: test_Q12_final_unrequested_offset_pair_must_not_be_hidden (__main__.Followup.test_Q12_final_unrequested_offset_pair_must_not_be_hidden)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_followup.py", line 22, in test_Q12_final_unrequested_offset_pair_must_not_be_hidden
+    r=self.invoke(ns['request']('qa_offset_late_opts'));obs.append({'case':'Q12','response':r,'counts':self.counts()});self.assertEqual(r['status'],'rejected')
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'created' != 'rejected'
+- created
++ rejected
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.848s
+
+FAILED (failures=2)

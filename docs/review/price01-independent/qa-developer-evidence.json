@@ -1,0 +1,79 @@
+{
+  "source": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+  "evidence_commit": "019d1038681661ad3441d64e0f202139c704adcc",
+  "reviewed": [
+    {
+      "path": "docs/review/price01-implementation/FILES.json",
+      "git_blob": "c2ea8fced2b5ab48e23fb84ed31a38af85c0577f"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/BROWSER-READINESS.json",
+      "git_blob": "b057980ab5a94b57cabc420fbc5ecc1ca07f6bb6"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/SUMMARY.json",
+      "git_blob": "8e5b876447131dab5d20e4ad52c7fdae2abb1651"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/client-final.json",
+      "git_blob": "685931cd4b8969719068009fb6a1aaadf8ffbe41"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/client-final.log",
+      "git_blob": "18dba4240611179831cb1636ea1690eff7ef5f63"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-22.json",
+      "git_blob": "7d33f30dcc025c393ad0b9935ebf646805c997c4"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-22.log",
+      "git_blob": "0d8f24ebb89ec830956beff3529efccae070fe60"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-23.json",
+      "git_blob": "7d33f30dcc025c393ad0b9935ebf646805c997c4"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-23.log",
+      "git_blob": "b03410cd540a0be0e437c31b6ab97f8ae77d759c"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-26.json",
+      "git_blob": "7d33f30dcc025c393ad0b9935ebf646805c997c4"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-26.log",
+      "git_blob": "d089fa6b2c8917a328be06fe1affee7df196f185"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-delta25.json",
+      "git_blob": "cd37db665cffe6df235792728df1e5bc5d04f2ef"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-delta25.log",
+      "git_blob": "a9e8a493fd5a8ed6704128a405463f8e20076ad2"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-final.json",
+      "git_blob": "d11200004259b978900bb5a6c49fb1120eef9fd0"
+    },
+    {
+      "path": "docs/review/price01-implementation/evidence/native-final.log",
+      "git_blob": "1fbce5a12f1f7c7f80da573cf0b527de37e03944"
+    }
+  ],
+  "claims_not_independent": {
+    "native_distinct_groups": 26,
+    "node_vm": 17
+  },
+  "independently_rerun_developer_cases": [
+    9,
+    11,
+    13,
+    14,
+    20,
+    26
+  ],
+  "scope": "Source assertions/log coherence reviewed; no claim that all prior recorded runs were rerun."
+}

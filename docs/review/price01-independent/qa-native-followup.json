@@ -1,0 +1,86 @@
+{
+  "scope": "NativePG17.6 / synthetic fixture / independent new probes",
+  "results": [
+    {
+      "case": "test_Q09_real_UI_unchanged_price_must_be_accepted",
+      "status": "FAIL",
+      "detail": "Traceback (most recent call last):\n  File \"/workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_followup.py\", line 12, in test_Q09_real_UI_unchanged_price_must_be_accepted\n    self.assertEqual(r['status'],'created','unchanged20.1 x3 was wrongly rejected as price_changed')\nAssertionError: 'rejected' != 'created'\n- rejected\n+ created\n : unchanged20.1 x3 was wrongly rejected as price_changed\n"
+    },
+    {
+      "case": "test_Q10_explicit_server_decimal_review_can_then_succeed",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q11_final_removed_zero_option_must_not_be_hidden",
+      "status": "PASS"
+    },
+    {
+      "case": "test_Q12_final_unrequested_offset_pair_must_not_be_hidden",
+      "status": "FAIL",
+      "detail": "Traceback (most recent call last):\n  File \"/workspace/scratch/5a347b27fddd/price01-qa/repo/independent_price_followup.py\", line 22, in test_Q12_final_unrequested_offset_pair_must_not_be_hidden\n    r=self.invoke(ns['request']('qa_offset_late_opts'));obs.append({'case':'Q12','response':r,'counts':self.counts()});self.assertEqual(r['status'],'rejected')\n                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'created' != 'rejected'\n- created\n+ rejected\n\n"
+    }
+  ],
+  "observations": [
+    {
+      "case": "Q09",
+      "response": {
+        "key": "qa_real_ui_proof",
+        "closed": true,
+        "reason": "price_changed",
+        "status": "rejected",
+        "closure_id": "8e7abae0-89d4-4c86-a686-0fc314eba20e",
+        "no_effects": true,
+        "price_review": {
+          "lines": [
+            {
+              "qty": 3,
+              "item_id": "40000000-0000-4000-8000-000000000092",
+              "options": [],
+              "net_items": "60.3",
+              "base_price": "20.1",
+              "unit_price": "20.1",
+              "happy_hour_discount": "0",
+              "restaurant_discount": "0"
+            }
+          ],
+          "totals": {
+            "tip": "0",
+            "total": "62.3",
+            "cash_due": "62.3",
+            "subtotal": "60.3",
+            "wallet_used": "0",
+            "delivery_fee": "2",
+            "points_value": "0",
+            "promo_discount": "0",
+            "happy_hour_discount": "0",
+            "restaurant_discount": "0"
+          },
+          "version": 1
+        },
+        "state_version": 1
+      },
+      "counts": [
+        0,
+        0,
+        "0",
+        0
+      ]
+    },
+    {
+      "case": "Q12",
+      "response": {
+        "id": "1",
+        "key": "qa_offset_late_opts",
+        "status": "created",
+        "input_match": true,
+        "contract_version": 1
+      },
+      "counts": [
+        1,
+        1,
+        "-5.00",
+        1
+      ]
+    }
+  ]
+}
