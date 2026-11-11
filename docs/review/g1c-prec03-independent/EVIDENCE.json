@@ -1,0 +1,46 @@
+{
+  "task": "G1C-PREC-03-INDEPENDENT-PRECISION-EVIDENCE",
+  "accepted_reference": "ca8114649eea85f4a73cdf7812e4664f5c2488e9",
+  "historical_audit_closeout": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+  "created_at": "2026-11-11T13:37:45.161467+00:00",
+  "files": [
+    {
+      "path": "REPORT-AR.md",
+      "bytes": 15436,
+      "sha256": "fbcecf3b8f3ccb4573ee9aca64a8caff003d9fbe6cc213061b243a3634d1c3a6"
+    },
+    {
+      "path": "REPRODUCTION.md",
+      "bytes": 2838,
+      "sha256": "4422bb377a994a9401b03ed5bb05a0e40ec6803b28553c54f542d29c5993a9b3"
+    },
+    {
+      "path": "input-path.mjs",
+      "bytes": 3759,
+      "sha256": "7052cb257cbb6d32f4f3b9501b0fcd9133fb1c4b7b6ec9b77bead1f9a2208e3c"
+    },
+    {
+      "path": "native-path.py",
+      "bytes": 13509,
+      "sha256": "78ba122bfd339da6565d2cf0e1cbe95750670c65a5c295ef76f70f1812a364c4"
+    },
+    {
+      "path": "input-results.json",
+      "bytes": 1616,
+      "sha256": "0fcc48e22a809e98f4d9a4ecd290f5ce9c9c3fb8622b80027c5d25958f0bb347"
+    },
+    {
+      "path": "native-results.json",
+      "bytes": 4967,
+      "sha256": "1493fb1e0c70f96010bb3c88c3fd41e88a3c0d1401c55a047c29529f56854303"
+    }
+  ],
+  "source_git_blobs": {
+    "merchant.html": "5f09dd5cc3d5abc9d6b0d3afa031342b05f5212c",
+    "talabat-core.js": "f639bec1d23a812866e06eb1110940c77563387c",
+    "isolation.sql": "47c7e72784cf36a77c638ac4726560ad1b270ff9"
+  },
+  "scope": "new QA documents and local synthetic probes only; no application/candidate changes; no hosted calls",
+  "phase1": "OPEN",
+  "phase2": "NO-GO"
+}

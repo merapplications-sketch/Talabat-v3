@@ -1,0 +1,58 @@
+{
+  "kind": "LOCAL NODE VM / mocked transport; no DOM, IndexedDB or HTTP",
+  "runtime": "v24.22.1",
+  "created_at": "2026-11-11T13:28:59.142Z",
+  "source_git_blobs": {
+    "source/merchant.html": "5f09dd5cc3d5abc9d6b0d3afa031342b05f5212c",
+    "source/talabat-core.js": "f639bec1d23a812866e06eb1110940c77563387c"
+  },
+  "checks": [
+    {
+      "id": "JS01-add-price-survives-Number-and-JSON",
+      "status": "PASS"
+    },
+    {
+      "id": "JS02-update-price-survives-Number-and-JSON",
+      "status": "PASS"
+    },
+    {
+      "id": "JS03-handler-does-not-enforce-step",
+      "status": "PASS"
+    },
+    {
+      "id": "JS04-rejected-price--1",
+      "status": "PASS"
+    },
+    {
+      "id": "JS04-rejected-price-0",
+      "status": "PASS"
+    },
+    {
+      "id": "JS04-rejected-price-Infinity",
+      "status": "PASS"
+    },
+    {
+      "id": "JS04-rejected-price-100000.00000001",
+      "status": "PASS"
+    },
+    {
+      "id": "JS05-option-add-rounds-independently",
+      "status": "PASS"
+    },
+    {
+      "id": "JS06-option-update-rounds-independently",
+      "status": "PASS"
+    }
+  ],
+  "insert": {
+    "table": "menu_items",
+    "op": "insert",
+    "json": "{\"store_id\":\"10000000-0000-4000-8000-000000000001\",\"name\":\"Synthetic precision item\",\"price\":12.00000001,\"image_url\":null,\"popular\":false,\"section\":null,\"discount_pct\":0}"
+  },
+  "update": {
+    "table": "menu_items",
+    "op": "update",
+    "id": "20000000-0000-4000-8000-000000000001",
+    "json": "{\"name\":\"Synthetic precision item\",\"price\":12.00000001,\"popular\":false,\"section\":null,\"discount_pct\":0}"
+  }
+}

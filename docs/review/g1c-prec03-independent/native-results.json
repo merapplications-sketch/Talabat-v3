@@ -1,0 +1,174 @@
+{
+  "checks": [
+    {
+      "id": "PG01-JSON-insert-exact-with-item-triggers",
+      "status": "PASS",
+      "observed": {
+        "price": "12.00000001",
+        "scale": 8
+      }
+    },
+    {
+      "id": "PG02-JSON-update-exact-with-item-triggers",
+      "status": "PASS",
+      "observed": {
+        "price": "12.00000001",
+        "audit_rows": 2
+      }
+    },
+    {
+      "id": "PG03-price-checks-reject-negative-nonfinite",
+      "status": "PASS",
+      "observed": {
+        "rejected": 4
+      }
+    },
+    {
+      "id": "PG04-integer-rate-guards-and-store-constraint",
+      "status": "PASS",
+      "observed": {
+        "rejected": 3,
+        "synthetic_rate": 10
+      }
+    },
+    {
+      "id": "PG05-price-line-and-order-item-preserve-scale",
+      "status": "PASS",
+      "observed": {
+        "scale": 8,
+        "order_item_price": "12.00000001"
+      }
+    },
+    {
+      "id": "PG06-aggregate-retains-fraction-at-loyalty-input",
+      "status": "PASS",
+      "observed": {
+        "discount": "0.00",
+        "subtotal": "12.00000001",
+        "points_value": "0",
+        "promo_discount": "0"
+      }
+    },
+    {
+      "id": "PG07-captured-trigger-reproduces-known-shortfall",
+      "status": "PASS",
+      "observed": {
+        "verdict": "PRECISION_GAP_REPRODUCED",
+        "actual_points": 120,
+        "loyalty_lot_points": 120,
+        "loyalty_ledger_points": 120,
+        "approved_expected_points": 121
+      }
+    },
+    {
+      "id": "PG08-unrelated-fixed-scale-does-not-normalize-input",
+      "status": "PASS",
+      "observed": {
+        "subtotal": "12.00000001",
+        "wallet_rows": 0,
+        "fixed_scale_control": "12.00"
+      }
+    },
+    {
+      "id": "PG09-global-fallback-reproduces-known-shortfall",
+      "status": "PASS",
+      "observed": {
+        "actual_points": 120,
+        "synthetic_global_rate": 10,
+        "approved_expected_points": 121
+      }
+    }
+  ],
+  "postgres": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "kind": "NATIVE POSTGRESQL / partial synthetic schema, captured functions, synthetic data; no hosted HTTP",
+  "created_at": "2026-11-11T13:31:33.484264+00:00",
+  "definition_hashes": [
+    {
+      "oid": 18428,
+      "source_line": 35,
+      "sha256_utf8": "2d153ed156d680ee16617a34e188a00954346ec7c1b03fdf89321f522a3adc32"
+    },
+    {
+      "oid": 18466,
+      "source_line": 267,
+      "sha256_utf8": "319e053f91e6055ed56665d04ed0161abb1cd0e5f395ee99718b42968079774f"
+    },
+    {
+      "oid": 18472,
+      "source_line": 291,
+      "sha256_utf8": "1db9446fc3494a3ad4c8c4a413a0f96160a31c415e5b8e8dc951ec47a7d521be"
+    },
+    {
+      "oid": 18475,
+      "source_line": 303,
+      "sha256_utf8": "d7e0de964a72e8eb82928814c81a5d3b9ddd90cd58edf30d0d093fd982c3e8b5"
+    },
+    {
+      "oid": 18487,
+      "source_line": 395,
+      "sha256_utf8": "496fe8c544506a65e4465628fbc07ccff02299b610ccada9af616f97f74b6813"
+    },
+    {
+      "oid": 18505,
+      "source_line": 467,
+      "sha256_utf8": "43651928dc4bd17f5daa7bac1132c2288e78eb9eb52eb1437b159ee06c894774"
+    },
+    {
+      "oid": 18506,
+      "source_line": 471,
+      "sha256_utf8": "8e6873658c954749814dd9388f228e5110fcb8d965b46d3175aa5a30e92b8b7d"
+    },
+    {
+      "oid": 18525,
+      "source_line": 587,
+      "sha256_utf8": "a46a3e5fea45a63fd3506866ab3f6dcc189fd9a4edb64fefb0992682588fdcc1"
+    },
+    {
+      "oid": 18528,
+      "source_line": 599,
+      "sha256_utf8": "0801f2d9b49db1fafab7798d95c4f4284a8e472a0cd53a8502feae03b0c53817"
+    },
+    {
+      "oid": 18536,
+      "source_line": 631,
+      "sha256_utf8": "a7e47e970b04939129bdfa6ed5e25059bc3a853bb4b6581b09a9581fc16b81b9"
+    }
+  ],
+  "exact_trigger_oids": [
+    18658,
+    18645,
+    18652,
+    18642,
+    18646,
+    18675
+  ],
+  "exact_constraint_names": [
+    "menu_items_price_check",
+    "menu_items_price_finite",
+    "stores_earn_per_tjs_check",
+    "item_options_price_delta_check"
+  ],
+  "source_blocks": {
+    "source106": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+    "path": "tests/native106/isolation.sql",
+    "git_blob": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+    "line_block_sha256": "3dcc145e1a48d37832bb745b592dd719e39008302c63fad8d6be0f9a1fd816de",
+    "sum_block_sha256": "000c9432d3e7f72c704be4c3f630c4e9e1360b18d1d81ea65e1e172f0bc6af29"
+  },
+  "substitutes": [
+    "auth.uid synthetic identity",
+    "is_admin/has_perm true fixture helpers",
+    "check_image_url null-only helper, images null",
+    "partial tables plus local indexes for trigger ON CONFLICT",
+    "qa_price_path wrapper executes exact line/aggregation blocks; not complete order RPC",
+    "cashback=0, rate=10, no discounts/promo/redemption/options; all settings synthetic"
+  ],
+  "not_proven": [
+    "current deployment",
+    "hosted API or RLS",
+    "complete target catalog/trigger equivalence",
+    "actual business setting values",
+    "native browser UI submission",
+    "all downstream delivery writers"
+  ]
+}
