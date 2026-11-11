@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: RI01 zero internal ratings never falls back to Google
+ok 1 - RI01 zero internal ratings never falls back to Google
+  ---
+  duration_ms: 3.238679
+  type: 'test'
+  ...
+# Subtest: RI02 one/two/four/five ratings use internal source
+ok 2 - RI02 one/two/four/five ratings use internal source
+  ---
+  duration_ms: 9.951323
+  type: 'test'
+  ...
+# Subtest: RI03 driver-only excluded, handled low ratings included
+ok 3 - RI03 driver-only excluded, handled low ratings included
+  ---
+  duration_ms: 0.686264
+  type: 'test'
+  ...
+# Subtest: RI04 same brand and name never merge branches
+ok 4 - RI04 same brand and name never merge branches
+  ---
+  duration_ms: 0.861719
+  type: 'test'
+  ...
+# Subtest: RI05 SQL positive half-up one decimal independently derived
+ok 5 - RI05 SQL positive half-up one decimal independently derived
+  ---
+  duration_ms: 0.636929
+  type: 'test'
+  ...
+# Subtest: RI06 complete history exceeds300, exact counts
+ok 6 - RI06 complete history exceeds300, exact counts
+  ---
+  duration_ms: 6.630239
+  type: 'test'
+  ...
+# Subtest: RI07 known300 cap cannot become complete or empty
+ok 7 - RI07 known300 cap cannot become complete or empty
+  ---
+  duration_ms: 4.059296
+  type: 'test'
+  ...
+# Subtest: RI08 permission/schema/network failures differ from empty and leak no text
+ok 8 - RI08 permission/schema/network failures differ from empty and leak no text
+  ---
+  duration_ms: 0.547515
+  type: 'test'
+  ...
+# Subtest: RI09 malformed stars/missing fields/duplicate orders fail closed
+ok 9 - RI09 malformed stars/missing fields/duplicate orders fail closed
+  ---
+  duration_ms: 1.237645
+  type: 'test'
+  ...
+# Subtest: RI10 filters and stable sorting use internal values only
+ok 10 - RI10 filters and stable sorting use internal values only
+  ---
+  duration_ms: 0.866476
+  type: 'test'
+  ...
+# Subtest: RI11 stable result pages no loss/duplication and cursor bound to query
+ok 11 - RI11 stable result pages no loss/duplication and cursor bound to query
+  ---
+  duration_ms: 0.530489
+  type: 'test'
+  ...
+# Subtest: RI12 committed insert between pages excluded from old snapshot, visible on new read
+ok 12 - RI12 committed insert between pages excluded from old snapshot, visible on new read
+  ---
+  duration_ms: 0.90953
+  type: 'test'
+  ...
+# Subtest: RI13 non-atomic snapshot drift is unavailable, never mixed
+ok 13 - RI13 non-atomic snapshot drift is unavailable, never mixed
+  ---
+  duration_ms: 0.447725
+  type: 'test'
+  ...
+# Subtest: RI14 explicit resource budget stops without partial averages
+ok 14 - RI14 explicit resource budget stops without partial averages
+  ---
+  duration_ms: 0.222044
+  type: 'test'
+  ...
+# Subtest: RI15 timeout and cancellation remain unavailable
+ok 15 - RI15 timeout and cancellation remain unavailable
+  ---
+  duration_ms: 9.824752
+  type: 'test'
+  ...
+# Subtest: RI16 result and comments never expose private or mixed historical fields
+ok 16 - RI16 result and comments never expose private or mixed historical fields
+  ---
+  duration_ms: 0.603339
+  type: 'test'
+  ...
+# Subtest: RI17 untrusted/partial scope cannot establish a complete internal source
+ok 17 - RI17 untrusted/partial scope cannot establish a complete internal source
+  ---
+  duration_ms: 0.33841
+  type: 'test'
+  ...
+# Subtest: RI18 unavailable cannot be ranked as zero or pass filters
+ok 18 - RI18 unavailable cannot be ranked as zero or pass filters
+  ---
+  duration_ms: 0.228955
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 157.360317

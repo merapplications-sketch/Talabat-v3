@@ -1,0 +1,170 @@
+TAP version 13
+# Subtest: RI01 zero internal ratings never falls back to Google
+ok 1 - RI01 zero internal ratings never falls back to Google
+  ---
+  duration_ms: 4.120187
+  type: 'test'
+  ...
+# Subtest: RI02 one/two/four/five ratings use internal source
+ok 2 - RI02 one/two/four/five ratings use internal source
+  ---
+  duration_ms: 10.680572
+  type: 'test'
+  ...
+# Subtest: RI03 driver-only excluded, handled low ratings included
+ok 3 - RI03 driver-only excluded, handled low ratings included
+  ---
+  duration_ms: 1.032946
+  type: 'test'
+  ...
+# Subtest: RI04 same brand and name never merge branches
+ok 4 - RI04 same brand and name never merge branches
+  ---
+  duration_ms: 0.686475
+  type: 'test'
+  ...
+# Subtest: RI05 SQL positive half-up one decimal independently derived
+ok 5 - RI05 SQL positive half-up one decimal independently derived
+  ---
+  duration_ms: 1.475483
+  type: 'test'
+  ...
+# Subtest: RI06 complete history exceeds300, exact counts
+ok 6 - RI06 complete history exceeds300, exact counts
+  ---
+  duration_ms: 3.124377
+  type: 'test'
+  ...
+# Subtest: RI07 known300 cap cannot become complete or empty
+ok 7 - RI07 known300 cap cannot become complete or empty
+  ---
+  duration_ms: 4.250333
+  type: 'test'
+  ...
+# Subtest: RI08 permission/schema/network failures differ from empty and leak no text
+ok 8 - RI08 permission/schema/network failures differ from empty and leak no text
+  ---
+  duration_ms: 0.420844
+  type: 'test'
+  ...
+# Subtest: RI09 malformed stars/missing fields/duplicate orders fail closed
+ok 9 - RI09 malformed stars/missing fields/duplicate orders fail closed
+  ---
+  duration_ms: 1.46085
+  type: 'test'
+  ...
+# Subtest: RI10 filters and stable sorting use internal values only
+ok 10 - RI10 filters and stable sorting use internal values only
+  ---
+  duration_ms: 0.692614
+  type: 'test'
+  ...
+# Subtest: RI11 stable result pages no loss/duplication and cursor bound to query
+ok 11 - RI11 stable result pages no loss/duplication and cursor bound to query
+  ---
+  duration_ms: 0.49103
+  type: 'test'
+  ...
+# Subtest: RI12 committed insert between pages excluded from old snapshot, visible on new read
+ok 12 - RI12 committed insert between pages excluded from old snapshot, visible on new read
+  ---
+  duration_ms: 0.639343
+  type: 'test'
+  ...
+# Subtest: RI13 non-atomic snapshot drift is unavailable, never mixed
+ok 13 - RI13 non-atomic snapshot drift is unavailable, never mixed
+  ---
+  duration_ms: 0.365942
+  type: 'test'
+  ...
+# Subtest: RI14 explicit resource budget stops without partial averages
+ok 14 - RI14 explicit resource budget stops without partial averages
+  ---
+  duration_ms: 0.402056
+  type: 'test'
+  ...
+# Subtest: RI15 timeout and cancellation remain unavailable
+ok 15 - RI15 timeout and cancellation remain unavailable
+  ---
+  duration_ms: 10.52047
+  type: 'test'
+  ...
+# Subtest: RI16 result and comments never expose private or mixed historical fields
+ok 16 - RI16 result and comments never expose private or mixed historical fields
+  ---
+  duration_ms: 0.422326
+  type: 'test'
+  ...
+# Subtest: RI17 untrusted/partial scope cannot establish a complete internal source
+ok 17 - RI17 untrusted/partial scope cannot establish a complete internal source
+  ---
+  duration_ms: 0.282846
+  type: 'test'
+  ...
+# Subtest: RI18 unavailable cannot be ranked as zero or pass filters
+ok 18 - RI18 unavailable cannot be ranked as zero or pass filters
+  ---
+  duration_ms: 0.658502
+  type: 'test'
+  ...
+# Subtest: RI19 Google fields are not even read, for counts0 through5
+ok 19 - RI19 Google fields are not even read, for counts0 through5
+  ---
+  duration_ms: 0.711371
+  type: 'test'
+  ...
+# Subtest: RI20 early historical low ratings materially affect full average
+ok 20 - RI20 early historical low ratings materially affect full average
+  ---
+  duration_ms: 7.482563
+  type: 'test'
+  ...
+# Subtest: RI21 overlapping/out-of-order/nonprogressing pages fail closed
+ok 21 - RI21 overlapping/out-of-order/nonprogressing pages fail closed
+  ---
+  duration_ms: 1.250624
+  type: 'test'
+  ...
+# Subtest: RI22 timeout after open releases the read snapshot
+ok 22 - RI22 timeout after open releases the read snapshot
+  ---
+  duration_ms: 10.756676
+  type: 'test'
+  ...
+# Subtest: RI23 late open completion after timeout releases resources
+not ok 23 - RI23 late open completion after timeout releases resources
+  ---
+  duration_ms: 14.989763
+  type: 'test'
+  location: '/workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:30:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert(closed)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:30:326)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: RI24 no read functions call write/reward/Google services
+ok 24 - RI24 no read functions call write/reward/Google services
+  ---
+  duration_ms: 1.079776
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 23
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 197.968738

@@ -1,0 +1,250 @@
+✖ RI01 zero internal ratings never falls back to Google (2.819698ms)
+✖ RI02 one/two/four/five ratings use internal source (0.415997ms)
+✖ RI03 driver-only excluded, handled low ratings included (0.440353ms)
+✖ RI04 same brand and name never merge branches (1.511507ms)
+✖ RI05 SQL positive half-up one decimal independently derived (0.361054ms)
+✖ RI06 complete history exceeds300, exact counts (5.75415ms)
+✖ RI07 known300 cap cannot become complete or empty (1.670065ms)
+✖ RI08 permission/schema/network failures differ from empty and leak no text (0.345881ms)
+✔ RI09 malformed stars/missing fields/duplicate orders fail closed (0.489968ms)
+✖ RI10 filters and stable sorting use internal values only (0.506012ms)
+✖ RI11 stable result pages no loss/duplication and cursor bound to query (0.487634ms)
+✖ RI12 committed insert between pages excluded from old snapshot, visible on new read (0.294814ms)
+✖ RI13 non-atomic snapshot drift is unavailable, never mixed (0.494946ms)
+✖ RI14 explicit resource budget stops without partial averages (0.289646ms)
+✖ RI15 timeout and cancellation remain unavailable (0.279822ms)
+✖ RI16 result and comments never expose private or mixed historical fields (7.468943ms)
+✔ RI17 untrusted/partial scope cannot establish a complete internal source (0.263316ms)
+✖ RI18 unavailable cannot be ranked as zero or pass filters (0.210968ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 2
+ℹ fail 16
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 198.290892
+
+✖ failing tests:
+
+test at tests/ratings-internal01/candidate.test.mjs:8:1
+✖ RI01 zero internal ratings never falls back to Google (2.819698ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'unavailable'
+  - 'ready'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:8:158)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'unavailable',
+    expected: 'ready',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:9:1
+✖ RI02 one/two/four/five ratings use internal source (0.415997ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'source')
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:9:261)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/ratings-internal01/candidate.test.mjs:10:1
+✖ RI03 driver-only excluded, handled low ratings included (0.440353ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'average')
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:10:219)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/ratings-internal01/candidate.test.mjs:11:1
+✖ RI04 same brand and name never merge branches (1.511507ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   [
+  -     'branch-a',
+  -     1
+  -   ],
+  -   [
+  -     'branch-b',
+  -     5
+  -   ],
+  -   [
+  -     'branch-c',
+  -     null
+  -   ]
+  - ]
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:11:175)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ [ 'branch-a', 1 ], [ 'branch-b', 5 ], [ 'branch-c', null ] ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:12:1
+✖ RI05 SQL positive half-up one decimal independently derived (0.361054ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'average')
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:12:169)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/ratings-internal01/candidate.test.mjs:13:1
+✖ RI06 complete history exceeds300, exact counts (5.75415ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'rating_count')
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:13:177)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/ratings-internal01/candidate.test.mjs:14:1
+✖ RI07 known300 cap cannot become complete or empty (1.670065ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'not_implemented'
+  - 'incomplete_history'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:14:426)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'not_implemented',
+    expected: 'incomplete_history',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:15:1
+✖ RI08 permission/schema/network failures differ from empty and leak no text (0.345881ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'not_implemented'
+  - 'read_failed'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:15:295)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'not_implemented',
+    expected: 'read_failed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:17:1
+✖ RI10 filters and stable sorting use internal values only (0.506012ms)
+  Error: not_implemented
+      at selectPage (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.mjs:3:36)
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:17:160)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/ratings-internal01/candidate.test.mjs:18:1
+✖ RI11 stable result pages no loss/duplication and cursor bound to query (0.487634ms)
+  Error: not_implemented
+      at selectPage (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.mjs:3:36)
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:18:141)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/ratings-internal01/candidate.test.mjs:19:1
+✖ RI12 committed insert between pages excluded from old snapshot, visible on new read (0.294814ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'rating_count')
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:19:414)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/ratings-internal01/candidate.test.mjs:20:1
+✖ RI13 non-atomic snapshot drift is unavailable, never mixed (0.494946ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'not_implemented'
+  - 'snapshot_changed'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:20:362)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'not_implemented',
+    expected: 'snapshot_changed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:21:1
+✖ RI14 explicit resource budget stops without partial averages (0.289646ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'not_implemented'
+  - 'resource_limit'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:21:170)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'not_implemented',
+    expected: 'resource_limit',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:22:1
+✖ RI15 timeout and cancellation remain unavailable (0.279822ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'not_implemented'
+  - 'timeout'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:22:190)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'not_implemented',
+    expected: 'timeout',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:23:1
+✖ RI16 result and comments never expose private or mixed historical fields (7.468943ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert(Object.isFrozen(r)&&Object.isFrozen(r.stores[0]))
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:23:490)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ratings-internal01/candidate.test.mjs:25:1
+✖ RI18 unavailable cannot be ranked as zero or pass filters (0.210968ms)
+  Error: not_implemented
+      at selectPage (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.mjs:3:36)
+      at TestContext.<anonymous> (file:///workspace/scratch/2395d442bd66/ratings-internal01/tests/ratings-internal01/candidate.test.mjs:25:165)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
