@@ -1,0 +1,19 @@
+{
+  "native_distinct_groups": 8,
+  "native_first_run": {
+    "groups": 8,
+    "assertion_groups_pass": 7,
+    "harness_errors": 1
+  },
+  "native_delta_rerun": {
+    "groups": 1,
+    "assertion_groups_pass": 1
+  },
+  "observations": 21,
+  "price_protection_failures_on_baseline": 18,
+  "preserved_contract_controls": 3,
+  "client_distinct_checks_completed": 3,
+  "repair_implemented": false,
+  "acceptance": "BLOCKED_CONTRACT_EXTENSION",
+  "phase2": "NO-GO"
+}

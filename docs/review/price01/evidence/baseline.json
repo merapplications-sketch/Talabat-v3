@@ -1,0 +1,167 @@
+{
+  "scope": "LOCAL PostgreSQL17.6, synthetic schema; BASELINE ONLY; not HTTP/Supabase",
+  "source": "d76269c9f3e5c02fe0be379ac8ba6356e624f9b8",
+  "qa_ref": "3c13f5ff9a36638f2e421e17389d1666bae4487b",
+  "utc": "2026-11-11T13:26:24.921806+00:00",
+  "groups": 8,
+  "reproduction_and_control_assertions_passed": false,
+  "price01_fix_implemented": false,
+  "errors": [
+    "__main__.PriceBaseline.test_05_waiting_create_observes_new_price_without_new_consent"
+  ],
+  "observations": [
+    {
+      "scenario": "base_price_changed",
+      "entry": "place_order",
+      "shown_total": 22,
+      "stored_total": "32.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "increase"
+    },
+    {
+      "scenario": "base_price_changed",
+      "entry": "place_order",
+      "shown_total": 22,
+      "stored_total": "12.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "decrease"
+    },
+    {
+      "scenario": "base_price_changed",
+      "entry": "place_order103",
+      "shown_total": 22,
+      "stored_total": "32.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "increase"
+    },
+    {
+      "scenario": "base_price_changed",
+      "entry": "place_order103",
+      "shown_total": 22,
+      "stored_total": "12.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "decrease"
+    },
+    {
+      "scenario": "base_price_changed",
+      "entry": "place_order104",
+      "shown_total": 22,
+      "stored_total": "32.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "increase"
+    },
+    {
+      "scenario": "base_price_changed",
+      "entry": "place_order104",
+      "shown_total": 22,
+      "stored_total": "12.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "decrease"
+    },
+    {
+      "scenario": "base_price_changed",
+      "entry": "security_private.create_order103",
+      "shown_total": 22,
+      "stored_total": "32.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "increase"
+    },
+    {
+      "scenario": "base_price_changed",
+      "entry": "security_private.create_order103",
+      "shown_total": 22,
+      "stored_total": "12.00",
+      "wallet_spend": 5,
+      "protection": "FAIL_BASELINE",
+      "direction": "decrease"
+    },
+    {
+      "scenario": "selected_option_changed",
+      "shown_total": 25,
+      "stored_total": 30,
+      "protection": "FAIL_BASELINE",
+      "direction": "increase"
+    },
+    {
+      "scenario": "selected_option_changed",
+      "shown_total": 25,
+      "stored_total": 23,
+      "protection": "FAIL_BASELINE",
+      "direction": "decrease"
+    },
+    {
+      "scenario": "discount_changed",
+      "dependency": "stores",
+      "shown_total": 20,
+      "stored_total": "17.00",
+      "protection": "FAIL_BASELINE"
+    },
+    {
+      "scenario": "discount_changed",
+      "dependency": "stores",
+      "shown_total": 20,
+      "stored_total": "22.00",
+      "protection": "FAIL_BASELINE"
+    },
+    {
+      "scenario": "discount_changed",
+      "dependency": "menu_items",
+      "shown_total": 20,
+      "stored_total": "17.00",
+      "protection": "FAIL_BASELINE"
+    },
+    {
+      "scenario": "discount_changed",
+      "dependency": "menu_items",
+      "shown_total": 20,
+      "stored_total": "22.00",
+      "protection": "FAIL_BASELINE"
+    },
+    {
+      "scenario": "promo_changed",
+      "shown_total": 17,
+      "stored_total": 14,
+      "protection": "FAIL_BASELINE"
+    },
+    {
+      "scenario": "promo_changed",
+      "shown_total": 17,
+      "stored_total": 20,
+      "protection": "FAIL_BASELINE"
+    },
+    {
+      "scenario": "ack_before_commit_then_price_change",
+      "displayed_total": 22,
+      "saved_total": "32.00",
+      "one_debit": true,
+      "protection": "FAIL_BASELINE"
+    },
+    {
+      "scenario": "ack_after_commit_then_price_change",
+      "displayed_total": 22,
+      "saved_total": "22.00",
+      "one_debit": true,
+      "protection": "HISTORY_CONTROL_PASS"
+    },
+    {
+      "scenario": "concurrent_replay_after_price_change",
+      "saved_total": 22,
+      "one_order": true,
+      "one_debit": true,
+      "protection": "HISTORY_CONTROL_PASS"
+    },
+    {
+      "scenario": "do_not_append_consent_to_saved_request",
+      "protection": "HMAC_CONTROL_PASS",
+      "outcome": "conflict",
+      "no_mutation": true
+    }
+  ]
+}

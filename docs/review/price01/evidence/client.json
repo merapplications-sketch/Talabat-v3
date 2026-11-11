@@ -1,0 +1,19 @@
+{
+  "scope": "LOCAL Node VM; real generated adapter/controller, synthetic dependencies; baseline only",
+  "price01_fix_implemented": false,
+  "results": [
+    {
+      "name": "different displayed prices and totals produce identical wire payload",
+      "assertions": "PASS"
+    },
+    {
+      "name": "delivery quote calls only delivery_quote with store and coordinates",
+      "assertions": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: quote method must exist"
+    },
+    {
+      "name": "unknown attempt retries original payload without adding price data",
+      "assertions": "PASS"
+    }
+  ]
+}

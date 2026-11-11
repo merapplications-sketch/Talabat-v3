@@ -1,0 +1,6 @@
+test_05_waiting_create_observes_new_price_without_new_consent (__main__.PriceBaseline.test_05_waiting_create_observes_new_price_without_new_consent) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.147s
+
+OK

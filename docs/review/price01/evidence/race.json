@@ -1,0 +1,18 @@
+{
+  "scope": "LOCAL PostgreSQL17.6, synthetic schema; BASELINE ONLY; not HTTP/Supabase",
+  "source": "d76269c9f3e5c02fe0be379ac8ba6356e624f9b8",
+  "qa_ref": "3c13f5ff9a36638f2e421e17389d1666bae4487b",
+  "utc": "2026-11-11T13:27:29.072821+00:00",
+  "groups": 1,
+  "reproduction_and_control_assertions_passed": true,
+  "price01_fix_implemented": false,
+  "errors": [],
+  "observations": [
+    {
+      "scenario": "price_commits_while_create_waits",
+      "shown_total": 22,
+      "stored_total": 37,
+      "protection": "FAIL_BASELINE"
+    }
+  ]
+}

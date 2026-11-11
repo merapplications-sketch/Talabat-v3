@@ -1,0 +1,24 @@
+test_01_changed_price_all_four_entries (__main__.PriceBaseline.test_01_changed_price_all_four_entries) ... ok
+test_02_selected_option_changes (__main__.PriceBaseline.test_02_selected_option_changes) ... ok
+test_03_store_and_dish_discount_changes (__main__.PriceBaseline.test_03_store_and_dish_discount_changes) ... ok
+test_04_promo_recalculated_without_consent (__main__.PriceBaseline.test_04_promo_recalculated_without_consent) ... ok
+test_05_waiting_create_observes_new_price_without_new_consent (__main__.PriceBaseline.test_05_waiting_create_observes_new_price_without_new_consent) ... ERROR
+test_06_price_change_after_ack_loss_before_and_after_commit (__main__.PriceBaseline.test_06_price_change_after_ack_loss_before_and_after_commit) ... ok
+test_07_concurrent_retries_replay_original_without_repricing (__main__.PriceBaseline.test_07_concurrent_retries_replay_original_without_repricing) ... ok
+test_08_adding_consent_to_saved_payload_changes_v1_fingerprint (__main__.PriceBaseline.test_08_adding_consent_to_saved_payload_changes_v1_fingerprint) ... ok
+
+======================================================================
+ERROR: test_05_waiting_create_observes_new_price_without_new_consent (__main__.PriceBaseline.test_05_waiting_create_observes_new_price_without_new_consent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-work/tests/price01/baseline_probe.py", line 113, in test_05_waiting_create_observes_new_price_without_new_consent
+    hold = self.actor(); hold.execute('select id from profiles where id=%s for update', (BUYER,))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2395d442bd66/tip01-runtime/python/psycopg/connection.py", line 304, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.InsufficientPrivilege: permission denied for table profiles
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.192s
+
+FAILED (errors=1)

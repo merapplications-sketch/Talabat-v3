@@ -1,0 +1,58 @@
+{
+  "tests/price01/README.md": {
+    "bytes": 1508,
+    "sha256": "41d64ed130ce6c6217634ba78675932a6a314bfa4a0317e2f4f56dc21db03553"
+  },
+  "tests/price01/baseline_probe.py": {
+    "bytes": 12056,
+    "sha256": "898b11e4df99d8d3eb3553e140c0361294c4438bddf0446791249868604d7c2f"
+  },
+  "tests/price01/client_probe.mjs": {
+    "bytes": 4195,
+    "sha256": "540d572ce5ed451355ffca833c7e26322c250147be9165f5ec7661ef3e4f9ab2"
+  },
+  "docs/review/price01/SOURCE-TRACE.md": {
+    "bytes": 5734,
+    "sha256": "786db5e538b96f4be113d5501fdc79fd5c6164433c31cae6e4c3922dc6d359ae"
+  },
+  "docs/review/price01/CONTRACT-CHANGE-PROPOSAL.md": {
+    "bytes": 10553,
+    "sha256": "2718d67167614d3c239cbc980b9886778d4d9a242b90badda17d48cf933db889"
+  },
+  "docs/review/price01/SOURCE-VERIFICATION.json": {
+    "bytes": 17298,
+    "sha256": "22c1a3d3628127d3406161f883a815b1e9c9e5dbf24ee3733501eea43b18cf5b"
+  },
+  "docs/review/price01/REPORT-AR.md": {
+    "bytes": 10397,
+    "sha256": "a5229f9f8eb7e62ebdab466d86b1e6f93f5d97f9ab59fc4dc66b16e38e8112a9"
+  },
+  "docs/review/price01/evidence/baseline.log": {
+    "bytes": 2079,
+    "sha256": "b12a7371c4af19d6bb3fd00f7bb602443a1964f331806f38417b160a5e347d2c"
+  },
+  "docs/review/price01/evidence/race.log": {
+    "bytes": 253,
+    "sha256": "8158693dc45e6c7ed967df09f568180322a1b4b767c0c3546a02a49a8a9d90cf"
+  },
+  "docs/review/price01/evidence/race.json": {
+    "bytes": 546,
+    "sha256": "bbf31c2580b65dc29465b13fe1d538cd6b225da4c12a8e77279d4efb238c45b3"
+  },
+  "docs/review/price01/evidence/client.json": {
+    "bytes": 609,
+    "sha256": "a5cae25eeb8a7a3aa66034ec7fd88c8a8451db51d6acf5c575cb051b6064e341"
+  },
+  "docs/review/price01/evidence/client-quote.json": {
+    "bytes": 285,
+    "sha256": "5351de42f0c12ccd1862f81190bb156e3b82839bab565522c8d0d610efce11d7"
+  },
+  "docs/review/price01/evidence/baseline.json": {
+    "bytes": 4455,
+    "sha256": "48198df63ff1b19293a8996915395354f3487214e42289856f9fde2e5b05ddab"
+  },
+  "docs/review/price01/evidence/SUMMARY.json": {
+    "bytes": 459,
+    "sha256": "d9af46dafb52d1b107e2a0aaf7e0fea528ba1ac1bdd87dfca690fa0c9db4ccc8"
+  }
+}

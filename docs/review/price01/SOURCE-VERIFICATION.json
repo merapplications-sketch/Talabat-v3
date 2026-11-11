@@ -1,0 +1,364 @@
+{
+  "utc": "2026-11-11T13:33:51.194984+00:00",
+  "base_commit": "3c13f5ff9a36638f2e421e17389d1666bae4487b",
+  "base_tree": "9a08d244d9e9a0c9036a02bbb5a2ada75d5d1ac5",
+  "retained_files_count": 82,
+  "retained_files": {
+    "tests/native95-restore.py": {
+      "git_blob": "c73330f62b8d1175f25fc99269c66b73ff3ee4e9",
+      "sha256": "ac1c58307cf5becafd831e03fce140c4c8771d927d45dc34c6a745b8373e0692"
+    },
+    "tests/native97/locks.py": {
+      "git_blob": "d29fb3a0dfc8822da239a1a30262321ae067e683",
+      "sha256": "43d607ba935cf8bd6e3bf87481d6708192b12f97accf3603e80e27ae6e32b4f6"
+    },
+    "tests/native98/admission.py": {
+      "git_blob": "02cc1829e2e2e4e78559c843746ba509c274a672",
+      "sha256": "ea75a270c056ec9220267ef908bef6850fd0bd0c0347d99f784c0e314b48726d"
+    },
+    "tests/native98/setup.sql": {
+      "git_blob": "71bb31bb0e2af27b80b135e15271e86569b80725",
+      "sha256": "223e9131a735f93f0767f0d18c4973caec94db63087be3f951df5fbb6710a553"
+    },
+    "tests/native98/place_order.fixed.sql": {
+      "git_blob": "7e0fbec87940a714b844f354832cc4b57cfbbb7a",
+      "sha256": "9195c50736beda188008053e671a0288093edee78497cf459d974a79c370ac29"
+    },
+    "tests/native106/admission.py": {
+      "git_blob": "1991c5a7bb2e08fd3d99ef2b005afc84eab3fc8f",
+      "sha256": "140ef8caeac1112564eac1bba1e9b2627090d51fc6eb3a27850830120299a058"
+    },
+    "tests/native106/resources.py": {
+      "git_blob": "3c721419fbb81f7ea434f9102129314399f3e608",
+      "sha256": "6b5300ff286cd2fa85d62d5af393be0e1f512a09259e799c37583aea5aed3e11"
+    },
+    "tests/native106/regression.py": {
+      "git_blob": "3e7e38bc46909807d1d30149ba6304085cff5159",
+      "sha256": "b60ed77d182689852fc91e6e8042ba08cc7acfba82fd254deb7542e674afc36c"
+    },
+    "tests/native106/client.test.mjs": {
+      "git_blob": "b5c3d2d32d64c1e1f22f5c14f1a24d803992d82f",
+      "sha256": "565fa2134fc3757d540f050fa9ac9af46251b8d84ccfc7d6e6879aca96e1f55c"
+    },
+    "tests/native106/isolation.sql": {
+      "git_blob": "47c7e72784cf36a77c638ac4726560ad1b270ff9",
+      "sha256": "9503a027d7c3c7f764e49145073fcba5607a7589b13e6e262d7b0bfdf2425e0d"
+    },
+    "tests/native106/native.py": {
+      "git_blob": "9f68b2369501285d74a5816599630190b854e011",
+      "sha256": "bb1e9a34c2f8b6ff072bcd69968c5e364a6dd8fccd96ed0bcb0ab7925e337dc5"
+    },
+    "tests/native106/restore.py": {
+      "git_blob": "08f77517bf063685c9cd2499a5c525f25825bf93",
+      "sha256": "f579f75e2b5733b58a1ca34a6f3202fb79563c4a72ef42279761ea86d567eb98"
+    },
+    "tests/native106/baseline.py": {
+      "git_blob": "9e6901bdadc89616d286136433af08855ae34103",
+      "sha256": "9eaca97b65d151f4122242c24eb8a54dd513d4f44761629d55baed7c1f3dc3fb"
+    },
+    "tests/native96/setup.sql": {
+      "git_blob": "139ac6b55aaf9cbbebfd1a5d5efc432fbe9e6809",
+      "sha256": "d1fc5422394cabafb78fcd206cc18df615ee38dac5520d9d9053460097c1c7c1"
+    },
+    "tests/native96/place_order.fixed.sql": {
+      "git_blob": "1d455c249073008f5a054a18b21e5b0a1aeb746d",
+      "sha256": "938448863e8208c605174642bd0ad8f5eba59531d2e293df43e9f70c9bb00021"
+    },
+    "tests/native96/faults.py": {
+      "git_blob": "d82d25c8d467e55716380ed394e76b5aae53cf35",
+      "sha256": "2143c2ddf6edc2dc738a743254a3da6055a42719f04eb95b843847829e134f29"
+    },
+    "tests/native96/restore.py": {
+      "git_blob": "d43f1df42be7b6a13e0677b8eaab27e6b5a92a86",
+      "sha256": "fde539c19c4fe189bd0783bf6c9f3061b307a139c94ab2394fdf2b03566b8bcc"
+    },
+    "tests/native104/admission.py": {
+      "git_blob": "71342502f31d4d0fde431f8b32a0538b8c84630c",
+      "sha256": "48ad62dce6326485df4329d84690f4f254d16322cd5b2080185dc396d12341f0"
+    },
+    "tests/native104/build-client.py": {
+      "git_blob": "1ce91b1d7bcdc18cede10b50b3ce6cd8a63a9591",
+      "sha256": "f8b7cbbed8103249933cec5832cf2e763583581d5001bd5f78b1036e1c54e5c4"
+    },
+    "tests/native104/fast.mjs": {
+      "git_blob": "3068578e91968b76d7b7246abfe6002b1fadea09",
+      "sha256": "91c6d882a4961fd25ef7ce43faa2991a651022e6f4cd9e7ac27ed0525cd63465"
+    },
+    "tests/native104/browser.mjs": {
+      "git_blob": "19f44957d1910eddbfa36b8bc00df88b794d4fa6",
+      "sha256": "4bcafcfd2d80667131caab4e6c82c84891110c2ae37289509fe09678f4a04195"
+    },
+    "tests/native104/schema.sql": {
+      "git_blob": "69fb7bce1264a49d6a6ae6aa29108dbb375c7af0",
+      "sha256": "a6446c2d0ba2b2b596af21a20e45f163db379713c8d3d1d74903beebd62f4acc"
+    },
+    "tests/native104/lifecycle.sql": {
+      "git_blob": "2f4980f5c30f45d03353f3268e09033a0412fcf8",
+      "sha256": "4f1a0f7e66d6ea7387fdd7817744aa1cc832a556b988bc58f53e849e540863d9"
+    },
+    "tests/native104/cart-regression.test.mjs": {
+      "git_blob": "30f1f3b98194a001de5b1ade9047455f8cf5ed6f",
+      "sha256": "5d708c9e772fac4f9010457d4a498bb2b2738d3e0609d3c4040ddc2ec0bd55f7"
+    },
+    "tests/native104/rollback.sql": {
+      "git_blob": "6637340318f82faabc15277400969f047cfd8883",
+      "sha256": "29e8ac8d1ad56e43a4dcd09339f8235ba32b89e4f47f053d0b8bda4e0c5b0287"
+    },
+    "tests/native104/native.py": {
+      "git_blob": "57bbec890c54769b8c71d52a59a4cf83e523f9a6",
+      "sha256": "89d9c02f820b1a07aa2e9a8b407f6142fe9b2787075b483015cee782b2e43370"
+    },
+    "tests/native104/client.js": {
+      "git_blob": "f85ce2a6ace8dab2f90032b1f461608df4470af9",
+      "sha256": "7906be47421af3ec434e22bf62db98e8eb7da8e8412e3af479a974fbc47ed6cd"
+    },
+    "tests/native104/restore.py": {
+      "git_blob": "ecbb71cd37d2950835b5d37d6974cdb1f3ec5fa5",
+      "sha256": "cea5c42ea8b1d60c568d6dfeda5b1cb77c05ca10046c19415e8a468c6a7b9c3d"
+    },
+    "tests/native104/functions.sql": {
+      "git_blob": "1bea43015833abe92e82c43cf90d8996f83df8cf",
+      "sha256": "2ba0ceaf5362cadd30991d1b6bb2053f6ea8b13252dafb6c89333c4c9dcc2d4a"
+    },
+    "tests/native105/admission.py": {
+      "git_blob": "50594a749704324c323bf2faf49755389a47268b",
+      "sha256": "aa16372e180540edae4c0dee829f52a92288af49645a7caf149a8b9ff9c03e5c"
+    },
+    "tests/native105/build-client.py": {
+      "git_blob": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "sha256": "8971e8704faa886163e8fb3402cadfb009a4cf8c16f4a35f64205888cbbfe87e"
+    },
+    "tests/native105/browser.mjs": {
+      "git_blob": "e410cab1b28f130583a9313316aa37ed6e76f4c5",
+      "sha256": "08040d0662d9b505e0b429398d9de10c980fcb79023a7ccb97e4c2e2a96b6f65"
+    },
+    "tests/native105/regression.py": {
+      "git_blob": "e5a4b1889a58b7a726e8b747e6ac70c325e9447b",
+      "sha256": "baf7c35a012d5ca398e0ec553fa3d673365b9f1709384eee94c1541422862eb8"
+    },
+    "tests/native105/client.test.mjs": {
+      "git_blob": "cc551f5f7e763d3c73a2bb40f083fc3c7eb2e13e",
+      "sha256": "73e9bc5f9049c3e6e53ced75f1850bf910d1584f06d490335b673c5fdf801fa2"
+    },
+    "tests/native105/browser-cases.mjs": {
+      "git_blob": "ec95df4b821a244dbc9e840d909881b6e8817d56",
+      "sha256": "aa52f9db6f4113cf5d5c598bc5cd79ac55765bfe4a1280787b47cb361d96f308"
+    },
+    "tests/native105/resources.sql": {
+      "git_blob": "bdc12ed1ac33297e3a482617d503f39bb96eb1aa",
+      "sha256": "ee5a257db3345ca409d6e048fb857d8d6ed875fc808648cb1e0091ef58728145"
+    },
+    "tests/native105/native.py": {
+      "git_blob": "df56132324e9460abba4d4ddb9989d9e7c0403a5",
+      "sha256": "80d01bb20890052c388a5fd12acb4be7341b757e2eef4fe02f43ce841eab8445"
+    },
+    "tests/native105/restore.py": {
+      "git_blob": "9cab6fcfb1781c6d3b2767c98ec7e28ba567e141",
+      "sha256": "207ea36e4a019a174eb263e378106fd0b2a46e598823a04f6c7f1e02e30d4af9"
+    },
+    "tests/native105/baseline.py": {
+      "git_blob": "5cdb1ec69103216f784c44f32fca33f59bb0c43b",
+      "sha256": "6ebe65e13c4fa8b5babb652cc347ccb94ba3f0134ca45ed929810933e8062c42"
+    },
+    "tests/native102/admission.py": {
+      "git_blob": "0e36c5a28c022f1533a3a91f1129b46c921db3c9",
+      "sha256": "a10c8d883e7bf4e47b633ac425c468d4d0a3a8228f5b28a6f73558b038603c1b"
+    },
+    "tests/native102/replay.test.mjs": {
+      "git_blob": "b4c626a8b5528224332469fcf3d4569715086301",
+      "sha256": "bfe9fd16cdc53a8d11c4eae963d571e633b973a3d06ed0119c05135da40401ad"
+    },
+    "tests/native102/candidate.sql": {
+      "git_blob": "cd3041c794048a0dc7d2f9a0820fa94e61900592",
+      "sha256": "6c5f668e6f843d8c6b6a8a46f9c947e9119443a61801e7f2e9799a80c3d8affc"
+    },
+    "tests/native102/tcp_proxy.py": {
+      "git_blob": "4cf8d80848d6506069ea9b242d994f564796da1f",
+      "sha256": "1e7828a7656d08390f01c829f0a85e90c625767fe899e9ed61d44dd761d299a9"
+    },
+    "tests/native102/constraints.sql": {
+      "git_blob": "43ab286c487ff4d168de39d9ba22f8dfa7fca87c",
+      "sha256": "a54c6ea4d4907a9044e47174766b50c90f5596574905ae909b02464e9bd77458"
+    },
+    "tests/native102/native.py": {
+      "git_blob": "17ec2efe0dc0575845dc1edc12c3323852b56cb3",
+      "sha256": "499d6296f046173a49a7eb4b2498f31a71e1def32cfb91e3d6b898852784c989"
+    },
+    "tests/native102/restore.py": {
+      "git_blob": "4df0a900768ab8772e48a37a70b99ea0fcbb7c12",
+      "sha256": "7013ebc840fd4efc4a1610280cbbc0c6744b067611280a9fb4af555ca06dad50"
+    },
+    "tests/tip02-null01/client.test.mjs": {
+      "git_blob": "adfea86d954139985c8bd14e4452ad4aa40a9768",
+      "sha256": "d422266b3f633447cfee319b79505dc0c34cf367100fb93be27ec1ae5b375726"
+    },
+    "tests/tip02-null01/acceptance.sql": {
+      "git_blob": "4aa8b45c310bbc69e25c2c6c2d38199824c62e9a",
+      "sha256": "d4c84cbf9d46073ae53883c7167ff4638c8f36833a7c9e786484f71556fe2fd9"
+    },
+    "tests/tip02-null01/native.py": {
+      "git_blob": "aaca194c31313a1094a69aff4cafe9016e520b5f",
+      "sha256": "767490d8fc2eb6b08969d41416f865af8ffe1130ba7a086e5e4e26f1a2025e32"
+    },
+    "tests/tip02/contract.js": {
+      "git_blob": "28f2c1fec82db2f929466db5b28852df03ec6811",
+      "sha256": "9da1bb7c1191abce81c92663c8e0fe3dbbaa200c706e97387b145a5505818b39"
+    },
+    "tests/tip02/ui.js": {
+      "git_blob": "b0a18dcbc95859ff69cbc3e23e043eb8a7cf8d36",
+      "sha256": "273a80cdce5133ff3f2c1de5f652ab65e832548a87756c45368b0e2bb17752eb"
+    },
+    "tests/tip02/build-client.py": {
+      "git_blob": "bb620adf3d31c8e176ad7257c2ea83080b2fea6a",
+      "sha256": "46ec53dc498039abec8f28dbf181245b579c08bd11f7e7e450ca6faffead9e0e"
+    },
+    "tests/tip02/retained.py": {
+      "git_blob": "0290b97f61e8929c00a31cb8fd4e0a17eaf2725f",
+      "sha256": "8919e45b799075b71baa6acec9b658227a7ccdd46edcdd668a81263a5d77bbab"
+    },
+    "tests/tip02/controller.test.mjs": {
+      "git_blob": "9bd2802e0c842e8844ea9c16457d4d32b4cb3f7d",
+      "sha256": "101bf349825c7803223f8aa182189d287b8417663c79a69b1cc2aea65219c92e"
+    },
+    "tests/tip02/regression.py": {
+      "git_blob": "52adbb6df8b544d12fbdd0bc0496e848ab6511a7",
+      "sha256": "3c996198778e76fd2d10fbc01dc0fc8918023928d51c11c608aed7d075ac2d99"
+    },
+    "tests/tip02/client.test.mjs": {
+      "git_blob": "02d2a3109ca11b8b2085470747e616e588d10105",
+      "sha256": "2fdc1b5f0014ed7e087c186553c8cd71f86e09a8272d911cfc5ca1fc5dfa276e"
+    },
+    "tests/tip02/acceptance.sql": {
+      "git_blob": "8007194d956635bcb1e18d2700fc8dbf7b301f08",
+      "sha256": "4153ee212306420c013c4a5687eb61fff68c130e6dd6a545c3bc73631cc0b331"
+    },
+    "tests/tip02/isolation-client.test.mjs": {
+      "git_blob": "a524c73431b9f7a79d6794e69f5bb5653c41c66f",
+      "sha256": "f9b369e5bfca21204eb05329a1f8cf2e254b2af13ff4c9f942f5c1162cf82ed7"
+    },
+    "tests/tip02/native.py": {
+      "git_blob": "8f5e3732ba0bfa679eef78ea6388e7ddf63b7f1c",
+      "sha256": "190193aa10d24861d488624fe8b1d4d15f5ca4c654b9f6554d1c00f9c0ebe07b"
+    },
+    "tests/tip02-qa01/recovery.test.mjs": {
+      "git_blob": "0587ae645c454120d8bc38b93476c8bca4fb02cd",
+      "sha256": "13a38794a104b630f07a739272f629637a801cecbc0a49b34229014c6cce30e6"
+    },
+    "tests/native95/setup.sql": {
+      "git_blob": "d76c82d4f885df3689991f1902ce149f5e19cece",
+      "sha256": "2df4e781ed23e3d5f5fc1a94d1fedd39edb6a3bd831053c1b8c5636df881792e"
+    },
+    "tests/native95/contention.py": {
+      "git_blob": "449c1adc8dcf6f5ea9d02cf0ee60b14c2c1accd9",
+      "sha256": "2dcaf3eda4bb3bc8c2c8ec66f031567fbe7efb88c0c7aea78a5558f0dc486aa8"
+    },
+    "tests/native103/admission.py": {
+      "git_blob": "051619048194ae2bce896cc7f4b20645892743e8",
+      "sha256": "b35866feadeda0e0d7b78f4e70795e3a4838068c5c6bcbd8781a0d66df7ac3ce"
+    },
+    "tests/native103/build-client.py": {
+      "git_blob": "89f5072521bf22113ea382492b9c163d6e7a1f2b",
+      "sha256": "ac05540d522889bbfe52c95aeab04a1323793294f4a5c6d48beeb182e7bd8d6b"
+    },
+    "tests/native103/migrate102.sql": {
+      "git_blob": "3e33c3929958b51f274c0acd9ad792d2114875e6",
+      "sha256": "16fd6dcde2dc919084ddac9e28aef2c3a532d76b873112221235eeb1f7728693"
+    },
+    "tests/native103/dependencies.sql": {
+      "git_blob": "7272feb9182ec9415454f82a53576a4b22710799",
+      "sha256": "df23c2f1e989abe912dc7cf1275676a33c25c515cb56b5ce0172f99a85c7f05c"
+    },
+    "tests/native103/fidelity.sql": {
+      "git_blob": "2903bd4c479eadbdfb96f2d5e01bbd32ef36409f",
+      "sha256": "3308a68e37c4c14679ff55892403380a6eadb6448bdde3a52e4f5b005feeccf6"
+    },
+    "tests/native103/client.test.mjs": {
+      "git_blob": "e456a21b8df34076af7539ef47db7a5a53281968",
+      "sha256": "0ac58e01f10cad9ad881b8baa5d36c250c84be7fb054dcd37342909b5c87be66"
+    },
+    "tests/native103/captured-dependency-hashes.json": {
+      "git_blob": "b0578c95ad575c39313ecf0c167edc97b64d4073",
+      "sha256": "1fc15206995f057deeae26b48169ef738ad43f1b96f2a46b3723f46c4b62df8c"
+    },
+    "tests/native103/ui.test.mjs": {
+      "git_blob": "85c11809682109c15a9f3b8c73ad4de7c9dae32c",
+      "sha256": "1a220a4a5d07926dc1ca44874931d6a5848c0a97a240d142f289263028e47b2b"
+    },
+    "tests/native103/ui-source-hashes.json": {
+      "git_blob": "3f2681e886a4835cfc61797e5a30925a5cad684e",
+      "sha256": "5af60be0ee9393acd83cba3976e78c0c1d64d9f14a8b2ca15b2fab014ec3130e"
+    },
+    "tests/native103/schema.sql": {
+      "git_blob": "a77cccdcf818d9509db39c643a600f5e59324143",
+      "sha256": "8b1d697efbc7f299b5a02867c74eee45be00913901a916f9c7c05d4716ef1a95"
+    },
+    "tests/native103/rollback.sql": {
+      "git_blob": "e52763d063cae7094919f64067d9fa8475082568",
+      "sha256": "2101fc015e11ddb48ec3239878d84a355867aec97467442055389d056b9544a2"
+    },
+    "tests/native103/client.js": {
+      "git_blob": "9d23cf8ec21480bdfa733516e3f80c0356d0a0fa",
+      "sha256": "f7ae293d89332d8703021ce0478cfff2324eab7203b091d2934a3fa57acf3616"
+    },
+    "tests/native103/restore.py": {
+      "git_blob": "c3e298d9a3ef2a2384b3b5d6d11caa4767460af1",
+      "sha256": "dd5373cfbee68cf017bbe5ee09793c1ee14f2548c8ebf5fe71c35d824851cbdc"
+    },
+    "tests/native103/functions.sql": {
+      "git_blob": "1213dd340b04f7b330ed2f9c7ce7a87ea0731746",
+      "sha256": "459617b162cb8882b4ea3659c3995acac7510cf4290c909bbba1bad8702f606f"
+    },
+    "tests/native103/test_sql.py": {
+      "git_blob": "cbfe5da4be4ec0934289e03414542dc7336de970",
+      "sha256": "e0c6c14158b5a73e210845a741b765ed720c2225e427e1ff0260541e93db03dc"
+    },
+    "tests/tip01/admission.py": {
+      "git_blob": "4f5f07bc0379d49323d9ff4403e9dc73ded59fd5",
+      "sha256": "979cd72cdcc599c0547979ed740810684e1aa25f6a37a574a410a5e4c9f568c9"
+    },
+    "tests/tip01/regression.py": {
+      "git_blob": "9704840b9aac6c61899100712175b00e23670ad7",
+      "sha256": "b9f039371917dc953997d72fb24dbcc4aa2f699215a7750afdec892c0ad2fa73"
+    },
+    "tests/tip01/acceptance.sql": {
+      "git_blob": "51b4aed1989e48d0ef677d072737351cdf3aed3b",
+      "sha256": "e2dcac887090dead3d2f678333b56c2a77d302c3fdad659b104e9a86d97da5cd"
+    },
+    "tests/tip01/native.py": {
+      "git_blob": "c53d18c57a64ce9043b492faa8fcee14a4e27ba1",
+      "sha256": "dc177f080b63b9d1895354d2d45352931fe1d80806432810a35e395af1e4db66"
+    },
+    "tests/tip01/restore.py": {
+      "git_blob": "45480d67edbddfaf3031546f9d6feb239c7bd9a4",
+      "sha256": "3469752bdcbc0454c651f773d792d6a643d673b78d906933e754c9419572610b"
+    }
+  },
+  "generated_client": {
+    "customer.html": {
+      "sha256": "dc258f29082fb61cd051e1cd548e96d54a4f1b82cc62c37a2d60f9c7f6608118",
+      "bytes": 558863
+    },
+    "talabat-core.js": {
+      "sha256": "1e515219465616c22d0839501f84b2a3f8e3b7472dc1a0f80b9cefa1d318e076",
+      "bytes": 183005
+    }
+  },
+  "execution_source_changed": false,
+  "test_harness_changes_between_runs": [
+    "P05 barrier connection changed from restricted customer role to disposable fixture owner; no database grants changed; only P05 rerun",
+    "Native case selection added; successful scenarios not rerun",
+    "Client quote extractor corrected from async function to function returning Promise; case prefix selection added; only quote case rerun"
+  ],
+  "limits": [
+    "No executable PRICE01 repair",
+    "No hosted source or Supabase access",
+    "Node VM not Chromium/IndexedDB/Safari",
+    "No Full Regression rerun without source change"
+  ],
+  "commands": {
+    "native": "TIP01_ISOLATED=yes TIP02_ISOLATED=yes TIP02_NULL_ISOLATED=yes PRICE01_ISOLATED=yes PGHOST=127.0.0.1 PGPORT=5432 PGDATABASE=postgres PGUSER=agent PYTHONPATH=../tip01-runtime/python python tests/price01/baseline_probe.py",
+    "native_delta": "same environment plus PRICE01_CASES=test_05_waiting_create_observes_new_price_without_new_consent",
+    "client": "PRICE01_CORE=../tip02-qa01-runtime/candidate/talabat-core.js node tests/price01/client_probe.mjs",
+    "client_delta": "same environment plus PRICE01_CASE=delivery quote"
+  }
+}
