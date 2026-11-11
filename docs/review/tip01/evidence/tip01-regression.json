@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "tests": 46,
+  "failures": [],
+  "scope": "retained assertions; PostgreSQL17.6; partial synthetic fixture; no hosted HTTP"
+}

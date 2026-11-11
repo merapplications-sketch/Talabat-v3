@@ -1,0 +1,28 @@
+test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) ... ok
+test_tip20_closed_key_all_entries_all_isolations (__main__.Tip01.test_tip20_closed_key_all_entries_all_isolations) ... ok
+test_decimal_money_and_floor_unchanged (__main__.Tip01.test_decimal_money_and_floor_unchanged) ... ok
+test_replay_conflict_and_numeric_equivalence (__main__.Tip01.test_replay_conflict_and_numeric_equivalence) ... ok
+test_preupgrade_bound_orders_never_repriced (__main__.Tip01.test_preupgrade_bound_orders_never_repriced) ... ok
+test_historical_tip3_and_sent20_stored0_readonly (__main__.Tip01.test_historical_tip3_and_sent20_stored0_readonly) ... ok
+test_unresolved_contract_inputs_preserve_106_behavior (__main__.Tip01.test_unresolved_contract_inputs_preserve_106_behavior) ... ok
+test_three_concurrent_retries_one_spend (__main__.Tip01.test_three_concurrent_retries_one_spend) ... ok
+test_tip20_tcp_before_after_commit (__main__.Tip01.test_tip20_tcp_before_after_commit) ... ok
+test_tip20_rollback_reupgrade_no_repricing (__main__.Tip01.test_tip20_rollback_reupgrade_no_repricing) ... ok
+test_tip20_binding_failure_promo_points_wallet_atomic (__main__.Tip01.test_tip20_binding_failure_promo_points_wallet_atomic) ... ok
+test_matrix_place_order_normal (__main__.Tip01.test_matrix_place_order_normal) ... ok
+test_matrix_place_order_group (__main__.Tip01.test_matrix_place_order_group) ... ok
+test_matrix_place_order_scheduled (__main__.Tip01.test_matrix_place_order_scheduled) ... ok
+test_matrix_place_order103_normal (__main__.Tip01.test_matrix_place_order103_normal) ... ok
+test_matrix_place_order103_group (__main__.Tip01.test_matrix_place_order103_group) ... ok
+test_matrix_place_order103_scheduled (__main__.Tip01.test_matrix_place_order103_scheduled) ... ok
+test_matrix_place_order104_normal (__main__.Tip01.test_matrix_place_order104_normal) ... ok
+test_matrix_place_order104_group (__main__.Tip01.test_matrix_place_order104_group) ... ok
+test_matrix_place_order104_scheduled (__main__.Tip01.test_matrix_place_order104_scheduled) ... ok
+test_matrix_security_private_create_order103_normal (__main__.Tip01.test_matrix_security_private_create_order103_normal) ... ok
+test_matrix_security_private_create_order103_group (__main__.Tip01.test_matrix_security_private_create_order103_group) ... ok
+test_matrix_security_private_create_order103_scheduled (__main__.Tip01.test_matrix_security_private_create_order103_scheduled) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 3.067s
+
+OK

@@ -1,0 +1,94 @@
+test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) ... 
+  test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='place_order') ... FAIL
+  test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='place_order103') ... FAIL
+  test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='place_order104') ... FAIL
+  test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='security_private.create_order103') ... FAIL
+
+======================================================================
+FAIL: test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='place_order')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip01-work/tests/tip01/native.py", line 29, in test_tip20_persisted_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout,wallet_used,cash_platform_share,cash_driver_delivery_share from orders where id=%s',(oid,)).fetchone(),(20,42,2,21.5,5,.5,1.5))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('[70 chars]50')) != (20, 42, 2, 21.5, 5, 0.5, 1.5)
+
+First differing element 0:
+Decimal('0')
+20
+
++ (20, 42, 2, 21.5, 5, 0.5, 1.5)
+- (Decimal('0'),
+-  Decimal('22.00'),
+-  Decimal('2.00'),
+-  Decimal('1.50'),
+-  Decimal('5.00'),
+-  Decimal('0.50'),
+-  Decimal('1.50'))
+
+======================================================================
+FAIL: test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='place_order103')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip01-work/tests/tip01/native.py", line 29, in test_tip20_persisted_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout,wallet_used,cash_platform_share,cash_driver_delivery_share from orders where id=%s',(oid,)).fetchone(),(20,42,2,21.5,5,.5,1.5))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('[70 chars]50')) != (20, 42, 2, 21.5, 5, 0.5, 1.5)
+
+First differing element 0:
+Decimal('0')
+20
+
++ (20, 42, 2, 21.5, 5, 0.5, 1.5)
+- (Decimal('0'),
+-  Decimal('22.00'),
+-  Decimal('2.00'),
+-  Decimal('1.50'),
+-  Decimal('5.00'),
+-  Decimal('0.50'),
+-  Decimal('1.50'))
+
+======================================================================
+FAIL: test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='place_order104')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip01-work/tests/tip01/native.py", line 29, in test_tip20_persisted_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout,wallet_used,cash_platform_share,cash_driver_delivery_share from orders where id=%s',(oid,)).fetchone(),(20,42,2,21.5,5,.5,1.5))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('[70 chars]50')) != (20, 42, 2, 21.5, 5, 0.5, 1.5)
+
+First differing element 0:
+Decimal('0')
+20
+
++ (20, 42, 2, 21.5, 5, 0.5, 1.5)
+- (Decimal('0'),
+-  Decimal('22.00'),
+-  Decimal('2.00'),
+-  Decimal('1.50'),
+-  Decimal('5.00'),
+-  Decimal('0.50'),
+-  Decimal('1.50'))
+
+======================================================================
+FAIL: test_tip20_persisted_all_entries (__main__.Tip01.test_tip20_persisted_all_entries) (entry='security_private.create_order103')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip01-work/tests/tip01/native.py", line 29, in test_tip20_persisted_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout,wallet_used,cash_platform_share,cash_driver_delivery_share from orders where id=%s',(oid,)).fetchone(),(20,42,2,21.5,5,.5,1.5))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('[70 chars]50')) != (20, 42, 2, 21.5, 5, 0.5, 1.5)
+
+First differing element 0:
+Decimal('0')
+20
+
++ (20, 42, 2, 21.5, 5, 0.5, 1.5)
+- (Decimal('0'),
+-  Decimal('22.00'),
+-  Decimal('2.00'),
+-  Decimal('1.50'),
+-  Decimal('5.00'),
+-  Decimal('0.50'),
+-  Decimal('1.50'))
+
+----------------------------------------------------------------------
+Ran 1 test in 0.226s
+
+FAILED (failures=4)

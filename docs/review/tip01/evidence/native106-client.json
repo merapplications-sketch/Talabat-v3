@@ -1,0 +1,17 @@
+[
+  {
+    "mode": "unsupported_transaction_isolation",
+    "passed": true,
+    "scope": "unchanged104 controller, in-memory test store and synthetic RPC; not hosted HTTP or new IndexedDB proof"
+  },
+  {
+    "mode": "40001",
+    "passed": true,
+    "scope": "unchanged104 controller, in-memory test store and synthetic RPC; not hosted HTTP or new IndexedDB proof"
+  },
+  {
+    "mode": "transport",
+    "passed": true,
+    "scope": "unchanged104 controller, in-memory test store and synthetic RPC; not hosted HTTP or new IndexedDB proof"
+  }
+]

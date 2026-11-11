@@ -1,0 +1,77 @@
+{
+  "results": [
+    {
+      "case": "open_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        },
+        {
+          "order": 6
+        }
+      ],
+      "count_after": 5,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "hour_limit",
+      "blocking_observed": true,
+      "outcomes": [
+        {
+          "order": 21
+        },
+        {
+          "error": "too_many_orders",
+          "sqlstate": "P0001"
+        }
+      ],
+      "count_after": 20,
+      "wallet_spends": 1,
+      "wallet_amount": "-5.00",
+      "passed": true
+    },
+    {
+      "case": "three_keys",
+      "passed": true,
+      "connections": 3,
+      "independent_account_observed": true,
+      "wallet_spends": 3,
+      "distinct_spends": 3,
+      "wallet_amount": "-15.00",
+      "outcomes": {
+        "0": {
+          "order": 3
+        },
+        "2": {
+          "order": 4
+        },
+        "1": {
+          "order": 5
+        }
+      }
+    },
+    {
+      "case": "two_accounts",
+      "passed": true,
+      "connections": 2,
+      "independent_account_observed": true,
+      "wallet_spends": 2,
+      "distinct_spends": 2,
+      "wallet_amount": "-10.00",
+      "outcomes": {
+        "1": {
+          "order": 3
+        },
+        "0": {
+          "order": 4
+        }
+      }
+    }
+  ],
+  "source_setup_sha256": "c68ffb2e7c8fde73ef525bbfc08cc75ba3f7f76d5dfb53d7cf6c479ec9bfdba6",
+  "scope": "native PostgreSQL separate connections; synthetic seeded orders; captured minimal schema and declared doubles, not hosted HTTP"
+}

@@ -1,0 +1,8 @@
+{
+  "tests/tip01/README.md": "3288f79377e184fa571716be0851f09cebb96fcc7e4a656f6819e75e0ffb27a9",
+  "tests/tip01/acceptance.sql": "e2dcac887090dead3d2f678333b56c2a77d302c3fdad659b104e9a86d97da5cd",
+  "tests/tip01/admission.py": "979cd72cdcc599c0547979ed740810684e1aa25f6a37a574a410a5e4c9f568c9",
+  "tests/tip01/native.py": "dc177f080b63b9d1895354d2d45352931fe1d80806432810a35e395af1e4db66",
+  "tests/tip01/regression.py": "b9f039371917dc953997d72fb24dbcc4aa2f699215a7750afdec892c0ad2fa73",
+  "tests/tip01/restore.py": "3469752bdcbc0454c651f773d792d6a643d673b78d906933e754c9419572610b"
+}

@@ -1,0 +1,4 @@
+Chromium launch attempted with tests/native105/browser.mjs on generated105 client.
+Browser exited before test execution.
+FATAL:chrome/browser/process_singleton_posix.cc:297 Check failed: . socket() failed: Operation not permitted (1)
+No Chromium pass claimed; no new IndexedDB or real cross-tab verification.

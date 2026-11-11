@@ -1,0 +1,13 @@
+✔ double submit while quote pending sends one order (4.766247ms)
+✔ failure after request keeps cart and exact retry key across reload (2.571567ms)
+✔ another account does not load the saved cart (1.838532ms)
+✔ quote failure preserves cart and sends no order (1.308663ms)
+✔ confirmed success clears cart and persisted request key (2.6464ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 95.29955
