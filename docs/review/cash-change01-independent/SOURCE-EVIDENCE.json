@@ -1,0 +1,229 @@
+{
+  "review": "CASH-CHANGE-01 independent contract preparation review",
+  "date_dushanbe": "2026-11-12",
+  "verdict": "ACCEPTED_CONTRACT_PREPARATION_ONLY",
+  "implementation_authorized": false,
+  "reviewed_commit": "23e2ab82a83b9503529aa31df6a659544cce197e",
+  "policy_commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+  "prior_price01_qa": "7ed670824340e6a7ac4df62844d96516205fbb7a",
+  "source_compare": {
+    "repository_full_name": "merapplications-sketch/Talabat-v3",
+    "base": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "head": "23e2ab82a83b9503529aa31df6a659544cce197e",
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "too_large": null,
+    "base_commit": {
+      "sha": "05428e37d9779fa2af0845e640fe85553c8b6974",
+      "url": "https://api.github.com/repos/merapplications-sketch/Talabat-v3/commits/05428e37d9779fa2af0845e640fe85553c8b6974",
+      "html_url": "https://github.com/merapplications-sketch/Talabat-v3/commit/05428e37d9779fa2af0845e640fe85553c8b6974"
+    },
+    "merge_base_commit": {
+      "sha": "05428e37d9779fa2af0845e640fe85553c8b6974",
+      "url": "https://api.github.com/repos/merapplications-sketch/Talabat-v3/commits/05428e37d9779fa2af0845e640fe85553c8b6974",
+      "html_url": "https://github.com/merapplications-sketch/Talabat-v3/commit/05428e37d9779fa2af0845e640fe85553c8b6974"
+    },
+    "files": [
+      {
+        "filename": "docs/continuity/PHASE1-CURRENT.md",
+        "status": "modified",
+        "additions": 11,
+        "deletions": 0,
+        "changes": 11,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/review/cash-change01/REPORT-AR.md",
+        "status": "added",
+        "additions": 201,
+        "deletions": 0,
+        "changes": 201,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/review/cash-change01/SOURCE-REFERENCES.json",
+        "status": "added",
+        "additions": 200,
+        "deletions": 0,
+        "changes": 200,
+        "previous_filename": null
+      }
+    ]
+  },
+  "independent_source_integrity": "SOURCE-INTEGRITY.json",
+  "historical_private_evidence": {
+    "closure": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+    "raw_content_published": false,
+    "scope": "Selected saved text only; non-atomic historical isolated-target catalog; no current hosted access; no repeat of 49-file receipt",
+    "files": [
+      {
+        "name": "target-definitions.json",
+        "version": 0,
+        "ranges": [
+          [
+            79,
+            81
+          ],
+          [
+            103,
+            105
+          ],
+          [
+            195,
+            197
+          ],
+          [
+            319,
+            325
+          ],
+          [
+            391,
+            393
+          ],
+          [
+            455,
+            457
+          ],
+          [
+            467,
+            469
+          ],
+          [
+            523,
+            525
+          ],
+          [
+            575,
+            577
+          ],
+          [
+            599,
+            601
+          ],
+          [
+            619,
+            625
+          ],
+          [
+            643,
+            645
+          ],
+          [
+            651,
+            653
+          ]
+        ],
+        "oids": [
+          18439,
+          18695,
+          18448,
+          18697,
+          18698,
+          18485,
+          18502,
+          18505,
+          18978,
+          18522,
+          18528,
+          18533,
+          18534,
+          18539,
+          18980
+        ]
+      },
+      {
+        "name": "target-columns.json",
+        "version": 0,
+        "ranges": [
+          [
+            3356,
+            3366
+          ],
+          [
+            3473,
+            3483
+          ],
+          [
+            5397,
+            5513
+          ]
+        ],
+        "scope": "cash_collected, wallet_used, wallet_entries"
+      },
+      {
+        "name": "target-constraints.json",
+        "version": 0,
+        "ranges": [
+          [
+            2594,
+            2677
+          ]
+        ],
+        "scope": "wallet_entries checks/FKs"
+      },
+      {
+        "name": "target-triggers.json",
+        "version": 0,
+        "ranges": [
+          [
+            1381,
+            1700
+          ],
+          [
+            2957,
+            2981
+          ]
+        ],
+        "scope": "selected orders and wallet triggers"
+      },
+      {
+        "name": "target-indexes.json",
+        "version": 0,
+        "ranges": [
+          [
+            777,
+            826
+          ]
+        ],
+        "scope": "wallet_entries unique indexes"
+      }
+    ]
+  },
+  "functional_tests": {
+    "postgresql": "NOT_RUN",
+    "http": "NOT_RUN",
+    "chromium_indexeddb": "NOT_RUN",
+    "safari": "NOT_RUN",
+    "provider_recovery": "NOT_RUN"
+  },
+  "non_blocking_note": {
+    "id": "CC-N01",
+    "path": "docs/review/cash-change01/REPORT-AR.md",
+    "location": "section3 driver due source reference",
+    "correction": "driver.html:132, not133, at05428e37; include in next routine documentation update, no independent QA batch"
+  },
+  "existing_open_decisions": [
+    "CC-D01",
+    "CC-D02",
+    "CC-D03",
+    "CC-D04"
+  ],
+  "existing_open_evidence": [
+    "CC-E01",
+    "CC-E02",
+    "CC-E03",
+    "CC-AUTH"
+  ],
+  "phase1": "OPEN",
+  "phase2": "NO_GO",
+  "protection": {
+    "candidate_modified": false,
+    "private_raw_published": false,
+    "hosted_sql": false,
+    "deploy": false,
+    "merge_main": false,
+    "protected_orders_read_or_changed": false
+  }
+}

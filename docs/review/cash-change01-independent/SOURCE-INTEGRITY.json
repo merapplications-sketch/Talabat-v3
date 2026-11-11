@@ -1,0 +1,110 @@
+[
+  {
+    "path": "driver.html",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 63944,
+    "git_blob": "086929844b2080d7aa2afe1c2c57267cde245d40",
+    "expected_git_blob": "086929844b2080d7aa2afe1c2c57267cde245d40",
+    "match": true,
+    "sha256": "e5ec3a43493bffcbd2bb374732c11d4b5b7a557c8a929c91da6fbfe9e502ecf7"
+  },
+  {
+    "path": "talabat-core.js",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 153924,
+    "git_blob": "f639bec1d23a812866e06eb1110940c77563387c",
+    "expected_git_blob": "f639bec1d23a812866e06eb1110940c77563387c",
+    "match": true,
+    "sha256": "226c56c80ae584ccf3c9aef0887634feddf8f623ee32ae3b3394ad4d9deaf85d"
+  },
+  {
+    "path": "docs/OWNER-AGREEMENTS-AR.md",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 4973,
+    "git_blob": "d671e93233ae91e361af292e688d15460e06b992",
+    "expected_git_blob": "d671e93233ae91e361af292e688d15460e06b992",
+    "match": true,
+    "sha256": "8ddc41433557dd534822f0eb2df5e2d42babdc24c9689cd3359a1a90d13b1bae"
+  },
+  {
+    "path": "docs/continuity/OWNER-ACCOUNTANT-AND-RECEIPT-20261102.md",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 2089,
+    "git_blob": "0fe978f967716da074e0ad49b54ac4384a0f65c4",
+    "expected_git_blob": "0fe978f967716da074e0ad49b54ac4384a0f65c4",
+    "match": true,
+    "sha256": "3e4d8c76402fd4e6aea0d1f441f5b40d288f136441e30c4473c36935e62895fb"
+  },
+  {
+    "path": "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 11377,
+    "git_blob": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+    "expected_git_blob": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+    "match": true,
+    "sha256": "3f1b880b373f8de907420308c9ae8e055bc5a88062442117139ed9c241ad5018"
+  },
+  {
+    "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 12840,
+    "git_blob": "6b19870cc1939094c761a255e26f1fd7c5658952",
+    "expected_git_blob": "6b19870cc1939094c761a255e26f1fd7c5658952",
+    "match": true,
+    "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259"
+  },
+  {
+    "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 7522,
+    "git_blob": "76f0d8106739ab19a656ee419d829b064fa78487",
+    "expected_git_blob": "76f0d8106739ab19a656ee419d829b064fa78487",
+    "match": true,
+    "sha256": "240727cdbb9416af093f36209de0ea690c9822ef39c16710e94e1692f62dcf82"
+  },
+  {
+    "path": "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 13944,
+    "git_blob": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+    "expected_git_blob": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+    "match": true,
+    "sha256": "a2cd953fa1539f397d1f2efb8d16b93667374879b2cbed0eeb41d2e8439af7e6"
+  },
+  {
+    "path": "docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+    "commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+    "bytes": 82877,
+    "git_blob": "a602710389166b65d8054e253b15ca796477283c",
+    "expected_git_blob": "a602710389166b65d8054e253b15ca796477283c",
+    "match": true,
+    "sha256": "88087673d0e5e25b1b1a5cac8ec8c2a97790b04570a518be939e7f899d5c56b9"
+  },
+  {
+    "path": "docs/review/cash-change01/REPORT-AR.md",
+    "commit": "23e2ab82a83b9503529aa31df6a659544cce197e",
+    "bytes": 43211,
+    "git_blob": "ed0d56f02bb83437b64e1c9df195723eb68d77a1",
+    "expected_git_blob": "ed0d56f02bb83437b64e1c9df195723eb68d77a1",
+    "match": true,
+    "sha256": "68ebb8df0501eea122f7babfcdb28e37a23ea71ebdaacb5e2becfe2fc4df5712"
+  },
+  {
+    "path": "docs/review/cash-change01/SOURCE-REFERENCES.json",
+    "commit": "23e2ab82a83b9503529aa31df6a659544cce197e",
+    "bytes": 8645,
+    "git_blob": "31ddb11f2851f94f119e97afe084279c0dd6c084",
+    "expected_git_blob": "31ddb11f2851f94f119e97afe084279c0dd6c084",
+    "match": true,
+    "sha256": "6e903fb436e27f9706400de0e1f069190743f70acafe9de7d14aa2ea55ba9d54"
+  },
+  {
+    "path": "docs/continuity/PHASE1-CURRENT.md",
+    "commit": "23e2ab82a83b9503529aa31df6a659544cce197e",
+    "bytes": 24373,
+    "git_blob": "0e30ee9458d5b2e2430086eac51518c2c96f3ff3",
+    "expected_git_blob": "0e30ee9458d5b2e2430086eac51518c2c96f3ff3",
+    "match": true,
+    "sha256": "df3fa6f478afca6d68f6345fba5999f8e59a5d7d67636747c532cc6e6ea9c081"
+  }
+]
