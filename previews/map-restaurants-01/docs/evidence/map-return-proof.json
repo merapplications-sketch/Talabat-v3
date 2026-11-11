@@ -1,0 +1,19 @@
+{
+  "viewport": {
+    "width": 1363,
+    "height": 936
+  },
+  "beforeMap": {
+    "pane": "translate3d(0px, 0px, 0px)",
+    "pin": "translate3d(594px, 334px, 0px)",
+    "query": "safran",
+    "tile": "https://tile.openstreetmap.org/15/22644/12572.png"
+  },
+  "afterMap": {
+    "pane": "translate3d(0px, 0px, 0px)",
+    "pin": "translate3d(594px, 334px, 0px)",
+    "query": "safran",
+    "tile": "https://tile.openstreetmap.org/15/22644/12572.png"
+  },
+  "equal": true
+}
