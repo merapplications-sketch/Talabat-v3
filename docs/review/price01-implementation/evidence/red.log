@@ -1,0 +1,47 @@
+test_01_up_down_all_entries_atomic (__main__.Price01.test_01_up_down_all_entries_atomic) ... ERROR
+test_02_missing_consent_all_entries (__main__.Price01.test_02_missing_consent_all_entries) ... ERROR
+test_03_equal_total_opposite_changes (__main__.Price01.test_03_equal_total_opposite_changes) ... FAIL
+
+======================================================================
+ERROR: test_01_up_down_all_entries_atomic (__main__.Price01.test_01_up_down_all_entries_atomic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 38, in test_01_up_down_all_entries_atomic
+    self.a.execute('update menu_items set price=%s',(price,));r=self.reject_price(request('price01_drift_'+str(n)+'_'+str(price)),fn)
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 30, in reject_price
+    if fn in ['place_order','security_private.create_order103']:self.assertEqual(r.get('message'),reason,r)
+                                                                                 ^^^^^
+AttributeError: 'int' object has no attribute 'get'
+
+======================================================================
+ERROR: test_02_missing_consent_all_entries (__main__.Price01.test_02_missing_consent_all_entries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 42, in test_02_missing_consent_all_entries
+    for n,fn in enumerate(ENTRIES):self.reject_price(args('price01_missing_'+str(n)),fn,'price_confirmation_required')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 30, in reject_price
+    if fn in ['place_order','security_private.create_order103']:self.assertEqual(r.get('message'),reason,r)
+                                                                                 ^^^^^
+AttributeError: 'int' object has no attribute 'get'
+
+======================================================================
+FAIL: test_03_equal_total_opposite_changes (__main__.Price01.test_03_equal_total_opposite_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 50, in test_03_equal_total_opposite_changes
+    r=self.reject_price(p);self.assertEqual(Decimal(r['price_review']['totals']['total']),42)
+      ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 31, in reject_price
+    else:self.assertEqual(r['status'],'rejected',r);self.assertEqual(r['reason'],reason,r)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'created' != 'rejected'
+- created
++ rejected
+ : {'id': '1', 'key': 'price01_offset', 'status': 'created', 'input_match': True, 'contract_version': 1}
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.363s
+
+FAILED (failures=1, errors=2)

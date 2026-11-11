@@ -1,0 +1,31 @@
+test_01_up_down_all_entries_atomic (__main__.Price01.test_01_up_down_all_entries_atomic) ... FAIL
+test_02_missing_consent_all_entries (__main__.Price01.test_02_missing_consent_all_entries) ... FAIL
+
+======================================================================
+FAIL: test_01_up_down_all_entries_atomic (__main__.Price01.test_01_up_down_all_entries_atomic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 38, in test_01_up_down_all_entries_atomic
+    self.a.execute('update menu_items set price=%s',(price,));r=self.reject_price(request('price01_drift_'+str(n)+'_'+str(price)),fn)
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 30, in reject_price
+    if fn in ['place_order','security_private.create_order103']:self.assertIsInstance(r,dict,'must reject, not return a saved order');self.assertEqual(r.get('message'),reason,r)
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 is not an instance of <class 'dict'> : must reject, not return a saved order
+
+======================================================================
+FAIL: test_02_missing_consent_all_entries (__main__.Price01.test_02_missing_consent_all_entries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 42, in test_02_missing_consent_all_entries
+    for n,fn in enumerate(ENTRIES):self.reject_price(args('price01_missing_'+str(n)),fn,'price_confirmation_required')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 30, in reject_price
+    if fn in ['place_order','security_private.create_order103']:self.assertIsInstance(r,dict,'must reject, not return a saved order');self.assertEqual(r.get('message'),reason,r)
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 is not an instance of <class 'dict'> : must reject, not return a saved order
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.202s
+
+FAILED (failures=2)

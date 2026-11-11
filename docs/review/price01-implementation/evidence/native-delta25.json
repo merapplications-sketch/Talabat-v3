@@ -1,0 +1,7 @@
+{
+  "tests": 3,
+  "passed": false,
+  "failures": [
+    "__main__.Price01.test_23_historical_sent20_and_expired_group_schedule"
+  ]
+}

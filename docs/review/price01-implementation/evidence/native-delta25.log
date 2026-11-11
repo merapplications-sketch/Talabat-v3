@@ -1,0 +1,18 @@
+test_23_historical_sent20_and_expired_group_schedule (__main__.Price01.test_23_historical_sent20_and_expired_group_schedule) ... ERROR
+test_24_interrupted_atomic_install_and_reapply (__main__.Price01.test_24_interrupted_atomic_install_and_reapply) ... ok
+test_25_removed_option_fee_and_points_guards (__main__.Price01.test_25_removed_option_fee_and_points_guards) ... ok
+
+======================================================================
+ERROR: test_23_historical_sent20_and_expired_group_schedule (__main__.Price01.test_23_historical_sent20_and_expired_group_schedule)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 230, in test_23_historical_sent20_and_expired_group_schedule
+    old['Isolation106'].upgrade(self);self.policy(200,200);self.group();saved=[]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pre_tip_writer", line 11, in upgrade
+TypeError: super(type, obj): obj must be an instance or subtype of type
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.525s
+
+FAILED (errors=1)

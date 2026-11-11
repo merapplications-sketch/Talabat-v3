@@ -1,0 +1,55 @@
+{
+  "source_commit": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+  "files": {
+    "tests/price01-impl/README.md": {
+      "bytes": 3101,
+      "sha256": "67bb1be530c8fa772cfdff158b1b34aab9226c2902e5583808fd86d03beab05d",
+      "git_blob": "896e8997f9ee37beb1193b73f7e3933dd7dbb3af"
+    },
+    "tests/price01-impl/build-client.py": {
+      "bytes": 2677,
+      "sha256": "403b0fd3f6c5fae6dd6a78711100c98661f10df22c3cd3e691022170ab142fdd",
+      "git_blob": "ae8f0e74a69cbd6bf7e0e94598e8875276007fea"
+    },
+    "tests/price01-impl/build-sql.py": {
+      "bytes": 4150,
+      "sha256": "232d8015976f7525b66f1a0cdcee86fa554d148a7744bac59dcf2bfaf008e07a",
+      "git_blob": "5fba68d2edbebec550d24a53bd9ccb1f96f92c11"
+    },
+    "tests/price01-impl/candidate.sql": {
+      "bytes": 28925,
+      "sha256": "8b65df5e68b45bc0ed1beccedd10a3fc2faaaf55e5f703be3c759706d3b602a2",
+      "git_blob": "89db3ceb1ac1728350d327dce5c4385800121c7c"
+    },
+    "tests/price01-impl/client.test.mjs": {
+      "bytes": 10852,
+      "sha256": "94f72069b62a3302469bfa126ceaaa3372d56da292f0dcc424e70d907fb63a38",
+      "git_blob": "1c47d87bda2f20352a40815685f99cb10eb8bd35"
+    },
+    "tests/price01-impl/contract.js": {
+      "bytes": 1519,
+      "sha256": "95f1c20b6ea9ad9ad208e9f51a67fc9d4d866cf087ea46c27042744793c80cc8",
+      "git_blob": "67494d6339c3203dacd6b3054084405d8b9b6a31"
+    },
+    "tests/price01-impl/helpers.sql": {
+      "bytes": 7162,
+      "sha256": "11f9850ef9810b81776d0f09f1e5da6cf6c1a17dfdf9cdd2ae490f2eafb62eba",
+      "git_blob": "45a9e3fb225419d683f811e70d820c5ab2b215f0"
+    },
+    "tests/price01-impl/native.py": {
+      "bytes": 26604,
+      "sha256": "0e3357f0d6e09c6e1299c464143fa01e01c3c82579149c0665dee8c13bf22201",
+      "git_blob": "16cc0c26ab6cca3885407ae42e236acab95bd21a"
+    },
+    "tests/price01-impl/rollback.sql": {
+      "bytes": 2023,
+      "sha256": "605b90aa729f82d8c0c0e5bcc04a769d954880d0d8db4f158ad8f04070cd1e1d",
+      "git_blob": "f2a4939bef67d6c792e361b7f8ec7c3e1fa9efc0"
+    },
+    "tests/price01-impl/ui.js": {
+      "bytes": 6323,
+      "sha256": "a77584daf92f8da69d44ef596982b59d37e7978b7e271e48f406e223b633fa7b",
+      "git_blob": "0d6e2d345986ee562832d91cdfe63dab10681e02"
+    }
+  }
+}

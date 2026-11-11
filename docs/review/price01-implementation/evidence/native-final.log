@@ -1,0 +1,39 @@
+test_01_up_down_all_entries_atomic (__main__.Price01.test_01_up_down_all_entries_atomic) ... ok
+test_02_missing_consent_all_entries (__main__.Price01.test_02_missing_consent_all_entries) ... ok
+test_03_equal_total_opposite_changes (__main__.Price01.test_03_equal_total_opposite_changes) ... ok
+test_04_exact_acceptance_all_entries_tip99_once (__main__.Price01.test_04_exact_acceptance_all_entries_tip99_once) ... ok
+test_05_invalid_evidence_no_effect (__main__.Price01.test_05_invalid_evidence_no_effect) ... ok
+test_06_options_discount_hh_and_promo (__main__.Price01.test_06_options_discount_hh_and_promo) ... ok
+test_07_precision_no_tolerance_and_numeric_scale (__main__.Price01.test_07_precision_no_tolerance_and_numeric_scale) ... ok
+test_08_final_persisted_mutation_is_rolled_back (__main__.Price01.test_08_final_persisted_mutation_is_rolled_back) ... ok
+test_09_points_promo_wallet_atomicity_and_acceptance (__main__.Price01.test_09_points_promo_wallet_atomicity_and_acceptance) ... ok
+test_10_bound_and_unbound_history_null_tip3_and_ack (__main__.Price01.test_10_bound_and_unbound_history_null_tip3_and_ack) ... ok
+test_11_tcp_before_after_commit_then_price_change (__main__.Price01.test_11_tcp_before_after_commit_then_price_change) ... ok
+test_12_concurrent_same_key_one_debit (__main__.Price01.test_12_concurrent_same_key_one_debit) ... ok
+test_13_lock_wait_price_change_and_closed_key (__main__.Price01.test_13_lock_wait_price_change_and_closed_key) ... ok
+test_14_isolation_all_entries_and_rollback_reupgrade (__main__.Price01.test_14_isolation_all_entries_and_rollback_reupgrade) ... ok
+test_15_group_schedule_null_and_fingerprint_conflict (__main__.Price01.test_15_group_schedule_null_and_fingerprint_conflict) ... ok
+test_16_resource_guard_auth_and_declared_privacy (__main__.Price01.test_16_resource_guard_auth_and_declared_privacy) ... ok
+test_17_106_stale_snapshot_closed_key_regression (__main__.Price01.test_17_106_stale_snapshot_closed_key_regression) ... ok
+test_18_different_keys_near_admission_limit (__main__.Price01.test_18_different_keys_near_admission_limit) ... ok
+test_19_different_accounts_same_key (__main__.Price01.test_19_different_accounts_same_key) ... ok
+test_20_rejection_ack_loss_reconciles_same_closure (__main__.Price01.test_20_rejection_ack_loss_reconciles_same_closure) ... ok
+test_21_lock_timeout_and_40p01_fault_rollback (__main__.Price01.test_21_lock_timeout_and_40p01_fault_rollback) ... ok
+test_22_wallet_full_decrease_fee_floor_and_success (__main__.Price01.test_22_wallet_full_decrease_fee_floor_and_success) ... FAIL
+
+======================================================================
+FAIL: test_22_wallet_full_decrease_fee_floor_and_success (__main__.Price01.test_22_wallet_full_decrease_fee_floor_and_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/native.py", line 221, in test_22_wallet_full_decrease_fee_floor_and_success
+    self.retire();self.a.execute('update menu_items set price=20');self.a.execute('update stores set free_delivery_min=15');p=request('price01_free',proof(fee=0));p[9]=0;self.assertEqual(self.invoke(p)['status'],'created');self.assertEqual(self.a.execute("select total,fee_waived from orders where client_key='price01_free'").fetchone(),(20,2))
+                                                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'rejected' != 'created'
+- rejected
++ created
+
+
+----------------------------------------------------------------------
+Ran 22 tests in 3.790s
+
+FAILED (failures=1)

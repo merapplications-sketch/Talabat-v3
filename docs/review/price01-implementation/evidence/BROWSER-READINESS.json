@@ -1,0 +1,13 @@
+{
+  "status": "BLOCKED",
+  "kind": "observed launch failure recorded from execution output; not an application test log",
+  "command": "playwright.chromium.launch({executablePath:\"/usr/bin/chromium\",headless:true,args:[\"--no-sandbox\",\"--disable-dev-shm-usage\"]})",
+  "observed_errors": [
+    "FATAL:chrome/browser/process_singleton_posix.cc:297 Check failed: . socket() failed: Operation not permitted (1)",
+    "ptrace: Operation not permitted (1)"
+  ],
+  "page_opened": false,
+  "indexeddb_executed": false,
+  "safari_executed": false,
+  "action": "No sandbox escalation or retry of the same blocked launch; retain browser acceptance as open."
+}

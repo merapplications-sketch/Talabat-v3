@@ -1,0 +1,141 @@
+--- accepted-tip02/customer.html
++++ price01-generated/customer.html
+@@ -1468,6 +1468,60 @@
+ }
+ function tipPanel02(){const valid=tipGet02();return `<div class="card"><h3>${t('tip')}</h3><div class="tipr" style="flex-wrap:wrap">${[0,5,10,20].map(v=>`<button type="button" class="tip ${S.tipMode02!=='other'&&S.tip===v?'on':''}" aria-pressed="${S.tipMode02!=='other'&&S.tip===v}" onclick="tipSelect02(${v})">${v?v+' TJS':t('none')}</button>`).join('')}<button type="button" class="tip ${S.tipMode02==='other'?'on':''}" aria-pressed="${S.tipMode02==='other'}" onclick="tipSelect02('other')">${tipText02('other')}</button></div>${S.tipMode02==='other'?`<label for="tip02-amount" style="display:block;margin-top:12px">${tipText02('label')}</label><input class="fld" id="tip02-amount" type="text" inputmode="numeric" autocomplete="off" value="${esc(S.tipRaw02||'')}" aria-invalid="${!valid.ok}" aria-describedby="tip02-help tip02-error" oninput="tipInput02(this.value)" style="font-size:16px">`:''}<p id="tip02-help" class="xs mut" style="margin-top:8px">${tipText02('help')}</p><p id="tip02-error" role="status" style="color:var(--bad)">${valid.ok?'':tipText02('error')}</p></div>`;}
+ 
++// PRICE01 evidence representation only; never rounds or rewrites an old payload.
++function priceValid01(v){
++ const obj=x=>x&&typeof x==='object'&&!Array.isArray(x),keys=(x,a)=>obj(x)&&Object.keys(x).sort().join('|')===a.slice().sort().join('|');
++ const id=x=>typeof x==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(x);
++ const dec=x=>typeof x==='string'&&x.length<=128&&/^-?(0|[1-9][0-9]*)(\.[0-9]+)?$/.test(x);
++ const amounts=['base_price','unit_price','restaurant_discount','happy_hour_discount','net_items'];
++ const totals=['subtotal','restaurant_discount','happy_hour_discount','promo_discount','points_value','delivery_fee','tip','wallet_used','cash_due','total'];
++ try{return keys(v,['version','lines','totals'])&&v.version===1&&JSON.stringify(v).length<=524288&&Array.isArray(v.lines)&&v.lines.length>=1&&v.lines.length<=60&&v.lines.every(l=>keys(l,['item_id','qty','options',...amounts])&&id(l.item_id)&&Number.isInteger(l.qty)&&l.qty>=1&&l.qty<=50&&amounts.every(k=>dec(l[k]))&&Array.isArray(l.options)&&l.options.length<=40&&l.options.every(o=>keys(o,['id','price_delta'])&&id(o.id)&&dec(o.price_delta)))&&keys(v.totals,totals)&&totals.every(k=>dec(v.totals[k]));}catch(e){return false;}
++}
++function priceCopy01(v){return JSON.parse(JSON.stringify(v));}
++function priceSelection01(a,b){return priceValid01(a)&&priceValid01(b)&&JSON.stringify(a.lines.map(l=>[l.item_id,l.qty,l.options.map(o=>o.id)]))===JSON.stringify(b.lines.map(l=>[l.item_id,l.qty,l.options.map(o=>o.id)]));}
++
++// Only ephemeral review/approval UI. Durable sent evidence lives in original attempt payload.
++function priceSnapshot01(){
++ const c=calc(),st=ALLS.find(x=>x.n===S.cartStore)||{},menu=menuOf(S.cartStore);
++ const dec=v=>{if(typeof v!=='number'||!Number.isFinite(v))throw Error('price unavailable');return String(v);};
++ const lines=Object.keys(S.cart).map(key=>{const p=pk(key),it=menu.find(x=>x.id===p.id);if(!it)throw Error('item unavailable');const q=S.cart[key],u=baseOf(it,p.ops),lt=u*q,rd=pctC(lt,Math.max(+st.rd||0,+it.discount||0)),ad=pctC(lt,Math.max(+st.rd||0,+it.discount||0,+st.hh||0)),ops=optRecs(it.id,p.ops);
++  return{item_id:p.id,qty:q,base_price:dec(it.price),options:p.ops.map(id=>{const o=ops.find(x=>x.id===id);if(!o)throw Error('option unavailable');return{id,price_delta:dec(o.price)};}),unit_price:dec(u),restaurant_discount:dec(rd),happy_hour_discount:dec(ad-rd),net_items:dec(lt-ad)};});
++ const v={version:1,lines,totals:{subtotal:dec(c.sub),restaurant_discount:dec(c.d),happy_hour_discount:dec(c.h),promo_discount:dec(c.p),points_value:dec(c.pv),delivery_fee:dec(c.fee),tip:dec(S.tip),wallet_used:dec(c.w),cash_due:dec(c.due),total:dec(c.total)}};
++ if(!priceValid01(v))throw Error('price evidence unavailable');return v;
++}
++function priceContext01(){return JSON.stringify([ME.id,cartToken104(),curAddr(),priceSnapshot01()]);}
++function priceApproval01(){const a=S.priceConsent01;try{return a&&a.context===priceContext01()&&!cartForeign104()&&priceValid01(a.value)?a:null;}catch(e){return null;}}
++function priceRememberDisplayed01(){try{const context=priceContext01();if(S.priceConsent01&&S.priceConsent01.context!==context)S.priceConsent01=null;S.priceShown01={context,value:priceSnapshot01()};}catch(e){S.priceShown01=null;}}
++function pricePrepare01(){const context=priceContext01(),a=priceApproval01(),shown=S.priceShown01;if(S.priceConsent01&&!a)throw Error('approved price context changed');if(!a&&(!shown||shown.context!==context))throw Error('displayed price context changed');return{context,value:priceCopy01(a?a.value:shown.value)};}
++function priceDisplayLines01(){const s=S.priceShown01;if(!s)return'';return `<div class="card">${s.value.lines.map(l=>{const it=menuOf(S.cartStore).find(x=>x.id===l.item_id);return `<div class="row"><span>${l.qty} × ${esc(it?it.name:l.item_id)}</span><span>${esc(l.unit_price)} TJS → <b>${esc(l.net_items)} TJS</b></span></div>${l.options.map(o=>{const op=optRecs(l.item_id,[o.id])[0];return `<div class="xs">${esc(op?op.name:o.id)} · ${esc(o.price_delta)} TJS</div>`;}).join('')}`;}).join('')}</div>`;}
++function priceReceive01(r,key,seq,prepared){
++ if(r.status!=='rejected'||r.closed!==true||!r.closureId||!draftResponse105(key,seq)||cartForeign104()||prepared.context!==priceContext01()||!priceSelection01(prepared.value,r.priceReview))return false;
++ S.priceConsent01=null;S.priceReview01={key,seq,context:prepared.context,before:priceCopy01(prepared.value),value:priceCopy01(r.priceReview),closureId:r.closureId};return true;
++}
++async function priceApprove01(){
++ const r=S.priceReview01;if(S.busy||!r||!draftResponse105(r.key,r.seq)||cartForeign104()||r.context!==priceContext01())return;
++ S.busy=true;render();
++ try{
++  const result=await TLB.endRejected104(r.key,true);
++  if(result.status!=='ended_rejected'||result.closed!==true||result.closureId!==r.closureId||!draftResponse105(r.key,r.seq)||cartForeign104())return;
++  // End only the proven rejected attempt. Cart edits during the await survive.
++  const unchanged=r.context===priceContext01();
++  if(!retireDraft105(r.key,r.seq))return;
++  S.priceReview01=null;S.priceConsent01=unchanged?{context:r.context,before:r.before,value:r.value}:null;
++ }catch(e){alert(TLB.lang()==='ru'?'Результат не подтверждён. Проверьте попытку.':'Outcome unconfirmed. Check the original attempt.');}
++ finally{S.busy=false;render();}
++}
++function priceReviewView01(){
++ const approved=priceApproval01();let r=S.priceReview01;
++ try{if(r&&(!draftResponse105(r.key,r.seq)||r.context!==priceContext01()||cartForeign104()))r=null;}catch(e){r=null;}
++ if(!r&&!approved)return'';r=r||approved;
++ const ru=TLB.lang()==='ru',label=(a,b)=>ru?a:b;
++ const names={base_price:label('Цена блюда','Item price'),unit_price:label('Цена с опциями','Unit with options'),restaurant_discount:label('Скидка ресторана','Restaurant discount'),happy_hour_discount:'Happy Hour',net_items:label('Сумма блюд','Net items'),subtotal:label('Подытог','Subtotal'),promo_discount:label('Промокод','Promo'),points_value:label('Баллы','Points'),delivery_fee:label('Доставка','Delivery'),tip:label('Чаевые','Tip'),wallet_used:label('Кошелёк','Wallet'),cash_due:label('Наличными','Cash due'),total:label('Итого','Total')};
++ const pair=(name,old,value)=>`<div class="row"><span>${esc(name)}</span><span>${esc(String(old))} → <b>${esc(String(value))} TJS</b></span></div>`;
++ const lines=r.value.lines.map((l,i)=>{const old=r.before.lines[i],it=menuOf(S.cartStore).find(x=>x.id===l.item_id);return `<div class="card"><h3>${l.qty} × ${esc(it?it.name:l.item_id)}</h3>${['base_price','unit_price','restaurant_discount','happy_hour_discount','net_items'].map(k=>pair(names[k],old[k],l[k])).join('')}${l.options.map((o,j)=>pair(label('Опция ','Option ')+o.id,old.options[j].price_delta,o.price_delta)).join('')}</div>`;}).join('');
++ return `<div class="pg"><h2>${approved?label('Цена подтверждена','Price approved'):label('Цена изменилась','Price changed')}</h2><p>${label('Заказ не создан. Проверьте цены и новую сумму.','No order was created. Review the prices and new total.')}</p>${lines}<div class="card">${Object.keys(names).filter(k=>k in r.value.totals).map(k=>pair(names[k],r.before.totals[k],r.value.totals[k])).join('')}</div><button class="btn big" ${S.busy?'disabled':''} onclick="${approved?'place()':'priceApprove01()'}">${approved?label('Подтвердить заказ','Confirm order'):label('Согласиться с новыми ценами','Approve new prices')} · ${esc(r.value.totals.total)} TJS</button><button class="btn t" onclick="go('cart')">${label('Вернуться в корзину','Return to cart')}</button></div>`;
++}
++
+ function ensureDraft105(){
+  if(S.draftWatch105)return;
+  const fields=new Set(['cart','cartAt','cartStore','tip','tipMode02','tipRaw02','tipSentKey02','pay','note','promo','perr','pcode','pm','gift','door','subst','usePts','useWallet','at','addrId','tmp','useTmp','quote','quoteErr','gCheckout','gNotes','gKeep','gid','grp','group']);
+@@ -1476,7 +1530,7 @@
+  const target=S;target.draftWatch105=true;S=new Proxy(target,{get(t,k){if(k==='draftRevision105')return revision;return fields.has(k)?nested(t[k]):t[k];},set(t,k,v){if(fields.has(k))revision++;t[k]=v;return true;},deleteProperty(t,k){if(fields.has(k))revision++;delete t[k];return true;}});
+ }
+ function draftResponse105(key,seq){return S.okey===key&&S.checkoutSeq105===seq;}
+-function retireDraft105(key,seq,completedTip=false){if(!draftResponse105(key,seq))return false;if(completedTip)tipComplete02(key,false);S.okey=null;cartSave();return true;}
++function retireDraft105(key,seq,completedTip=false){if(!draftResponse105(key,seq))return false;if(completedTip){tipComplete02(key,false);S.priceConsent01=null;S.priceReview01=null;}S.okey=null;cartSave();return true;}
+ 
+ async function place(){
+   ensureDraft105();
+@@ -1503,6 +1557,7 @@
+     }catch(e){alert(t('err_generic'));}finally{S.busy=false;if(S.v==='pay')render();}
+     return;
+   }
++  let pricePrepared01;try{pricePrepared01=pricePrepare01();}catch(e){render();alert(TLB.lang()==='ru'?'Обновите цены перед подтверждением.':'Refresh prices before confirming.');return;}
+   const tip02=tipGet02();if(!tip02.ok){alert(tipText02('error'));return;}
+   if(!ME.phone){alert(t('needPh'));go('me');return}
+   if(closedNow(S.cartStore)){alert(t('closedMsg'));return}
+@@ -1515,15 +1570,16 @@
+     const ks=Object.keys(S.cart),nn=S.gCheckout?null:lineNotes(ks);if(nn&&nn.some(x=>x.length>120)){alert(t('d6CmtLong'));go('cart');return}
+     const lines=ks.map((k,i)=>{const p=pk(k),l={item_id:p.id,qty:S.cart[k],options:p.ops};if(S.gCheckout){if(S.gNotes&&S.gNotes[k])l.note=S.gNotes[k].slice(0,120)}else if(nn[i])l.note=nn[i];return l});
+     if(!tipGet02().ok){alert(tipText02('error'));return;}
++    if(pricePrepared01.context!==priceContext01()||cartForeign104()){alert(TLB.lang()==='ru'?'Корзина или цена изменились. Подтвердите снова.':'Cart or price changed. Confirm again.');return;}
+     if(!S.okey)S.okey=newKey();render();
+     S.tipSentKey02=S.okey;cartSave();
+     const sentCart104=cartToken104();S.cart104Watch=true;try{S.cart104Disk=localStorage.getItem(CK());}catch(e){S.cart104Foreign=true;}
+     const sentKey105=S.okey,sentRevision105=S.draftRevision105;
+-    const r=await TLB.placeOrder({store:S.cartStore,lines,tip:S.tip,payment:S.pay,promo:S.promo&&S.promo.code,address:addrText(ad),lat:ad.lat,lng:ad.lng,fee:calc().fw>0?0:q.fee,wallet:calc().w>0?calc().w:null,points:calc().pts||null,extra:optExtra(),key:S.okey,freshAttempt:true,cartToken:sentCart104});
++    const r=await TLB.placeOrder({store:S.cartStore,lines,tip:S.tip,payment:S.pay,promo:S.promo&&S.promo.code,address:addrText(ad),lat:ad.lat,lng:ad.lng,fee:calc().fw>0?0:q.fee,wallet:calc().w>0?calc().w:null,points:calc().pts||null,extra:Object.assign({},optExtra(),{price01:pricePrepared01.value}),key:S.okey,freshAttempt:true,cartToken:sentCart104});
+     if(!draftResponse105(sentKey105,seq105))return;
+     const ownsDraft105=S.draftRevision105===sentRevision105&&!cartForeign104();
+     if(!r||!['created','replayed','historical_recovered'].includes(r.status)||!r.id){if(r&&r.recoveryKey)S.okey=r.recoveryKey;if(r&&!r.error)r.error='order_outcome_unknown';if(!r){alert(t('err_generic'));return;}
+-    if(r.error){if(r.error=='wallet_changed')TLB.loadWallet(true);if(r.error=='points_changed'||r.error=='points_min')TLB.reload&&TLB.reload().then(render);if(ownsDraft105&&(r.error=='unavailable'||r.error=='bad_options')){TLB.reload&&TLB.reload().then(render);go('cart')}if(ownsDraft105&&(r.error=='fee_changed'||r.error=='too_far')){S.quote=null;S.quoteErr=null;quoteNow()}if(ownsDraft105&&/^promo_|too_many$/.test(r.error)){S.promo=null;S.perr=r.error;go('cart')}if(ownsDraft105&&r.error=='bad_time')S.at=null;if(ownsDraft105&&r.error=='bad_group'){grpEnd();go('home')}alert(errMsg(r));return}}
++    if(r.error){if(ownsDraft105&&r.error==='price_changed'&&priceReceive01(r,sentKey105,seq105,pricePrepared01)){render();return;}if(r.error=='wallet_changed'){TLB.loadWallet(true);if(ownsDraft105&&TLB.reload)TLB.reload().then(render);}if(r.error=='points_changed'||r.error=='points_min')TLB.reload&&TLB.reload().then(render);if(ownsDraft105&&(r.error=='unavailable'||r.error=='bad_options')){TLB.reload&&TLB.reload().then(render);go('cart')}if(ownsDraft105&&(r.error=='fee_changed'||r.error=='too_far')){S.quote=null;S.quoteErr=null;quoteNow()}if(ownsDraft105&&/^promo_|too_many$/.test(r.error)){S.promo=null;S.perr=r.error;go('cart')}if(ownsDraft105&&r.error=='bad_time')S.at=null;if(ownsDraft105&&r.error=='bad_group'){grpEnd();go('home')}alert(errMsg(r));return}}
+     if(!ownsDraft105||cartToken104()!==sentCart104||cartForeign104())r.keepCart=true;
+     if(!retireDraft105(sentKey105,seq105,true))return;
+     if(r.keepCart){alert(TLB.lang()==='ru'?'Открыт сохранённый заказ. Корзина сохранена.':'Opening the saved order. Cart preserved.');go('track',{tid:r.id});return;}
+@@ -1896,12 +1952,12 @@
+   ${S.wOps?(w.entries.length?`<div class="card" style="padding:2px 16px;margin-top:-4px">${w.entries.map(wrow).join('')}</div>`:emptyV(t('walNone'),t('walNoneS'),'','card')):''}
+   ${on?`<h3 style="margin:20px 2px 10px;font-size:20px">${t('walHist')}</h3><div class="d6-tabs" role="tablist"><button role="tab" aria-selected="${tab=='pts'}" class="${tab=='pts'?'on':''}" onclick="S.wTab='pts';render()">${t('ptsHist')}</button><button role="tab" aria-selected="${tab=='cb'}" class="${tab=='cb'?'on':''}" onclick="S.wTab='cb';render()">${t('d6CbH')}</button></div>${htab}`:''}</div>`}
+ /* ---------- PAYMENT (address, method, tip, promo, summary) ---------- */
+-function vPay(){const c=calc();if(!Object.keys(S.cart).length)return vCart();if(badKeys().length){S.v='cart';return vCart()}
++function vPay(){const review01=priceReviewView01();if(review01)return review01;priceRememberDisplayed01();const c=calc();if(!Object.keys(S.cart).length)return vCart();if(badKeys().length){S.v='cart';return vCart()}
+   const sp=ALLS.find(x=>x.n==S.cartStore)||{},cashOnly=true;if(S.pay!='cash')S.pay='cash';   /* No payment processor configured; wallet debits remain server-calculated. */
+   const M=(cashOnly?[]:[['apple','apple','payApple'],['card','card','payCard']]).concat([['cash','cash','payCash']]),saved=Math.round((c.d+c.h+c.p+c.pv)*100)/100,balances=(sp.ap===false?'':ptsCard(c))+(sp.aw===false?'':walletCard(c));
+   const promoBox=c.base<=0?`<div class="sm mut" style="margin-top:8px">${t('promoNoOffer')}</div>`:S.promo?`<div class="po"><span>${esc(S.promo.code)} · −${c.p} TJS</span><button class="btn t" onclick="removePromo()">${t('promoRm')}</button></div>`
+     :`<div class="pm"><input class="fld" type="text" id="pc" maxlength="20" autocapitalize="characters" autocomplete="off" placeholder="${t('promoPh')}" value="${esc(S.pcode)}" oninput="S.pcode=this.value;S.perr='';var e=document.getElementById('pe');if(e)e.remove()"><button class="btn" onclick="applyPromo()">${t('promoApply')}</button></div>${S.perr?`<div class="pe" id="pe">${esc(perrMsg())}</div>`:''}<div class="xs mut" style="margin-top:8px">${t('promoOffNote')}</div>`;
+-  return topbar(t('payT'),S.gCheckout?t('grpT'):'',S.gCheckout?"grpBackPay()":"go('cart')")+`<div class="pg d67-checkout">
++  return topbar(t('payT'),S.gCheckout?t('grpT'):'',S.gCheckout?"grpBackPay()":"go('cart')")+`<div class="pg d67-checkout">${priceDisplayLines01()}
+   ${closedNow(S.cartStore)?`<div class="closedb" style="margin:0 0 14px">${t('closedBanner')}</div>`:''}
+   <div class="card"><div class="rg" style="gap:12px"><span class="or">${ico(curAddr()?LABI[curAddr().label]:'pin',22)}</span><div style="flex:1;min-width:0"><div class="xs mut">${t('addrL')}${curAddr()?' · '+t(LABS[curAddr().label]):''}</div><div class="b6" style="word-break:break-word">${curAddr()?esc(addrLine(curAddr())):t('addrAddFirst')}</div></div><button class="btn t" onclick="openSheet('pay')">${curAddr()?t('addrChange'):t('addrAdd')}</button></div></div>
+   ${curAddr()&&curAddr().label=='point'?`<div class="card"><label class="b6 sm">${t('tmpNoteL')}</label><input class="fld" id="tmpn" type="text" maxlength="120" placeholder="${t('tmpNotePh')}" value="${esc(S.tmp.note||'')}" oninput="tmpNote(this.value)" style="margin:6px 0 8px"><div class="xs mut" style="line-height:1.45">${t('tmpHint')}</div><button class="btn t" style="margin-top:8px" onclick="tmpSave()">${t('tmpSaveL')}</button></div>`:''}
+--- accepted-tip02/talabat-core.js
++++ price01-generated/talabat-core.js
+@@ -1,3 +1,15 @@
++// PRICE01 evidence representation only; never rounds or rewrites an old payload.
++function priceValid01(v){
++ const obj=x=>x&&typeof x==='object'&&!Array.isArray(x),keys=(x,a)=>obj(x)&&Object.keys(x).sort().join('|')===a.slice().sort().join('|');
++ const id=x=>typeof x==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(x);
++ const dec=x=>typeof x==='string'&&x.length<=128&&/^-?(0|[1-9][0-9]*)(\.[0-9]+)?$/.test(x);
++ const amounts=['base_price','unit_price','restaurant_discount','happy_hour_discount','net_items'];
++ const totals=['subtotal','restaurant_discount','happy_hour_discount','promo_discount','points_value','delivery_fee','tip','wallet_used','cash_due','total'];
++ try{return keys(v,['version','lines','totals'])&&v.version===1&&JSON.stringify(v).length<=524288&&Array.isArray(v.lines)&&v.lines.length>=1&&v.lines.length<=60&&v.lines.every(l=>keys(l,['item_id','qty','options',...amounts])&&id(l.item_id)&&Number.isInteger(l.qty)&&l.qty>=1&&l.qty<=50&&amounts.every(k=>dec(l[k]))&&Array.isArray(l.options)&&l.options.length<=40&&l.options.every(o=>keys(o,['id','price_delta'])&&id(o.id)&&dec(o.price_delta)))&&keys(v.totals,totals)&&totals.every(k=>dec(v.totals[k]));}catch(e){return false;}
++}
++function priceCopy01(v){return JSON.parse(JSON.stringify(v));}
++function priceSelection01(a,b){return priceValid01(a)&&priceValid01(b)&&JSON.stringify(a.lines.map(l=>[l.item_id,l.qty,l.options.map(o=>o.id)]))===JSON.stringify(b.lines.map(l=>[l.item_id,l.qty,l.options.map(o=>o.id)]));}
++
+ /* TIP-02 new non-null numeric contract. Explicit NULL policy remains separate. */
+ function tipNumber02(value){return {ok:typeof value==='number'&&Number.isFinite(value)&&Number.isInteger(value)&&value>=0&&value<=100,value};}
+ 
+@@ -17,7 +29,7 @@
+   const closed=d=>d.status==='rejected'&&d.closed===true&&d.no_effects===true&&d.state_version===1&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(d.closure_id||'');
+   function normalize(r,key){const d=r&&!r.error&&r.data;if(!d||d.key!==key)return unknown('unverified_response');
+    if(['created','replayed','historical_recovered'].includes(d.status)){if(typeof d.id!=='string'||!/^[1-9][0-9]*$/.test(d.id))return unknown('unverified_id');return{status:d.status,id:d.id,input_match:d.input_match,keepCart:d.status==='historical_recovered'};}
+-   if(['conflict','unresolved','rejected'].includes(d.status))return{status:d.status,error:d.status==='conflict'?'idempotency_mismatch':d.status==='unresolved'?'order_outcome_unknown':d.reason||'creation_rejected',reason:d.reason,keepCart:true,closed:closed(d),closureId:closed(d)?d.closure_id:null};
++   if(['conflict','unresolved','rejected'].includes(d.status))return{status:d.status,error:d.status==='conflict'?'idempotency_mismatch':d.status==='unresolved'?'order_outcome_unknown':d.reason||'creation_rejected',reason:d.reason,keepCart:true,closed:closed(d),closureId:closed(d)?d.closure_id:null,priceReview:closed(d)&&d.reason==='price_changed'&&priceValid01(d.price_review)?priceCopy01(d.price_review):null};
+    return unknown('unverified_response');
+   }
+   async function submit(payload,fresh=false,context={}){

@@ -1,0 +1,8 @@
+{
+  "tests": 2,
+  "passed": false,
+  "failures": [
+    "__main__.Price01.test_01_up_down_all_entries_atomic",
+    "__main__.Price01.test_02_missing_consent_all_entries"
+  ]
+}

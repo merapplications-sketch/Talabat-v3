@@ -1,0 +1,8 @@
+[
+  {
+    "name": "PUI07 catalog changes since displayed checkout cannot be silently approved",
+    "passed": false,
+    "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n\n    at file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:18:221\n    at async test (file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:11:129)\n    at async file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:18:1"
+  }
+]

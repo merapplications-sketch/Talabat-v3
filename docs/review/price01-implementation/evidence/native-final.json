@@ -1,0 +1,7 @@
+{
+  "tests": 22,
+  "passed": false,
+  "failures": [
+    "__main__.Price01.test_22_wallet_full_decrease_fee_floor_and_success"
+  ]
+}

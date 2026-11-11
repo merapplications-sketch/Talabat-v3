@@ -1,0 +1,128 @@
+{
+  "source_commit": "bb01f11b855a2898f3f0b0f8908de827be68844b",
+  "compiled_at_utc": "2026-11-11T14:41:47.387242+00:00",
+  "native": {
+    "postgresql": "17.6",
+    "fixture": "synthetic local",
+    "distinct_groups": 26,
+    "effective_pass": 26,
+    "run_model": "aggregate original final-executable run plus test-only corrections/new deltas; not a single 26-test run",
+    "groups": {
+      "test_01_up_down_all_entries_atomic": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_02_missing_consent_all_entries": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_03_equal_total_opposite_changes": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_04_exact_acceptance_all_entries_tip99_once": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_05_invalid_evidence_no_effect": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_06_options_discount_hh_and_promo": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_07_precision_no_tolerance_and_numeric_scale": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_08_final_persisted_mutation_is_rolled_back": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_09_points_promo_wallet_atomicity_and_acceptance": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_10_bound_and_unbound_history_null_tip3_and_ack": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_11_tcp_before_after_commit_then_price_change": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_12_concurrent_same_key_one_debit": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_13_lock_wait_price_change_and_closed_key": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_14_isolation_all_entries_and_rollback_reupgrade": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_15_group_schedule_null_and_fingerprint_conflict": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_16_resource_guard_auth_and_declared_privacy": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_17_106_stale_snapshot_closed_key_regression": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_18_different_keys_near_admission_limit": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_19_different_accounts_same_key": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_20_rejection_ack_loss_reconciles_same_closure": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_21_lock_timeout_and_40p01_fault_rollback": {
+        "result": "PASS",
+        "evidence": "native-final.log"
+      },
+      "test_22_wallet_full_decrease_fee_floor_and_success": {
+        "result": "PASS",
+        "evidence": "native-22.log"
+      },
+      "test_23_historical_sent20_and_expired_group_schedule": {
+        "result": "PASS",
+        "evidence": "native-23.log"
+      },
+      "test_24_interrupted_atomic_install_and_reapply": {
+        "result": "PASS",
+        "evidence": "native-delta25.log"
+      },
+      "test_25_removed_option_fee_and_points_guards": {
+        "result": "PASS",
+        "evidence": "native-delta25.log"
+      },
+      "test_26_success_and_closure_win_contended_entries": {
+        "result": "PASS",
+        "evidence": "native-26.log"
+      }
+    }
+  },
+  "client": {
+    "environment": "Node VM with mock RPC/localStorage/serialized store",
+    "passed": 17,
+    "cases": 17,
+    "evidence": "client-final.json"
+  },
+  "chromium_indexeddb": "BLOCKED before page",
+  "safari": "NOT EXECUTED",
+  "hosted": "NOT EXECUTED",
+  "remote_ci": "NOT RUN",
+  "independent_qa": "PENDING"
+}

@@ -1,0 +1,70 @@
+[
+  {
+    "name": "PUI01 freezes displayed price into submitted payload",
+    "passed": true
+  },
+  {
+    "name": "PUI02 changed price requires closure and two explicit actions",
+    "passed": true
+  },
+  {
+    "name": "PUI03 edited cart invalidates review without ending key",
+    "passed": true
+  },
+  {
+    "name": "PUI04 late rejection cannot install a review over newer inputs",
+    "passed": true
+  },
+  {
+    "name": "PUI05 loss of ACK keeps original price payload and key",
+    "passed": true
+  },
+  {
+    "name": "PUI06 no actionable quote without verified closure",
+    "passed": true
+  },
+  {
+    "name": "PUI07 catalog changes since displayed checkout cannot be silently approved",
+    "passed": true
+  },
+  {
+    "name": "PUI08 stale approved review confirm cannot submit a different price",
+    "passed": true
+  },
+  {
+    "name": "PUI09 fresh display after edit replaces obsolete approval safely",
+    "passed": true
+  },
+  {
+    "name": "PUI10 completion checkpoints preserve cart and consume only sent tip",
+    "passed": true
+  },
+  {
+    "name": "PUI11 late success cannot retire a newer key or sequence",
+    "passed": true
+  },
+  {
+    "name": "PUI12 C04 newer and ABA context survives old bad_time",
+    "passed": true
+  },
+  {
+    "name": "PUI13 three contexts share one unresolved account owner",
+    "passed": true
+  },
+  {
+    "name": "PUI14 response review is accepted only with shape and closure proof",
+    "passed": true
+  },
+  {
+    "name": "PUI15 returning to cart never auto-creates or replaces rejected key",
+    "passed": true
+  },
+  {
+    "name": "PUI16 edits during closure verification survive without stale approval",
+    "passed": true
+  },
+  {
+    "name": "PUI17 equal total does not hide changed displayed item prices",
+    "passed": true
+  }
+]

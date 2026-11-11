@@ -1,0 +1,11 @@
+{
+  "scope": "Node VM real generated UI/controller; mock RPC/storage, NOT browser",
+  "results": [
+    {
+      "name": "PUI09 fresh display after edit replaces obsolete approval safely",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 2\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 2\n\n    at file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:20:237\n    at async test (file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:11:129)\n    at async file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:20:1"
+    }
+  ]
+}

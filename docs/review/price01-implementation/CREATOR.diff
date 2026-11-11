@@ -1,0 +1,55 @@
+--- accepted-null01/create_order103
++++ price01/create_order103
+@@ -5,7 +5,7 @@
+  SET search_path TO 'pg_catalog', 'public'
+  SET extra_float_digits TO '3'
+ AS $function$
+-declare v_build_prev text; s stores; pr profiles; it record; v_item menu_items; pl jsonb; v_id bigint; v_sub numeric; v_fee numeric; v_pay numeric; v_disc numeric; v_base numeric; v_gate numeric;
++declare v_price_expected jsonb; v_price_lines jsonb; v_price_ids uuid[]:=array[]::uuid[]; v_price_id uuid; v_build_prev text; s stores; pr profiles; it record; v_item menu_items; pl jsonb; v_id bigint; v_sub numeric; v_fee numeric; v_pay numeric; v_disc numeric; v_base numeric; v_gate numeric;
+         v_promo numeric := 0; v_tip numeric; v_km float8; v_code text := null; v_dq jsonb; v_cphone text; v_total numeric; v_bal numeric; v_w numeric;
+         v_hh int := 0; v_all numeric; v_hdisc numeric := 0; v_rate numeric; v_min numeric; v_lb int; v_pts int := 0; v_pval numeric := 0; v_cap numeric;
+         v_step numeric; v_mo numeric; v_subst text; v_door boolean; v_gn text; v_gp text;
+@@ -56,6 +56,7 @@
+   if p_tip is null or p_tip < 0 or p_tip > 100 or p_tip <> trunc(p_tip) then
+     raise exception 'bad_value';
+   end if;
++  v_price_expected:=security_private.price01_normalize(p_extra->'price01');
+   select key_id,secret into v_key_id,v_secret from security_private.order_request_keys103 where active;
+   if not found then raise exception 'fingerprint_key_unavailable';end if;
+   v_mac := security_private.mac103(v_request,auth.uid(),p_key,v_secret);
+@@ -124,7 +125,8 @@
+     if not found then raise exception 'unavailable'; end if;
+     pl := price_line(it.item_id, it.opts);
+     insert into order_items(order_id, item_id, name, price, qty, note, options)
+-    values (v_id, v_item.id, v_item.name, (pl->>'unit')::numeric, it.qty, it.note, pl->'snap');
++    values (v_id, v_item.id, v_item.name, (pl->>'unit')::numeric, it.qty, it.note, pl->'snap') returning id into v_price_id;
++    v_price_ids:=array_append(v_price_ids,v_price_id);
+   end loop;
+ 
+   -- each line gets the better of the store discount and its own item discount (they do not stack; paid by the restaurant).
+@@ -134,7 +136,9 @@
+          coalesce(sum(round(oi.price * oi.qty * greatest(s.discount_pct, coalesce(m.discount_pct, 0)) / 100, 2)), 0),
+          coalesce(sum(round(oi.price * oi.qty * greatest(s.discount_pct, coalesce(m.discount_pct, 0), v_hh) / 100, 2)), 0),
+          coalesce(sum(oi.price * oi.qty) filter (where greatest(s.discount_pct, coalesce(m.discount_pct, 0), v_hh) = 0), 0)
+-    into v_sub, v_disc, v_all, v_base
++, jsonb_agg(security_private.price01_line(oi.item_id,oi.qty,oi.price,oi.options,
++        p_items->(array_position(v_price_ids,oi.id)-1)->'options',round(oi.price * oi.qty * greatest(s.discount_pct, coalesce(m.discount_pct, 0)) / 100, 2),round(oi.price * oi.qty * greatest(s.discount_pct, coalesce(m.discount_pct, 0), v_hh) / 100, 2)) order by array_position(v_price_ids,oi.id))
++    into v_sub, v_disc, v_all, v_base, v_price_lines
+     from order_items oi left join menu_items m on m.id = oi.item_id
+    where oi.order_id = v_id;
+   v_hdisc := v_all - v_disc;
+@@ -191,11 +195,14 @@
+     insert into wallet_entries(user_id, amount, kind, order_id) values (auth.uid(), -v_w, 'spend', v_id);
+     update orders set wallet_used = v_w, payment = case when v_w >= v_total then 'wallet' else payment end where id = v_id;
+   end if;
++  perform security_private.price01_assert(v_price_expected,security_private.price01_saved(v_id,v_price_ids,v_price_lines));
+   if v_gid is not null then update group_orders set status = 'placed', order_id = v_id, closed_at = coalesce(closed_at, now()) where id = v_gid; end if;
+   perform finance_private.snapshot_cash(v_id);
+   perform set_config('talabot.order_building',coalesce(v_build_prev,''),true);
+   perform fulfillment_private.register_order(v_id);
+   insert into security_private.order_request_fingerprints103(customer_id,client_key,order_id,contract_version,key_id,mac)
+   values(auth.uid(),p_key,v_id,1,v_key_id,v_mac);
++  -- Re-read after all candidate helpers/triggers/binding insert; no later pricing write is allowed.
++  perform security_private.price01_assert(v_price_expected,security_private.price01_saved(v_id,v_price_ids,v_price_lines));
+   return jsonb_build_object('status','created','id',v_id::text,'key',p_key,'input_match',true,'contract_version',1);
+ end $function$;

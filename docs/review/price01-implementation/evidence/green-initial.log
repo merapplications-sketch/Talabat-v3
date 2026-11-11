@@ -1,0 +1,8 @@
+test_01_up_down_all_entries_atomic (__main__.Price01.test_01_up_down_all_entries_atomic) ... ok
+test_02_missing_consent_all_entries (__main__.Price01.test_02_missing_consent_all_entries) ... ok
+test_03_equal_total_opposite_changes (__main__.Price01.test_03_equal_total_opposite_changes) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.466s
+
+OK

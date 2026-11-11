@@ -1,0 +1,37 @@
+{
+  "scope": "Node VM real generated UI/controller; mock RPC/storage, NOT browser",
+  "results": [
+    {
+      "name": "PUI01 freezes displayed price into submitted payload",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ undefined\n- {\n-   lines: [\n-     {\n-       base_price: '20',\n-       happy_hour_discount: '0',\n-       item_id: '40000000-0000-4000-8000-000000000092',\n-       net_items: '40',\n-       options: [],\n-       qty: 2,\n-       restaurant_discount: '0',\n-       unit_price: '20'\n-     }\n-   ],\n-   totals: {\n-     cash_due: '42',\n-     delivery_fee: '2',\n-     happy_hour_discount: '0',\n-     points_value: '0',\n-     promo_discount: '0',\n-     restaurant_discount: '0',\n-     subtotal: '40',\n-     tip: '0',\n-     total: '42',\n-     wallet_used: '0'\n-   },\n-   version: 1\n- }\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ undefined\n- {\n-   lines: [\n-     {\n-       base_price: '20',\n-       happy_hour_discount: '0',\n-       item_id: '40000000-0000-4000-8000-000000000092',\n-       net_items: '40',\n-       options: [],\n-       qty: 2,\n-       restaurant_discount: '0',\n-       unit_price: '20'\n-     }\n-   ],\n-   totals: {\n-     cash_due: '42',\n-     delivery_fee: '2',\n-     happy_hour_discount: '0',\n-     points_value: '0',\n-     promo_discount: '0',\n-     restaurant_discount: '0',\n-     subtotal: '40',\n-     tip: '0',\n-     total: '42',\n-     wallet_used: '0'\n-   },\n-   version: 1\n- }\n\n    at file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:12:127\n    at async test (file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:11:129)\n    at async file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:12:1"
+    },
+    {
+      "name": "PUI02 changed price requires closure and two explicit actions",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'undefined'\n- 'function'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'undefined'\n- 'function'\n\n    at file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:13:158\n    at async test (file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:11:129)\n    at async file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:13:1"
+    },
+    {
+      "name": "PUI03 edited cart invalidates review without ending key",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'undefined'\n- 'function'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'undefined'\n- 'function'\n\n    at file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:14:139\n    at async test (file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:11:129)\n    at async file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:14:1"
+    },
+    {
+      "name": "PUI04 late rejection cannot install a review over newer inputs",
+      "passed": true
+    },
+    {
+      "name": "PUI05 loss of ACK keeps original price payload and key",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(driver.state().attempts[key].payload.p_extra?.price01)\n",
+      "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(driver.state().attempts[key].payload.p_extra?.price01)\n\n    at file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:16:334\n    at async test (file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:11:129)\n    at async file:///workspace/scratch/2395d442bd66/price01-impl/tests/price01-impl/client.test.mjs:16:1"
+    },
+    {
+      "name": "PUI06 no actionable quote without verified closure",
+      "passed": true
+    }
+  ]
+}
