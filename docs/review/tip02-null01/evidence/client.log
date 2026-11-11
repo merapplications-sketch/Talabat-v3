@@ -1,0 +1,14 @@
+[
+  {
+    "name": "NULL rejection remains explicit and cannot auto-switch key",
+    "passed": true
+  },
+  {
+    "name": "lost rejection ACK is resolved before ending NULL attempt",
+    "passed": true
+  },
+  {
+    "name": "historical rawNULL after ACK loss recovers without rewriting payload",
+    "passed": true
+  }
+]

@@ -1,0 +1,52 @@
+test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) ... 
+  test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='place_order') ... FAIL
+  test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='place_order103') ... FAIL
+  test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='place_order104') ... FAIL
+  test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='security_private.create_order103') ... FAIL
+
+======================================================================
+FAIL: test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='place_order')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-null-work/tests/tip02-null01/native.py", line 22, in test_new_null_rejected_all_entries_no_financial_effect
+    if fn in ['place_order','security_private.create_order103']:self.assertEqual(r.get('message') if isinstance(r,dict) else None,'bad_value')
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'bad_value'
+
+======================================================================
+FAIL: test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='place_order103')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-null-work/tests/tip02-null01/native.py", line 23, in test_new_null_rejected_all_entries_no_financial_effect
+    else:self.assertEqual(r['status'],'rejected');self.assertEqual(r['reason'],'bad_value')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'created' != 'rejected'
+- created
++ rejected
+
+
+======================================================================
+FAIL: test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='place_order104')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-null-work/tests/tip02-null01/native.py", line 23, in test_new_null_rejected_all_entries_no_financial_effect
+    else:self.assertEqual(r['status'],'rejected');self.assertEqual(r['reason'],'bad_value')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'created' != 'rejected'
+- created
++ rejected
+
+
+======================================================================
+FAIL: test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) (entry='security_private.create_order103')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-null-work/tests/tip02-null01/native.py", line 22, in test_new_null_rejected_all_entries_no_financial_effect
+    if fn in ['place_order','security_private.create_order103']:self.assertEqual(r.get('message') if isinstance(r,dict) else None,'bad_value')
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'bad_value'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.293s
+
+FAILED (failures=4)

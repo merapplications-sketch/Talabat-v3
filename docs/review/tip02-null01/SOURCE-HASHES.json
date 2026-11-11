@@ -1,0 +1,6 @@
+{
+  "tests/tip02-null01/README.md": "2a2185e69fd26ddfa99d5b922b941eb93c09880427c71534896da3636870e387",
+  "tests/tip02-null01/acceptance.sql": "d4c84cbf9d46073ae53883c7167ff4638c8f36833a7c9e786484f71556fe2fd9",
+  "tests/tip02-null01/client.test.mjs": "d422266b3f633447cfee319b79505dc0c34cf367100fb93be27ec1ae5b375726",
+  "tests/tip02-null01/native.py": "767490d8fc2eb6b08969d41416f865af8ffe1130ba7a086e5e4e26f1a2025e32"
+}

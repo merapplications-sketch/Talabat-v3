@@ -1,0 +1,16 @@
+test_new_null_rejected_all_entries_no_financial_effect (__main__.NullDecision.test_new_null_rejected_all_entries_no_financial_effect) ... ok
+test_omitted_and_zero_equivalent_but_null_conflicts_all_entries (__main__.NullDecision.test_omitted_and_zero_equivalent_but_null_conflicts_all_entries) ... ok
+test_historical_raw_null_bound (__main__.NullDecision.test_historical_raw_null_bound) ... ok
+test_historical_raw_null_unbound (__main__.NullDecision.test_historical_raw_null_unbound) ... ok
+test_closure_precedes_null_and_cannot_reopen (__main__.NullDecision.test_closure_precedes_null_and_cannot_reopen) ... ok
+test_auth_and_other_account_do_not_expose_historical_null (__main__.NullDecision.test_auth_and_other_account_do_not_expose_historical_null) ... ok
+test_concurrent_null_and_zero_same_key (__main__.NullDecision.test_concurrent_null_and_zero_same_key) ... ok
+test_rejection_ack_before_after_commit_same_closure_no_spend (__main__.NullDecision.test_rejection_ack_before_after_commit_same_closure_no_spend) ... ok
+test_historical_null_ack_then_upgrade_recovery (__main__.NullDecision.test_historical_null_ack_then_upgrade_recovery) ... ok
+test_null_keeps_106_isolation_contract (__main__.NullDecision.test_null_keeps_106_isolation_contract) ... ok
+test_null_rollback_reupgrade_history_and_closure (__main__.NullDecision.test_null_rollback_reupgrade_history_and_closure) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.318s
+
+OK
