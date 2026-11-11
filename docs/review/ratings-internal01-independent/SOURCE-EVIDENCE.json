@@ -1,0 +1,1305 @@
+{
+  "audit": "RATINGS-INTERNAL-01",
+  "evidence_kind": "STATIC_SOURCE_AND_HISTORICAL_CATALOG_READ_ONLY",
+  "policy_and_source_commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+  "historical_evidence_closeout": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+  "scope": "All tracked nonvendor html/js/sql/py/mjs/cjs/sql.in outside tests/, plus two named policy documents. Tests/ and encoded ci97 archives are excluded; no current deployment claim.",
+  "source_files": [
+    {
+      "path": "admin.html",
+      "git_blob_sha1": "062a68cfa740f2733cad39b5c4c5b0c635f54e55",
+      "bytes": 132255,
+      "sha256": "a108f62b96f54bf30141707ea7029d278365af1ff9d9e0938eb58a5ef6bff5de"
+    },
+    {
+      "path": "assets/admin-finance/admin-finance.js",
+      "git_blob_sha1": "05397c64e49013bac3129d49eb7e6e61589b3502",
+      "bytes": 13133,
+      "sha256": "10646ef7202b21080d9e3bf8cb8619a3d06ae617c763abf650ae0b69883c45f9"
+    },
+    {
+      "path": "assets/driver-returns/panel.js",
+      "git_blob_sha1": "7be28930ab1a989a86efedde29001636151b1309",
+      "bytes": 9916,
+      "sha256": "282464636ea7b572582e235d50c88d1a9f620b605d14dba71733a1ca6c1f3450"
+    },
+    {
+      "path": "assets/finance-receipt/receipt.js",
+      "git_blob_sha1": "3742dcf5346deb2495859653bf65339ad6a4b626",
+      "bytes": 6572,
+      "sha256": "bb183a4e57e24db4edf11041b9f1b4d1d024ddfeb55f30a0591963d069a28167"
+    },
+    {
+      "path": "assets/mobile.js",
+      "git_blob_sha1": "402aa412edfcb2dace855189e210da7a20621b14",
+      "bytes": 922,
+      "sha256": "a35ef0e6d8e0eb7f79ac4fd387e170fcda0006c87a51b8bf36254110f5f0283b"
+    },
+    {
+      "path": "ci97/unpack.py",
+      "git_blob_sha1": "d1e5d2a034dd0105d1ac0ed16db57b37f84ac510",
+      "bytes": 580,
+      "sha256": "adfdcb1b9f5cf339c57821964d8083cec78d456d9f4bcc7333d2a7c8b141ed89"
+    },
+    {
+      "path": "customer.html",
+      "git_blob_sha1": "9bc335f52ad58d7feab12ad8a2214bde9ab32330",
+      "bytes": 547802,
+      "sha256": "96a51f0cee61fac4df682234fa4e8b88b561833979831adc56fc21c5676cfa3f"
+    },
+    {
+      "path": "docs/OWNER-AGREEMENTS-AR.md",
+      "git_blob_sha1": "d671e93233ae91e361af292e688d15460e06b992",
+      "bytes": 4973,
+      "sha256": "8ddc41433557dd534822f0eb2df5e2d42babdc24c9689cd3359a1a90d13b1bae"
+    },
+    {
+      "path": "docs/pilot-20261105/auth-recovery-20261107/test-storage-policy.sql",
+      "git_blob_sha1": "4107e7529d632a49a3bcbe74cf9bb6d0487e3cd9",
+      "bytes": 355,
+      "sha256": "2832c8517251502f38229dfd3a31a71999a06cc2c40c5863fe78c5119a9aea38"
+    },
+    {
+      "path": "docs/pilot-20261105/return-receipt/return-receipt.cjs",
+      "git_blob_sha1": "39b750963a819f14f3d76a3384f91bdc7faca12a",
+      "bytes": 1596,
+      "sha256": "66f0f1edc3ac14cb836f21fba0be89a9fd38a6487e59e70f1dc63bae1341f292"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/PROPOSAL-report-client-error.sql",
+      "git_blob_sha1": "76788011c8319e4d3610137aa0d81c4158f69163",
+      "bytes": 1302,
+      "sha256": "5437a9438fcbab02fe50005039d39106daea20eb9437211c4bea8e9d7f22e6f2"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/asset-worker.js",
+      "git_blob_sha1": "2f5d106eeb8fb2dc18b98bd184d7c405ccaf5694",
+      "bytes": 1857,
+      "sha256": "0d6bc0b9494442d5139f6a5e94c3bc95241b4c0a7ec54cc82f68a11681f529a2"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/asvs-scope-review/continuation18/migration-load-order.cjs",
+      "git_blob_sha1": "9f92d4e090a4402750c700d396f333e1771bb954",
+      "bytes": 1411,
+      "sha256": "fa2d0fbde28f4c5141d8350cc96dafe364521d4ccf2fd78ebfd4fa2d888479af"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/asvs-scope-review/continuation18/migration-regression.cjs",
+      "git_blob_sha1": "d882702016f7f9566ffb0945d3fdccb8d7c15aac",
+      "bytes": 4049,
+      "sha256": "72993174b231067a5eec92003070b92e7ad77aa876b32294303bc31c916318cd"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/asvs-scope-review/continuation18/persistence-regression.cjs",
+      "git_blob_sha1": "4f419c00fd6a2ef6b3e64b4864387ff35de042e8",
+      "bytes": 3764,
+      "sha256": "0e21347a01ee729e4ae36d3c8bdf79a0e78de4fefa312d3d51ac44725e6f538c"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/auth-compatibility/recovery.cjs",
+      "git_blob_sha1": "51533ad967684960f15314c6a34ba240b28082c1",
+      "bytes": 2093,
+      "sha256": "16bdbb92fbedd62639c09dc00d7fd0d772b1d354d915cd3c0a123078766746df"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/build-worker.mjs",
+      "git_blob_sha1": "fbf3da81c95a8eb97ab25f73a96fc3fbceadfbe8",
+      "bytes": 2050,
+      "sha256": "fa020623bfcad7324a0d10b800ab8b60eef2959d804d6ff25aab95be1b6e0078"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation21/finance-mfa.sql",
+      "git_blob_sha1": "8dc35fa139c1ae8d742db759410cc049749f11ba",
+      "bytes": 1279,
+      "sha256": "65edaa511762cb63d8b8e4784b222ec9d43975afb6d791f8eecc8e5fa00dd5f5"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation22/request-id-compat.cjs",
+      "git_blob_sha1": "e3b2b927d162b6947d8483abd9d6f7237ec61e7e",
+      "bytes": 3137,
+      "sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation23/role-lifecycle.sql",
+      "git_blob_sha1": "38fe604fb53c647349d5034929400b5762b0c518",
+      "bytes": 1447,
+      "sha256": "1ea9f3f67a096ed4c1028518f2844e971cdd240cb536da707e51e4097c2c8520"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/build-triage.py",
+      "git_blob_sha1": "b9ba4ef699036a34cf635e80a383d08776380934",
+      "bytes": 13013,
+      "sha256": "a88bea84c7591bf2f96f6baca4168bd894d94ee1ec58b329a86416d523566d69"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/business-review/cash-finite-test.sql",
+      "git_blob_sha1": "8f8ae6d7cc0a0f08da9c7558ea5ace5ef9dd5577",
+      "bytes": 2169,
+      "sha256": "8d463d6e7179d50bbe0384e9de446e18e0d4957dbaca5707ce027cc118a690a5"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/business-review/deliver_order.before.sql",
+      "git_blob_sha1": "a75d95951e7933e2c811ee25de4ff35011839ae4",
+      "bytes": 2036,
+      "sha256": "bd16a02e123dcd904219d1cde1bc39dd40f22a1604601ae1846b004221e221ae"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/business-review/deliver_order.finite.sql",
+      "git_blob_sha1": "aec00adf32072863a22d61e4f00455a57617788c",
+      "bytes": 2109,
+      "sha256": "40b5cf79fd31d08cb7f059cb38331e1bc21db62d74a14cd3d0a67f2a56dfb497"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/business-review/price-finite-test.sql",
+      "git_blob_sha1": "43d3dc8744f3ff2372f9f46a9ae5be56fb2a055e",
+      "bytes": 1964,
+      "sha256": "9290932cfe8b778e53834d160d84b3e06246e6445b402c558b93380de73dd37e"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/business-review/price-finite.sql",
+      "git_blob_sha1": "6869da7008f09f2f817eb80630c4d53325ab2280",
+      "bytes": 381,
+      "sha256": "93a84165e2e45fa9c4a849ef51b26b0dce96550673744374c6d98cff3b27096b"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/data-crypto/passive-signout-regression.cjs",
+      "git_blob_sha1": "275c8d77b817ea188261e8e38873aa1e513becce",
+      "bytes": 2600,
+      "sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/data-crypto/passive-signout.cjs",
+      "git_blob_sha1": "1ecc4a2400fad63c5d531f60b74f18333b24f242",
+      "bytes": 1048,
+      "sha256": "630a1ce212d1e56f58a68469ed3a96f0151e5b7953dada648dcf9f7cef9eb036"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/data-crypto/proof-epoch-regression.cjs",
+      "git_blob_sha1": "23a58d51fcc162f65d0318fbae5123285ec65b26",
+      "bytes": 1856,
+      "sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/data-crypto/proof-late-resolution.cjs",
+      "git_blob_sha1": "8fe13814e0043079a900eaa175dd6ca5061f600e",
+      "bytes": 1003,
+      "sha256": "dfb5304584ac95e239a82da822eec7465d9794f999ff2cda5fb0050bd97f210f"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/protocol-review/inventory.py",
+      "git_blob_sha1": "0a02e124779c1d15809d1ed57a6438c777f1d907",
+      "bytes": 5204,
+      "sha256": "151461d2849b3a6b34a654936c4827cdc1e5b2c1d7096fbda115660b1f9d1f53"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/source-review/customer-handler-proof.py",
+      "git_blob_sha1": "1ee2e10431fd1babdbcde4cbfb07c7df7bce3a30",
+      "bytes": 1992,
+      "sha256": "ba8d3dc8f4c35f66729f25954bbb01ebe50e93b8f18021d0d72214300aa490ed"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/customer-recommendation-encoding.py",
+      "git_blob_sha1": "7c70d1a0e24bd8ca1488e941653813374b03d285",
+      "bytes": 2077,
+      "sha256": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/passive-signout.cjs",
+      "git_blob_sha1": "275c8d77b817ea188261e8e38873aa1e513becce",
+      "bytes": 2600,
+      "sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/proof-epoch.cjs",
+      "git_blob_sha1": "23a58d51fcc162f65d0318fbae5123285ec65b26",
+      "bytes": 1856,
+      "sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/security-errors-logout.cjs",
+      "git_blob_sha1": "e16ea822195105b3ea01a38a12cef72e27a48967",
+      "bytes": 2388,
+      "sha256": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/test-signout.cjs",
+      "git_blob_sha1": "c4a36235ea7e4ef0a2373cf39f8207e9736f0c84",
+      "bytes": 2585,
+      "sha256": "f799985187f47257e10a8d719dc5bbe031256cef2709799978dce5111bf24d7e"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation25/scripts/build.mjs",
+      "git_blob_sha1": "d094e1f56f4e9546b3a31eaeccb82f6140073375",
+      "bytes": 2788,
+      "sha256": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation25/scripts/security-gate.mjs",
+      "git_blob_sha1": "8eb72d32256b0586a8bcff9e8a69067ef1ead875",
+      "bytes": 2448,
+      "sha256": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation25/tests/auth-error-redaction.cjs",
+      "git_blob_sha1": "70bc8d9f1bf2525f18c89ffc16fad03af6f0caa6",
+      "bytes": 972,
+      "sha256": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation25/tests/build-gate.cjs",
+      "git_blob_sha1": "6812d826b2f1bb9dccbf6553c4a6761c78430f61",
+      "bytes": 1458,
+      "sha256": "a37a9cd4c7b316d730151d4132ce6db5dd03f8676fb8496a86f7f67dcf9415fa"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation25/tests/db-regression-evidence.cjs",
+      "git_blob_sha1": "84dd364a8f1b8aec2c62ecce8b8c0b7a45e5dbcd",
+      "bytes": 1223,
+      "sha256": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation25/tests/test-auth-telemetry.cjs",
+      "git_blob_sha1": "aa5af9d48bfe8ce1aba63fff3defdf273e9b9339",
+      "bytes": 5872,
+      "sha256": "d7f76cb814fbb629109f0b6415067dab47709fe14706e4c30a5d113529102db6"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/chat-isolation.sql",
+      "git_blob_sha1": "802d2f0e096f5e9666a9ba81e0c64b8277ac6a0e",
+      "bytes": 2812,
+      "sha256": "fad27b267c77d8a70068046c706ddab0cea1bef7d8c44a8727cfcadb13bf51b1"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/cross-store-write.sql",
+      "git_blob_sha1": "7fd4ae2338671548b49917149d54211aec48fd7e",
+      "bytes": 2727,
+      "sha256": "a42fbf0c225871125a0ce2699c02717ae9750389ec2ae8e4dd7308053d747a45"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/scripts/build.mjs",
+      "git_blob_sha1": "bed06c1743012a336e598e5385daf553435c114d",
+      "bytes": 3044,
+      "sha256": "174f7fba7d45df8a67e40e71b8b3fb3e01732ba007c3f91a650e69d3d00c5695"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/scripts/release-integrity.mjs",
+      "git_blob_sha1": "ba7d9edcc66ac237329a3cbd2abc4ccef691fb0b",
+      "bytes": 1440,
+      "sha256": "a0cc631cdedb8c147bd58aa33ee3a6a2be4a65dff1849dc95f86ef0cf6babfbc"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/scripts/security-gate.mjs",
+      "git_blob_sha1": "d3673d9fda5dbae1299708a117359848ef3c4235",
+      "bytes": 2055,
+      "sha256": "e0add8ebf3e6aed31f2dac3cfc3c3a59740bdbb2252be97023f375652ad73f26"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/scripts/verify-archive.mjs",
+      "git_blob_sha1": "05f52f962cac727ffe1e6cb81704636d6c3830ad",
+      "bytes": 1240,
+      "sha256": "e791d9be0f465ea24b3e3f51964c6b7503e6ffa9d67fda041d5922d4aa98267d"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/scripts/verify-release.mjs",
+      "git_blob_sha1": "ea0eb3b85998d6a4939560b8a5cba3ff38ec7e94",
+      "bytes": 340,
+      "sha256": "88a4f8745fe6b1700e5fa82e1f5ce6f641519b3b62744dc30419214988f123ee"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/tests/release-integrity.test.mjs",
+      "git_blob_sha1": "b1e33ee8d783fac72a4b86febf04207a61e20940",
+      "bytes": 2094,
+      "sha256": "374ed25d3725ac8ed50c6e1930285afc510815cedb8bfe14c906c21a8e5a38aa"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/ticket-isolation.sql",
+      "git_blob_sha1": "392f3b1d0a7820106111d48ded7c3e227aebef01",
+      "bytes": 1850,
+      "sha256": "8fba3725f5137b1930a21274cba2fae14e2fe082b620431d5c31e5598ea56ae6"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation26/ticket-quota.sql",
+      "git_blob_sha1": "39cf33b92a013890af5ea349c7eba4cee355e075",
+      "bytes": 1265,
+      "sha256": "c9f4af878b0b53173061fcc298dff52d0a5f8dcfca541bc4195bd73689fc481b"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/approval-replay-ban.sql",
+      "git_blob_sha1": "947f64c168d16fac85af03cd94fe0f970c997544",
+      "bytes": 3656,
+      "sha256": "1d2b8d00e541f7001f99c834df97147eaa711f1247e7b9de9ee3ae69e61a8324"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/approval-role-removal.sql",
+      "git_blob_sha1": "711e03ab0bc523b69c911788f125f78385a9f22b",
+      "bytes": 3802,
+      "sha256": "e06067fc408dd50b059739bdd107b5371e123a25686f20d2c9eab72b068ce7e0"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/canonicalization.mjs",
+      "git_blob_sha1": "d953fd61573950e075c409bec4d9ae6a4b91ea65",
+      "bytes": 1968,
+      "sha256": "2f3b4ee48b156eb976bda2eb1d38975adf9ea5fbe5db68d84c5005073f46d656"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/cart-boundary.cjs",
+      "git_blob_sha1": "58ef7b62ef6271f244b2825780aa921a4f62dc51",
+      "bytes": 1831,
+      "sha256": "cd7a457007823b705d594731902cf69ff9acd751a9329d993aabcac76fffa94d"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/pilot_approval_account_guard.sql",
+      "git_blob_sha1": "1a493e108fbc15d2e258a7c0a67facf8fba8e0dc",
+      "bytes": 8075,
+      "sha256": "e2aa09d7677f5969b7fee34fe34c87adcd7ff47845e52e0149a7cb980d84d588"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/pilot_return_action_account_guard.sql",
+      "git_blob_sha1": "59ec06bbe27ec1db7ed791ba89aa8d0581d9549c",
+      "bytes": 6428,
+      "sha256": "040c2d06eeb61ed6ef817e0f09a3101875ca9ffe2931ff505e06cf1b7323a998"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/return-replay-ban.sql",
+      "git_blob_sha1": "632cd3f7391a652c649d6b9de7fd69948c8eae4a",
+      "bytes": 3288,
+      "sha256": "b516f931e6b3c3da3b34f94dfa2ee027c91ba6646c5c4ff126cbcc3f7584696c"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/return-replay-regression.sql",
+      "git_blob_sha1": "578015308cda94d0a38b4fbdadb4502e92dc8611",
+      "bytes": 4764,
+      "sha256": "9ca9de862ae23168f88e73aec913c9a7b29ee8d46ce06ee8bc6bc9fe1923929f"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/return-role-removal.sql",
+      "git_blob_sha1": "525034386caf774e964972ad7c1369b0f0cc6d53",
+      "bytes": 3434,
+      "sha256": "872755e4c7529a31ad21ddd4bb148ce723106bfd5157035638a32bf62973b71d"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/scripts/release-integrity.mjs",
+      "git_blob_sha1": "4341db4df801d769af9cf67ecef5101d686da2a6",
+      "bytes": 2197,
+      "sha256": "38c455912b4616803114f30e2f21891fc75bee99250176e61b6832f7a17732db"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/scripts/verify-archive.mjs",
+      "git_blob_sha1": "7c67b41365cf1129d16d42823ac1066774c65ca9",
+      "bytes": 1154,
+      "sha256": "a7867616fd1bc83b1b72680e376fcae6935aa86caee2c96ffcb955abcba47f37"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/tests/release-integrity.test.mjs",
+      "git_blob_sha1": "35725e41881916689585fb32b8ae2677037209c3",
+      "bytes": 2975,
+      "sha256": "ebeb0d34e36bee3aeabffc9028128094b809a15fac5e4bf46664b0a0445d0d2b"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation27/ticket-literal.sql",
+      "git_blob_sha1": "795aea034dffef71b7ec75c5a96263c13369b4b1",
+      "bytes": 1073,
+      "sha256": "ce4975fda9e8a1710af80d5f37ba0a375309783085410accd5ac01980e7698ea"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation29/pilot_merchant_replay_current_access.sql",
+      "git_blob_sha1": "bbe0370465b0f44b10e57821538ae417f8793174",
+      "bytes": 4718,
+      "sha256": "8515b43630881feea6f4ba54b5830f783cdb0562977cf287ba280bb5f0dbe603"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation29/pilot_return_replay_current_access.sql",
+      "git_blob_sha1": "bfc67e596965f436c1f154e900ddac025de7c923",
+      "bytes": 6448,
+      "sha256": "4b79e1bbd50e6270298b5919884d65952835fd0982514e80dede22f7b64185cf"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation29/security/db/pilot_approval_account_guard.sql",
+      "git_blob_sha1": "1a493e108fbc15d2e258a7c0a67facf8fba8e0dc",
+      "bytes": 8075,
+      "sha256": "e2aa09d7677f5969b7fee34fe34c87adcd7ff47845e52e0149a7cb980d84d588"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation29/security/db/pilot_return_action_account_guard.sql",
+      "git_blob_sha1": "59ec06bbe27ec1db7ed791ba89aa8d0581d9549c",
+      "bytes": 6428,
+      "sha256": "040c2d06eeb61ed6ef817e0f09a3101875ca9ffe2931ff505e06cf1b7323a998"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation29/tests/db-regression-evidence.cjs",
+      "git_blob_sha1": "352364a4cd1cedb3e6f4b0c3812c070656e21a4e",
+      "bytes": 2800,
+      "sha256": "200cd301409c8e5f2b9dd08cc098921905efd7559546b61e014b34482b4745ca"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation30/customer-assignment.sql",
+      "git_blob_sha1": "677b16c55122b1c9293cbb0a471573cce13cb9fd",
+      "bytes": 1792,
+      "sha256": "dc1d4d5f37dfd20c8e4a5d8af4460250df5d3a89d0806058b9d77d595ed3db04"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation30/finance-replay-access.sql",
+      "git_blob_sha1": "78e4025aae9ea8cb0a317b3c1c169ca095444a7b",
+      "bytes": 4416,
+      "sha256": "9361be1359fb9354f517e6e81320a73d93c92423b6f3fa607c8a6d9f7125c89f"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation30/private-helper.sql",
+      "git_blob_sha1": "788adb14e3eb267d03159e82b7e3ed21ed49b2c3",
+      "bytes": 351,
+      "sha256": "c3adf3a59f857fbc32773294bc3d3204341f8fb7344b49bec380a0b89d096c74"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation30/return-driver-fields.sql",
+      "git_blob_sha1": "047ac11cb819a548e2d62e790dc623bb84721cbf",
+      "bytes": 4394,
+      "sha256": "c885e914982bdd49be06203400a7c31b193db4cd046bdc2357444b646254b6f9"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation30/return-staff-permissions.sql",
+      "git_blob_sha1": "99a61ad6f227d19634b51bda5dc4d268fbc872ff",
+      "bytes": 5406,
+      "sha256": "6aa04113cf16cd039720a8b4b559811f22a5fdf9f3feae9db27f08281f6141eb"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation30/tests/db-regression-evidence.cjs",
+      "git_blob_sha1": "521d9d3a06eab91e9266455ab3b612dfbdfdad78",
+      "bytes": 4013,
+      "sha256": "e5403e88af4aa2c5ece319f91024404924654f0470d79ec29e70f3141e6dc221"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation31/log-boundary-probe.cjs",
+      "git_blob_sha1": "f185431bbc9823789bc29519f80aa8e68c42c445",
+      "bytes": 795,
+      "sha256": "2396767f15333c65ef5e132d9e58b079758a6e1bc15e2fb68cb2b07f952aefd4"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation31/log-tamper.sql",
+      "git_blob_sha1": "083d9e18e643f9bdda5c0e072ad82ce5cb373273",
+      "bytes": 4171,
+      "sha256": "ec165f6c17f7fc3c1f25ef1066a84621fca260b5ae99e2ded64ba0608dcecd97"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation31/security-errors-logout.cjs",
+      "git_blob_sha1": "5bf74159b24d86a3eb9009de65156ac3e33dfa9d",
+      "bytes": 3161,
+      "sha256": "3ee57bdcc980d97dccd49a51364f8840c881372eeb916728be2cdfbba1cc474e"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation34/auth-input-inventory.cjs",
+      "git_blob_sha1": "9fd8a0d8500a127725dd949cc55bd8f547b2696c",
+      "bytes": 1980,
+      "sha256": "7a28039d3bc493149add8dc98938e49b2a512ff7f5b7991b71766fb42e4a4646"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation34/cash-balance-ban-probe.sql",
+      "git_blob_sha1": "e06c4e3bab5dfc1ffd0a26c9197f1db846d0233d",
+      "bytes": 2688,
+      "sha256": "912345d42d81e21f27659150d63315ae0cb5411dd680343509bced9a09508a86"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation34/readonly-permission-probes.sql",
+      "git_blob_sha1": "c23a7c29610593c7470f668b7fa0714124627419",
+      "bytes": 1379,
+      "sha256": "aeca93889cdd5f68ba4beef864ab0eeb6a25722de79d2559d3689d7ae7b68f8d"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation34/trace-worker.mjs",
+      "git_blob_sha1": "92b89ded0bcb27e4c72a1639a7885f1f137e61d9",
+      "bytes": 957,
+      "sha256": "fbee0de0bff861d2c11711d6beedaa7c9262e7161f57a508f891a34431ba9b62"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation35/assert-brand.cjs",
+      "git_blob_sha1": "6f506c0f51741b092d2570bcdafb2260eda84330",
+      "bytes": 1172,
+      "sha256": "24b3035401d8f2ac800d905014616b0dd81b9572fbeec6bf7f1f64a17a7f3980"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation35/brand-guard-probe.sql",
+      "git_blob_sha1": "cfcb6f776960fc84cf359bfa2ec04fb2ecbf5a68",
+      "bytes": 3915,
+      "sha256": "c5f9bde1b7a839b235c0e2c12560fd8c8456c56378db70456aa8696ec795edd8"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation35/brand-guard-regression.sql",
+      "git_blob_sha1": "b9de2a651ccbca3b4360da5a6dd14b3580d71db2",
+      "bytes": 6283,
+      "sha256": "48facdf5fed6aea71b3b4e7b8822c623fad1ae5cb1d91cd9e255638b507875a8"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation35/pilot_brand_account_guards.sql",
+      "git_blob_sha1": "3a7db30a8c8e4fec222f72eef8b6bf6809c55d44",
+      "bytes": 9849,
+      "sha256": "3dfbd6b79b39e3a5d6a95c52c71b3e19e633fa6574281a75468966405bc93218"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation35/private-readers.sql",
+      "git_blob_sha1": "9dd51d23de227ea1b4b228d1ea15b8d3af7fe028",
+      "bytes": 3971,
+      "sha256": "5a02d2657189b60fef55bd560bc57c2916e9a1750e28ac7a8b50645357bfd6c2"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation35/support-search.sql",
+      "git_blob_sha1": "a6cee2329cfd549d161e73581bb75e25d659ee11",
+      "bytes": 2687,
+      "sha256": "e4d87ee09016de05ee61211002ed5ca8f55c0df24028609072e3f164e193c905"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation36/http-anon.py",
+      "git_blob_sha1": "e2590c41af5e253d218a52bfd6f0f61bc850bb1c",
+      "bytes": 1412,
+      "sha256": "540f42c10acb4c951ad40a607a5c2ed87622e72751cfd2f2b6bc24d4d365a040"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/continuation36/store-rewards.sql",
+      "git_blob_sha1": "86568fca19da83fc2fc1a64aaf5ed20f7cc232f9",
+      "bytes": 4121,
+      "sha256": "dd61f487788e53b0d3f3e0fe1fa112b52592da1788bbdc9ec6d9141c837bcdff"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/disabled-batch.sql",
+      "git_blob_sha1": "c76e93b6208a85165c0ae0f31430f904a9c31d3f",
+      "bytes": 11915,
+      "sha256": "b5bb7c4c177fc04e8dee3da44df9794def12b80c96e9f1f8d657204766997750"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/disabled-privileges.sql",
+      "git_blob_sha1": "6abbf0f89562872cf8fd94b366b1c09829d1fe75",
+      "bytes": 1454,
+      "sha256": "1d4392e9119e572c1ad926d9b8ea27374763ec274acb3ea79e327d72e499b3f7"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/disabled-profile-update.sql",
+      "git_blob_sha1": "ed89ce73fce4b8cdab34209ab9f298d15938a89d",
+      "bytes": 753,
+      "sha256": "3f6dde8aef8ed4eec5caca4836249ecb7f041e82a43c81b92a69b336c782813e"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/disabled-storage-account.sql",
+      "git_blob_sha1": "f2c1962ff2a0187f8ca2edd06b8725785e7ccfa0",
+      "bytes": 543,
+      "sha256": "51e0d570fbc0e844f4609d549f6d052e34ae4591ffe0789d02fd62eb61800ae9"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/disabled-store-owner.sql",
+      "git_blob_sha1": "872a74469adc113ceb52df2efcb84deb7da0380b",
+      "bytes": 299,
+      "sha256": "635f330234f0e29213c42ba8a106ee98f6a40f1275d3137106cc8d51cfd425fe"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/driver-chat.cjs",
+      "git_blob_sha1": "44ed30e39cfb233d2764ede250adfede73123b7a",
+      "bytes": 1176,
+      "sha256": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/expired-group-checkout.sql",
+      "git_blob_sha1": "5a63161f801d188aab304ee78860c846c7278e37",
+      "bytes": 13010,
+      "sha256": "6180f108e3f3be642b21a6f4c50ba986f1df27f3078ebe36a9945a1725d90097"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/finance-profile-policy.sql",
+      "git_blob_sha1": "dd2cc69cf2a906d16243aa05d7e4f9eccefa7af5",
+      "bytes": 198,
+      "sha256": "002b29dd79149ccc3974dbc44d8f148cebf733fe27c3224212e31dc524044044"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/finance-session-guard-21.sql",
+      "git_blob_sha1": "4bfcb5daabc037760dd72ab885900e9e1f227a88",
+      "bytes": 389,
+      "sha256": "61ca8cdab435bc99f0b5282e9f4b0b1aad9f5da63a53d31b76b58cfdeb3e6e0e"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/functional-sql/finance-valid-records.sql",
+      "git_blob_sha1": "aa7e12a07bc9cad072d54e7bfc374fc448945a88",
+      "bytes": 5873,
+      "sha256": "640704d9ba16f8b643d5e76f78d706b1aab2a5a3485669cede509cf1be85f7cf"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/headers.test.mjs",
+      "git_blob_sha1": "c4acc5d2ac0e18fff13fdd94fc4184888e1667ca",
+      "bytes": 2475,
+      "sha256": "92738734686b0a79eeaaff4515294946742af221f96508300220e3cb5a264f9a"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/inline-context.py",
+      "git_blob_sha1": "58788a0e11b23b63e9eb086c0ff1eb80fc7465cb",
+      "bytes": 4333,
+      "sha256": "a712a8e370ba78ce61ec69f28d779608c9e59e749e0099a86cfe9d3320748a42"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/merchant-report.cjs",
+      "git_blob_sha1": "e63f1f881c9b2b88b199ef1cb047684ba177ca4f",
+      "bytes": 1476,
+      "sha256": "859a6641d770b7ede1b0abaa73d9cfc654acd70ab9ef300a69d7533cdbc65500"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/operations-prep/offline_checks.py",
+      "git_blob_sha1": "0bbd6b8754592b4d84d0225cca6985787cc857d6",
+      "bytes": 6093,
+      "sha256": "b76a7e969b1b0bef91fcffdecf1ed5438e4e7f86b86b3e4ba254ee7e5d055513"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/operations-prep/recovery-source.cjs",
+      "git_blob_sha1": "d7a2cf1776a0e7dd45f73b54acb8bcc4434493fb",
+      "bytes": 4562,
+      "sha256": "839aca59a53c2f82d5c98473365f10e8f6f0e75dbd93b7e6cc0df0ace8f09760"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/operations-prep/test_offline_checks.py",
+      "git_blob_sha1": "80c77a84eb92763d9e84551443408a3eba5db8e7",
+      "bytes": 5788,
+      "sha256": "40e5ca4ad3e6fdcce5716c0e926fbe4f4e3929390eda69597bf01c29de20ee45"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/helper-account-guard-fix.sql",
+      "git_blob_sha1": "ebfaf4477512f789026df754d3d90114b52e4b14",
+      "bytes": 1545,
+      "sha256": "190cbe0e5212695fc25edefdca77b015bdd278bae264ee14793158c2ee70917b"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/proposed-all10-fix.sql",
+      "git_blob_sha1": "b286c2df5a345ff34a68e8ae132263a1f6848c38",
+      "bytes": 8714,
+      "sha256": "d43e567dfced2fcbc1658cd9893a1404c315d2fd81d4b235bcc4d3f733618217"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/proposed-customer-two-fix.sql",
+      "git_blob_sha1": "a4795b7fb86cded0cc0dd9ecd00ceffe39295c78",
+      "bytes": 1564,
+      "sha256": "f1b9e23e74b8653359c3add07eac19b9c291e2ce1c38b51a08773ead4ea1307d"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/proposed-four-more-fix.sql",
+      "git_blob_sha1": "d4ceb2ad2563afeb35be65e4c1aed35d360822fe",
+      "bytes": 3529,
+      "sha256": "80c23822d55ab7cd58d55e5bff6cd9a50a0ff99f7082d6318937f11f63c569ba"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/proposed-store-two-fix.sql",
+      "git_blob_sha1": "8b3c65e4f9cf927b4b4ac4f89b69688c790301bb",
+      "bytes": 1436,
+      "sha256": "70717e15680907646452d01e0ca8901628f9f79e8df4e4e989c0d1492cd04090"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/test-helpers-no-revocation-delete.sql",
+      "git_blob_sha1": "926eb35741ac078c50a8712e761a8d0cae852e6c",
+      "bytes": 5885,
+      "sha256": "36a5754616aa076682c453c2e9e0c4b8d2981733130bd9a1970b5b40c067f9b8"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/scope-storage-final.sql",
+      "git_blob_sha1": "75c8c951fa9aaf5fc72519e8213d1de4f8e6d71a",
+      "bytes": 5518,
+      "sha256": "5dc998d25867fe7ca7422784d459f1fbc374354ecb4032f4a1faa93fb7b4abfa"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/api-pre-request.sql",
+      "git_blob_sha1": "68c9ee639860e6e36e2ddcf81e530ab03a6e7656",
+      "bytes": 111,
+      "sha256": "387f8ee9699d134a94f65cd7a8a46e643bd8dc9ba7471c3257b55f5943e4184c"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/auth-session-synthetic-only.sql",
+      "git_blob_sha1": "3ef5e79db1e7630534a7344a73b6a092ad30d1fd",
+      "bytes": 644,
+      "sha256": "e4395d23dc04c4446a787783440cc15aa0c6b79450b70ecc11b7d418788de3f6"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/bounded-concurrency-probe.sql",
+      "git_blob_sha1": "18273f992af148a15a2337f8bef9877ed243aff8",
+      "bytes": 1850,
+      "sha256": "b3d66f5a8a3155f3eed53b933247f932ce47a5c9756a1a5f7550af65bd2de39f"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/extra-private-rls.sql",
+      "git_blob_sha1": "c4d93d487dd68c5fefd860715e381c03bec4b138",
+      "bytes": 678,
+      "sha256": "cd7abd6374bded9577f1de74bf574e63ceceabb9a4f770c8cfc09f3c4012c21d"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/migration.sql",
+      "git_blob_sha1": "a0c6020124df2edea594b4d60131942afeae8f39",
+      "bytes": 2765,
+      "sha256": "54428cfab0e620dcb3810cdc9850495db27ff0c7a376879c86716f5fc20c3ccb"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/proof-operation-policy.sql",
+      "git_blob_sha1": "1d6d866d945de1e9d9fbcf4b925b101b5e5d951e",
+      "bytes": 255,
+      "sha256": "ce76d06ff823b08ece6767447fe128a1f56c1b7d19801d65165325746ef2ccc4"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/remove-bounded-probe.sql",
+      "git_blob_sha1": "3b75dc1229dbdb127d1985b2b19d4e90ebb9981f",
+      "bytes": 147,
+      "sha256": "a615aa5539e5e7cdf81b2ff73946da17f85c4c7dda0220062d611ce241742e0c"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/rpc-defense-depth-fix.sql",
+      "git_blob_sha1": "41f7dd3caf60a9f0d908ed4dbc33d91cc01f18d7",
+      "bytes": 2152,
+      "sha256": "0522ac55248b807210b667e540c48e497025f3eb43a21b582f0bf3b69c109cfa"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/synthetic-mfa-guard.sql",
+      "git_blob_sha1": "6c007c680dd5cb3182a27a76a378abbf0ec6e6b0",
+      "bytes": 966,
+      "sha256": "dedf2e4f9c9877b9e0976ad2ca873bfcc989702085509ee1dd63fc55ca5faa9f"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/test-extra-rls.sql",
+      "git_blob_sha1": "f43a213f6f2c4a53718861b5faba6b2bbfe87e99",
+      "bytes": 3930,
+      "sha256": "5009a36a9a501a76aa009ce9a2bcb8ea312495a7d42045e7a5792b3b57706a64"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/test-privileged-rpc-null-targets.sql",
+      "git_blob_sha1": "7a5a39dbe985924767b9e1c16f133675f081506e",
+      "bytes": 7970,
+      "sha256": "b82b9e34e9f052daeede6f91e10dadc94c4dca10557f4b18e2ccb769d4554840"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/test-rpc-defense-depth.sql",
+      "git_blob_sha1": "9575a6fb58a258f50a1e4119828a5e21ea8d4ccb",
+      "bytes": 2930,
+      "sha256": "25148b86a02fc53920ab1b976ac374e8ab6d80c530ae2a723271ea83e45d6041"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/test.sql",
+      "git_blob_sha1": "343710d13c832b6012c1735e499423a40eed0b39",
+      "bytes": 2299,
+      "sha256": "bbece7b41a61cd8e5c9adf426c0be6748084496f5559c9098a83a34d83790470"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/test-all.py",
+      "git_blob_sha1": "13da9d2bbd8ddac66932573a28977430ab5245aa",
+      "bytes": 847,
+      "sha256": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/test-auth-telemetry.cjs",
+      "git_blob_sha1": "038b4abc8c66519123feadbb036f52e95a20d1f9",
+      "bytes": 5667,
+      "sha256": "bcdd83ea7e779baf4ed9a450618728131df6ea0061cd83c973e5fec58443407c"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/test-disabled-private-records.sql",
+      "git_blob_sha1": "c5fdeb04390735f02019eb882bfd08946e70d630",
+      "bytes": 5267,
+      "sha256": "fe75785b900ea47d982134621fbfb812bde2e5094001c569e73f06acef91864f"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/test-disabled-reads-actions.sql",
+      "git_blob_sha1": "0495d7bf55d9d2b86bf7358cfdc0df8419cf6a9e",
+      "bytes": 5450,
+      "sha256": "97aa9ae7dc61f1ac315b65ff2a9f6e5bfe292ddb2955c5a5bf421bb64d55bceb"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/test-finance-session-21.sql",
+      "git_blob_sha1": "65b2e0972b7ed1356d90fe76fb6f1ecdb8a1df80",
+      "bytes": 1184,
+      "sha256": "a5a43add931b089d37b9405c46dca9d69fb7ab6fbb9867387e042c7372ddcd09"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/test-signout.cjs",
+      "git_blob_sha1": "e6c60c6122d920b03f2c1e17dfbcc3ec46f51c65",
+      "bytes": 2549,
+      "sha256": "90429f5dc1d4097bca63b05b93cbc7f5bc116966b0323e2521ffc449b4e163c9"
+    },
+    {
+      "path": "docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "git_blob_sha1": "a602710389166b65d8054e253b15ca796477283c",
+      "bytes": 82877,
+      "sha256": "88087673d0e5e25b1b1a5cac8ec8c2a97790b04570a518be939e7f899d5c56b9"
+    },
+    {
+      "path": "driver.html",
+      "git_blob_sha1": "086929844b2080d7aa2afe1c2c57267cde245d40",
+      "bytes": 63944,
+      "sha256": "e5ec3a43493bffcbd2bb374732c11d4b5b7a557c8a929c91da6fbfe9e502ecf7"
+    },
+    {
+      "path": "merchant.html",
+      "git_blob_sha1": "5f09dd5cc3d5abc9d6b0d3afa031342b05f5212c",
+      "bytes": 77445,
+      "sha256": "da95c1932139308a4c254a9e13042aba6b4a031a31c1446350afe8a70235d84a"
+    },
+    {
+      "path": "migrate-images.html",
+      "git_blob_sha1": "32897c3e963e3661c4b96845e187132dbe2dfed7",
+      "bytes": 6111,
+      "sha256": "71e72c6d2ccb01d4ff862ac0eb1c87233995a477740afdeba5d9cca9a91307cc"
+    },
+    {
+      "path": "ops/audit-public-history.py",
+      "git_blob_sha1": "c176a7d84f92680eac0e9e32f4b9d5d7a78dd56a",
+      "bytes": 3042,
+      "sha256": "405f67111eba434e7b4a254dc7a30652c701b58ebafcdc7c6f6ee3a040f12848"
+    },
+    {
+      "path": "ops/pilot-watchdog.py",
+      "git_blob_sha1": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+      "bytes": 7666,
+      "sha256": "283de0e72e23dafd29941b2f5c15fd3a976ee195b0c30059ba04694ceaf9d9cc"
+    },
+    {
+      "path": "release/hosted-pilot/frontend.py",
+      "git_blob_sha1": "b57756306ad6234cffa6d0eb16d4d4909ccc100b",
+      "bytes": 2344,
+      "sha256": "b43e8136935c579702b4594ecbf63641f4b901e46384b6ee85e4b45d62d0e2d9"
+    },
+    {
+      "path": "release/hosted-pilot/prepare.py",
+      "git_blob_sha1": "f0197a37a4c070b873405d637cd517a961b57a91",
+      "bytes": 1303,
+      "sha256": "fea1b20e805d891e8ab2da71d169a5779bb66f4c719a5bccbf422313dd35957b"
+    },
+    {
+      "path": "release/hosted-pilot/visual-fixture.py",
+      "git_blob_sha1": "e843d88603b7d6e9ed275537d3b0af90afce5993",
+      "bytes": 567,
+      "sha256": "247751f0d495b1071253eb371fcd997009fed1fffcb4decbb06adf041a224bbc"
+    },
+    {
+      "path": "release/hosted-pilot/visual-fixture.sql.in",
+      "git_blob_sha1": "a2a0faeac69d8aec27708aa6a3aa883fa7f5877a",
+      "bytes": 10298,
+      "sha256": "37ee118e2768431bc900ca29bef17cb23143a178cc9ca06ca8d0f64a30d9362c"
+    },
+    {
+      "path": "release/pilot-candidate/build.py",
+      "git_blob_sha1": "57b2ae83f61e52a16402d5325855b83d473ce89c",
+      "bytes": 2796,
+      "sha256": "aecb1d8bcb4dec487d059e8c43c874b68bb5e8b203bf34ce3a80102450b98c5a"
+    },
+    {
+      "path": "release/pilot-candidate/compare-host.py",
+      "git_blob_sha1": "16157c876ca35c539f1cd230d17fa673ac6a549e",
+      "bytes": 1067,
+      "sha256": "645dd8c2bf52689e349e459827958ec49c9c7f9578f46dd1127f22c9a820d94c"
+    },
+    {
+      "path": "scripts/ci100/run.mjs",
+      "git_blob_sha1": "36efcc81a685d1a53af48845e984ef1341cfc711",
+      "bytes": 1927,
+      "sha256": "c1530d181ae78195cd80d22bd417904680c7f4d4436c777b75909373fc3b8aa9"
+    },
+    {
+      "path": "scripts/ci99/run.mjs",
+      "git_blob_sha1": "87f5d0f46eed248205d68a11039d4f25a1f05524",
+      "bytes": 1977,
+      "sha256": "1052fc354587076d961882dbf7547fe0d5ed447753641fc482ac9a6d0c24f9a7"
+    },
+    {
+      "path": "scripts/ci99/worker-fixture.mjs",
+      "git_blob_sha1": "982b6be34e77240e653a34340d38f2caee37eb4c",
+      "bytes": 1270,
+      "sha256": "b492239f37f68bdfb7c7c5e8e91d77cc166a8da97a72c7908034ace96d746cf0"
+    },
+    {
+      "path": "security-check.html",
+      "git_blob_sha1": "d348a43fc32e415699b3c834858573d866ec9523",
+      "bytes": 38154,
+      "sha256": "bc17db98f588fa45c166cacc2485723b17b01351ef8c1a3ce8c1b93eecb651b9"
+    },
+    {
+      "path": "sql/pilot_read_connections_20261107.sql",
+      "git_blob_sha1": "7fbad42a103529ea6dc8233552e7708d71225e2e",
+      "bytes": 2595,
+      "sha256": "4a5c8cdfd80ec6a43b5c5ba9a49401aadb27f307742f331d38f268093843892f"
+    },
+    {
+      "path": "sql/proposed/admin_finance_integrity_20261101.sql",
+      "git_blob_sha1": "6b19870cc1939094c761a255e26f1fd7c5658952",
+      "bytes": 12840,
+      "sha256": "6c85e0419412986d8ca811d72206a674d8375530bcccf75dd34d3bc4128e0259"
+    },
+    {
+      "path": "sql/proposed/admin_finance_preflight_readonly_20261101.sql",
+      "git_blob_sha1": "0fff97e204e4965d169267ed51b08b1d00015047",
+      "bytes": 3065,
+      "sha256": "f7d0a187d3f8ce3a1c90e7eb60652d7869dbf6c02286972519b1686687bfbf32"
+    },
+    {
+      "path": "sql/proposed/admin_finance_receipts_20261102.sql",
+      "git_blob_sha1": "76f0d8106739ab19a656ee419d829b064fa78487",
+      "bytes": 7522,
+      "sha256": "240727cdbb9416af093f36209de0ea690c9822ef39c16710e94e1692f62dcf82"
+    },
+    {
+      "path": "sql/proposed/admin_finance_safe_hold_20261101.sql",
+      "git_blob_sha1": "045c9c440ce0ebbbbb1956f6b3bfcdd6dacff05a",
+      "bytes": 907,
+      "sha256": "8a79af85de8fb037b19004029595dc253f7becfecfb400f2878fc583ae20f02d"
+    },
+    {
+      "path": "sql/proposed/pilot_delivery_proof_20261105.sql",
+      "git_blob_sha1": "33ba6f3735a00eb124447ffad785c5da2382318d",
+      "bytes": 2058,
+      "sha256": "49500e3053a36bf27f9f6209c94ec42a5053883b48ba45b635e9a589e5c2975d"
+    },
+    {
+      "path": "sql/proposed/pilot_driver_claim_20261105.sql",
+      "git_blob_sha1": "e416465eda7ef5c2063ac1a88e2e3e859b663a56",
+      "bytes": 1613,
+      "sha256": "120050c6972b3a928f7957d6a31314be7b5b964f6153526722c347c62bdf4d9e"
+    },
+    {
+      "path": "sql/proposed/pilot_payment_guard_20261105.sql",
+      "git_blob_sha1": "23370e52d551922680d9709fb6127da04ed5fc12",
+      "bytes": 12774,
+      "sha256": "12f4cdcf0517365b03e90f24af2d6d4dd7a47460a5700c05a5d99f3cf5e1d79e"
+    },
+    {
+      "path": "sql/proposed/pilot_refund_cap_20261105.sql",
+      "git_blob_sha1": "21c82c3729d538bf9190c132433c3d9d4488efac",
+      "bytes": 2965,
+      "sha256": "2a8475fa189b28a7438becad759125ee889eed7c545861a85a2743e889144a1b"
+    },
+    {
+      "path": "sql/proposed/pilot_z_cash_confirmation_20261105.sql",
+      "git_blob_sha1": "e6a1395e2492b33e3bcfaf6af4009462009c5441",
+      "bytes": 36463,
+      "sha256": "e521521c59ada659ec2b759d22bcc28e7b9c8f4b470690f30c8f1f89c0e0a101"
+    },
+    {
+      "path": "sql/proposed/pilot_zz_admission_20261105.sql",
+      "git_blob_sha1": "ef681e3a4a5ed90548db5e0014e998b6af33c9ab",
+      "bytes": 8595,
+      "sha256": "e8dfd228758bd125f2c20de504d028a02ee2692c21b32fe50688383a8b4316af"
+    },
+    {
+      "path": "sql/proposed/pilot_zzz_driver_returns_20261106.sql",
+      "git_blob_sha1": "6f169215610ef0a5509e20dec71f0aa0535cb63c",
+      "bytes": 13944,
+      "sha256": "a2cd953fa1539f397d1f2efb8d16b93667374879b2cbed0eeb41d2e8439af7e6"
+    },
+    {
+      "path": "sql/proposed/pilot_zzzz_cash_allocation_20261106.sql",
+      "git_blob_sha1": "e2b9befa0acf351ef1f071ef3001bb476cc6e4ad",
+      "bytes": 11377,
+      "sha256": "3f1b880b373f8de907420308c9ae8e055bc5a88062442117139ed9c241ad5018"
+    },
+    {
+      "path": "sql/schema_patch17.sql",
+      "git_blob_sha1": "11f1bdea7e1c5c375c602995d5398bf140b56932",
+      "bytes": 22879,
+      "sha256": "42142550a86befe95e89bb2df95e0145ca162f5446dfb2f3caa093cf9f48604f"
+    },
+    {
+      "path": "sql/schema_patch18.sql",
+      "git_blob_sha1": "4e9958f2dd3566f88d14becd3835a937daee304d",
+      "bytes": 25292,
+      "sha256": "7fc967137e32ce29535f229e4a05f0a0d248055b40d27c73ee370353898182f4"
+    },
+    {
+      "path": "sql/schema_patch19.sql",
+      "git_blob_sha1": "edff05be29cec8233b11fc2ec68b5a998c4f4deb",
+      "bytes": 28855,
+      "sha256": "fbcac2c3b6b03004068984d886f92792a31e25bb6cf2768db6ee86f2df2175d4"
+    },
+    {
+      "path": "sql/schema_patch20.sql",
+      "git_blob_sha1": "f678c7efcd320e6f95c4cfa11816ac9bac45b11d",
+      "bytes": 9471,
+      "sha256": "2016132ca2135674e533cd209caa7055274653121d9816913df45d47bdd2aa7e"
+    },
+    {
+      "path": "sql/schema_patch21.sql",
+      "git_blob_sha1": "736bbf58ed5a1fb6a5e9ecb75cd74998b96a3cbf",
+      "bytes": 17994,
+      "sha256": "22229f72f3a85ab0ddc8c79acaed7f2f0a06fa83df49d34cee2845ca5272fc3e"
+    },
+    {
+      "path": "sql/schema_patch22.sql",
+      "git_blob_sha1": "d27ce310c9e34ce9c13fd8f7284b6f34c95198cd",
+      "bytes": 11687,
+      "sha256": "8ec1de0d73cd63e96f47500b7b0a4a01e488c0a113db5fe737b72351c805747b"
+    },
+    {
+      "path": "sql/schema_patch23.sql",
+      "git_blob_sha1": "0a2f9c7b0ed90dfe3ec62c70ddda3b5adfbbcef1",
+      "bytes": 2391,
+      "sha256": "9bd7e0e8d5fa0b4390967220e6b7156dac5235483fc699bc7f8543efa09e93a4"
+    },
+    {
+      "path": "sql/schema_patch24.sql",
+      "git_blob_sha1": "39612d6144c2ee6b91e51995ef02a5e3ad704b8a",
+      "bytes": 7420,
+      "sha256": "8bd89fd87831f4bedcd4b15ee6e5e5a557474e310fb3fdf04e9382f969640633"
+    },
+    {
+      "path": "sql/schema_patch25.sql",
+      "git_blob_sha1": "e9a6dbf624b06e699c35ea77133abb24a00b4d08",
+      "bytes": 6111,
+      "sha256": "906d771fa8d381f543163b67d8e32f8b6ee10f7ea9182d8a5d1bb4ebfdea1e87"
+    },
+    {
+      "path": "sql/schema_patch26.sql",
+      "git_blob_sha1": "2a0091e499f63c5b09c36d47346d6aced16c0475",
+      "bytes": 28531,
+      "sha256": "a398cd604a762f900499dbf12b6c77b8c5a3741d12ff2e422562ec0ca082bd5f"
+    },
+    {
+      "path": "sql/schema_patch27.sql",
+      "git_blob_sha1": "273b5922236a050f46c2ebfd96e37fb04b6a1755",
+      "bytes": 13165,
+      "sha256": "338d504ce1d91c94d711f525468f47ea8d37aa6ff75609dcc97a2222cf172806"
+    },
+    {
+      "path": "sql/schema_patch28.sql",
+      "git_blob_sha1": "8af3283df2257ba7c81f25338cb179d17ab71914",
+      "bytes": 4245,
+      "sha256": "e1da81a92f6863993abe9e5a8ebfe5b86a593e5ad26dc0eec14fa0c321db56d9"
+    },
+    {
+      "path": "sql/schema_patch29.sql",
+      "git_blob_sha1": "64135f5b7988960b5374a60c8a531fab3e613f83",
+      "bytes": 26372,
+      "sha256": "263ef84db54c5600c3c941fef0fc7db661c2d805811565458720ee03a13016ab"
+    },
+    {
+      "path": "sql/schema_patch30.sql",
+      "git_blob_sha1": "cf6aba5c33601538f5ed32f395df6d6f7731fdf9",
+      "bytes": 4715,
+      "sha256": "22b5c1a6cd670d20d7a53f8916ef4de99db90bdefd44b55036c769d8f8d6ad67"
+    },
+    {
+      "path": "sql/schema_patch31.sql",
+      "git_blob_sha1": "49886aefe1be70bfb1d4b2de2670adf1c74df7c7",
+      "bytes": 12967,
+      "sha256": "cb8794820bfbbd5b194b6be5434613380e7f77135bbbaa3705aa5a2dc58af21f"
+    },
+    {
+      "path": "sql/schema_patch32.sql",
+      "git_blob_sha1": "e78bbeefe1d4ff258bab62b11402172b3d857f8e",
+      "bytes": 25325,
+      "sha256": "8befde193e08e09fffefc01f5e7b3a537357c26812b7793acca2aabf59d17a3e"
+    },
+    {
+      "path": "sql/schema_patch33.sql",
+      "git_blob_sha1": "2adb670ba7857d6cfc4d4a90307406f179a5bdb6",
+      "bytes": 28586,
+      "sha256": "5c0420052e758407da341c964f921084364b18b2ad287f590f6e6c2e9e142e2e"
+    },
+    {
+      "path": "sql/schema_patch34.sql",
+      "git_blob_sha1": "c969801b0d0e83d84bd704e12184dc4d1678b457",
+      "bytes": 7686,
+      "sha256": "69cbeb461d196456cafb46e2c84f7b7b5066949dc944348096ba6fc1c69a957b"
+    },
+    {
+      "path": "sql/test_patch26.sql",
+      "git_blob_sha1": "0fb721e1531ddf1d1fbe86aa690aba7cc02a9ef7",
+      "bytes": 22442,
+      "sha256": "1d661e80c4b5e7e3175858ed3a8269fc879a17e63aabe27515174a411949ea6a"
+    },
+    {
+      "path": "sql/test_patch27.sql",
+      "git_blob_sha1": "7e6fcc648db4a7b99d4dec00d7dd037dd44082aa",
+      "bytes": 15485,
+      "sha256": "f3518c43a47c3d2cc610ec5f2f7f659c4e741ce9af2872751247f7c351920e12"
+    },
+    {
+      "path": "sql/test_patch28.sql",
+      "git_blob_sha1": "c391881c270f003c8fd93b435f4d52f0162485fe",
+      "bytes": 7713,
+      "sha256": "4a1d2a3f6982958765bc39f9883d92adff69a6ea4a857284f9b2f74f0d7ca554"
+    },
+    {
+      "path": "sql/test_patch29.sql",
+      "git_blob_sha1": "99cff19a43b0e38a2bfe1bd94b9036a288d1720a",
+      "bytes": 17301,
+      "sha256": "252da3e10a582cd48d7a0ff690780b90df33bd5fbe32815a6b39484c87af1e73"
+    },
+    {
+      "path": "sql/test_patch30.sql",
+      "git_blob_sha1": "2bcdb175fc835ce2533e6afaa7d8078632df0ff9",
+      "bytes": 1119,
+      "sha256": "59a51e8f09493de4c137ebc4e62dfa4c48435d4b99bbc79ecd8470d9f4aaba40"
+    },
+    {
+      "path": "sql/test_patch30_case.sql",
+      "git_blob_sha1": "892a213315891df5d62eb79eccce6d9cf279a3a7",
+      "bytes": 4462,
+      "sha256": "5d9efdddca52545145b7bb91303970d55c602bcceb8e02ff4f34c29ed8256403"
+    },
+    {
+      "path": "sql/test_patch32.sql",
+      "git_blob_sha1": "4abb9b9dac666d590fabd9e70a74ee8b480096a8",
+      "bytes": 15936,
+      "sha256": "0667c49c68c9f8d560f9a2131fc12e154c00f9921a3c411e9af19bbe0673bf71"
+    },
+    {
+      "path": "sql/test_patch33.sql",
+      "git_blob_sha1": "8351d155b0c3fe7315442419fa57f9b49826b411",
+      "bytes": 16836,
+      "sha256": "a2cefe470e6f5da5394c4adf6fa7375f11b8af838cb48538f8b84adf240ed008"
+    },
+    {
+      "path": "sql/test_patch34.sql",
+      "git_blob_sha1": "8e3f06da4aee9723371aec7eadeab58e6f0adccd",
+      "bytes": 17565,
+      "sha256": "62cd90822bce2064bbbdb7cc2c542c8165f7957e3b99b0b300270f325f7d8a05"
+    },
+    {
+      "path": "talabat-core.js",
+      "git_blob_sha1": "f639bec1d23a812866e06eb1110940c77563387c",
+      "bytes": 153924,
+      "sha256": "226c56c80ae584ccf3c9aef0887634feddf8f623ee32ae3b3394ad4d9deaf85d"
+    },
+    {
+      "path": "tools/align-pilot-csp.cjs",
+      "git_blob_sha1": "be86b1068348868c28c4a45599b7d20d79c930b3",
+      "bytes": 1507,
+      "sha256": "58a1d3b49742722b2b5f9e10b7518a1cf7931b6fdece67268060dd0e121e10a4"
+    },
+    {
+      "path": "tools/branch_check.py",
+      "git_blob_sha1": "c66c5277f77b3e29f442cae09881b83c7c1debda",
+      "bytes": 1539,
+      "sha256": "abdb2df84f3d3303a853b7b9b8ab2549c1d560932726684a3b6d7e30aa3e33c8"
+    },
+    {
+      "path": "tools/cart_check.py",
+      "git_blob_sha1": "dd1e94c04b29d28119dcdb798d07d647288476d3",
+      "bytes": 10506,
+      "sha256": "5cdf2fc7764d2c4ef93412f149cffdcfdbc2c1c3de61b6ef6ab37d028ce91633"
+    },
+    {
+      "path": "tools/courier_check.py",
+      "git_blob_sha1": "308fd1c130713d6a2f599bb06a7855fcb810ef85",
+      "bytes": 5590,
+      "sha256": "50ab3fde83c4c446260b3dfebca2b741a3eff506acd31770a60ac1a3f9d6d7a9"
+    },
+    {
+      "path": "tools/flow_check.py",
+      "git_blob_sha1": "71ad2c753cf0142deb0b72b2e1bea4a61f0b72e9",
+      "bytes": 24368,
+      "sha256": "835d2db39532f3ef91d4022bcf0cace0011e884bba6ec4102622edd13acfd761"
+    },
+    {
+      "path": "tools/hdr_check.py",
+      "git_blob_sha1": "f5de1ad2a07f971c4854228d681f213d02f2acbb",
+      "bytes": 3028,
+      "sha256": "54b787fe3f18aa6011542f8bef09b077d644fc80c98e90272b8a1bc4bd572e47"
+    },
+    {
+      "path": "tools/loyalty_parity.py",
+      "git_blob_sha1": "88ca9ac580e857e68f9a3d5312996162d6d92b87",
+      "bytes": 6191,
+      "sha256": "f9ccfa16dfc5b64fdaf363c218f768c1df339f1c7c8e7d63d6bf233e867db268"
+    },
+    {
+      "path": "tools/overflow.py",
+      "git_blob_sha1": "72f9a139f04f887119c0a9f3e8018b3fc8ee723e",
+      "bytes": 1267,
+      "sha256": "ac1664c8c45235d41086003a1af6e7c4dbeec96c27b94cc6addaf7a9151ac0c6"
+    },
+    {
+      "path": "tools/overflow2.py",
+      "git_blob_sha1": "fe24b020264730d13b945569e413c5e03b834627",
+      "bytes": 1376,
+      "sha256": "ee553b84f35041d4d16417bb375328052be8d174a63e2ef46a83daa87605f1b9"
+    },
+    {
+      "path": "tools/qa_all.py",
+      "git_blob_sha1": "19a9643f3643364b48f8fa8ccd2dd5bafd22c6c4",
+      "bytes": 23482,
+      "sha256": "22fa4c317cd58a4f82ad0715a9bb0379d2ea12bf11e1467e96db433ce4f550a8"
+    },
+    {
+      "path": "tools/sheet_check.py",
+      "git_blob_sha1": "496e3db787747c47c45b059055aea1686f7157fa",
+      "bytes": 1968,
+      "sha256": "3f3352b6531c3b96b7df6abecf1c7de7ab26da70802a3d8792376d0ec24762fd"
+    },
+    {
+      "path": "tools/smoke.py",
+      "git_blob_sha1": "4d65b9e64706167283c3b19a92eea1fc14c59047",
+      "bytes": 4081,
+      "sha256": "9b87e5a60233e4ca4588d9ef309ecf26e811876407cc5205734aa7c1bd441402"
+    }
+  ],
+  "private_evidence_selectors_only": [
+    {
+      "name": "target-definitions.json",
+      "version": "0",
+      "selectors": [
+        "OID18490 rate_order, line408",
+        "OID18480 my_rating, line372",
+        "OID18530 trg_rating_aggregate, line608",
+        "OID18531 trg_rating_reward, line612",
+        "OID18492 reopen_rating, line416",
+        "OID18495 resolve_rating, line428",
+        "OID18428 audit_changes, line36"
+      ]
+    },
+    {
+      "name": "target-columns.json",
+      "version": "0",
+      "selectors": [
+        "ratings lines4279-4421"
+      ]
+    },
+    {
+      "name": "target-constraints.json",
+      "version": "0",
+      "selectors": [
+        "ratings lines1934-2065"
+      ]
+    },
+    {
+      "name": "target-triggers.json",
+      "version": "0",
+      "selectors": [
+        "ratings application triggers lines2312-2341"
+      ]
+    },
+    {
+      "name": "target-indexes.json",
+      "version": "0",
+      "selectors": [
+        "ratings lines650-673",
+        "loyalty_one_reward_per_order lines370-377"
+      ]
+    },
+    {
+      "name": "target-policies.json",
+      "version": "0",
+      "selectors": [
+        "ratings lines432-451"
+      ]
+    },
+    {
+      "name": "target-relations.json",
+      "version": "0",
+      "selectors": [
+        "ratings OID17922 lines482-493"
+      ]
+    },
+    {
+      "name": "target-function-privileges.json",
+      "version": "0",
+      "selectors": [
+        "OID18480 lines1442-1465",
+        "OID18490 lines1658-1681",
+        "OID18492 lines1706-1729",
+        "OID18495 lines1778-1801"
+      ]
+    }
+  ],
+  "limits": [
+    "No raw private definitions or operational rows are included.",
+    "AUDIT107 is historical isolated-target catalog; separate reads were not an atomic snapshot.",
+    "Function definitions and grants are not present-day hosted HTTP evidence.",
+    "No SQL, RPC, browser or functional tests executed.",
+    "No deployed google-rating service source confirmed by this repository scan.",
+    "Application source is pinned to policy commit, not claimed to be the current deployed version."
+  ],
+  "new_functional_tests": [],
+  "prior_tests_repeated": []
+}

@@ -1,0 +1,1071 @@
+{
+  "method": "Static case-insensitive token search; customer rt/rc aliases also traced; no test execution.",
+  "source_commit": "05428e37d9779fa2af0845e640fe85553c8b6974",
+  "files": [
+    {
+      "path": "admin.html",
+      "matches": [
+        {
+          "line": 88,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 107,
+          "symbols": [
+            "Ratings",
+            "rating",
+            "ratings"
+          ]
+        },
+        {
+          "line": 154,
+          "symbols": [
+            "google_place_id",
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 162,
+          "symbols": [
+            "google_place_id",
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 168,
+          "symbols": [
+            "google_place_id",
+            "refreshRating"
+          ]
+        },
+        {
+          "line": 238,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 413,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 414,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 432,
+          "symbols": [
+            "reopenRating"
+          ]
+        },
+        {
+          "line": 434,
+          "symbols": [
+            "resolveRating"
+          ]
+        },
+        {
+          "line": 435,
+          "symbols": [
+            "lowRatings",
+            "ratings"
+          ]
+        },
+        {
+          "line": 441,
+          "symbols": [
+            "lowRatings"
+          ]
+        },
+        {
+          "line": 541,
+          "symbols": [
+            "lowRatings"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "customer.html",
+      "matches": [
+        {
+          "line": 1125,
+          "symbols": [
+            "ratingSrc"
+          ]
+        },
+        {
+          "line": 1126,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 1129,
+          "symbols": [
+            "Rating"
+          ]
+        },
+        {
+          "line": 1141,
+          "symbols": [
+            "Rating",
+            "rating",
+            "ratingSrc"
+          ]
+        },
+        {
+          "line": 1144,
+          "symbols": [
+            "Rating",
+            "rating"
+          ]
+        },
+        {
+          "line": 1160,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 1187,
+          "symbols": [
+            "app_rating",
+            "app_rating_count",
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 1476,
+          "symbols": [
+            "s.rc",
+            "s.rt"
+          ]
+        },
+        {
+          "line": 1482,
+          "symbols": [
+            "rate("
+          ]
+        },
+        {
+          "line": 1483,
+          "symbols": [
+            "rate("
+          ]
+        },
+        {
+          "line": 1512,
+          "symbols": [
+            "a.rc",
+            "a.rt",
+            "b.rc",
+            "b.rt"
+          ]
+        },
+        {
+          "line": 1516,
+          "symbols": [
+            "d6Rt",
+            "st.rc",
+            "st.rt"
+          ]
+        },
+        {
+          "line": 1521,
+          "symbols": [
+            "d6Rt"
+          ]
+        },
+        {
+          "line": 1534,
+          "symbols": [
+            "s.rt"
+          ]
+        },
+        {
+          "line": 1535,
+          "symbols": [
+            "s.rc",
+            "s.rt"
+          ]
+        },
+        {
+          "line": 1586,
+          "symbols": [
+            "d6Rt"
+          ]
+        },
+        {
+          "line": 1588,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 1589,
+          "symbols": [
+            "d6Rt"
+          ]
+        },
+        {
+          "line": 1605,
+          "symbols": [
+            "s.rt"
+          ]
+        },
+        {
+          "line": 1612,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 1613,
+          "symbols": [
+            "s.rt"
+          ]
+        },
+        {
+          "line": 1671,
+          "symbols": [
+            "sd.rc",
+            "sd.rt"
+          ]
+        },
+        {
+          "line": 1682,
+          "symbols": [
+            "sd.rc",
+            "sd.rt"
+          ]
+        },
+        {
+          "line": 1748,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 1881,
+          "symbols": [
+            "a.rt",
+            "b.rt"
+          ]
+        },
+        {
+          "line": 1899,
+          "symbols": [
+            "ratingOf"
+          ]
+        },
+        {
+          "line": 1913,
+          "symbols": [
+            "rateOrder"
+          ]
+        },
+        {
+          "line": 1922,
+          "symbols": [
+            "ratingOf"
+          ]
+        },
+        {
+          "line": 1949,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 2050,
+          "symbols": [
+            "s.rc",
+            "s.rt"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/proposed-all10-fix.sql",
+      "matches": [
+        {
+          "line": 127,
+          "symbols": [
+            "my_rating"
+          ]
+        },
+        {
+          "line": 134,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/rpc-continuation/proposed-customer-two-fix.sql",
+      "matches": [
+        {
+          "line": 1,
+          "symbols": [
+            "rate_order"
+          ]
+        },
+        {
+          "line": 16,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/extra-private-rls.sql",
+      "matches": [
+        {
+          "line": 1,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "docs/pilot-20261105/security-20261107/session-revocation/test-extra-rls.sql",
+      "matches": [
+        {
+          "line": 17,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 22,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 27,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "MOCK_OR_TEST_DEFINITION_ONLY"
+    },
+    {
+      "path": "docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "matches": [
+        {
+          "line": 253,
+          "symbols": [
+            "RATINGS"
+          ]
+        },
+        {
+          "line": 273,
+          "symbols": [
+            "RATINGS"
+          ]
+        },
+        {
+          "line": 275,
+          "symbols": [
+            "app_rating",
+            "app_rating_count",
+            "google_place_id",
+            "rate_order",
+            "rating",
+            "rating_count",
+            "ratings"
+          ]
+        },
+        {
+          "line": 277,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 282,
+          "symbols": [
+            "RATINGS"
+          ]
+        }
+      ],
+      "evidence_kind": "POLICY"
+    },
+    {
+      "path": "driver.html",
+      "matches": [
+        {
+          "line": 115,
+          "symbols": [
+            "rating"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "merchant.html",
+      "matches": [
+        {
+          "line": 225,
+          "symbols": [
+            "rating"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "security-check.html",
+      "matches": [
+        {
+          "line": 118,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 132,
+          "symbols": [
+            "rate_order"
+          ]
+        },
+        {
+          "line": 133,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 134,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 135,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 136,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 137,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 138,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 150,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 151,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 152,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 214,
+          "symbols": [
+            "my_rating"
+          ]
+        },
+        {
+          "line": 215,
+          "symbols": [
+            "my_rating"
+          ]
+        },
+        {
+          "line": 216,
+          "symbols": [
+            "my_rating",
+            "rating"
+          ]
+        }
+      ],
+      "evidence_kind": "MOCK_OR_TEST_DEFINITION_ONLY"
+    },
+    {
+      "path": "sql/schema_patch17.sql",
+      "matches": [
+        {
+          "line": 18,
+          "symbols": [
+            "google_place_id",
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 164,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 165,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "sql/schema_patch18.sql",
+      "matches": [
+        {
+          "line": 1,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 14,
+          "symbols": [
+            "app_rating",
+            "app_rating_count"
+          ]
+        },
+        {
+          "line": 375,
+          "symbols": [
+            "RATING"
+          ]
+        },
+        {
+          "line": 377,
+          "symbols": [
+            "app_rating"
+          ]
+        },
+        {
+          "line": 378,
+          "symbols": [
+            "app_rating_count"
+          ]
+        },
+        {
+          "line": 379,
+          "symbols": [
+            "app_rating",
+            "app_rating_count"
+          ]
+        },
+        {
+          "line": 381,
+          "symbols": [
+            "trg_rating_aggregate"
+          ]
+        },
+        {
+          "line": 386,
+          "symbols": [
+            "app_rating",
+            "ratings"
+          ]
+        },
+        {
+          "line": 387,
+          "symbols": [
+            "app_rating_count",
+            "ratings"
+          ]
+        },
+        {
+          "line": 391,
+          "symbols": [
+            "ratings",
+            "trg_rating_aggregate"
+          ]
+        },
+        {
+          "line": 392,
+          "symbols": [
+            "ratings",
+            "trg_rating_aggregate"
+          ]
+        },
+        {
+          "line": 397,
+          "symbols": [
+            "app_rating",
+            "ratings"
+          ]
+        },
+        {
+          "line": 398,
+          "symbols": [
+            "app_rating_count",
+            "ratings"
+          ]
+        },
+        {
+          "line": 401,
+          "symbols": [
+            "my_rating"
+          ]
+        },
+        {
+          "line": 404,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 406,
+          "symbols": [
+            "my_rating"
+          ]
+        },
+        {
+          "line": 407,
+          "symbols": [
+            "my_rating"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "sql/schema_patch26.sql",
+      "matches": [
+        {
+          "line": 6,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 209,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 223,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 516,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 517,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "sql/schema_patch27.sql",
+      "matches": [
+        {
+          "line": 4,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "sql/schema_patch32.sql",
+      "matches": [
+        {
+          "line": 5,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 99,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 106,
+          "symbols": [
+            "trg_rating_reward"
+          ]
+        },
+        {
+          "line": 117,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 118,
+          "symbols": [
+            "ratings",
+            "trg_rating_reward"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "sql/test_patch32.sql",
+      "matches": [
+        {
+          "line": 1,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 35,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 92,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 126,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 127,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 128,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 129,
+          "symbols": [
+            "rating"
+          ]
+        }
+      ],
+      "evidence_kind": "MOCK_OR_TEST_DEFINITION_ONLY"
+    },
+    {
+      "path": "sql/test_patch33.sql",
+      "matches": [
+        {
+          "line": 34,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "MOCK_OR_TEST_DEFINITION_ONLY"
+    },
+    {
+      "path": "sql/test_patch34.sql",
+      "matches": [
+        {
+          "line": 34,
+          "symbols": [
+            "ratings"
+          ]
+        }
+      ],
+      "evidence_kind": "MOCK_OR_TEST_DEFINITION_ONLY"
+    },
+    {
+      "path": "talabat-core.js",
+      "matches": [
+        {
+          "line": 61,
+          "symbols": [
+            "rating"
+          ]
+        },
+        {
+          "line": 150,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 205,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 208,
+          "symbols": [
+            "app_rating",
+            "app_rating_count",
+            "google_place_id",
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 210,
+          "symbols": [
+            "google_place_id",
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 348,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 365,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 371,
+          "symbols": [
+            "my_rating"
+          ]
+        },
+        {
+          "line": 391,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 409,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 413,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 466,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 570,
+          "symbols": [
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 571,
+          "symbols": [
+            "google_place_id"
+          ]
+        },
+        {
+          "line": 949,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 950,
+          "symbols": [
+            "resolveRating"
+          ]
+        },
+        {
+          "line": 951,
+          "symbols": [
+            "reopenRating"
+          ]
+        },
+        {
+          "line": 952,
+          "symbols": [
+            "lowRatings"
+          ]
+        },
+        {
+          "line": 954,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 956,
+          "symbols": [
+            "ratingOf",
+            "ratings"
+          ]
+        },
+        {
+          "line": 957,
+          "symbols": [
+            "rateOrder"
+          ]
+        },
+        {
+          "line": 960,
+          "symbols": [
+            "rate_order"
+          ]
+        },
+        {
+          "line": 1344,
+          "symbols": [
+            "refreshRating"
+          ]
+        },
+        {
+          "line": 1345,
+          "symbols": [
+            "google-rating"
+          ]
+        }
+      ],
+      "evidence_kind": "SOURCE_NOT_DEPLOYMENT"
+    },
+    {
+      "path": "tools/flow_check.py",
+      "matches": [
+        {
+          "line": 53,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 94,
+          "symbols": [
+            "my_rating"
+          ]
+        },
+        {
+          "line": 175,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 278,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 303,
+          "symbols": [
+            "my_rating"
+          ]
+        }
+      ],
+      "evidence_kind": "MOCK_OR_TEST_DEFINITION_ONLY"
+    },
+    {
+      "path": "tools/qa_all.py",
+      "matches": [
+        {
+          "line": 13,
+          "symbols": [
+            "app_rating",
+            "app_rating_count",
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 14,
+          "symbols": [
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 15,
+          "symbols": [
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 16,
+          "symbols": [
+            "rating",
+            "rating_count"
+          ]
+        },
+        {
+          "line": 30,
+          "symbols": [
+            "ratings"
+          ]
+        },
+        {
+          "line": 36,
+          "symbols": [
+            "my_rating"
+          ]
+        }
+      ],
+      "evidence_kind": "MOCK_OR_TEST_DEFINITION_ONLY"
+    }
+  ]
+}
