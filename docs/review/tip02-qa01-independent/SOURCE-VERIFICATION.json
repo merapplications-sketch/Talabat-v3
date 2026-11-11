@@ -1,0 +1,166 @@
+{
+  "source": "d76269c9f3e5c02fe0be379ac8ba6356e624f9b8",
+  "inputs": [
+    {
+      "path": "tests/native103/build-client.py",
+      "git_blob": "89f5072521bf22113ea382492b9c163d6e7a1f2b",
+      "sha256": "ac05540d522889bbfe52c95aeab04a1323793294f4a5c6d48beeb182e7bd8d6b"
+    },
+    {
+      "path": "tests/native103/client.js",
+      "git_blob": "9d23cf8ec21480bdfa733516e3f80c0356d0a0fa",
+      "sha256": "f7ae293d89332d8703021ce0478cfff2324eab7203b091d2934a3fa57acf3616"
+    },
+    {
+      "path": "tests/native103/ui-source-hashes.json",
+      "git_blob": "3f2681e886a4835cfc61797e5a30925a5cad684e",
+      "sha256": "5af60be0ee9393acd83cba3976e78c0c1d64d9f14a8b2ca15b2fab014ec3130e"
+    },
+    {
+      "path": "tests/native104/build-client.py",
+      "git_blob": "1ce91b1d7bcdc18cede10b50b3ce6cd8a63a9591",
+      "sha256": "f8b7cbbed8103249933cec5832cf2e763583581d5001bd5f78b1036e1c54e5c4"
+    },
+    {
+      "path": "tests/native104/client.js",
+      "git_blob": "f85ce2a6ace8dab2f90032b1f461608df4470af9",
+      "sha256": "7906be47421af3ec434e22bf62db98e8eb7da8e8412e3af479a974fbc47ed6cd"
+    },
+    {
+      "path": "tests/native105/build-client.py",
+      "git_blob": "2ec2dfb2ebd06932c49a13f8b8cf0c3bece49111",
+      "sha256": "8971e8704faa886163e8fb3402cadfb009a4cf8c16f4a35f64205888cbbfe87e"
+    },
+    {
+      "path": "tests/native105/client.test.mjs",
+      "git_blob": "cc551f5f7e763d3c73a2bb40f083fc3c7eb2e13e",
+      "sha256": "73e9bc5f9049c3e6e53ced75f1850bf910d1584f06d490335b673c5fdf801fa2"
+    },
+    {
+      "path": "tests/tip02/build-client.py",
+      "git_blob": "bb620adf3d31c8e176ad7257c2ea83080b2fea6a",
+      "sha256": "46ec53dc498039abec8f28dbf181245b579c08bd11f7e7e450ca6faffead9e0e"
+    },
+    {
+      "path": "tests/tip02/contract.js",
+      "git_blob": "28f2c1fec82db2f929466db5b28852df03ec6811",
+      "sha256": "9da1bb7c1191abce81c92663c8e0fe3dbbaa200c706e97387b145a5505818b39"
+    },
+    {
+      "path": "tests/tip02/ui.js",
+      "git_blob": "b0a18dcbc95859ff69cbc3e23e043eb8a7cf8d36",
+      "sha256": "273a80cdce5133ff3f2c1de5f652ab65e832548a87756c45368b0e2bb17752eb"
+    },
+    {
+      "path": "tests/tip02-qa01/README.md",
+      "git_blob": "8110437d38616f7970e41948b54282f095797c82",
+      "sha256": "8f9f8a9ffca5cfafa784a9bab5723f5e098f4029d5c15f7a71e7bab702a6b443"
+    },
+    {
+      "path": "tests/tip02-qa01/recovery.test.mjs",
+      "git_blob": "0587ae645c454120d8bc38b93476c8bca4fb02cd",
+      "sha256": "13a38794a104b630f07a739272f629637a801cecbc0a49b34229014c6cce30e6"
+    }
+  ],
+  "source_hashes_match": true,
+  "core_byte_identical": true,
+  "core_sha256": "1e515219465616c22d0839501f84b2a3f8e3b7472dc1a0f80b9cefa1d318e076",
+  "generated_ui_sha256": "dc258f29082fb61cd051e1cd548e96d54a4f1b82cc62c37a2d60f9c7f6608118",
+  "evidence_commit": "4d1c55c7e16dd9afe3380d4cc5f2482e82a4ea43",
+  "previous_qa_commit": "d950dfc4f22ba40c0e884549641c47a9ac4960d6",
+  "baseline_source": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "baseline_generated_ui_sha256": "64f23f8afa649b1d6aa3125ce3851a9b9c5dc297057578860c254e695f8d243d",
+  "prior_harness": {
+    "path": "docs/review/tip02-null01-independent/independent_client.mjs",
+    "git_blob": "a650da096c656cacc18c103b1c90162dcbad1334",
+    "sha256": "f942872c3a45a4a66f264a5864ab96b827bc944be0024bc74a5810cec0011142",
+    "unchanged": true
+  },
+  "independent_test_sha256": "3a6d30433fc9c4233474f079dfe9262f8f93254e4dd26a1591535e55a3c63c54",
+  "runtime": {
+    "node": "v24.22.1",
+    "python": "3.12.14"
+  },
+  "new_source_files": [
+    "tests/tip02-qa01/README.md",
+    "tests/tip02-qa01/recovery.test.mjs"
+  ],
+  "modified_source_files": [
+    "tests/tip02/build-client.py",
+    "tests/tip02/ui.js"
+  ],
+  "sql_core_financial_hmac_changed": false,
+  "old_harness_metadata_caveat": "The unmodified UI11 harness hardcodes candidate=3279... in both raw JSON outputs. The actual inputs and cwd are recorded here. original-regression.json runs the fixed d762... generated UI; original-baseline.json runs old3279... UI. Neither raw result was edited.",
+  "runs": [
+    {
+      "output": "evidence/independent-results.json",
+      "command": "node independent-recovery.mjs",
+      "candidate": "d76269c9f3e5c02fe0be379ac8ba6356e624f9b8",
+      "exit_code": 0,
+      "tests": 13,
+      "pass": 13,
+      "fail": 0,
+      "matrix_scenarios": 24,
+      "matrix_states": 72
+    },
+    {
+      "output": "evidence/original-regression.json",
+      "command": "QA_CASES=UI_11_success_crash_checkpoint_never_carries_consumed_tip QA_RESULT=original-regression.json node docs/review/tip02-null01-independent/independent_client.mjs",
+      "cwd": "qa-tip02-recovery (fixed generated UI)",
+      "candidate": "d76269c9f3e5c02fe0be379ac8ba6356e624f9b8",
+      "exit_code": 0,
+      "tests": 1,
+      "pass": 1,
+      "fail": 0
+    },
+    {
+      "output": "evidence/original-baseline.json",
+      "command": "QA_CASES=UI_11_success_crash_checkpoint_never_carries_consumed_tip QA_RESULT=<review>/original-baseline.json node docs/review/tip02-null01-independent/independent_client.mjs",
+      "cwd": "qa-tip02 (old generated UI)",
+      "candidate": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+      "exit_code": 1,
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "expected": "Known TIP02-QA-01 reproduction; consumed99 is carried into new-key order."
+    }
+  ],
+  "programmer_evidence_reviewed_not_reexecuted": {
+    "baseline-final.json": {
+      "pass": 15,
+      "fail": 5,
+      "sha256": "2c089e8ca29afffe510d11d3286bbda814918d3e9d2770f5ee66bb9eda5cbee0",
+      "independently_executed": false
+    },
+    "candidate-final.json": {
+      "pass": 20,
+      "fail": 0,
+      "sha256": "5c9b88928f5ce1a2c810d28d762986da6bc7bbf9c38cf2f555f897eafb5e8b6d",
+      "independently_executed": false
+    },
+    "c03c04.json": {
+      "pass": 15,
+      "fail": 0,
+      "sha256": "2b100391f214a3e0293a2c799dee7a10a36815739de0884469d865078574a2bd",
+      "independently_executed": false
+    },
+    "candidate.json": {
+      "pass": 17,
+      "fail": 1,
+      "sha256": "67307f7a4e0b6e7a53ee614b772fccd01213606420703f8badedd0eade4855cb",
+      "independently_executed": false
+    }
+  },
+  "pinned_recovered_source": [
+    {
+      "path": "public/customer.html",
+      "sha256": "2bfd0802d24fc4d8f907103dc0221e993f7b03b65a8b5c6388966a3dbfd5d245",
+      "bytes": 550295
+    },
+    {
+      "path": "public/talabat-core.js",
+      "sha256": "7b56879e5e96f28696345d298f914a89e964dba49ebcfd2a5998e849435156c7",
+      "bytes": 174888
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "candidate": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "scope": "LOCAL Node VM, synthetic RPC and transactional store; NOT browser/IndexedDB/HTTP",
+  "utc": "2026-11-11T10:44:46.377Z",
+  "tests": 1,
+  "passed": true,
+  "results": [
+    {
+      "case": "UI_11_success_crash_checkpoint_never_carries_consumed_tip",
+      "result": "PASS"
+    }
+  ]
+}

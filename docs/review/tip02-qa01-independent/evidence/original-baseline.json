@@ -1,0 +1,15 @@
+{
+  "candidate": "3279fefd7ac135ea5554a5ff76404a6ae510eb65",
+  "scope": "LOCAL Node VM, synthetic RPC and transactional store; NOT browser/IndexedDB/HTTP",
+  "utc": "2026-11-11T10:45:25.068Z",
+  "tests": 1,
+  "passed": false,
+  "results": [
+    {
+      "case": "UI_11_success_crash_checkpoint_never_carries_consumed_tip",
+      "result": "FAIL",
+      "detail": "AssertionError [ERR_ASSERTION]: consumed tip survives a durable success checkpoint and is sent with a NEW key\n\n99 !== 0\n",
+      "stack": "AssertionError [ERR_ASSERTION]: consumed tip survives a durable success checkpoint and is sent with a NEW key\n\n99 !== 0\n\n    at file:///workspace/scratch/5a347b27fddd/qa-tip02/docs/review/tip02-null01-independent/independent_client.mjs:59:448\n    at async test (file:///workspace/scratch/5a347b27fddd/qa-tip02/docs/review/tip02-null01-independent/independent_client.mjs:7:131)\n    at async file:///workspace/scratch/5a347b27fddd/qa-tip02/docs/review/tip02-null01-independent/independent_client.mjs:55:1"
+    }
+  ]
+}

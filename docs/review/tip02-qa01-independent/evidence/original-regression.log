@@ -1,0 +1,6 @@
+[
+  {
+    "case": "UI_11_success_crash_checkpoint_never_carries_consumed_tip",
+    "result": "PASS"
+  }
+]

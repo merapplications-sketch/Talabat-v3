@@ -1,0 +1,40 @@
+{
+  "scope": "Node VM; simulated restart at actual localStorage write boundary",
+  "savedDraft": {
+    "sid": "store",
+    "cart": {
+      "newitem": 3
+    },
+    "tip": 99,
+    "tipMode02": "other",
+    "tipRaw02": "99",
+    "tipSentKey02": "qa_65676af7caf842f29e63ab733b028ab4",
+    "pay": "cash",
+    "key": null,
+    "at": 1794393925065,
+    "ch": 1794393925065
+  },
+  "previousKey": "qa_65676af7caf842f29e63ab733b028ab4",
+  "newRequest": {
+    "store": "store",
+    "lines": [
+      {
+        "item_id": "newitem",
+        "qty": 3,
+        "options": []
+      }
+    ],
+    "tip": 99,
+    "payment": "cash",
+    "address": "QA synthetic",
+    "lat": 38,
+    "lng": 68,
+    "fee": 2,
+    "wallet": null,
+    "points": null,
+    "extra": null,
+    "key": "qa_842663035192439aab9c6e1d52310fce",
+    "freshAttempt": true,
+    "cartToken": "[{\"newitem\":3},1794393925065,\"store\",99,\"cash\",\"\",null,null,null,null,null,null,null,null,null,null,null,null,null]"
+  }
+}

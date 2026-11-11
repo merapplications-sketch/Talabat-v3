@@ -1,0 +1,42 @@
+--- previous/generated/customer.html
++++ candidate/generated/customer.html
+@@ -1454,10 +1454,10 @@
+  cartSave();render();
+  if(typeof document!=='undefined'){const e=document.getElementById('tip02-amount');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length);}}
+ }
+-function tipComplete02(key){
++function tipComplete02(key,persist=true){
+  // A deliberate later selection belongs to the preserved draft, not the completed order.
+  if(S.tipSentKey02===null||S.tipSentKey02&&S.tipSentKey02!==key)return;
+- S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;cartSave();
++ S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;if(persist)cartSave();
+ }
+ function tipRestore02(d){
+  if(!Object.prototype.hasOwnProperty.call(d,'tip')){S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=undefined;return;}
+@@ -1476,7 +1476,7 @@
+  const target=S;target.draftWatch105=true;S=new Proxy(target,{get(t,k){if(k==='draftRevision105')return revision;return fields.has(k)?nested(t[k]):t[k];},set(t,k,v){if(fields.has(k))revision++;t[k]=v;return true;},deleteProperty(t,k){if(fields.has(k))revision++;delete t[k];return true;}});
+ }
+ function draftResponse105(key,seq){return S.okey===key&&S.checkoutSeq105===seq;}
+-function retireDraft105(key,seq){if(!draftResponse105(key,seq))return false;S.okey=null;cartSave();return true;}
++function retireDraft105(key,seq,completedTip=false){if(!draftResponse105(key,seq))return false;if(completedTip)tipComplete02(key,false);S.okey=null;cartSave();return true;}
+ 
+ async function place(){
+   ensureDraft105();
+@@ -1497,7 +1497,7 @@
+         }
+       }
+       if(recovered.id&&['created','replayed','historical_recovered'].includes(recovered.status)){
+-        if(!retireDraft105(recoverKey105,seq105))return;tipComplete02(recoverKey105);
++        if(!retireDraft105(recoverKey105,seq105,true))return;
+         alert(TLB.lang()==='ru'?'Открыт сохранённый заказ. Текущая корзина сохранена.':'Opening the saved order. Your current cart is preserved.');go('track',{tid:recovered.id});
+       }else alert(errMsg(recovered));
+     }catch(e){alert(t('err_generic'));}finally{S.busy=false;if(S.v==='pay')render();}
+@@ -1525,7 +1525,7 @@
+     if(!r||!['created','replayed','historical_recovered'].includes(r.status)||!r.id){if(r&&r.recoveryKey)S.okey=r.recoveryKey;if(r&&!r.error)r.error='order_outcome_unknown';if(!r){alert(t('err_generic'));return;}
+     if(r.error){if(r.error=='wallet_changed')TLB.loadWallet(true);if(r.error=='points_changed'||r.error=='points_min')TLB.reload&&TLB.reload().then(render);if(ownsDraft105&&(r.error=='unavailable'||r.error=='bad_options')){TLB.reload&&TLB.reload().then(render);go('cart')}if(ownsDraft105&&(r.error=='fee_changed'||r.error=='too_far')){S.quote=null;S.quoteErr=null;quoteNow()}if(ownsDraft105&&/^promo_|too_many$/.test(r.error)){S.promo=null;S.perr=r.error;go('cart')}if(ownsDraft105&&r.error=='bad_time')S.at=null;if(ownsDraft105&&r.error=='bad_group'){grpEnd();go('home')}alert(errMsg(r));return}}
+     if(!ownsDraft105||cartToken104()!==sentCart104||cartForeign104())r.keepCart=true;
+-    if(!retireDraft105(sentKey105,seq105))return;tipComplete02(sentKey105);
++    if(!retireDraft105(sentKey105,seq105,true))return;
+     if(r.keepCart){alert(TLB.lang()==='ru'?'Открыт сохранённый заказ. Корзина сохранена.':'Opening the saved order. Cart preserved.');go('track',{tid:r.id});return;}
+     S.cart={};S.tip=0;S.promo=null;S.perr='';S.pm=null;S.note='';S.pcode='';S.quote=null;S.okey=null;S.gift=null;S.door=false;S.subst='call';S.usePts=false;S.at=null;if(S.gCheckout)grpEnd();prefSave();go('track',{tid:r.id,fresh:r.id})}
+   catch(e){console.error('checkout_failed');alert(t('err_generic'))}

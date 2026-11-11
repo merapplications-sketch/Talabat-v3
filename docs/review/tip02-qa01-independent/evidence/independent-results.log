@@ -1,0 +1,64 @@
+{
+  "source": "d76269c9f3e5c02fe0be379ac8ba6356e624f9b8",
+  "scope": "LOCAL Node VM; generated UI/controller; mocked RPC/localStorage/serialized store; NOT Chromium/IndexedDB/HTTP",
+  "time_utc": "2026-11-11T10:44:38.526Z",
+  "tests": 13,
+  "pass": 13,
+  "fail": 0,
+  "matrix_scenarios": 24,
+  "matrix_persisted_states": 72,
+  "results": [
+    {
+      "id": "R01_all_persisted_checkpoints_direct_and_recovery",
+      "result": "PASS"
+    },
+    {
+      "id": "R02_one_record_retirement_after_ownership_check",
+      "result": "PASS"
+    },
+    {
+      "id": "R03_completion_storage_failure_once_or_persistent",
+      "result": "PASS"
+    },
+    {
+      "id": "R04_foreign_tab_disk_unchanged_and_stale_tab_cannot_submit",
+      "result": "PASS"
+    },
+    {
+      "id": "R05_storage_read_failure_fails_closed",
+      "result": "PASS"
+    },
+    {
+      "id": "R06_stale_key_and_stale_sequence_cannot_clear_newer_tip",
+      "result": "PASS"
+    },
+    {
+      "id": "R07_unresolved_conflict_rejection_preserve_original_attempt",
+      "result": "PASS"
+    },
+    {
+      "id": "R08_integrated_ack_lost_snapshot_and_original_payload",
+      "result": "PASS"
+    },
+    {
+      "id": "R09_integrated_controller_completed_then_crash_every_save",
+      "result": "PASS"
+    },
+    {
+      "id": "R10_ended_rejection_retains_unconsumed_tip_and_requires_confirmation",
+      "result": "PASS"
+    },
+    {
+      "id": "R11_C04_late_rejections_preserve_newer_context_and_same_value_intent",
+      "result": "PASS"
+    },
+    {
+      "id": "R12_back_to_cart_and_reload_keeps_unresolved_tip",
+      "result": "PASS"
+    },
+    {
+      "id": "R13_plain_success_removes_old_cart_without_sending_another_order",
+      "result": "PASS"
+    }
+  ]
+}
