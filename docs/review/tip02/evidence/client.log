@@ -1,0 +1,46 @@
+[
+  {
+    "name": "manual3 draft reload retains amount",
+    "passed": true
+  },
+  {
+    "name": "absent saved tip is no selection0, explicit NULL is not absence",
+    "passed": true
+  },
+  {
+    "name": "0 and integer1..100 choices send exact numeric tip",
+    "passed": true
+  },
+  {
+    "name": "invalid manual text blocks new RPC without silently becoming0",
+    "passed": true
+  },
+  {
+    "name": "invalid edit while quote waits creates no dangling key",
+    "passed": true
+  },
+  {
+    "name": "invalid draft survives save reload and blocks submit",
+    "passed": true
+  },
+  {
+    "name": "success with edited cart does not carry consumed tip into next order",
+    "passed": true
+  },
+  {
+    "name": "explicit newer tip edit survives older success",
+    "passed": true
+  },
+  {
+    "name": "unresolved attempt recovers before validating edited invalid draft",
+    "passed": true
+  },
+  {
+    "name": "reload recovery clears consumed tip but preserves cart",
+    "passed": true
+  },
+  {
+    "name": "late success cannot clear newer attempt tip",
+    "passed": true
+  }
+]

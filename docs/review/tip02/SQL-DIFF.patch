@@ -1,0 +1,23 @@
+--- TIP01/create_order103
++++ TIP02/create_order103
+@@ -51,6 +51,11 @@
+   v_result := security_private.resolve103(p_key,v_request,true);
+   if v_result is not null then return v_result;end if;
+   if exists(select 1 from security_private.order_attempt_closures104 where customer_id=auth.uid() and client_key=p_key) then raise exception 'attempt_closed';end if;
++  -- TIP-02: only NEW creation is range-checked; prior-key recovery above is unchanged.
++  -- Explicit NULL retains legacy behavior pending its separate owner contract.
++  if p_tip is not null and (p_tip < 0 or p_tip > 100 or p_tip <> trunc(p_tip)) then
++    raise exception 'bad_value';
++  end if;
+   select key_id,secret into v_key_id,v_secret from security_private.order_request_keys103 where active;
+   if not found then raise exception 'fingerprint_key_unavailable';end if;
+   v_mac := security_private.mac103(v_request,auth.uid(),p_key,v_secret);
+@@ -93,7 +98,7 @@
+   v_dq := delivery_calc(p_store, p_lat, p_lng, auth.uid());
+   v_fee := (v_dq->>'fee')::numeric;
+   v_pay := case s.fee_type when 'free' then s.fee_base else (v_dq->>'fee_full')::numeric end;   -- courier is always paid; the platform covers free delivery
+-  v_tip := case when p_tip in (0,3,5,10,20) then p_tip else 0 end;
++  v_tip := coalesce(p_tip,0);
+ 
+   begin
+     insert into orders(store_id, customer_id, customer_name, payment, address, lat, lng, client_key, leave_at_door, substitution, is_gift, scheduled_for, group_id, request_contract_version)

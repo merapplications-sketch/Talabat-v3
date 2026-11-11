@@ -1,0 +1,4 @@
+{"source_verified": true, "output": "../tip02-runtime/client", "design_layout_css_changes": false}
+104 functional overlay generated; no CSS/layout modification
+105 client: completed key detached; version-owned draft mutations; unchanged layout
+TIP-02: manual1..100, default0, explicit NULL forwarded unchanged; new-attempt validation after active-owner check

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "C03 direct success retires completed draft key while preserving edited cart",
+    "passed": true
+  },
+  {
+    "name": "C03 recovery retires completed key and persists draft without it",
+    "passed": true
+  },
+  {
+    "name": "C04 late bad_time preserves newer scheduled time",
+    "passed": true
+  },
+  {
+    "name": "C04 late promo_invalid preserves newer promo",
+    "passed": true
+  },
+  {
+    "name": "C04 late bad_group preserves newer gNotes",
+    "passed": true
+  },
+  {
+    "name": "C04 late fee_changed preserves newer quote",
+    "passed": true
+  },
+  {
+    "name": "uncertain attempt keeps original key",
+    "passed": true
+  },
+  {
+    "name": "C04 unedited bad_time keeps existing correction behavior",
+    "passed": true
+  },
+  {
+    "name": "C04 ABA edits retain user intent even when final value equals original",
+    "passed": true
+  },
+  {
+    "name": "C04 addrId edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 tmp edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 gift edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 gid edit protects newer draft from old rejection",
+    "passed": true
+  },
+  {
+    "name": "C04 nested recipient ABA is versioned",
+    "passed": true
+  },
+  {
+    "name": "C03 old UI success cannot clear newer draft key",
+    "passed": true
+  }
+]

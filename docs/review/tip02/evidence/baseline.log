@@ -1,0 +1,198 @@
+test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) ... 
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order', tip=1) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order', tip=99) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order', tip=100) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order103', tip=1) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order103', tip=99) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order103', tip=100) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order104', tip=1) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order104', tip=99) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order104', tip=100) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='security_private.create_order103', tip=1) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='security_private.create_order103', tip=99) ... FAIL
+  test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='security_private.create_order103', tip=100) ... FAIL
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order', tip=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (1, 23, 2, Decimal('2.50'))
+
+First differing element 0:
+Decimal('0')
+1
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (1, 23, 2, Decimal('2.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order', tip=99)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (99, 121, 2, Decimal('100.50'))
+
+First differing element 0:
+Decimal('0')
+99
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (99, 121, 2, Decimal('100.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order', tip=100)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (100, 122, 2, Decimal('101.50'))
+
+First differing element 0:
+Decimal('0')
+100
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (100, 122, 2, Decimal('101.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order103', tip=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (1, 23, 2, Decimal('2.50'))
+
+First differing element 0:
+Decimal('0')
+1
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (1, 23, 2, Decimal('2.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order103', tip=99)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (99, 121, 2, Decimal('100.50'))
+
+First differing element 0:
+Decimal('0')
+99
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (99, 121, 2, Decimal('100.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order103', tip=100)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (100, 122, 2, Decimal('101.50'))
+
+First differing element 0:
+Decimal('0')
+100
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (100, 122, 2, Decimal('101.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order104', tip=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (1, 23, 2, Decimal('2.50'))
+
+First differing element 0:
+Decimal('0')
+1
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (1, 23, 2, Decimal('2.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order104', tip=99)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (99, 121, 2, Decimal('100.50'))
+
+First differing element 0:
+Decimal('0')
+99
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (99, 121, 2, Decimal('100.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='place_order104', tip=100)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (100, 122, 2, Decimal('101.50'))
+
+First differing element 0:
+Decimal('0')
+100
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (100, 122, 2, Decimal('101.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='security_private.create_order103', tip=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (1, 23, 2, Decimal('2.50'))
+
+First differing element 0:
+Decimal('0')
+1
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (1, 23, 2, Decimal('2.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='security_private.create_order103', tip=99)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (99, 121, 2, Decimal('100.50'))
+
+First differing element 0:
+Decimal('0')
+99
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (99, 121, 2, Decimal('100.50'))
+
+======================================================================
+FAIL: test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) (entry='security_private.create_order103', tip=100)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/2395d442bd66/tip02-work/tests/tip02/native.py", line 21, in test_manual_boundaries_all_entries
+    self.assertEqual(self.a.execute('select tip,total,commission,driver_payout from orders where id=%s',(oid,)).fetchone(),(tip,22+tip,2,Decimal('1.50')+tip))
+AssertionError: Tuples differ: (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50')) != (100, 122, 2, Decimal('101.50'))
+
+First differing element 0:
+Decimal('0')
+100
+
+- (Decimal('0'), Decimal('22.00'), Decimal('2.00'), Decimal('1.50'))
++ (100, 122, 2, Decimal('101.50'))
+
+----------------------------------------------------------------------
+Ran 1 test in 0.603s
+
+FAILED (failures=12)

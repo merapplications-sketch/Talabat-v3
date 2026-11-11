@@ -1,0 +1,51 @@
+test_binding_failure_atomicity_and_missing_binding (regression104.SQL103.test_binding_failure_atomicity_and_missing_binding) ... ok
+test_canonical_equivalence_and_difference (regression104.SQL103.test_canonical_equivalence_and_difference) ... ok
+test_concurrent_same_group_and_different_keys (regression104.SQL103.test_concurrent_same_group_and_different_keys) ... ok
+test_conversion_existing102_no_historical_fabrication (regression104.SQL103.test_conversion_existing102_no_historical_fabrication) ... ok
+test_deadlock_reports_unknown_without_blind_retry (regression104.SQL103.test_deadlock_reports_unknown_without_blind_retry) ... ok
+test_first_install_interrupted_rolls_back_schema_and_function (regression104.SQL103.test_first_install_interrupted_rolls_back_schema_and_function) ... ok
+test_historical_normal_group_scheduled_readonly (regression104.SQL103.test_historical_normal_group_scheduled_readonly) ... ok
+test_hmac_independent_vector_and_immutable_key (regression104.SQL103.test_hmac_independent_vector_and_immutable_key) ... ok
+test_identity_revocation_and_group_access (regression104.SQL103.test_identity_revocation_and_group_access) ... ok
+test_invalid_inputs_and_unknown_status (regression104.SQL103.test_invalid_inputs_and_unknown_status) ... ok
+test_key_rotation_privacy_and_acl (regression104.SQL103.test_key_rotation_privacy_and_acl) ... ok
+test_lock_timeout_preserves_key_without_retry (regression104.SQL103.test_lock_timeout_preserves_key_without_retry) ... ok
+test_normal_group_schedule_verified_replay (regression104.SQL103.test_normal_group_schedule_verified_replay) ... ok
+test_old_writer_overlap_and_no_duplicate (regression104.SQL103.test_old_writer_overlap_and_no_duplicate) ... ok
+test_other_account_same_key_never_recovers_first_id (regression104.SQL103.test_other_account_same_key_never_recovers_first_id) ... ok
+test_promo_loyalty_wallet_atomic_with_captured_helpers (regression104.SQL103.test_promo_loyalty_wallet_atomic_with_captured_helpers) ... ok
+test_rollback_reupgrade_and_interrupted_migration (regression104.SQL103.test_rollback_reupgrade_and_interrupted_migration) ... ok
+test_target_identity_uuid_fk_overlay (regression104.SQL103.test_target_identity_uuid_fk_overlay) ... ok
+test_tcp_before_after_commit (regression104.SQL103.test_tcp_before_after_commit) ... ok
+test_float_context_rollback_reupgrade (retained_tip01.New104.test_float_context_rollback_reupgrade) ... ok
+test_existing103_fingerprint_preserved (retained_tip01.New104.test_existing103_fingerprint_preserved) ... ok
+test_rejected_fence_and_correction (retained_tip01.New104.test_rejected_fence_and_correction) ... ok
+test_unresolved_never_gets_closure (retained_tip01.New104.test_unresolved_never_gets_closure) ... ok
+test_rejection_fence_concurrency (retained_tip01.New104.test_rejection_fence_concurrency) ... ok
+test_closure_acl_and_other_account (retained_tip01.New104.test_closure_acl_and_other_account) ... ok
+test_closure_survives_rollback_reupgrade (retained_tip01.New104.test_closure_survives_rollback_reupgrade) ... ok
+test_s03_all_entries_all_isolation_levels (isolation_tip01.Isolation106.test_s03_all_entries_all_isolation_levels) ... ok
+test_supported_isolations_create_once_then_recover (isolation_tip01.Isolation106.test_supported_isolations_create_once_then_recover) ... ok
+test_unsupported_isolation_rejects_new_and_invalid_before_any_effect (isolation_tip01.Isolation106.test_unsupported_isolation_rejects_new_and_invalid_before_any_effect) ... ok
+test_committed_closure_and_fresh_transaction_cannot_reopen (isolation_tip01.Isolation106.test_committed_closure_and_fresh_transaction_cannot_reopen) ... ok
+test_success_wins_race_no_false_closure (isolation_tip01.Isolation106.test_success_wins_race_no_false_closure) ... ok
+test_closure_wins_waiting_create_no_spend (isolation_tip01.Isolation106.test_closure_wins_waiting_create_no_spend) ... ok
+test_unsupported_then_explicit_fresh_rc_recovery_original_key (isolation_tip01.Isolation106.test_unsupported_then_explicit_fresh_rc_recovery_original_key) ... ok
+test_rollback_and_atomic_reupgrade_preserve_fence (isolation_tip01.Isolation106.test_rollback_and_atomic_reupgrade_preserve_fence) ... ok
+test_catalog_and_grants_no_unlisted_candidate_creator (isolation_tip01.Isolation106.test_catalog_and_grants_no_unlisted_candidate_creator) ... ok
+test_real_40001_fault_after_creation_rolls_back_all_effects (isolation_tip01.Isolation106.test_real_40001_fault_after_creation_rolls_back_all_effects) ... ok
+test_unconfigured_never_claims_terminal_rejection (fixture106.Resources105.test_unconfigured_never_claims_terminal_rejection) ... ok
+test_account_cap_and_same_key_ack_replay (fixture106.Resources105.test_account_cap_and_same_key_ack_replay) ... ok
+test_global_cap_across_accounts_concurrent (fixture106.Resources105.test_global_cap_across_accounts_concurrent) ... ok
+test_same_account_distinct_keys_concurrent (fixture106.Resources105.test_same_account_distinct_keys_concurrent) ... ok
+test_resource_retry_original_payload_and_success_replay (fixture106.Resources105.test_resource_retry_original_payload_and_success_replay) ... ok
+test_long_reason_does_not_write_or_claim_closure (fixture106.Resources105.test_long_reason_does_not_write_or_claim_closure) ... ok
+test_acl_and_no_delete_or_reopen (fixture106.Resources105.test_acl_and_no_delete_or_reopen) ... ok
+test_rollback_and_reupgrade_preserve_fence_and_budget (fixture106.Resources105.test_rollback_and_reupgrade_preserve_fence_and_budget) ... ok
+test_policy_lock_timeout_is_unresolved_without_closure (fixture106.Resources105.test_policy_lock_timeout_is_unresolved_without_closure) ... ok
+test_closure_tcp_before_after_commit (fixture106.Resources105.test_closure_tcp_before_after_commit) ... ok
+
+----------------------------------------------------------------------
+Ran 46 tests in 7.509s
+
+OK

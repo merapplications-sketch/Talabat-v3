@@ -1,0 +1,6 @@
+{
+  "tests": 10,
+  "passed": true,
+  "failures": [],
+  "tip01_compatibility_test_superseded": "only the unapproved invalid-value creation policy is replaced by the explicit TIP02 owner decision"
+}

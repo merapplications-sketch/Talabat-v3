@@ -1,0 +1,7 @@
+[
+  {
+    "name": "manual3 draft reload retains amount",
+    "passed": false,
+    "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 3\n"
+  }
+]

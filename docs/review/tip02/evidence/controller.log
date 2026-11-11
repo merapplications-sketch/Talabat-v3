@@ -1,0 +1,26 @@
+[
+  {
+    "name": "core adapter distinguishes omitted tip from explicit NULL",
+    "passed": true
+  },
+  {
+    "name": "new invalid values cannot create durable attempt or RPC",
+    "passed": true
+  },
+  {
+    "name": "valid numbers and explicit null are forwarded without coercion",
+    "passed": true
+  },
+  {
+    "name": "active unresolved owner wins before invalid new payload validation",
+    "passed": true
+  },
+  {
+    "name": "legacy invalid saved attempt can recover before new rules",
+    "passed": true
+  },
+  {
+    "name": "ACK failure retries original manual payload after outcome read",
+    "passed": true
+  }
+]

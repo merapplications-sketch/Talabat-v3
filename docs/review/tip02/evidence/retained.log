@@ -1,0 +1,15 @@
+test_tip20_persisted_all_entries (tip02_cases.ManualTip.test_tip20_persisted_all_entries) ... ok
+test_replay_conflict_and_numeric_equivalence (tip02_cases.ManualTip.test_replay_conflict_and_numeric_equivalence) ... ok
+test_preupgrade_bound_orders_never_repriced (tip02_cases.ManualTip.test_preupgrade_bound_orders_never_repriced) ... ok
+test_historical_tip3_and_sent20_stored0_readonly (tip02_cases.ManualTip.test_historical_tip3_and_sent20_stored0_readonly) ... ok
+test_tip20_closed_key_all_entries_all_isolations (tip02_cases.ManualTip.test_tip20_closed_key_all_entries_all_isolations) ... ok
+test_decimal_money_and_floor_unchanged (tip02_cases.ManualTip.test_decimal_money_and_floor_unchanged) ... ok
+test_tip20_rollback_reupgrade_no_repricing (tip02_cases.ManualTip.test_tip20_rollback_reupgrade_no_repricing) ... ok
+test_tip20_binding_failure_promo_points_wallet_atomic (tip02_cases.ManualTip.test_tip20_binding_failure_promo_points_wallet_atomic) ... ok
+test_manual99_three_connections (__main__.ManualTransport.test_manual99_three_connections) ... ok
+test_manual99_tcp (tip01_base.ManualTCP.test_manual99_tcp) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.355s
+
+OK

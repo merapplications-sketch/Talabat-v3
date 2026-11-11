@@ -1,0 +1,15 @@
+{
+  "tests/tip02/README.md": "10b577647d88bd1dd8c08adbb2e81e756d905ea3a85f7fe99846ca1ab7633824",
+  "tests/tip02/acceptance.sql": "4153ee212306420c013c4a5687eb61fff68c130e6dd6a545c3bc73631cc0b331",
+  "tests/tip02/build-client.py": "022b6d1007230539e405d0d7e93df5647b01fdfa1c293c94d3e9bdf5578f2ff6",
+  "tests/tip02/client.test.mjs": "2fdc1b5f0014ed7e087c186553c8cd71f86e09a8272d911cfc5ca1fc5dfa276e",
+  "tests/tip02/contract.js": "9da1bb7c1191abce81c92663c8e0fe3dbbaa200c706e97387b145a5505818b39",
+  "tests/tip02/controller.test.mjs": "101bf349825c7803223f8aa182189d287b8417663c79a69b1cc2aea65219c92e",
+  "tests/tip02/isolation-client.test.mjs": "f9b369e5bfca21204eb05329a1f8cf2e254b2af13ff4c9f942f5c1162cf82ed7",
+  "tests/tip02/native.py": "190193aa10d24861d488624fe8b1d4d15f5ca4c654b9f6554d1c00f9c0ebe07b",
+  "tests/tip02/regression.py": "3c996198778e76fd2d10fbc01dc0fc8918023928d51c11c608aed7d075ac2d99",
+  "tests/tip02/retained.py": "8919e45b799075b71baa6acec9b658227a7ccdd46edcdd668a81263a5d77bbab",
+  "tests/tip02/ui.js": "df92e3934664d0f2863b3e9f9449c0e99b098f2aed3f043c28fc96ba81997be0",
+  "generated/customer.html": "64f23f8afa649b1d6aa3125ce3851a9b9c5dc297057578860c254e695f8d243d",
+  "generated/talabat-core.js": "1e515219465616c22d0839501f84b2a3f8e3b7472dc1a0f80b9cefa1d318e076"
+}

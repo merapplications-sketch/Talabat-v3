@@ -1,0 +1,140 @@
+--- generated105/customer.html
++++ generatedTIP02/customer.html
+@@ -1335,16 +1335,16 @@
+ function prefLoad(){try{const d=JSON.parse(localStorage.getItem(PK())||'null');if(d&&['apple','card','cash'].includes(d.pay))S.pay=d.pay}catch(e){}}
+ function cartSave(){if(cartForeign104())return;try{cartSave104Original();}finally{try{S.cart104Disk=localStorage.getItem(CK());}catch(e){S.cart104Foreign=true;}}}
+ function cartSave104Original(){if(!cartLoaded||S.gCheckout)return;try{const st=ALLS.find(x=>x.n==S.cartStore);if(!Object.keys(S.cart).length||!st){localStorage.removeItem(CK());return}
+-  localStorage.setItem(CK(),JSON.stringify({sid:st.id,cart:S.cart,note:S.note,tip:S.tip,pay:S.pay,key:S.okey||null,at:Date.now(),ch:S.cartAt||Date.now()}))}catch(e){}}
++  localStorage.setItem(CK(),JSON.stringify({sid:st.id,cart:S.cart,note:S.note,tip:S.tip,tipMode02:S.tipMode02,tipRaw02:S.tipRaw02,tipSentKey02:S.tipSentKey02,pay:S.pay,key:S.okey||null,at:Date.now(),ch:S.cartAt||Date.now()}))}catch(e){}}
+ function cartLoad(){if(cartLoaded)return;let d=null;try{d=JSON.parse(localStorage.getItem(CK())||'null')}catch(e){}
+   if(!d||typeof d!='object'||!d.cart||typeof d.cart!='object'||!(Date.now()-(+d.at||0)<864e5)){try{localStorage.removeItem(CK())}catch(e){}cartLoaded=true;return}
+   const st=ALLS.find(x=>x.id==d.sid);if(!st&&!ALLS.length)return;   // stores not loaded yet: try again on the next data update
+   cartLoaded=true;if(!st||Object.keys(S.cart).length)return;
+   const c={};for(const k in d.cart){const q=Math.floor(+d.cart[k]);if(q>=1&&q<=50&&Object.keys(c).length<60&&String(k).length<=2400)c[String(k)]=q}
+   if(!Object.keys(c).length)return;
+-  S.cart=c;S.cartStore=st.n;S.note=String(d.note||'').slice(0,120);S.tip=[0,5,10,20].includes(+d.tip)?+d.tip:0;if(['apple','card','cash'].includes(d.pay))S.pay=d.pay;
++  S.cart=c;S.cartStore=st.n;S.note=String(d.note||'').slice(0,120);tipRestore02(d);if(['apple','card','cash'].includes(d.pay))S.pay=d.pay;
+   if(typeof d.key=='string'&&/^[A-Za-z0-9_-]{8,64}$/.test(d.key))S.okey=d.key;S.cartAt=+d.ch||+d.at||0}
+-function afterCart(){S.cartAt=Date.now();S.nudgeOff=1;if(!cartCount()){S.promo=null;S.perr='';S.pm=null;S.note='';S.okey=null;if(S.v=='cart'&&S.cartUndo){render();return}if(S.v=='cart'||S.v=='pay'){go(TLB.isOpen(S.cartStore)?'menu':'home',{store:S.cartStore,back:'home'});return}}render();if(S.promo||S.perr=='promo_min')revalPromo()}
++function afterCart(){S.cartAt=Date.now();S.nudgeOff=1;if(!cartCount()){S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;S.promo=null;S.perr='';S.pm=null;S.note='';S.okey=null;if(S.v=='cart'&&S.cartUndo){render();return}if(S.v=='cart'||S.v=='pay'){go(TLB.isOpen(S.cartStore)?'menu':'home',{store:S.cartStore,back:'home'});return}}render();if(S.promo||S.perr=='promo_min')revalPromo()}
+ /* remove a line, with «Вернуть»: the same line (same key: dish + options + request) comes back at the same place and quantity */
+ function delLine(id){const ks=Object.keys(S.cart),pos=ks.indexOf(id);if(pos<0)return;S.cartUndo={key:id,q:S.cart[id],pos,store:S.cartStore,note:S.note,promo:S.promo};delete S.cart[id];afterCart()}
+ function undoLine(){const u=S.cartUndo;S.cartUndo=null;if(!u||(Object.keys(S.cart).length&&u.store!==S.cartStore)){render();return}
+@@ -1430,9 +1430,47 @@
+ function cartForeign104(){try{if(S.cart104Watch&&localStorage.getItem(CK())!==S.cart104Disk)S.cart104Foreign=true;}catch(e){S.cart104Foreign=true;}return S.cart104Foreign===true;}
+ 
+ // Versions catch edit-away/edit-back (ABA), including nested object edits.
++/* TIP-02 new non-null numeric contract. Explicit NULL policy remains separate. */
++function tipNumber02(value){return {ok:typeof value==='number'&&Number.isFinite(value)&&Number.isInteger(value)&&value>=0&&value<=100,value};}
++
++function tipText02(k){const ru=TLB.lang()==='ru';return ({other:ru?'Другая сумма':'Other amount',label:ru?'Сумма чаевых (TJS)':'Tip amount (TJS)',help:ru?'По желанию. Целое число от 1 до 100. Все чаевые получает курьер.':'Optional. Whole number from 1 to 100. The driver keeps the full tip.',error:ru?'Введите целое число от 1 до 100 или выберите «Нет».':'Enter a whole number from 1 to 100, or choose None.'})[k];}
++function tipGet02(){
++ if(S.tipMode02==='other'){
++  const raw=String(S.tipRaw02??'').trim();const n=Number(raw);
++  return {ok:/^[0-9]+$/.test(raw)&&tipNumber02(n).ok&&n>=1,value:n};
++ }
++ return tipNumber02(S.tip);
++}
++function tipSelect02(value){
++ if(cartForeign104())return;
++ S.tipMode02=value==='other'?'other':'quick';S.tipSentKey02=null;
++ if(value==='other'){S.tipRaw02='';}else{S.tip=value;S.tipRaw02='';}
++ cartSave();render();
++}
++function tipInput02(raw){
++ if(cartForeign104())return;
++ S.tipMode02='other';S.tipRaw02=String(raw);S.tipSentKey02=null;
++ const parsed=tipGet02();if(parsed.ok)S.tip=parsed.value;
++ cartSave();render();
++ if(typeof document!=='undefined'){const e=document.getElementById('tip02-amount');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length);}}
++}
++function tipComplete02(key){
++ // A deliberate later selection belongs to the preserved draft, not the completed order.
++ if(S.tipSentKey02===null||S.tipSentKey02&&S.tipSentKey02!==key)return;
++ S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=null;cartSave();
++}
++function tipRestore02(d){
++ if(!Object.prototype.hasOwnProperty.call(d,'tip')){S.tip=0;S.tipMode02='quick';S.tipRaw02='';S.tipSentKey02=undefined;return;}
++ S.tipMode02=d.tipMode02==='other'?'other':'quick';S.tipRaw02=typeof d.tipRaw02==='string'?d.tipRaw02:'';
++ S.tipSentKey02=Object.prototype.hasOwnProperty.call(d,'tipSentKey02')?d.tipSentKey02:undefined;
++ if(tipNumber02(d.tip).ok){S.tip=d.tip;if(!d.tipMode02&&![0,5,10,20].includes(d.tip)){S.tipMode02='other';S.tipRaw02=String(d.tip);}}
++ else {S.tipMode02='other';S.tipRaw02=String(d.tip??'');}
++}
++function tipPanel02(){const valid=tipGet02();return `<div class="card"><h3>${t('tip')}</h3><div class="tipr" style="flex-wrap:wrap">${[0,5,10,20].map(v=>`<button type="button" class="tip ${S.tipMode02!=='other'&&S.tip===v?'on':''}" aria-pressed="${S.tipMode02!=='other'&&S.tip===v}" onclick="tipSelect02(${v})">${v?v+' TJS':t('none')}</button>`).join('')}<button type="button" class="tip ${S.tipMode02==='other'?'on':''}" aria-pressed="${S.tipMode02==='other'}" onclick="tipSelect02('other')">${tipText02('other')}</button></div>${S.tipMode02==='other'?`<label for="tip02-amount" style="display:block;margin-top:12px">${tipText02('label')}</label><input class="fld" id="tip02-amount" type="text" inputmode="numeric" autocomplete="off" value="${esc(S.tipRaw02||'')}" aria-invalid="${!valid.ok}" aria-describedby="tip02-help tip02-error" oninput="tipInput02(this.value)" style="font-size:16px">`:''}<p id="tip02-help" class="xs mut" style="margin-top:8px">${tipText02('help')}</p><p id="tip02-error" role="status" style="color:var(--bad)">${valid.ok?'':tipText02('error')}</p></div>`;}
++
+ function ensureDraft105(){
+  if(S.draftWatch105)return;
+- const fields=new Set(['cart','cartAt','cartStore','tip','pay','note','promo','perr','pcode','pm','gift','door','subst','usePts','useWallet','at','addrId','tmp','useTmp','quote','quoteErr','gCheckout','gNotes','gKeep','gid','grp','group']);
++ const fields=new Set(['cart','cartAt','cartStore','tip','tipMode02','tipRaw02','tipSentKey02','pay','note','promo','perr','pcode','pm','gift','door','subst','usePts','useWallet','at','addrId','tmp','useTmp','quote','quoteErr','gCheckout','gNotes','gKeep','gid','grp','group']);
+  let revision=0;const cache=new WeakMap();
+  function nested(x){if(!x||typeof x!=='object')return x;if(cache.has(x))return cache.get(x);const p=new Proxy(x,{get(t,k){return nested(t[k]);},set(t,k,v){revision++;t[k]=v;return true;},deleteProperty(t,k){revision++;delete t[k];return true;}});cache.set(x,p);cache.set(p,p);return p;}
+  const target=S;target.draftWatch105=true;S=new Proxy(target,{get(t,k){if(k==='draftRevision105')return revision;return fields.has(k)?nested(t[k]):t[k];},set(t,k,v){if(fields.has(k))revision++;t[k]=v;return true;},deleteProperty(t,k){if(fields.has(k))revision++;delete t[k];return true;}});
+@@ -1459,12 +1497,13 @@
+         }
+       }
+       if(recovered.id&&['created','replayed','historical_recovered'].includes(recovered.status)){
+-        if(!retireDraft105(recoverKey105,seq105))return;
++        if(!retireDraft105(recoverKey105,seq105))return;tipComplete02(recoverKey105);
+         alert(TLB.lang()==='ru'?'Открыт сохранённый заказ. Текущая корзина сохранена.':'Opening the saved order. Your current cart is preserved.');go('track',{tid:recovered.id});
+       }else alert(errMsg(recovered));
+     }catch(e){alert(t('err_generic'));}finally{S.busy=false;if(S.v==='pay')render();}
+     return;
+   }
++  const tip02=tipGet02();if(!tip02.ok){alert(tipText02('error'));return;}
+   if(!ME.phone){alert(t('needPh'));go('me');return}
+   if(closedNow(S.cartStore)){alert(t('closedMsg'));return}
+   if(badKeys().length){go('cart');return}
+@@ -1475,7 +1514,9 @@
+   try{const q=await ensureQuote();if(!q){alert(tooFar()?t('err_too_far'):t('err_generic'));return}
+     const ks=Object.keys(S.cart),nn=S.gCheckout?null:lineNotes(ks);if(nn&&nn.some(x=>x.length>120)){alert(t('d6CmtLong'));go('cart');return}
+     const lines=ks.map((k,i)=>{const p=pk(k),l={item_id:p.id,qty:S.cart[k],options:p.ops};if(S.gCheckout){if(S.gNotes&&S.gNotes[k])l.note=S.gNotes[k].slice(0,120)}else if(nn[i])l.note=nn[i];return l});
++    if(!tipGet02().ok){alert(tipText02('error'));return;}
+     if(!S.okey)S.okey=newKey();render();
++    S.tipSentKey02=S.okey;cartSave();
+     const sentCart104=cartToken104();S.cart104Watch=true;try{S.cart104Disk=localStorage.getItem(CK());}catch(e){S.cart104Foreign=true;}
+     const sentKey105=S.okey,sentRevision105=S.draftRevision105;
+     const r=await TLB.placeOrder({store:S.cartStore,lines,tip:S.tip,payment:S.pay,promo:S.promo&&S.promo.code,address:addrText(ad),lat:ad.lat,lng:ad.lng,fee:calc().fw>0?0:q.fee,wallet:calc().w>0?calc().w:null,points:calc().pts||null,extra:optExtra(),key:S.okey,freshAttempt:true,cartToken:sentCart104});
+@@ -1484,7 +1525,7 @@
+     if(!r||!['created','replayed','historical_recovered'].includes(r.status)||!r.id){if(r&&r.recoveryKey)S.okey=r.recoveryKey;if(r&&!r.error)r.error='order_outcome_unknown';if(!r){alert(t('err_generic'));return;}
+     if(r.error){if(r.error=='wallet_changed')TLB.loadWallet(true);if(r.error=='points_changed'||r.error=='points_min')TLB.reload&&TLB.reload().then(render);if(ownsDraft105&&(r.error=='unavailable'||r.error=='bad_options')){TLB.reload&&TLB.reload().then(render);go('cart')}if(ownsDraft105&&(r.error=='fee_changed'||r.error=='too_far')){S.quote=null;S.quoteErr=null;quoteNow()}if(ownsDraft105&&/^promo_|too_many$/.test(r.error)){S.promo=null;S.perr=r.error;go('cart')}if(ownsDraft105&&r.error=='bad_time')S.at=null;if(ownsDraft105&&r.error=='bad_group'){grpEnd();go('home')}alert(errMsg(r));return}}
+     if(!ownsDraft105||cartToken104()!==sentCart104||cartForeign104())r.keepCart=true;
+-    if(!retireDraft105(sentKey105,seq105))return;
++    if(!retireDraft105(sentKey105,seq105))return;tipComplete02(sentKey105);
+     if(r.keepCart){alert(TLB.lang()==='ru'?'Открыт сохранённый заказ. Корзина сохранена.':'Opening the saved order. Cart preserved.');go('track',{tid:r.id});return;}
+     S.cart={};S.tip=0;S.promo=null;S.perr='';S.pm=null;S.note='';S.pcode='';S.quote=null;S.okey=null;S.gift=null;S.door=false;S.subst='call';S.usePts=false;S.at=null;if(S.gCheckout)grpEnd();prefSave();go('track',{tid:r.id,fresh:r.id})}
+   catch(e){console.error('checkout_failed');alert(t('err_generic'))}
+@@ -1869,7 +1910,7 @@
+   <div class="d79-payads">${ordersAd()}</div><h3 style="margin:6px 4px 10px">${t('pickMethod')}</h3>${cashOnly&&c.due>0?`<div class="closedb" id="cashonly" style="margin:0 0 12px;background:#fff7e6;color:#7a4b00">${ico('cash',18)}<div><b>${t('cashOnlyT')}</b></div></div>`:''}
+   ${c.due<=0?`<div class="okb" style="margin:0 0 14px">${ico('check',18)}<div><b>${t('walPaidAll')}</b><div class="xs" style="margin-top:2px;font-weight:500">${t('walPaidAllS')}</div></div></div>`:''}
+   <div class="card" style="padding:2px 16px;${c.due<=0?'display:none':''}">${M.map(([k,ic,sb])=>`<div class="pay" onclick="S.pay='${k}';render()"><span class="ic">${ico(ic,22)}</span><div class="tx"><b>${t(k)}</b><span>${t(sb)}</span></div><span class="rad ${S.pay==k?'on':''}"></span></div>`).join('')}</div>
+-  <div class="card"><h3>${t('tip')}</h3><div class="tipr">${[0,5,10,20].map(v=>`<div class="tip ${S.tip==v?'on':''}" onclick="S.tip=${v};render()">${v?v+' TJS':t('none')}</div>`).join('')}</div></div>
++  ${tipPanel02()}
+   <div class="card"><h3>${t('promoT')}</h3>${promoBox}</div>
+   ${saved>0?`<div class="sv">${t('saving')} ${saved} TJS</div>`:''}
+   <div class="card sum"><h3 style="margin-bottom:6px">${t('summary')}</h3><div class="row"><span>${t('sub')}</span><span>${c.sub} TJS</span></div>${c.d>0?`<div class="row" style="color:var(--ok)"><span>${t('discS')}</span><span>−${c.d} TJS</span></div>`:''}${c.h>0?`<div class="row" style="color:var(--ok)"><span>${t('hhLine')} −${c.hhPct}%</span><span>−${c.h} TJS</span></div>`:''}${c.p>0?`<div class="row" style="color:var(--ok)"><span>${t('promoLine')} ${esc(S.promo.code)}</span><span>−${c.p} TJS</span></div>`:''}${c.pv>0?`<div class="row" style="color:var(--ok)"><span>${t('ptsLine')} (${fmtN(c.pts)})</span><span>−${c.pv} TJS</span></div>`:''}${delivRows(c)}${S.tip?`<div class="row"><span>${t('tip')}</span><span>${S.tip} TJS</span></div>`:''}<div class="row tot"><span>${t('total')}</span><span>${c.total} TJS</span></div>${c.w>0?`<div class="row" style="color:var(--ok)"><span>${t('walLine')}</span><span>−${c.w} TJS</span></div><div class="row tot"><span>${t('walToPay')}</span><span>${c.due} TJS</span></div>`:''}${c.earn>0?`<div class="ernb" style="margin-top:12px">${ico('star',15,1)} ${t('ptsEarn').replace('{n}',fmtN(c.earn))}${c.cb>0?' · '+t('cbEarn').replace('{n}',c.cb):''}</div><div class="xs mut" id="ernn" style="margin-top:6px;line-height:1.4">${t('ernNote')}</div>`:''}</div></div>
+--- generated105/talabat-core.js
++++ generatedTIP02/talabat-core.js
+@@ -1,3 +1,6 @@
++/* TIP-02 new non-null numeric contract. Explicit NULL policy remains separate. */
++function tipNumber02(value){return {ok:typeof value==='number'&&Number.isFinite(value)&&Number.isInteger(value)&&value>=0&&value<=100,value};}
++
+ /* Isolated104 candidate. IndexedDB transactions own state; RPC runs outside them. */
+ (function(g){'use strict';
+  const copy=x=>JSON.parse(JSON.stringify(x));
+@@ -24,6 +27,7 @@
+     if(!current(uid))return{stop:unknown('identity_changed')};
+     if(s.active&&s.active!==key)return{stop:Object.assign(unknown('previous_attempt_unresolved'),{recoveryKey:s.active})};
+     let a=s.attempts[key];
++    if(!a&&fresh===true&&payload.p_tip!==null&&!tipNumber02(payload.p_tip===undefined?0:payload.p_tip).ok)return{stop:{status:'rejected',error:'bad_value',keepCart:true,closed:false}};
+     if(!a){const id=deps.uuid();if(!id)throw Error('attempt_id_unavailable');a=s.attempts[key]={id,key,version:0,state:fresh===true?'new':'unresolved',payload:copy(payload),sent:false,cartToken:cartDigest};}
+     if(a.state==='ended_rejected')return{stop:{status:'rejected',error:'attempt_closed',reason:'attempt_closed',keepCart:true,ended:true}};
+     // A committed success may be re-read; it cannot resurrect a create.
+@@ -1585,7 +1589,7 @@
+       if (!items) return Promise.resolve({ error: 'bad_value' });
+       if (o.wallet != null && (isNaN(num(o.wallet)) || num(o.wallet) < 0 || num(o.wallet) > 1000000)) return Promise.resolve({ error: 'bad_value' });
+       if (o.lat != null && (!(num(o.lat) >= -90 && num(o.lat) <= 90) || !(num(o.lng) >= -180 && num(o.lng) <= 180))) return Promise.resolve({ error: 'bad_value' });
+-      return orderClient103().submit({ p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_key: (o.key && /^[A-Za-z0-9_-]{8,64}$/.test(o.key)) ? o.key : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100, p_points: (o.points > 0 && o.points <= 100000000) ? Math.floor(o.points) : null, p_extra: o.extra || null },o.freshAttempt===true,{cartToken:o.cartToken});
++      return orderClient103().submit({ p_store: s.id, p_items: items, p_tip: Object.prototype.hasOwnProperty.call(o,'tip') ? o.tip : 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_key: (o.key && /^[A-Za-z0-9_-]{8,64}$/.test(o.key)) ? o.key : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100, p_points: (o.points > 0 && o.points <= 100000000) ? Math.floor(o.points) : null, p_extra: o.extra || null },o.freshAttempt===true,{cartToken:o.cartToken});
+     },
+     checkPromo: function (storeN, cart, code) {
+       var s = storeByName(storeN), k = String(code || '').trim();

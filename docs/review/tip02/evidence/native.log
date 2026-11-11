@@ -1,0 +1,12 @@
+test_manual_boundaries_all_entries (__main__.ManualTip.test_manual_boundaries_all_entries) ... ok
+test_invalid_numeric_rejected_without_effect (__main__.ManualTip.test_invalid_numeric_rejected_without_effect) ... ok
+test_nonnumeric_wire_value_rejected_by_numeric_signature (__main__.ManualTip.test_nonnumeric_wire_value_rejected_by_numeric_signature) ... ok
+test_historical_invalid_payload_recovered_before_new_validation (__main__.ManualTip.test_historical_invalid_payload_recovered_before_new_validation) ... ok
+test_default_and_explicit_null_are_distinct_fingerprints (__main__.ManualTip.test_default_and_explicit_null_are_distinct_fingerprints) ... ok
+test_manual_replay_changed_tip_group_schedule_and_wallet (__main__.ManualTip.test_manual_replay_changed_tip_group_schedule_and_wallet) ... ok
+test_manual99_rollback_reupgrade_and_invalid_closed_key (__main__.ManualTip.test_manual99_rollback_reupgrade_and_invalid_closed_key) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.381s
+
+OK
