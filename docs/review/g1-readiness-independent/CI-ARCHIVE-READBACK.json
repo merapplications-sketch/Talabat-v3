@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "verified_at_utc": "2026-11-12T16:41:30.185849+00:00",
+  "verified_at_dushanbe": "2026-11-12T21:41:30.185849+05:00",
+  "source_ref": "fb88868d798e4b08f1f1f0f91dd7be9458d1816b",
+  "archive_path": "docs/continuity/evidence/20261112-ci106-build-gate/native106-synthetic-86eb978.zip",
+  "archive_git_blob_sha": "efb220596244314bbeb48432f8ede03aefe2e0d1",
+  "computed_git_blob_sha": "efb220596244314bbeb48432f8ede03aefe2e0d1",
+  "archive_bytes": 3187,
+  "archive_sha256": "b21fa3a1f7ae4d99066c45813b4ae6c67b0affdcc616e3132d4c84f054854029",
+  "archive_size_matches_receipt": true,
+  "archive_sha256_matches_receipt": true,
+  "no_duplicate_members": true,
+  "exact_member_names": true,
+  "member_count": 8,
+  "zip_crc_valid": true,
+  "files": [
+    {
+      "name": "native106-admission.json",
+      "bytes": 1656,
+      "sha256": "8bfe45f6612491c2cb2574a7b37a575c2465c9f6ab9826eb57428a59d9357910",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    },
+    {
+      "name": "native106-baseline.json",
+      "bytes": 298,
+      "sha256": "9bd583de12257cf62e77ada0070d4326b749e3e292c16833a5a2da90565ea621",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    },
+    {
+      "name": "native106-catalog.json",
+      "bytes": 1159,
+      "sha256": "c40d5754057ebc2ae32d51c12beffb649fabe57c8297e20300f48512f45e1ead",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    },
+    {
+      "name": "native106-client.json",
+      "bytes": 541,
+      "sha256": "8073a037b01a0c927e55d5255fd8934ad3532fe70c318beac8b8d4c5362bb2f7",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    },
+    {
+      "name": "native106-regression.json",
+      "bytes": 536,
+      "sha256": "72c088887716451b9da2b6c197f7d446595b118bc7e2fcb0152d58501fb98268",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    },
+    {
+      "name": "native106-resources.json",
+      "bytes": 769,
+      "sha256": "fdfb2167ef6a54b0db1c6475547336ef33d16e76fa2cdc27e65c591684c8017f",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    },
+    {
+      "name": "native106-restore.json",
+      "bytes": 179,
+      "sha256": "da4fe9bce36ca58a6665ee772d4e90e83936fe807cc18942e4cd72247de05325",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    },
+    {
+      "name": "native106-results.json",
+      "bytes": 292,
+      "sha256": "3dd2cf97900f312119da9163c9a48b5b9a3c3cfaecec258f5ed23ba3ec4c1340",
+      "size_matches": true,
+      "sha256_matches": true,
+      "json_valid": true
+    }
+  ],
+  "functional_tests_rerun": false,
+  "provider_metadata_requeried": false,
+  "scope": "Independent readback of Git-archived bytes and JSON only; historical results not re-executed",
+  "prior_report": "9dddbac208a27a4970e7aae9c7180940dd5f1841",
+  "gates_unchanged": {
+    "G1-A": "PARTIAL",
+    "G1-B": "PARTIAL",
+    "G1-C": "PARTIAL",
+    "G1-D": "BLOCKED",
+    "G1-E": "PARTIAL",
+    "G1-F": "PARTIAL"
+  },
+  "phase2": "NO-GO",
+  "archive_git_blob_matches": true,
+  "verdict": "PASS"
+}

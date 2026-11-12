@@ -163,6 +163,14 @@
       "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/ec4cbd2b89cc1b823131baa744e53e5539eb9c3e/docs/pilot-20261105/evidence/result-load.json",
       "git_blob_sha": "6cc712d7611e24e9950a213f1ec77bc22a81bf80",
       "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "CI-ZIP-INDEPENDENT",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/fb88868d798e4b08f1f1f0f91dd7be9458d1816b/docs/continuity/evidence/20261112-ci106-build-gate/native106-synthetic-86eb978.zip",
+      "git_blob_sha": "efb220596244314bbeb48432f8ede03aefe2e0d1",
+      "sha256": "b21fa3a1f7ae4d99066c45813b4ae6c67b0affdcc616e3132d4c84f054854029",
+      "bytes": 3187,
+      "scope": "Independent archive/member byte identity only; prior test results not rerun"
     }
   ],
   "independent_document_checks": {
@@ -190,11 +198,13 @@
       "git_blob_ids_match_receipt": true
     },
     "measurement_numbers_match_original_saved_results": true,
-    "original_zip_bytes_independently_verified": false,
+    "original_zip_bytes_independently_verified": true,
     "zip_reader_limit": {
-      "file_reader": "UnicodeDecodeError: non-UTF-8 binary",
-      "contents_reader": "HTTP 400: GitHub Fetch only accepts UTF-8 text",
-      "implication": "Only the archived administrative retrieval receipt and its eight-file index were read; no loss or test failure inferred"
+      "at_initial_review": "UTF-8 reads failed; retained as historical evidence, not a current blocker",
+      "resolved": true,
+      "resolution": "Read the same GitHub file using fetch_file encoding=base64, decode locally and validate archive and all eight members without executing contents",
+      "readback": "CI-ARCHIVE-READBACK.json",
+      "verified_at_utc": "2026-11-12T16:41:30.185849+00:00"
     }
   },
   "results": {
@@ -221,5 +231,11 @@
     "protected order or balance reads",
     "raw private evidence publication"
   ],
-  "snapshot_limit": "Separate immutable Git reads; not an atomic or current provider snapshot"
+  "snapshot_limit": "Separate immutable Git reads; not an atomic or current provider snapshot",
+  "continuation": {
+    "prior_report": "9dddbac208a27a4970e7aae9c7180940dd5f1841",
+    "programmer_head_unchanged": "e83d746b30843390bb52ee816cb79a897994f2f8",
+    "admin_head_unchanged": "fb88868d798e4b08f1f1f0f91dd7be9458d1816b",
+    "gates_changed": false
+  }
 }
