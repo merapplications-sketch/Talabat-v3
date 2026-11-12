@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-11-12",
+  "timezone": "Asia/Dushanbe",
+  "repository": "merapplications-sketch/Talabat-v3",
+  "reviewed_package": "a7d011dc54a7e129f882ad263b34f21d352521f8",
+  "included_continuation": "e83d746b30843390bb52ee816cb79a897994f2f8",
+  "administrative_head": "fb88868d798e4b08f1f1f0f91dd7be9458d1816b",
+  "accepted_plan": "9a5d3145ddaec9ab4d653053424ed9197d784222",
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-feature-readiness/REPORT-AR.md",
+      "git_blob_sha": "209f406b8bb1f70a6d715d69716b45de34c579a9",
+      "scope": "Package report; documentation"
+    },
+    {
+      "id": "ADMIN",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/fb88868d798e4b08f1f1f0f91dd7be9458d1816b/docs/continuity/PHASE1-CURRENT.md",
+      "git_blob_sha": "33f9f6c87cbce705a25825be27da1309b55384db",
+      "scope": "Administrative continuity and owner decisions; reported prior operations are not repeated"
+    },
+    {
+      "id": "PLAN",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/9a5d3145ddaec9ab4d653053424ed9197d784222/docs/review/continuation108/TARGET-ALIGNMENT-PLAN.md",
+      "git_blob_sha": "11be73017b4744054566c3a71d3422d8b679309f",
+      "scope": "Accepted gate criteria only"
+    },
+    {
+      "id": "EVIDENCE-WORK-PACKETS.md",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-feature-readiness/EVIDENCE-WORK-PACKETS.md",
+      "git_blob_sha": "5eacc30fc95cdfb613633f4a622d55b8c66c1707",
+      "scope": "Saved documentation; no operational proof inferred"
+    },
+    {
+      "id": "MEASUREMENT-CONTRACT.md",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-feature-readiness/MEASUREMENT-CONTRACT.md",
+      "git_blob_sha": "1d6c86c93a0a264e8d1a2f2357cf28ccea1e3957",
+      "scope": "Saved documentation; no operational proof inferred"
+    },
+    {
+      "id": "RECOVERY-CONTINUATION.md",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-feature-readiness/RECOVERY-CONTINUATION.md",
+      "git_blob_sha": "c42fd1cc5e0e89474ddf66af44e3d9807197b29b",
+      "scope": "Saved documentation; no operational proof inferred"
+    },
+    {
+      "id": "RECOVERY-RECEIPT.json",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-feature-readiness/RECOVERY-RECEIPT.json",
+      "git_blob_sha": "e8721e47141acd9016e305a5eb0bf85b9e81e387",
+      "scope": "Saved documentation; no operational proof inferred"
+    },
+    {
+      "id": "FINANCIAL-CONTRACTS.md",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-completion/FINANCIAL-CONTRACTS.md",
+      "git_blob_sha": "ebc90cd8c849182b5c31e544358d432c8621d355",
+      "scope": "Saved documentation; no operational proof inferred"
+    },
+    {
+      "id": "KEYS-RECONCILIATION-RECOVERY.md",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-completion/KEYS-RECONCILIATION-RECOVERY.md",
+      "git_blob_sha": "ad79d7339ad5ba22ff6fffb1d06b3110bd21de4a",
+      "scope": "Saved documentation; no operational proof inferred"
+    },
+    {
+      "id": "SOURCE-DEPLOYMENT-WRITERS.md",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/e83d746b30843390bb52ee816cb79a897994f2f8/docs/review/phase1-completion/SOURCE-DEPLOYMENT-WRITERS.md",
+      "git_blob_sha": "4cc26a387f59aa2ff045e2135723a49ae54547db",
+      "scope": "Saved documentation; no operational proof inferred"
+    },
+    {
+      "id": "retrieval-receipt.json",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/fb88868d798e4b08f1f1f0f91dd7be9458d1816b/docs/continuity/evidence/20261112-ci106-build-gate/retrieval-receipt.json",
+      "git_blob_sha": "44e76351e7f13106101d9ccc3f51d53aa19c8254",
+      "scope": "Administrative evidence receipt, not new independent provider observation"
+    },
+    {
+      "id": "build-gate-recovery.json",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/fb88868d798e4b08f1f1f0f91dd7be9458d1816b/docs/continuity/evidence/20261112-ci106-build-gate/build-gate-recovery.json",
+      "git_blob_sha": "ba7ff8ebdfbffd00ddc2802d0ac05517c45367ed",
+      "scope": "Administrative evidence receipt, not new independent provider observation"
+    },
+    {
+      "id": "source-provenance-receipt.json",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/fb88868d798e4b08f1f1f0f91dd7be9458d1816b/docs/continuity/evidence/20261112-ci106-build-gate/source-provenance-receipt.json",
+      "git_blob_sha": "8a3f4aef3e5217f18766084dfb0bf332c4cb04ed",
+      "scope": "Administrative evidence receipt, not new independent provider observation"
+    },
+    {
+      "id": "writer-runtime-evidence-receipt.json",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/fb88868d798e4b08f1f1f0f91dd7be9458d1816b/docs/continuity/evidence/20261112-g1-runtime-linkage/writer-runtime-evidence-receipt.json",
+      "git_blob_sha": "8cff4332477687c0a1533942c635d415eed58712",
+      "scope": "Administrative evidence receipt, not new independent provider observation"
+    },
+    {
+      "id": "pub35",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/docs/pilot-20261105/security-20261107/continuation25/publication.json",
+      "git_blob_sha": "122a328b8af7e00b506565696e59f3339ecbd930",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "lastbuild",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/docs/pilot-20261105/security-20261107/continuation25/.security/last-build.json",
+      "git_blob_sha": "c3a860c891a08cb89a1f5148918dc2a530be658a",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "restore",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/docs/pilot-20261105/operations/external-acceptance/RESTORE-PASS.json",
+      "git_blob_sha": "fafd4775a24a29f1dc1bb55591543484d2ac82c3",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "restore-source",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/docs/pilot-20261105/operations/external-acceptance/SOURCE-PASS.json",
+      "git_blob_sha": "87a85bce9f73ecc7169bcd814b8ca78277915fa3",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "restore-index",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/docs/pilot-20261105/operations/external-acceptance/INDEX.json",
+      "git_blob_sha": "f20d68337e0b7f0ca66c12b099dd9498d70d3634",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "monitor-local",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/docs/pilot-20261105/operations/alert-repair/LOCAL-EVIDENCE.json",
+      "git_blob_sha": "2afa1e562c4ad37b303c0b132e47f8b4e063d119",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "monitor-host",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/docs/pilot-20261105/operations/alert-repair/HOST-EVIDENCE.json",
+      "git_blob_sha": "9dee100a54aa8f1e67a20c76c8deb8dfd205c386",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "precision",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/8c0bde7bf8165538e37757e6ff37a0da73e2ec3b/docs/review/g1c-prec03-independent/REPORT-AR.md",
+      "git_blob_sha": "33c07c5c18e430f463120aa54089e36de878dd4d",
+      "scope": "Prior accepted independent evidence retained; no rerun"
+    },
+    {
+      "id": "watchdog",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/ops/pilot-watchdog.py",
+      "git_blob_sha": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+      "scope": "Read source anchors only; not executed"
+    },
+    {
+      "id": "core",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/a7d011dc54a7e129f882ad263b34f21d352521f8/talabat-core.js",
+      "git_blob_sha": "f639bec1d23a812866e06eb1110940c77563387c",
+      "scope": "Read source anchors only; not executed"
+    },
+    {
+      "id": "staged-load",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/ec4cbd2b89cc1b823131baa744e53e5539eb9c3e/docs/pilot-20261105/confirmation/staged-load.json",
+      "git_blob_sha": "fba233422e28ac2168d6acee341c019ff0da1d8a",
+      "scope": "Original saved evidence read; prior results not rerun"
+    },
+    {
+      "id": "result-load",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/blob/ec4cbd2b89cc1b823131baa744e53e5539eb9c3e/docs/pilot-20261105/evidence/result-load.json",
+      "git_blob_sha": "6cc712d7611e24e9950a213f1ec77bc22a81bf80",
+      "scope": "Original saved evidence read; prior results not rerun"
+    }
+  ],
+  "independent_document_checks": {
+    "scope": "read-only source and evidence analysis, no application or SQL tests",
+    "changed_paths_original": 7,
+    "changed_paths_continuation": 5,
+    "union_paths": 9,
+    "documentation_only": true,
+    "build_source_fingerprint_table": {
+      "rows": 28,
+      "expected_source_keys": 28,
+      "match_names_and_expected": true,
+      "counts": {
+        "CHECKED_CANDIDATES_DIFFER": 7,
+        "NO_SAME_BASENAME_IN_THIS_TREE": 10,
+        "MATCHED_SAVED_BYTES": 11
+      },
+      "extra_expected_keys": []
+    },
+    "publication35_matches_saved_provider_receipt": true,
+    "provider_read_repeated": false,
+    "source_anchor_review": {
+      "core": "449-516",
+      "watchdog": "55-155",
+      "git_blob_ids_match_receipt": true
+    },
+    "measurement_numbers_match_original_saved_results": true,
+    "original_zip_bytes_independently_verified": false,
+    "zip_reader_limit": {
+      "file_reader": "UnicodeDecodeError: non-UTF-8 binary",
+      "contents_reader": "HTTP 400: GitHub Fetch only accepts UTF-8 text",
+      "implication": "Only the archived administrative retrieval receipt and its eight-file index were read; no loss or test failure inferred"
+    }
+  },
+  "results": {
+    "G1_A": "PARTIAL",
+    "G1_B": "PARTIAL",
+    "G1_C": "PARTIAL",
+    "G1_D": "BLOCKED",
+    "G1_E": "PARTIAL",
+    "G1_F": "PARTIAL",
+    "phase1": "INCOMPLETE",
+    "phase2": "NO-GO"
+  },
+  "not_performed": [
+    "SQL",
+    "hosted resource reads",
+    "RPC or application requests",
+    "tests or builds",
+    "CI dispatch",
+    "load tests",
+    "restore",
+    "deploy",
+    "source changes",
+    "permissions or account changes",
+    "protected order or balance reads",
+    "raw private evidence publication"
+  ],
+  "snapshot_limit": "Separate immutable Git reads; not an atomic or current provider snapshot"
+}
