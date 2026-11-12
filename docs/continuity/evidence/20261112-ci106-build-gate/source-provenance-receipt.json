@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "recorded_date_utc": "2026-11-12",
+  "purpose": "Read-only provenance recovery for existing B02/B09; no roadmap change or implementation",
+  "repository": "merapplications-sketch/Talabat-v3",
+  "management_parent": "e3f1b0b03a39cea93c98d13a3a80d18788f325ab",
+  "team_heads": {
+    "programmer": {
+      "branch": "docs/phase1-feature-readiness-20261112",
+      "sha": "a7d011dc54a7e129f882ad263b34f21d352521f8"
+    },
+    "designer": {
+      "repository": "merapplications-sketch/talabot-tailadmin-review",
+      "branch": "review/ux02-v01-v05-candidate-20261112",
+      "sha": "9fe131f8ef3e96204e8c693f3ea1d49af3e240fa"
+    }
+  },
+  "historical_reference": {
+    "path": "docs/pilot-20261105/security-20261107/continuation25/publication.json",
+    "ref": "a7d011dc54a7e129f882ad263b34f21d352521f8",
+    "source_commit": "bb73be06f4f60d3125eccc7c6fd45fda9b72db42",
+    "previous_source_commit": "7060283f2166390abab4291aa7d95cb9ba721e45",
+    "hosting_version": 35,
+    "github_document_introduction_commit": "5ec5794bdaf29ddfbef22bb2d22b626cbdf11634",
+    "source_commit_lookup_in_main_repository": "Both source commit lookups returned GitHub 422 No commit found. This is repository-scoped, not proof of global absence.",
+    "internal_source_locator": "An archived engineering handoff identified the existing Sites project source repository; exact tenant repository URL, private raw handoff, credentials and tokens are excluded."
+  },
+  "provider_metadata": {
+    "provider": "Sites",
+    "project_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6",
+    "latest_saved_version_observed": 58,
+    "versions": [
+      {
+        "version_number": 58,
+        "version_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_18582125a5688191ac5834da4b045f34",
+        "source_commit_sha": "c6e82b51e15d2e9de80a55fb0145a63b1a48e0a5",
+        "archive_metadata": {
+          "content_hash": "sha256:f804e69d9a37c72d7a8988394a2ae35762f106299e018204cf69dbe056163b29",
+          "size_bytes": 2744320,
+          "file_count": 2,
+          "format": "tar"
+        },
+        "deployment_id": "appgdep_6af0d0ddf03081918c11b3224b95d064",
+        "deployment_readback": {
+          "status": "succeeded",
+          "version_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_18582125a5688191ac5834da4b045f34",
+          "updated_at": "2026-11-08T19:43:43.149586+00:00",
+          "env_set_revision": 0
+        },
+        "archive_bytes_downloaded_or_verified_this_pass": false
+      },
+      {
+        "version_number": 41,
+        "version_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_68d7657c3b7081919a6171d5065f102f",
+        "source_commit_sha": "ea65f5289f3d19ccc5d3dbb65b59650e23e01370",
+        "archive_metadata": {
+          "content_hash": "sha256:221f8e5d80351cc4e0572611ac0cb0c54d8cdabff9b7c86fb35d7db801b4a049",
+          "size_bytes": 2467840,
+          "file_count": 2,
+          "format": "tar"
+        },
+        "deployment_id": "appgdep_6aef8f620d948191904f9bae3c2b27e5",
+        "deployment_readback": "NOT_QUERIED_THIS_PASS",
+        "archive_bytes_downloaded_or_verified_this_pass": false
+      },
+      {
+        "version_number": 35,
+        "version_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_6c12f825f20481918ac7e7fac3cc0389",
+        "source_commit_sha": "bb73be06f4f60d3125eccc7c6fd45fda9b72db42",
+        "archive_metadata": {
+          "content_hash": "sha256:92ed9c87f140ce0e485098222805183952eb6282e4959d1327588e0fa09a7546",
+          "size_bytes": 2467840,
+          "file_count": 2,
+          "format": "tar"
+        },
+        "deployment_id": "appgdep_6aef74a0afc481918ac4eb9641b22fd5",
+        "deployment_readback": {
+          "status": "succeeded",
+          "version_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6~appgver_6c12f825f20481918ac7e7fac3cc0389",
+          "updated_at": "2026-11-07T18:57:55.085244+00:00",
+          "env_set_revision": 0
+        },
+        "archive_bytes_downloaded_or_verified_this_pass": false
+      }
+    ],
+    "claims_supported": [
+      "Historical publication.json version35/source/deployment identity matches provider metadata.",
+      "A later saved version58 has source c6e82b51e15d2e9de80a55fb0145a63b1a48e0a5 and a succeeded deployment record."
+    ],
+    "claims_not_supported": [
+      "Current served byte identity for every app and core.",
+      "Current backend schema, settings, writers or permissions.",
+      "An independently successful current build or complete original source/test package.",
+      "Live functional, Safari, Storage, concurrency, backup or recovery acceptance."
+    ]
+  },
+  "search_scope": {
+    "github_branch_heads_listed": 111,
+    "selected_complete_trees": [
+      {
+        "branch": "main",
+        "sha": "148cfae50000e983af2221a96057c507edac6d69",
+        "truncated": false,
+        "entry_count": 120
+      },
+      {
+        "branch": "candidate/pilot-readiness-20261105",
+        "sha": "c51155147ddde6474802c69cc8a9c44feb5983cb",
+        "truncated": false,
+        "entry_count": 988
+      },
+      {
+        "branch": "review/ci-native95-20261110",
+        "sha": "651696a3fdc51d393bcddef3effd71d6b9634845",
+        "truncated": false,
+        "entry_count": 1085
+      },
+      {
+        "branch": "review/audit107-closeout-20261110",
+        "sha": "60bbc90d4c8d03311464be049063d0fac3ae18f1",
+        "truncated": false,
+        "entry_count": 1153
+      },
+      {
+        "branch": "review/batch106-20261110",
+        "sha": "bf65738951e802bc29b64076cd9440476152fee7",
+        "truncated": false,
+        "entry_count": 1148
+      },
+      {
+        "branch": "review/phase1-evidence-20261110",
+        "sha": "0d25e451fa99d5d60f834257ccf70a8f5d2de52e",
+        "truncated": false,
+        "entry_count": 1158
+      },
+      {
+        "branch": "review/phase1-followup-20261111",
+        "sha": "ae0012f23d136573de92a65a6c91c94fc5771356",
+        "truncated": false,
+        "entry_count": 1170
+      },
+      {
+        "branch": "integration/customer-v80-current",
+        "sha": "ca8808dd6dee4f4815a266ae9bb9ea20a155f892",
+        "truncated": false,
+        "entry_count": 120
+      },
+      {
+        "branch": "fix/admin-finance-20261101",
+        "sha": "bc8d106746468d4c6791c26037d5c13c102de9ad",
+        "truncated": false,
+        "entry_count": 635
+      },
+      {
+        "branch": "preview/uat1-v56",
+        "sha": "1698353aa6b792b669f51b64596fd332cf228c3a",
+        "truncated": false,
+        "entry_count": 5
+      }
+    ],
+    "historical_document_introduction_tree": {
+      "sha": "5ec5794bdaf29ddfbef22bb2d22b626cbdf11634",
+      "entry_count": 764,
+      "truncated": false
+    },
+    "missing_10_historical_source_names_found_in_selected_trees": false,
+    "github_releases_response": "empty list",
+    "limitations": [
+      "Not an exhaustive scan of every commit in all 111 branches.",
+      "Tags and repository-wide artifacts endpoints did not yield usable inventory; no global absence claim.",
+      "Candidate ZIP was located but not downloaded or inspected in this pass."
+    ],
+    "candidate_archive": {
+      "path": "release/pilot-candidate/TALABOT-CANDIDATE.zip",
+      "git_blob_sha": "61241dd694f0ae83c41f8714904f3360e114e3f1",
+      "size_bytes": 799552,
+      "contents_inspected": false
+    }
+  },
+  "source_read_access": {
+    "action": "git ls-remote --symref <existing internal source repository> HEAD",
+    "terminal_prompts_enabled": false,
+    "exit_code": 128,
+    "result": "could not read Username; terminal prompts disabled",
+    "credentials_created": false,
+    "access_or_permissions_changed": false,
+    "conclusion": "Original source repository origin identified; original source files not retrieved."
+  },
+  "status": {
+    "accepted_scope": "Historical provider metadata linkage and this administrative receipt only; not independent QA approval.",
+    "B02": "PARTIAL — source/version/deployment metadata extended; effective byte/backend evidence still open.",
+    "B09": "PARTIAL/BLOCKED — original source origin identified; complete original source/test package unavailable through current read channel.",
+    "PHASE1": "PARTIAL/BLOCKED",
+    "PHASE2": "NO-GO"
+  },
+  "next_existing_task_delta": {
+    "owner_role": "Programmer/source-repository holder via an already authorized channel; no new person or permission assumed",
+    "requested_source": "Original source package at bb73be06f4f60d3125eccc7c6fd45fda9b72db42, with root-relative public/scripts/tests/worker and build manifests/assets needed by the recorded gate.",
+    "comparison": "Keep version58 c6e82b51e15d2e9de80a55fb0145a63b1a48e0a5 separate from historical version35 and identify effective-release evidence independently.",
+    "constraints": [
+      "Do not substitute current root files for historical byte identities.",
+      "Do not recreate tests or rerun accepted106 to conceal missing provenance.",
+      "Restricted DB evidence binding stays in its authorized private channel; no raw AUDIT107 or secrets in Git.",
+      "Attach evidence to the current G1 handoff; do not create a duplicate assignment."
+    ]
+  },
+  "operations": {
+    "code_changed": false,
+    "tests_run": false,
+    "deployment_performed": false,
+    "hosted_sql_executed": false,
+    "load_or_restore_run": false,
+    "team_chat_messages_sent": false
+  }
+}
