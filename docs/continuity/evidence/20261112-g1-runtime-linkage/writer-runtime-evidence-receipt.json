@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "recorded_date_utc": "2026-11-12",
+  "kind": "Read-only administrative evidence delta; not independent QA or new test execution",
+  "repository": "merapplications-sketch/Talabat-v3",
+  "source_ref": "a7d011dc54a7e129f882ad263b34f21d352521f8",
+  "management_parent": "22749295f42a0a457b8cbcee827e22d3be388ff3",
+  "existing_register_ids": [
+    "A07",
+    "A08",
+    "W04"
+  ],
+  "gates": [
+    "B03/G1-B",
+    "B07/G1-E",
+    "B09/G1-F"
+  ],
+  "recovered_test_evidence": {
+    "path": "docs/pilot-20261105/operations/alert-repair/LOCAL-EVIDENCE.json",
+    "git_blob_sha": "2afa1e562c4ad37b303c0b132e47f8b4e063d119",
+    "reported_tested_code_commit": "606da1133c1f554d4dbdac6f77995d584d1d9355",
+    "reported_at_utc": "2026-11-05T20:39:08+00:00",
+    "reported_local_checks": 11,
+    "reported_local_pass": true,
+    "reported_prior_observer_checks": 4,
+    "provenance_note": "Top-level source is null; tested_code_commit and files_sha256 are populated. Original and current Git trees and computed file hashes corroborate only these two file identities, not an entire test environment.",
+    "source_identity_verified": [
+      {
+        "path": "ops/pilot-watchdog.py",
+        "byte_length": 7666,
+        "sha256": "283de0e72e23dafd29941b2f5c15fd3a976ee195b0c30059ba04694ceaf9d9cc",
+        "git_blob_sha_computed": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+        "git_blob_sha_matches": true,
+        "historical_git_blob_sha": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+        "historical_blob_matches_current": true,
+        "matches_recorded_test_sha256": true
+      },
+      {
+        "path": "tests/pilot/watchdog-durability.py",
+        "byte_length": 11304,
+        "sha256": "f076251ec763c684433ef621a921b3171a5c3fbd59c7b53170ebb292630ad9eb",
+        "git_blob_sha_computed": "6060893123607de110ce26c28d90953bec99515a",
+        "git_blob_sha_matches": true,
+        "historical_git_blob_sha": "6060893123607de110ce26c28d90953bec99515a",
+        "historical_blob_matches_current": true,
+        "matches_recorded_test_sha256": true
+      }
+    ],
+    "live": false,
+    "real_on_call_delivery": false,
+    "human_acknowledgement": false,
+    "real_escalation": false,
+    "result_interpretation": "Historical executor-reported local results retained; bytes are corroborated now. No new execution or independent test verdict."
+  },
+  "source_boundaries": [
+    {
+      "id": "A07/W04",
+      "file": "talabat-core.js",
+      "git_blob_sha": "f639bec1d23a812866e06eb1110940c77563387c",
+      "line_range": [
+        448,
+        517
+      ],
+      "facts": [
+        "refresh calls maybeTick when at least one refreshed section reports a change.",
+        "startScheduler's periodic callback skips when document.hidden; this alone does not prove all realtime callbacks stop.",
+        "maybeTick has a 4000 ms minimum interval stored in the individual page instance, not a proven global dispatch limit.",
+        "Eligibility is online driver, or admin/merchant with an unassigned preparing/ready order; source calls dispatch_tick without arguments.",
+        "This caller is a separate browser RPC; job schedule, deployed identity, request-scoped role/isolation and global pause/drain are not established."
+      ],
+      "not_claimed": [
+        "No claim of current served code identity.",
+        "No claim that dispatch necessarily stops when every browser closes.",
+        "No capacity/RPS guarantee or new timing policy."
+      ]
+    },
+    {
+      "id": "A08",
+      "file": "ops/pilot-watchdog.py",
+      "git_blob_sha": "14fcf23d74be9387f9b42526f54c4c75d3881425",
+      "line_anchors": {
+        "check": 20,
+        "atomic_write": 55,
+        "load_journal": 79,
+        "deliver": 98,
+        "run_once": 119,
+        "flock": 127,
+        "persist_before_delivery": 132,
+        "delivery_iteration": 144,
+        "persist_receipt": 155
+      },
+      "facts": [
+        "One-shot HTTP observer writes a versioned local journal and rebuildable JSONL outbox; it has optional external POST delivery.",
+        "fcntl exclusive file lock covers observe/journal/export/delivery receipt in run_once; this is not proof of cross-host replica exclusion.",
+        "Event identity is retained on failed delivery; the first failure stops later events from overtaking it.",
+        "Receiver acknowledgement requires matching event_id, delivered status and nonempty receipt_id.",
+        "Remote delivery and subsequent local receipt persistence are not one atomic transaction; receiver durable deduplication of the actual downstream effect remains required.",
+        "Legacy outbox history is retained without automatically replaying uncertain prior delivery.",
+        "No scheduler or real destination is configured by the module; external deployment/configuration remains unproven, not disproven."
+      ],
+      "source_and_contract_refs": [
+        {
+          "path": "docs/pilot-20261105/operations/alert-repair/HANDOFF.md",
+          "git_blob_sha": "ea4e1e8ff6e6c75ee1bf1ca0f982ee0769558f7c"
+        },
+        {
+          "path": "docs/pilot-20261105/operations/alert-repair/REMAINING-CHECKS.md",
+          "git_blob_sha": "35180ef72e0ed03a181627478ca059c5a231865f"
+        }
+      ]
+    }
+  ],
+  "remaining_delivery_in_current_assignment": [
+    {
+      "id": "A07/W04",
+      "holder": "Programmer identifies existing service holder; no extra person or permission assumed",
+      "existing_artifacts_needed": [
+        "Scheduler/worker deployment record if such a service exists, exact source/version and non-secret schedule metadata.",
+        "Documented callers/roles/transaction boundary and last saved run evidence.",
+        "Existing ingress pause/drain/resume contract; no operation is to be performed now."
+      ],
+      "if_absent": "Explicitly declare no available independent scheduler evidence and prepare a bounded service/impact proposal; do not add a scheduler or claim the browser caller closes this gap."
+    },
+    {
+      "id": "A08",
+      "holder": "Programmer and existing monitoring service holder",
+      "existing_artifacts_needed": [
+        "Current deployment/schedule identity, environment and responsible operator.",
+        "Persistent journal location/custody/backup scope and instance topology, with no secret values.",
+        "Named authorized destination and its durable idempotency/receipt contract for actual downstream notification.",
+        "Existing record of delivered notification, human acknowledgement and escalation if one exists; distinguish them."
+      ],
+      "if_absent": "Specify each unavailable resource and its proposed isolated acceptance scope using existing ALERT-01..06; do not activate a channel, send a notification or run the checks."
+    }
+  ],
+  "historical_decision_guardrails": [
+    "120-second historical first-cash proposal does not override owner Q36=180 seconds.",
+    "Historical alert timing, escalation and RPO/RTO proposals remain unapproved unless explicitly decided in the current log.",
+    "Owner Q39=10 minutes concerns customer nonresponse at verified driver arrival; it is not an alert escalation or load SLO.",
+    "Retain Q33/Q34/Q35/Q37/Q38 deferred and all accepted source/test/visual decisions."
+  ],
+  "status": {
+    "source_identity": "ACCEPTED for the two file identity checks only.",
+    "operational_monitoring": "PARTIAL/BLOCKED",
+    "independent_dispatch_service": "PARTIAL/BLOCKED — not established by retrieved records.",
+    "PHASE1": "PARTIAL/BLOCKED",
+    "PHASE2": "NO-GO"
+  },
+  "operations": {
+    "code_changed": false,
+    "tests_rerun": false,
+    "live_requests": false,
+    "notification_sent": false,
+    "services_paused_or_started": false,
+    "deployments": false,
+    "hosted_sql": false,
+    "permissions_changed": false,
+    "load_or_restore_run": false,
+    "team_messages_sent": false
+  }
+}
