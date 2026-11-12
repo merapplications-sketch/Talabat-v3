@@ -1,0 +1,1096 @@
+{
+  "project_id": "appgprj_6aeddd5fe9e4819188dcd8b644905fc6",
+  "source_commit": "bb73be06f4f60d3125eccc7c6fd45fda9b72db42",
+  "source_tree": "baab81620240b0fefd92233fafcdc9b2c4c39c72",
+  "remote_head_before": "e1ac9e11a72981ffad43c09f77f492cc79617bf0",
+  "remote_head_after": "e1ac9e11a72981ffad43c09f77f492cc79617bf0",
+  "remote_head_unchanged_during_read": true,
+  "hosting_project_matches": true,
+  "tree_blob_count": 114,
+  "rows": [
+    {
+      "path": "public/admin.html",
+      "expected_sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+      "sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+      "git_blob_sha": "9dc399c5a441587a104ef4fe3802136b63a06c03",
+      "size_bytes": 132461,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "public/assets/mfa.js",
+      "expected_sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+      "sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+      "git_blob_sha": "86bbdbaa9798aea0702273228dad11960f39307b",
+      "size_bytes": 8627,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "public/customer.html",
+      "expected_sha256": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+      "sha256": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+      "git_blob_sha": "8a52dfc5663d4c8db3ded570d11d9db05e281e9e",
+      "size_bytes": 550279,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "public/driver.html",
+      "expected_sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+      "sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+      "git_blob_sha": "7739213515cb7277d5cd3aed38b2ed4f74983707",
+      "size_bytes": 64728,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "public/merchant.html",
+      "expected_sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+      "sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+      "git_blob_sha": "96569a8cb80654faec220098ee23eea82cf43b9d",
+      "size_bytes": 78250,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "public/talabat-core.js",
+      "expected_sha256": "923e85126426746296b1f660d1018ab96e7576bb5ccd4768f7de25042d63b14b",
+      "sha256": "923e85126426746296b1f660d1018ab96e7576bb5ccd4768f7de25042d63b14b",
+      "git_blob_sha": "e73871fc15d18a1e0a2a440dff54d926a896538c",
+      "size_bytes": 168917,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "scripts/build.mjs",
+      "expected_sha256": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621",
+      "sha256": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621",
+      "git_blob_sha": "d094e1f56f4e9546b3a31eaeccb82f6140073375",
+      "size_bytes": 2788,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "scripts/csp-policy.mjs",
+      "expected_sha256": "72e29e9332a59367935f382e2c4f52be2bc5e90fadc002fff741ecc93c44b0a2",
+      "sha256": "72e29e9332a59367935f382e2c4f52be2bc5e90fadc002fff741ecc93c44b0a2",
+      "git_blob_sha": "a7216d52f11af9153bccddb4dcb115279bd391dc",
+      "size_bytes": 1196,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "scripts/security-gate.mjs",
+      "expected_sha256": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348",
+      "sha256": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348",
+      "git_blob_sha": "8eb72d32256b0586a8bcff9e8a69067ef1ead875",
+      "size_bytes": 2448,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/admin-idle.cjs",
+      "expected_sha256": "2dc238e2f17ab461303ece03b248e4298c8d9ab3925f4b048277e45d9cd292c7",
+      "sha256": "2dc238e2f17ab461303ece03b248e4298c8d9ab3925f4b048277e45d9cd292c7",
+      "git_blob_sha": "7463544f8bbd6b0560036361027eeb4f126a790b",
+      "size_bytes": 663,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/auth-error-redaction.cjs",
+      "expected_sha256": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+      "sha256": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+      "git_blob_sha": "70bc8d9f1bf2525f18c89ffc16fad03af6f0caa6",
+      "size_bytes": 972,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/customer-auth-scope.cjs",
+      "expected_sha256": "73c145907aa8da10778daea41cbb32ae1dad5caf817a3ce287a4a67d06a80e18",
+      "sha256": "73c145907aa8da10778daea41cbb32ae1dad5caf817a3ce287a4a67d06a80e18",
+      "git_blob_sha": "f3c3e551c4f746fd03581e1c3c07466a4434e750",
+      "size_bytes": 1322,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/customer-recommendation-encoding.py",
+      "expected_sha256": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+      "sha256": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+      "git_blob_sha": "7c70d1a0e24bd8ca1488e941653813374b03d285",
+      "size_bytes": 2077,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/db-regression-evidence.cjs",
+      "expected_sha256": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85",
+      "sha256": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85",
+      "git_blob_sha": "84dd364a8f1b8aec2c62ecce8b8c0b7a45e5dbcd",
+      "size_bytes": 1223,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/driver-chat.cjs",
+      "expected_sha256": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+      "sha256": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+      "git_blob_sha": "44ed30e39cfb233d2764ede250adfede73123b7a",
+      "size_bytes": 1176,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/image-limits.cjs",
+      "expected_sha256": "1d3e924d6e26b691f9fcdba35b026bec43500f172ac9aaf948c58ad635e62cd2",
+      "sha256": "1d3e924d6e26b691f9fcdba35b026bec43500f172ac9aaf948c58ad635e62cd2",
+      "git_blob_sha": "d7bcc05200e3f1e460e8e0025970ae067abc1d5b",
+      "size_bytes": 1836,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/map-policy.cjs",
+      "expected_sha256": "9794e54e55dfb07f66c0d4ff70e7b77f70f0c485bb849cfd3126f53a435feaff",
+      "sha256": "9794e54e55dfb07f66c0d4ff70e7b77f70f0c485bb849cfd3126f53a435feaff",
+      "git_blob_sha": "03e9df52ae677b8e4e7e7b6d16d94d03a8d780dd",
+      "size_bytes": 893,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/merchant-report.cjs",
+      "expected_sha256": "bdfd9292abf5a4d24b582526e1b46b8adfb7699364037ebb400ce73ec95a42ef",
+      "sha256": "bdfd9292abf5a4d24b582526e1b46b8adfb7699364037ebb400ce73ec95a42ef",
+      "git_blob_sha": "84e9382e84a43d202f025f4dc6d2039e74971975",
+      "size_bytes": 1478,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/mfa.cjs",
+      "expected_sha256": "87deb565b295103d9336bbdbfd438c3b475c023f32b9770a56b5753c2bb6e011",
+      "sha256": "87deb565b295103d9336bbdbfd438c3b475c023f32b9770a56b5753c2bb6e011",
+      "git_blob_sha": "5c44836e1d4febc1e392c52858a30c6e9e75b773",
+      "size_bytes": 2649,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/passive-signout.cjs",
+      "expected_sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+      "sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+      "git_blob_sha": "275c8d77b817ea188261e8e38873aa1e513becce",
+      "size_bytes": 2600,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/proof-access.cjs",
+      "expected_sha256": "79117da4696288c8f8871dcc20fa0366da357529064f1501ed67f822334f66db",
+      "sha256": "79117da4696288c8f8871dcc20fa0366da357529064f1501ed67f822334f66db",
+      "git_blob_sha": "034fd880dbce807217093f1235144f2e30c5d0b5",
+      "size_bytes": 1675,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/proof-epoch.cjs",
+      "expected_sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+      "sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+      "git_blob_sha": "23a58d51fcc162f65d0318fbae5123285ec65b26",
+      "size_bytes": 1856,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/request-id-compat.cjs",
+      "expected_sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+      "sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+      "git_blob_sha": "e3b2b927d162b6947d8483abd9d6f7237ec61e7e",
+      "size_bytes": 3137,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/return-receipt.cjs",
+      "expected_sha256": "f145ff130d5096b447419aa69512cf85348617f25bf0e144690b01ef830509b8",
+      "sha256": "f145ff130d5096b447419aa69512cf85348617f25bf0e144690b01ef830509b8",
+      "git_blob_sha": "c144f60fb5fd8c0362f71292c2333ec5a08fc934",
+      "size_bytes": 1598,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/security-errors-logout.cjs",
+      "expected_sha256": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+      "sha256": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+      "git_blob_sha": "e16ea822195105b3ea01a38a12cef72e27a48967",
+      "size_bytes": 2388,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/test-all.py",
+      "expected_sha256": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+      "sha256": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+      "git_blob_sha": "13da9d2bbd8ddac66932573a28977430ab5245aa",
+      "size_bytes": 847,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "tests/test-inline-context.py",
+      "expected_sha256": "a712a8e370ba78ce61ec69f28d779608c9e59e749e0099a86cfe9d3320748a42",
+      "sha256": "a712a8e370ba78ce61ec69f28d779608c9e59e749e0099a86cfe9d3320748a42",
+      "git_blob_sha": "58788a0e11b23b63e9eb086c0ff1eb80fc7465cb",
+      "size_bytes": 4333,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    },
+    {
+      "path": "worker/index.js",
+      "expected_sha256": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c",
+      "sha256": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c",
+      "git_blob_sha": "c178ecfd4ec6890c3ea4bb3bd28ae6a2793a5857",
+      "size_bytes": 5503,
+      "git_blob_verified": true,
+      "status": "MATCHED"
+    }
+  ],
+  "summary": {
+    "MATCHED": 28
+  },
+  "tests_run": false,
+  "push_performed": false,
+  "deployment_performed": false,
+  "private_evidence_published": false,
+  "credential_persisted": false,
+  "complete_snapshot": {
+    "tree_files": 114,
+    "verified_git_blobs": 114,
+    "private_db_files_present_not_published": 8,
+    "file_groups": {
+      "public/": 74,
+      "scripts/": 3,
+      "tests/": 23,
+      "worker/": 1,
+      "security/db/": 8,
+      "dist/": 2
+    },
+    "full_dependency_execution_verified": false
+  },
+  "source_fingerprint_origin": "docs/continuity/evidence/20261112-ci106-build-gate/build-gate-recovery.json@a0ce2d45ee90fa0f8c4a08f843000e8b9551d523",
+  "scope": "Byte recovery and local snapshot integrity only; historical source35 is not a release candidate or proof of currently served code. No application, financial, DB, browser, load or restore tests executed.",
+  "files": [
+    {
+      "path": ".openai/hosting.json",
+      "git_blob_sha": "02db753720c05bacb1982456f226dcec3d5fa05d",
+      "sha256": "232b96b3f4e9f2cdc21802c0aadaa50c4e50a5b344158570b3e66dbf0adca4f8",
+      "size_bytes": 63,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": ".security/last-build.json",
+      "git_blob_sha": "c3a860c891a08cb89a1f5148918dc2a530be658a",
+      "sha256": "4754e7d1b627d8270bc2a9a0ee4d7bc2622c64fc30ffe1e51733173b71871bce",
+      "size_bytes": 6063,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "README.md",
+      "git_blob_sha": "439798952bcfe6029fbaab70e0645039f5764c92",
+      "sha256": "5d9bdd703a2c9a1d201cfad21226b67aff30e9dbaa1f4ae2b3959a0281711714",
+      "size_bytes": 198,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "dist/.openai/hosting.json",
+      "git_blob_sha": "02db753720c05bacb1982456f226dcec3d5fa05d",
+      "sha256": "232b96b3f4e9f2cdc21802c0aadaa50c4e50a5b344158570b3e66dbf0adca4f8",
+      "size_bytes": 63,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "dist/server/index.js",
+      "git_blob_sha": "a262e5b53ecc50b4cbc91a024c3f91d259ec09f1",
+      "sha256": "418872b1b3cf249b29a6cc23c626602bb2b5956a184fca951b8151d601e8ffad",
+      "size_bytes": 2463571,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/admin.html",
+      "git_blob_sha": "9dc399c5a441587a104ef4fe3802136b63a06c03",
+      "sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+      "size_bytes": 132461,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/LICENSE-fluentui-emoji.txt",
+      "git_blob_sha": "9e841e7a26e4eb057b24511e7b92d42b257a80e5",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "size_bytes": 1141,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/automobile.webp",
+      "git_blob_sha": "fa98f3790515f92e3395e7ec684a92ec78fcf487",
+      "sha256": "57de2fb6dd8b943a3425c56d9eff8f75d82f86a3512d2ce4a63c376686b68c3f",
+      "size_bytes": 3942,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/avocado.webp",
+      "git_blob_sha": "697085de4dd31213aa631a255a2366edd5cf99bf",
+      "sha256": "9e9fec3801456f094e1ae70aa771885428f2bace2e18ed22ffd8578a9c600ea4",
+      "size_bytes": 5022,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/balloon.webp",
+      "git_blob_sha": "2cc0d498d24ed7161093b0909e4be62c5a55eb3e",
+      "sha256": "1eff5dc10db047e7e14888c5bc0d0886b7182da8e558d31e2a375be145e23dda",
+      "size_bytes": 4396,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/basket.webp",
+      "git_blob_sha": "a3634dc346fc0b8a0b1f55d0aa3292ce6938ddaa",
+      "sha256": "53efb0407ea95f11dbcbc8cff5b4f97b55af65e354e9b8d045da530cebd94e95",
+      "size_bytes": 4766,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/bell.webp",
+      "git_blob_sha": "97d3e86c8405bd1d5aaf2657cba300c0b471c5fd",
+      "sha256": "807c52d7790111c10baaac5a4e74ebe77394997934cfac436e17c554b26fb277",
+      "size_bytes": 3638,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/birthday-cake.webp",
+      "git_blob_sha": "3bf58842341e3054ee4f5124f94aea7f3b3362a2",
+      "sha256": "5fc73ea3315dba19221add2c3ffea72a0d3b6768d8a46f66edc232a74391e649",
+      "size_bytes": 5810,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/bouquet.webp",
+      "git_blob_sha": "a62b001e3b573b674e532c0c686be828dce5f6dd",
+      "sha256": "bcdc5300e4a8afedf8acd35ec5c7b9d9c71893fdff87b33d0986016ef553f2d0",
+      "size_bytes": 6034,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/bread.webp",
+      "git_blob_sha": "9cc5da4090635996e5055df3ba12e66dcecf5916",
+      "sha256": "b0370847a8affd262f1e99c068b32cee26997ae4322d0c5c2b79b06a5be2bd48",
+      "size_bytes": 4104,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/carrot.webp",
+      "git_blob_sha": "21cb7a73993a69622c13266ce654f5c5a32fd98f",
+      "sha256": "6dba8e904cde73498f47b18fd40b06d4ae040dac8cd1418cd25e13f4d36289f9",
+      "size_bytes": 5390,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/cityscape-at-dusk.webp",
+      "git_blob_sha": "82c1da0d5f18626ed5a40eaf79905a874c8dcfb4",
+      "sha256": "f20376a70adb9868b8043da03756f902b6ce8404372c2a94bd97671228e5bb69",
+      "size_bytes": 3160,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/coin.webp",
+      "git_blob_sha": "066607e2dd9dfd5d5936e7e09da2250f13fa87f2",
+      "sha256": "b0f9553eaee16717b3c6181edc809ffbd89324c99c28efee3f68c36f77bf780a",
+      "size_bytes": 4090,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/couch-and-lamp.webp",
+      "git_blob_sha": "8c7fc1443197375909f9b3e756637111298fd12a",
+      "sha256": "4d66fda173e76c24503ece440f9998f6ef981a54095d53cea820583a974c79fa",
+      "size_bytes": 3810,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/credit-card.webp",
+      "git_blob_sha": "66d20e65b29cbfeee016386b8eae9c240720e89c",
+      "sha256": "5cd16b5ae346ab61a5648ae85c57ba87914a5f02211c642ab169917672c79e59",
+      "size_bytes": 1954,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/croissant.webp",
+      "git_blob_sha": "350c02f1a70e55a80a1c294cc4d32d6e97622dda",
+      "sha256": "4e651f5dc4f6092ff96291a07365d4e72de83219af8781bdd9c5bf9a05eebdeb",
+      "size_bytes": 4846,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/ear-of-corn.webp",
+      "git_blob_sha": "aa8c4eda3bfd8f6a59414ddadc083bb07798a034",
+      "sha256": "59d973adecf129a3510c4e6e690450d9b4ee92f49026ba56342a4e2f6d9642e1",
+      "size_bytes": 5276,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/fire.webp",
+      "git_blob_sha": "ada7e5458f71cae34135f032ebb0963d31db2c94",
+      "sha256": "9316c3505bfb2a53f08cc14b9a97b7dbc82886a1e3738253009d883b8725ed2e",
+      "size_bytes": 4088,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/flowers-gifts.webp",
+      "git_blob_sha": "e1ea567e9103ee96e56d4b2fcf4ffc783d2ae32f",
+      "sha256": "c273f84d187b51c438f79ffa72cbf976d06646dacaed0baaf4e14761d534a2ca",
+      "size_bytes": 9428,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/french-fries.webp",
+      "git_blob_sha": "ff3577b410698e96aa25f2888e75de626d82bb11",
+      "sha256": "7e66e24eaec7cdad5b51f590d4a6cc3e1aae5a0ff8c84171b3003b14bdfbd42e",
+      "size_bytes": 4758,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/gem-stone.webp",
+      "git_blob_sha": "818e029adb7a16c2ca31a5a568c47fbeaf2bffd6",
+      "sha256": "3851fa9f3173d8534480769355a9fa2caa0085dbfff68f5ca8bdcbc8a521bd5a",
+      "size_bytes": 3118,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/hamburger.webp",
+      "git_blob_sha": "aa7a0ecbeb020cd81ce25d09e85cb5954c6565fe",
+      "sha256": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+      "size_bytes": 4266,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/headphone.webp",
+      "git_blob_sha": "b60bffcd4ef907ce822626d1863cfd42eaa5fc77",
+      "sha256": "70dc4cff8506f7679d186972bed2d341c9552755ca34b2d2bca2dc0636be74c5",
+      "size_bytes": 6514,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/high-voltage.webp",
+      "git_blob_sha": "ef14f281b8209fe5434c2af3661b44b04128cfd2",
+      "sha256": "8af408eb30807b44c8365fc853ddb6790d628ab74727725959f553bf9d1e1f5f",
+      "size_bytes": 2530,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/hospital.webp",
+      "git_blob_sha": "083bf268254cac464d28059aa5caf979681c54be",
+      "sha256": "570e178176ced3f379ca5ca25261d5de2ceeb7732bd63db69901cc6ce5e97182",
+      "size_bytes": 2606,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/leafy-green.webp",
+      "git_blob_sha": "31dde1c844c85075bf63a42765283410097934ae",
+      "sha256": "e923b2c11411fb47bb97531a504d7a58b0e6558dda52a9103c849dac9a747c5a",
+      "size_bytes": 5748,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/lotion-bottle.webp",
+      "git_blob_sha": "b103a17ad9f5e2711eaf20e8e283081746c2655b",
+      "sha256": "9cb30aafd93e7c332b22ddb8a8b9b45466cb99c1892830ab953cd9dc21381549",
+      "size_bytes": 2470,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/mobile-phone.webp",
+      "git_blob_sha": "551e81c9203a71c3594af468e15374ede7c19851",
+      "sha256": "148529d7877bc8d8e37a03cfc3b8c9c9844b53a37d1aee830ebd5a931094323c",
+      "size_bytes": 3000,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/motor-scooter.webp",
+      "git_blob_sha": "87c3c5875e80c21fd72d6ad1f1b84d97b07f29c8",
+      "sha256": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+      "size_bytes": 4020,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/package.webp",
+      "git_blob_sha": "288e6c9c9ff96f268f77025d5b08671ebcae11d2",
+      "sha256": "b64a33f758b944c3e9f1b58c40e33bde5669f08a62512cc81c1f4c8305582aba",
+      "size_bytes": 3780,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/party-popper.webp",
+      "git_blob_sha": "90b379f7903c080b80c34ca81e1130105fa6dc07",
+      "sha256": "f5f114430adefae5706e4eeb326834b007bb76c26aa3020a721612f062ddab47",
+      "size_bytes": 8700,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/paw-prints.webp",
+      "git_blob_sha": "f9e7591f883f89e3833beac03e06f3239fde1159",
+      "sha256": "a343520d3826bd6e899ebf1bab44427b02ee2f00aa39d190083d8042350b9654",
+      "size_bytes": 5912,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/pill.webp",
+      "git_blob_sha": "6a4ddbd2732b3ce633d18dd8e031e300b2800ead",
+      "sha256": "55ea52fa52e7070cca23d9f9570ad471ace8d46805b3ccc08d9cd8c6a58c441a",
+      "size_bytes": 3794,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/pizza.webp",
+      "git_blob_sha": "96ba1d53905213239f33f3d326f19b6be8f8b063",
+      "sha256": "d1afc0f4e56ccfa1e236c0e9ce4b66d77aae57cd04ab4f62c6fc99a152c7b3ea",
+      "size_bytes": 4424,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/red-apple.webp",
+      "git_blob_sha": "39a751d29747f5694be7c1af1677d108ba3454f5",
+      "sha256": "600b55159ca3c771917dfc2790e248c0c8477e3e652a51129e74d20df3b869a3",
+      "size_bytes": 4496,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/red-heart.webp",
+      "git_blob_sha": "d12bd365597a1dd1daac3543201bd337383d87ce",
+      "sha256": "2c34d8cc67db4bf84f2c88d622188b98314929da5acec22d782ad986436ac31e",
+      "size_bytes": 4138,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/rose.webp",
+      "git_blob_sha": "bf90bdeaf795493514c19a03e4c932d1c9263b7f",
+      "sha256": "5efb1f692588b8c6234ecc15ca800444ab06aab25dac813969d8ee07375e46ab",
+      "size_bytes": 3870,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/round-pushpin.webp",
+      "git_blob_sha": "a62fb807eaf4e72d1f4a80053e8af93675a21249",
+      "sha256": "9db00ac7c79feaf2273056225d87cf790995477cdfacd54e2409d4ce45addbab",
+      "size_bytes": 2914,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/shopping-bags.webp",
+      "git_blob_sha": "859ab0dd68fb7d299d6d734d99ad6312c5f67903",
+      "sha256": "0fb17dcf372ef633091ee3dc6cbf94d209ce2506c588092e96f8dcb71e6f9fef",
+      "size_bytes": 3366,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/shopping-cart.webp",
+      "git_blob_sha": "92af61210e6bc4108f7567c5d27dc234b7b9f1e4",
+      "sha256": "937189ed29ec583e5e8cfe860e1e1d931f70e50d24f1b124bdf2490b9753e2c3",
+      "size_bytes": 7154,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/shortcake.webp",
+      "git_blob_sha": "28e3e252e130716ff90151b83b2e976c6124602d",
+      "sha256": "1ea3239c313253cbcb2a7dbc5808498bbe14461846cca653874f516735d3386e",
+      "size_bytes": 5760,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/sparkles.webp",
+      "git_blob_sha": "7d6632890f75953760cd24379eafcb29526e635f",
+      "sha256": "eba4030fb7cc746f92649679b2754e3465e5a95b4bbe2afcd8d13aaa8fa1cadb",
+      "size_bytes": 5920,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/star.webp",
+      "git_blob_sha": "5091ea91d1e817486c4317e41f9ce4c50f9b6346",
+      "sha256": "aa9565e0075bb11ea068879d765db77652ccf280a37706906cf01ba8f0cddd68",
+      "size_bytes": 4344,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/sushi.webp",
+      "git_blob_sha": "e923ff012e26f5c881712704d5c71ab0850b894d",
+      "sha256": "617e74473aa2e2ed69ae4b27bd69fc744ea2c7948004e0c6a1c923c58b5c9bd8",
+      "size_bytes": 3884,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/teddy-bear.webp",
+      "git_blob_sha": "3aa2d7b8474eee8c54440aeb02ddd2f02f213fe8",
+      "sha256": "ba84791a077a4dbe687d3733dc851466f9d664c1dd20555354e357dc5f695c36",
+      "size_bytes": 6338,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/tulip.webp",
+      "git_blob_sha": "023ce3f4186bb6507745a66dafa27cdde49adca5",
+      "sha256": "6e330664f665fea0c96d84f4582f07652787743403400efd7ab82a67a5f00003",
+      "size_bytes": 4448,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/3d/wrapped-gift.webp",
+      "git_blob_sha": "454a6f62f29837ef4ff37c52c9591f6990e5d92c",
+      "sha256": "426b30e64615a8960b71c82fb54d87ea7b9fd728da3e82f9b70fffa6d3aa548e",
+      "size_bytes": 3498,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/admin-finance/admin-finance.css",
+      "git_blob_sha": "d1637bfd5319410cda1b144b3e1d913080a7c5f0",
+      "sha256": "3cb9bd242c208264511120368be65a1ddf77264ea55fb477f8271ac658590dc0",
+      "size_bytes": 1927,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/admin-finance/admin-finance.js",
+      "git_blob_sha": "05397c64e49013bac3129d49eb7e6e61589b3502",
+      "sha256": "10646ef7202b21080d9e3bf8cb8619a3d06ae617c763abf650ae0b69883c45f9",
+      "size_bytes": 13133,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/driver-returns/panel.css",
+      "git_blob_sha": "a5d31a21c1442d5ef954ead357a393c1ce6e331c",
+      "sha256": "bddf923f3bf622f363ee8b3d6c0568bfa7d40533395e92d5d0ef7753e19ff120",
+      "size_bytes": 1098,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/driver-returns/panel.js",
+      "git_blob_sha": "7be28930ab1a989a86efedde29001636151b1309",
+      "sha256": "282464636ea7b572582e235d50c88d1a9f620b605d14dba71733a1ca6c1f3450",
+      "size_bytes": 9916,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/finance-receipt/receipt.css",
+      "git_blob_sha": "3f0eca9d962dd23ed3f2633c5ef2dce2179f50f5",
+      "sha256": "9bdc2cddb30924ac0bca206de51008a50c5ede0f7af5bb4c4cf97c7e06b4455b",
+      "size_bytes": 796,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/finance-receipt/receipt.js",
+      "git_blob_sha": "3742dcf5346deb2495859653bf65339ad6a4b626",
+      "sha256": "bb183a4e57e24db4edf11041b9f1b4d1d024ddfeb55f30a0591963d069a28167",
+      "size_bytes": 6572,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/mfa.js",
+      "git_blob_sha": "86bbdbaa9798aea0702273228dad11960f39307b",
+      "sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+      "size_bytes": 8627,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/mobile.css",
+      "git_blob_sha": "6e81536a6be8926f8848d80f44e8229251fe7aaf",
+      "sha256": "1124e80a6db47ff5e914dfc67ea0f240c9b5657a96dd20b2dd1bc10fbaf8bb9d",
+      "size_bytes": 3192,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/mobile.js",
+      "git_blob_sha": "402aa412edfcb2dace855189e210da7a20621b14",
+      "sha256": "a35ef0e6d8e0eb7f79ac4fd387e170fcda0006c87a51b8bf36254110f5f0283b",
+      "size_bytes": 922,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/vendor/supabase-2.117.2.js",
+      "git_blob_sha": "b51e7b9e308e2162d873b84d412a9d37c398d3e0",
+      "sha256": "59d39487c3589843b410322d8a3d562ce022aba1e5ccb16898ef3fb2a0da2ecd",
+      "size_bytes": 217945,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/assets/vendor/supabase-LICENSE",
+      "git_blob_sha": "ddeba6a00ae5ec536d5429e040bc73ef2c6a07d6",
+      "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+      "size_bytes": 1065,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/customer.html",
+      "git_blob_sha": "8a52dfc5663d4c8db3ded570d11d9db05e281e9e",
+      "sha256": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+      "size_bytes": 550279,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/driver.html",
+      "git_blob_sha": "7739213515cb7277d5cd3aed38b2ed4f74983707",
+      "sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+      "size_bytes": 64728,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/index.html",
+      "git_blob_sha": "5a7084d33daee9c98f4263dac8fb277ee6fab133",
+      "sha256": "758f609ee07903a63a35587e1198e1701854f8b7adb4577c6f746d3a75fee7b7",
+      "size_bytes": 658,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/manifest.json",
+      "git_blob_sha": "c5fc43cf35a790bc35cc1d64e1994489ca690ab8",
+      "sha256": "58bf84194750ecbf54b76391749b961c7a1294e29f31378a5dc2664457dc59b0",
+      "size_bytes": 6330,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/merchant.html",
+      "git_blob_sha": "96569a8cb80654faec220098ee23eea82cf43b9d",
+      "sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+      "size_bytes": 78250,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review.html",
+      "git_blob_sha": "0f0dd7a8b587ebfe5bc8df46736dc3652cf56c57",
+      "sha256": "e637b78f57458f92327319dedfc852f84d24c5338cb4d48480e468bf952d2823",
+      "size_bytes": 4779,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/baseline-admin.jpg",
+      "git_blob_sha": "426c179e7d5ee093f8b89a8bdc50bac16861c29f",
+      "sha256": "484d4cd89de3df0f32a98c537b99fae0368e3d7a9e80664d7b2c925056cb2ce4",
+      "size_bytes": 47991,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/baseline-customer.jpg",
+      "git_blob_sha": "bb0c46b737900f66bebbd22c33849a6cd4d8d88b",
+      "sha256": "532c5dfa91d1677dec48ab0a3770c7cd06f93b92fd838cfc4184c82d0404edf8",
+      "size_bytes": 43892,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/baseline-driver.jpg",
+      "git_blob_sha": "5250fc8c5d67d7f3601ed2c75386b6300085a7bb",
+      "sha256": "077375746b0a9d5e3906d92594afd0d4d6533ea0d899423caf549bd8ae1e03bf",
+      "size_bytes": 33407,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/baseline-merchant.jpg",
+      "git_blob_sha": "fb3299b7e688c563d183f215bbf070c9896bdb5a",
+      "sha256": "58fa44955de6419e091b59d437c077a9d067431bd08160c75f7380768e33a789",
+      "size_bytes": 50787,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/candidate-admin.jpg",
+      "git_blob_sha": "60b9064757a5b5ac5e052d9055463e26b561dfc6",
+      "sha256": "cc3caf62351d129f8822fff095dcd6a9bad9a4137f6a6c07ba8c83fd0b016708",
+      "size_bytes": 47797,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/candidate-customer.jpg",
+      "git_blob_sha": "d9ce40d39ff49b1ea69d1531cb8d3b02377a53f1",
+      "sha256": "d599e4798e6df856dfbdce6d7a341a9154376db9babe9ebd50e931bf77664adc",
+      "size_bytes": 42479,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/candidate-driver.jpg",
+      "git_blob_sha": "5250fc8c5d67d7f3601ed2c75386b6300085a7bb",
+      "sha256": "077375746b0a9d5e3906d92594afd0d4d6533ea0d899423caf549bd8ae1e03bf",
+      "size_bytes": 33407,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/review/candidate-merchant.jpg",
+      "git_blob_sha": "1649dd8757d135a1c5151a608f552f163b1709c1",
+      "sha256": "dd727ec43e609f769521da7de7580f1ee0e0e11aa4306005432ff3828e2a58de",
+      "size_bytes": 49972,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/safari-check.html",
+      "git_blob_sha": "9c15d5324cc6ab9f4e9c937f1b013d62fe25983d",
+      "sha256": "c81db68df06d608ce0db0cc6566de887b820a489f38cadce8e0596e06eecf00a",
+      "size_bytes": 4556,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "public/talabat-core.js",
+      "git_blob_sha": "e73871fc15d18a1e0a2a440dff54d926a896538c",
+      "sha256": "923e85126426746296b1f660d1018ab96e7576bb5ccd4768f7de25042d63b14b",
+      "size_bytes": 168917,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "scripts/build.mjs",
+      "git_blob_sha": "d094e1f56f4e9546b3a31eaeccb82f6140073375",
+      "sha256": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621",
+      "size_bytes": 2788,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "scripts/csp-policy.mjs",
+      "git_blob_sha": "a7216d52f11af9153bccddb4dcb115279bd391dc",
+      "sha256": "72e29e9332a59367935f382e2c4f52be2bc5e90fadc002fff741ecc93c44b0a2",
+      "size_bytes": 1196,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "scripts/security-gate.mjs",
+      "git_blob_sha": "8eb72d32256b0586a8bcff9e8a69067ef1ead875",
+      "sha256": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348",
+      "size_bytes": 2448,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "security/db/cash-after.json",
+      "git_blob_sha": "2f68b057a3cabd9502ae557cb1001aedce03c4e1",
+      "sha256": "a4a8f56136e3810830b90a0203bdef27d93c8dea783e914a324ec7bde89fd786",
+      "size_bytes": 694,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "security/db/cash-finite-test.sql",
+      "git_blob_sha": "8f8ae6d7cc0a0f08da9c7558ea5ace5ef9dd5577",
+      "sha256": "8d463d6e7179d50bbe0384e9de446e18e0d4957dbaca5707ce027cc118a690a5",
+      "size_bytes": 2169,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "security/db/cash-rollback.json",
+      "git_blob_sha": "cf1b929cc60283701d289f93b60fcd7a694c3212",
+      "sha256": "6d8bff1448993b05cdaf0739471ea63883fe3244d0722dc7583787f2f28fbb35",
+      "size_bytes": 756,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "security/db/deliver_order.finite.sql",
+      "git_blob_sha": "aec00adf32072863a22d61e4f00455a57617788c",
+      "sha256": "40b5cf79fd31d08cb7f059cb38331e1bc21db62d74a14cd3d0a67f2a56dfb497",
+      "size_bytes": 2109,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "security/db/price-after.json",
+      "git_blob_sha": "b6dda60329353da193e22c0a916174c3ea25a34a",
+      "sha256": "c05401f560e58d6ab9d0c5b30a8e87ca6563cf7d52b8c3447437bcbdf2f6b546",
+      "size_bytes": 3078,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "security/db/price-finite-test.sql",
+      "git_blob_sha": "43d3dc8744f3ff2372f9f46a9ae5be56fb2a055e",
+      "sha256": "9290932cfe8b778e53834d160d84b3e06246e6445b402c558b93380de73dd37e",
+      "size_bytes": 1964,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "security/db/price-finite.sql",
+      "git_blob_sha": "6869da7008f09f2f817eb80630c4d53325ab2280",
+      "sha256": "93a84165e2e45fa9c4a849ef51b26b0dce96550673744374c6d98cff3b27096b",
+      "size_bytes": 381,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "security/db/tested-evidence.json",
+      "git_blob_sha": "89bc6e4ad82be9c884d9de9e37b14694ef4dd3e7",
+      "sha256": "f93ba41cd94420e55b7f1af3579b91633fa5a1332ffe44ada19c5c5ebc80ed06",
+      "size_bytes": 858,
+      "handling": "PRIVATE_NO_GITHUB_RAW"
+    },
+    {
+      "path": "tests/admin-idle.cjs",
+      "git_blob_sha": "7463544f8bbd6b0560036361027eeb4f126a790b",
+      "sha256": "2dc238e2f17ab461303ece03b248e4298c8d9ab3925f4b048277e45d9cd292c7",
+      "size_bytes": 663,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/auth-error-redaction.cjs",
+      "git_blob_sha": "70bc8d9f1bf2525f18c89ffc16fad03af6f0caa6",
+      "sha256": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+      "size_bytes": 972,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/build-gate.cjs",
+      "git_blob_sha": "6812d826b2f1bb9dccbf6553c4a6761c78430f61",
+      "sha256": "a37a9cd4c7b316d730151d4132ce6db5dd03f8676fb8496a86f7f67dcf9415fa",
+      "size_bytes": 1458,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/csp-report.test.mjs",
+      "git_blob_sha": "da5fa9d08257c3cb8b096e8632137903421b5a50",
+      "sha256": "6933c1ced0d41b21c233a41cf035b0545b31db5a1650b89e7878e821108021e1",
+      "size_bytes": 5829,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/customer-auth-scope.cjs",
+      "git_blob_sha": "f3c3e551c4f746fd03581e1c3c07466a4434e750",
+      "sha256": "73c145907aa8da10778daea41cbb32ae1dad5caf817a3ce287a4a67d06a80e18",
+      "size_bytes": 1322,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/customer-recommendation-encoding.py",
+      "git_blob_sha": "7c70d1a0e24bd8ca1488e941653813374b03d285",
+      "sha256": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+      "size_bytes": 2077,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/db-regression-evidence.cjs",
+      "git_blob_sha": "84dd364a8f1b8aec2c62ecce8b8c0b7a45e5dbcd",
+      "sha256": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85",
+      "size_bytes": 1223,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/driver-chat.cjs",
+      "git_blob_sha": "44ed30e39cfb233d2764ede250adfede73123b7a",
+      "sha256": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+      "size_bytes": 1176,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/headers.test.mjs",
+      "git_blob_sha": "eaf38651465b5b21a82ef8ee0933f197608138cf",
+      "sha256": "36f862831f554406ca5c0394c1a9aa2166bcb24ae8f520a6dfea1557c02c372d",
+      "size_bytes": 2860,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/image-limits.cjs",
+      "git_blob_sha": "d7bcc05200e3f1e460e8e0025970ae067abc1d5b",
+      "sha256": "1d3e924d6e26b691f9fcdba35b026bec43500f172ac9aaf948c58ad635e62cd2",
+      "size_bytes": 1836,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/map-policy.cjs",
+      "git_blob_sha": "03e9df52ae677b8e4e7e7b6d16d94d03a8d780dd",
+      "sha256": "9794e54e55dfb07f66c0d4ff70e7b77f70f0c485bb849cfd3126f53a435feaff",
+      "size_bytes": 893,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/merchant-report.cjs",
+      "git_blob_sha": "84e9382e84a43d202f025f4dc6d2039e74971975",
+      "sha256": "bdfd9292abf5a4d24b582526e1b46b8adfb7699364037ebb400ce73ec95a42ef",
+      "size_bytes": 1478,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/mfa.cjs",
+      "git_blob_sha": "5c44836e1d4febc1e392c52858a30c6e9e75b773",
+      "sha256": "87deb565b295103d9336bbdbfd438c3b475c023f32b9770a56b5753c2bb6e011",
+      "size_bytes": 2649,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/passive-signout.cjs",
+      "git_blob_sha": "275c8d77b817ea188261e8e38873aa1e513becce",
+      "sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+      "size_bytes": 2600,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/proof-access.cjs",
+      "git_blob_sha": "034fd880dbce807217093f1235144f2e30c5d0b5",
+      "sha256": "79117da4696288c8f8871dcc20fa0366da357529064f1501ed67f822334f66db",
+      "size_bytes": 1675,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/proof-epoch.cjs",
+      "git_blob_sha": "23a58d51fcc162f65d0318fbae5123285ec65b26",
+      "sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+      "size_bytes": 1856,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/request-id-compat.cjs",
+      "git_blob_sha": "e3b2b927d162b6947d8483abd9d6f7237ec61e7e",
+      "sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+      "size_bytes": 3137,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/return-receipt.cjs",
+      "git_blob_sha": "c144f60fb5fd8c0362f71292c2333ec5a08fc934",
+      "sha256": "f145ff130d5096b447419aa69512cf85348617f25bf0e144690b01ef830509b8",
+      "size_bytes": 1598,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/security-errors-logout.cjs",
+      "git_blob_sha": "e16ea822195105b3ea01a38a12cef72e27a48967",
+      "sha256": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+      "size_bytes": 2388,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/test-all.py",
+      "git_blob_sha": "13da9d2bbd8ddac66932573a28977430ab5245aa",
+      "sha256": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+      "size_bytes": 847,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/test-auth-telemetry.cjs",
+      "git_blob_sha": "aa5af9d48bfe8ce1aba63fff3defdf273e9b9339",
+      "sha256": "d7f76cb814fbb629109f0b6415067dab47709fe14706e4c30a5d113529102db6",
+      "size_bytes": 5872,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/test-inline-context.py",
+      "git_blob_sha": "58788a0e11b23b63e9eb086c0ff1eb80fc7465cb",
+      "sha256": "a712a8e370ba78ce61ec69f28d779608c9e59e749e0099a86cfe9d3320748a42",
+      "size_bytes": 4333,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "tests/test-signout.cjs",
+      "git_blob_sha": "c4a36235ea7e4ef0a2373cf39f8207e9736f0c84",
+      "sha256": "f799985187f47257e10a8d719dc5bbe031256cef2709799978dce5111bf24d7e",
+      "size_bytes": 2585,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "path": "worker/index.js",
+      "git_blob_sha": "c178ecfd4ec6890c3ea4bb3bd28ae6a2793a5857",
+      "sha256": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c",
+      "size_bytes": 5503,
+      "handling": "SOURCE_REFERENCE_ONLY"
+    }
+  ],
+  "private_attestation_hash_check": {
+    "entries": 7,
+    "matched": 7,
+    "different": 0,
+    "missing": 0,
+    "scope": "Historical declared bytes only; no SQL, test execution, current DB binding or independent operational acceptance",
+    "raw_content_published": false
+  }
+}
