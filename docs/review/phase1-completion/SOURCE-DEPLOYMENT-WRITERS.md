@@ -174,3 +174,11 @@ T/X/R بمعاني الخطة المقبولة، لا اختبارات جديد�
 - EF(profiles,authenticated).can_update=false لا ينفي منح الأعمدة في QA.column_acls ؛ و EF(stores,authenticated).can_select=false لا ينفي SELECT للأعمدةالمسموحة. تُقرأ RLS و column grants و guards معاً. لا قبول RBAC مستضاف من ACL.
 - A01 من AUDIT107 باقٍ: authenticated يملك TRUNCATE على order_items في اللقطة؛ anon لا. لا تنفيذ أو إثبات منفذ HTTP أو تعديلمنح. أي منح أخرى مرئية في EF ليست إذناًلاختبارها ولا حكماًبوقوعاستغلال.
 - DEP الخاص بالدوال الأساسية يحمل حوافاً كتالوجية لا كامل استدعاء PL/pgSQL ؛ body+D/R/TT/P/QC/POL هي سلسلة الإسناد. لا يُعاد بناء fixture ولا يُعلن حصر كل كاتب موثوق/service_role/owner أوخدمةخارجية.
+
+
+## دلتا تجهيز الميزات الحالية — 2026-11-12
+
+صفوف A/W/T السابقة محفوظة؛ ربط التطبيقات والنواة بالنشر التاريخي والإصدار الفعّال UNKNOWN مفصل في التقرير، وبطاقتا B02/B03 تحددان caller/transaction/drain والأصل المطلوب. لا إعادة جرد أو ادعاء Job من استدعاء المتصفح.
+
+[التسليم الموحد](../phase1-feature-readiness/REPORT-AR.md) — [بطاقات الدليل](../phase1-feature-readiness/EVIDENCE-WORK-PACKETS.md) — [عقد القياس](../phase1-feature-readiness/MEASUREMENT-CONTRACT.md).
+هذه إضافة إحالة فقط؛ النص والصفوف السابقة لم تتغير. PHASE1 PARTIAL/BLOCKED؛ PHASE2 NO-GO؛ بانتظار مراجعة مستقلة للدلتا.
