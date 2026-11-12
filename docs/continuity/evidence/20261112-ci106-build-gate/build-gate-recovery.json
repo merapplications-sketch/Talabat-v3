@@ -1,0 +1,449 @@
+{
+  "tree_commit": "a7d011dc54a7e129f882ad263b34f21d352521f8",
+  "historical_attestation": "docs/pilot-20261105/security-20261107/continuation25/.security/last-build.json",
+  "read_only": true,
+  "tests_run": false,
+  "scope": "Static recovery mapping only; no assembled build, no private evidence read, and no independent acceptance",
+  "summary": {
+    "CHECKED_CANDIDATES_DIFFER": 7,
+    "MATCHED_SAVED_BYTES": 11,
+    "NO_SAME_BASENAME_IN_THIS_TREE": 10
+  },
+  "rows": [
+    {
+      "required": "public/admin.html",
+      "expected_sha256": "238fb343f446d51ac56249d59d63629a67e68689c8b4a59786ae9852b8d6c48d",
+      "matching_candidates": [],
+      "checked_candidates": [
+        {
+          "path": "admin.html",
+          "sha256": "a108f62b96f54bf30141707ea7029d278365af1ff9d9e0938eb58a5ef6bff5de",
+          "tool_blob_sha": "062a68cfa740f2733cad39b5c4c5b0c635f54e55"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "CHECKED_CANDIDATES_DIFFER"
+    },
+    {
+      "required": "public/assets/mfa.js",
+      "expected_sha256": "f519a722fa3184015168ae366d368f9544ce5c0af49dd568bac4e095f1cad721",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "public/customer.html",
+      "expected_sha256": "a7b3e4a1439dbf0c3dbf86b72a55af346aade02cd60b6893f2f894560c87b05b",
+      "matching_candidates": [],
+      "checked_candidates": [
+        {
+          "path": "customer.html",
+          "sha256": "96a51f0cee61fac4df682234fa4e8b88b561833979831adc56fc21c5676cfa3f",
+          "tool_blob_sha": "9bc335f52ad58d7feab12ad8a2214bde9ab32330"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "CHECKED_CANDIDATES_DIFFER"
+    },
+    {
+      "required": "public/driver.html",
+      "expected_sha256": "d994e4bc9d1a053737f522139fe578ba7072e11d3622fd9fd225ca39de7d7704",
+      "matching_candidates": [],
+      "checked_candidates": [
+        {
+          "path": "driver.html",
+          "sha256": "e5ec3a43493bffcbd2bb374732c11d4b5b7a557c8a929c91da6fbfe9e502ecf7",
+          "tool_blob_sha": "086929844b2080d7aa2afe1c2c57267cde245d40"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "CHECKED_CANDIDATES_DIFFER"
+    },
+    {
+      "required": "public/merchant.html",
+      "expected_sha256": "ee6ea93fdd6cdcf6eab912c1d37e1d7850c2b71e64707290b3de5fffa76a7f5d",
+      "matching_candidates": [],
+      "checked_candidates": [
+        {
+          "path": "merchant.html",
+          "sha256": "da95c1932139308a4c254a9e13042aba6b4a031a31c1446350afe8a70235d84a",
+          "tool_blob_sha": "5f09dd5cc3d5abc9d6b0d3afa031342b05f5212c"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "CHECKED_CANDIDATES_DIFFER"
+    },
+    {
+      "required": "public/talabat-core.js",
+      "expected_sha256": "923e85126426746296b1f660d1018ab96e7576bb5ccd4768f7de25042d63b14b",
+      "matching_candidates": [],
+      "checked_candidates": [
+        {
+          "path": "talabat-core.js",
+          "sha256": "226c56c80ae584ccf3c9aef0887634feddf8f623ee32ae3b3394ad4d9deaf85d",
+          "tool_blob_sha": "f639bec1d23a812866e06eb1110940c77563387c"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "CHECKED_CANDIDATES_DIFFER"
+    },
+    {
+      "required": "scripts/build.mjs",
+      "expected_sha256": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/scripts/build.mjs",
+          "sha256": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621",
+          "tool_blob_sha": "d094e1f56f4e9546b3a31eaeccb82f6140073375"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/scripts/build.mjs",
+          "sha256": "c7cea8f2a9acf0137a90108f8384d6bbf1fc03655f17feb7a5c62e6d3f369621",
+          "tool_blob_sha": "d094e1f56f4e9546b3a31eaeccb82f6140073375"
+        },
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation26/scripts/build.mjs",
+          "sha256": "174f7fba7d45df8a67e40e71b8b3fb3e01732ba007c3f91a650e69d3d00c5695",
+          "tool_blob_sha": "bed06c1743012a336e598e5385daf553435c114d"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "scripts/csp-policy.mjs",
+      "expected_sha256": "72e29e9332a59367935f382e2c4f52be2bc5e90fadc002fff741ecc93c44b0a2",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "scripts/security-gate.mjs",
+      "expected_sha256": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/scripts/security-gate.mjs",
+          "sha256": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348",
+          "tool_blob_sha": "8eb72d32256b0586a8bcff9e8a69067ef1ead875"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/scripts/security-gate.mjs",
+          "sha256": "8bfd0ba653c9b52f9e26c1e4595cea517878c11183481cd96da52f14e4288348",
+          "tool_blob_sha": "8eb72d32256b0586a8bcff9e8a69067ef1ead875"
+        },
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation26/scripts/security-gate.mjs",
+          "sha256": "e0add8ebf3e6aed31f2dac3cfc3c3a59740bdbb2252be97023f375652ad73f26",
+          "tool_blob_sha": "d3673d9fda5dbae1299708a117359848ef3c4235"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/admin-idle.cjs",
+      "expected_sha256": "2dc238e2f17ab461303ece03b248e4298c8d9ab3925f4b048277e45d9cd292c7",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "tests/auth-error-redaction.cjs",
+      "expected_sha256": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/tests/auth-error-redaction.cjs",
+          "sha256": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+          "tool_blob_sha": "70bc8d9f1bf2525f18c89ffc16fad03af6f0caa6"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/tests/auth-error-redaction.cjs",
+          "sha256": "24e17cc55ae095f961771ae80e84b2e00366b6ae801e4068604d133f33842e1b",
+          "tool_blob_sha": "70bc8d9f1bf2525f18c89ffc16fad03af6f0caa6"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/customer-auth-scope.cjs",
+      "expected_sha256": "73c145907aa8da10778daea41cbb32ae1dad5caf817a3ce287a4a67d06a80e18",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "tests/customer-recommendation-encoding.py",
+      "expected_sha256": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/customer-recommendation-encoding.py",
+          "sha256": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+          "tool_blob_sha": "7c70d1a0e24bd8ca1488e941653813374b03d285"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/customer-recommendation-encoding.py",
+          "sha256": "31eca4a43af6cb536242f5bd0d1a61a0e3ba310996d80dbb11f8a4052198adb0",
+          "tool_blob_sha": "7c70d1a0e24bd8ca1488e941653813374b03d285"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/db-regression-evidence.cjs",
+      "expected_sha256": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/tests/db-regression-evidence.cjs",
+          "sha256": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85",
+          "tool_blob_sha": "84dd364a8f1b8aec2c62ecce8b8c0b7a45e5dbcd"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation25/tests/db-regression-evidence.cjs",
+          "sha256": "38912f07589f534ea53730cf0b5a8fa2429c2b683c4f025492929b0d8138da85",
+          "tool_blob_sha": "84dd364a8f1b8aec2c62ecce8b8c0b7a45e5dbcd"
+        },
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation29/tests/db-regression-evidence.cjs",
+          "sha256": "200cd301409c8e5f2b9dd08cc098921905efd7559546b61e014b34482b4745ca",
+          "tool_blob_sha": "352364a4cd1cedb3e6f4b0c3812c070656e21a4e"
+        },
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation30/tests/db-regression-evidence.cjs",
+          "sha256": "e5403e88af4aa2c5ece319f91024404924654f0470d79ec29e70f3141e6dc221",
+          "tool_blob_sha": "521d9d3a06eab91e9266455ab3b612dfbdfdad78"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/driver-chat.cjs",
+      "expected_sha256": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/driver-chat.cjs",
+          "sha256": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+          "tool_blob_sha": "44ed30e39cfb233d2764ede250adfede73123b7a"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/driver-chat.cjs",
+          "sha256": "31a8237087eedb80e705be2e164659dd667a37e833f80ca9757a338c8240a9a6",
+          "tool_blob_sha": "44ed30e39cfb233d2764ede250adfede73123b7a"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/image-limits.cjs",
+      "expected_sha256": "1d3e924d6e26b691f9fcdba35b026bec43500f172ac9aaf948c58ad635e62cd2",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "tests/map-policy.cjs",
+      "expected_sha256": "9794e54e55dfb07f66c0d4ff70e7b77f70f0c485bb849cfd3126f53a435feaff",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "tests/merchant-report.cjs",
+      "expected_sha256": "bdfd9292abf5a4d24b582526e1b46b8adfb7699364037ebb400ce73ec95a42ef",
+      "matching_candidates": [],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/merchant-report.cjs",
+          "sha256": "859a6641d770b7ede1b0abaa73d9cfc654acd70ab9ef300a69d7533cdbc65500",
+          "tool_blob_sha": "e63f1f881c9b2b88b199ef1cb047684ba177ca4f"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "CHECKED_CANDIDATES_DIFFER"
+    },
+    {
+      "required": "tests/mfa.cjs",
+      "expected_sha256": "87deb565b295103d9336bbdbfd438c3b475c023f32b9770a56b5753c2bb6e011",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "tests/passive-signout.cjs",
+      "expected_sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/passive-signout.cjs",
+          "sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+          "tool_blob_sha": "275c8d77b817ea188261e8e38873aa1e513becce"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/data-crypto/passive-signout.cjs",
+          "sha256": "630a1ce212d1e56f58a68469ed3a96f0151e5b7953dada648dcf9f7cef9eb036",
+          "tool_blob_sha": "1ecc4a2400fad63c5d531f60b74f18333b24f242"
+        },
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/passive-signout.cjs",
+          "sha256": "a6f9edd2201928f5982af93697d76c44c782ff869e5767982e5de97149c5b2d7",
+          "tool_blob_sha": "275c8d77b817ea188261e8e38873aa1e513becce"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/proof-access.cjs",
+      "expected_sha256": "79117da4696288c8f8871dcc20fa0366da357529064f1501ed67f822334f66db",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "tests/proof-epoch.cjs",
+      "expected_sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/proof-epoch.cjs",
+          "sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+          "tool_blob_sha": "23a58d51fcc162f65d0318fbae5123285ec65b26"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/proof-epoch.cjs",
+          "sha256": "cd15b08f061b1b5f9dd4724c8d979fecf8cc9c173224200095306f5a4089cfbb",
+          "tool_blob_sha": "23a58d51fcc162f65d0318fbae5123285ec65b26"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/request-id-compat.cjs",
+      "expected_sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation22/request-id-compat.cjs",
+          "sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+          "tool_blob_sha": "e3b2b927d162b6947d8483abd9d6f7237ec61e7e"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation22/request-id-compat.cjs",
+          "sha256": "aee688557ce67948d1e9f5cef80f75f8106875d7bb0cc9b16f39c61d6858b55b",
+          "tool_blob_sha": "e3b2b927d162b6947d8483abd9d6f7237ec61e7e"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/return-receipt.cjs",
+      "expected_sha256": "f145ff130d5096b447419aa69512cf85348617f25bf0e144690b01ef830509b8",
+      "matching_candidates": [],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/return-receipt/return-receipt.cjs",
+          "sha256": "66f0f1edc3ac14cb836f21fba0be89a9fd38a6487e59e70f1dc63bae1341f292",
+          "tool_blob_sha": "39b750963a819f14f3d76a3384f91bdc7faca12a"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "CHECKED_CANDIDATES_DIFFER"
+    },
+    {
+      "required": "tests/security-errors-logout.cjs",
+      "expected_sha256": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/security-errors-logout.cjs",
+          "sha256": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+          "tool_blob_sha": "e16ea822195105b3ea01a38a12cef72e27a48967"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation24/source/tests/security-errors-logout.cjs",
+          "sha256": "4afdba7f76b6ae99522735dd5587f3773c33c23047a51e621dc322204aaf1799",
+          "tool_blob_sha": "e16ea822195105b3ea01a38a12cef72e27a48967"
+        },
+        {
+          "path": "docs/pilot-20261105/security-20261107/continuation31/security-errors-logout.cjs",
+          "sha256": "3ee57bdcc980d97dccd49a51364f8840c881372eeb916728be2cdfbba1cc474e",
+          "tool_blob_sha": "5bf74159b24d86a3eb9009de65156ac3e33dfa9d"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/test-all.py",
+      "expected_sha256": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+      "matching_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/test-all.py",
+          "sha256": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+          "tool_blob_sha": "13da9d2bbd8ddac66932573a28977430ab5245aa"
+        }
+      ],
+      "checked_candidates": [
+        {
+          "path": "docs/pilot-20261105/security-20261107/test-all.py",
+          "sha256": "320bef5f605aa7b9bed7aee1047db2c053f9b025b3321b9456d062b8026920e4",
+          "tool_blob_sha": "13da9d2bbd8ddac66932573a28977430ab5245aa"
+        }
+      ],
+      "unread_candidates": [],
+      "status": "MATCHED_SAVED_BYTES"
+    },
+    {
+      "required": "tests/test-inline-context.py",
+      "expected_sha256": "a712a8e370ba78ce61ec69f28d779608c9e59e749e0099a86cfe9d3320748a42",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    },
+    {
+      "required": "worker/index.js",
+      "expected_sha256": "69a744226e1981a8183bebabfa2112593585a4f39fbb000e6534e759d9b4d19c",
+      "matching_candidates": [],
+      "checked_candidates": [],
+      "unread_candidates": [],
+      "status": "NO_SAME_BASENAME_IN_THIS_TREE"
+    }
+  ],
+  "retrieved_bytes_git_blob_verified": true,
+  "exclusions": [
+    "Current Git tree only, no all-history or other-branch absence claim",
+    "These 28 fingerprints are not the complete build dependency closure",
+    "Private security/db evidence was not read or copied",
+    "No builds, tests, probes, deploys or SQL were executed"
+  ]
+}

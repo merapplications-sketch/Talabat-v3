@@ -1,0 +1,100 @@
+{
+  "record_type": "management_evidence_retrieval",
+  "date_local": "2026-11-12",
+  "timezone": "Asia/Dushanbe",
+  "repository": "merapplications-sketch/Talabat-v3",
+  "run": {
+    "id": 42829377671,
+    "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/42829377671",
+    "head_sha": "86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+    "head_branch": "review/batch106-20261110",
+    "status": "completed",
+    "conclusion": "success",
+    "event": "push",
+    "created_at": "2026-11-10T13:57:55Z",
+    "updated_at": "2026-11-10T13:58:39Z",
+    "run_attempt": 1,
+    "workflow_path": ".github/workflows/ci106.yml",
+    "jobs": [
+      {
+        "id": 129875085668,
+        "name": "postgres",
+        "conclusion": "success"
+      },
+      {
+        "id": 129875429873,
+        "name": "required106",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "artifact": {
+    "id": 13770627035,
+    "name": "native106-synthetic-86eb978e1aeb2be4a9d90999dc9b5a1267cb33df",
+    "size_in_bytes": 3187,
+    "sha256": "b21fa3a1f7ae4d99066c45813b4ae6c67b0affdcc616e3132d4c84f054854029",
+    "github_digest_matched": true,
+    "expired_at_retrieval": false,
+    "expires_at": "2026-11-17T13:58:29Z",
+    "archive_file": "native106-synthetic-86eb978.zip",
+    "files": [
+      {
+        "name": "native106-admission.json",
+        "bytes": 1656,
+        "sha256": "8bfe45f6612491c2cb2574a7b37a575c2465c9f6ab9826eb57428a59d9357910"
+      },
+      {
+        "name": "native106-baseline.json",
+        "bytes": 298,
+        "sha256": "9bd583de12257cf62e77ada0070d4326b749e3e292c16833a5a2da90565ea621"
+      },
+      {
+        "name": "native106-catalog.json",
+        "bytes": 1159,
+        "sha256": "c40d5754057ebc2ae32d51c12beffb649fabe57c8297e20300f48512f45e1ead"
+      },
+      {
+        "name": "native106-client.json",
+        "bytes": 541,
+        "sha256": "8073a037b01a0c927e55d5255fd8934ad3532fe70c318beac8b8d4c5362bb2f7"
+      },
+      {
+        "name": "native106-regression.json",
+        "bytes": 536,
+        "sha256": "72c088887716451b9da2b6c197f7d446595b118bc7e2fcb0152d58501fb98268"
+      },
+      {
+        "name": "native106-resources.json",
+        "bytes": 769,
+        "sha256": "fdfb2167ef6a54b0db1c6475547336ef33d16e76fa2cdc27e65c591684c8017f"
+      },
+      {
+        "name": "native106-restore.json",
+        "bytes": 179,
+        "sha256": "da4fe9bce36ca58a6665ee772d4e90e83936fe807cc18942e4cd72247de05325"
+      },
+      {
+        "name": "native106-results.json",
+        "bytes": 292,
+        "sha256": "3dd2cf97900f312119da9163c9a48b5b9a3c3cfaecec258f5ed23ba3ec4c1340"
+      }
+    ]
+  },
+  "interpretation": {
+    "artifact_contents": "8 synthetic historical JSON outputs; baseline reproduces the old defect, remaining results retain their stated scopes",
+    "source_environment": "PostgreSQL17.6 synthetic CI; not active deployment, hosted HTTP, provider backup, Storage, or real Safari",
+    "tests_rerun": false,
+    "raw_audit107_included": false,
+    "secrets_or_private_business_data_included": false,
+    "independent_acceptance": false
+  },
+  "build_gate_recovery": {
+    "file": "build-gate-recovery.json",
+    "reference_commit": "a7d011dc54a7e129f882ad263b34f21d352521f8",
+    "matched_saved_source_fingerprints": 11,
+    "checked_candidates_differ": 7,
+    "no_same_basename_in_tree": 10,
+    "absence_claim_scope": "Only the inspected complete current tree and same-basename candidates; no all-branches/history conclusion",
+    "full_dependency_closure": false
+  }
+}
