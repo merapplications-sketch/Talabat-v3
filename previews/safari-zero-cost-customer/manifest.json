@@ -1,0 +1,263 @@
+{
+  "schema": "talabot-safari-visual-1",
+  "status": "NOT_PUBLISHED_STATIC_PREVIEW",
+  "source_repository": "merapplications-sketch/Talabat-v3",
+  "approved_customer_source_commit": "1cb85361d698d5da787d927a4c9ae7bd213c68c1",
+  "approved_customer_source_blob": "9bc335f52ad58d7feab12ad8a2214bde9ab32330",
+  "approved_core_blob": "f639bec1d23a812866e06eb1110940c77563387c",
+  "original_fixture": "tools/qa_all.py FIX",
+  "original_fixture_blob": "19a9643f3643364b48f8fa8ccd2dd5bafd22c6c4",
+  "original_css_preserved": true,
+  "original_russian_logo_preserved": true,
+  "supported_ui_languages": [
+    "ru",
+    "en"
+  ],
+  "tg_note": "Original approved customer does not implement TG; do not invent translated UI",
+  "disabled_capabilities": [
+    "orders",
+    "payments",
+    "real auth",
+    "external APIs",
+    "maps/geolocation",
+    "outbound network",
+    "real chat"
+  ],
+  "asset_refs": [
+    {
+      "path": "assets/3d/LICENSE-fluentui-emoji.txt",
+      "git_blob": "9e841e7a26e4eb057b24511e7b92d42b257a80e5"
+    },
+    {
+      "path": "assets/3d/automobile.webp",
+      "git_blob": "fa98f3790515f92e3395e7ec684a92ec78fcf487"
+    },
+    {
+      "path": "assets/3d/avocado.webp",
+      "git_blob": "697085de4dd31213aa631a255a2366edd5cf99bf"
+    },
+    {
+      "path": "assets/3d/balloon.webp",
+      "git_blob": "2cc0d498d24ed7161093b0909e4be62c5a55eb3e"
+    },
+    {
+      "path": "assets/3d/basket.webp",
+      "git_blob": "a3634dc346fc0b8a0b1f55d0aa3292ce6938ddaa"
+    },
+    {
+      "path": "assets/3d/bell.webp",
+      "git_blob": "97d3e86c8405bd1d5aaf2657cba300c0b471c5fd"
+    },
+    {
+      "path": "assets/3d/birthday-cake.webp",
+      "git_blob": "3bf58842341e3054ee4f5124f94aea7f3b3362a2"
+    },
+    {
+      "path": "assets/3d/bouquet.webp",
+      "git_blob": "a62b001e3b573b674e532c0c686be828dce5f6dd"
+    },
+    {
+      "path": "assets/3d/bread.webp",
+      "git_blob": "9cc5da4090635996e5055df3ba12e66dcecf5916"
+    },
+    {
+      "path": "assets/3d/carrot.webp",
+      "git_blob": "21cb7a73993a69622c13266ce654f5c5a32fd98f"
+    },
+    {
+      "path": "assets/3d/cityscape-at-dusk.webp",
+      "git_blob": "82c1da0d5f18626ed5a40eaf79905a874c8dcfb4"
+    },
+    {
+      "path": "assets/3d/coin.webp",
+      "git_blob": "066607e2dd9dfd5d5936e7e09da2250f13fa87f2"
+    },
+    {
+      "path": "assets/3d/couch-and-lamp.webp",
+      "git_blob": "8c7fc1443197375909f9b3e756637111298fd12a"
+    },
+    {
+      "path": "assets/3d/credit-card.webp",
+      "git_blob": "66d20e65b29cbfeee016386b8eae9c240720e89c"
+    },
+    {
+      "path": "assets/3d/croissant.webp",
+      "git_blob": "350c02f1a70e55a80a1c294cc4d32d6e97622dda"
+    },
+    {
+      "path": "assets/3d/ear-of-corn.webp",
+      "git_blob": "aa8c4eda3bfd8f6a59414ddadc083bb07798a034"
+    },
+    {
+      "path": "assets/3d/fire.webp",
+      "git_blob": "ada7e5458f71cae34135f032ebb0963d31db2c94"
+    },
+    {
+      "path": "assets/3d/flowers-gifts.webp",
+      "git_blob": "e1ea567e9103ee96e56d4b2fcf4ffc783d2ae32f"
+    },
+    {
+      "path": "assets/3d/french-fries.webp",
+      "git_blob": "ff3577b410698e96aa25f2888e75de626d82bb11"
+    },
+    {
+      "path": "assets/3d/gem-stone.webp",
+      "git_blob": "818e029adb7a16c2ca31a5a568c47fbeaf2bffd6"
+    },
+    {
+      "path": "assets/3d/hamburger.webp",
+      "git_blob": "aa7a0ecbeb020cd81ce25d09e85cb5954c6565fe"
+    },
+    {
+      "path": "assets/3d/headphone.webp",
+      "git_blob": "b60bffcd4ef907ce822626d1863cfd42eaa5fc77"
+    },
+    {
+      "path": "assets/3d/high-voltage.webp",
+      "git_blob": "ef14f281b8209fe5434c2af3661b44b04128cfd2"
+    },
+    {
+      "path": "assets/3d/hospital.webp",
+      "git_blob": "083bf268254cac464d28059aa5caf979681c54be"
+    },
+    {
+      "path": "assets/3d/leafy-green.webp",
+      "git_blob": "31dde1c844c85075bf63a42765283410097934ae"
+    },
+    {
+      "path": "assets/3d/lotion-bottle.webp",
+      "git_blob": "b103a17ad9f5e2711eaf20e8e283081746c2655b"
+    },
+    {
+      "path": "assets/3d/mobile-phone.webp",
+      "git_blob": "551e81c9203a71c3594af468e15374ede7c19851"
+    },
+    {
+      "path": "assets/3d/motor-scooter.webp",
+      "git_blob": "87c3c5875e80c21fd72d6ad1f1b84d97b07f29c8"
+    },
+    {
+      "path": "assets/3d/package.webp",
+      "git_blob": "288e6c9c9ff96f268f77025d5b08671ebcae11d2"
+    },
+    {
+      "path": "assets/3d/party-popper.webp",
+      "git_blob": "90b379f7903c080b80c34ca81e1130105fa6dc07"
+    },
+    {
+      "path": "assets/3d/paw-prints.webp",
+      "git_blob": "f9e7591f883f89e3833beac03e06f3239fde1159"
+    },
+    {
+      "path": "assets/3d/pill.webp",
+      "git_blob": "6a4ddbd2732b3ce633d18dd8e031e300b2800ead"
+    },
+    {
+      "path": "assets/3d/pizza.webp",
+      "git_blob": "96ba1d53905213239f33f3d326f19b6be8f8b063"
+    },
+    {
+      "path": "assets/3d/red-apple.webp",
+      "git_blob": "39a751d29747f5694be7c1af1677d108ba3454f5"
+    },
+    {
+      "path": "assets/3d/red-heart.webp",
+      "git_blob": "d12bd365597a1dd1daac3543201bd337383d87ce"
+    },
+    {
+      "path": "assets/3d/rose.webp",
+      "git_blob": "bf90bdeaf795493514c19a03e4c932d1c9263b7f"
+    },
+    {
+      "path": "assets/3d/round-pushpin.webp",
+      "git_blob": "a62fb807eaf4e72d1f4a80053e8af93675a21249"
+    },
+    {
+      "path": "assets/3d/shopping-bags.webp",
+      "git_blob": "859ab0dd68fb7d299d6d734d99ad6312c5f67903"
+    },
+    {
+      "path": "assets/3d/shopping-cart.webp",
+      "git_blob": "92af61210e6bc4108f7567c5d27dc234b7b9f1e4"
+    },
+    {
+      "path": "assets/3d/shortcake.webp",
+      "git_blob": "28e3e252e130716ff90151b83b2e976c6124602d"
+    },
+    {
+      "path": "assets/3d/sparkles.webp",
+      "git_blob": "7d6632890f75953760cd24379eafcb29526e635f"
+    },
+    {
+      "path": "assets/3d/star.webp",
+      "git_blob": "5091ea91d1e817486c4317e41f9ce4c50f9b6346"
+    },
+    {
+      "path": "assets/3d/sushi.webp",
+      "git_blob": "e923ff012e26f5c881712704d5c71ab0850b894d"
+    },
+    {
+      "path": "assets/3d/teddy-bear.webp",
+      "git_blob": "3aa2d7b8474eee8c54440aeb02ddd2f02f213fe8"
+    },
+    {
+      "path": "assets/3d/tulip.webp",
+      "git_blob": "023ce3f4186bb6507745a66dafa27cdde49adca5"
+    },
+    {
+      "path": "assets/3d/wrapped-gift.webp",
+      "git_blob": "454a6f62f29837ef4ff37c52c9591f6990e5d92c"
+    },
+    {
+      "path": "assets/mobile.css",
+      "git_blob": "6e81536a6be8926f8848d80f44e8229251fe7aaf"
+    },
+    {
+      "path": "assets/mobile.js",
+      "git_blob": "402aa412edfcb2dace855189e210da7a20621b14"
+    },
+    {
+      "path": "assets/driver-returns/panel.css",
+      "git_blob": "a5d31a21c1442d5ef954ead357a393c1ce6e331c"
+    },
+    {
+      "path": "assets/driver-returns/panel.js",
+      "git_blob": "7be28930ab1a989a86efedde29001636151b1309"
+    }
+  ],
+  "scan": {
+    "static_text_files": [
+      {
+        "name": "index.html",
+        "chars": 535655,
+        "scan": "NO_REMOTE_LITERAL_URLS_OR_KEYS",
+        "js": true
+      },
+      {
+        "name": "demo-core.js",
+        "chars": 141366,
+        "scan": "NO_REMOTE_LITERAL_URLS_OR_KEYS",
+        "js": true
+      },
+      {
+        "name": "demo-fixture.js",
+        "chars": 11438,
+        "scan": "NO_REMOTE_LITERAL_URLS_OR_KEYS",
+        "js": true
+      },
+      {
+        "name": "demo-guard.js",
+        "chars": 1175,
+        "scan": "NO_REMOTE_LITERAL_URLS_OR_KEYS",
+        "js": true
+      }
+    ],
+    "unsafe_literal_urls": 0,
+    "real_service_tokens": 0,
+    "single_csp": true,
+    "connect_src_none": true,
+    "browser_network_test": "NOT_EXECUTED",
+    "physical_safari": "NOT_EXECUTED"
+  },
+  "publishing": "HOLD: separate security/UX review and explicit owner authorization for specific static-only artifact and new zero-cost HTTPS host"
+}

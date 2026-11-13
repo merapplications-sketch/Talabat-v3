@@ -1,0 +1,34 @@
+/* pilot-mobile-20261106.1: layout corrections, no page scaling or zoom lock. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+body{min-width:0}
+#app,.w{min-width:0;max-width:100%}
+.nav>div{min-width:0;overflow-wrap:anywhere}
+.nav{padding-left:max(4px,env(safe-area-inset-left,0px));padding-right:max(4px,env(safe-area-inset-right,0px))}
+input,textarea,select{scroll-margin-block:90px}
+@media(pointer:coarse){body input,body textarea,body select,body .top select{font-size:16px!important}}
+body[data-app=merchant] .top>div:first-child{flex:1;min-width:0}
+body[data-app=merchant] .top small{display:block}
+body[data-app=merchant] .top select{display:block;width:100%;max-width:100%;text-overflow:ellipsis}
+body[data-app=merchant] .swb{flex:0 0 auto;max-width:46%;white-space:normal;text-align:start}
+body[data-app=merchant] .swb i{flex:none}
+body[data-app=merchant] .swb span{min-width:0;overflow-wrap:anywhere}
+body[data-app=admin] .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+body[data-app=admin] .row{flex-wrap:wrap}
+body[data-app=admin] .row>*{min-width:0;max-width:100%;overflow-wrap:anywhere}
+@media(min-width:760px){body[data-app=admin] .grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:374px){body[data-app=merchant] .top{padding:14px 12px;gap:8px}body[data-app=merchant] .swb{padding:8px;gap:5px}}
+body[data-app=customer] .d6h,body[data-app=customer] .d6l{min-height:100svh}
+body[data-app=customer] .d6-bento{grid-template-columns:minmax(0,1.53fr) minmax(0,1fr);grid-template-rows: minmax(112px,auto) minmax(112px,auto)}
+body[data-app=customer] .d6-bento.one{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(180px,auto)}
+#app .d6-bt .tt{font-size:clamp(15px,4.2vw,18px);line-height:1.25;overflow-wrap:anywhere}
+#app .d6-bt.d6tm .tt{font-size:clamp(18px,5vw,22px);line-height:1.25}
+body[data-app=customer] .d6-bt:not(.d6tm) .ar{position:relative;margin-top:auto;flex:none}
+body[data-app=driver] .hd{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@supports(height:100dvh){.sheet>div,.sheet>.asheet,.osh{max-height:calc(var(--tlb-visible-height,100dvh) - 24px)}body[data-app=driver] .sht.full{max-height:calc(var(--tlb-visible-height,100dvh) - 170px - env(safe-area-inset-bottom,0px))}}
+body.tlb-keyboard .nav{visibility:hidden;pointer-events:none}
+body.tlb-keyboard .fbar{bottom:var(--tlb-keyboard-inset,0px)}
+
+#app .d6-cats{grid-template-columns:repeat(6,minmax(64px,1fr));overflow-x:auto;overscroll-behavior-x:contain}
+#app .d6-ct b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:normal}
+/* WebKit native select paint must not replace the orange-header contrast. */
+body[data-app=merchant] .top select{-webkit-appearance:none;appearance:none;background-color:#ffffff33;color:#fff;border-radius:999px;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
