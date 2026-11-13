@@ -47,3 +47,16 @@ After screenshot, PM records factual result in #26; OPS/DEV verify current sourc
 - C-01 remains 0/51 E2E executed; Admin 0/21; G1 incomplete; QA/RELEASE/PHASE2 NO-GO.
 - Every future report/comment: exact SHA, environment, observed result (PASS/BLOCKED/UNTESTED), owner and next step. Never infer a PASS from a link or a document.
 - This branch is a single documentation-only owner-continuity update. No source/CI/Cloudflare/Supabase/GitHub Pages/production modification or deployment was undertaken.
+
+## 4. OWNER UI OBSERVATION — DEFERRED UNTIL CURRENT STAGE CLOSES (2026-11-13)
+
+**Source:** Owner's iPhone Safari screenshot of historical TALABOT pilot login, recorded in [SAFARI-OWNER-FIRST-SCREEN-EVIDENCE-20261113.md](SAFARI-OWNER-FIRST-SCREEN-EVIDENCE-20261113.md).  
+**Priority/status:** **OWNER-REPORTED / DEFERRED — NOT ACCEPTED AS FINAL DESIGN / NOT AUTHORIZED TO FIX IN CURRENT STAGE.**
+
+- Owner reports that the displayed login interface looks unattractive, is **too dark / too saturated**, and does **not match the approved TALABOT application colors and visual identity**.
+- The screenshot is from **historical pilot preview**, not the pinned current approved UI. **Do not treat its color choices as approved**, and do not change or overwrite the current approved palette, logo, Home Dynamic Marketplace B, Restaurant Details v1.6, Customization Direction A, DineOut Gold or Admin Template B/V04.
+- **Schedule only after the current isolated-environment/security/C-01 gate stage is completed or explicitly closed by PM**; no aesthetic fixes, design changes or deployment now. This must not create another iteration that blocks the approved current testing sequence.
+- **Future designer task (requires PM authorization):** compare actual Safari screenshot of pilot login against approved TALABOT design tokens/reference screens; identify exact background gradient, foreground contrast, card surfaces, typography and brand palette deviations. Propose a **lighter, visually comfortable** login treatment consistent with the **already approved** original identity, keeping legibility and accessibility. Owner reviews screenshots **before/after on actual iPhone Safari** before any acceptance; do not infer style only from a stale preview.
+- **Future implementer:** after design approval, programmer integrates only the explicitly accepted delta; independent UX reviewer validates original approved screens, consistency, responsiveness and contrast; publisher releases only after a separate owner deployment decision.
+- **Owner action right now:** **NONE**. The first-screen screenshot has already been delivered and recorded. Do not ask for a repeat screenshot or more infrastructure; PM coordinates next work via the issue log.
+- **Preservation:** retain this deferred issue in MASTER #26 and this continuity document so another PM can recover it after the current stage without rewriting product/design locks.
