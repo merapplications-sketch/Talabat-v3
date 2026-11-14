@@ -1,6 +1,6 @@
 # TALABOT — تسليم احتياطي موحّد لكل ChatGPT / Work / Claude
 **إصدار:** 14 نوفمبر 2026، دوشنبه · **الصفة:** مرجع استئناف توثيقي؛ ليس قبول إصدار أو تفويض نشر/تعديل إنتاج.
-**لا تشتغل على Smile Up.** المستودع الرئيسي: `merapplications-sketch/Talabat-v3`، لوحة الإدارة: `merapplications-sketch/talabot-tailadmin-review`.
+**هذا المستودع مخصص لـTALABOT فقط.** المستودع الرئيسي: `merapplications-sketch/Talabat-v3`، لوحة الإدارة: `merapplications-sketch/talabot-tailadmin-review`.
 
 ## أولاً: اقرأها بالترتيب كل مرة
 1. [MASTER — Issue #26 آخر تعليق](https://github.com/merapplications-sketch/Talabat-v3/issues/26)، ثم Issue المهمة المسندة لدورك.
@@ -62,7 +62,6 @@
 > **تصحيح المالك — 14 نوفمبر:** الانتقال إلى **Claude احتمال فقط وليس قرارًا**. لا تضع خطة ترحيل أو تفويضًا آليًا إلى Claude، ولا تعتبر ملفات CLAUDE.md تكليفًا نشطًا. جميع وثائق الاستئناف تصلح لأي محادثة أو فريق حسب اختيار المالك. فيديو Rust يتناول Ownership/Borrowing/Drop، وهي ميزات أمان ذاكرة بمستوى اللغة وليست أداة OWASP أو بديلًا عن سلامة معاملات PostgreSQL؛ **لا نقل TALABOT إلى Rust ولا إعادة كتابة للخدمات** قبل قياس عنق زجاجة واستصدار موافقة مستقلة. آخر حالة Stage20: BLOCKED ماديًا بسبب متطلبات JWT لرفع صفحات Cloudflare، ولا يوجد تصريح لتكرار المحاولة بالمسار نفسه.
 
 ## تحديث خطط المالك المجمعة — 14 نوفمبر 2026
-- **فهرس كل الخطط هو المرجع الأول**: [OWNER-PLANS-MASTER-INDEX](OWNER-PLANS-MASTER-INDEX-20261114.md). يشمل Uber RAM/QALM/Retry/GPS، الفحص الأمني OWASP، الأنظمة الحالية، إنذار الإدارة والسعة والنسخ الاحتياطية، تطبيقات المتاجر، خارطة الميزات الجديدة، وتطبيق المبادئ المناسب على Smile Up بعد اكتماله فقط.
+- **فهرس كل الخطط هو المرجع الأول**: [OWNER-PLANS-MASTER-INDEX](OWNER-PLANS-MASTER-INDEX-20261114.md). يشمل Uber RAM/QALM/Retry/GPS، الفحص الأمني OWASP، الأنظمة الحالية، إنذار الإدارة والسعة والنسخ الاحتياطية، تطبيقات المتاجر، خارطة الميزات الجديدة، وخطط TALABOT فقط.
 - [دروس Uber المبنية على المصادر الرسمية](../research/UBER-ENGINEERING-RELIABILITY-LESSONS-20261114.md) هي خطة تقييم **وليست أمرًا بتثبيت Rust/H3/Redis/Kafka أو إعادة كتابة**.
-- [Smile Up — التقييم المؤجل](../roadmap/SMILE-UP-FUTURE-RELIABILITY-ADOPTION-20261114.md): الاحتفاظ بخطوات قياس الذاكرة، QA/ASVS، backups والإنذار بعد إنهاء تطبيق Smile Up؛ **لم يُغيَّر مستودع Smile Up ولا قراراته**.
 - **آخر تقدم QA إضافي وقت هذا التوثيق**: [Stage16B](https://github.com/merapplications-sketch/Talabat-v3/blob/6e6af296858dce4d15002bc0cd10d305ced75883/docs/qa-first-20261114/STAGE16B-OWNER-UPLOADED-ZIP-CHROMIUM-INMEMORY-QA.md): ملف ZIP الأصلي وصل ماديًا فقط إلى حاوية محادثة المدير، SHA/CRC مطابقان، 8/8 فحوص شاشات مبدئية داخل about:blank مع بيانات وهمية، لكن لا HTTP/CSP/تطبيق Safari حقيقي أو مزامنة تلقائية مع الناشر. **Stage20** لا يزال متوقفًا في مسار النشر على JWT الخاص بـPages، والاختبارات التجارية G1/E2E غير محسومة.
