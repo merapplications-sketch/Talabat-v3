@@ -16,11 +16,12 @@ This is one final independent read-only handoff. No fixes, deployment, live requ
 - Independently fetched the corrected fixture via GitHub connector: Git blob **a2336b6471c96a9a5ca921ccd13805eedf506e0b**. Its line 2 retains fake customer identity/synthetic flag but **no longer overwrites tlb_demo_lang with ru**.
 - Unchanged index.html blob 8d1e41a0acfcefb0f0f08a6dd494ac9b1a755357 preserves saved-language precedence at line 8. Unchanged demo-core.js blob 28e140065a889be0cd3a206b7ae8c965f7f1e182 saves manual choice via setLang.
 - [Stage13 developer report](https://github.com/merapplications-sketch/Talabat-v3/blob/3f74b29a7c4bcc89cef9e25dd73f574448ab7896/previews/safari-zero-cost-customer/STAGE13-P2-LANGUAGE-PERSISTENCE-REPORT.md) reports 8/8 V8 **source-function simulation** PASS. Those results are **not actual browser E2E**. This independent review did not repeat them.
+- Independent GitHub Contents directory metadata for the **corrected SHA**: **9 root files + 2 mobile CSS/JS + 2 driver-returns CSS/JS + 46 assets/3d files = 59 tracked paths**. Stage10 had 58; Stage13 added its own Markdown report. These are path counts, not 59 executable files. All prior 50/50 copied-asset hash acceptance is reused without re-execution.
 - [Stage11 security QA](https://github.com/merapplications-sketch/Talabat-v3/blob/c90585b479f43143daa00504238a3732f962d625/docs/qa-first-20261114/STAGE11-INDEPENDENT-SAFARI-SECURITY-QA.md) previously matched 50/50 original copied asset Git blobs; [Stage12 UX QA](https://github.com/merapplications-sketch/Talabat-v3/blob/5a1df0998cf940f5881c6bd9e77748c38bfe2cbd/docs/qa-first-20261114/STAGE12-INDEPENDENT-SAFARI-CUSTOMER-UX-QA.md) examined approved visual structure. Stage13 did not change any of those files. **No repeat asset-hash audit, no original design audit, no PRICE/RATINGS/TIP or 106/107 retest.**
 
 ## 2. Actual environment and artifact acquisition
 
-**Required exact input:** all 58 source files from the corrected preview subtree, including binary WebP assets, directly available to an isolated browser runner. **Not available in the local filesystem during this session.** Local test environment has Chromium **144.0.7559.96**, Python Playwright and Node, but no current preview directory or archive in /mnt/data. These installed tools do not constitute a browser test.
+**Required exact input:** all **59 tracked paths** of the corrected preview directory (58 original Stage10 paths plus one Stage13 Markdown report), including all binary WebP assets, directly available to an isolated browser runner. **Not available in the local filesystem during this session.** Local test environment has Chromium **144.0.7559.96**, Python Playwright and Node, but no current preview directory or archive in /mnt/data. These installed tools do not constitute a browser test.
 
 | Retrieval path | What was actually attempted / returned | Status |
 |---|---|---|
@@ -30,7 +31,7 @@ This is one final independent read-only handoff. No fixes, deployment, live requ
 | **Alternative file downloader** | Downloader rejected unviewable archive URL; public web fetch of that URL returned DisabledError. | **URL approval/fetch boundary** |
 | **Browser loopback** | Not started, because a partial HTML copy without all immutable images/assets would violate exact-artifact test scope. | **Not executed** |
 
-**Blocker diagnosis:** GitHub connector access works for *individual* text and binary blobs. The available local test runner lacks a supported way to **materialize the complete 58-file immutable repository subtree** as a local directory/ZIP; direct outbound GitHub archive DNS is also unavailable. This is a **connector-to-local-runner artifact-transfer gap**, not a missing browser installation, a production-auth problem, a code execution failure, a requirement for paid hosting, or a reason to change Cloudflare/Supabase.
+**Blocker diagnosis:** GitHub connector access works for *individual* text and binary blobs. The available local test runner lacks a supported way to **materialize the complete 59-path immutable corrected preview directory** as a local directory/ZIP; direct outbound GitHub archive DNS is also unavailable. This is a **connector-to-local-runner artifact-transfer gap**, not a missing browser installation, a production-auth problem, a code execution failure, a requirement for paid hosting, or a reason to change Cloudflare/Supabase.
 
 **Shortest no-owner-action internal handoff:** use the programmer/source custodian's **already-authorized workspace** to export the exact corrected commit preview subtree as a ZIP or directory copy and transfer it using an approved existing QA file handoff to the independent tester; include all unchanged assets and corrected fixture. If the QA executor already has archive-download access, a pinned GitHub commit archive is equivalent. Verify exact SHA and fixture blob against this report on receipt. Do not rehash historical unchanged assets without a mismatch reason. **Nothing was exported or transferred here, no new task opened, no owner equipment/subscription/technical action requested.**
 
@@ -64,7 +65,7 @@ After an authorized **existing-artifact** transfer (not a rewrite, CI job or new
 | Gate | Current result | Objective closure proof / evidence owner |
 |---|---|---|
 | Stage13 P2 code delta | **VERIFIED SOURCE** | Exact corrected fixture blob and minimal diff already established; no programmer rework requested. |
-| Complete runnable bundle | **BLOCKED** | Existing source custodian supplies exact immutable 58-file archive through an approved internal route; QA confirms file identity. |
+| Complete runnable bundle | **BLOCKED** | Existing source custodian supplies exact immutable 59-path corrected preview archive through an approved internal route; QA confirms file identity. |
 | Browser/network no-production | **UNTESTED** | Independent QA captures attempted requests, no off-lab attempts, no external login/redirect, CSP+console evidence. |
 | No real order/payment | **UNTESTED** | In-browser negative checkout and mock side-effect evidence; zero real backend requests / false success. |
 | RU/EN and 320–430 | **UNTESTED** | 8/8 requested viewport-language cells, manual/reload/browser-first-visit language results, original visual comparison screenshots and DOM metrics. |
