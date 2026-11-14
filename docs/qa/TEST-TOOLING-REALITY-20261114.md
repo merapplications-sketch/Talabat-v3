@@ -1,15 +1,17 @@
-# TALABOT — اختبار الأدوات المستخدمة فعليًا: AVA / AVAS / Vitest وغيرها
+# TALABOT — سجل أدوات الاختبار: تأكيد OWASP ASVS 5.0.0 Level 2 مقابل AVA/Vitest
 **Checked 2026-11-14 / Asia-Dushanbe. Documentation-only, NOT execution.**
 
-## 1. ما الاسم الذي تذكره المالك؟
-قال المالك إن هناك أداة اختبار اسمها تقريبًا `avas`. **الاسم غير مؤكّد**. يوجد إطار JS معروف اسمه **AVA** (https://github.com/avajs/ava) لتشغيل اختبارات Node.js المنعزلة والمتوازية، لكن **لم يثبت أنه مُثبّت أو مستخدم في TALABOT**. لا تعتبر مجرد التشابه في اللفظ دليلًا. قد يقصد شيئًا مختلفًا؛ ينبغي أن يحدد الفريق ما هو مستعمل من ملفات المصدر والتقارير قبل اقتراح تثبيت أي إطار.
+## 1. تصحيح موثق: الاسم كان OWASP ASVS وليس AVA
+**المعروف الآن بدليل من المصدر التاريخي:** المالك والمدير والمبرمج/المستشار استخدموا **OWASP ASVS 5.0.0 Level 2** كمرجع تدقيق أمني؛ وقد قرأتُ `TALABOT-Project-Handoff-2026-11-09.txt` في ChatGPT Library، وهو يسجل مصفوفة **345 متطلبًا** بنتائج تاريخية: **1 PASS, 2 FAIL, 330 UNTESTED, 12 N/A**. لا تنقل هذه النتائج إلى الحالة الحالية دون تحقق من الإصدار/البيئة. أعمال المبرمج كانت جزئيًا في فرع محلي بدون remote مثبت، ولذلك لم يظهر هذا الاسم عبر البحث في GitHub العام.
+**OWASP ASVS ليس برنامج فحص آليًا**؛ هو معيار متطلبات للتحقق بالاختبارات والمراجعة والأدلة. **AVA** إطار Unit Testing منفصل غير مثبت الاستخدام، و**OWASP ZAP** أداة أخرى لم يثبت تشغيلها. لا تختلق استخدام أي منهما.
+**المرجع الجديد المفصل:** [OWASP ASVS L2 historical verification](OWASP-ASVS-L2-HISTORICAL-VERIFICATION-20261114.md). [المصدر الرسمي](https://asvs.owasp.org/).
+**نتيجة مهمة أخرى:** المصدر التاريخي سجل مصفوفة Functional منفصلة **57 بندًا: 10 مكتمل بالنطاق، 27 جزئي، 16 متوقف، 4 غير مختبر**، ولا تتعارض عدديًا مع مصفوفة QA الأحدث **51 E2E + 21 Admin** لأنها نطاقات وأزمنة مختلفة.
 
-### نتائج التحقق من مصدر المشروع
-- `talabot-tailadmin-review/package.json` على `review/ux02-v01-v05-candidate-20261112`: يوجد `vite`, `eslint`, `typescript`, `next`, `vinext` وأوامر `build`, `lint`؛ **لا يوجد `ava` أو `vitest` أو `playwright` كاعتماد ظاهر في هذا manifest، ولا أمر `npm test`**. هذا ليس مسحًا لكل الشجر والأفرع ولا ينفي أداة مثبّتة خارج المستودع. [Manifest](https://github.com/merapplications-sketch/talabot-tailadmin-review/blob/review/ux02-v01-v05-candidate-20261112/package.json).
-- مسار `package.json` في جذر `Talabat-v3` على مرجع الإدارة لم يُعثر عليه في هذه القراءة؛ المشروع تاريخيًا HTML/JS مباشر وملفات SQL، فلا تفترض أنه مشروع Node له نفس runner.
-- بحث GitHub Code Search للأسماء `avas` / `AVA` / `Vitest` / `Playwright` في الفهرس الافتراضي للمستودعين لم يُظهر نتائج؛ **فهرس default branch ليس فحصًا كافيًا لفروع أخرى**.
-- أداة `webapp-testing` الخاصة بـAnthropic كانت **اقتراحًا سابقًا** لاستخدام Playwright، وليست إثباتًا بأنها ثُبّتت أو استُخدمت في أحدث فحص.
-- لا نغيّر runner أو نثبت AVA/Vitest فقط لأن الاسم يتشابه مع ما يتذكره المالك. **أولًا نحتفظ بالاختبارات الحالية ونجردها**.
+### حدود البحث عن runner فعلي
+- `talabot-tailadmin-review/package.json` على `review/ux02-v01-v05-candidate-20261112`: يوجد `vite`, `eslint`, `typescript`, `next`, `vinext` وأوامر `build`, `lint`؛ **لا يوجد `ava` أو `vitest` أو `playwright` كاعتماد ظاهر في هذا manifest، ولا أمر `npm test`**. هذا لا ينفي أدوات مثبتة خارج المستودع.
+- `package.json` في جذر `Talabat-v3` على مرجع الإدارة لم يُعثر عليه؛ المشروع تاريخيًا HTML/JS مباشر وSQL، مع اختبارات محلية Node/PGlite حسب تسليم Work القديم.
+- بحث GitHub Code Search للفهرس الافتراضي للمستودعين عن `AVA/AVAS`/`ASVS` لم يُظهر نتائج؛ **هذا لا يشمل تاريخ Work المحلي غير المرفوع**.
+- فحوص Playwright/Chromium القديمة متاحة كتقارير محدودة، لا تعني أنها شغلت ASVS أو نجحت جميع الاختبارات. لا حاجة لتثبيت Test Runner جديد حتى ننتهي من جرد القديم.
 
 ## 2. الفرق بين ما شُغّل، وما استُلم كدليل تاريخي، وما لا يزال ناقصًا
 
