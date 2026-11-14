@@ -1,5 +1,5 @@
 /* Reused original offline FIX from tools/qa_all.py, synthetic role/customer and local existing 3D art only. */
-window.__ROLE='customer';window.__TALABOT_SYNTHETIC=true;try{localStorage.setItem('tlb_demo_lang','ru')}catch(e){}
+window.__ROLE='customer';window.__TALABOT_SYNTHETIC=true;
 
 (function(){
  var role=window.__ROLE,now=Date.now(),iso=function(m){return new Date(now-m*60000).toISOString()};
