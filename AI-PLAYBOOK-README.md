@@ -58,5 +58,6 @@ In GitHub open the dedicated review branch, select any `.md` file and use the pe
 ## Cross-chat / Claude / testing-tool continuity (2026-11-14)
 - **[استئناف موحد لكل محادثة أو Claude](docs/management/CROSS-CHAT-CLAUDE-HANDOFF-20261114.md)** — نقطة البداية الجديدة لأي مدير/مبرمج ومصدر القرارات وأحدث عوائق Stage19 وCloudflare (راجع GitHub الأحدث دائمًا).
 - **[CLAUDE.md](CLAUDE.md)** — تعليمات دخول مختصرة لClaude على الفرع التوثيقي، وتقرأ فقط عند تحميل ذلك الفرع؛ ليست تعليمات مطبقة تلقائيًا على main.
-- **[فهرس تقنيات الاختبار المثبتة فعلاً](docs/qa/TEST-TOOLING-REALITY-20261114.md)** — الاسم التقريبي AVAS غير مؤكّد؛ AVA إطار اختبار JS حقيقي لكن لم يُثبت تركيبه أو تشغيله في TALABOT؛ لا تكرر الأدوات ولا تختلق PASS.
+- **[تصحيح موثق: OWASP ASVS 5.0.0 Level 2](docs/qa/OWASP-ASVS-L2-HISTORICAL-VERIFICATION-20261114.md)** — المرجع الأمني الذي عمل به المبرمج/المدير سابقًا، بدليل تسليم Work التاريخي 9 نوفمبر، وليس AVA. ASVS معيار وليس scanner؛ 345 متطلبًا بنتائج تاريخية لا تثبت قبول الإصدار الحالي.
+- **[فهرس أدوات الاختبار والنتائج الفعلية](docs/qa/TEST-TOOLING-REALITY-20261114.md)** — يميّز بين تطبيق ASVS التاريخي، تشغيل CI/JS/PostgreSQL المحدود، وأدوات مقترحة غير منفذة. لا تقل إن AVA أو ZAP استُخدم دون دليل.
 - **Important:** قد يوجد تحديث أحدث في MASTER #26 / Stage19 #45 بعد هذه الوثيقة. أي خطط أو ملخصات تاريخية أدناه لا تتقدم على آخر تعليق أو مالك APPROVED.
