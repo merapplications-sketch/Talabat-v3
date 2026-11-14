@@ -37,3 +37,7 @@ This packet belongs **only to its isolated documentation review branch**. Review
 
 ## How to review or edit
 In GitHub open the dedicated review branch, select any `.md` file and use the pencil **Edit this file** control. Commit revisions **to the documentation review branch**, not `main`; keep corrections scoped and record the source of every changed approved term. Use the linked master Issue #26 for team handoff and the next assigned issue for execution.
+
+## Operational capacity and security — review-only extension (2026-11-14)
+- [Proactive Capacity, Resilience & Security Plan](docs/launch/PROACTIVE-CAPACITY-RESILIENCE-PLAN-20261114.md): headroom monitoring, early warning, admission control philosophy, low-load options, disaster recovery, security gates, staged synthetic CAP-01..CAP-12 tests and source references. **This is a review-only proposal, not a deployment, billing authorization or amendment of accepted G1/financial policies.**
+- **Owner monitoring note:** a separate hourly ChatGPT condition check is configured as supplemental surveillance; provider-native, minute-level alerts and live capacity instrumentation have NOT yet been established. Do not treat hourly checks as outage prevention.
