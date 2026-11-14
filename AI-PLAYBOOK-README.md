@@ -4,6 +4,16 @@
 **Status:** ISOLATED GITHUB DOCUMENTATION REVIEW CANDIDATE — NOT MERGED OR RELEASED.  
 **Authority:** owner-approved decisions in their original sources take precedence. The AI playbook is an organizational proposal, not a new policy approval.
 
+
+## START HERE — owner pilot release coordination (2026-11-14 latest)
+- [Unified Owner Pilot / team continuity / who does what](docs/management/OWNER-PILOT-CONTINUITY-AND-RELEASE-20261114.md) — current single master operational status, how to continue across chats, owner first-pilot decisions and anti-duplicate rules.
+- [Must-pass pilot test gates and source-confirmed P1 triage](docs/qa/OWNER-PILOT-SHOWSTOPPERS-20261114.md) — includes live tracking customer/driver/admin, money/order integrity, safety, device QA.
+- [Apps on Google Play/App Store; merchant/admin delivery; repository-private transition](docs/release/PLATFORM-DISTRIBUTION-AND-REPO-PRIVACY-20261114.md).
+- [Future features only after owner approval](docs/roadmap/OWNER-PRIORITIZED-PROPOSALS-20261114.md) — abroad payer → Tajik recipient, e-commerce merchant portal, promotions push, do-not-knock, kilometer meter and global comparison, carefully separated from the pilot.
+- **Latest verified active stage**: [Stage18 approved](https://github.com/merapplications-sketch/Talabat-v3/issues/44); [Stage19 OPS publisher #45](https://github.com/merapplications-sketch/Talabat-v3/issues/45) has the only current task for a separate FREE synthetic Safari preview under strict security gates. **Not product launch**. Check Issue #26 latest comments on every resumption; previous Stage13-only checkpoint below is historical.
+- Both GitHub repositories currently **PUBLIC**, owner requests Private conversion **after accepted first version**, with security and release/links review beforehand. **No automatic conversion**.
+- The owner requested repair of proven P1/P2 pilot blockers, but no programmer test or actual source fix is claimed by this documentation upload. Keep Stage19 current single executor; then request independently proven minimal fixes in isolated branches and regression evidence. No merge/publish/financial changes without separately scoped authorization.
+
 ## Purpose
 Use the screenshot's `RULES.md + SKILL.md + method` idea as an **evidence-first team operating system**, not as a claim that AI instructions eliminate code defects or override pre-existing owner agreements. The explicit owner business priority is **launch a controlled pilot using existing approved TALABOT features**, then consider staged enhancements. Ordering from abroad for a local recipient is an important **future feature** to research after pilot readiness, not an authorized current change.
 
@@ -17,14 +27,14 @@ Use the screenshot's `RULES.md + SKILL.md + method` idea as an **evidence-first 
 - `docs/roadmap/POST-PILOT-PROPOSALS.md` — controlled future roadmap including abroad→local recipient.
 - `OWNER-HANDOFF-TO-MANAGER.md` — one ready-to-send instruction for the TALABOT manager.
 
-## Verified current checkpoint
+## Historical checkpoint (Stage13 — superseded operationally by START HERE)
 - Master management register: https://github.com/merapplications-sketch/Talabat-v3/issues/26
 - Stage13 programmer delivery: https://github.com/merapplications-sketch/Talabat-v3/issues/39
 - Stage13 isolated demo source: `review/safari-stage13-demo-lang-p2-20261114` at `3f74b29a7c4bcc89cef9e25dd73f574448ab7896`.
 - Stage13 8/8 source simulations passed for RU/EN, **not full browser or real Safari**.
 - Formal current-source integrated E2E **0/51**, admin E2E **0/21**, all six G1 gates not fully accepted. **RELEASE NO-GO / PHASE2 NO-GO.**
 
-These were last read from GitHub on 14 November 2026; assigned managers must recheck HEAD/comments before starting new work. The linked reports are controlling references within their accepted scope.
+These historical values were last read on 14 November 2026; assigned managers must recheck HEAD/comments before starting new work. The linked reports are controlling references within their accepted scope.
 
 ## Installation safety
 This packet belongs **only to its isolated documentation review branch**. Review it against existing owner decisions before considering any merge into an approved branch. GitHub publication of these files is not a release and does not approve a product change. Writing files does not start ChatGPT Work agents, and a `SKILL.md` file is not automatic tool permission.
