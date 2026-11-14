@@ -1,0 +1,378 @@
+{
+  "sourceCommit": "3f74b29a7c4bcc89cef9e25dd73f574448ab7896",
+  "archive": "talabot-safari-demo-3f74b29a.zip",
+  "archiveBytes": 967486,
+  "archiveSha256": "20e674ae017b92a02ca937336f2fa54293fd79fc23e9d8ff559bd564046b82ae",
+  "archiveGitBlobSHA1": "7a7f83854f247880a4a56e21161a677aca582d2a",
+  "method": "ZIP stored/UTF8 filenames",
+  "fileCount": 59,
+  "originalTotalBytes": 957188,
+  "webpFileCount": 45,
+  "crc32VerifiedForAll59": true,
+  "contentsMatchedGitHubTreeSizes": true,
+  "eachSourceGitBlobSHA1VerifiedDuringAssembly": true,
+  "rootFolder": "safari-zero-cost-customer/",
+  "correctedFixture": {
+    "path": "demo-fixture.js",
+    "gitSha": "a2336b6471c96a9a5ca921ccd13805eedf506e0b",
+    "status": "MATCH"
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "size": 3139,
+      "crc32": "6b10d727",
+      "sourceGitBlob": "e010cfbc0c3d8ec55f43fb0d43955c75ee74bdfe"
+    },
+    {
+      "path": "STAGE10-VALIDATION-REPORT.md",
+      "size": 9434,
+      "crc32": "30a6d9e6",
+      "sourceGitBlob": "c8220ced3695234eeef677b162a0d296d6f5d156"
+    },
+    {
+      "path": "STAGE13-P2-LANGUAGE-PERSISTENCE-REPORT.md",
+      "size": 6108,
+      "crc32": "ebd3b2d5",
+      "sourceGitBlob": "45cd6af5eecc15f73341a5303c94ba2c986759b9"
+    },
+    {
+      "path": "_headers",
+      "size": 431,
+      "crc32": "e90d7361",
+      "sourceGitBlob": "b7b2ae32cb9bfbc8b8dd563cc129ca6ebf75b1bc"
+    },
+    {
+      "path": "assets/3d/LICENSE-fluentui-emoji.txt",
+      "size": 1141,
+      "crc32": "40348758",
+      "sourceGitBlob": "9e841e7a26e4eb057b24511e7b92d42b257a80e5"
+    },
+    {
+      "path": "assets/3d/automobile.webp",
+      "size": 3942,
+      "crc32": "b58b3fb6",
+      "sourceGitBlob": "fa98f3790515f92e3395e7ec684a92ec78fcf487"
+    },
+    {
+      "path": "assets/3d/avocado.webp",
+      "size": 5022,
+      "crc32": "324316eb",
+      "sourceGitBlob": "697085de4dd31213aa631a255a2366edd5cf99bf"
+    },
+    {
+      "path": "assets/3d/balloon.webp",
+      "size": 4396,
+      "crc32": "586ecced",
+      "sourceGitBlob": "2cc0d498d24ed7161093b0909e4be62c5a55eb3e"
+    },
+    {
+      "path": "assets/3d/basket.webp",
+      "size": 4766,
+      "crc32": "414358b0",
+      "sourceGitBlob": "a3634dc346fc0b8a0b1f55d0aa3292ce6938ddaa"
+    },
+    {
+      "path": "assets/3d/bell.webp",
+      "size": 3638,
+      "crc32": "664986f9",
+      "sourceGitBlob": "97d3e86c8405bd1d5aaf2657cba300c0b471c5fd"
+    },
+    {
+      "path": "assets/3d/birthday-cake.webp",
+      "size": 5810,
+      "crc32": "c5425711",
+      "sourceGitBlob": "3bf58842341e3054ee4f5124f94aea7f3b3362a2"
+    },
+    {
+      "path": "assets/3d/bouquet.webp",
+      "size": 6034,
+      "crc32": "483acdd6",
+      "sourceGitBlob": "a62b001e3b573b674e532c0c686be828dce5f6dd"
+    },
+    {
+      "path": "assets/3d/bread.webp",
+      "size": 4104,
+      "crc32": "3c435446",
+      "sourceGitBlob": "9cc5da4090635996e5055df3ba12e66dcecf5916"
+    },
+    {
+      "path": "assets/3d/carrot.webp",
+      "size": 5390,
+      "crc32": "32670d6f",
+      "sourceGitBlob": "21cb7a73993a69622c13266ce654f5c5a32fd98f"
+    },
+    {
+      "path": "assets/3d/cityscape-at-dusk.webp",
+      "size": 3160,
+      "crc32": "ed77bb55",
+      "sourceGitBlob": "82c1da0d5f18626ed5a40eaf79905a874c8dcfb4"
+    },
+    {
+      "path": "assets/3d/coin.webp",
+      "size": 4090,
+      "crc32": "2a090c74",
+      "sourceGitBlob": "066607e2dd9dfd5d5936e7e09da2250f13fa87f2"
+    },
+    {
+      "path": "assets/3d/couch-and-lamp.webp",
+      "size": 3810,
+      "crc32": "8bd948ce",
+      "sourceGitBlob": "8c7fc1443197375909f9b3e756637111298fd12a"
+    },
+    {
+      "path": "assets/3d/credit-card.webp",
+      "size": 1954,
+      "crc32": "130fc12f",
+      "sourceGitBlob": "66d20e65b29cbfeee016386b8eae9c240720e89c"
+    },
+    {
+      "path": "assets/3d/croissant.webp",
+      "size": 4846,
+      "crc32": "30a8e7e3",
+      "sourceGitBlob": "350c02f1a70e55a80a1c294cc4d32d6e97622dda"
+    },
+    {
+      "path": "assets/3d/ear-of-corn.webp",
+      "size": 5276,
+      "crc32": "25f63f72",
+      "sourceGitBlob": "aa8c4eda3bfd8f6a59414ddadc083bb07798a034"
+    },
+    {
+      "path": "assets/3d/fire.webp",
+      "size": 4088,
+      "crc32": "00b684ba",
+      "sourceGitBlob": "ada7e5458f71cae34135f032ebb0963d31db2c94"
+    },
+    {
+      "path": "assets/3d/flowers-gifts.webp",
+      "size": 9428,
+      "crc32": "4e00ce6e",
+      "sourceGitBlob": "e1ea567e9103ee96e56d4b2fcf4ffc783d2ae32f"
+    },
+    {
+      "path": "assets/3d/french-fries.webp",
+      "size": 4758,
+      "crc32": "0ca19965",
+      "sourceGitBlob": "ff3577b410698e96aa25f2888e75de626d82bb11"
+    },
+    {
+      "path": "assets/3d/gem-stone.webp",
+      "size": 3118,
+      "crc32": "118772ee",
+      "sourceGitBlob": "818e029adb7a16c2ca31a5a568c47fbeaf2bffd6"
+    },
+    {
+      "path": "assets/3d/hamburger.webp",
+      "size": 4266,
+      "crc32": "f68d71e1",
+      "sourceGitBlob": "aa7a0ecbeb020cd81ce25d09e85cb5954c6565fe"
+    },
+    {
+      "path": "assets/3d/headphone.webp",
+      "size": 6514,
+      "crc32": "6c5d907b",
+      "sourceGitBlob": "b60bffcd4ef907ce822626d1863cfd42eaa5fc77"
+    },
+    {
+      "path": "assets/3d/high-voltage.webp",
+      "size": 2530,
+      "crc32": "663ce859",
+      "sourceGitBlob": "ef14f281b8209fe5434c2af3661b44b04128cfd2"
+    },
+    {
+      "path": "assets/3d/hospital.webp",
+      "size": 2606,
+      "crc32": "1c8ed97b",
+      "sourceGitBlob": "083bf268254cac464d28059aa5caf979681c54be"
+    },
+    {
+      "path": "assets/3d/leafy-green.webp",
+      "size": 5748,
+      "crc32": "ba53be0c",
+      "sourceGitBlob": "31dde1c844c85075bf63a42765283410097934ae"
+    },
+    {
+      "path": "assets/3d/lotion-bottle.webp",
+      "size": 2470,
+      "crc32": "7706b9b2",
+      "sourceGitBlob": "b103a17ad9f5e2711eaf20e8e283081746c2655b"
+    },
+    {
+      "path": "assets/3d/mobile-phone.webp",
+      "size": 3000,
+      "crc32": "332eb71c",
+      "sourceGitBlob": "551e81c9203a71c3594af468e15374ede7c19851"
+    },
+    {
+      "path": "assets/3d/motor-scooter.webp",
+      "size": 4020,
+      "crc32": "f657c547",
+      "sourceGitBlob": "87c3c5875e80c21fd72d6ad1f1b84d97b07f29c8"
+    },
+    {
+      "path": "assets/3d/package.webp",
+      "size": 3780,
+      "crc32": "bbfddf85",
+      "sourceGitBlob": "288e6c9c9ff96f268f77025d5b08671ebcae11d2"
+    },
+    {
+      "path": "assets/3d/party-popper.webp",
+      "size": 8700,
+      "crc32": "ee462050",
+      "sourceGitBlob": "90b379f7903c080b80c34ca81e1130105fa6dc07"
+    },
+    {
+      "path": "assets/3d/paw-prints.webp",
+      "size": 5912,
+      "crc32": "e851bcc7",
+      "sourceGitBlob": "f9e7591f883f89e3833beac03e06f3239fde1159"
+    },
+    {
+      "path": "assets/3d/pill.webp",
+      "size": 3794,
+      "crc32": "c0336777",
+      "sourceGitBlob": "6a4ddbd2732b3ce633d18dd8e031e300b2800ead"
+    },
+    {
+      "path": "assets/3d/pizza.webp",
+      "size": 4424,
+      "crc32": "2e323d2e",
+      "sourceGitBlob": "96ba1d53905213239f33f3d326f19b6be8f8b063"
+    },
+    {
+      "path": "assets/3d/red-apple.webp",
+      "size": 4496,
+      "crc32": "4c744334",
+      "sourceGitBlob": "39a751d29747f5694be7c1af1677d108ba3454f5"
+    },
+    {
+      "path": "assets/3d/red-heart.webp",
+      "size": 4138,
+      "crc32": "b4a40eec",
+      "sourceGitBlob": "d12bd365597a1dd1daac3543201bd337383d87ce"
+    },
+    {
+      "path": "assets/3d/rose.webp",
+      "size": 3870,
+      "crc32": "a2917638",
+      "sourceGitBlob": "bf90bdeaf795493514c19a03e4c932d1c9263b7f"
+    },
+    {
+      "path": "assets/3d/round-pushpin.webp",
+      "size": 2914,
+      "crc32": "13fce343",
+      "sourceGitBlob": "a62fb807eaf4e72d1f4a80053e8af93675a21249"
+    },
+    {
+      "path": "assets/3d/shopping-bags.webp",
+      "size": 3366,
+      "crc32": "fa4bce62",
+      "sourceGitBlob": "859ab0dd68fb7d299d6d734d99ad6312c5f67903"
+    },
+    {
+      "path": "assets/3d/shopping-cart.webp",
+      "size": 7154,
+      "crc32": "b712876e",
+      "sourceGitBlob": "92af61210e6bc4108f7567c5d27dc234b7b9f1e4"
+    },
+    {
+      "path": "assets/3d/shortcake.webp",
+      "size": 5760,
+      "crc32": "0a9538b8",
+      "sourceGitBlob": "28e3e252e130716ff90151b83b2e976c6124602d"
+    },
+    {
+      "path": "assets/3d/sparkles.webp",
+      "size": 5920,
+      "crc32": "63f1b2f1",
+      "sourceGitBlob": "7d6632890f75953760cd24379eafcb29526e635f"
+    },
+    {
+      "path": "assets/3d/star.webp",
+      "size": 4344,
+      "crc32": "8b43afcf",
+      "sourceGitBlob": "5091ea91d1e817486c4317e41f9ce4c50f9b6346"
+    },
+    {
+      "path": "assets/3d/sushi.webp",
+      "size": 3884,
+      "crc32": "f0b3b326",
+      "sourceGitBlob": "e923ff012e26f5c881712704d5c71ab0850b894d"
+    },
+    {
+      "path": "assets/3d/teddy-bear.webp",
+      "size": 6338,
+      "crc32": "b286616d",
+      "sourceGitBlob": "3aa2d7b8474eee8c54440aeb02ddd2f02f213fe8"
+    },
+    {
+      "path": "assets/3d/tulip.webp",
+      "size": 4448,
+      "crc32": "7568725c",
+      "sourceGitBlob": "023ce3f4186bb6507745a66dafa27cdde49adca5"
+    },
+    {
+      "path": "assets/3d/wrapped-gift.webp",
+      "size": 3498,
+      "crc32": "f4c3a50c",
+      "sourceGitBlob": "454a6f62f29837ef4ff37c52c9591f6990e5d92c"
+    },
+    {
+      "path": "assets/driver-returns/panel.css",
+      "size": 1098,
+      "crc32": "ac699278",
+      "sourceGitBlob": "a5d31a21c1442d5ef954ead357a393c1ce6e331c"
+    },
+    {
+      "path": "assets/driver-returns/panel.js",
+      "size": 9916,
+      "crc32": "e4f6530b",
+      "sourceGitBlob": "7be28930ab1a989a86efedde29001636151b1309"
+    },
+    {
+      "path": "assets/mobile.css",
+      "size": 3192,
+      "crc32": "dae38958",
+      "sourceGitBlob": "6e81536a6be8926f8848d80f44e8229251fe7aaf"
+    },
+    {
+      "path": "assets/mobile.js",
+      "size": 922,
+      "crc32": "8a57cf30",
+      "sourceGitBlob": "402aa412edfcb2dace855189e210da7a20621b14"
+    },
+    {
+      "path": "demo-core.js",
+      "size": 146907,
+      "crc32": "bb8cc5b5",
+      "sourceGitBlob": "28e140065a889be0cd3a206b7ae8c965f7f1e182"
+    },
+    {
+      "path": "demo-fixture.js",
+      "size": 12240,
+      "crc32": "cf3e4a5c",
+      "sourceGitBlob": "a2336b6471c96a9a5ca921ccd13805eedf506e0b"
+    },
+    {
+      "path": "demo-guard.js",
+      "size": 1254,
+      "crc32": "10c40746",
+      "sourceGitBlob": "fceff4bfd547d61e3f10b19f17cdf642bbb1a755"
+    },
+    {
+      "path": "index.html",
+      "size": 548200,
+      "crc32": "efd539fe",
+      "sourceGitBlob": "8d1e41a0acfcefb0f0f08a6dd494ac9b1a755357"
+    },
+    {
+      "path": "manifest.json",
+      "size": 7682,
+      "crc32": "6a8c62b9",
+      "sourceGitBlob": "56900c76f428ef24d60b27a54473ef1081341ff8"
+    }
+  ],
+  "libraryCrossChatDelivery": "NOT_VERIFIED",
+  "status": "GITHUB_BINARY_ZIP_AVAILABLE / CHATGPT_LIBRARY_TRANSFER_PENDING"
+}
