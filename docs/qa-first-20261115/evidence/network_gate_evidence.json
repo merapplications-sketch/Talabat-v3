@@ -1,0 +1,21 @@
+{
+  "target": "https://talabot-safari-demo-20261115.pages.dev/",
+  "run_type": "single guarded live navigation capability probe only; no product interaction",
+  "time_utc": "2026-11-14T20:36:00.639053+00:00",
+  "browser": "chromium",
+  "all_off_origin_blocked_before_navigation": true,
+  "requests": [],
+  "responses": [],
+  "requestfailed": [],
+  "websocket_events": [],
+  "console": [],
+  "pageerrors": [],
+  "unexpected_external_attempts": [],
+  "navigation": {
+    "status": "ERROR",
+    "error": "Page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at https://talabot-safari-demo-20261115.pages.dev/\nCall log:\n  - navigating to \"https://talabot-safari-demo-20261115.pages.dev/\", waiting until \"domcontentloaded\"\n"
+  },
+  "headers": null,
+  "screenshots": [],
+  "screenshot_error": "Page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n"
+}
