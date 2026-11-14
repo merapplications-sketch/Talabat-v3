@@ -1,0 +1,54 @@
+# TALABOT — تسليم احتياطي موحّد لكل ChatGPT / Work / Claude
+**إصدار:** 14 نوفمبر 2026، دوشنبه · **الصفة:** مرجع استئناف توثيقي؛ ليس قبول إصدار أو تفويض نشر/تعديل إنتاج.
+**لا تشتغل على Smile Up.** المستودع الرئيسي: `merapplications-sketch/Talabat-v3`، لوحة الإدارة: `merapplications-sketch/talabot-tailadmin-review`.
+
+## أولاً: اقرأها بالترتيب كل مرة
+1. [MASTER — Issue #26 آخر تعليق](https://github.com/merapplications-sketch/Talabat-v3/issues/26)، ثم Issue المهمة المسندة لدورك.
+2. أحدث HEAD/commit وحالة الدفعة/CI وأي عمل غير مدفوع إلى GitHub إن كان ممكنًا فحصه.
+3. [ملف فهرس المالك](../../AI-PLAYBOOK-README.md) و[قواعد AGENTS](../../AGENTS.md) و[قواعد السلامة](../ai/RULES.md).
+4. [الاتفاقات الأصلية](https://github.com/merapplications-sketch/Talabat-v3/blob/1cb85361d698d5da787d927a4c9ae7bd213c68c1/docs/OWNER-AGREEMENTS-AR.md) + [استمرارية المدير](https://github.com/merapplications-sketch/Talabat-v3/blob/docs/phase1-operational-coordination-20261111/docs/continuity/PHASE1-CURRENT.md). لا تستبدلهما بهذا الملخص.
+5. [بوابات قبول النسخة الأولى](../qa/OWNER-PILOT-SHOWSTOPPERS-20261114.md) و[واقع أدوات الاختبار](../qa/TEST-TOOLING-REALITY-20261114.md).
+
+**قانون الأمان:** هذا الملف نقطة استئناف، وليس صلاحية لتنفيذ إجراءات جديدة. لا Merge/Main/SQL مستضاف/صلاحيات/مال/أرصدة/أسرار/استضافة/نشر/تغيير التصميم المعتمد أو شراء خدمة بدون موافقة محددة. نتائج الاختبار تُذكر فقط إذا نُفذت وموثقة ببيئة + SHA + أثر.
+
+## ثانياً: الأولوية والقرار التجاري الحالي
+- **نسخة TALABOT التجريبية الأولى أهم من الميزات الجديدة**: واجهات العميل والسائق والمطعم والإدارة بألوانها وتصاميمها المعتمدة، تشغيل حقيقي في بيئة اختبار، أمان، حسابات وتحصيل صحيح، سرعة/تعافٍ وخرائط حية.
+- المالك اشترط **تتبعًا حيًا للخريطة عند العميل والسائق والإدارة المخولة** في النسخة الأولى؛ كود السائق يستخدم Leaflet/Browser GPS و`driver_location`، أما خرائط العميل والإدارة الحية وGPS الخلفية في Native **لم يثبت إنجازها** في أحدث مصدر تمت مراجعته. لا تدّعِ جاهزيتها أو تكرر تطوير الموجود.
+- قائمة الميزات المستقبلية **تحتاج موافقة مستقلة على كل واحدة**: طلب من الخارج لمستلم محلي في طاجيكستان (اهتمام عالي)، لوحة متاجر إلكترونية احترافية مثل لوحة المطعم، Push عروض ومطاعم جديدة باشتراك اختياري، «لا تدق الباب» (leave-at-door موجود جزئياً)، عداد كيلومتر (التسعير المالي لا يُغيّر)، وباقي ميزات المنافسين حسب [خارطة مالك قابلة للفرز](../roadmap/OWNER-PRIORITIZED-PROPOSALS-20261114.md) و[المقارنة](../research/TALABOT-Competitive-Features-Risks-20261114.md).
+- توزيعات الأجهزة: Google Play Developer موجود لدى المالك (تاريخ/نوع الحساب غير مؤكد)، Apple Developer غير موجود حاليًا (لا اشتراك دون إذن)؛ العميل والسائق يحتاجان إصدارًا صالحًا للمتاجر عند الجاهزية، بينما المطاعم والإدارة يمكنهما استخدام ويب آمن متجاوب حسب [خطة التوزيع](../release/PLATFORM-DISTRIBUTION-AND-REPO-PRIVACY-20261114.md).
+- كلا مستودعي GitHub ظهر **عامًا** وقت الفحص؛ رغبة المالك التحويل إلى Private **بعد** أول نسخة مع مراجعة الأسرار والتكاملات وروابط النشر؛ لا تغيّر الرؤية تلقائيًا.
+
+## ثالثاً: آخر نقطة تشغيلية مثبتة (تحقق من أحدث التعليقات!)
+- Stage18: [الموافقة الصريحة #44](https://github.com/merapplications-sketch/Talabat-v3/issues/44#issuecomment-6876041179) على **معاينة Safari ثابتة مجانية منفصلة ببيانات وهمية فقط**، دون تسجيل دخول أو ربط أي إنتاج.
+- Stage19: [تقرير الناشر عند 99348d2](https://github.com/merapplications-sketch/Talabat-v3/blob/99348d2c9d4b75947ef6951cfd37aeb089963138/docs/qa-first-20261114/STAGE19-PUBLISHER-FREE-SAFARI-STATIC-PREVIEW-RESULT.md) **BLOCKED بلا نشر**، لأن النقل المحلي لملف ZIP وصلاحيات Pages لم تثبت آنذاك. **هذا ليس عطلًا بالتطبيق.**
+- بعد ذلك أكد مدير المشروع [تحديث Issue #26](https://github.com/merapplications-sketch/Talabat-v3/issues/26#issuecomment-6876732813) أن **Cloudflare Pages Read وPages Write متاحان الآن** عبر فحوص GET؛ وأصدر [مهمة Stage19 جديدة للناشر فقط](https://github.com/merapplications-sketch/Talabat-v3/issues/45#issuecomment-6876733434) لمسار **Pages GitHub Integration** بدل نقل ZIP في ملف محلي. شروطها: وجود Git integration مرخصة مسبقًا، Free مثبت، شجرة ثابتة كاملة من commit `3f74b29a7c4bcc89cef9e25dd73f574448ab7896`، عزل الإنتاج وCSP، نشر مشروع Pages جديد فقط، ثم مراجعة أمن/UX مستقلّة قبل إعطاء رابط للمالك.
+- ملف ZIP الأصلي محفوظ عند `b8210fe7ca325f2ac10af09e8abfd03de1353a0a`، بصمة SHA256 `20e674ae017b92a02ca937336f2fa54293fd79fc23e9d8ff559bd564046b82ae`، 59 ملفًا منها 45 WebP. **لا إعادة إنتاج ZIP أو تكرار المحاولة الفاشلة**. Cloudflare قديم `talabot-pilot-20261106` لا يُلمس.
+- حتى آخر دليل مقروء: **لا رابط معاينة جديدة آمن مؤكد، ولا GO للإطلاق**.
+- مصادر QA: [Stage1 QA](https://github.com/merapplications-sketch/Talabat-v3/blob/55a3fa5113202afdc3604179fd4a4919043dd11f/docs/qa-first-20261113/PROGRAMMER-STAGE1-QA-REPORT.md) و[التقرير الموحد](https://github.com/merapplications-sketch/Talabat-v3/blob/0ab523782ee1bf6f69e2e3be7ec6e96394d9ce6a/docs/qa-first-20261113/MASTER-QA-CONSOLIDATED-20261113.md): 0/51 E2E حالي و0/21 Admin runtime و0/6 G1 مقبولة على تلك اللقطة (**ليس 72 حالة FAIL**). G1-A/B/C/E/F PARTIAL، G1-D BLOCKED؛ لا تغيير verdict دون اختبار.
+- F-01 Driver Online قبل ACK، F-02 تكرار نداء تسليم، F-03 فقدان مسودة المحادثة عند خطأ، F-04 احتمال اختلاف تحصيل نقدي عن عقد Q14: **مخاطر مصدرية تحتاج تدقيق تشغيل/عقود لا حوادث إنتاج مثبتة**.
+- قرارات محمية: CASH-01, RETURN-01, SCOPE-01, Q09–17, PRICE/RATINGS/TIP، واجهة Home B، Restaurant v1.6 Legacy Premium، Direction A، DineOut Gold، Admin Template B وأربع مؤشرات A وUX-02 V04، تعديل زر الإشعار للخط الأبيض بسطر واحد؛ لا تغييرات بقرار منفرد.
+
+## رابعاً: أدوات الاختبار — حقيقة تشغيل لا أسماء
+- المستخدم يتذكر اسم أداة اختبار تقارب «avas»، **غير محددة**. [AVA](https://github.com/avajs/ava) إطار اختبار Node.js حقيقي، لكن لم يثبت أن TALABOT يستخدمه. لا تسجله كتقنية مثبتة أو تضف اعتمادًا بلا دليل.
+- **مثبتة في تقارير بأطرها:** PostgreSQL/CI106 على SHA تاريخي محدد، اختبارات JavaScript محلية/V8 لمحاكاة اللغة 8/8 على Stage13، Build/Lint/Vite/Vinext وحسابات في مشروع الإدارة، وتحليل مصدر في QA.
+- **مُتاح/مرصود جزئيًا فقط:** Chromium/Playwright عند بعض المنفذين؛ لا مساواة بقبول browser E2E على الإصدار الفعلي.
+- **مقترح وليس مثبت الاستخدام:** AVA/Vitest (اختيار واحد بعد الجرد)، Playwright E2E الكامل، k6، axe-core، Lighthouse، CodeQL/Dependabot، Sentry/Crashlytics، OpenTelemetry، اختبارات Security RLS/RBAC وGPS الخلفي. لا تضف مكونات جديدة لمجرد الأسماء.
+- اطّلع على [ملف أدلة الأدوات بالتفصيل](../qa/TEST-TOOLING-REALITY-20261114.md) قبل أي اختبار.
+
+## خامساً: السعة، الإنذار، منع الضياع
+[خطة الاستيعاب والإنذار المبكر](../launch/PROACTIVE-CAPACITY-RESILIENCE-PLAN-20261114.md) · [مقارنة Free والإنذار الإداري](../launch/ADMIN-ALERTS-FREE-HOSTING-DATA-SAFETY-20261114.md).
+- Cloudflare للواجهة والحماية، Supabase PostgreSQL للمعاملات؛ **لا نقل Postgres→D1 تلقائيًا**.
+- إنذار **داخل Admin وخارج ChatGPT عبر قناة مستقلة**، ومتابعة ChatGPT ساعة بساعة مساعدة فقط وليست بديلًا للتنبيه اللحظي. لا زعم أنه فعّال حتى تتوفر أدلة إيصال وتشغيل.
+- راقب CPU/RAM/IO/Realtime/اتصالات/حجم استجابة/p95/p99/errors/queue age، وطبّق تخفيف الحمل فقط بعد القياس والموافقة، مع الحفاظ على طلب واحد ومبلغ واحد عند إعادة المحاولة.
+- API Supabase المباشرة لا يحميها تلقائيًا WAF موقع Cloudflare. RLS/least privilege/Storage/secret controls/backup and restore لازمة. لا اختبار ضغط على الإنتاج.
+- النسخ DB+Storage+keys+schema ومصالحة الأرصدة؛ لا وعد بفقدان صفر مطلق على Free بلا اختبار تعافٍ فعلي.
+
+## سادساً: طريقة العمل مع محادثة أو Claude جديدة
+1. **لا تُخرج 7 تكليفات دفعة واحدة.** ابدأ بالمسؤول الوحيد صاحب الدور الفعّال، بعد تحقق أحدث Issue وتعليق/HEAD/فرع.
+2. لكل مهمة: هدف، نطاق، SHA، صلاحيات ممنوعات، تمكين التكرار/الأدلة المقبولة، معايير قبول، ملف نتيجة، رابط Commit/Issue.
+3. صاحب التنفيذ يسلّم دفعة مكتملة على فرعه؛ المراجع مستقل؛ المدير يحدّث #26 ويرسل **التكليف التالي فقط**. إذا توقف Claude/Work، استأنف من GitHub لا من محادثة قديمة. GitHub issue لا يشغل محادثة آليًا.
+4. أولوية المالـك: **Pilot صحيح أولًا، ثم تطوير على مراحل بعد موافقته**. لا تخلط المعاينة الوهمية مع إطلاق التطبيق التجاري.
+5. عند وجود تعارض بين هذا الملخص وقرار Approved سابق، **Approved هو الأعلى ويحتاج إذن مالك صريح لتغييره**.
+
+## التسليم المطلوب من أي بديل
+أرجع تقريرًا موجزًا: أحدث HEAD لكل مستودع وفرع / آخر تنفيذ مقبول بالدليل / الموانع الحقيقية / الحالة الرسمية PASS/FAIL/PARTIAL/BLOCKED / المهمة المسندة الآن / المنفذ التالي فقط / ما يحتاج قرار مالك. حدّث مرجع الاستئناف على GitHub بعد كل مرحلة حقيقية، بلا تبديل المسارات المقبولة.
