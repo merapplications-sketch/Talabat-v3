@@ -1,0 +1,32 @@
+# TALABOT — STAGE 22 / إثبات عرض الإنجليزية على Safari في الآيفون
+
+**15 November 2026 — Owner supplied actual screenshots of published visual demo**  
+**Existing approved isolated URL:** https://talabot-safari-demo-20261115.pages.dev/  
+**Linked acceptance issue:** [#48](https://github.com/merapplications-sketch/Talabat-v3/issues/48); [PM master #26](https://github.com/merapplications-sketch/Talabat-v3/issues/26).  
+**No executable/source, deployment, finance, colors, permissions, original site or production edits.**
+
+## New evidence / provenance
+
+The owner shared four additional actual iOS screenshots in this conversation: `IMG_8328.jpeg` (709×1536), `IMG_8329.jpeg` (709×1536), `IMG_8330.png` (1290×2796), `IMG_8331.jpeg` (709×1536). Their SHA256 byte fingerprints are retained *only as limited internal source-check references*: `45f846e1f0912d52e1…`, `eaf6d7fca95fe8d1…`, `cd9bdfcc9c512597…`, `428f49d1af42a281…`. Actual JPEG/PNG bytes remain in **private user conversation**, **NOT uploaded to the PUBLIC GitHub repository**.
+
+**New fact**: screenshots now show the actual public TALABOT demo **in English** on iOS, and the third screenshot visibly shows Safari's native address bar with `talabot-safari-demo-20261115.pages.dev — Private`. This is meaningful evidence of **standalone Safari private-browsing view**, unlike prior iOS embedded-viewer screenshots with an X/overlay. Safari Private does **not** prove persistence after closing a tab or new private session. The URL query portion `?lang=en` is not fully legible in screenshots because the address bar is truncated; English UI is plainly visible.
+
+## Observed screenshot-driven results, not extrapolations
+
+| ID | Disposition | Grounded observation |
+|---|---|---|
+| **IPH22-14** | **PASS / browser-device scope** | Native iPhone Safari UI with `Private` on actual `pages.dev` hostname visible. English Home renders, images display, no login prompt or blocking error. This closes the prior **physical iPhone Safari English initial-view gap** (not network or E2E tests). |
+| **IPH22-15** | **PASS / home English sections** | English locale appears across search placeholder, carousel cards `Favourite dishes nearby`, `Up to 25% off`, `Free delivery`, categories `Food/Grocery/Pharmacy/Beauty/Flowers/Sweets`, sections `Your favourites again`, `Best offers`, `Popular restaurants`, `Recommended for you`, `Near you`, `Coupons and rewards`, `Restaurants with a discount`, navigation `Home/Orders/Wallet/Offers/Profile`, and `DineOut` callout. Top `VISUAL DEMO · Fake data · No real orders or payments` disclaimer is shown. |
+| **IPH22-16** | **PASS / static visual and scroll only** | Four screenshots show first screen, mid sections and near-bottom DineOut at visible Safari viewport. No empty/broken image in shown categories, restaurant/pizza cards, recommended carousel and DineOut promotional art. Bottom navigation stays visible in shown snapshots. No obvious document-wide horizontal shift. **No scripted 320/360/390/430 geometry measurements**. |
+| **IPH22-17** | **P2 / fixture-language distinction** | English UI headings/actions are translated, but synthetic merchant names and food titles retain Cyrillic strings, including `Ресторан «Дар-ул-…»`, `Очень длинное название блюда…`, `Блюдо 2`, `Аптека`. **Do not call all of these UI translation bugs** without deciding whether fictional business/product proper names should retain original language. Prior P2 `Размер порции`/`Добавки` in **English customization UI** remains a separate unclosed label issue; not shown in these screenshots. |
+| **IPH22-18** | **P2 / name truncation verification only** | Long Cyrillic item/merchant titles visibly shorten using ellipsis in compact cards. Horizontal recommended-product carousel is intentionally clipped to allow sideways scroll; not evidence of a page-level overflow bug. Verify access to full proper names in details/accessibility if later required; no autonomous UI redesign. |
+| **IPH22-19** | **Pending functional/network** | These four screenshots do not demonstrate **manual language toggle + reload/localStorage persistence**, checkout slider fake-only negative path, actual external request attempts/HAR, HTTP MIME on all assets, or transaction prevention under user interaction. Confirmed passive CSP header presence previously recorded in #48 does not equal network-attempt verification. |
+| **IPH22-20** | **Context** | Safari `Private` session means this run may use storage distinct from the normal browsing profile. Avoid treating a successful private-tab English view as proving normal-profile saved RU→EN precedence. Dark vertical floating chevron at right edge is not verified to be part of TALABOT; do not flag as a code defect based on screenshot. |
+
+## Stage22 consolidated state, no unsupported GO escalation
+
+**PASS (limited evidence):** Russian on-device web-viewer Home/category/restaurant/product customization/mock cart/checkout screens (existing owner screenshots); **English on actual Safari Private Home with scrolling and DineOut** (this new evidence); in-memory initial RU/EN at widths 320/360/390/430 previously 8/8 limited smoke; deployed demo URL and independent Cloudflare Pages state (same separate project), securityheaders.com canonical CSP/XCTO/Referrer/Permissions response headers reported present.
+
+**UNVERIFIED:** P0 fully instrumented **attempted/blocked external network log** on actual site (XHR/fetch/WebSocket/images/etc) and safe fake-order slider under egress-deny interception. RU/EN × requested four widths dynamic DOM geometry, persisted locale across actual reload, English *customization* label fidelity, complete site assets and actual payments/order negative proof. **Do not ask owner to execute checkout or real transactions**. iPhone native Safari initial English evidence is not a complete functional E2E test.
+
+**Decision:** **Safari English and Russian visual demo reachability PASS within observed scope; FULL LIVE SECURITY + UX ACCEPTANCE still NO-GO pending hard network/checkout gate**. Product C-01, full E2E (0/51), Admin (0/21), G1/release/PHASE2 NO-GO. No authorized design/logo/color changes, money/pricing policy edits, GitHub main/CI/Cloudflare/Supabase/production changes, or new deployment. Keep #48 open for independent security QA when actual HAR/interception-capable tool exists.
