@@ -8,7 +8,6 @@
 - **ثانيًا:** تقليل استهلاك RAM والخادم وقاعدة البيانات بدون فقدان أي طلب أو مبلغ، مع السعة المقاسة وخطة توسع احتياطية.
 - **ثالثًا:** جاهزية Google Play/App Store وفق حسابات المالك، ومستودع GitHub يتحول إلى Private بعد النسخة الأولى وبقرار منفصل يحفظ روابط النشر والصلاحيات.
 - **رابعًا:** الميزات المقترحة (المتاجر الإلكترونية، عروض Push، «لا تدق الباب»، عداد الكيلومتر، الطلب من الخارج لطاجيكستان، أفكار المنافسين) **تُدرس فقط** حتى موافقة المالك بندًا بندًا.
-- **خامسًا:** بعد إنهاء تطبيق Smile Up، يُقيّم فريقه تطبيق **المبادئ المناسبة** على نظامه، دون تبديل تصميمه أو صلاحياته أو كوده الآن. منصة Claude خيار استئناف محتمل فقط، **لا قرار ترحيل**.
 
 ## 2. جدول الخطط — كلها محفوظة
 
@@ -27,7 +26,6 @@
 | **المتاجر وتوزيع الأدوار** | [Android/iOS/Admin/Merchant/GitHub privacy](../release/PLATFORM-DISTRIBUTION-AND-REPO-PRIVACY-20261114.md) | خطة جاهزية، لا إنشاء اشتراكات أو نشر |
 | **الميزات الجديدة المستقبلية** | [Owner prioritized proposals](../roadmap/OWNER-PRIORITIZED-PROPOSALS-20261114.md) + [Earlier post-pilot proposals](../roadmap/POST-PILOT-PROPOSALS.md) | **FUTURE — AWAIT OWNER FEATURE APPROVAL** |
 | **المقارنة العالمية** | [Competitor features & risks](../research/TALABOT-Competitive-Features-Risks-20261114.md) + [HTML](../research/TALABOT-Competitive-Features-Risks-20261114.html) | معلومات/مقارنة، لا افتراض أن ميزة غير موجودة بدون فحص الكود |
-| **Smile Up لاحقًا فقط** | [Future reliability transfer after Smile Up completion](../roadmap/SMILE-UP-FUTURE-RELIABILITY-ADOPTION-20261114.md) | مؤجل؛ **لم يُلمس مستودع Smile Up** |
 
 ## 3. آخر حالة فعلية وقت حفظ الفهرس — لا تنقلها كحالة حية لاحقًا
 1. [Stage18 #44](https://github.com/merapplications-sketch/Talabat-v3/issues/44) صادَق المالك على **معاينة Safari اصطناعية مستقلة ومجانية فقط**.
@@ -42,6 +40,6 @@
 - راجع فقط التغييرات التي جاءت بعد آخر تقرير، ولا تحوّل موافقة على تقرير توثيقي إلى موافقة على التطبيق.
 - انتقل إلى دور واحد مع مخرجات واضحة: SOURCE/ENV, PASS/FAIL/BLOCKED/UNTESTED, screenshots/logs, risk, next authorized action.
 - **لا تشغّل Work أو Claude تلقائيًا** بسبب وجود CLAUDE.md أو أي Issue. إذا اضطررت لتبديل محادثة، استأنف من Cross-chat، وليس من نصوص رسائل قديمة.
-- **لا تتداخل مشاريع Smile Up وTALABOT**؛ تطبيق خطة Smile Up مؤجل لتكليف مستقل بعد اكتمال تطبيقه.
+- **حدود المستودع:** هذه الوثائق تخص TALABOT فقط ولا تمنح صلاحية الوصول أو الكتابة إلى أي مشروع آخر.
 
 **نقطة الحقيقة:** كل هذه الوثائق تعيش في GitHub وفرع توثيق منفصل، وليس في ذاكرة محادثة فقط. لا اعتماد نهائي للخطط الجديدة أو نقل لفرع الإنتاج قبل قرار المالك.
