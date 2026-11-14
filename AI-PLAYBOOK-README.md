@@ -54,3 +54,9 @@ In GitHub open the dedicated review branch, select any `.md` file and use the pe
 
 ## Admin alerts, free hosting choice, data-loss protection — owner review (2026-11-14)
 - [Dedicated admin alert, Cloudflare-vs-Supabase Free and 24-risk data-safety specification](docs/launch/ADMIN-ALERTS-FREE-HOSTING-DATA-SAFETY-20261114.md). Adds **independent external alerts + TailAdmin incident record** as a product requirement for future technical approval; **not yet implemented**. No paid subscription, production changes, release, traffic tests or policy overwrite. See the existing capacity/resilience and owner decision references.
+
+## Cross-chat / Claude / testing-tool continuity (2026-11-14)
+- **[استئناف موحد لكل محادثة أو Claude](docs/management/CROSS-CHAT-CLAUDE-HANDOFF-20261114.md)** — نقطة البداية الجديدة لأي مدير/مبرمج ومصدر القرارات وأحدث عوائق Stage19 وCloudflare (راجع GitHub الأحدث دائمًا).
+- **[CLAUDE.md](CLAUDE.md)** — تعليمات دخول مختصرة لClaude على الفرع التوثيقي، وتقرأ فقط عند تحميل ذلك الفرع؛ ليست تعليمات مطبقة تلقائيًا على main.
+- **[فهرس تقنيات الاختبار المثبتة فعلاً](docs/qa/TEST-TOOLING-REALITY-20261114.md)** — الاسم التقريبي AVAS غير مؤكّد؛ AVA إطار اختبار JS حقيقي لكن لم يُثبت تركيبه أو تشغيله في TALABOT؛ لا تكرر الأدوات ولا تختلق PASS.
+- **Important:** قد يوجد تحديث أحدث في MASTER #26 / Stage19 #45 بعد هذه الوثيقة. أي خطط أو ملخصات تاريخية أدناه لا تتقدم على آخر تعليق أو مالك APPROVED.
