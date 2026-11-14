@@ -61,3 +61,8 @@ In GitHub open the dedicated review branch, select any `.md` file and use the pe
 - **[تصحيح موثق: OWASP ASVS 5.0.0 Level 2](docs/qa/OWASP-ASVS-L2-HISTORICAL-VERIFICATION-20261114.md)** — المرجع الأمني الذي عمل به المبرمج/المدير سابقًا، بدليل تسليم Work التاريخي 9 نوفمبر، وليس AVA. ASVS معيار وليس scanner؛ 345 متطلبًا بنتائج تاريخية لا تثبت قبول الإصدار الحالي.
 - **[فهرس أدوات الاختبار والنتائج الفعلية](docs/qa/TEST-TOOLING-REALITY-20261114.md)** — يميّز بين تطبيق ASVS التاريخي، تشغيل CI/JS/PostgreSQL المحدود، وأدوات مقترحة غير منفذة. لا تقل إن AVA أو ZAP استُخدم دون دليل.
 - **Important:** قد يوجد تحديث أحدث في MASTER #26 / Stage19 #45 بعد هذه الوثيقة. أي خطط أو ملخصات تاريخية أدناه لا تتقدم على آخر تعليق أو مالك APPROVED.
+
+## OWASP ASVS Level 2 — pilot security verification (2026-11-14)
+- **[OWASP ASVS L2 pilot security execution gates](docs/qa/OWASP-PILOT-SECURITY-EXECUTION-GATES-20261114.md)** — 12 risk-based groups mapping historical L2 matrix to current synthetic security testing; includes WSTG, API Security Top 10, MASVS/MASTG, optional ZAP and safety/ownership. **No automated vulnerability scan or independent ASVS PASS occurred.**
+- Historical 345-item matrix has already been documented in [OWASP historical evidence map](docs/qa/OWASP-ASVS-L2-HISTORICAL-VERIFICATION-20261114.md); avoid re-auditing original accepted history and do not upload its private raw evidence to a public repo.
+- [Cross-chat/Claude continuity](docs/management/CROSS-CHAT-CLAUDE-HANDOFF-20261114.md) reflects current Stage20 #46 Cloudflare Pages Direct Upload JWT limitation as a **tooling BLOCK**, not a product-security finding. Check master #26 for any newer status.
