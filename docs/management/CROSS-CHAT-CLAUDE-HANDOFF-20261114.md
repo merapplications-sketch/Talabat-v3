@@ -29,7 +29,7 @@
 - قرارات محمية: CASH-01, RETURN-01, SCOPE-01, Q09–17, PRICE/RATINGS/TIP، واجهة Home B، Restaurant v1.6 Legacy Premium، Direction A، DineOut Gold، Admin Template B وأربع مؤشرات A وUX-02 V04، تعديل زر الإشعار للخط الأبيض بسطر واحد؛ لا تغييرات بقرار منفرد.
 
 ## رابعاً: أدوات الاختبار — حقيقة تشغيل لا أسماء
-- المستخدم يتذكر اسم أداة اختبار تقارب «avas»، **غير محددة**. [AVA](https://github.com/avajs/ava) إطار اختبار Node.js حقيقي، لكن لم يثبت أن TALABOT يستخدمه. لا تسجله كتقنية مثبتة أو تضف اعتمادًا بلا دليل.
+- **تأكيد تاريخي جديد:** الاسم الذي قصدَه المالك هو **OWASP ASVS 5.0.0 Level 2**، المعيار الأمني الذي عمل عليه المدير/المبرمج/المستشار السابق. ملف Library المملوك للمالك `TALABOT-Project-Handoff-2026-11-09.txt` يوثق مصفوفة أمنية **345 متطلبًا**: 1 PASS، 2 FAIL، 330 UNTESTED، 12 N/A بتاريخ 9 نوفمبر. بعض مصدر Work كان محليًا بلا remote مثبت؛ لا تفترض أنه مرفوع على GitHub. **OWASP ASVS معيار وليس أداة تشغيل تلقائي**؛ AVA برنامج وحدة JavaScript آخر وليس المقصود، وZAP لم يُثبت استخدامه. [تقرير البحث والدليل](../qa/OWASP-ASVS-L2-HISTORICAL-VERIFICATION-20261114.md). نتائج 345 التاريخية منفصلة عن QA E2E 0/51 وAdmin 0/21 الحديثة.
 - **مثبتة في تقارير بأطرها:** PostgreSQL/CI106 على SHA تاريخي محدد، اختبارات JavaScript محلية/V8 لمحاكاة اللغة 8/8 على Stage13، Build/Lint/Vite/Vinext وحسابات في مشروع الإدارة، وتحليل مصدر في QA.
 - **مُتاح/مرصود جزئيًا فقط:** Chromium/Playwright عند بعض المنفذين؛ لا مساواة بقبول browser E2E على الإصدار الفعلي.
 - **مقترح وليس مثبت الاستخدام:** AVA/Vitest (اختيار واحد بعد الجرد)، Playwright E2E الكامل، k6، axe-core، Lighthouse، CodeQL/Dependabot، Sentry/Crashlytics، OpenTelemetry، اختبارات Security RLS/RBAC وGPS الخلفي. لا تضف مكونات جديدة لمجرد الأسماء.
