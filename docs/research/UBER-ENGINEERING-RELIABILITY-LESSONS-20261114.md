@@ -74,4 +74,4 @@
 - [Cross-chat handoff](../management/CROSS-CHAT-CLAUDE-HANDOFF-20261114.md)
 - [Owner-approved original contracts](https://github.com/merapplications-sketch/Talabat-v3/blob/1cb85361d698d5da787d927a4c9ae7bd213c68c1/docs/OWNER-AGREEMENTS-AR.md)
 
-**حالة الملف:** محفوظ للدراسة واختبارات مقترحة، **ليس تنفيذًا أو اعتمادًا**. لا تشغيل ضغط، SQL، Cloudflare، Supabase، GitHub Main، مالية، أو تعديل مشروع Smile Up دون موافقة/تكليف مستقل.
+**حالة الملف:** محفوظ للدراسة واختبارات مقترحة، **ليس تنفيذًا أو اعتمادًا**. لا تشغيل ضغط، SQL، Cloudflare، Supabase، GitHub Main، مالية، أو تعديل أي مشروع خارج نطاق TALABOT.
