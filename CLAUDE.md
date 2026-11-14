@@ -20,3 +20,7 @@
 - **Currently documented next publisher scope:** [Stage19 #45](https://github.com/merapplications-sketch/Talabat-v3/issues/45) with owner's [#44 consent](https://github.com/merapplications-sketch/Talabat-v3/issues/44); check latest comments, especially after Cloudflare reconnection. No verified public synthetic Safari URL yet in last inspected evidence.
 
 **Always hand off before context/tool limit:** write latest accepted SHA, exact blocker, one next authorized role, PASS/FAIL/BLOCKED counts and evidence URLs to GitHub; update cross-chat recovery guide when source changes. Do not assert future ChatGPT Work conversations will start automatically.
+
+## New security/ops update (2026-11-14)
+- [Current OWASP ASVS 5.0.0 L2 pilot security gates](docs/qa/OWASP-PILOT-SECURITY-EXECUTION-GATES-20261114.md): 12 scoped groups, no testing or new security finding from this documentation. Historical 345 rows are a private owned source not proven pushed; do not re-run or leak raw historical evidence.
+- [Stage20 #46](https://github.com/merapplications-sketch/Talabat-v3/issues/46) was BLOCKED by the officially undocumented JWT auth transfer in the connected Pages Direct Upload mechanism, no new Pages project/url or file upload; earlier Stage19-only state above is superseded by newest master #26. Do not keep looping on ZIP/Git App/asset upload attempts without new supported capabilities and permission.
