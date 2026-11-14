@@ -6,9 +6,8 @@
 
 
 ## ONE MASTER INDEX — all saved plans (14 Nov 2026)
-- **[OWNER PLANS MASTER INDEX](docs/management/OWNER-PLANS-MASTER-INDEX-20261114.md)**: unified map of approved source-of-truth, operational QA, ASVS security, memory/performance/resilience/alerts, global competitors and new Uber engineering research, app store/repo privacy, roadmap, cross-chat resumption and deferred Smile Up applicability. **Open this first**, then newest Master #26.
+- **[OWNER PLANS MASTER INDEX](docs/management/OWNER-PLANS-MASTER-INDEX-20261114.md)**: unified map of approved source-of-truth, operational QA, ASVS security, memory/performance/resilience/alerts, global competitors and new Uber engineering research, app store/repo privacy, roadmap, and cross-chat resumption. **Open this first**, then newest Master #26.
 - **[Uber Engineering reliability lessons](docs/research/UBER-ENGINEERING-RELIABILITY-LESSONS-20261114.md)**: current/historical official Uber studies on memory profiling and cache, QALM, overload management, retry storms, H3, GPS/ETA and route planning. **Research, not TALABOT performance benchmark or authorization to rewrite services.**
-- **[Deferred Smile Up reliability applicability](docs/roadmap/SMILE-UP-FUTURE-RELIABILITY-ADOPTION-20261114.md)**: future checklist to review **only after Smile Up's original app work is complete** and its owner authorizes that separate program. TALABOT repository only; no Smile Up modifications.
 - **Latest observed supplemental QA:** Stage16B owner's real ZIP was verified and limited Chromium `about:blank` smoke performed [report](https://github.com/merapplications-sketch/Talabat-v3/blob/6e6af296858dce4d15002bc0cd10d305ced75883/docs/qa-first-20261114/STAGE16B-OWNER-UPLOADED-ZIP-CHROMIUM-INMEMORY-QA.md), but no real HTTP/Safari or production E2E acceptance. Stage20 Pages JWT upload remains blocked at its earlier checkpoint. Always consult newest Issue #26.
 
 ## START HERE — owner pilot release coordination (2026-11-14 latest)
