@@ -106,6 +106,7 @@ inv:'Счёт',collect:'Получите с клиента',paidOnline:'Опла
 {dOrders:'Orders',dHist:'History',dMe:'Profile',newO:'New orders',offl:'You are offline. Switch to “Online”.',busy:'You have an active order. New orders are hidden until it is finished.',noO:'No orders available. Waiting…',pick:'Pick up',drop:'Deliver',take:'Accept order 🚀',actO:'Active order',call:'📞 Call',chatB:'💬 Chat',q1:'🚪 I am at the door',q2:'⏳ Running late',q3:'📍 Where is the address?',q1t:'I am arriving at your door 🚪',q2t:'Running late ⏳',q3t:'I cannot find the address 📍',q4:'🙏 Thanks',q4t:'Thank you! I will try to get to you as fast as I can 🙏',q5:'🛵 On my way',q5t:'I picked up your order and I am on my way 🛵',q6:'📞 Will call you',q6t:'Please answer my call, I will be with you soon 📞',q7:'⏳ Still preparing',q7t:'The order is still being prepared, I will leave soon ⏳',noPh:'No customer phone — use the chat',storeMap:'Restaurant on map',mapStore:'🗺 Restaurant on map',mapClient:'🗺 Customer address on map',promoT:'Promo code',map:'🗺️ Open map',wait:'Wait: the order is still being prepared',gotIt:'Order picked up 📦',dlv:'Order delivered ✅',st1:'1. Go to the restaurant',st2:'2. Deliver to the customer',bal:'Earnings',cnt:'Orders completed',noH:'No history yet',trans:'Failed: check the order status',
 inv:'Invoice',collect:'Collect from customer',paidOnline:'Paid online',subT:'Items',discT:'Discount',delT:'Delivery',tipT:'Tip',totT:'Total',cashHand:'Cash on hand',cashWarn:'⚠️ Cash on hand is over the limit. Hand it over to the office.',blockedB:'New orders are paused by the admin.',recvQ:'Amount received from customer (TJS)',diffN:'Reason if the amount differs',confirmB:'Confirm delivery',cancelB:'Cancel',msgPh:'Message to customer',sendB:'Send',lim:'Limit',langL:'Language',sendLoc:'📍 Place',h1:'Go to the restaurant',h2:'Deliver to the customer',custT:'Customer',navB:'Navigate',callRest:'Call',orderInfo:'Order details',itemsN:'items',chatT:'Chat',closeB:'Close',stAcc:'Accepted',stRest:'Restaurant',stCust:'Customer',prepIn:'Preparing, ~{n} min',readyNow:'Order is ready — pick it up',collectS:'Collect',paidS:'Paid online',earnT:'You earn',hideInfo:'Hide',quickT:'Quick replies',wallet:'Wallet',fromWallet:'from the wallet',nbFree:'Open order',verL:'Version',stepN:'Step {n} of 3',stepPickT:'Pick the order up at the restaurant',stepDropT:'Take the order to the customer',nextT:'Next',forYou:'For you',openOrd:'Open order',kmToCust:'km to the customer',earnS:'Earnings',landT:'Landmark',endB:'End shift',endQ:'End the shift? You will stop receiving orders.',endBusy:'Finish the current order first.',sumT:'Shift ended',sumDone:'Delivered today',sumEarn:'Earned',sumCash:'Cash on hand',sumClose:'Done',onShift:'You are on shift',shOff:'Off shift',offline:'No internet — you will not receive new orders',shiftT:'Start your shift',shiftS:'Order sound and location will turn on and the screen will stay awake. Keep the app open.',shiftB:'Start shift',soundOff:'Sound is off — you will not hear new orders',soundOnB:'Turn sound on',newOrderT:'New order',phReqT:'Enter your phone number',phReqS:'We need it so the customer and the restaurant can reach you. Tajikistan only: +992 and 9 digits.',phSave:'Save',ratingL:'Your rating',phoneL:'Phone',pickedOk:'Order picked up',routeCust:'Route to the customer',custAddrL:'Customer address',routeRest:'Route to the restaurant',offBroad:'Open order — first come, first served',offFor:'An order for you',secS:'s',kmToRest:'km to the restaurant · straight line',declineB:'Decline',acceptB:'Accept',geoDenied:'Location is off. Turn it on for Safari in iPhone Settings, otherwise you will not receive nearby orders.',geoWait:'Finding your location…',geoNA:'This device does not support location.',geoErr:'Cannot get your location. Move to an open area.',keepOpen:'Keep the app open and the screen on to receive orders.',locOkT:'Location is active'});
 const t=TLB.t,esc=TLB.esc,$=id=>document.getElementById(id);
+TLB.addDict({gate1ShiftFail:'Не удалось подтвердить смену на сервере. Проверьте сеть и повторите.',gate1ChatFail:'Сообщение не отправлено. Черновик сохранён.',gate1CashShort:'Получено меньше требуемого. Доставка не завершена; обратитесь в поддержку.',gate1CashReportFail:'Недостаточно наличных. Не удалось отправить обращение; повторите.',gate1CashPrecision:'Неверная точность суммы. Проверьте копейки.',gate1CashOver:'Сумма выше требуемой. Требуется утверждённая процедура.',gate1CashReported:'Недостача отправлена в поддержку. Доставка не завершена.'},{gate1ShiftFail:'Server did not acknowledge the shift. Check your connection and retry.',gate1ChatFail:'Message not sent. Your draft is saved.',gate1CashShort:'Cash is below the required amount. Delivery is not complete; contact support.',gate1CashReportFail:'Cash shortfall cannot be reported. Retry; do not complete delivery.',gate1CashPrecision:'Invalid cash precision. Check the amount.',gate1CashOver:'Collected amount exceeds the due amount. Approved exception handling is required.',gate1CashReported:'Shortfall reported to support. Delivery not completed.'});
 const P={nav:'<path d="M3 11l18-8-8 18-2-8z"/>',phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',chat:'<path d="M4 5h16v11H9l-5 4z"/>',check:'<path d="M5 12l5 5 9-10"/>',pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',store:'<path d="M4 9l1-5h14l1 5"/><path d="M4 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 4 0"/><path d="M5 12v8h14v-8"/>',home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',down:'<path d="M6 9l6 6 6-6"/>',up:'<path d="M6 15l6-6 6 6"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',bike:'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9H8"/>',pkg:'<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'};
 const ico=(n,s)=>`<svg viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;flex-shrink:0">${P[n]}</svg>`;
 let DLV={},DRV=null,tab='o',online=false,SUM=null,chatOpen=false,invOpen=false,lastN=-1,DV=null,ftm=null,phErr='',SHF=false,SWB=0,LASTACT=null,CXL=null,DM=null,DMK='';
@@ -113,7 +114,23 @@ const mine=()=>TLB.orders(o=>o.driver==DRV.id&&['preparing','ready','pickedup'].
 const done=()=>TLB.orders(o=>o.driver==DRV.id&&o.status=='delivered');
 const setTab=x=>{tab=x;render()};
 let GEO={state:'idle',lat:null,lng:null,acc:null,sent:0,wid:null},wake=null;
-const ping=()=>TLB.ping(online);
+let shiftPending=false;
+const SHIFT_ACK_TIMEOUT_MS=8000;
+function shiftAck(want){
+  return new Promise(resolve=>{
+    let settled=false;
+    const timer=setTimeout(()=>{if(settled)return;settled=true;resolve({ok:false,timeout:true})},SHIFT_ACK_TIMEOUT_MS);
+    Promise.resolve().then(()=>TLB.ping(want)).then(r=>{
+      if(settled)return;settled=true;clearTimeout(timer);resolve(r&&r.ok===true?{ok:true}:{ok:false});
+    },()=>{if(settled)return;settled=true;clearTimeout(timer);resolve({ok:false})});
+  });
+}
+async function ping(){
+  if(shiftPending)return {ok:false,pending:true};
+  const r=await shiftAck(online);
+  if(online&&!r.ok){online=false;stopGeo();releaseAwake();TLB.ring(false);flashTitle(false);TLB.toast(t('gate1ShiftFail'),true);render()}
+  return r;
+}
 function startGeo(){if(GEO.wid!=null)return;if(!navigator.geolocation){GEO.state='na';return}GEO.state='wait';
   GEO.wid=navigator.geolocation.watchPosition(p=>{GEO.lat=p.coords.latitude;GEO.lng=p.coords.longitude;GEO.acc=p.coords.accuracy;GEO.at=p.timestamp||Date.now();GEO.state='ok';pushGeo(false);render()},
     e=>{GEO.state=e&&e.code==1?'denied':'err';render()},{enableHighAccuracy:true,maximumAge:5000,timeout:30000})}
@@ -124,9 +141,27 @@ function releaseAwake(){try{if(wake){wake.release();wake=null}}catch(e){}}
 const due=o=>Math.max(0,Math.round(((+o.total||0)-(+o.walletUsed||0))*100)/100);
 const todayStart=()=>{const x=new Date();x.setHours(0,0,0,0);return x.getTime()};
 function shiftSummary(){const me=DRV.id,l=TLB.orders(o=>o.driver==me&&o.status=='delivered'&&(o.doneAt||o.createdAt)>=todayStart());return{n:l.length,earn:l.reduce((s,o)=>s+(+o.payout||0),0),cash:TLB.myCash()}}
-async function endShift(){if(!online)return;if(mine()){alert(t('endBusy'));return}if(!confirm(t('endQ')))return;
-  online=false;TLB.ring(false);flashTitle(false);stopGeo();releaseAwake();SUM=shiftSummary();await ping();render()}
-async function startShift(){TLB.unlockAudio();TLB.testSound();online=true;await ping();startGeo();keepAwake();render()}
+async function endShift(){
+  if(shiftPending||!online)return;
+  if(mine()){alert(t('endBusy'));return}
+  if(!confirm(t('endQ')))return;
+  shiftPending=true;render();
+  try{
+    const ack=await shiftAck(false);
+    if(!ack.ok){TLB.toast(t('gate1ShiftFail'),true);return}
+    online=false;TLB.ring(false);flashTitle(false);stopGeo();releaseAwake();SUM=shiftSummary();
+  }finally{shiftPending=false;render()}
+}
+async function startShift(){
+  if(shiftPending||online)return;
+  shiftPending=true;render();
+  try{
+    TLB.unlockAudio();TLB.testSound();
+    const ack=await shiftAck(true);
+    if(!ack.ok){online=false;TLB.toast(t('gate1ShiftFail'),true);return}
+    online=true;startGeo();keepAwake();
+  }finally{shiftPending=false;render()}
+}
 function unlockSound(){TLB.unlockAudio();TLB.testSound();render()}
 function flashTitle(on){if(on&&!ftm){let k=0;ftm=setInterval(()=>{document.title=(k++%2)?'Talabat':'🔔 '+t('newOrderT')},900)}else if(!on&&ftm){clearInterval(ftm);ftm=null;document.title='Talabat'}}
 async function savePhone(){const v=($('ph')||{}).value||'',r=await TLB.setMyPhone(v);if(r&&r.error){phErr=t('err_'+r.error);render();return}phErr='';render()}
@@ -134,8 +169,32 @@ function phoneGate(){return `<div class="pg"><div class="card" style="text-align
 async function decline(id){const r=await TLB.decline(id);if(r&&r.error)alert(t('err_'+r.error))}
 async function take(id){const r=await TLB.driverAccept(id);if(r.error)alert(t('err_'+r.error))}
 async function step(id,s){const r=await TLB.setStatus(id,s);if(r.error)alert(t('trans'))}
+const chatDraft={},chatSending={},chatFailed={};
+function chatDraftKey(id){return 'tlb-driver-draft-v1:'+(DRV&&DRV.id||'unknown')+':'+id}
+function chatDraftGet(id){
+  if(Object.prototype.hasOwnProperty.call(chatDraft,id))return chatDraft[id];
+  let v='';try{v=localStorage.getItem(chatDraftKey(id))||''}catch(e){}
+  return chatDraft[id]=v;
+}
+function chatDraftSet(id,value){
+  const v=String(value||'').slice(0,200);chatDraft[id]=v;
+  try{if(v)localStorage.setItem(chatDraftKey(id),v);else localStorage.removeItem(chatDraftKey(id))}catch(e){}
+  return v;
+}
 function say(id,txt){chatOpen=true;TLB.chat(id,'driver',txt)}
-function sendChat(id){const e=$('ci'),v=e.value.trim();if(!v)return;e.value='';TLB.chat(id,'driver',v)}
+async function sendChat(id){
+  if(chatSending[id])return;
+  const e=$('ci'),raw=e?e.value:chatDraftGet(id),v=String(raw||'').trim();
+  if(!v)return;
+  chatDraftSet(id,raw);chatSending[id]=true;chatFailed[id]=false;render();
+  let result;try{result=await TLB.chat(id,'driver',v)}catch(e){result={error:'generic'}}
+  delete chatSending[id];
+  if(result&& !result.error){
+    if(chatDraftGet(id)===raw)chatDraftSet(id,'');
+    chatFailed[id]=false;
+  }else{chatFailed[id]=true}
+  render();
+}
 function sendLoc(id){TLB.pickLocation((la,ln)=>TLB.chat(id,'driver','LOC:'+la.toFixed(6)+','+ln.toFixed(6)))}
 /* the last step: a photo when the customer asked to leave it at the door, the cash amount when he pays cash */
 /* v58 UAT004 (T4): one delivery confirmation at a time per order, on every path (modal and direct; driver A calls the same
@@ -151,6 +210,16 @@ async function takePhoto(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f
 async function confirmDeliver(){if(!DV||DV.up||DLV[DV.id])return;if(DV.photo&&!DV.ph){TLB.toast(t('err_photo_required'),true);return}
   let amt=null;if(DV.cash){amt=parseFloat(DV.amt);
     if(!(amt>=0)){TLB.toast(t('err_cash_required'),true);return}
+    if(Math.abs(amt*100-Math.round(amt*100))>0.0000001){TLB.toast(t('gate1CashPrecision'),true);return}
+    if(amt+0.00000001<DV.total){
+      if(DV.reportBusy)return;
+      DV.reportBusy=true;render();
+      let report;try{report=await TLB.reportDriverCashShort(DV.id,amt,DV.note)}catch(e){report={error:'generic'}}
+      if(!DV)return;DV.reportBusy=false;
+      TLB.toast(t(report&&!report.error?'gate1CashReported':'gate1CashReportFail'),true);
+      render();return;
+    }
+    if(amt>DV.total+0.00000001){TLB.toast(t('gate1CashOver'),true);return}
     if(Math.abs(amt-DV.total)>0.004&&!DV.note.trim()){TLB.toast(t('err_note_required'),true);return}}
   if(await finish(DV.id,amt,DV.cash?DV.note:null,DV.ph?DV.ph.path:null)){DV=null;render()}}
 /* the 4 steps of a delivery, each confirmed with a swipe */
@@ -252,7 +321,7 @@ function chatSheet(a){const un=TLB.unread(a.id),Q=driverQuickIds(a);
   return `<div class="ov" onclick="chatOpen=false;render()"><div class="md" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:10px"><h3 style="margin:0">${t('chatT')} · ${esc(a.client.name)}</h3><button class="round" onclick="chatOpen=false;render()" aria-label="${t('closeB')}">${ico('x',18)}</button></div>
   <div class="qrow">${Q.map(n=>`<span class="chip" onclick="say(${a.id},t('q${n}t'))">${t('q'+n)}</span>`).join('')}</div>
   <div class="chat" id="ch">${a.chat.map(m=>`<div class="m ${m.s=='driver'?'me':''}">${TLB.fmtMsg(m.t)}</div>`).join('')}</div>
-  <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" placeholder="${t('msgPh')}" style="margin:0;flex:1"><button class="round" onclick="sendLoc(${a.id})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" style="background:var(--o);color:#fff" onclick="sendChat(${a.id})" aria-label="${t('sendB')}">${ico('nav',20)}</button></div></div></div>`}
+  <div class="row" style="gap:8px"><input type="text" id="ci" maxlength="200" value="${esc(chatDraftGet(a.id))}" oninput="chatDraftSet(${a.id},this.value);chatFailed[${a.id}]=false" placeholder="${t('msgPh')}" style="margin:0;flex:1"><button class="round" onclick="sendLoc(${a.id})" aria-label="${t('sendLoc')}">${ico('pin',20)}</button><button class="round o" style="background:var(--o);color:#fff" onclick="sendChat(${a.id})" ${chatSending[a.id]?'disabled aria-busy="true"':''} aria-label="${t('sendB')}">${ico('nav',20)}</button></div>${chatFailed[a.id]? `<div role="alert" class="xs" style="color:var(--bad)">${t('gate1ChatFail')}</div>`:''}</div></div>`}
 /* one empty-state component: icon + title + hint */
 const emptyD=(a,b,ic)=>`<div class="emp"><span class="eic">${ico(ic||'receipt',26)}</span><b>${a}</b>${b||''}</div>`;
 function vHist(){const l=done();return `<h3>${t('dHist')}</h3>${l.length?l.map(o=>`<div class="card"><div class="row"><b>#${o.id} (${esc(o.store)})</b><b style="color:#27ae60">${o.payout.toFixed(2)} TJS</b></div><p style="font-size:11px;color:#718096;margin-top:4px">🕒 ${new Date(o.doneAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} ${o.cashCollected!=null?` • 💵 ${o.cashCollected.toFixed(2)} TJS`:''}${o.cashNote?` • ${esc(o.cashNote)}`:''}</p></div>`).join(''):emptyD(t('noH'),t('noHS'),'receipt')}`}
@@ -265,7 +334,7 @@ function modal(){if(CXL)return cxlSheet();const a=mine();if(chatOpen&&a&&!DV)ret
   return `<div class="ov"><div class="md" style="max-height:88vh;overflow:auto">${DV.photo?`<h3>📷 ${t('photoT')}</h3><p class="xs mut" style="margin:-6px 0 10px;line-height:1.45">${t('photoS')}</p>${DV.ph?`<div class="php"><img src="${DV.ph.preview}" alt="${t('photoT')}"></div>`:''}
   <label class="phb">${DV.up?t('photoUp'):`${ico('cam',18)} ${DV.ph?t('photoRe'):t('photoB')}`}<input type="file" accept="image/*" capture="environment" style="display:none" onchange="takePhoto(this)" ${DV.up?'disabled':''}></label>`:''}
   ${DV.cash?`${o?cashBox(o):''}<h3>${t('recvQ')}</h3><input type="number" id="cashAmt" inputmode="decimal" value="${esc(DV.amt)}" oninput="DV.amt=this.value"><input type="text" id="cashNote" placeholder="${t('diffN')}" value="${esc(DV.note)}" oninput="DV.note=this.value">`:''}
-  <button class="b g" id="dvok" ${DV.up||(DV.photo&&!DV.ph)||DLV[DV.id]?'disabled style="opacity:.5"':''} ${DLV[DV.id]?'aria-busy="true"':''} onclick="confirmDeliver()">${DLV[DV.id]?t('dlvBusy'):t('confirmB')}</button><button class="b s" onclick="DV=null;render()">${t('cancelB')}</button></div></div>`}
+  <button class="b g" id="dvok" ${DV.up||DV.reportBusy||(DV.photo&&!DV.ph)||DLV[DV.id]?'disabled style="opacity:.5"':''} ${DLV[DV.id]?'aria-busy="true"':''} onclick="confirmDeliver()">${DLV[DV.id]?t('dlvBusy'):t('confirmB')}</button><button class="b s" onclick="DV=null;render()">${t('cancelB')}</button></div></div>`}
 function nbarH(ofl){const f=ofl.find(o=>o.offer.mode=='single')||ofl[0],single=f.offer.mode=='single';
   return `<div class="nbar" onclick="setTab('o');scrollTo(0,0)"><span>\uD83D\uDD14 ${t('newOrderT')} \u00b7 ${esc(f.store)}</span><span>+${f.payout.toFixed(2)}${single?' \u00b7 '+Math.ceil(f.offer.left)+t('secS'):' \u00b7 '+t('nbFree')}</span></div>`}
 function render0(){
@@ -282,7 +351,7 @@ function render0(){
   ${ringing&&tab!='o'?nbarH(ofl):''}
   ${tab=='o'&&mine()?sheetH(mine()):`<div class="pg">${{o:vOrders,h:vHist,m:vMe}[tab]()}</div>`}${modal()}
   <div class="nav">${[['o','home','dOrders'],['h','receipt','dHist'],['m','user','dMe']].map(x=>`<div class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')"><span>${ico(x[1],24)}</span>${t(x[2])}${x[0]=='o'&&un?` <span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
-  if(kid&&$(kid)){const e=$(kid);e.value=keep;e.focus();try{e.setSelectionRange(keep.length,keep.length)}catch(x){}}
+  if(kid&&$(kid)){const e=$(kid),v=kid==='ci'&&a0?chatDraftGet(a0.id):keep;e.value=v;e.focus();try{e.setSelectionRange(v.length,v.length)}catch(x){}}
   const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;
   const act=tab=='o'&&mine();document.body.classList.toggle('mapmode',!!act);if(act){bindSwipe();mapUpd(act);if(online)keepAwake()}}
 TLB.start('driver',me=>{DRV=me;TLB.chrome(false);TLB.on(render);render();ping();

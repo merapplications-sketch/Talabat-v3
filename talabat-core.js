@@ -562,7 +562,7 @@
   }
   function errKey(e) {
     var m = String((e && e.message) || '').toLowerCase();
-    var ks = ['store_location_missing', 'link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
+    var ks = ['cash_short', 'cash_over_policy', 'cash_precision', 'already_delivered', 'store_location_missing', 'link_disabled', 'already_linked', 'refund_too_high', 'refund_needs_order', 'wallet_changed', 'points_changed', 'points_min_order', 'points_min', 'bad_gift', 'photo_required', 'bad_time', 'bad_group', 'group_closed', 'too_early', 'insufficient_funds', 'already_refunded', 'note_required', 'phone_locked', 'phone_cooldown', 'account_blocked', 'ticket_expired', 'ticket_exists', 'ticket_closed', 'not_found', 'fee_changed', 'too_far', 'phone_required', 'address_required', 'bad_options', 'no_offer', 'busy', 'already_rated', 'too_many_orders', 'promo_offer', 'promo_invalid', 'promo_min', 'promo_used', 'promo_limit', 'too_many', 'discount_over_max', 'bad_value', 'bad_phone', 'store_unavailable', 'unavailable', 'closed', 'empty', 'bad_transition', 'not_approved', 'not_allowed', 'user_not_found', 'blocked', 'name_taken', 'no_template', 'cash_required', 'note_required', 'auth'];
     for (var i = 0; i < ks.length; i++) if (m.indexOf(ks[i]) >= 0) return ks[i];
     return 'generic';
   }
@@ -901,6 +901,7 @@
   function morph(el, html) { var tp = document.createElement('template'); tp.innerHTML = html; morphKids(el, tp.content); }
 
   var TLBref = null;
+  var gate1DeliveryFlights = Object.create(null);
   window.TLB = {
     icon: icon, staffUI: staffUI, morph: morph,
     version: VERSION,
@@ -1443,7 +1444,22 @@
     setStatus: function (id, to) { return rpc('set_order_status', { p_id: id, p_to: to }); },
     patch: function (id, f) { return rpc('set_prep_time', { p_id: id, p_min: f.prepTime }, true); },
     driverAccept: function (id) { return rpc('driver_accept', { p_id: id }).then(function (r) { return r.error ? r : (r.data === true ? { ok: true } : { error: 'taken' }); }); },
-    deliver: function (id, cash, note, photo) { var a = { p_id: id, p_cash: cash, p_note: note || null }; if (photo) a.p_photo = photo; return rpc('deliver_order', a); },
+    deliver: function (id, cash, note, photo) {
+      var key = String(id);
+      if (gate1DeliveryFlights[key]) return gate1DeliveryFlights[key];
+      var a = { p_id: id, p_cash: cash, p_note: note || null };
+      if (photo) a.p_photo = photo;
+      var request = Promise.resolve().then(function () { return rpc('deliver_order', a); })
+        .catch(function (e) { console.error(e); return { error: 'generic' }; })
+        .finally(function () { if (gate1DeliveryFlights[key] === request) delete gate1DeliveryFlights[key]; });
+      gate1DeliveryFlights[key] = request;
+      return request;
+    },
+    reportDriverCashShort: function (id, amount, note) {
+      if (!isFinite(+amount) || +amount < 0 || String(note || '').length > 200) return Promise.resolve({ error: 'bad_value' });
+      return rpc('report_driver_cash_short', { p_id: id, p_cash: +amount, p_note: note ? String(note).slice(0, 200) : null })
+        .then(function (r) { return r && r.error ? r : { ticket_id: r.data }; });
+    },
     /* batch 2 (patch 34): courier arrival steps, photo proof (private bucket), restaurant cancel with a reason */
     driverArrived: function (id, where) { if (where !== 'store' && where !== 'customer') return Promise.resolve({ error: 'bad_value' }); return rpc('driver_arrived', { p_id: id, p_where: where }); },
     rejectOrder: function (id, reason, note) { if (['out_of_stock', 'too_busy', 'closing', 'other'].indexOf(reason) < 0) return Promise.resolve({ error: 'bad_value' }); return rpc('reject_order', { p_id: id, p_reason: reason, p_note: note ? String(note).slice(0, 200) : null }); },

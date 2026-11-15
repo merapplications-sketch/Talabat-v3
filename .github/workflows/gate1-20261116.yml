@@ -1,0 +1,24 @@
+name: TALABOT Gate1 isolated checks (no production)
+on:
+  push:
+    branches:
+      - dev/gate1-f01-f04-20261116
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: gate1-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  gate1:
+    if: github.repository == 'merapplications-sketch/Talabat-v3'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Read isolated branch without credential persistence
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Four source regressions and fail-closed existing/E2E gates
+        shell: bash
+        run: bash tools/check_all.sh
