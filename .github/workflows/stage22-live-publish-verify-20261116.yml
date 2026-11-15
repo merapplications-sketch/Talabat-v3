@@ -1,0 +1,39 @@
+name: TALABOT Stage22 live publish verification (read-only)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - review/stage22-live-publish-verify-20261116
+    paths:
+      - .github/workflows/stage22-live-publish-verify-20261116.yml
+      - docs/qa-first-20261116/**
+permissions:
+  contents: read
+concurrency:
+  group: talabot-stage22-live-verify
+  cancel-in-progress: false
+jobs:
+  live-verify:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/stage22-live-publish-verify-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install --no-cache-dir playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Live hashes, headers, EN/RU, fake-checkout block
+        run: python docs/qa-first-20261116/stage22_live_publish_verify.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: talabot-stage22-live-publish-verify
+          path: stage22-candidate-verification/
+          if-no-files-found: warn
+          retention-days: 7
