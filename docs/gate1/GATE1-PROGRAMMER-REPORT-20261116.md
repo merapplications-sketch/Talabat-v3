@@ -29,10 +29,27 @@
 
 ## Available validation vs unavailable real verification
 
+### Actual branch-CI execution — source checks PASS; whole gate correctly FAILED CLOSED
+
+**Real GitHub Actions run:** [`43758572694`](https://github.com/merapplications-sketch/Talabat-v3/actions/runs/43758572694), executable candidate SHA `cda14fae01af436997284fc9169764b66586ac94`; job `132947993005`; **conclusion: FAILURE because required gates are BLOCKED, not because four source regressions failed.**
+
+Actual unedited job-log lines:
+- `PASS F01_online_requires_ack`
+- `PASS F02_single_delivery`
+- `PASS F03_chat_draft_kept`
+- `PASS F04_cash_q14`
+- `{"result":"PASS","pass":4,"fail":0,"scope":"mocked source functions + SQL source invariants, not database E2E"}`
+- `BLOCKED` preserved core-contract check: missing pinned Node QR/jsQR modules / configured path, no packages installed.
+- `GATE1_E2E: 0/11 PASS, 11 BLOCKED; no HTTP/SQL request issued` because separately approved `talabot-test` does not exist.
+- `GATE1_NO_GO: incomplete or failing required test gates` exit 1, **as required by the fail-closed agreement.**
+
+**Result accounting:** F01..04 **4/4 source-function mock checks executed PASS**, including artificial failed/timeout ACK, same-promise in-flight dedup, fake chat draft reload and Q14 short-cash client refusal; **0/11 real Supabase E2E executed**, no actual SQL transactional concurrency, receipt/RLS/financial reconciliation proved, no independent security PASS. Do not equate mocked source checks with production or DB validation.
+
+
 - Original 10 inline `driver.html` JavaScript sections parsed by V8 `new Function`: **PASS syntax only**.
 - Updated `talabat-core.js` parsed by V8: **PASS syntax only**.
 - Proposed SQL is **source-reviewed only** for correct row lock/authorization, Q14 undercash rejection, replay no-update, support ticket and GRANT; no Postgres parser/transaction execution, no migration application.
-- `tools/gate1_contract_checks.cjs` has four named fixture/source-function checks (F01–F04). Their existence and syntax validation are NOT proof of passed execution. The permitted single command is `bash tools/check_all.sh`; it fails with a nonzero code if any mandatory step is unavailable.
+- `tools/gate1_contract_checks.cjs` executed its four named mocked source-function checks **4/4 PASS** in actual GitHub Actions run `43758572694`; this is **not** a 4/4 live DB/E2E PASS. The single command `bash tools/check_all.sh` exited nonzero as required because full gates are unavailable.
 - `tools/core_contracts_check.py` remains source-original; its Node QR/jsQR+Chromium dependencies need a prepared test runner. A missing dependency is **BLOCKED**, not skipped/pass.
 - No physical Safari or current root release regression tests claimed; previously accepted owner visual work is preserved and is outside this task.
 
@@ -61,7 +78,7 @@ The connected Supabase account currently lists only three projects: primary `Tal
 ### Honest completion classification
 
 - **Source changes**: prepared on a separate candidate for PM review, *not* approved/integrated into operational code.
-- **Four regression scripts**: staged but pending actual execution on matching GitHub branch/runtime.
+- **Four regression checks**: **4/4 executed PASS** under GitHub Actions `43758572694` on the pinned branch candidate; only mocked source functions + SQL source invariants.
 - **Required 11 live E2E**: **0/11** — BLOCKED by absent approved test DB/fixture.
 - **Security/finance/role acceptance**: pending separate independent auditor.
 - **GO/NO-GO:** NO-GO for Gate1 closure, merge, deploy, primary pilot and PHASE2.
