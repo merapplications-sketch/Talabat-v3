@@ -1,4 +1,4 @@
-name: TALABOT Stage22 isolated one-shot QA
+name: TALABOT Stage22 targeted conditional UX evidence
 on:
   push:
     branches:
@@ -29,16 +29,16 @@ jobs:
         run: |
           python -m pip install --no-cache-dir playwright==1.57.0
           python -m playwright install --with-deps chromium
-      - name: Live synthetic Pages guard and network test
+      - name: Targeted synthetic EN customization and narrow mobile UX
         shell: bash
         run: |
-          python docs/qa-first-20261115/stage22_guarded_browser_test.py
+          python docs/qa-first-20261115/stage22_targeted_ux.py
       - name: Save sanitized test artifacts (one-day retention, no real data)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: talabot-stage22-qa-synthetic-only
-          path: stage22-qa-artifacts/
+          name: talabot-stage22-targeted-ux-synthetic-only
+          path: stage22-targeted-ux/
           if-no-files-found: warn
           retention-days: 1
           compression-level: 6
