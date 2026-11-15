@@ -65,3 +65,6 @@
 - **فهرس كل الخطط هو المرجع الأول**: [OWNER-PLANS-MASTER-INDEX](OWNER-PLANS-MASTER-INDEX-20261114.md). يشمل Uber RAM/QALM/Retry/GPS، الفحص الأمني OWASP، الأنظمة الحالية، إنذار الإدارة والسعة والنسخ الاحتياطية، تطبيقات المتاجر، خارطة الميزات الجديدة، وخطط TALABOT فقط.
 - [دروس Uber المبنية على المصادر الرسمية](../research/UBER-ENGINEERING-RELIABILITY-LESSONS-20261114.md) هي خطة تقييم **وليست أمرًا بتثبيت Rust/H3/Redis/Kafka أو إعادة كتابة**.
 - **آخر تقدم QA إضافي وقت هذا التوثيق**: [Stage16B](https://github.com/merapplications-sketch/Talabat-v3/blob/6e6af296858dce4d15002bc0cd10d305ced75883/docs/qa-first-20261114/STAGE16B-OWNER-UPLOADED-ZIP-CHROMIUM-INMEMORY-QA.md): ملف ZIP الأصلي وصل ماديًا فقط إلى حاوية محادثة المدير، SHA/CRC مطابقان، 8/8 فحوص شاشات مبدئية داخل about:blank مع بيانات وهمية، لكن لا HTTP/CSP/تطبيق Safari حقيقي أو مزامنة تلقائية مع الناشر. **Stage20** لا يزال متوقفًا في مسار النشر على JWT الخاص بـPages، والاختبارات التجارية G1/E2E غير محسومة.
+
+## تنبيه استئناف أحدث: 15 نوفمبر 2026
+**[تسليم المدير الجديد المحدد لـTALABOT](TALABOT-MANAGER-RESTART-20261115.md)** يتقدم زمنيًا على ملاحظات Stage20 السابقة في هذا الملف: Stage22 #48 وصل إلى مرشح تصحيح EN مقبول في نطاقه، والمالك أذن بتحديث موقع Demo الأحدث فقط. **الرفع الجديد لم يُثبت بعد** (Cloudflare آخر Deployment 636ae248 وقت الفحص)، وOPS هو صاحب الخطوة التالية. ليست موافقة على إصدار تجاري. 
