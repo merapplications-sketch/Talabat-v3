@@ -30,4 +30,11 @@ jobs:
         shell: bash
         env:
           GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
-        run: bash tools/check_all.sh
+          SUPABASE_TEST_URL: ${{ secrets.SUPABASE_TEST_URL }}
+          SUPABASE_TEST_ANON_KEY: ${{ secrets.SUPABASE_TEST_ANON_KEY }}
+          SUPABASE_TEST_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_TEST_SERVICE_ROLE_KEY }}
+          GATE1_TEST_PROJECT_REF: ${{ vars.GATE1_TEST_PROJECT_REF }}
+          GATE1_TEST_FIXTURE_PATH: ${{ runner.temp }}/gate1-fixture.json
+        run: |
+          python3 -m py_compile tools/gate1_e2e.py
+          bash tools/check_all.sh
