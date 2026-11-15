@@ -36,3 +36,16 @@ To certify one financial receipt/effect, the **new isolated test fixture** must 
 - E08 checks the returned ticket ID, the single support record and driver message, the Q14 shortfall rejection and unchanged `pickedup` status; identical second report must not duplicate the ticket.
 - E09 creates a fresh synthetic **active** order for chat authorization instead of sending a message after a different test case completed delivery.
 - E07/E08/E09 are unexecuted **until** the original project/seed/role/finance contract has a real test-only implementation. Source-only checks or syntactic compilation are NOT E2E acceptance.
+
+
+## Brief-2 / LOCAL CI override of obsolete cloud setup instructions (2026-11-16)
+
+**Owner instruction:** [#48 / 6901725324](https://github.com/merapplications-sketch/Talabat-v3/issues/48#issuecomment-6901725324). The cloud `talabot-test`, GitHub cloud Secrets and remote ref from the earlier sections of THIS document are now **SUPERSEDED / MUST NOT BE USED**. Accepted test target is a disposable LOCAL Supabase Docker instance in branch-only CI with exact API origin **`http://127.0.0.1:54321`**. Never run against any remote Supabase host.
+
+**Authentic baseline contract:** `sql/baseline/schema_baseline_dzydscryrnahnneydnry_20261116.sql` and matching adjacent `.json` manifest with `source_ref`, `sha256`, `extracted_utc`, `schema_only:true`, `patches17_34_included`. Both files are currently **ABSENT** because schema-only production metadata reads timed out. Do not create placeholder SQL or guess table/ledger/role definitions. `tools/gate1_local_prepare.py` checks both before staging any local migrations; failure exits 3.
+
+Once the authentic schema is provided, the authorized CI workflow starts a Docker-local Supabase, applies the validated baseline + proposed Gate1 SQL (and patch17–34 only if manifest records them absent), creates five **synthetic LOCAL Auth identities** with matching isolated catalog/order seed outside Git, then runs `tools/check_all.sh`. The seed creator is **not yet available** because the authoritative baseline is unavailable. Never use real users/orders or copy any row from production.
+
+**E07 financial receipt:** The finance ledger table and order foreign-key column must be audited from baseline. If absent, E07 may be marked BLOCKED *alone* with genuine 10/10 other PASS and documented financial-contract gap; never invent a new ledger or call source-only F02 simulation a real receipt proof.
+
+**Evidence to date:** previous source F checks + offline Chromium core PASS; schema extraction timed out; local E2E 0/11 executed, 11 BLOCKED. GitHub Actions nonzero is the required fail-closed behavior until the missing baseline and safe synthetic fixture are available.

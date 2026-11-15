@@ -13,7 +13,7 @@ jobs:
   gate1:
     if: github.repository == 'merapplications-sketch/Talabat-v3'
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 30
     steps:
       - name: Read isolated branch without credential persistence
         uses: actions/checkout@v4
@@ -26,15 +26,36 @@ jobs:
           npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
           python3 -m pip install --disable-pip-version-check playwright==1.57.0
           python3 -m playwright install --with-deps chromium
+      # A production-only schema snapshot is REQUIRED but never fetched by this runner.
+      # Local Supabase starts ONLY after the baseline hash/origin/checks are verified.
+      - name: Fail-closed schema-only baseline verification (zero network)
+        shell: bash
+        run: python3 tools/gate1_local_prepare.py
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 3.1.0
+      - name: Start disposable LOCAL Supabase (no cloud project)
+        shell: bash
+        run: |
+          supabase start
+          supabase db reset --local
+          supabase status -o env > "$RUNNER_TEMP/gate1-local-status.env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/gate1-local-status.env"
+          if [ ! -s "$RUNNER_TEMP/gate1-fixture.json" ]; then
+            echo "BLOCKED: verified LOCAL synthetic Auth/DB fixture missing; no real E2E attempted" >&2
+            exit 3
+          fi
       - name: Four source regressions and fail-closed existing/E2E gates
         shell: bash
         env:
           GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
-          SUPABASE_TEST_URL: ${{ secrets.SUPABASE_TEST_URL }}
-          SUPABASE_TEST_ANON_KEY: ${{ secrets.SUPABASE_TEST_ANON_KEY }}
-          SUPABASE_TEST_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_TEST_SERVICE_ROLE_KEY }}
-          GATE1_TEST_PROJECT_REF: ${{ vars.GATE1_TEST_PROJECT_REF }}
-          GATE1_TEST_FIXTURE_PATH: ${{ runner.temp }}/gate1-fixture.json
         run: |
           python3 -m py_compile tools/gate1_e2e.py
           bash tools/check_all.sh
+      - name: Tear down disposable local Supabase containers
+        if: always()
+        shell: bash
+        run: |
+          if command -v supabase >/dev/null 2>&1; then
+            supabase stop --no-backup || true
+          fi

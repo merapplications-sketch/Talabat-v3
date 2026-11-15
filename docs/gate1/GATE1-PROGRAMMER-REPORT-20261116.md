@@ -110,3 +110,30 @@ Read-only examination of the previously staged real-test harness found two **tes
 The test-only harness is corrected to follow the committed SQL names, assert **state + financial receipt uniqueness** and unchanged completed `done_at` on retry, require a verified finance receipt mapping in the **test-only ephemeral seed**, and run chat against a new active synthetic order. These changes affect only `tools/gate1_e2e.py` and the test preflight documentation; **F01–F04 candidate source, proposed Q14 SQL, owner-approved finances, UI, and production remain untouched**.
 
 **Status remains 0/11 executed E2E / BLOCKED**: the independent `talabot-test` and its authoritative schema, test-only JWTs and finance receipt mapping are still absent. Nothing here upgrades existing source checks into production QA.
+
+
+## GATE 1 / PROGRAMMER BRIEF-2 supersession — 2026-11-16 (schema-only → LOCAL CI)
+
+**Exact new owner-approved instruction:** [Issue #48 comment 6901725324](https://github.com/merapplications-sketch/Talabat-v3/issues/48#issuecomment-6901725324), full [GATE1-PROGRAMMER-BRIEF-2-20261116.md](https://github.com/merapplications-sketch/Talabat-v3/blob/9f28710569064d7fab6c5c98baa49a2214c4bd10/docs/management/GATE1-PROGRAMMER-BRIEF-2-20261116.md). Overrides **only** previous cloud `talabot-test` provisioning section. Do not request a cloud organization. Everything else in original Gate1 brief remains binding.
+
+**Actual production-schema identity (read only from pinned ORIGINAL app source):** `talabat-core.js` at `tech/v82-int` commit `09ef07fd29fb5c5a3e323c23c7331e577567ab1e`, SB_URL ref **`dzydscryrnahnneydnry`**. Public frontend publishable key was **not copied, output or used**. Supabase project `Talabat` metadata returned `ACTIVE_HEALTHY`, but that is not proof of a reachable database.
+
+**Metadata-only production reads attempted and outcome — BLOCKED by connection:**
+
+| Authorized schema-only retrieval | Tool/SQL family | Actual response |
+|---|---|---|
+| Catalog counts | `Supabase.execute_sql` against `pg_catalog.pg_class`, `pg_namespace` | `Connection terminated due to connection timeout` |
+| Relation/column metadata | `Supabase.list_tables`, `public` only | `Connection terminated due to connection timeout` |
+| Migration list | `Supabase.list_migrations` | `Connection terminated due to connection timeout` |
+| API type introspection | `Supabase.generate_typescript_types` | `timeout exceeded when trying to connect` |
+
+The calls returned **zero schema definitions**. **No table-data SELECT, auth.users, storage object/rows, Vault value, secrets, money, production SQL write or migration** was read or attempted. Because the baseline could not be retrieved, **NO `schema_baseline_dzydscryrnahnneydnry_20261116.sql` was fabricated** and no baseline SHA256 or extracted timestamp is claimed. The existing repo contains patch17–34 but no verified initial schema; those patches cannot safely replace the production baseline.
+
+**Prepared test-only LOCAL CI implementation, not yet executed as DB E2E:**
+- `tools/gate1_e2e.py`: requires literal `http://127.0.0.1:54321`; no production/pilot URL, HTTPS host, proxy, redirect, GitHub cloud secrets or cloud project. Binds ephemeral synthetic role tokens and fixture to verified `GATE1_SCHEMA_SHA256`; enables `E07 BLOCKED` **only** if the real schema has no attributable financial receipt mapping, without inventing a table, while permitting the other ten cases to run once provisioned.
+- `tools/gate1_local_prepare.py`: reads **only local files**, verifies manifest source ref, SHA256, schema-only/timestamp/patch inclusion, refuses row-copy directives/remote-link credentials; stages baseline and proposed Gate1 SQL as local-only migrations. Missing baseline/manifest exit **3 BLOCKED BEFORE** container startup/network.
+- `tools/gate1_local_env.py`: parses `supabase status -o env` LOCAL values only, checks exact loopback, exports ephemeral anon/service keys inside the disposable runner with masking; no GitHub/cloud secrets.
+- Branch-specific `.github/workflows/gate1-20261116.yml`: prepares pinned offline core dependencies, runs baseline gate **before** `supabase/setup-cli` or Docker; pinned CLI `3.1.0` stable (release 2026-11-09), runs `supabase start` and **`supabase db reset --local` only after verified baseline**, then `tools/check_all.sh` and teardown. No `supabase link`, `db push`, remote DB env, migration to cloud, or new cost.
+- **Not yet generated:** five LOCAL synthetic Auth users, catalog/order seed, consented fixture in `$RUNNER_TEMP/gate1-fixture.json`. Authentic source-schema FK/default/RPC contracts and finance receipt mapping cannot be assumed before successful extraction; local suite refuses to claim results without them.
+
+**Current acceptance:** earlier pinned 4/4 mocked F01–F04 and offline Chromium core contracts PASS (Actions `43761445301`), preserved; *this change does not rerun or supersede them*. Production-schema snapshot **BLOCKED**; REAL local DB E2E **0/11 executed, 11 BLOCKED due to unavailable source baseline & synthetic fixture**, not “only E07 blocked”. E07 financial attribution can be separately BLOCKED **only after** other ten genuinely execute and pass. **GATE1 NO-GO** pending extraction/access and independent security+finance audit; real C-01/release/PHASE2 NO-GO. No main, Cloudflare, other Supabase project, design or financial policy change.

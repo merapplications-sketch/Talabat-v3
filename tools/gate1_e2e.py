@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Eleven test-only HTTP E2E gates. Exit 3/BLOCKED before network without talabot-test credentials and ephemeral seed."""
+"""Eleven LOCAL Supabase-only HTTP E2E gates. Fail closed BEFORE network unless isolated Docker at 127.0.0.1:54321 plus synthetic fixture exist. NEVER production/pilot."""
 import os,json,sys,uuid,urllib.parse,urllib.request,urllib.error,concurrent.futures,pathlib,re
 SCENARIOS=[
 ("E01","C-11/B-04","customer cash order"),
@@ -21,33 +21,38 @@ def blocked(reason):
 def require(ok,message):
  if not ok: raise AssertionError(message)
 def preflight():
- keys=("SUPABASE_TEST_URL","SUPABASE_TEST_ANON_KEY","SUPABASE_TEST_SERVICE_ROLE_KEY","GATE1_TEST_PROJECT_REF","GATE1_TEST_FIXTURE_PATH")
+ keys=("SUPABASE_LOCAL_URL","SUPABASE_LOCAL_ANON_KEY","SUPABASE_LOCAL_SERVICE_ROLE_KEY","GATE1_TEST_FIXTURE_PATH","GATE1_SCHEMA_SHA256")
  missing=[k for k in keys if not os.environ.get(k)]
  if missing: blocked("test-only environment missing: "+", ".join(missing)+"; no network attempted")
- ref=os.environ["GATE1_TEST_PROJECT_REF"]; url=os.environ["SUPABASE_TEST_URL"].rstrip("/")
+ url=os.environ["SUPABASE_LOCAL_URL"].rstrip("/")
  h=urllib.parse.urlparse(url)
- if ref in PROTECTED or len(ref)!=20 or not ref.isalnum() or h.scheme!="https" or h.netloc!=ref+".supabase.co" or h.path or h.query or h.fragment:
-  blocked("unsafe/unknown target origin; no network attempted")
+ if url!="http://127.0.0.1:54321" or h.scheme!="http" or h.netloc!="127.0.0.1:54321":
+  blocked("only exact local Docker API http://127.0.0.1:54321 allowed; no network attempted")
+ for key,value in os.environ.items():
+  if key.startswith("SUPABASE_TEST_") and key!="SUPABASE_TEST_PROJECT_NAME" and any(p in value for p in PROTECTED):
+   blocked("protected remote project detected in environment; no network attempted")
+ if not re.fullmatch(r"[a-f0-9]{64}",os.environ["GATE1_SCHEMA_SHA256"]):
+  blocked("missing verified baseline SHA256; no network attempted")
  p=pathlib.Path(os.environ["GATE1_TEST_FIXTURE_PATH"])
  if not p.is_absolute() or not p.is_file() or pathlib.Path(__file__).resolve().parents[1] in p.parents: blocked("ephemeral fixture outside repository missing")
  try: f=json.loads(p.read_text(encoding="utf-8"))
  except Exception: blocked("test fixture corrupt")
- if f.get("project_ref")!=ref or f.get("project_name")!="talabot-test" or f.get("synthetic_only") is not True:
-  blocked("explicit separate talabot-test identity not verified")
+ if f.get("project_name")!="talabot-gate1-local" or f.get("origin")!=url or f.get("synthetic_only") is not True or f.get("baseline_sha256")!=os.environ["GATE1_SCHEMA_SHA256"]:
+  blocked("fixture not bound to verified LOCAL schema and synthetic-only origin")
  if not all(f.get("roles",{}).get(r,{}).get("access_token") for r in ("customer","merchant","driver","outsider","other_driver")):
   blocked("synthetic customer/merchant/driver/outsider sessions missing")
  if not isinstance(f.get("place_order_args"),dict) or not isinstance(f.get("cash_due"),(float,int)) or not f.get("other_driver_order"):
-  blocked("real test-only seed schema/order fixture not initialized")
+  blocked("LOCAL ephemeral seed/order fixture incomplete")
  receipt=f.get("finance_receipt")
- if not isinstance(receipt,dict) or not all(isinstance(receipt.get(k),str) and re.fullmatch(r"[a-z][a-z0-9_]{1,62}",receipt[k]) for k in ("table","order_key")):
-  blocked("verified test-only finance receipt table/order-key mapping missing; cannot assert at-most-once financial effect")
+ if receipt is not None and (not isinstance(receipt,dict) or not all(isinstance(receipt.get(k),str) and re.fullmatch(r"[a-z][a-z0-9_]{1,62}",receipt[k]) for k in ("table","order_key"))):
+  blocked("invalid finance receipt mapping; cannot run")
  return url,f
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs): raise RuntimeError("HTTP redirect denied")
-OPENER=urllib.request.build_opener(NoRedirect())
+OPENER=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
 class API:
  def __init__(self,url,f):
-  self.url=url;self.f=f;self.anon=os.environ["SUPABASE_TEST_ANON_KEY"];self.service=os.environ["SUPABASE_TEST_SERVICE_ROLE_KEY"]
+  self.url=url;self.f=f;self.anon=os.environ["SUPABASE_LOCAL_ANON_KEY"];self.service=os.environ["SUPABASE_LOCAL_SERVICE_ROLE_KEY"]
  def query(self,method,path,role,body=None,service=False):
   require(not path.startswith("/") and "://" not in path and ".." not in path,"bad route")
   headers={"apikey":self.service if service else self.anon,"Authorization":"Bearer "+(self.service if service else self.f["roles"][role]["access_token"]),"Accept":"application/json"}
@@ -104,6 +109,9 @@ def run():
  def E07():
   oid=a.prep()
   body={"p_id":oid,"p_cash":f["cash_due"],"p_note":None,"p_photo":None}
+  if not f.get("finance_receipt"):
+   print("BLOCKED E07: no attributable finance/receipt table in verified schema baseline; cannot assert one accounting effect",flush=True)
+   return False
   def snapshot():
    order=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)
    require(len(order)==1,"delivery row absent in isolated test")
@@ -122,7 +130,11 @@ def run():
   require(second==first and receipt_after==receipt,"post-commit replay mutated delivery or financial receipt")
   changed=dict(body,p_cash=round(f["cash_due"]+1,2))
   require(a.rpc("driver","deliver_order",changed)[0]>=400,"conflicting completed replay must be rejected")
- check("E07",E07)
+  return True
+ if E07():
+  passed.append("E07");print("PASS E07 [live isolated LOCAL HTTP]",flush=True)
+ else:
+  state["e07_blocked"]=True
  def E08():
   oid=a.prep()
   paid=round(f["cash_due"]-1,2)
@@ -157,8 +169,12 @@ def run():
   require(a.rows("outsider","orders",{"id":"eq."+str(oid),"select":"id"})==[],"outsider read leakage")
   require(a.rows("driver","orders",{"id":"eq."+str(other),"select":"id"})==[],"unassigned driver read leakage")
  check("E11",E11)
+ if state.get("e07_blocked"):
+  require(len(passed)==10,"only E07 may be blocked when all other 10 cases PASS")
+  print("GATE1_E2E: 10/11 PASS, E07 BLOCKED — finance ledger attribution absent",flush=True)
+  raise SystemExit(3)
  require(len(passed)==11,"11 case count mismatch")
 if __name__=="__main__":
  try: run()
  except Exception as e:
-  print("FAIL E2E on isolated test project:",str(e),file=sys.stderr);raise SystemExit(1)
+  print("FAIL local-only E2E:",str(e),file=sys.stderr);raise SystemExit(1)
