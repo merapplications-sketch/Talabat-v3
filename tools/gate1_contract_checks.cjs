@@ -78,9 +78,39 @@ async function F04(){
  await invoke(100.001);check(delivered===1,'precision blocked');
  check(notices.length>=3,'visible error/success feedback');
 }
+
+async function F01_explicit_ack(){
+ check(sql.includes('CREATE FUNCTION public.driver_ping(p_online boolean) RETURNS boolean'),'driver_ping must return boolean');
+ check(sql.includes('IF NOT FOUND THEN RAISE EXCEPTION')&&sql.includes("driver_status = 'approved'"),'driver_ping fail-closed zero rows');
+ const src=slice(core,'ping: function (online) {','isOpen: function');
+ let result={data:null,error:null};
+ const fn=new Function('sb','return ({'+src+'isOpen: function(){}}).ping')({rpc:()=>Promise.resolve(result)});
+ result={data:null,error:null};check((await fn(true)).ok===false,'void response incorrectly ACKed');
+ result={data:false,error:null};check((await fn(true)).ok===false,'false server result incorrectly ACKed');
+ result={data:true,error:{message:'denied'}};check((await fn(true)).ok===false,'error incorrectly ACKed');
+ result={data:true,error:null};check((await fn(true)).ok===true,'explicit true result not acknowledged');
+}
+async function F02_conflicting_payload_rejected(){
+ const obj=Object.create(null);let calls=0,respond;
+ const rpc=()=>{calls++;return new Promise(resolve=>{respond=resolve})};
+ const src=slice(core,'deliver: function (id, cash, note, photo) {','reportDriverCashShort: function');
+ const deliver=new Function('gate1DeliveryFlights','rpc','console','return ({'+src+'reportDriverCashShort: function(){}}).deliver')(obj,rpc,console);
+ const first=deliver(99,60,'a','path/photo.jpg');
+ check(first===deliver(99,60,'a','path/photo.jpg'),'identical payloads must share in-flight promise');
+ for(const args of [[99,61,'a','path/photo.jpg'],[99,60,'b','path/photo.jpg'],[99,60,'a','different/photo.jpg']])
+   check((await deliver(...args)).error==='busy','conflicting in-flight payload must fail busy');
+ await Promise.resolve();check(calls===1,'a conflicting request reached RPC');
+ respond({ok:true});await first;
+ const after=deliver(99,61,'a','path/photo.jpg');
+ await Promise.resolve();check(calls===2,'new request after commit must reach server');
+ respond({error:'already_delivered'});check((await after).error==='already_delivered','post-commit server denial must be returned');
+}
+
 async function main(){
  await run('F01_online_requires_ack',F01);
+ await run('F01_explicit_ack',F01_explicit_ack);
  await run('F02_single_delivery',F02);
+ await run('F02_conflicting_payload_rejected',F02_conflicting_payload_rejected);
  await run('F03_chat_draft_kept',F03);
  await run('F04_cash_q14',F04);
  console.log(JSON.stringify({result:failed?'FAIL':'PASS',pass:passed,fail:failed,scope:'mocked source functions + SQL source invariants, not database E2E'}));

@@ -960,7 +960,7 @@
       }, function () { return { error: 'generic' }; });
     },
     getMenu: function (n) { return this.allMenus(false)[n] || []; },
-    ping: function (online) { return sb.rpc('driver_ping', { p_online: !!online }).then(function (r) { return { ok: !r.error }; }, function () { return { ok: false }; }); },
+    ping: function (online) { return sb.rpc('driver_ping', { p_online: !!online }).then(function (r) { return { ok: !!r && !r.error && r.data === true }; }, function () { return { ok: false }; }); },
     isOpen: function (n) { var s = storeByName(n); return !!s && s.is_open && s.is_active; },
     setOpen: function (n, v) { var s = storeByName(n); return s ? rpc('set_store_open', { p_store: s.id, p_open: !!v }, true) : Promise.resolve({ error: 'generic' }); },
 
@@ -1446,13 +1446,21 @@
     driverAccept: function (id) { return rpc('driver_accept', { p_id: id }).then(function (r) { return r.error ? r : (r.data === true ? { ok: true } : { error: 'taken' }); }); },
     deliver: function (id, cash, note, photo) {
       var key = String(id);
-      if (gate1DeliveryFlights[key]) return gate1DeliveryFlights[key];
       var a = { p_id: id, p_cash: cash, p_note: note || null };
       if (photo) a.p_photo = photo;
+      var signature = JSON.stringify(a);
+      var inflight = gate1DeliveryFlights[key];
+      if (inflight) {
+        if (inflight.signature === signature) return inflight.promise;
+        return Promise.resolve({ error: 'busy' }); // Different amount/note/photo never inherits an ACK.
+      }
       var request = Promise.resolve().then(function () { return rpc('deliver_order', a); })
         .catch(function (e) { console.error(e); return { error: 'generic' }; })
-        .finally(function () { if (gate1DeliveryFlights[key] === request) delete gate1DeliveryFlights[key]; });
-      gate1DeliveryFlights[key] = request;
+        .finally(function () {
+          if (gate1DeliveryFlights[key] && gate1DeliveryFlights[key].promise === request)
+            delete gate1DeliveryFlights[key];
+        });
+      gate1DeliveryFlights[key] = { signature: signature, promise: request };
       return request;
     },
     reportDriverCashShort: function (id, amount, note) {

@@ -17,7 +17,7 @@ else
   echo "BLOCKED: core_contracts_check.py requires existing qrcode-generator/jsQR at GATE1_QR_DEPS; no packages installed" >&2
   fail=1
 fi
-echo "GATE1 eleven separate Supabase E2E scenarios"
+echo "GATE1 11 original + 5 new local Supabase E2E scenarios"
 python3 tools/gate1_e2e.py || fail=1
 if [ "$fail" -ne 0 ]; then
   echo "GATE1_NO_GO: incomplete or failing required gates" >&2

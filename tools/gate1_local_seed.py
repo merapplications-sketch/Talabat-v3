@@ -108,6 +108,15 @@ def main():
         if not isinstance(logged, dict) or not logged.get("access_token"):
             blocked("LOCAL Auth did not issue a test session")
         profiles[role] = {"id": created["id"], "access_token": logged["access_token"]}
+        if role == "driver":
+            # Two separately authenticated HTTP sessions of the SAME driver for E07.
+            _, second = call("POST", "/auth/v1/token?grant_type=password", anon,
+                             {"email": email, "password": password})
+            if not isinstance(second, dict) or not second.get("access_token") or second["access_token"] == logged["access_token"]:
+                blocked("independent LOCAL second driver session unavailable")
+            profiles["driver_second_session"] = {
+                "id": created["id"], "access_token": second["access_token"]
+            }
     now = datetime.datetime.now(datetime.timezone.utc).isoformat()
     profile_rows = []
     for number, role in enumerate(ROLES, 1):
@@ -139,7 +148,7 @@ def main():
              "fee_type": "fixed", "fee_base": 10, "fee_per_km": 0,
              "is_open": True, "is_active": True,
              "lat": 38.56, "lng": 68.78,
-             "discount_pct": 0, "cashback_pct": 5}
+             "discount_pct": 0, "cashback_pct": 0}
     require_success(*call("POST", "/rest/v1/stores", service, store, "return=minimal"), subject="store")
     item = {"id": item_id, "store_id": store_id, "name": "SYNTHETIC Gate1 Dish",
             "price": 50, "available": True, "approved": True,
@@ -167,17 +176,15 @@ def main():
         },
         "cash_due": 60,
         "other_driver_order": other_rows[0]["id"],
-        # This is an actual WALLET CASHBACK FINANCIAL EFFECT on delivery, not
-        # a courier cash settlement receipt; independent FIN review remains mandatory.
-        "finance_receipt": ({"table": "wallet_entries", "order_key": "order_id",
-                             "kind": "cashback"} if confirmed_cashback else None),
+        # Loyalty entries are optional dedup evidence, NEVER a cash-accounting receipt.
+        # Cashback is intentionally ZERO in this fixture to prove E07 independence.
+        "loyalty_cashback_available": confirmed_cashback,
     }
     fd = os.open(fixture_path, os.O_CREAT | os.O_WRONLY | os.O_EXCL, 0o600)
     with os.fdopen(fd, "w", encoding="utf-8") as fh:
         json.dump(fixture, fh, separators=(",", ":"))
-    print("PASS Gate1: five synthetic LOCAL Auth sessions, store/menu and negative RLS order seeded.")
-    print("PASS Gate1: isolated wallet cashback ledger mapping "
-          + ("identified" if confirmed_cashback else "unavailable; E07 will remain BLOCKED"))
+    print("PASS Gate1: five synthetic LOCAL Auth identities + independent driver session, store/menu and negative RLS order seeded.")
+    print("PASS Gate1: cashback=0 test fixture; E07 cash effect is measured via cash_balances(), NOT loyalty.")
     print("PASS Gate1: ephemeral fixture saved at RUNNER_TEMP; no tokens or account identifiers logged.")
 
 

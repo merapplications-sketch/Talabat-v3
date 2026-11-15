@@ -1,5 +1,5 @@
 -- TALABOT Gate 1 / PROPOSED ONLY. Apply exclusively to newly created, verified
--- zero-cost Supabase talabot-test, after original schema_patch17..34.
+-- disposable LOCAL Supabase with verified production schema-only baseline.
 -- NEVER apply to real Talabat or the historic pilot without separate owner approval.
 -- Source baseline: tech/v82-int 09ef07fd29fb5c5a3e323c23c7331e577567ab1e.
 -- F02: row lock + pickedup status ensure a single delivery transition and its existing triggers.
@@ -7,6 +7,40 @@
 -- The standalone report_driver_cash_short RPC creates an authorized support report with
 -- no delivery status/payment/driver settlement write. Caller receives its ticket ID.
 -- IMPORTANT: Exposing a SECURITY DEFINER function requires independent privilege/RLS audit.
+
+
+-- SF-02: the original driver_ping(boolean) returns VOID on zero changed rows.
+-- This replacement is PROPOSED for local Gate1 only; a boolean ACK is required.
+DROP FUNCTION IF EXISTS public.driver_ping(boolean);
+CREATE FUNCTION public.driver_ping(p_online boolean) RETURNS boolean
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
+AS $gate1_ping$
+BEGIN
+  IF auth.uid() IS NULL THEN RAISE EXCEPTION 'not_allowed'; END IF;
+  UPDATE public.profiles
+     SET online = coalesce(p_online,false), last_seen = now(),
+         lat = CASE WHEN coalesce(p_online,false) THEN lat ELSE NULL END,
+         lng = CASE WHEN coalesce(p_online,false) THEN lng ELSE NULL END,
+         loc_acc = CASE WHEN coalesce(p_online,false) THEN loc_acc ELSE NULL END,
+         loc_updated = CASE WHEN coalesce(p_online,false) THEN loc_updated ELSE NULL END
+   WHERE id = auth.uid() AND role = 'driver' AND driver_status = 'approved';
+  IF NOT FOUND THEN RAISE EXCEPTION 'not_allowed'; END IF;
+  RETURN true;
+END
+$gate1_ping$;
+REVOKE ALL ON FUNCTION public.driver_ping(boolean) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.driver_ping(boolean) TO authenticated;
+
+-- SF-06: keep at most one non-payment ticket AND one payment ticket per order.
+-- The original one-open-ticket-per-order index prevents a separate payment ticket
+-- for an already open unrelated complaint. No other support reason is relaxed.
+DROP INDEX IF EXISTS public.tickets_one_open_per_order;
+CREATE UNIQUE INDEX tickets_one_open_per_order
+  ON public.support_tickets(order_id)
+  WHERE order_id IS NOT NULL AND status IN ('open','in_progress') AND reason <> 'payment';
+CREATE UNIQUE INDEX tickets_one_open_payment_per_order
+  ON public.support_tickets(order_id)
+  WHERE order_id IS NOT NULL AND status IN ('open','in_progress') AND reason = 'payment';
 
 CREATE OR REPLACE FUNCTION public.deliver_order(
   p_id bigint, p_cash numeric DEFAULT NULL, p_note text DEFAULT NULL, p_photo text DEFAULT NULL
@@ -20,7 +54,11 @@ DECLARE
 BEGIN
   SELECT * INTO o FROM public.orders WHERE id = p_id FOR UPDATE;
   IF NOT FOUND THEN RAISE EXCEPTION 'not_found'; END IF;
-  IF auth.uid() IS NULL OR o.driver_id IS DISTINCT FROM auth.uid() THEN
+  IF auth.uid() IS NULL OR o.driver_id IS DISTINCT FROM auth.uid()
+     OR NOT EXISTS (
+       SELECT 1 FROM public.profiles p WHERE p.id=auth.uid()
+         AND p.role='driver' AND p.driver_status='approved'
+     ) THEN
     RAISE EXCEPTION 'not_allowed';
   END IF;
   iscash := o.payment ~ '^(cash|Cash|Наличн)';
@@ -87,7 +125,11 @@ DECLARE
 BEGIN
   SELECT * INTO o FROM public.orders WHERE id=p_id FOR UPDATE;
   IF NOT FOUND THEN RAISE EXCEPTION 'not_found'; END IF;
-  IF auth.uid() IS NULL OR o.driver_id IS DISTINCT FROM auth.uid() OR o.status <> 'pickedup' THEN
+  IF auth.uid() IS NULL OR o.driver_id IS DISTINCT FROM auth.uid() OR o.status <> 'pickedup'
+     OR NOT EXISTS (
+       SELECT 1 FROM public.profiles p WHERE p.id=auth.uid()
+         AND p.role='driver' AND p.driver_status='approved'
+     ) THEN
     RAISE EXCEPTION 'not_allowed';
   END IF;
   IF o.payment !~ '^(cash|Cash|Наличн)' THEN RAISE EXCEPTION 'bad_value'; END IF;
@@ -98,7 +140,7 @@ BEGIN
     RAISE EXCEPTION 'bad_value';
   END IF;
   SELECT id INTO v_ticket FROM public.support_tickets
-   WHERE order_id=p_id AND status IN ('open','in_progress')
+   WHERE order_id=p_id AND status IN ('open','in_progress') AND reason='payment'
    ORDER BY id DESC LIMIT 1;
   IF v_ticket IS NULL THEN
     INSERT INTO public.support_tickets(customer_id,order_id,reason)
@@ -112,8 +154,10 @@ BEGIN
   ) THEN
     INSERT INTO public.ticket_messages(ticket_id,from_staff,sender_id,body)
     VALUES(v_ticket,false,auth.uid(),v_msg);
+    -- First message or meaningfully changed report only; an identical retry
+    -- performs NO UPDATE, including updated_at.
+    UPDATE public.support_tickets SET updated_at=now() WHERE id=v_ticket;
   END IF;
-  UPDATE public.support_tickets SET updated_at=now() WHERE id=v_ticket;
   RETURN v_ticket;
 END
 $gate1_report$;

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Eleven LOCAL Supabase-only HTTP E2E gates. Fail closed BEFORE network unless isolated Docker at 127.0.0.1:54321 plus synthetic fixture exist. NEVER production/pilot."""
 import os,json,sys,uuid,urllib.parse,urllib.request,urllib.error,concurrent.futures,pathlib,re
+from decimal import Decimal
 SCENARIOS=[
 ("E01","C-11/B-04","customer cash order"),
 ("E02","C-15/B-07","merchant accepts"),
@@ -12,7 +13,12 @@ SCENARIOS=[
 ("E08","D-08/B-10","underpay rejected + support report"),
 ("E09","D-11/B-03","chat authorized/rejected"),
 ("E10","C-16","customer observes terminal status"),
-("E11","B-03/D-01","cross-account and unassigned driver RLS")]
+("E11","B-03/D-01","cross-account and unassigned driver RLS"),
+("E03b","SF-02","unapproved driver_ping denied"),
+("E08b","SF-06","pre-existing unrelated support ticket stays separate"),
+("E08c","SF-06","identical support retry causes no timestamp write"),
+("E12","SF-03","revoked assigned driver cannot deliver or report"),
+("E13","SF-07/09","negative authorization RPC/chat matrix")]
 PROTECTED={"dzydscryrnahnneydnry","fsvrsvqfknogwmhccera","sbzcokatkhxsijsfplit"}
 def blocked(reason):
  print("BLOCKED Gate1 E2E:",reason,flush=True)
@@ -39,13 +45,14 @@ def preflight():
  except Exception: blocked("test fixture corrupt")
  if f.get("project_name")!="talabot-gate1-local" or f.get("origin")!=url or f.get("synthetic_only") is not True or f.get("baseline_sha256")!=os.environ["GATE1_SCHEMA_SHA256"]:
   blocked("fixture not bound to verified LOCAL schema and synthetic-only origin")
- if not all(f.get("roles",{}).get(r,{}).get("access_token") for r in ("customer","merchant","driver","outsider","other_driver")):
+ if not all(f.get("roles",{}).get(r,{}).get("access_token") for r in ("customer","merchant","driver","driver_second_session","outsider","other_driver")):
   blocked("synthetic customer/merchant/driver/outsider sessions missing")
  if not isinstance(f.get("place_order_args"),dict) or not isinstance(f.get("cash_due"),(float,int)) or not f.get("other_driver_order"):
   blocked("LOCAL ephemeral seed/order fixture incomplete")
- receipt=f.get("finance_receipt")
- if receipt is not None and (not isinstance(receipt,dict) or not all(isinstance(receipt.get(k),str) and re.fullmatch(r"[a-z][a-z0-9_]{1,62}",receipt[k]) for k in ("table","order_key"))):
-  blocked("invalid finance receipt mapping; cannot run")
+ if f["roles"]["driver"]["id"]!=f["roles"]["driver_second_session"]["id"] or f["roles"]["driver"]["access_token"]==f["roles"]["driver_second_session"]["access_token"]:
+  blocked("E07 requires two independently authenticated sessions of the same LOCAL driver")
+ if not isinstance(f.get("loyalty_cashback_available"),bool):
+  blocked("loyalty cash-back schema metadata missing")
  return url,f
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs): raise RuntimeError("HTTP redirect denied")
@@ -70,6 +77,13 @@ class API:
   code,data=self.query("GET",route,role,service=service)
   require(code==200 and isinstance(data,list),"failed to read test table "+table)
   return data
+ def cash_balance(self,role="driver"):
+  code,rows=self.rpc(role,"cash_balances",{})
+  require(200<=code<300 and isinstance(rows,list),"driver cash_balances() was not readable on LOCAL")
+  own_id=self.f["roles"]["driver"]["id"]
+  entries=[row for row in rows if row.get("driver_id")==own_id]
+  require(len(entries)<=1,"duplicate driver cash balance row")
+  return Decimal(str(entries[0]["balance"])) if entries else Decimal("0")
  def cash_order(self):
   p=dict(self.f["place_order_args"]);p["p_key"]=uuid.uuid4().hex;p["p_payment"]="cash"
   c,r=self.rpc("customer","place_order",p)
@@ -111,11 +125,24 @@ def run():
  def E02():require(200<=a.rpc("merchant","set_order_status",{"p_id":state["oid"],"p_to":"preparing"})[0]<300,"merchant accept")
  check("E02",E02)
  def E03():
-  code,_=a.rpc("driver","driver_ping",{"p_online":True})
-  require(200<=code<300,"driver ping denied")
+  code,ack=a.rpc("driver","driver_ping",{"p_online":True})
+  require(200<=code<300 and ack is True,"driver ping must return an explicit positive server ACK")
   rows=a.rows("driver","profiles",{"id":"eq."+str(f["roles"]["driver"]["id"]),"select":"online,last_seen"})
   require(len(rows)==1 and rows[0]["online"] is True and rows[0]["last_seen"],"server Online presence not committed")
  check("E03",E03)
+ def E03b():
+  uid=f["roles"]["other_driver"]["id"]
+  path="rest/v1/profiles?id=eq."+uid
+  try:
+   require(200<=a.query("PATCH",path,None,{"driver_status":"suspended","online":False},service=True)[0]<300,"could not suspend LOCAL synthetic other driver")
+   before=a.rows(None,"profiles",{"id":"eq."+uid,"select":"driver_status,online,last_seen"},service=True)
+   require(len(before)==1 and before[0]["driver_status"]=="suspended","LOCAL other driver revocation absent")
+   code,_=a.rpc("other_driver","driver_ping",{"p_online":True})
+   require(code>=400,"revoked driver_ping returned a false positive ACK")
+   require(a.rows(None,"profiles",{"id":"eq."+uid,"select":"driver_status,online,last_seen"},service=True)==before,"denied ping wrote presence state")
+  finally:
+   a.query("PATCH",path,None,{"driver_status":"approved","online":True},service=True)
+ check("E03b_ping_denied_unapproved",E03b)
  def E04():
   code,value=a.rpc("driver","driver_accept",{"p_id":state["oid"]})
   require(200<=code<300 and value is True,"driver accept not acknowledged by server")
@@ -132,56 +159,88 @@ def run():
  def E07():
   oid=a.prep()
   body={"p_id":oid,"p_cash":f["cash_due"],"p_note":None,"p_photo":None}
-  if not f.get("finance_receipt"):
-   print("BLOCKED E07: no attributable finance/receipt table in verified schema baseline; cannot assert one accounting effect",flush=True)
-   return False
   def snapshot():
-   order=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)
-   require(len(order)==1,"delivery row absent in isolated test")
-   meta=f["finance_receipt"]
-   filters={meta["order_key"]:"eq."+str(oid),"select":"id,amount,kind"}
-   if meta.get("kind"):filters["kind"]="eq."+str(meta["kind"])
-   receipt=a.rows(None,meta["table"],filters,service=True)
-   return order[0],receipt
+   rows=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,total,wallet_used,cash_collected,cash_settled_at"},service=True)
+   require(len(rows)==1,"LOCAL delivery order absent")
+   return rows[0]
+  def cashback():
+   if not f["loyalty_cashback_available"]:return None
+   return a.rows(None,"wallet_entries",{"order_id":"eq."+str(oid),"kind":"eq.cashback","select":"id,amount,kind"},service=True)
+  before=snapshot()
+  require(before["status"]=="pickedup" and before["cash_collected"] is None,"E07 must start before a cash collection")
+  due=Decimal(str(before["total"]))-Decimal(str(before["wallet_used"] or 0))
+  require(due>0 and due==Decimal(str(f["cash_due"])),"cash due must equal total minus wallet_used")
+  opening=a.cash_balance()
+  # Separate GoTrue sessions, same driver, simultaneous PostgREST HTTP RPC calls.
   with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-   codes=list(pool.map(lambda _:a.rpc("driver","deliver_order",body)[0],(0,1)))
-  # Approved Gate1 SQL returns void/HTTP 2xx for identical retries, WITHOUT a second UPDATE.
-  require(len(codes)==2 and all(200<=c<300 for c in codes),"idempotent concurrent delivery did not acknowledge both identical attempts")
-  first,receipt=snapshot()
-  require(first["status"]=="delivered" and first["done_at"] is not None,"server did not reach delivered exactly once")
-  require(len(receipt)==1 and float(receipt[0]["amount"])>0,
-          "wallet cashback financial ledger effect is not exactly one positive entry")
-  require(200<=a.rpc("driver","deliver_order",body)[0]<300,"same-payload post-COMMIT replay must acknowledge without new update")
-  second,receipt_after=snapshot()
-  require(second==first and receipt_after==receipt,"post-commit replay mutated delivery or financial receipt")
+   tasks=[pool.submit(a.rpc,role,"deliver_order",body) for role in ("driver","driver_second_session")]
+   codes=[task.result()[0] for task in tasks]
+  require(len(codes)==2 and all(200<=c<300 for c in codes),"concurrent identical delivery did not ACK both sessions")
+  first=snapshot();balance=a.cash_balance();cashback_before=cashback()
+  require(first["status"]=="delivered" and first["done_at"] is not None,"cash order not delivered")
+  require(first["cash_settled_at"] is None,"unapproved settlement occurred")
+  require(Decimal(str(first["cash_collected"]))==due,"cash_collected != total - wallet_used")
+  require(balance-opening==due,"unsettled courier cash_balance delta was not EXACTLY ONCE")
+  if cashback_before is not None:require(len(cashback_before)<=1,"cashback duplicated (not a cash receipt)")
+  require(200<=a.rpc("driver_second_session","deliver_order",body)[0]<300,"identical post-COMMIT retry failed")
+  second=snapshot();after_balance=a.cash_balance();cashback_after=cashback()
+  require(second==first and after_balance==balance,"identical replay changed delivery/cash balance/done_at")
+  if cashback_before is not None:require(cashback_after==cashback_before,"identical replay changed optional loyalty entries")
   changed=dict(body,p_cash=round(f["cash_due"]+1,2))
-  require(a.rpc("driver","deliver_order",changed)[0]>=400,"conflicting completed replay must be rejected")
-  return True
- if E07():
-  passed.append("E07");print("PASS E07 [live isolated LOCAL HTTP]",flush=True)
- else:
-  state["e07_blocked"]=True
+  require(a.rpc("driver","deliver_order",changed)[0]>=400,"conflicting post-COMMIT replay accepted")
+  require(snapshot()==first and a.cash_balance()==balance,"conflicting retry caused a cash side effect")
+ check("E07_cash_effect_once",E07)
  def E08():
   oid=a.prep()
   state["underpaid_oid"]=oid
+  # An open COURIER complaint already exists; payment report needs a separate ticket.
+  record={"customer_id":f["roles"]["customer"]["id"],"order_id":oid,"reason":"courier"}
+  code,_=a.query("POST","rest/v1/support_tickets",None,record,service=True)
+  require(200<=code<300,"synthetic unrelated open support ticket not seeded")
+  unrelated=a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"reason":"eq.courier","select":"id,reason,status,updated_at"},service=True)
+  require(len(unrelated)==1 and unrelated[0]["status"]=="open","unrelated ticket invalid")
+  state["unrelated_ticket"]=unrelated[0]
   paid=round(f["cash_due"]-1,2)
   require(paid>=0,"test due below one")
   args={"p_id":oid,"p_cash":paid,"p_note":"Test only"}
+  state["underpaid_args"]=args
   code,ticket=a.rpc("driver","report_driver_cash_short",args)
-  require(200<=code<300 and isinstance(ticket,int),"driver support-report RPC denied")
-  # Support record is independent of rejected delivery transaction (Q14).
+  require(200<=code<300 and isinstance(ticket,int),"payment support-report RPC denied")
+  state["underpaid_ticket"]=ticket
   def tickets():
-   return a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"id":"eq."+str(ticket),"select":"id,reason,status"},service=True)
+   return a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"id":"eq."+str(ticket),"select":"id,reason,status,updated_at"},service=True)
   first=tickets()
-  require(len(first)==1 and first[0]["reason"]=="payment","support record not persisted")
+  require(len(first)==1 and first[0]["reason"]=="payment","payment ticket absent")
   code,ticket2=a.rpc("driver","report_driver_cash_short",args)
-  require(200<=code<300 and ticket2==ticket and tickets()==first,"duplicate support ticket on retry")
-  require(a.rpc("driver","deliver_order",{"p_id":oid,"p_cash":paid,"p_note":"Test only","p_photo":None})[0]>=400,"short cash was accepted")
+  require(200<=code<300 and ticket2==ticket and tickets()==first,"identical support report changed ticket metadata")
+  require(a.rpc("driver","deliver_order",{"p_id":oid,"p_cash":paid,"p_note":"Test only","p_photo":None})[0]>=400,"short cash accepted")
   status=a.rows("customer","orders",{"id":"eq."+str(oid),"select":"status"})
-  require(len(status)==1 and status[0]["status"]=="pickedup","underpayment changed order status")
-  messages=a.rows(None,"ticket_messages",{"ticket_id":"eq."+str(ticket),"select":"id,sender_id,body"},service=True)
-  require(len(messages)==1 and messages[0]["sender_id"]==f["roles"]["driver"]["id"],"support message lost or duplicated")
+  require(len(status)==1 and status[0]["status"]=="pickedup","underpayment changed delivery state")
+  messages=a.rows(None,"ticket_messages",{"ticket_id":"eq."+str(ticket),"select":"id,sender_id,body,created_at"},service=True)
+  require(len(messages)==1 and messages[0]["sender_id"]==f["roles"]["driver"]["id"],"support report message lost or duplicated")
  check("E08",E08)
+ def E08b():
+  oid=state["underpaid_oid"]
+  tickets=a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"select":"id,reason,status,updated_at"},service=True)
+  require(len(tickets)==2,"unrelated and payment ticket must coexist without loosening other uniqueness")
+  unrelated=[t for t in tickets if t["reason"]=="courier"]
+  payment=[t for t in tickets if t["reason"]=="payment"]
+  require(len(unrelated)==1 and len(payment)==1,"support report reused unrelated reason")
+  require(unrelated[0]==state["unrelated_ticket"],"original unrelated ticket mutated")
+  require(payment[0]["id"]==state["underpaid_ticket"],"payment ticket misattributed")
+ check("E08b_existing_unrelated_ticket",E08b)
+ def E08c():
+  oid=state["underpaid_oid"];ticket=state["underpaid_ticket"]
+  def snapshot():
+   t=a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"select":"id,reason,status,updated_at"},service=True)
+   m=a.rows(None,"ticket_messages",{"ticket_id":"eq."+str(ticket),"select":"id,body,sender_id,created_at"},service=True)
+   o=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)
+   return t,m,o
+  before=snapshot()
+  code,returned=a.rpc("driver","report_driver_cash_short",state["underpaid_args"])
+  require(200<=code<300 and returned==ticket,"idempotent report retry failed")
+  require(snapshot()==before,"identical report replay wrote updated_at/message/order state")
+ check("E08c_identical_repeat_no_write",E08c)
  def E09():
   # E08 leaves a real LOCAL driver-owned pickedup order: reuse for chat; no parallel active delivery conflict.
   oid=state["underpaid_oid"];r=f["roles"]
@@ -197,11 +256,49 @@ def run():
   require(a.rows("outsider","orders",{"id":"eq."+str(oid),"select":"id"})==[],"outsider read leakage")
   require(a.rows("driver","orders",{"id":"eq."+str(other),"select":"id"})==[],"unassigned driver read leakage")
  check("E11",E11)
- if state.get("e07_blocked"):
-  require(len(passed)==10,"only E07 may be blocked when all other 10 cases PASS")
-  print("GATE1_E2E: 10/11 PASS, E07 BLOCKED — finance ledger attribution absent",flush=True)
-  raise SystemExit(3)
- require(len(passed)==11,"11 case count mismatch")
+ def E12():
+  oid=state["underpaid_oid"];uid=f["roles"]["driver"]["id"]
+  path="rest/v1/profiles?id=eq."+uid
+  require(200<=a.query("PATCH",path,None,{"driver_status":"suspended","online":False},service=True)[0]<300,"LOCAL driver revocation denied")
+  try:
+   before=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)
+   tickets=a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"select":"id,reason,status,updated_at"},service=True)
+   profile=a.rows(None,"profiles",{"id":"eq."+uid,"select":"driver_status,online,last_seen"},service=True)
+   require(profile[0]["driver_status"]=="suspended","driver revocation did not persist")
+   delivery={"p_id":oid,"p_cash":f["cash_due"],"p_note":None,"p_photo":None}
+   require(a.rpc("driver","deliver_order",delivery)[0]>=400,"suspended assigned driver delivered order")
+   require(a.rpc("driver","report_driver_cash_short",state["underpaid_args"])[0]>=400,"suspended assigned driver reported shortfall")
+   require(a.rpc("driver","driver_ping",{"p_online":True})[0]>=400,"suspended assigned driver ping falsely acknowledged")
+   require(a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)==before,"revoked denial changed order")
+   require(a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"select":"id,reason,status,updated_at"},service=True)==tickets,"revoked denial wrote ticket metadata")
+   require(a.rows(None,"profiles",{"id":"eq."+uid,"select":"driver_status,online,last_seen"},service=True)==profile,"revoked ping wrote profile")
+  finally:
+   require(200<=a.query("PATCH",path,None,{"driver_status":"approved","online":True},service=True)[0]<300,"could not restore LOCAL synthetic driver")
+ check("E12_revoked_driver_denied",E12)
+ def E13():
+  oid=state["underpaid_oid"]
+  def snapshot():
+   orders=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)
+   tickets=a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"select":"id,reason,status,updated_at"},service=True)
+   messages=a.rows(None,"ticket_messages",{"ticket_id":"eq."+str(state["underpaid_ticket"]),"select":"id,body,sender_id,created_at"},service=True)
+   return orders,tickets,messages
+  before=snapshot()
+  for role in ("customer","outsider","other_driver"):
+   require(a.rpc(role,"deliver_order",{"p_id":oid,"p_cash":f["cash_due"],"p_note":None,"p_photo":None})[0]>=400,role+" unauthorized delivery RPC succeeded")
+   require(a.rpc(role,"report_driver_cash_short",state["underpaid_args"])[0]>=400,role+" unauthorized shortfall RPC succeeded")
+  for role in ("customer","outsider"):
+   uid=f["roles"][role]["id"]
+   pre=a.rows(None,"profiles",{"id":"eq."+uid,"select":"online,last_seen"},service=True)
+   require(a.rpc(role,"driver_ping",{"p_online":True})[0]>=400,role+" unauthorized presence RPC succeeded")
+   require(a.rows(None,"profiles",{"id":"eq."+uid,"select":"online,last_seen"},service=True)==pre,"denied ping mutated wrong-role profile")
+  # An approved but unassigned driver may legitimately ping globally; the order
+  # authorization denial is covered above. No invented per-order ping restriction.
+  require(a.rows("outsider","order_chat",{"order_id":"eq."+str(oid),"select":"id"})==[],"outsider read foreign chat")
+  require(a.rows("other_driver","order_chat",{"order_id":"eq."+str(oid),"select":"id"})==[],"unassigned driver read foreign chat")
+  require(snapshot()==before,"unauthorized RPC attempts changed order/ticket/message")
+ check("E13_authz_matrix",E13)
+ require(len(passed)==len(SCENARIOS),"gate count mismatch: "+str(len(passed))+"/"+str(len(SCENARIOS)))
+ print("GATE1_E2E:",len(passed),"/",len(SCENARIOS),"LOCAL HTTP PASS",flush=True)
 if __name__=="__main__":
  try: run()
  except Exception as e:
