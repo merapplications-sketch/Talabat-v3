@@ -1,0 +1,11 @@
+{
+  "source_ref": "dzydscryrnahnneydnry",
+  "schema": "public",
+  "schema_only": true,
+  "sha256": "4de26eb4c964e595e3b61865ce65772477ae4573c7e9b5817ed3f374bac808cf",
+  "extracted_utc": "2026-11-15T22:27:06+00:00",
+  "tool": "supabase db dump --schema public (pg_dump schema-only)",
+  "patches17_34_included": true,
+  "patches17_34_missing_objects": {},
+  "workflow_run": "43769227105"
+}
