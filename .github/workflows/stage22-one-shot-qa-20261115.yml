@@ -13,7 +13,7 @@ concurrency:
 jobs:
   isolated-qa:
     if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/stage22-one-shot-qa-20261115' && github.event.repository.private == false
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout read-only (no persistent token)
