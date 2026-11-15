@@ -221,6 +221,64 @@ async def main():
             require(returned["lang"]=="en" and returned["labels"]==en["labels"] and
                     returned["optText"]=="Small, Bacon" and returned["blockedActions"]==0,
                     "EN_AFTER_RU_TOGGLE_REGRESSION")
+            # The candidate changes demo-guard.js itself. Prove the original fake checkout
+            # blocking behavior still works through one legitimate full GUI pointer gesture.
+            fixture=await page.evaluate("""() => {
+              const st=STORES.find(x=>menuOf(x.n).some(it=>it.id==='i1'));
+              if(!st)return {ok:false};
+              S.sh=null;S.store=st.n;S.cartStore=st.n;
+              S.cart={[lk('i1',['o10','o21'],'')]:2};
+              S.pay='cash';S.useWallet=false;S.usePts=false;
+              S.v='pay';S.hcf=null;render();
+              const thumb=document.querySelector('#hbtn .d69-slide-thumb');
+              return {ok:true,cartValid:badKeys().length===0,
+                enabled:!!thumb&&!thumb.disabled,
+                addressPresent:!!curAddr(),storeOpen:!closedNow(S.cartStore),
+                demoFlag:window.__TALABOT_SYNTHETIC===true,
+                blockedCounter:window.__demoBlockedActions,
+                view:S.v,tooFar:tooFar()};
+            }""")
+            report["checkout_precondition"]=fixture
+            require(fixture["ok"] and fixture["cartValid"] and fixture["enabled"] and
+                    fixture["addressPresent"] and fixture["storeOpen"] and fixture["demoFlag"] and
+                    not fixture["tooFar"] and fixture["blockedCounter"]==0,
+                    "CANDIDATE_SYNTHETIC_ORDER_GUARD_PRECONDITION_FAILED")
+            await page.screenshot(path=str(output/"candidate-checkout-before-320.png"),
+              full_page=False,animations="disabled")
+            report["screenshots"].append("candidate-checkout-before-320.png")
+            thumb=await page.locator("#hbtn .d69-slide-thumb").bounding_box()
+            bar=await page.locator("#hbtn").bounding_box()
+            require(bool(thumb) and bool(bar),"CANDIDATE_SLIDER_NOT_VISIBLE")
+            x=thumb["x"]+thumb["width"]/2
+            y=thumb["y"]+thumb["height"]/2
+            await page.mouse.move(x,y)
+            await page.mouse.down()
+            acquired=await page.evaluate("""() => ({
+                active:typeof HOLD !== 'undefined' && !!HOLD,
+                max:typeof HOLD!=='undefined' && HOLD?HOLD.max:0,
+                disabled:document.querySelector('#hbtn .d69-slide-thumb').disabled,
+                hidden:document.hidden
+            })""")
+            require(acquired["active"] and acquired["max"]>0 and not acquired["disabled"] and
+                    not acquired["hidden"],"CANDIDATE_SLIDER_POINTER_NOT_ACQUIRED")
+            await page.mouse.move(x+acquired["max"]+14,y,steps=20)
+            p=await page.evaluate("typeof HOLD!=='undefined'&&HOLD?HOLD.p:0")
+            require(p>=0.96,"CANDIDATE_POINTER_NOT_FULLY_COMPLETED")
+            await page.mouse.up()
+            await page.wait_for_timeout(600)
+            outcome=await page.evaluate("""() => ({
+              blocked:window.__demoBlockedActions,
+              view:S.v,
+              success:!!document.querySelector('[data-order-success],.order-success'),
+              busy:!!S.busy
+            })""")
+            report["checkout"]={"state":outcome,"pointerProgress":p}
+            require(outcome["blocked"]==1 and outcome["view"]=="pay" and not outcome["success"] and
+                    not outcome["busy"],"CANDIDATE_MOCK_CHECKOUT_BLOCKING_REGRESSION")
+            await page.screenshot(path=str(output/"candidate-checkout-after-320.png"),
+              full_page=False,animations="disabled")
+            report["screenshots"].append("candidate-checkout-after-320.png")
+
             check_unexpected=[x for x in report["network"]["requests"] if x["method"]!="GET"]
             require(not check_unexpected,"NON_GET_ATTEMPT")
             require(not report["network"]["external_attempts"] and not report["network"]["ws_attempts"],
