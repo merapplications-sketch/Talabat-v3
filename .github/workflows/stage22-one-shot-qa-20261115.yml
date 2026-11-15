@@ -1,4 +1,4 @@
-name: TALABOT Stage22 targeted conditional UX evidence
+name: TALABOT Stage22 programmer EN label candidate verification
 on:
   push:
     branches:
@@ -21,6 +21,13 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 1
+      - name: Checkout exact isolated programmer candidate (read-only)
+        uses: actions/checkout@v4
+        with:
+          ref: 8e78d2df86e55326427009beea0d637414123707
+          path: candidate
+          persist-credentials: false
+          fetch-depth: 1
       - name: Prepare isolated Python browser
         uses: actions/setup-python@v5
         with:
@@ -29,16 +36,16 @@ jobs:
         run: |
           python -m pip install --no-cache-dir playwright==1.57.0
           python -m playwright install --with-deps chromium
-      - name: Targeted synthetic EN customization and narrow mobile UX
+      - name: Candidate EN and RU synthetic option label browser acceptance
         shell: bash
         run: |
-          python docs/qa-first-20261115/stage22_targeted_ux.py
+          python docs/qa-first-20261115/stage22_candidate_ux_verify.py
       - name: Save sanitized test artifacts (one-day retention, no real data)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: talabot-stage22-targeted-ux-synthetic-only
-          path: stage22-targeted-ux/
+          name: talabot-stage22-programmer-candidate-en-ru
+          path: stage22-candidate-verification/
           if-no-files-found: warn
           retention-days: 1
           compression-level: 6
