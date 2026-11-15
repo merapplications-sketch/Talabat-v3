@@ -29,7 +29,14 @@ jobs:
         run: |
           set -e
           supabase db dump --db-url "$DB" --schema public -f "$OUT.sql"
-          ! grep -qiE '^\s*(COPY|INSERT INTO)\s' "$OUT.sql" || { echo "STOP: data statements found"; rm -f "$OUT.sql"; exit 1; }
+          python3 - "$OUT.sql" <<'PY' || { rm -f "$OUT.sql"; exit 1; }
+          import re,sys
+          t=open(sys.argv[1]).read()
+          body=re.sub(r"(\$[A-Za-z0-9_]*\$).*?\1","<body>",t,flags=re.S)   # drop function bodies
+          bad=re.findall(r"(?im)^\s*(insert\s+into|copy\s+\S+.*from\s+stdin)",body)
+          if bad: print("STOP: data statements outside function bodies:",len(bad)); sys.exit(1)
+          print("DATA_CHECK_OK: 0 INSERT/COPY outside function bodies; bodies stripped:",t.count("$")//2)
+          PY
           wc -l "$OUT.sql"; grep -ciE '^create (table|or replace function|function|policy|trigger|type)' "$OUT.sql" || true
       - name: Manifest + patch17-34 inclusion check
         run: |
