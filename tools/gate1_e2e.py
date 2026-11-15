@@ -75,27 +75,50 @@ class API:
   c,r=self.rpc("customer","place_order",p)
   require(200<=c<300 and isinstance(r,int),"synthetic place_order not executable")
   return r
+ def refresh_driver(self):
+  # LOCAL fake driver GPS/presence only; ensures the real server dispatcher sees a fresh, approved driver.
+  code,_=self.rpc("driver","driver_ping",{"p_online":True})
+  require(200<=code<300,"LOCAL driver ping denied")
+  import datetime
+  now=datetime.datetime.now(datetime.timezone.utc).isoformat()
+  did=self.f["roles"]["driver"]["id"]
+  code,_=self.query("PATCH","rest/v1/profiles?id=eq."+str(did),None,
+                    {"last_seen":now,"loc_updated":now,"online":True,
+                     "lat":38.56,"lng":68.78,"loc_acc":8},service=True)
+  require(200<=code<300,"LOCAL synthetic driver presence refresh denied")
  def prep(self):
+  self.refresh_driver()
   oid=self.cash_order()
   for role,name,body in [
    ("merchant","set_order_status",{"p_id":oid,"p_to":"preparing"}),
-   ("driver","driver_ping",{"p_online":True}),
    ("driver","driver_accept",{"p_id":oid}),
    ("merchant","set_order_status",{"p_id":oid,"p_to":"ready"}),
    ("driver","set_order_status",{"p_id":oid,"p_to":"pickedup"})]:
-   code,_=self.rpc(role,name,body);require(200<=code<300,"prep failed: "+name)
+   code,value=self.rpc(role,name,body)
+   require(200<=code<300,"prep failed: "+name)
+   if name=="driver_accept":require(value is True,"driver_accept returned false")
   return oid
 def run():
  url,f=preflight();a=API(url,f);passed=[];state={}
  def check(n,fn):
   fn();passed.append(n);print("PASS",n,"[live isolated test HTTP only]",flush=True)
- def E01():state["oid"]=a.cash_order()
+ def E01():
+  state["oid"]=a.cash_order()
+  row=a.rows("customer","orders",{"id":"eq."+str(state["oid"]),"select":"total,payment,status"})
+  require(len(row)==1 and abs(float(row[0]["total"])-float(f["cash_due"]))<0.005,"actual server cash total differs from synthetic fixture")
+  require(row[0]["payment"]=="cash" and row[0]["status"]=="pending","customer cash order invalid")
  check("E01",E01)
  def E02():require(200<=a.rpc("merchant","set_order_status",{"p_id":state["oid"],"p_to":"preparing"})[0]<300,"merchant accept")
  check("E02",E02)
- def E03():require(200<=a.rpc("driver","driver_ping",{"p_online":True})[0]<300,"driver ping ACK")
+ def E03():
+  code,_=a.rpc("driver","driver_ping",{"p_online":True})
+  require(200<=code<300,"driver ping denied")
+  rows=a.rows("driver","profiles",{"id":"eq."+str(f["roles"]["driver"]["id"]),"select":"online,last_seen"})
+  require(len(rows)==1 and rows[0]["online"] is True and rows[0]["last_seen"],"server Online presence not committed")
  check("E03",E03)
- def E04():require(200<=a.rpc("driver","driver_accept",{"p_id":state["oid"]})[0]<300,"driver accept")
+ def E04():
+  code,value=a.rpc("driver","driver_accept",{"p_id":state["oid"]})
+  require(200<=code<300 and value is True,"driver accept not acknowledged by server")
  check("E04",E04)
  def E05():
   oid=state["oid"]
@@ -116,7 +139,9 @@ def run():
    order=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)
    require(len(order)==1,"delivery row absent in isolated test")
    meta=f["finance_receipt"]
-   receipt=a.rows(None,meta["table"],{meta["order_key"]:"eq."+str(oid),"select":"id"},service=True)
+   filters={meta["order_key"]:"eq."+str(oid),"select":"id,amount,kind"}
+   if meta.get("kind"):filters["kind"]="eq."+str(meta["kind"])
+   receipt=a.rows(None,meta["table"],filters,service=True)
    return order[0],receipt
   with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
    codes=list(pool.map(lambda _:a.rpc("driver","deliver_order",body)[0],(0,1)))
@@ -124,7 +149,8 @@ def run():
   require(len(codes)==2 and all(200<=c<300 for c in codes),"idempotent concurrent delivery did not acknowledge both identical attempts")
   first,receipt=snapshot()
   require(first["status"]=="delivered" and first["done_at"] is not None,"server did not reach delivered exactly once")
-  require(len(receipt)==1,"financial/receipt effects are not exactly one")
+  require(len(receipt)==1 and float(receipt[0]["amount"])>0,
+          "wallet cashback financial ledger effect is not exactly one positive entry")
   require(200<=a.rpc("driver","deliver_order",body)[0]<300,"same-payload post-COMMIT replay must acknowledge without new update")
   second,receipt_after=snapshot()
   require(second==first and receipt_after==receipt,"post-commit replay mutated delivery or financial receipt")
@@ -137,6 +163,7 @@ def run():
   state["e07_blocked"]=True
  def E08():
   oid=a.prep()
+  state["underpaid_oid"]=oid
   paid=round(f["cash_due"]-1,2)
   require(paid>=0,"test due below one")
   args={"p_id":oid,"p_cash":paid,"p_note":"Test only"}
@@ -156,7 +183,8 @@ def run():
   require(len(messages)==1 and messages[0]["sender_id"]==f["roles"]["driver"]["id"],"support message lost or duplicated")
  check("E08",E08)
  def E09():
-  oid=a.prep();r=f["roles"]
+  # E08 leaves a real LOCAL driver-owned pickedup order: reuse for chat; no parallel active delivery conflict.
+  oid=state["underpaid_oid"];r=f["roles"]
   require(200<=a.query("POST","rest/v1/order_chat","driver",{"order_id":oid,"sender_id":r["driver"]["id"],"body":"Synthetic chat"})[0]<300,"chat valid")
   require(a.query("POST","rest/v1/order_chat","outsider",{"order_id":oid,"sender_id":r["outsider"]["id"],"body":"Illegal test"})[0]>=400,"chat outsider allowed")
  check("E09",E09)

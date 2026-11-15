@@ -37,14 +37,19 @@ jobs:
       - name: Start disposable LOCAL Supabase (no cloud project)
         shell: bash
         run: |
-          supabase start
+          docker network create -o com.docker.network.bridge.host_binding_ipv4=127.0.0.1 gate1-local-ci
+          supabase start --network-id gate1-local-ci > "$RUNNER_TEMP/gate1-start.log" 2>&1 || {
+            echo "FAIL local Supabase Docker start (redacted startup diagnostics)" >&2
+            grep -E "Error|ERROR|Failed|failed" "$RUNNER_TEMP/gate1-start.log" | sed -E 's/(sb_(secret|publishable)_[A-Za-z0-9_-]+)/[REDACTED]/g' || true
+            exit 1
+          }
           supabase db reset --local
           supabase status -o env > "$RUNNER_TEMP/gate1-local-status.env"
           python3 tools/gate1_local_env.py "$RUNNER_TEMP/gate1-local-status.env"
-          if [ ! -s "$RUNNER_TEMP/gate1-fixture.json" ]; then
-            echo "BLOCKED: verified LOCAL synthetic Auth/DB fixture missing; no real E2E attempted" >&2
-            exit 3
-          fi
+      - name: Seed five synthetic LOCAL Auth identities and fixture (no cloud calls)
+        shell: bash
+        run: |
+          python3 tools/gate1_local_seed.py
       - name: Four source regressions and fail-closed existing/E2E gates
         shell: bash
         env:
@@ -59,3 +64,4 @@ jobs:
           if command -v supabase >/dev/null 2>&1; then
             supabase stop --no-backup || true
           fi
+          docker network rm gate1-local-ci >/dev/null 2>&1 || true
