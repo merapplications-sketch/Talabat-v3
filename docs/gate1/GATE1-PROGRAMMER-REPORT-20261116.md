@@ -102,3 +102,11 @@ The connected Supabase account currently lists only three projects: primary `Tal
 **Whole-command result: FAIL-CLOSED / NO-GO**, deliberately, not because offline source/core tests failed. The CI job's final nonzero exit is the correct response to missing mandatory 11-case backend E2E. No QA/security/finance final acceptance or production release is implied.
 
 **Next single blocker for PM:** Select the authorized Supabase Free organization for `talabot-test`; verify that creating a separate project costs **$0**, stop on any nonzero quote; establish the authentic test-only baseline schema and synthetic fixture; then configure only the three named GitHub Secrets and non-secret test ref. Do not reuse Talabat, the old pilot or Talabat-tj. Once real 11-case HTTP/Postgres tests execute, schedule independent security/financial review. **C-01/G1/release/PHASE2 = NO-GO** until those gates pass.
+
+## Gate1 E2E runner contract correction (subsequent programmer-source checkpoint)
+
+Read-only examination of the previously staged real-test harness found two **test-oracle mismatches** before any test DB was provisioned: (1) F02 SQL correctly allows identical completed retries without a second `UPDATE`, whereas the former E07 harness expected an HTTP error for that valid retry; (2) F04 SQL defines `report_driver_cash_short` and uses `support_tickets` / `ticket_messages`, while the former E08 harness called unrelated placeholder names. E09 also used the already delivered test order for a chat insert.
+
+The test-only harness is corrected to follow the committed SQL names, assert **state + financial receipt uniqueness** and unchanged completed `done_at` on retry, require a verified finance receipt mapping in the **test-only ephemeral seed**, and run chat against a new active synthetic order. These changes affect only `tools/gate1_e2e.py` and the test preflight documentation; **F01–F04 candidate source, proposed Q14 SQL, owner-approved finances, UI, and production remain untouched**.
+
+**Status remains 0/11 executed E2E / BLOCKED**: the independent `talabot-test` and its authoritative schema, test-only JWTs and finance receipt mapping are still absent. Nothing here upgrades existing source checks into production QA.

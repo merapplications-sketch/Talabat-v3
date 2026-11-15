@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Eleven test-only HTTP E2E gates. Exit 3/BLOCKED before network without talabot-test credentials and ephemeral seed."""
-import os,json,sys,uuid,urllib.parse,urllib.request,urllib.error,concurrent.futures,pathlib
+import os,json,sys,uuid,urllib.parse,urllib.request,urllib.error,concurrent.futures,pathlib,re
 SCENARIOS=[
 ("E01","C-11/B-04","customer cash order"),
 ("E02","C-15/B-07","merchant accepts"),
@@ -38,6 +38,9 @@ def preflight():
   blocked("synthetic customer/merchant/driver/outsider sessions missing")
  if not isinstance(f.get("place_order_args"),dict) or not isinstance(f.get("cash_due"),(float,int)) or not f.get("other_driver_order"):
   blocked("real test-only seed schema/order fixture not initialized")
+ receipt=f.get("finance_receipt")
+ if not isinstance(receipt,dict) or not all(isinstance(receipt.get(k),str) and re.fullmatch(r"[a-z][a-z0-9_]{1,62}",receipt[k]) for k in ("table","order_key")):
+  blocked("verified test-only finance receipt table/order-key mapping missing; cannot assert at-most-once financial effect")
  return url,f
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs): raise RuntimeError("HTTP redirect denied")
@@ -50,6 +53,7 @@ class API:
   headers={"apikey":self.service if service else self.anon,"Authorization":"Bearer "+(self.service if service else self.f["roles"][role]["access_token"]),"Accept":"application/json"}
   raw=json.dumps(body).encode() if body is not None else None
   if raw is not None: headers["Content-Type"]="application/json"
+  if method=="POST" and path=="rest/v1/order_chat": headers["Prefer"]="return=representation"
   req=urllib.request.Request(self.url+"/"+path,headers=headers,data=raw,method=method)
   try:
    with OPENER.open(req,timeout=15) as res:
@@ -98,23 +102,49 @@ def run():
   require(200<=code<300,"exact cash delivery")
  check("E06",E06)
  def E07():
-  oid=a.prep();body={"p_id":oid,"p_cash":f["cash_due"],"p_note":None,"p_photo":None}
+  oid=a.prep()
+  body={"p_id":oid,"p_cash":f["cash_due"],"p_note":None,"p_photo":None}
+  def snapshot():
+   order=a.rows(None,"orders",{"id":"eq."+str(oid),"select":"status,done_at,cash_collected"},service=True)
+   require(len(order)==1,"delivery row absent in isolated test")
+   meta=f["finance_receipt"]
+   receipt=a.rows(None,meta["table"],{meta["order_key"]:"eq."+str(oid),"select":"id"},service=True)
+   return order[0],receipt
   with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
    codes=list(pool.map(lambda _:a.rpc("driver","deliver_order",body)[0],(0,1)))
-  require(sum(200<=c<300 for c in codes)==1,"duplicate delivery accepted or both failed")
-  require(a.rpc("driver","deliver_order",body)[0]>=400,"post-commit replay accepted")
-  require(len(a.rows(None,"order_events",{"order_id":"eq."+str(oid),"kind":"eq.delivered","select":"order_id"},service=True))<=1,"double delivered event")
+  # Approved Gate1 SQL returns void/HTTP 2xx for identical retries, WITHOUT a second UPDATE.
+  require(len(codes)==2 and all(200<=c<300 for c in codes),"idempotent concurrent delivery did not acknowledge both identical attempts")
+  first,receipt=snapshot()
+  require(first["status"]=="delivered" and first["done_at"] is not None,"server did not reach delivered exactly once")
+  require(len(receipt)==1,"financial/receipt effects are not exactly one")
+  require(200<=a.rpc("driver","deliver_order",body)[0]<300,"same-payload post-COMMIT replay must acknowledge without new update")
+  second,receipt_after=snapshot()
+  require(second==first and receipt_after==receipt,"post-commit replay mutated delivery or financial receipt")
+  changed=dict(body,p_cash=round(f["cash_due"]+1,2))
+  require(a.rpc("driver","deliver_order",changed)[0]>=400,"conflicting completed replay must be rejected")
  check("E07",E07)
  def E08():
-  oid=a.prep();paid=round(f["cash_due"]-1,2);require(paid>=0,"test due below one")
-  require(200<=a.rpc("driver","report_cash_shortfall",{"p_id":oid,"p_cash":paid,"p_note":"Test only"})[0]<300,"support shortfall report")
-  require(a.rpc("driver","deliver_order",{"p_id":oid,"p_cash":paid,"p_note":"Test only","p_photo":None})[0]>=400,"short cash accepted")
+  oid=a.prep()
+  paid=round(f["cash_due"]-1,2)
+  require(paid>=0,"test due below one")
+  args={"p_id":oid,"p_cash":paid,"p_note":"Test only"}
+  code,ticket=a.rpc("driver","report_driver_cash_short",args)
+  require(200<=code<300 and isinstance(ticket,int),"driver support-report RPC denied")
+  # Support record is independent of rejected delivery transaction (Q14).
+  def tickets():
+   return a.rows(None,"support_tickets",{"order_id":"eq."+str(oid),"id":"eq."+str(ticket),"select":"id,reason,status"},service=True)
+  first=tickets()
+  require(len(first)==1 and first[0]["reason"]=="payment","support record not persisted")
+  code,ticket2=a.rpc("driver","report_driver_cash_short",args)
+  require(200<=code<300 and ticket2==ticket and tickets()==first,"duplicate support ticket on retry")
+  require(a.rpc("driver","deliver_order",{"p_id":oid,"p_cash":paid,"p_note":"Test only","p_photo":None})[0]>=400,"short cash was accepted")
   status=a.rows("customer","orders",{"id":"eq."+str(oid),"select":"status"})
-  require(len(status)==1 and status[0]["status"]=="pickedup","short cash changed status")
-  require(len(a.rows(None,"cash_shortfall_reports",{"order_id":"eq."+str(oid),"select":"id"},service=True))==1,"no support report")
+  require(len(status)==1 and status[0]["status"]=="pickedup","underpayment changed order status")
+  messages=a.rows(None,"ticket_messages",{"ticket_id":"eq."+str(ticket),"select":"id,sender_id,body"},service=True)
+  require(len(messages)==1 and messages[0]["sender_id"]==f["roles"]["driver"]["id"],"support message lost or duplicated")
  check("E08",E08)
  def E09():
-  oid=state["oid"];r=f["roles"]
+  oid=a.prep();r=f["roles"]
   require(200<=a.query("POST","rest/v1/order_chat","driver",{"order_id":oid,"sender_id":r["driver"]["id"],"body":"Synthetic chat"})[0]<300,"chat valid")
   require(a.query("POST","rest/v1/order_chat","outsider",{"order_id":oid,"sender_id":r["outsider"]["id"],"body":"Illegal test"})[0]>=400,"chat outsider allowed")
  check("E09",E09)

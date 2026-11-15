@@ -23,3 +23,16 @@
 | E11 | B-03/D-01 | Outsider and unassigned driver RLS denial |
 
 **No E2E PASS until real test project and synthetic fixture exist.** F03 chat draft-after-error/reload is separately tested in a source-function simulation; real device browser behavior still requires independent verification. `tools/core_contracts_check.py` preserves previously accepted checks and runs in the same command. No formal product launch, C-01, CASH-01, production SQL or deployment.
+
+## Mandatory financial-effect attribution for E07
+
+The approved proposed `deliver_order` writer intentionally returns **HTTP success** for an **identical post-COMMIT retry** and avoids a second `UPDATE`. Therefore two concurrent identical submissions must not be treated as “two deliveries” merely because both HTTP calls succeed.
+
+To certify one financial receipt/effect, the **new isolated test fixture** must additionally supply `finance_receipt: {"table":"<verified ledger/receipt table>","order_key":"<verified order FK column>"}` from the independently verified, complete `talabot-test` schema. `tools/gate1_e2e.py` refuses to run without this mapping. It reads that table with TEST-ONLY service_role and requires **exactly one** receipt for the test order and no change after identical replay; delivery `done_at` and `cash_collected` must also remain byte-for-byte unchanged. If the actual schema does not contain such an attributable financial/receipt effect, mark the gate **BLOCKED** and obtain a finance/DB contract decision; never substitute an arbitrary events table or claim a receipt was proved.
+
+## Correct RPC names and chat lifecycle
+
+- F04: the already proposed SQL names its driver-only ticket creator **`public.report_driver_cash_short`**, writing `support_tickets` and `ticket_messages` — NOT `report_cash_shortfall` / `cash_shortfall_reports`.
+- E08 checks the returned ticket ID, the single support record and driver message, the Q14 shortfall rejection and unchanged `pickedup` status; identical second report must not duplicate the ticket.
+- E09 creates a fresh synthetic **active** order for chat authorization instead of sending a message after a different test case completed delivery.
+- E07/E08/E09 are unexecuted **until** the original project/seed/role/finance contract has a real test-only implementation. Source-only checks or syntactic compilation are NOT E2E acceptance.
