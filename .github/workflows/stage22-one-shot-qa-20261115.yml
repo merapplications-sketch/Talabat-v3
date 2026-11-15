@@ -36,7 +36,7 @@ jobs:
         run: |
           python -m pip install --no-cache-dir playwright==1.57.0
           python -m playwright install --with-deps chromium
-      - name: Candidate EN and RU synthetic option label browser acceptance
+      - name: Candidate EN RU and fake-checkout guard regression acceptance
         shell: bash
         run: |
           python docs/qa-first-20261115/stage22_candidate_ux_verify.py
