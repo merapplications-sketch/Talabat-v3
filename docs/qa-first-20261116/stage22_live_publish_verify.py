@@ -73,7 +73,8 @@ def preflight():
     require(len(exp)==54,"EXPECTED_LIST_NOT_54")
     bad=[]
     for sha,name in exp:
-        with opener.open(Request(BASE+"/"+name,headers={"User-Agent":"Stage22-live-verify"}),timeout=20) as r:
+        url=BASE+"/" if name=="index.html" else BASE+"/"+name  # Pages 308s /index.html -> /
+        with opener.open(Request(url,headers={"User-Agent":"Stage22-live-verify"}),timeout=20) as r:
             require(r.status==200,"LIVE_NOT_200:"+name)
             actual=hashlib.sha256(r.read()).hexdigest()
             if name=="index.html":
