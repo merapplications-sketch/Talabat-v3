@@ -53,8 +53,14 @@ def call(method, route, key, data=None, prefer=None):
             raw = response.read(2_000_000)
             return response.status, json.loads(raw) if raw.strip() else None
     except urllib.error.HTTPError as e:
-        # Do not print JWTs, passwords, email addresses or server-side data.
-        raise RuntimeError("local API " + route.split("?")[0] + " HTTP " + str(e.code)) from None
+        # Only PostgREST error codes are logged, never body/credentials/identity.
+        try:
+            code = json.loads(e.read(1500)).get("code", "unknown")
+            if not isinstance(code, str) or len(code) > 25 or not code.replace("_", "").isalnum():
+                code = "unknown"
+        except Exception:
+            code = "unknown"
+        raise RuntimeError("local API " + route.split("?")[0] + " HTTP " + str(e.code) + " code=" + code) from None
 
 
 def require_success(code, value, subject):
@@ -121,8 +127,11 @@ def main():
                           "loc_acc": 8, "loc_updated": now,
                           "accept_blocked": False})
         profile_rows.append(entry)
-    require_success(*call("POST", "/rest/v1/profiles?on_conflict=id", service, profile_rows,
-                          "resolution=merge-duplicates,return=minimal"), subject="profiles")
+    # PostgREST bulk arrays require homogeneous keys. Driver-only fields differ;
+    # upsert each synthetic LOCAL identity separately (never patch real users).
+    for entry in profile_rows:
+        require_success(*call("POST", "/rest/v1/profiles?on_conflict=id", service, entry,
+                              "resolution=merge-duplicates,return=minimal"), subject="profile")
     store_id = str(uuid.uuid4())
     item_id = str(uuid.uuid4())
     store = {"id": store_id, "owner_id": profiles["merchant"]["id"],
