@@ -1,0 +1,61 @@
+name: TALABOT Gate1 schema-only baseline export (read-only, public schema)
+on:
+  push:
+    branches: [ops/gate1-schema-baseline-20261116]
+    paths: [sql/baseline/EXPORT-TRIGGER.txt]
+permissions:
+  contents: write
+concurrency: {group: talabot-gate1-schema, cancel-in-progress: false}
+env:
+  REF: dzydscryrnahnneydnry
+  OUT: sql/baseline/schema_baseline_dzydscryrnahnneydnry_20261116
+jobs:
+  export:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/ops/gate1-schema-baseline-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+      - name: Secret present and bound to the approved project only
+        env: {DB: '${{ secrets.SUPABASE_PROD_DB_URL }}'}
+        run: |
+          test -n "$DB" || { echo "BLOCKER: secret SUPABASE_PROD_DB_URL missing"; exit 1; }
+          case "$DB" in *"$REF"*) ;; *) echo "STOP: DB URL is not project $REF"; exit 1;; esac
+      - uses: supabase/setup-cli@v1
+        with: {version: latest}
+      - name: Schema-only dump (no rows)
+        env: {DB: '${{ secrets.SUPABASE_PROD_DB_URL }}'}
+        run: |
+          set -e
+          supabase db dump --db-url "$DB" --schema public -f "$OUT.sql"
+          ! grep -qiE '^\s*(COPY|INSERT INTO)\s' "$OUT.sql" || { echo "STOP: data statements found"; rm -f "$OUT.sql"; exit 1; }
+          wc -l "$OUT.sql"; grep -ciE '^create (table|or replace function|function|policy|trigger|type)' "$OUT.sql" || true
+      - name: Manifest + patch17-34 inclusion check
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, re, glob, datetime, os
+          out=os.environ["OUT"]; ddl=open(out+".sql").read().lower()
+          missing={}
+          for p in sorted(glob.glob("sql/schema_patch*.sql")):
+              n=int(re.search(r"patch(\d+)",p).group(1))
+              if not 17<=n<=34: continue
+              src=open(p).read().lower()
+              names=set(re.findall(r"create\s+(?:or\s+replace\s+)?function\s+(?:public\.)?\"?([a-z0-9_]+)",src))
+              names|=set(re.findall(r"create\s+table\s+(?:if\s+not\s+exists\s+)?(?:public\.)?\"?([a-z0-9_]+)",src))
+              miss=[x for x in sorted(names) if x not in ddl]
+              if miss: missing[os.path.basename(p)]=miss
+          m={"source_ref":os.environ["REF"],"schema":"public","schema_only":True,
+             "sha256":hashlib.sha256(open(out+".sql","rb").read()).hexdigest(),
+             "extracted_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+             "tool":"supabase db dump --schema public (pg_dump schema-only)",
+             "patches17_34_included":not missing,"patches17_34_missing_objects":missing,
+             "workflow_run":os.environ["GITHUB_RUN_ID"]}
+          json.dump(m,open(out+".json","w"),indent=2); print(json.dumps(m,indent=2))
+          PY
+      - name: Commit baseline to this ops branch only
+        run: |
+          git config user.name "talabot-ops-bot"; git config user.email "noreply@github.com"
+          git add "$OUT.sql" "$OUT.json"
+          git commit -m "ops(gate1): schema-only public baseline $REF (run $GITHUB_RUN_ID) (#48)"
+          git push origin HEAD:ops/gate1-schema-baseline-20261116
