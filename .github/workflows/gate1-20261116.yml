@@ -19,6 +19,15 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Prepare pinned offline core-contract dependencies in disposable runner only
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/gate1-qr"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps chromium
       - name: Four source regressions and fail-closed existing/E2E gates
         shell: bash
+        env:
+          GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
         run: bash tools/check_all.sh
