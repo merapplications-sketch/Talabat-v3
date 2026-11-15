@@ -1,0 +1,72 @@
+name: TALABOT Stage22 OPS publish (demo only) + live verify
+on:
+  push:
+    branches:
+      - ops/stage22-publish-20261116
+    paths:
+      - docs/qa-first-20261116/PUBLISH-TRIGGER.txt
+permissions:
+  contents: read
+concurrency:
+  group: talabot-stage22-publish
+  cancel-in-progress: false
+env:
+  PROJECT: talabot-safari-demo-20261115
+  PROTECTED: talabot-pilot-20261106
+  SRC_SHA: 8e78d2df86e55326427009beea0d637414123707
+  EXPECTED_PREV: 636ae248-c8ac-45b9-8183-5a9fa3ddb986
+jobs:
+  publish:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/ops/stage22-publish-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false, fetch-depth: 1}
+      - uses: actions/checkout@v4
+        with: {ref: '${{ env.SRC_SHA }}', path: candidate, persist-credentials: false, fetch-depth: 1}
+      - name: Secrets present
+        env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', A: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
+        run: test -n "$T" && test -n "$A" || { echo "BLOCKER: secrets CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID missing"; exit 1; }
+      - name: Build 55-file package and verify hashes
+        run: |
+          set -e
+          S=candidate/previews/safari-zero-cost-customer
+          test "$(git -C candidate rev-parse HEAD)" = "$SRC_SHA"
+          test "$(git hash-object $S/demo-guard.js)" = 097ec62adec0d88d2752b92cd0f4398a2a3aff8c
+          mkdir site; (cd $S && find . -type f ! -name README.md ! -name 'STAGE*.md' ! -name manifest.json | sed 's|^\./||' | sort) > files.txt
+          test "$(wc -l < files.txt)" = 55
+          while read f; do mkdir -p "site/$(dirname "$f")"; cp "$S/$f" "site/$f"; done < files.txt
+          (cd site && sha256sum -c ../docs/qa-first-20261116/stage22-expected-sha256.txt --quiet)
+          test -f site/index.html && test -f site/_headers
+      - name: Preflight Cloudflare (read)
+        env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', A: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
+        run: |
+          set -e
+          api(){ curl -sS -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/pages/projects$1"; }
+          api "/$PROJECT" > proj.json
+          jq -e '.success' proj.json >/dev/null || { echo "BLOCKER: cannot read project"; jq -c '.errors' proj.json; exit 1; }
+          PREV=$(jq -r '.result.latest_deployment.id' proj.json); BR=$(jq -r '.result.production_branch' proj.json)
+          echo "prev=$PREV production_branch=$BR"
+          test "$PREV" = "$EXPECTED_PREV" || { echo "STOP: current deployment $PREV != $EXPECTED_PREV"; exit 1; }
+          api "/$PROTECTED" | jq -r '"protected_pilot_latest=" + .result.latest_deployment.id'
+          echo "BR=$BR" >> $GITHUB_ENV
+      - name: Deploy (Direct Upload, this project only)
+        env: {CLOUDFLARE_API_TOKEN: '${{ secrets.CLOUDFLARE_API_TOKEN }}', CLOUDFLARE_ACCOUNT_ID: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
+        run: npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch="$BR" --commit-hash="$SRC_SHA" --commit-message="Stage22 EN options (#48)" --commit-dirty=true
+      - name: Record new deployment
+        env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', A: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
+        run: |
+          sleep 20
+          curl -sS -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT" | jq -r '"new_deployment=" + .result.latest_deployment.id + " stage=" + .result.latest_deployment.latest_stage.status'
+          curl -sS -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROTECTED" | jq -r '"protected_pilot_latest=" + .result.latest_deployment.id'
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: |
+          python -m pip install --no-cache-dir playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Live verify (hashes, CSP, EN/RU, fake checkout blocked)
+        run: python docs/qa-first-20261116/stage22_live_publish_verify.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: {name: talabot-stage22-publish-verify, path: stage22-candidate-verification/, if-no-files-found: warn, retention-days: 7}
