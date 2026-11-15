@@ -28,7 +28,13 @@ jobs:
       - name: Secrets present
         env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', A: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
         run: |
-          test -n "$T" && test -n "$A" || { echo "BLOCKER: secrets CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID missing"; exit 1; }
+          test -n "$T" || { echo "BLOCKER: secret CLOUDFLARE_API_TOKEN missing"; exit 1; }
+          if [ -z "$A" ]; then
+            curl -sS -H "Authorization: Bearer $T" https://api.cloudflare.com/client/v4/accounts > acc.json
+            test "$(jq '.result|length' acc.json)" = 1 || { echo "BLOCKER: account not unique, set CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+            A=$(jq -r '.result[0].id' acc.json)
+          fi
+          echo "::add-mask::$A"; echo "CF_ACC=$A" >> $GITHUB_ENV
       - name: Build 55-file package and verify hashes
         run: |
           set -e
@@ -41,9 +47,10 @@ jobs:
           (cd site && sha256sum -c ../docs/qa-first-20261116/stage22-expected-sha256.txt --quiet)
           test -f site/index.html && test -f site/_headers
       - name: Preflight Cloudflare (read)
-        env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', A: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
+        env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', }
         run: |
           set -e
+          A=$CF_ACC
           api(){ curl -sS -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/pages/projects$1"; }
           api "/$PROJECT" > proj.json
           jq -e '.success' proj.json >/dev/null || { echo "BLOCKER: cannot read project"; jq -c '.errors' proj.json; exit 1; }
@@ -53,11 +60,12 @@ jobs:
           api "/$PROTECTED" | jq -r '"protected_pilot_latest=" + .result.latest_deployment.id'
           echo "BR=$BR" >> $GITHUB_ENV
       - name: Deploy (Direct Upload, this project only)
-        env: {CLOUDFLARE_API_TOKEN: '${{ secrets.CLOUDFLARE_API_TOKEN }}', CLOUDFLARE_ACCOUNT_ID: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
-        run: npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch="$BR" --commit-hash="$SRC_SHA" --commit-message="Stage22 EN options (#48)" --commit-dirty=true
+        env: {CLOUDFLARE_API_TOKEN: '${{ secrets.CLOUDFLARE_API_TOKEN }}', }
+        run: CLOUDFLARE_ACCOUNT_ID=$CF_ACC npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch="$BR" --commit-hash="$SRC_SHA" --commit-message="Stage22 EN options (#48)" --commit-dirty=true
       - name: Record new deployment
-        env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', A: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
+        env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', }
         run: |
+          A=$CF_ACC
           sleep 20
           curl -sS -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT" | jq -r '"new_deployment=" + .result.latest_deployment.id + " stage=" + .result.latest_deployment.latest_stage.status'
           curl -sS -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROTECTED" | jq -r '"protected_pilot_latest=" + .result.latest_deployment.id'
