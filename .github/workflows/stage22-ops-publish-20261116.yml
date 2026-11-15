@@ -27,7 +27,8 @@ jobs:
         with: {ref: '${{ env.SRC_SHA }}', path: candidate, persist-credentials: false, fetch-depth: 1}
       - name: Secrets present
         env: {T: '${{ secrets.CLOUDFLARE_API_TOKEN }}', A: '${{ secrets.CLOUDFLARE_ACCOUNT_ID }}'}
-        run: test -n "$T" && test -n "$A" || { echo "BLOCKER: secrets CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID missing"; exit 1; }
+        run: |
+          test -n "$T" && test -n "$A" || { echo "BLOCKER: secrets CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID missing"; exit 1; }
       - name: Build 55-file package and verify hashes
         run: |
           set -e
