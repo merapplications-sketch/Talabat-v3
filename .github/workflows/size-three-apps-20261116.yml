@@ -1,0 +1,94 @@
+name: TALABOT SIZE-7 3-app isolated source/mobile CSS QA (NO PROD)
+on:
+  push:
+    branches: [review/size-three-apps-20261116]
+    paths:
+      - customer.html
+      - merchant.html
+      - driver.html
+      - assets/size-three-apps-20261116/**
+      - tools/size_three_apps_checks.cjs
+      - tools/size_three_apps_screenshots.py
+      - .github/workflows/size-three-apps-20261116.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: talabot-size-three-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  size-qa:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/size-three-apps-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Prove SIZE-7 branch lineage, admin exclusion and protected source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git merge-base 23087ed1eec83e1f4640830539ee0464e17051e1 HEAD)" = '23087ed1eec83e1f4640830539ee0464e17051e1'
+          test "$(git rev-parse HEAD:talabat-core.js)" = "$(git rev-parse 23087ed1eec83e1f4640830539ee0464e17051e1:talabat-core.js)"
+          test "$(git rev-parse HEAD:sql/proposed/gate1_cash_and_idempotent_delivery.sql)" = '684c9c18af434a267fd8b0dc07288aa287e8eb13'
+          test "$(git rev-parse HEAD:admin.html)" = "$(git rev-parse 23087ed1eec83e1f4640830539ee0464e17051e1:admin.html)"
+          git diff --name-only 23087ed1eec83e1f4640830539ee0464e17051e1 HEAD > /tmp/size-three-paths
+          if grep -Ev '^((customer.html)|(merchant.html)|(driver.html)|(assets/size-three-apps-20261116/(customer|merchant|driver).css)|(tools/size_three_apps_(checks.cjs|screenshots.py))|(\.github/workflows/size-three-apps-20261116.yml))$' /tmp/size-three-paths; then
+            echo 'STOP: modified file outside owner-approved 3-app size scope';exit 1
+          fi
+          node --check tools/size_three_apps_checks.cjs
+          python3 -m py_compile tools/size_three_apps_screenshots.py
+      - name: Install pinned disposable QR and offline Chromium dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/gate1-qr"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps chromium
+      - uses: supabase/setup-cli@v1
+        with: {version: 3.1.0}
+      - name: Start disposable LOCAL Supabase and export ephemeral environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_local_prepare.py
+          supabase start > "$RUNNER_TEMP/size-local-start.log" 2>&1 || { echo 'STOP isolated local stack start failed';exit 1; }
+          supabase db reset --local > "$RUNNER_TEMP/size-local-reset.log" 2>&1 || { echo 'STOP isolated baseline reset failed';exit 1; }
+          supabase status -o env > "$RUNNER_TEMP/size-local-status.env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/size-local-status.env"
+      - name: Seed synthetic LOCAL-only fixture after environment export
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${SUPABASE_LOCAL_URL:-}" = "http://127.0.0.1:54321"
+          python3 tools/gate1_local_seed.py
+      - name: Required protected Gate1, driver V3 and SIZE source regressions
+        shell: bash
+        env:
+          GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
+        run: |
+          set -euo pipefail
+          bash tools/check_all.sh
+          node tools/driver_device_v3_checks.cjs
+          node tools/size_three_apps_checks.cjs
+      - name: Capture offline source-styled mobile CSS before and after
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/size_three_apps_screenshots.py
+      - name: Upload evidence PNG and JSON without accounts or network
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-size-three-css-before-after
+          path: evidence/size-three-apps-20261116/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Tear down disposable local Supabase
+        if: always()
+        shell: bash
+        run: |
+          if command -v supabase >/dev/null 2>&1; then supabase stop --no-backup || true; fi
