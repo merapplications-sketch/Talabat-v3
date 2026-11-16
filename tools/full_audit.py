@@ -129,6 +129,9 @@ def check_sequence(browser,app,lang,w,h,empty=False):
     errors=[]
     pg.on("pageerror",lambda e:errors.append(str(e)[:300]))
     pg.goto(LOCAL+"/"+app+".html",wait_until="domcontentloaded",timeout=22000)
+    if not empty:
+        capture(pg,app,"loading_or_initial",lang,w)
+        issue_checks(pg,app,"loading_or_initial",lang,w)
     pg.wait_for_timeout(650)
     seq=(EMPTY.get(app,[]) if empty else APPS.get(app,[]))
     if app=="admin":
@@ -158,6 +161,15 @@ def check_sequence(browser,app,lang,w,h,empty=False):
                     pg.set_viewport_size({"width":w,"height":h})
                     target.blur(timeout=1000)
                 except Exception as e:record(app,screen,lang,w,"KEYBOARD_CASE_UNAVAILABLE",str(e),"P2")
+    if not empty:
+        try:
+            pg.evaluate("() => window.dispatchEvent(new Event('offline'))")
+            pg.wait_for_timeout(170)
+            capture(pg,app,"offline",lang,w)
+            issue_checks(pg,app,"offline",lang,w)
+            REPORT["coverage"].append({"app":app,"screen":"offline","lang":lang,"width":w,"mode":"rich"})
+            pg.evaluate("() => window.dispatchEvent(new Event('online'))")
+        except Exception as exc:record(app,"offline",lang,w,"OFFLINE_CASE_UNAVAILABLE",str(exc),"P2")
     if errors:record(app,"global",lang,w,"JAVASCRIPT_ERROR"," | ".join(errors[:4]),"P1")
     ctx.close()
 def use_real_local_backend(browser,app,lang,w,h,fixture,js):
@@ -205,6 +217,16 @@ def use_real_local_backend(browser,app,lang,w,h,fixture,js):
     if any(z in title.lower() for z in ("login","войти","sign in")):
         record(app,"local_auth",lang,w,"LOCAL_LOGIN_NOT_AUTHENTICATED","Actual page showed login despite ephemeral local session","P1","local")
     REPORT["coverage"].append({"app":app,"screen":"local_authenticated","lang":lang,"width":w,"mode":"local"})
+    # Test the REAL login screen with the same original HTML and disposable LOCAL Auth,
+    # after clearing this sandboxed role's storage; no production credentials.
+    try:
+        pg.evaluate("(role)=>{localStorage.removeItem('tlb-auth-'+role);localStorage.removeItem('tlb-auth')}",role)
+        pg.reload(wait_until="domcontentloaded",timeout=18000)
+        pg.wait_for_timeout(450)
+        capture(pg,app,"local_login",lang,w,mode="local")
+        issue_checks(pg,app,"local_login",lang,w,mode="local")
+        REPORT["coverage"].append({"app":app,"screen":"local_login","lang":lang,"width":w,"mode":"local"})
+    except Exception as e:record(app,"local_login",lang,w,"LOGIN_CASE_UNAVAILABLE",str(e),"P1","local")
     ctx.close()
 def main():
     if os.environ.get("SUPABASE_LOCAL_URL")!=BACKEND:
