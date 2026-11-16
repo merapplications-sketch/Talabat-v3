@@ -185,61 +185,70 @@ def check_sequence(browser,app,lang,w,h,empty=False):
     if errors:record(app,"global",lang,w,"JAVASCRIPT_ERROR"," | ".join(errors[:4]),"P1")
     ctx.close()
 def use_real_local_backend(browser,app,lang,w,h,fixture,js):
-    """Real page, real local Auth session, real local PostgREST. No user/production network."""
+    """H-01: actual original app + ephemeral real LOCAL Supabase login via UI.
+    No fabricated refresh token, no production network or printed password."""
     role=app
-    if role not in fixture["roles"]:
-        record(app,"local_auth",lang,w,"LOCAL_ROLE_NOT_SEEDED","No local role session","P1","local");return
-    token=fixture["roles"][role]["access_token"]
-    # local Auth user verified with THIS JWT, no remote identity or password.
-    import urllib.request
-    req=urllib.request.Request(BACKEND+"/auth/v1/user",headers={
-        "apikey":os.environ["SUPABASE_LOCAL_ANON_KEY"],"Authorization":"Bearer "+token})
-    with urllib.request.build_opener(urllib.request.ProxyHandler({})).open(req,timeout=10) as ans:user=json.load(ans)
-    sess={"access_token":token,"token_type":"bearer","expires_in":3600,
-          "expires_at":int(time.time())+3600,"refresh_token":"local-audit-no-refresh",
-          "user":user}
+    entry=fixture.get("roles",{}).get(role) or {}
+    if not entry.get("audit_email") or not entry.get("audit_password"):
+        record(app,"local_auth",lang,w,"H01_LOCAL_CREDENTIAL_MISSING","ephemeral local test credential absent","P0","local")
+        return
     ctx=browser.new_context(viewport={"width":w,"height":h},device_scale_factor=2,is_mobile=True,has_touch=True,
         locale="ru-RU" if lang=="ru" else "en-US")
-    ctx.add_init_script("window.__AUDIT_LANG="+json.dumps(lang)+";localStorage.setItem('tlb_lang',"+json.dumps(lang)+");localStorage.setItem("+json.dumps("tlb-auth-"+role)+","+json.dumps(json.dumps(sess))+");")
+    ctx.add_init_script("window.__AUDIT_LANG="+json.dumps(lang)+
+        ";localStorage.setItem('tlb_lang',"+json.dumps(lang)+");")
     def handle(route):
         u=route.request.url
         if u.startswith(LOCAL+"/talabat-core.js"):
-            core=(ROOT/"talabat-core.js").read_text("utf-8")
+            core=(ROOT/"talabat-core.js").read_text("utf8")
             core=core.replace("https://dzydscryrnahnneydnry.supabase.co",BACKEND)
-            core=core.replace("sb_publishable_zQKbsSffub7O-f87vsXAaQ_GHFnSOQz",os.environ["SUPABASE_LOCAL_ANON_KEY"])
+            core=core.replace("sb_publishable_zQKbsSffub7O-f87vsXAaQ_GHFnSOQz",
+                              os.environ["SUPABASE_LOCAL_ANON_KEY"])
             route.fulfill(status=200,content_type="application/javascript",body=core)
         elif "supabase-js" in u and "cdn" in u:
             route.fulfill(status=200,content_type="application/javascript",body=js)
         elif u.startswith(LOCAL+"/") or u.startswith(BACKEND+"/") or u.startswith("data:") or u.startswith("blob:"):
             route.continue_()
-        else:block_remote(route)
+        else: block_remote(route)
     ctx.route("**/*",handle)
-    pg=ctx.new_page();errors=[]
-    pg.on("pageerror",lambda e:errors.append(str(e)[:300]))
-    pg.goto(LOCAL+"/"+app+".html",wait_until="domcontentloaded",timeout=20000)
-    pg.wait_for_timeout(1600)
-    title=(pg.locator("body").inner_text() or "")[:130]
-    for screen in ("local_authenticated","local_lang"):
-        if screen=="local_lang":
-            try:pg.evaluate("(l)=>TLB.setLang(l)",lang);pg.wait_for_timeout(250)
-            except Exception as e:record(app,screen,lang,w,"LANGUAGE_SWITCH_ERROR",str(e),"P1","local")
-        capture(pg,app,screen,lang,w,mode="local")
-        issue_checks(pg,app,screen,lang,w,mode="local")
-    if errors:record(app,"local_auth",lang,w,"JAVASCRIPT_ERROR"," | ".join(errors[:4]),"P1","local")
-    if any(z in title.lower() for z in ("login","войти","sign in")):
-        record(app,"local_auth",lang,w,"LOCAL_LOGIN_NOT_AUTHENTICATED","Actual page showed login despite ephemeral local session","P1","local")
-    REPORT["coverage"].append({"app":app,"screen":"local_authenticated","lang":lang,"width":w,"mode":"local"})
-    # Test the REAL login screen with the same original HTML and disposable LOCAL Auth,
-    # after clearing this sandboxed role's storage; no production credentials.
+    pg=ctx.new_page();errors=[];bad=[]
+    pg.on("pageerror",lambda e:errors.append(str(e)[:180]))
+    pg.on("response",lambda r:bad.append({"status":r.status,"route":r.url.split("?")[0].split("/")[-1][:50]})
+          if r.status>=400 and r.url.startswith(BACKEND+"/") else None)
     try:
-        pg.evaluate("(role)=>{localStorage.removeItem('tlb-auth-'+role);localStorage.removeItem('tlb-auth')}",role)
-        pg.reload(wait_until="domcontentloaded",timeout=18000)
-        pg.wait_for_timeout(450)
+        pg.goto(LOCAL+"/"+app+".html",wait_until="domcontentloaded",timeout=16000)
+        pg.locator("#tlb-em").wait_for(state="visible",timeout=20000)
         capture(pg,app,"local_login",lang,w,mode="local")
         issue_checks(pg,app,"local_login",lang,w,mode="local")
         REPORT["coverage"].append({"app":app,"screen":"local_login","lang":lang,"width":w,"mode":"local"})
-    except Exception as e:record(app,"local_login",lang,w,"LOGIN_CASE_UNAVAILABLE",str(e),"P1","local")
+        pg.locator("#tlb-em").fill(entry["audit_email"])
+        pg.locator("#tlb-pw").fill(entry["audit_password"])
+        pg.locator("#tlb-go").click()
+        pg.wait_for_function("""() => !document.getElementById('tlb-boot') &&
+           !document.getElementById('tlb-ov') && !!document.getElementById('app')?.textContent.trim()
+           && TLB.me()?.role===location.pathname.slice(1,-5)""",timeout=30000)
+        capture(pg,app,"local_authenticated",lang,w,mode="local")
+        issue_checks(pg,app,"local_authenticated",lang,w,mode="local")
+        REPORT["coverage"].append({"app":app,"screen":"local_authenticated","lang":lang,"width":w,"mode":"local"})
+        pg.evaluate("(l)=>TLB.setLang(l)",lang)
+        pg.wait_for_timeout(180)
+        capture(pg,app,"local_lang",lang,w,mode="local")
+        issue_checks(pg,app,"local_lang",lang,w,mode="local")
+        REPORT["coverage"].append({"app":app,"screen":"local_lang","lang":lang,"width":w,"mode":"local"})
+        REPORT.setdefault("local_auth_verified",[]).append({"app":app,"width":w,"lang":lang,"ready":True})
+    except Exception as e:
+        state=pg.evaluate("""() => ({
+          boot:!!document.getElementById('tlb-boot'),overlay:!!document.getElementById('tlb-ov'),
+          login:!!document.getElementById('tlb-em'),
+          err:(document.getElementById('tlb-er')?.textContent||'').slice(0,60)
+        })""")
+        record(app,"local_authenticated",lang,w,"H01_AUTH_NOT_READY",
+               json.dumps({"state":state,"statusCodes":bad[:4],"jsErrors":errors[:2],
+                           "errorType":type(e).__name__},ensure_ascii=False),"P0","local")
+        pg.evaluate("""() => {document.querySelectorAll('input[type=email],input[type=password]').forEach(x=>x.value='')}""")
+        capture(pg,app,"local_auth_blocked",lang,w,mode="local")
+    if errors:record(app,"local_auth",lang,w,"LOCAL_JAVASCRIPT_ERROR","; ".join(errors[:2]),"P1","local")
     ctx.close()
+
 def main():
     if os.environ.get("SUPABASE_LOCAL_URL")!=BACKEND:
         raise SystemExit("STOP: FULL AUDIT requires disposable Supabase on loopback, not cloud.")
@@ -251,13 +260,14 @@ def main():
         with sync_playwright() as pw:
             browser=pw.webkit.launch(headless=True)
             # Comprehensive USER INTERFACE state explorer using ORIGINAL app pages and full synthetic dataset.
-            for w,h in WIDTHS:
-                for lang in LANGS:
-                    for app in APPS4:
-                        check_sequence(browser,app,lang,w,h,empty=False)
+            if os.environ.get("FULL_AUDIT_MODE","full")!="auth_only":
+                for w,h in WIDTHS:
+                    for lang in LANGS:
+                        for app in APPS4:
+                            check_sequence(browser,app,lang,w,h,empty=False)
                         # Deliberately keep empty-state coverage explicit; do not manufacture success.
-                        if app in ("customer","driver","merchant","admin"):
-                            check_sequence(browser,app,lang,w,h,empty=True)
+                            if app in ("customer","driver","merchant","admin"):
+                                check_sequence(browser,app,lang,w,h,empty=True)
             fixture_path=os.environ.get("GATE1_TEST_FIXTURE_PATH")
             npm=os.environ.get("FULL_AUDIT_SUPABASE_UMD")
             if not fixture_path or not pathlib.Path(fixture_path).is_file():
@@ -277,6 +287,11 @@ def main():
     finally:
         server.shutdown()
     # Only screenshots with locally constructed synthetic data may be committed.
+    verified=len(REPORT.get("local_auth_verified",[]))
+    if verified!=24:
+        record("all","H-01","all",0,"H01_AUTH_COVERAGE_BLOCKED",
+               "Expected 24 original-app real LOCAL authenticated views, got "+str(verified),"P0","local")
+    print("H01_LOCAL_AUTHENTICATED "+str(verified)+"/24",flush=True)
     REPORT["counts"]={"screenshots":SHOTS,"cases":len(REPORT["coverage"]),
       "findings":len(REPORT["findings"]),"by_type":{},"by_app":{}}
     for row in REPORT["findings"]:

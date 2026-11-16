@@ -107,7 +107,9 @@ def main():
                          {"email": email, "password": password})
         if not isinstance(logged, dict) or not logged.get("access_token"):
             blocked("LOCAL Auth did not issue a test session")
-        profiles[role] = {"id": created["id"], "access_token": logged["access_token"]}
+        # H-01: actual LOCAL test-only login; credentials remain in mode-0600 RUNNER_TEMP, never commit.
+        profiles[role] = {"id": created["id"], "access_token": logged["access_token"],
+                          "audit_email": email, "audit_password": password}
         if role == "driver":
             # Two separately authenticated HTTP sessions of the SAME driver for E07.
             _, second = call("POST", "/auth/v1/token?grant_type=password", anon,

@@ -23,7 +23,8 @@ def main():
          "phone":"+992900000400"}
     require_success(*call("POST","/rest/v1/profiles?on_conflict=id",service,row,"resolution=merge-duplicates,return=minimal"),
                     subject="LOCAL admin profile")
-    data["roles"]["admin"]={"id":user["id"],"access_token":auth["access_token"]}
+    data["roles"]["admin"]={"id":user["id"],"access_token":auth["access_token"],
+                             "audit_email":email,"audit_password":password}
     # All original Gate1 test identities/orders are preserved. Additional order rows are disposable.
     store_id=data["store_id"]; customer=data["roles"]["customer"]["id"];driver=data["roles"]["driver"]["id"]
     now=datetime.datetime.now(datetime.timezone.utc).isoformat()
