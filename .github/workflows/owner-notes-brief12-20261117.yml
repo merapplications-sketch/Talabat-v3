@@ -1,0 +1,101 @@
+name: TALABOT OWNER BRIEF-12 O01-O10 isolated WebKit QA (NO PROD)
+on:
+  push:
+    branches: [review/owner-notes-brief12-20261117]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: talabot-owner-brief12-webkit-qa
+  cancel-in-progress: true
+jobs:
+  cash-layout:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/owner-notes-brief12-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 47
+    steps:
+      - name: Checkout exact isolated candidate (no write credential)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 0}
+      - name: Fail closed for source ancestry and protected financial/size/navigation files
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=c93aad233d9cc554803fe8ef7973008e68b987aa
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          for path in driver.html tools/check_all.sh talabat-core.js assets/driver-tech/nav-cash-brief8.js assets/driver-tech/route-layer.js assets/driver-tech/device-notes-v3.js assets/size-brief7/customer.css assets/size-brief7/driver.css assets/size-brief7/merchant.css sql/proposed/gate1_cash_and_idempotent_delivery.sql; do
+            test "$(git rev-parse "$BASE:$path")" = "$(git rev-parse "HEAD:$path")"
+          done
+          git diff --name-only "$BASE" HEAD >/tmp/brief11-paths
+          if grep -Ev '^((assets/driver-tech/cash-sheet-polish-brief11\.js)|(tools/brief11_webkit_layout\.py)|(\.github/workflows/owner-notes-brief12-20261117\.yml))$' /tmp/brief11-paths; then
+            echo 'STOP: out-of-scope change';exit 1
+          fi
+          node --check assets/driver-tech/cash-sheet-polish-brief11.js
+          python3 -m py_compile tools/brief11_webkit_layout.py
+          test "$(grep -c '^python3 tools/brief11_webkit_layout.py || fail=1$' tools/check_all.sh)" = 1
+      - name: Install PINNED headless WebKit and ephemeral QA dependencies only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
+          python3 -m playwright install --with-deps webkit chromium
+          mkdir -p "$RUNNER_TEMP/gate1-qr"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+      - name: First gate — isolate WebKit visual QA before spinning up LOCAL database
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/brief11_webkit_layout.py
+      - uses: supabase/setup-cli@v1
+        with: {version: 3.1.0}
+      - name: Prepare loopback only local SQL for unchanged Q14 negative regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_local_prepare.py
+          supabase start >"$RUNNER_TEMP/brief11-start.log" 2>&1 || { echo 'STOP: local stack unavailable';exit 1; }
+          supabase db reset --local >"$RUNNER_TEMP/brief11-reset.log" 2>&1
+          supabase status -o env >"$RUNNER_TEMP/brief11-env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/brief11-env"
+      - name: Seed synthetic LOCAL-only data and identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$SUPABASE_LOCAL_URL" = http://127.0.0.1:54321
+          python3 tools/gate1_local_seed.py
+      - name: Gate1 16/16 + BRIEF11 WebKit (check_all.sh) + existing V3/BRIEF8
+        shell: bash
+        env:
+          GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
+        run: |
+          set -euo pipefail
+          bash tools/check_all.sh | tee "$RUNNER_TEMP/brief11-all.log"
+          grep -Fxq 'GATE1_E2E: 16 / 16 LOCAL HTTP PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'PASS E08 [live isolated test HTTP only]' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'LAYOUT_webkit_suite PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'CASH_no_false_decimal_error PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'CASH_approved_orange_and_cash_title PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'NAV_close_svg_real PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'O01_no_partial_clip_keyboard PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'O02_no_text_cut_by_sheet_edge PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'O03_other_input_no_overlap PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'O04_no_edge_handle PASS' "$RUNNER_TEMP/brief11-all.log"
+          grep -Fq 'O09_no_mixed_language_ru_en PASS' "$RUNNER_TEMP/brief11-all.log"
+          node tools/driver_device_v3_checks.cjs | tee "$RUNNER_TEMP/brief12-v3.log"
+          grep -Fq 'PASS N05_sound_unlocked_on_shift_start' "$RUNNER_TEMP/brief12-v3.log"
+          grep -Fq 'PASS N05_sound_restored_after_reconnect' "$RUNNER_TEMP/brief12-v3.log"
+          grep -Fq 'PASS N08_delivered_banner_dismisses' "$RUNNER_TEMP/brief12-v3.log"
+          node tools/driver_nav_cash_brief8_checks.cjs
+      - name: Upload WebKit evidence only (no real user data)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-owner-brief12-webkit-layout-synthetic-390-375
+          path: evidence/cash-sheet-brief11/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Destroy disposable local Supabase
+        if: always()
+        shell: bash
+        run: |
+          if command -v supabase >/dev/null 2>&1; then supabase stop --no-backup || true; fi
