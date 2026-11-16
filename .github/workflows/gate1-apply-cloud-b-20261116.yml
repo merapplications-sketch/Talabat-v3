@@ -1,0 +1,94 @@
+name: TALABOT Gate1 B owner-approved schema apply (single transaction only)
+on:
+  push:
+    branches: [ops/gate1-apply-b-20261116]
+    paths:
+      - ops/gate1-apply-b-trigger.txt
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: talabot-gate1-b-single-cloud-schema-apply
+  cancel-in-progress: false
+jobs:
+  apply:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/ops/gate1-apply-b-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 0}
+      - name: Fail closed if source, rollback or B-branch scope changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git merge-base 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD)" = '1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17'
+          test "$(git rev-parse HEAD:sql/proposed/gate1_cash_and_idempotent_delivery.sql)" = '684c9c18af434a267fd8b0dc07288aa287e8eb13'
+          git diff --name-only 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD > /tmp/gate1-b-only
+          if grep -Ev '^((sql/rollback/gate1_rollback_20261116.sql)|(tools/gate1_schema_objects\.(sql|py))|(tools/gate1_live_apply_precheck_b.py)|(.github/workflows/gate1-rollback-local-b-20261116.yml)|(.github/workflows/gate1-apply-cloud-b-20261116.yml)|(ops/gate1-apply-b-trigger.txt))$' /tmp/gate1-b-only; then
+            echo 'STOP: unauthorized paths in B operations branch'; exit 1
+          fi
+          test "$(cat ops/gate1-apply-b-trigger.txt)" = 'APPROVED_GATE1_B_APPLY_1c1ce8d0_43815837840'
+      - name: Download B-branch VERIFIED successful LOCAL baseline / Gate1 catalog
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 43815837840
+          name: talabot-gate1-b-local-rollback-catalog
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/gate1-b-verified
+      - name: Verify exact independent LOCAL baseline and proposal artifact bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' 'a06c0a7a94319d568ad79090e2320a47982cc2a5143a72a6ac0c75cc767264cc' "$RUNNER_TEMP/gate1-b-verified/baseline.json" | sha256sum -c -
+          printf '%s  %s\n' '268f66d966265c13e3614aa4afd4bb8ebc5a45c7f5a1049362ae9835ba2cfc41' "$RUNNER_TEMP/gate1-b-verified/gate1.json" | sha256sum -c -
+          cmp "$RUNNER_TEMP/gate1-b-verified/baseline.json" "$RUNNER_TEMP/gate1-b-verified/restored.json"
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+      - name: Stop unless exact approved database URL AND unchanged integration branch
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SUPABASE_PROD_DB_URL: ${{ secrets.SUPABASE_PROD_DB_URL }}
+        run: python3 tools/gate1_live_apply_precheck_b.py
+      - name: Read target catalog and compare to independently VERIFIED baseline before any DDL
+        shell: bash
+        env:
+          PGDATABASE: ${{ secrets.SUPABASE_PROD_DB_URL }}
+          PGSSLMODE: require
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/gate1-cloud-b-20261116
+          python3 tools/gate1_schema_objects.py capture evidence/gate1-cloud-b-20261116/before.json
+          python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-b-verified/baseline.json" evidence/gate1-cloud-b-20261116/before.json PRELIVE_equals_approved_baseline
+          echo 'PRE-APPLY CATALOG MATCH: APPROVED B baseline only'
+      - name: Apply approved EXACT Gate1 SQL and PostgREST cache notify in ONE transaction
+        shell: bash
+        env:
+          PGDATABASE: ${{ secrets.SUPABASE_PROD_DB_URL }}
+          PGSSLMODE: require
+        run: |
+          set -euo pipefail
+          cp sql/proposed/gate1_cash_and_idempotent_delivery.sql "$RUNNER_TEMP/gate1-b-apply.sql"
+          printf "\nNOTIFY pgrst, 'reload schema';\n" >> "$RUNNER_TEMP/gate1-b-apply.sql"
+          psql -X -q -v ON_ERROR_STOP=1 --single-transaction -f "$RUNNER_TEMP/gate1-b-apply.sql" >/dev/null
+          echo 'OWNER-AUTHORIZED Gate1 SQL transaction committed once; no customer/order data written'
+      - name: Read target catalog AFTER migration; verify exact approved Gate1 definitions and grants
+        shell: bash
+        env:
+          PGDATABASE: ${{ secrets.SUPABASE_PROD_DB_URL }}
+          PGSSLMODE: require
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_schema_objects.py capture evidence/gate1-cloud-b-20261116/after.json
+          python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-b-verified/gate1.json" evidence/gate1-cloud-b-20261116/after.json POSTLIVE_equals_approved_gate1
+          echo 'POST-APPLY CATALOG MATCH: approved boolean ping + locked cash order + 2 ticket indexes'
+      - name: Preserve schema-only pre/post proof without credentials or table rows
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-gate1-b-cloud-catalog-only
+          path: evidence/gate1-cloud-b-20261116/
+          if-no-files-found: warn
