@@ -6,11 +6,13 @@
  TLB.addDict({
   b11Waiting:'Обращение в поддержку отправлено — ожидайте решения. Доставка НЕ завершена.',
   b11Call:'Позвонить в поддержку',b11NoPhone:'Номер поддержки пока не указан. Дождитесь решения.',
-  b11Already:'Обращение уже отправлено. Ожидайте решения поддержки.'
+  b11Already:'Обращение уже отправлено. Ожидайте решения поддержки.',
+  b8Full:'Получено полностью'
  },{
   b11Waiting:'Reported to support — awaiting a decision. Delivery NOT completed.',
   b11Call:'Call support',b11NoPhone:'Support phone is not configured. Await a decision.',
-  b11Already:'Shortfall already reported. Await support decision.'
+  b11Already:'Shortfall already reported. Await support decision.',
+  b8Full:'Received full amount'
  });
  const sheetCSS=document.createElement('style');
  sheetCSS.id='b11-safari-layout';
@@ -31,6 +33,8 @@
   '.b8-ov{position:fixed!important;top:var(--b11-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;height:var(--b11-height,100dvh)!important;max-width:100vw!important;align-items:flex-end!important;justify-content:center!important;overflow:hidden!important;z-index:20000!important;pointer-events:auto!important;background:rgba(19,31,48,.78)!important}',
   '.b8-sheet{position:relative!important;width:min(430px,100%)!important;max-width:100vw!important;height:auto!important;min-height:0!important;max-height:calc(var(--b11-height,100dvh) - 6px)!important;flex:0 1 auto!important;display:flex!important;flex-direction:column!important;padding:10px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left))!important;box-sizing:border-box!important;overflow:hidden!important;margin:0 auto!important;border-radius:16px 16px 0 0!important;transition:max-height .18s ease!important}',
   '.b8-head,.b8-footer{flex:none!important;min-width:0;position:relative;z-index:1;background:#fff}',
+  // O-13: show the due amount ONCE in the approved cash breakdown, not header + card + button.
+  '.b8-sheet:has(.cashb) .b8-head>p{display:none!important}',
   '.b8-head{padding-bottom:4px}.b8-content{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-padding-top:12px;scroll-padding-bottom:16px}',
   '.b8-footer{padding-top:4px;border-top:1px solid var(--line,#e0e5ec)}.b8-footer .b8-actions{margin:4px 0 0!important}',
   '.b8-reserved{height:auto!important;min-height:0!important;overflow:visible!important}',
