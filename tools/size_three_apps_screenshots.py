@@ -40,7 +40,7 @@ def base_style(app):
 def fixture(app,lang,after):
     t=LABELS[lang]
     style=base_style(app)
-    if after:
+    if after=="after":
         style+="\n"+(ROOT/"assets"/"size-three-apps-20261116"/(app+".css")).read_text(encoding="utf-8")
     title=escape(t["title"]);sub=escape(t["sub"]);detail=escape(t["detail"])
     action=escape(t["action"]);second=escape(t["second"]);third=escape(t["third"]);helptext=escape(t["help"])
@@ -121,12 +121,27 @@ with sync_playwright() as p:
                 pair={}
                 for variant in ("before","after"):
                     page.set_viewport_size({"width":width,"height":844})
+                    # Isolate the two cascades; no residual injected styles.
+                    page.goto("about:blank")
                     page.set_content(fixture(app,lang,variant),wait_until="domcontentloaded")
                     value=measure(page,app)
                     assert_targets(app,value,variant)
                     filename=f"{app}_{lang}_{width}_{variant}_synthetic_css.png"
                     page.screenshot(path=str(OUTPUT/filename),full_page=False)
                     pair[variant]={"file":filename,**value}
+                # This must NEVER accept two identical captures as a real
+                # source-CSS before/after change. The original accepted baseline
+                # is expected to have larger font/card metrics in all three apps.
+                before=pair["before"];after=pair["after"]
+                changed=[k for k in before if k!="file" and before.get(k)!=after.get(k)]
+                if not changed:
+                    raise AssertionError(f"INVALID SIZE BEFORE/AFTER: no CSS metric changed for {app} {lang} {width}")
+                if app=="customer":
+                    assert before["cardPaddingLeft"]!=after["cardPaddingLeft"],(app,lang,width,before,after)
+                if app=="merchant":
+                    assert before["bodyPaddingLeft"]!=after["bodyPaddingLeft"],(app,lang,width,before,after)
+                if app=="driver":
+                    assert before["bodyFont"]!=after["bodyFont"],(app,lang,width,before,after)
                 # Immutable touch geometry: never shrink previously compliant targets.
                 if app=="driver":
                     assert pair["after"]["headerHeight"]==pair["before"]["headerHeight"],"map header offset changed"
