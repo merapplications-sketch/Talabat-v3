@@ -14,7 +14,7 @@ permissions:
   contents: write  # restricted to committing synthetic screenshot evidence ON THIS ISOLATED REVIEW BRANCH
 concurrency:
   group: talabot-brief14-single-crawl
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   full-audit:
     if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/full-app-audit-brief14-20261117'
