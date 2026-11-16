@@ -24,6 +24,8 @@ jobs:
           set -euo pipefail
           test "$(git merge-base 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD)" = '1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17'
           test "$(git rev-parse HEAD:sql/proposed/gate1_cash_and_idempotent_delivery.sql)" = '684c9c18af434a267fd8b0dc07288aa287e8eb13'
+          test "$(git rev-parse HEAD:sql/rollback/gate1_rollback_20261116.sql)" = '494f9729a386b58203b4ff8c8105c0da3e5f1088'
+          test "$(git rev-parse HEAD:tools/gate1_schema_objects.py)" = '3a2323676c72ab9c1e7b12fd1b3f31136eae82c6'
           git diff --name-only 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD > /tmp/gate1-b-only
           if grep -Ev '^((sql/rollback/gate1_rollback_20261116.sql)|(tools/gate1_schema_objects\.(sql|py))|(tools/gate1_live_apply_precheck_b.py)|(.github/workflows/gate1-rollback-local-b-20261116.yml)|(.github/workflows/gate1-apply-cloud-b-20261116.yml)|(ops/gate1-apply-b-trigger.txt))$' /tmp/gate1-b-only; then
             echo 'STOP: unauthorized paths in B operations branch'; exit 1
@@ -33,7 +35,7 @@ jobs:
       - name: Download B-branch VERIFIED successful LOCAL baseline / Gate1 catalog
         uses: actions/download-artifact@v4
         with:
-          run-id: 43815837840
+          run-id: 43822820814
           name: talabot-gate1-b-local-rollback-catalog
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/gate1-b-verified
@@ -41,7 +43,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          printf '%s  %s\n' 'a06c0a7a94319d568ad79090e2320a47982cc2a5143a72a6ac0c75cc767264cc' "$RUNNER_TEMP/gate1-b-verified/baseline.json" | sha256sum -c -
+          printf '%s  %s\n' 'a06c0a7a94319d568ad79090e2320a47982cc2a5143a72a6ac0c75cc767264cc' "$RUNNER_TEMP/gate1-b-verified/historical.json" | sha256sum -c -
+          printf '%s  %s\n' '746b75bd83e72d7036a258fa1ee6d0e77d9d5bb9392a8aae808e50b13dfddabd' "$RUNNER_TEMP/gate1-b-verified/baseline.json" | sha256sum -c -
           printf '%s  %s\n' '268f66d966265c13e3614aa4afd4bb8ebc5a45c7f5a1049362ae9835ba2cfc41' "$RUNNER_TEMP/gate1-b-verified/gate1.json" | sha256sum -c -
           cmp "$RUNNER_TEMP/gate1-b-verified/baseline.json" "$RUNNER_TEMP/gate1-b-verified/restored.json"
           if ! command -v psql >/dev/null 2>&1; then
@@ -60,8 +63,11 @@ jobs:
           set -euo pipefail
           mkdir -p evidence/gate1-cloud-b-20261116
           python3 tools/gate1_schema_objects.py capture evidence/gate1-cloud-b-20261116/before.json
-          python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-b-verified/baseline.json" evidence/gate1-cloud-b-20261116/before.json PRELIVE_equals_approved_baseline
-          echo 'PRE-APPLY CATALOG MATCH: APPROVED B baseline only'
+          # Exactly two tighter anon permissions are allowed; all other source/catalog
+          # attributes and indexes must be byte-for-byte equal to historical baseline.
+          python3 tools/gate1_schema_objects.py compare-restricted "$RUNNER_TEMP/gate1-b-verified/historical.json" evidence/gate1-cloud-b-20261116/before.json
+          python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-b-verified/baseline.json" evidence/gate1-cloud-b-20261116/before.json PRELIVE_equals_restricted_live_baseline
+          echo 'PRE-APPLY CATALOG PASS: original definitions with ONLY two tighter anon=false ACLs'
       - name: Apply approved EXACT Gate1 SQL and PostgREST cache notify in ONE transaction
         shell: bash
         run: |
@@ -76,7 +82,7 @@ jobs:
           set -euo pipefail
           python3 tools/gate1_schema_objects.py capture evidence/gate1-cloud-b-20261116/after.json
           python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-b-verified/gate1.json" evidence/gate1-cloud-b-20261116/after.json POSTLIVE_equals_approved_gate1
-          echo 'POST-APPLY CATALOG MATCH: approved boolean ping + locked cash order + 2 ticket indexes'
+          echo 'POST-APPLY CATALOG PASS: approved boolean ping + locked cash order, anon=false, 2 ticket indexes'
       - name: Preserve schema-only pre/post proof without credentials or table rows
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
