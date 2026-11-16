@@ -59,7 +59,16 @@ def issue_checks(pg,app,screen,lang,w,mode="rich",keyboard=False):
           const visible=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0&&r.bottom>=0&&r.top<=H};
           const rect=e=>{const r=e.getBoundingClientRect();return {x:r.left,y:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
           const out={width:W,height:H,vh:vv?vv.height:H,scrollWidth:document.documentElement.scrollWidth,
-            touches:[],clipped:[],invalid:[],raw:[],mix:[],focus:null};
+            touches:[],clipped:[],invalid:[],raw:[],mix:[],contrast:[],focus:null};
+          const rgb=x=>{const m=String(x).match(/rgba?\\(([^)]+)\\)/);if(!m)return null;const v=m[1].match(/[\\d.]+/g)?.map(Number);return v&&v.length>=3?v:null};
+          const luma=c=>{const v=c.slice(0,3).map(x=>x/255).map(x=>x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4));return .2126*v[0]+.7152*v[1]+.0722*v[2]};
+          const background=e=>{for(let a=e;a;a=a.parentElement){const c=rgb(getComputedStyle(a).backgroundColor);if(c&&(c.length<4||c[3]>.98))return c;}return [255,255,255]};
+          for(const el of [...document.querySelectorAll('h1,h2,h3,h4,button,label,p,span,small,td,th')].filter(visible).slice(0,170)){
+             const t=(el.innerText||'').trim();if(!t||t.length>90)continue;
+             const color=rgb(getComputedStyle(el).color),bg=background(el);if(!color)continue;
+             const a=luma(color),b=luma(bg),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+             if(ratio<4.5)out.contrast.push({text:t.slice(0,40),ratio:Math.round(ratio*100)/100});
+          }
           if(out.scrollWidth>W+1)out.clipped.push({kind:'HORIZONTAL_OVERFLOW',delta:out.scrollWidth-W});
           const candidates=[...document.querySelectorAll('button,a[href],input:not([type=hidden]),select,textarea,[role=button]')].filter(visible);
           for(const e of candidates.slice(0,220)){
@@ -96,6 +105,7 @@ def issue_checks(pg,app,screen,lang,w,mode="rich",keyboard=False):
         for it in dom["invalid"][:6]:record(app,screen,lang,w,"BAD_VALUE",it,"P1",mode)
         for it in dom["raw"][:6]:record(app,screen,lang,w,"RAW_IDENTIFIER",it,"P1",mode)
         for it in dom["mix"][:6]:record(app,screen,lang,w,"MIXED_LANGUAGE",it,"P1",mode)
+        for it in dom["contrast"][:7]:record(app,screen,lang,w,"CONTRAST_LT4_5",json.dumps(it,ensure_ascii=False),"P2",mode)
         if keyboard and dom["focus"] and not dom["focus"]["visible"]:
             record(app,screen,lang,w,"KEYBOARD_FOCUS_HIDDEN",json.dumps(dom["focus"]),"P1",mode)
     except Exception as exc:
