@@ -33,6 +33,11 @@ if [ "${FULL_AUDIT_BRIEF14:-0}" = "1" ]; then
     python3 tools/full_audit.py || fail=1
   fi
 fi
+# BRIEF-15: optional only on isolated review CI; fail closed on any verified visual regression.
+if [ "${FULL_AUDIT_BRIEF15:-0}" = "1" ]; then
+  echo "BRIEF15 WebKit real HTML F01..F10 source-backed visual regressions"
+  python3 tools/brief15_webkit.py || fail=1
+fi
 if [ "$fail" -ne 0 ]; then
   echo "GATE1_NO_GO: incomplete or failing required gates" >&2
   exit 1
