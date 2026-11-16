@@ -1,0 +1,52 @@
+name: TALABOT Gate1 device preview (new isolated Pages project)
+on:
+  push:
+    branches: [ops/gate1-device-preview-20261116]
+    paths: [ops/PREVIEW-TRIGGER.txt]
+permissions: {contents: read}
+concurrency: {group: talabot-gate1-preview, cancel-in-progress: false}
+env:
+  PROJECT: talabot-gate1-preview-20261116
+  SRC_SHA: 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17
+jobs:
+  preview:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/ops/gate1-device-preview-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ env.SRC_SHA }}', persist-credentials: false, fetch-depth: 1}
+      - name: Build runtime-only bundle from tech/v82-int @ 1c1ce8d0
+        run: |
+          set -e
+          test "$(git rev-parse HEAD)" = "$SRC_SHA"
+          case "$PROJECT" in talabot-pilot-*|talabot-safari-demo-*) echo STOP; exit 1;; esac
+          mkdir site; cp customer.html driver.html merchant.html admin.html talabat-core.js site/; cp -r assets site/
+          grep -q gate1DeliveryFlights site/talabat-core.js
+          printf '/*\n  X-Robots-Tag: noindex, nofollow\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: no-referrer\n' > site/_headers
+          printf '<!doctype html><meta charset=utf-8><title>TALABOT Gate1 preview</title><ul><li><a href=driver.html>driver</a><li><a href=customer.html>customer</a><li><a href=merchant.html>merchant</a></ul>' > site/index.html
+          find site -type f | sort > files.txt; wc -l files.txt
+          (cd site && find . -type f ! -name _headers -exec sha256sum {} + | sort -k2) > sums.txt
+      - name: Create project if absent and deploy
+        env: {CLOUDFLARE_API_TOKEN: '${{ secrets.CLOUDFLARE_API_TOKEN }}'}
+        run: |
+          set -e
+          test -n "$CLOUDFLARE_API_TOKEN"
+          A=$(curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts | jq -r '.result[0].id'); echo "::add-mask::$A"
+          export CLOUDFLARE_ACCOUNT_ID=$A
+          code=$(curl -sS -o p.json -w '%{http_code}' -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT)
+          if [ "$code" = 404 ]; then npx --yes wrangler@3 pages project create "$PROJECT" --production-branch=main; fi
+          npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch=main --commit-hash="$SRC_SHA" --commit-message="Gate1 device preview tech/v82-int" --commit-dirty=true
+          sleep 20
+          curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT | jq -r '"deployment=" + .result.latest_deployment.id + " " + .result.latest_deployment.latest_stage.status + " url=" + .result.subdomain'
+          for p in talabot-pilot-20261106 talabot-safari-demo-20261115; do curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$p | jq -r '"untouched '$p' latest=" + .result.latest_deployment.id'; done
+      - name: Live check
+        run: |
+          set -e
+          B=https://$PROJECT.pages.dev
+          for f in driver.html customer.html merchant.html talabat-core.js; do
+            u=$B/$f; [ $f = talabat-core.js ] || u=$B/${f%.html}
+            c=$(curl -sS -L -o /tmp/x -w '%{http_code}' "$u"); echo "$f $c $(sha256sum /tmp/x | cut -c1-12)"; test "$c" = 200
+          done
+          curl -sS $B/talabat-core.js | grep -q gate1DeliveryFlights && echo LIVE_CORE_IS_GATE1_PASS
+          grep -E ' \./(talabat-core.js|driver.html)$' sums.txt | cut -c1-12
