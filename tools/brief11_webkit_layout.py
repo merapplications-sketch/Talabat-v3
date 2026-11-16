@@ -301,7 +301,7 @@ def check_cash(browser,width,height,lang):
     assert p.locator("#cashAmt").input_value()=="200"
     assert p.locator(".b11-inline-alert").inner_text().strip()=="", "R02: error persisted after valid 200"
     p.locator('.b8-chip[data-reason="other"]').click()
-    p.locator("#cashNote").fill("Customer disputes bill")
+    p.locator("#cashNote").fill("Клиент оспаривает сумму" if lang=="ru" else "Customer disputes bill")
     ordinary_other=assert_other_spacing(p,"O03 reason chips and Other must not overlap")
     p.screenshot(path=str(OUT/f"webkit_cash_other_{lang}_{width}.png"))
     keyboard=max(290,min(430,height-270))
@@ -324,6 +324,14 @@ def check_cash(browser,width,height,lang):
     p.locator("#cashNote").focus()
     p.wait_for_timeout(320)
     other_rect=assert_vertical_visible(p,"R01 focused Other field","#cashNote",False)
+    # The input rectangle alone is insufficient: Safari clips the OUTER focus ring.
+    other_outline=p.evaluate("""() => {
+      const e=document.querySelector('#cashNote'),sc=document.querySelector('.b8-content');
+      const r=e.getBoundingClientRect(),clip=sc.getBoundingClientRect(),style=getComputedStyle(e);
+      const outline=style.outlineStyle==='none'?0:parseFloat(style.outlineWidth)+parseFloat(style.outlineOffset);
+      return {fieldBottom:r.bottom,clipBottom:clip.bottom,outlinePx:outline,gap:clip.bottom-r.bottom};
+    }""")
+    assert other_outline["gap"]>=max(6,other_outline["outlinePx"])-1,("O01 focus ring clipped",other_outline)
     other_keyboard_blocks=assert_no_partial_keyboard_controls(p,"O01 Other keyboard no half buttons/rows")
     compact_other=assert_other_spacing(p,"O03 Other focused no overlap")
     assert_horizontal(p,"keyboard other")
@@ -343,7 +351,7 @@ def check_cash(browser,width,height,lang):
     p.evaluate("deliverClick(9122)")
     assert p.evaluate("CALLS.click")==0,"duplicate delivery action must be blocked"
     p.screenshot(path=str(OUT/f"webkit_cash_waiting_{lang}_{width}.png"))
-    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"amount_blocks":amount_keyboard_blocks,"other_blocks":other_keyboard_blocks,"other_spacing":ordinary_other,"compact_other_spacing":compact_other,"ui_labels":labels,"waiting":status})
+    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"amount_blocks":amount_keyboard_blocks,"other_blocks":other_keyboard_blocks,"other_outline":other_outline,"other_spacing":ordinary_other,"compact_other_spacing":compact_other,"ui_labels":labels,"waiting":status})
     ctx.close()
 def check_nav(browser,width,height,lang):
     ctx,p=browser_page(browser,width,height,lang,NAV_SETUP)
