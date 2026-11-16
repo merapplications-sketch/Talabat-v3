@@ -26,6 +26,9 @@
   'body.b12-keyboard .b8-reason-slot.active{display:block!important}',
   'body.b12-keyboard.b12-other-focus .b8-reason-slot.active{display:block!important}',
   'body.b12-keyboard .b8-content{padding-bottom:16px!important;scroll-padding-top:12px;scroll-padding-bottom:16px}',
+  // O-15: the CHOSEN reason stays visible on one line even while chips are folded.
+  '.b15-selected-reason{display:none;min-height:20px;margin:0 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;line-height:20px;font-weight:600;color:var(--ink)}',
+  'body.b12-keyboard .b8-reason-slot.active .b15-selected-reason:not(:empty){display:block!important}',
   // O-12: 5px focus outline+offset must fit INSIDE the horizontally clipped scroll area.
   '.b8-sheet .b8-content{padding-left:7px!important;padding-right:7px!important}',
   '.b8-sheet #cashAmt:focus-visible,.b8-sheet #cashNote:focus-visible{outline-offset:2px;scroll-margin-inline:6px}',
@@ -158,6 +161,29 @@
    if(alert&&(parsed!==null || ev.target.id==='cashNote'))alert.textContent='';
    scheduleViewport();
  });
+ /* O-15: UI-only selected label; the unchanged Q14 handler still receives the original reason. */
+ const O15_REASON={short:'b8ShortReason',dispute:'b8Dispute',missing:'b8Missing',other:'b8OtherLabel'};
+ function selectedReason(){
+   const slot=activeSheet()?.querySelector('#b8-reason-slot');if(!slot)return;
+   let node=slot.querySelector('.b15-selected-reason');
+   if(!node){
+     node=document.createElement('p');node.className='b15-selected-reason';
+     node.setAttribute('role','status');node.setAttribute('aria-live','polite');
+     const chips=slot.querySelector('.b8-chips');
+     if(chips)slot.insertBefore(node,chips);else slot.appendChild(node);
+   }
+   const key=DV?.b8Reason;
+   node.textContent=key&&O15_REASON[key]?t(O15_REASON[key]):'';
+   node.title=node.textContent;
+ }
+ const priorReasonChosen=window.b8ReasonChosen;
+ if(typeof priorReasonChosen==='function'){
+   window.b8ReasonChosen=function(){const r=priorReasonChosen.apply(this,arguments);selectedReason();return r};
+ }
+ const priorAmountChanged=window.b8AmountChanged;
+ if(typeof priorAmountChanged==='function'){
+   window.b8AmountChanged=function(){const r=priorAmountChanged.apply(this,arguments);selectedReason();return r};
+ }
  function supportPhone(){
    let raw='';
    try{raw=String(TLB.supportInfo?.().phone||'')}catch(_){}
@@ -203,6 +229,7 @@
      if(content&&!content.querySelector('.b11-inline-alert')){
        const a=document.createElement('p');a.className='b11-inline-alert';a.setAttribute('role','status');a.setAttribute('aria-live','polite');content.appendChild(a);
      }
+     selectedReason();
      syncViewport();
    }
    updateWaitingCard();
