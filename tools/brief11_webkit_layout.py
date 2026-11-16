@@ -163,6 +163,20 @@ def assert_vertical_visible(page,label,field,with_amount_label=False):
         assert title and title["top"]>=c["top"]-2 and title["bottom"]<=e["top"]+2,(label,data)
     return data
 
+def assert_no_partly_clipped_fields(page,label):
+    results=page.evaluate("""() => {
+      const clip=document.querySelector('.b8-content').getBoundingClientRect();
+      return [...document.querySelectorAll('#cashAmt,#cashNote')].map(el=>{
+        const r=el.getBoundingClientRect(),style=getComputedStyle(el);
+        const visible=style.visibility!=='hidden'&&style.display!=='none'&&r.height>0;
+        const touches=visible&&r.bottom>clip.top+1&&r.top<clip.bottom-1;
+        const partial=touches&&(r.top<clip.top-2||r.bottom>clip.bottom+2);
+        return {id:el.id,visible,touches,partial,top:r.top,bottom:r.bottom,clipTop:clip.top,clipBottom:clip.bottom};
+      });
+    }""")
+    assert not any(x["partial"] for x in results),(label,results)
+    return results
+
 def browser_page(browser,width,height,lang,setup):
     ctx=browser.new_context(viewport={"width":width,"height":height},is_mobile=True,
          has_touch=True,device_scale_factor=3,locale="ru-RU" if lang=="ru" else "en-US")
@@ -222,12 +236,14 @@ def check_cash(browser,width,height,lang):
     assert inp["y"]>=view["top"]-2 and inp["bottom"]<=foot["y"]+3,(inp,foot,view)
     assert foot["bottom"]<=view["top"]+view["h"]+2,(foot,view)
     assert_horizontal(p,"keyboard")
+    no_partial_amount=assert_no_partly_clipped_fields(p,"R01 amount editing / other fully visible or fully offscreen")
     assert p.locator(".b11-inline-alert").inner_text().strip()==""
     p.screenshot(path=str(OUT/f"webkit_cash_keyboard_sim_{lang}_{width}.png"))
     p.locator("#cashNote").focus()
     p.wait_for_timeout(320)
     other_rect=assert_vertical_visible(p,"R01 focused Other field","#cashNote",False)
     assert_horizontal(p,"keyboard other")
+    no_partial_other=assert_no_partly_clipped_fields(p,"R01 Other editing / no partly clipped field")
     p.screenshot(path=str(OUT/f"webkit_cash_keyboard_other_{lang}_{width}.png"))
     p.set_viewport_size({"width":width,"height":height})
     p.locator("#cashAmt").fill("200")
@@ -243,7 +259,7 @@ def check_cash(browser,width,height,lang):
     p.evaluate("deliverClick(9122)")
     assert p.evaluate("CALLS.click")==0,"duplicate delivery action must be blocked"
     p.screenshot(path=str(OUT/f"webkit_cash_waiting_{lang}_{width}.png"))
-    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"waiting":status})
+    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"waiting":status})
     ctx.close()
 def check_nav(browser,width,height,lang):
     ctx,p=browser_page(browser,width,height,lang,NAV_SETUP)
