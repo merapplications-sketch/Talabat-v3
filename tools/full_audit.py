@@ -290,8 +290,10 @@ def f10_classify_source_ids():
     import re
     admin=(ROOT/"admin.html").read_text("utf8")
     schema=(ROOT/"sql/baseline/schema_baseline_dzydscryrnahnneydnry_20261116.sql").read_text("utf8")
-    assert not re.search(r"\\bord[0-9]+\\b",admin), "F-10 raw synthetic order ID hardcoded in production admin"
-    assert re.search(r'CREATE TABLE IF NOT EXISTS "public"\\."orders"\\s*\\(\\s*"id" bigint NOT NULL',schema)
+    # Keep the source probe literal: raw-regex double escaping must not block H-01.
+    assert not re.search('[^A-Za-z0-9_]ord[0-9]+[^A-Za-z0-9_]',admin)
+    marker='CREATE TABLE IF NOT EXISTS "public"."orders" ('
+    assert marker in schema and '"id" bigint NOT NULL' in schema.split(marker,1)[1][:200]
     assert "id:'ord'+i" in (ROOT/"tools/qa_all.py").read_text("utf8")
     REPORT.setdefault("triage",{})["F-10"]={
       "classification":"synthetic-fixture noise",
