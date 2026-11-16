@@ -6,6 +6,9 @@ on:
       - 'tools/gate1_local_seed.py'
       - 'tools/full_audit_seed.py'
       - 'tools/full_audit.py'
+      - 'tools/brief15_webkit.py'
+      - 'tools/brief11_webkit_layout.py'
+      - 'tools/check_all.sh'
       - 'customer.html'
       - 'merchant.html'
       - 'assets/customer-c/customer-c.js'
@@ -39,7 +42,7 @@ jobs:
             test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
           done
           git diff --name-only "$BASE" HEAD > "$RUNNER_TEMP/brief15-paths"
-          if grep -Ev '^((tools/(gate1_local_seed.py|full_audit_seed.py|full_audit.py))|(customer.html)|(merchant.html)|(assets/customer-c/customer-c.(js|css))|(assets/driver-tech/(map-view.js|cash-sheet-polish-brief11.js))|(.github/workflows/unified-fix-brief15-20261117.yml))$' "$RUNNER_TEMP/brief15-paths"; then
+          if grep -Ev '^((tools/(gate1_local_seed.py|full_audit_seed.py|full_audit.py|brief15_webkit.py|brief11_webkit_layout.py|check_all.sh))|(customer.html)|(merchant.html)|(assets/customer-c/customer-c.(js|css))|(assets/driver-tech/(map-view.js|cash-sheet-polish-brief11.js))|(.github/workflows/unified-fix-brief15-20261117.yml))$' "$RUNNER_TEMP/brief15-paths"; then
             echo 'STOP out of scope mutation'; exit 1
           fi
           python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py
@@ -100,3 +103,84 @@ jobs:
       - name: Stop throwaway local DB
         if: always()
         run: supabase stop --no-backup || true
+
+  visual:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: write  # strictly isolated branch + evidence-only upload
+    steps:
+      - name: Checkout exact isolated UI candidate for real-source WebKit snapshots
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: true, fetch-depth: 0}
+      - name: No production/backend/finance changes in BRIEF-15
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=f85f927db58280c24773768f4aa5ddc88956a448
+          test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          for f in talabat-core.js driver.html admin.html sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
+            test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
+          done
+          python3 -m py_compile tools/brief15_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
+      - name: Install pinned WebKit test engine only in disposable runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps webkit
+      - name: Run F-01..F-10 tests on original four-app HTML/JS, not synthetic DOM
+        shell: bash
+        run: |
+          set +e
+          python3 tools/brief15_webkit.py > "$RUNNER_TEMP/brief15-visual.log" 2>&1
+          rc=$?
+          grep -E 'BRIEF15_WEBKIT_(COVERAGE|FAIL)' "$RUNNER_TEMP/brief15-visual.log" | tail -35 || true
+          echo "BRIEF15_VISUAL_RC=$rc" >> "$GITHUB_ENV"
+          exit 0
+      - name: Run source-backed WebKit O-12..O-15 and previous C/O regressions
+        shell: bash
+        run: |
+          set +e
+          python3 tools/brief11_webkit_layout.py > "$RUNNER_TEMP/brief15-cash.log" 2>&1
+          rc=$?
+          grep -E '(^O1[2345]_|LAYOUT_webkit_suite PASS|Traceback|AssertionError)' "$RUNNER_TEMP/brief15-cash.log" | tail -25 || true
+          if test "$rc" -ne 0; then tail -12 "$RUNNER_TEMP/brief15-cash.log"; fi
+          echo "BRIEF15_CASH_RC=$rc" >> "$GITHUB_ENV"
+          exit 0
+      - name: Commit only screenshot/result evidence to this review branch, no UI or prod files
+        shell: bash
+        if: always()
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
+          test "$GITHUB_REPOSITORY" = merapplications-sketch/Talabat-v3
+          mkdir -p qa-shots/unified-fix
+          git config user.name "talabot-brief15-webkit"
+          git config user.email "talabot-brief15-webkit@users.noreply.github.com"
+          git add -- qa-shots/unified-fix/
+          if ! git diff --cached --quiet; then
+            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/'; then exit 1; fi
+            git commit -m "test(BRIEF-15): evidence screenshots after F/O isolated corrections"
+            # Reject non-fast-forward if code changed concurrently; never force-push.
+            git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
+          fi
+      - name: Upload source-backed visual evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-brief15-f01-f10-o12-o15-webkit-evidence
+          path: |
+            qa-shots/unified-fix/
+            evidence/cash-sheet-brief11/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Prevent acceptance when any named visual contract failed
+        if: always()
+        shell: bash
+        run: |
+          test "$BRIEF15_VISUAL_RC" = 0
+          test "$BRIEF15_CASH_RC" = 0
+          echo 'BRIEF15_VISUAL_WEBKIT_ALL_PASS (NOT physical iPhone approval)'
