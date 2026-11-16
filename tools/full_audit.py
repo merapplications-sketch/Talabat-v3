@@ -123,7 +123,7 @@ def start_server():
     threading.Thread(target=srv.serve_forever,daemon=True).start()
     return srv
 def make_context(browser,app,lang,w,h,empty=False):
-    ctx=browser.new_context(viewport={"width":w,"height":h},device_scale_factor=3,is_mobile=True,has_touch=True,
+    ctx=browser.new_context(viewport={"width":w,"height":h},device_scale_factor=2,is_mobile=True,has_touch=True,
          locale="ru-RU" if lang=="ru" else "en-US")
     ctx.add_init_script("window.__AUDIT_LANG="+json.dumps(lang)+";localStorage.setItem('tlb_lang',"+json.dumps(lang)+");"+("window.__EMPTY=true;" if empty else ""))
     # Offline adapter is only substituted for Supabase CDN; ALL actual TALABOT HTML/JS/CSS are original.
@@ -156,6 +156,8 @@ def check_sequence(browser,app,lang,w,h,empty=False):
         except Exception as e:
             record(app,mode,lang,w,"SCENARIO_UNAVAILABLE",str(e),"P2")
             continue
+        pg.evaluate("() => window.scrollTo(0,0)")  # baseline screenshot always starts at top of actual app
+        pg.wait_for_timeout(30)
         capture(pg,app,mode,lang,w)
         issue_checks(pg,app,mode,lang,w)
         REPORT["coverage"].append({"app":app,"screen":mode,"lang":lang,"width":w,"mode":"rich"})
@@ -196,7 +198,7 @@ def use_real_local_backend(browser,app,lang,w,h,fixture,js):
     sess={"access_token":token,"token_type":"bearer","expires_in":3600,
           "expires_at":int(time.time())+3600,"refresh_token":"local-audit-no-refresh",
           "user":user}
-    ctx=browser.new_context(viewport={"width":w,"height":h},device_scale_factor=3,is_mobile=True,has_touch=True,
+    ctx=browser.new_context(viewport={"width":w,"height":h},device_scale_factor=2,is_mobile=True,has_touch=True,
         locale="ru-RU" if lang=="ru" else "en-US")
     ctx.add_init_script("window.__AUDIT_LANG="+json.dumps(lang)+";localStorage.setItem('tlb_lang',"+json.dumps(lang)+");localStorage.setItem("+json.dumps("tlb-auth-"+role)+","+json.dumps(json.dumps(sess))+");")
     def handle(route):
