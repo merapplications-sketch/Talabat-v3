@@ -38,10 +38,21 @@
   b.innerHTML='<span class="c-current-ic">'+ico('receipt',20)+'</span><span class="c-current-txt"><strong></strong><small></small></span><span class="c-current-open">'+esc(t('cOpen'))+ico('chev',16)+'</span>';
   b.querySelector('strong').textContent=orders.length===1?t('cCurrent')+' · #'+o.id:t('cCurrentMany')+' · '+orders.length;
   b.querySelector('small').textContent=orders.length===1?t('trk_'+o.status):Array.from(new Set(orders.map(x=>t('trk_'+x.status)))).join(' · ');
-  b.onclick=()=>orders.length===1?go('track',{tid:o.id}):go('orders',{ofl:'act'});document.getElementById('app').appendChild(b);
+  b.onclick=()=>orders.length===1?go('track',{tid:o.id}):go('orders',{ofl:'act'});
+  // F-01: on Home, place the SAME current-order card in document flow directly
+  // after the banner. A fixed card otherwise obscures real banner/section text.
+  const homeBanner=S.v==='home'&&document.querySelector('#app .d6h .d6-bento');
+  if(homeBanner){b.classList.add('c-current-inline');homeBanner.insertAdjacentElement('afterend',b)}
+  else document.getElementById('app').appendChild(b);
   const base=basePadding||'0px';
-  const layout=()=>{if(!b.isConnected)return;const nav=document.querySelector('.nav'),bar=document.querySelector('.bar');let edge=nav?nav.getBoundingClientRect().top:innerHeight; if(bar)edge=Math.min(edge,bar.getBoundingClientRect().top);b.style.bottom=Math.max(8,innerHeight-edge+8)+'px';document.body.style.paddingBottom='calc('+base+' + '+(b.getBoundingClientRect().height+16)+'px)'};
-  layout();if(window.ResizeObserver){layoutObserver=new ResizeObserver(layout);layoutObserver.observe(b);for(const el of document.querySelectorAll('.nav,.bar'))layoutObserver.observe(el)}
+  const layout=()=>{if(!b.isConnected)return;
+    if(homeBanner){b.style.bottom='auto';document.body.style.paddingBottom=base;return}
+    const nav=document.querySelector('.nav'),bar=document.querySelector('.bar');let edge=nav?nav.getBoundingClientRect().top:innerHeight;
+    if(bar)edge=Math.min(edge,bar.getBoundingClientRect().top);
+    b.style.bottom=Math.max(8,innerHeight-edge+8)+'px';
+    document.body.style.paddingBottom='calc('+base+' + '+(b.getBoundingClientRect().height+16)+'px)'
+  };
+  layout();if(window.ResizeObserver&&!homeBanner){layoutObserver=new ResizeObserver(layout);layoutObserver.observe(b);for(const el of document.querySelectorAll('.nav,.bar'))layoutObserver.observe(el)}
  }
  function sync(){current();const wanted=eligible();if(!wanted){if(id||root)reset();return}if(wanted!==id){reset();id=wanted;create();ageTimer=setInterval(()=>{if(eligible()!==id){reset();return}if(point)draw()},60000)}
   const host=document.getElementById('p1-courier-map');if(host&&root){host.appendChild(root);map?.invalidateSize({pan:false})}draw();if(!busy&&!lastCall)request();

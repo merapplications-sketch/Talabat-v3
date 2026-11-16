@@ -19,3 +19,6 @@
 
 /* C1 remains the same map and request lifecycle, now inside its courier card. */
 .p1-courier .c-track{margin:10px 0 0;padding:0;border:0;box-shadow:none}.p1-courier .c-track h3{font-size:13px;font-weight:400;color:#536176}.p1-courier .c-track-map{border-radius:12px}
+
+/* F-01: preserve the existing current-orders card, without overlaying Home banners or labels. */
+#app .c-current.c-current-inline{position:relative;left:auto;right:auto;bottom:auto;width:auto;max-width:none;margin:10px 14px 4px;z-index:1}
