@@ -1,0 +1,23 @@
+name: TALABOT PM WebKit screenshots commit (read-only QA)
+on:
+  push:
+    branches: [qa/pm-webkit-shots-20261117]
+    paths: [.github/workflows/pm-webkit-shots-20261117.yml]
+permissions: {contents: write}
+jobs:
+  shots:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/qa/pm-webkit-shots-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+      - run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
+          python3 -m playwright install --with-deps webkit
+          python3 tools/brief11_webkit_layout.py || echo "SCRIPT_EXIT=$?"
+          ls evidence/cash-sheet-brief11 | head -60
+      - run: |
+          git config user.name talabot-pm-bot; git config user.email noreply@github.com
+          git add -f evidence/cash-sheet-brief11/
+          git commit -m "qa(pm): WebKit screenshots of 12ad8ac5 for PM visual review [skip ci]" && git push origin HEAD:qa/pm-webkit-shots-20261117
