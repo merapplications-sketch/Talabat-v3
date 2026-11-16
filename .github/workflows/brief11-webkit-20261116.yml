@@ -38,7 +38,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
-          python3 -m playwright install --with-deps webkit
+          python3 -m playwright install --with-deps webkit chromium
           mkdir -p "$RUNNER_TEMP/gate1-qr"
           npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
       - name: First gate — isolate WebKit visual QA before spinning up LOCAL database
