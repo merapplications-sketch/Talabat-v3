@@ -190,6 +190,9 @@ def check_cash(browser,width,height,lang):
     p.locator("#cashAmt").fill("200")
     p.locator('.b8-chip[data-reason="short"]').click()
     p.locator("#b8-confirm").click()
+    p.wait_for_timeout(180)
+    snapshot=p.evaluate("({report:CALLS.report,finish:CALLS.finish,waiting:!!document.querySelector('.b11-waiting'),open:!!document.querySelector('#b8-ov'),saved:window.__brief11?.hasReport(9122),busy:DV?.reportBusy||false})")
+    print("CASH_short_result_diagnostic (synthetic): "+json.dumps(snapshot),flush=True)
     p.wait_for_function("!document.querySelector('#b8-ov')&&document.querySelector('.b11-waiting')",timeout=5000)
     status=p.evaluate("({reports:CALLS.report,finishes:CALLS.finish,notice:document.querySelector('.b11-waiting')?.textContent,disabled:document.querySelector('#a-dock .a-step-button')?.disabled,phone:document.querySelector('.b11-support')?.getAttribute('href')})")
     assert status["reports"]==1 and status["finishes"]==0,status
