@@ -1,6 +1,6 @@
 /* TALABOT BRIEF-7 — customer only; approved 390px density, no theme/business changes. */
 @media (max-width:430px){
-  h1{font-size:18px;line-height:1.2}
+  #app h1{font-size:18px;line-height:1.2}
   .card{padding:14px}
   /* Body 13px, h2 15px, button 42px/46px, navigation labels and radius are intentionally unchanged. */
 }
