@@ -6,6 +6,12 @@ on:
       - 'tools/gate1_local_seed.py'
       - 'tools/full_audit_seed.py'
       - 'tools/full_audit.py'
+      - 'customer.html'
+      - 'merchant.html'
+      - 'assets/customer-c/customer-c.js'
+      - 'assets/customer-c/customer-c.css'
+      - 'assets/driver-tech/map-view.js'
+      - 'assets/driver-tech/cash-sheet-polish-brief11.js'
       - '.github/workflows/unified-fix-brief15-20261117.yml'
   workflow_dispatch:
 permissions:
@@ -22,15 +28,78 @@ jobs:
       - name: Checkout read-only isolated review
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with: {persist-credentials: false, fetch-depth: 0}
-      - name: Fail closed on real app / backend mutation in H01 and known sample credentials
+      - name: Guard immutable backend/finance and strictly scoped owner F/O app repairs
         shell: bash
         run: |
           set -euo pipefail
           BASE=f85f927db58280c24773768f4aa5ddc88956a448
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
-          for f in talabat-core.js driver.html customer.html merchant.html admin.html sql/proposed/gate1_cash_and_idempotent_delivery.sql; do
+          # Each approved UI correction has an independently revertible F/O commit.
+          for f in talabat-core.js driver.html admin.html sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
             test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
           done
+          git diff --name-only "$BASE" HEAD > "$RUNNER_TEMP/brief15-paths"
+          if grep -Ev '^((tools/(gate1_local_seed.py|full_audit_seed.py|full_audit.py))|(customer.html)|(merchant.html)|(assets/customer-c/customer-c.(js|css))|(assets/driver-tech/(map-view.js|cash-sheet-polish-brief11.js))|(.github/workflows/unified-fix-brief15-20261117.yml))
+      - name: Install immutable QA browsers and dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps webkit chromium
+          mkdir -p "$RUNNER_TEMP/gate1-qr" "$RUNNER_TEMP/full-audit-npm"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+          npm --prefix "$RUNNER_TEMP/full-audit-npm" install --no-save --ignore-scripts --package-lock=false @supabase/supabase-js@2.117.2
+      - uses: supabase/setup-cli@v1
+        with: {version: 3.1.0}
+      - name: Start isolated LOCAL Supabase schema-only test
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_local_prepare.py
+          supabase start >"$RUNNER_TEMP/local-start.log" 2>&1
+          supabase db reset --local >"$RUNNER_TEMP/local-reset.log" 2>&1
+          supabase status -o env >"$RUNNER_TEMP/local-status.env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/local-status.env"
+      - name: Original Gate1 tests + authentic H01 UI login through original application
+        shell: bash
+        env:
+          GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
+          FULL_AUDIT_SUPABASE_UMD: ${{ runner.temp }}/full-audit-npm/node_modules/@supabase/supabase-js/dist/umd/supabase.js
+          FULL_AUDIT_MODE: auth_only
+        run: |
+          set -euo pipefail
+          test "$SUPABASE_LOCAL_URL" = http://127.0.0.1:54321
+          python3 tools/gate1_local_seed.py
+          bash tools/check_all.sh >"$RUNNER_TEMP/brief15-gates.log"
+          grep -Fxq 'GATE1_E2E: 16 / 16 LOCAL HTTP PASS' "$RUNNER_TEMP/brief15-gates.log"
+          python3 tools/full_audit_seed.py
+          python3 tools/full_audit.py >"$RUNNER_TEMP/h01.log" 2>&1 || true
+          grep -E '^H01_LOCAL_AUTHENTICATED|^FULL_APP_AUDIT' "$RUNNER_TEMP/h01.log" || true
+          python3 - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('qa-shots/full-audit/FINDINGS.json')
+          assert p.exists(), 'H01 audit did not save findings'
+          d=json.loads(p.read_text())
+          verified=d.get('local_auth_verified',[])
+          errors=[r for r in d.get('findings',[]) if r.get('type','').startswith('H01_')]
+          print('H01_REAL_AUTH_VERIFIED',len(verified),'/24','blockers',len(errors))
+          for r in errors[:5]:print('H01_BLOCKER',r.get('app'),r.get('type'),r.get('detail','')[:180])
+          assert len(verified)==24 and not errors,'Original local-authenticated UI is NOT verified'
+          PY
+      - name: Preserve source-backed local test screenshots and findings (no account secrets)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-brief15-h01-local-auth-evidence
+          path: qa-shots/full-audit/
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Stop throwaway local DB
+        if: always()
+        run: supabase stop --no-backup || true
+ "$RUNNER_TEMP/brief15-paths"; then
+            echo 'STOP out of scope mutation';exit 1
+          fi
           python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py
       - name: Install immutable QA browsers and dependencies
         shell: bash
