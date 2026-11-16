@@ -21,6 +21,18 @@ echo "GATE1 11 original + 5 new local Supabase E2E scenarios"
 python3 tools/gate1_e2e.py || fail=1
 echo "BRIEF-11 mandatory offline Playwright WebKit iPhone-layout C01..C07"
 python3 tools/brief11_webkit_layout.py || fail=1
+# BRIEF-14 is an EXPLICIT opt-in on its source-pinned isolated QA branch only.
+# Gate1 F/core/16 LOCAL scenarios above run FIRST against untouched original seed;
+# only then add more local-only identities/records for the four ORIGINAL app views.
+if [ "${FULL_AUDIT_BRIEF14:-0}" = "1" ]; then
+  if [ "${SUPABASE_LOCAL_URL:-}" != 'http://127.0.0.1:54321' ]; then
+    echo 'FULL_AUDIT_BLOCKED: no disposable LOCAL Supabase URL' >&2
+    fail=1
+  else
+    python3 tools/full_audit_seed.py || fail=1
+    python3 tools/full_audit.py || fail=1
+  fi
+fi
 if [ "$fail" -ne 0 ]; then
   echo "GATE1_NO_GO: incomplete or failing required gates" >&2
   exit 1
