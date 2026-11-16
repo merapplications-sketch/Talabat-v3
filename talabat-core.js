@@ -913,7 +913,7 @@
     /* role: 'customer' | 'merchant' | 'driver' | 'admin'. Each role keeps its own session, so all 4 apps can be open in one browser. */
     start: function (role, cb) {
       need = role; onReady = cb;
-      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + role } });
+      sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { storageKey: 'tlb-auth-' + role, persistSession: true, autoRefreshToken: true } });
       bootShow();
       sb.auth.getSession().then(function (x) { if (x.data.session) return enter(x.data.session.user); bootHide(); showLogin(); })
         .catch(function (e) { console.error(e); bootFail(e); });

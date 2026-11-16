@@ -6,6 +6,9 @@
  TLB.addDict({nPoint:'Точка из чата',nLinksFail:'Не удалось получить ссылки на карты. Проверьте связь и повторите.',nRetry:'Повторить'},{nPoint:'Point from the chat',nLinksFail:'Could not get the map links. Check the connection and retry.',nRetry:'Retry'});
  TLB.addDict({nChoose:'Навигация',nInternal:'Внутри TALABOT',nExternal:'Внешняя навигация',nWeb:'Ссылка сайта',nApp:'Открыть',nHint:'Ссылка сайта тоже может открыть приложение — это зависит от телефона.',nExternalNote:'Маршрут — во внешней карте · TALABOT отслеживает позицию',nIdle:'Для маршрута выберите «Внутри TALABOT»',nTracking:'Только отслеживание · время прибытия недоступно',nLoading:'Проверяем навигацию…',nQuota:'Лимит маршрутов исчерпан',nDisabled:'Дорожная навигация отключена',nUnavailable:'Маршрут недоступен',nGps:'Нет свежего точного местоположения',nOffRoute:'Вне маршрута · пересчитываем',nNoPin:'Точные координаты назначения отсутствуют',nFollow:'Следовать за мной',nTurn:'Манёвр через',nRemaining:'Осталось примерно',nClose:'Закрыть',nUpdated:'Расчёт маршрута',nFix:'Позиция',nRetry:'Повторить'},
  {nChoose:'Navigation',nInternal:'Inside TALABOT',nExternal:'External navigation',nWeb:'Website link',nApp:'Open',nHint:'A website link may also open the app, depending on your phone.',nExternalNote:'Directions in an external map · TALABOT tracks your position',nIdle:'Choose Inside TALABOT to start routing',nTracking:'Tracking only · arrival time unavailable',nLoading:'Checking navigation…',nQuota:'Route allowance exhausted',nDisabled:'Road navigation disabled',nUnavailable:'Route unavailable',nGps:'No fresh accurate location',nOffRoute:'Off route · recalculating',nNoPin:'Exact destination coordinates missing',nFollow:'Follow me',nTurn:'Maneuver in',nRemaining:'Estimated remaining',nClose:'Close',nUpdated:'Route calculated',nFix:'Position',nRetry:'Retry'});
+ 
+ TLB.addDict({nDefaultTitle:'Приложение для навигации по умолчанию',nDefaultHint:'Выбор сохраняется только на этом устройстве. Его можно изменить здесь.',nDefaultBadge:'По умолчанию',nSetDefault:'По умолчанию',nUseDefault:'Открыть в выбранном приложении'},
+ {nDefaultTitle:'Default navigation app',nDefaultHint:'Saved only on this device. Change it here anytime.',nDefaultBadge:'Default',nSetDefault:'Set as default',nUseDefault:'Open in default app'});
  let config=null,configAt=0,configFlight=null,epoch=0,currentKey='',route=null,flight=null,lastAsk=0,retryAt=0,offRouteSince=0;
  let pointTo=null,pointChat=false,linksErr=false,polBusy=false;   // 31 Oct: chat point target + loading / failure states
  let mode='tracking',reason='disabled',following=false,chosen=false,open=false,links=[],linksKey='',linksFlight=null,detail=null,boundMap=null;
@@ -72,14 +75,62 @@
    }catch{route=null;detail=null;mode='tracking';reason='upstream';retryAt=Date.now()+30000;}
    finally{if(flight===token)flight=null;if(own===epoch&&active()){renderRoute();label();}}
  }
+
+ // N-01: known external app links require no provider API key or paid routing.
+ // Honor explicit server external=false or a server-supplied restricted provider list.
+ const NAV_PROVIDERS=['google','2gis','yandex'];
+ const NAV_NAMES={google:'Google Maps','2gis':'2GIS',yandex:'Yandex Maps'};
+ let ephemeralDefault='google';
+ function navKey(){return 'talabot-driver-nav-default-v1:'+(typeof DRV!=='undefined'&&DRV?DRV.id:'guest');}
+ function navDefault(){
+   try{const id=localStorage.getItem(navKey());if(NAV_PROVIDERS.includes(id))return id;}catch(e){}
+   return ephemeralDefault;
+ }
+ function fallbackLinks(to){
+   if(!M.point(to))return [];
+   const la=to[0].toFixed(6),ln=to[1].toFixed(6);
+   const pair=encodeURIComponent(la+','+ln),xy=ln+','+la;
+   const ys=encodeURIComponent('~'+la+','+ln);
+   const google='https://www.google.com/maps/dir/?api=1&destination='+pair+'&travelmode=driving&dir_action=navigate';
+   return [
+     {id:'google',name:NAV_NAMES.google,app:google,web:google},
+     {id:'2gis',name:NAV_NAMES['2gis'],app:'dgis://2gis.ru/routeSearch/rsType/car/to/'+xy,
+      web:'https://2gis.ru/directions/tab/car/points/|'+xy},
+     {id:'yandex',name:NAV_NAMES.yandex,
+      app:'yandexmaps://maps.yandex.ru/?rtext='+ys+'&rtt=auto',
+      web:'https://yandex.ru/maps/?rtext='+ys+'&rtt=auto'}
+   ];
+ }
+ function eligibleId(id){return NAV_PROVIDERS.includes(id)&&(config?.external!==false)&&(!Array.isArray(config?.providers)||config.providers.includes(id));}
+ window.aNavigationDefault=navDefault;
+ window.aNavigationSetDefault=function(id){
+   if(!eligibleId(id))return false;
+   ephemeralDefault=id;
+   try{localStorage.setItem(navKey(),id)}catch(e){}
+   if(open||tab==='m')render();
+   return true;
+ };
+ window.aNavigationProfileControl=function(){
+   const chosen=navDefault();
+   return '<section class="card n-default-profile"><h3>'+esc(t('nDefaultTitle'))+'</h3><p class="xs mut">'+esc(t('nDefaultHint'))+'</p>'+
+     NAV_PROVIDERS.filter(eligibleId).map(id=>'<button type="button" class="b '+(id===chosen?'':'s')+'" aria-pressed="'+(id===chosen)+'" onclick="aNavigationSetDefault(\''+id+'\')">'+
+       esc(NAV_NAMES[id])+(id===chosen?' · '+esc(t('nDefaultBadge')):'')+'</button>').join('')+'</section>';
+ };
  async function loadLinks(){
    const x=task(),to=dest(x),k=destKey(x,to);if(!k)return;
    if(linksFlight)return linksFlight;
-   linksFlight=TLB.navigation({op:'links',to}).then(r=>{const y=task();if(destKey(y,dest(y))===k){linksKey=k;linksErr=!Array.isArray(r.links);links=Array.isArray(r.links)?r.links:[];if(r.config){config=r.config;configAt=Date.now();}if(open)render();}}).finally(()=>{linksFlight=null;});return linksFlight;
+   linksFlight=TLB.navigation({op:'links',to}).then(r=>{
+     const y=task();if(destKey(y,dest(y))===k){linksKey=k;linksErr=!Array.isArray(r.links);
+       links=Array.isArray(r.links)?r.links:[];if(r.config){config=r.config;configAt=Date.now();}
+       if(open)render();}
+   }).catch(()=>{
+     const y=task();if(destKey(y,dest(y))===k){linksKey=k;linksErr=true;links=[];if(open)render();}
+   }).finally(()=>{linksFlight=null;});
+   return linksFlight;
  }
  function dest(x){return pointTo||(x?target(x):null);}
  function destKey(x,to){return pointTo?'pt:'+pointTo.join(','):(x&&to?M.key(x,stage(x),to):null);}
- function openWith(){open=true;links=[];linksKey='';linksErr=false;polBusy=true;render();policy(true).finally(()=>{polBusy=false;}).then(()=>loadLinks()).then(()=>{if(open)render();});}
+ function openWith(){open=true;links=[];linksKey='';linksErr=false;polBusy=true;render();Promise.resolve(policy(true)).catch(()=>{config=null;configAt=0;reason='service_unavailable';}).then(()=>{polBusy=false;return loadLinks()}).catch(()=>{linksErr=true;linksKey=destKey(task(),dest(task()));}).finally(()=>{polBusy=false;if(open)render()});}
  window.aNavigationOpen=function(){pointTo=null;pointChat=false;openWith();};
  /* A point sent in the chat (LOC:lat,lng) opens the same chooser for exactly that point — no provider is forced. */
  window.aNavigationOpenPoint=function(lat,lng){const p=[+lat,+lng];if(!M.destination({lat:p[0],lng:p[1]},3,null))return false;pointTo=p;pointChat=!!chatOpen;chatOpen=false;openWith();return true;};
@@ -92,13 +143,23 @@
  modal=function(){
    if(!open||chatOpen||CXL||DV)return oldModal();
    const x=task(),to=dest(x),k=destKey(x,to);
-   const safeLink=u=>typeof u==='string'&&/^(https:\/\/(www\.google\.com\/maps\/dir\/|yandex\.ru\/maps\/|2gis\.ru\/directions\/)|yandexmaps:\/\/maps\.yandex\.(com|ru)\/)/.test(u);
-   const list=linksKey===k?links.filter(v=>config?.external&&config.providers.includes(v.id)&&safeLink(v.app)&&safeLink(v.web)):[];
-   return '<div class="ov a-aux n-chooser" onclick="aNavigationClose()"><div class="md" role="dialog" aria-modal="true" aria-label="'+t('nChoose')+'" onclick="event.stopPropagation()"><header class="n-heading"><h2>'+t('nChoose')+'</h2><button type="button" class="round" onclick="aNavigationClose()" aria-label="'+t('nClose')+'">'+ico('x',20)+'</button></header><div class="n-body">'+(!to?'<p>'+t('nNoPin')+'</p>':'<p class="n-destination">'+(pointTo?esc(t('nPoint')+' · '+pointTo.map(v=>v.toFixed(6)).join(', ')):esc(stage(x)>=3?x.address:x.store))+'</p>')+
-    (to&&!pointTo&&config?.mode==='internal'?'<button type="button" class="b" onclick="aNavigationInside()">'+t('nInternal')+'</button>':'<p class="n-note" role="status">'+t('nExternalNote')+'</p>')+
-    list.map(v=>'<section class="n-provider"><b>'+esc(v.name)+'</b><div><a class="n-open" aria-label="'+esc(v.name)+' · '+t('nApp')+'" href="'+esc(v.app)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nApp')+' '+ico('arr',16)+'</a><a class="n-web" aria-label="'+esc(v.name)+' · '+t('nWeb')+'" href="'+esc(v.web)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nWeb')+'</a></div></section>').join('')+
-    (!config&&!polBusy?'<p>'+t('nUnavailable')+'</p>':!list.length&&to?(polBusy||linksFlight?'<p role="status">'+t('nLoading')+'</p>':linksErr?'<p role="alert">'+t('nLinksFail')+'</p><button type="button" class="b s" onclick="aNavigationRetry()">'+t('nRetry')+'</button>':'<p>'+t('nDisabled')+'</p>'):'')+'<p class="n-hint">'+t('nHint')+'</p></div></div></div>';
-
+   const safeLink=u=>typeof u==='string'&&/^(https:\/\/(www\.google\.com\/maps\/dir\/|yandex\.ru\/maps\/|2gis\.ru\/directions\/)|yandexmaps:\/\/maps\.yandex\.(com|ru)\/|dgis:\/\/2gis\.ru\/routeSearch\/rsType\/car\/to\/)/.test(u);
+   // Never trust unfiltered remote URLs. For a failed/offline links call use
+   // bounded provider-documented coordinates; no fake road route/ETA shown.
+   const fromServer=linksKey===k?links.filter(v=>eligibleId(v.id)&&safeLink(v.app)&&safeLink(v.web)):[];
+   const list=fromServer.length?fromServer:(config?.external===false?[]:fallbackLinks(to).filter(v=>eligibleId(v.id)));
+   const preferred=list.find(v=>v.id===navDefault());
+   const openLink=v=>'<a class="n-open" aria-label="'+esc(v.name)+' · '+t('nApp')+'" href="'+esc(v.app)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nApp')+' '+ico('arr',16)+'</a>';
+   const rows=list.map(v=>'<section class="n-provider"><b>'+esc(v.name)+(navDefault()===v.id?' · '+esc(t('nDefaultBadge')):'')+'</b><div>'+
+     openLink(v)+'<a class="n-web" aria-label="'+esc(v.name)+' · '+t('nWeb')+'" href="'+esc(v.web)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nWeb')+'</a>'+
+     '<button type="button" class="n-set-default" aria-pressed="'+(navDefault()===v.id)+'" onclick="aNavigationSetDefault(\''+v.id+'\')">'+esc(t(navDefault()===v.id?'nDefaultBadge':'nSetDefault'))+'</button></div></section>').join('');
+   return '<div class="ov a-aux n-chooser" onclick="aNavigationClose()"><div class="md" role="dialog" aria-modal="true" aria-label="'+t('nChoose')+'" onclick="event.stopPropagation()"><header class="n-heading"><h2>'+t('nChoose')+'</h2><button type="button" class="round" onclick="aNavigationClose()" aria-label="'+t('nClose')+'">'+ico('x',20)+'</button></header><div class="n-body">'+
+     (!to?'<p>'+t('nNoPin')+'</p>':'<p class="n-destination">'+(pointTo?esc(t('nPoint')+' · '+pointTo.map(v=>v.toFixed(6)).join(', ')):esc(stage(x)>=3?x.address:x.store))+'</p>')+
+     (to&&!pointTo&&config?.mode==='internal'?'<button type="button" class="b" onclick="aNavigationInside()">'+t('nInternal')+'</button>':'<p class="n-note" role="status">'+t('nExternalNote')+'</p>')+
+     (preferred?'<div class="n-preferred"><span>'+esc(t('nDefaultBadge'))+': '+esc(preferred.name)+'</span>'+openLink(preferred)+'</div>':'')+
+     rows+
+     (!list.length&&to?(polBusy||linksFlight?'<p role="status">'+t('nLoading')+'</p>':linksErr?'<p role="alert">'+t('nLinksFail')+'</p><button type="button" class="b s" onclick="aNavigationRetry()">'+t('nRetry')+'</button>':'<p>'+t('nDisabled')+'</p>'):'')+
+     '<p class="n-hint">'+t('nHint')+'</p></div></div></div>';
  };
  const inner=mapUpd;mapUpd=function(x,force){const v=inner.apply(this,arguments);if(x)update(x);return v;};
  document.addEventListener('keydown',e=>{if(open&&e.key==='Escape'){e.preventDefault();aNavigationClose();}});
@@ -106,6 +167,6 @@
  window.addEventListener('pagehide',()=>reset());
  // Bounded lifecycle tick: stops provider requests off the mission; checks policy/staleness without creating a GPS watch.
  setInterval(()=>{const x=task();if(!x||document.hidden){if(currentKey)reset();return;}update(x);},1000);
- const css=document.createElement('style');css.textContent='.n-chooser .n-provider{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 12px;margin:0;padding:8px 0}.n-chooser .n-provider>b{min-width:0;overflow-wrap:anywhere}.n-chooser .n-provider>div{display:grid;grid-template-columns:auto auto;align-items:center;gap:8px;margin:0}.n-chooser .n-provider .n-open{min-height:44px;font-size:13px}.n-chooser .n-provider .n-web{min-height:44px;font-size:11px;padding:0 4px;font-weight:400}.n-chooser .n-body{overflow-y:auto;overscroll-behavior:contain}@media(max-width:370px){.n-chooser .n-provider{gap:6px}.n-chooser .n-provider>div{gap:4px}.n-chooser .n-open{padding:0 10px}}.a-map-state{max-width:calc(100% - 32px);white-space:normal}';document.head.appendChild(css);
- window.__routeLayer={state:()=>({key:currentKey,hasRoute:!!route,mode,reason,inflight:!!flight,following}),refreshPolicy:()=>policy(true)};
+ const css=document.createElement('style');css.textContent='.n-chooser .n-provider{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 12px;margin:0;padding:8px 0}.n-chooser .n-provider>b{min-width:0;overflow-wrap:anywhere}.n-chooser .n-provider>div{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0}.n-chooser .n-set-default{background:#fff;border:1px solid #dfe2e6;border-radius:12px;min-height:44px;padding:0 10px;color:var(--ink);font-size:12px;font-weight:600;cursor:pointer}.n-chooser .n-set-default[aria-pressed=true]{border-color:var(--o);color:var(--o)}.n-chooser .n-preferred{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border:1px solid var(--o);border-radius:14px;margin-bottom:10px}.n-chooser .n-preferred .n-open{padding:10px;background:var(--o);color:#fff;border-radius:10px}.n-default-profile .b{min-height:44px}.n-chooser .n-provider .n-open{min-height:44px;font-size:13px}.n-chooser .n-provider .n-web{min-height:44px;font-size:11px;padding:0 4px;font-weight:400}.n-chooser .n-body{overflow-y:auto;overscroll-behavior:contain}@media(max-width:370px){.n-chooser .n-provider{gap:6px}.n-chooser .n-provider>div{gap:4px}.n-chooser .n-open{padding:0 10px}}.a-map-state{max-width:calc(100% - 32px);white-space:normal}';document.head.appendChild(css);
+ window.__routeLayer={state:()=>({key:currentKey,hasRoute:!!route,mode,reason,inflight:!!flight,following}),refreshPolicy:()=>policy(true),fallbackLinks:fallbackLinks,getDefault:navDefault};
 })();
