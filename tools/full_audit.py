@@ -200,18 +200,53 @@ def use_real_local_backend(browser,app,lang,w,h,fixture,js):
         u=route.request.url
         if u.startswith(LOCAL+"/talabat-core.js"):
             core=(ROOT/"talabat-core.js").read_text("utf8")
-            core=core.replace("https://dzydscryrnahnneydnry.supabase.co",BACKEND)
+            # H-01: use a strictly same-origin, loopback-only proxy to avoid iOS/WebKit
+            # cross-port CORS/preflight failures. Only disposable LOCAL Supabase is reachable.
+            core=core.replace("https://dzydscryrnahnneydnry.supabase.co",LOCAL+"/__audit_sb")
             core=core.replace("sb_publishable_zQKbsSffub7O-f87vsXAaQ_GHFnSOQz",
                               os.environ["SUPABASE_LOCAL_ANON_KEY"])
             route.fulfill(status=200,content_type="application/javascript",body=core)
         elif "supabase-js" in u and "cdn" in u:
             route.fulfill(status=200,content_type="application/javascript",body=js)
-        elif u.startswith(LOCAL+"/") or u.startswith(BACKEND+"/") or u.startswith("data:") or u.startswith("blob:"):
+        elif u.startswith(LOCAL+"/__audit_sb/"):
+            # Never forward browser requests to any production endpoint. Only a
+            # fixed allowlist of the disposable loopback Supabase API namespaces.
+            import urllib.request, urllib.error, urllib.parse
+            rest=u.split(LOCAL+"/__audit_sb/",1)[1]
+            api=rest.split("/",1)[0]
+            if api not in ("auth","rest","storage","realtime") or ".." in rest or "://" in rest:
+                route.abort("blockedbyclient")
+                return
+            target=BACKEND+"/"+rest
+            req=route.request
+            allowed=("apikey","authorization","content-type","prefer","accept","x-client-info","x-supabase-api-version")
+            headers={k:v for k,v in req.headers.items() if k.lower() in allowed}
+            body=req.post_data_buffer
+            outbound=urllib.request.Request(target,data=body,headers=headers,method=req.method)
+            opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),
+                type("NoRedirect",(urllib.request.HTTPRedirectHandler,),{
+                    "redirect_request":lambda self,*args,**kwargs:None})())
+            try:
+                with opener.open(outbound,timeout=12) as reply:
+                    reply_body=reply.read(2_500_000)
+                    route.fulfill(status=reply.status,headers={
+                      "content-type":reply.headers.get("content-type","application/json"),
+                      "cache-control":"no-store"},body=reply_body)
+            except urllib.error.HTTPError as err:
+                route.fulfill(status=err.code,headers={"content-type":"application/json",
+                    "cache-control":"no-store"},body=err.read(2_500_000))
+            except Exception:
+                route.abort("failed")
+        elif u.startswith(LOCAL+"/") or u.startswith("data:") or u.startswith("blob:"):
             route.continue_()
         else: block_remote(route)
     ctx.route("**/*",handle)
     pg=ctx.new_page();errors=[];bad=[]
     pg.on("pageerror",lambda e:errors.append(str(e)[:180]))
+    pg.on("requestfailed",lambda r:bad.append({"net":"failed",
+       "route":r.url.split("?")[0].split("/")[-1][:55],
+       "failure":r.failure[:70] if r.failure else "unknown"})
+       if r.url.startswith(LOCAL+"/__audit_sb/") else None)
     pg.on("response",lambda r:bad.append({"status":r.status,"route":r.url.split("?")[0].split("/")[-1][:50]})
           if r.status>=400 and r.url.startswith(BACKEND+"/") else None)
     try:
