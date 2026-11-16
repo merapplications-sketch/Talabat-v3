@@ -24,6 +24,9 @@
   'body.b12-keyboard .b8-reason-slot.active{display:block!important}',
   'body.b12-keyboard.b12-other-focus .b8-reason-slot.active{display:block!important}',
   'body.b12-keyboard .b8-content{padding-bottom:16px!important;scroll-padding-top:12px;scroll-padding-bottom:16px}',
+  // O-12: 5px focus outline+offset must fit INSIDE the horizontally clipped scroll area.
+  '.b8-sheet .b8-content{padding-left:7px!important;padding-right:7px!important}',
+  '.b8-sheet #cashAmt:focus-visible,.b8-sheet #cashNote:focus-visible{outline-offset:2px;scroll-margin-inline:6px}',
   'body.b12-keyboard .b8-reserved{padding-top:2px!important}',
   '.b8-ov{position:fixed!important;top:var(--b11-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;height:var(--b11-height,100dvh)!important;max-width:100vw!important;align-items:flex-end!important;justify-content:center!important;overflow:hidden!important;z-index:20000!important;pointer-events:auto!important;background:rgba(19,31,48,.78)!important}',
   '.b8-sheet{position:relative!important;width:min(430px,100%)!important;max-width:100vw!important;height:auto!important;min-height:0!important;max-height:calc(var(--b11-height,100dvh) - 6px)!important;flex:0 1 auto!important;display:flex!important;flex-direction:column!important;padding:10px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left))!important;box-sizing:border-box!important;overflow:hidden!important;margin:0 auto!important;border-radius:16px 16px 0 0!important;transition:max-height .18s ease!important}',
