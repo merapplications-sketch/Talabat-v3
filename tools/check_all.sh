@@ -19,6 +19,8 @@ else
 fi
 echo "GATE1 11 original + 5 new local Supabase E2E scenarios"
 python3 tools/gate1_e2e.py || fail=1
+echo "BRIEF-11 mandatory offline Playwright WebKit iPhone-layout C01..C07"
+python3 tools/brief11_webkit_layout.py || fail=1
 if [ "$fail" -ne 0 ]; then
   echo "GATE1_NO_GO: incomplete or failing required gates" >&2
   exit 1
