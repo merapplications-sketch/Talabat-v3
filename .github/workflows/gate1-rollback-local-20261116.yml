@@ -1,0 +1,74 @@
+name: TALABOT Gate1 rollback exact baseline LOCAL QA (no cloud writes)
+on:
+  push:
+    branches: [ops/gate1-apply-20261116]
+    paths:
+      - sql/rollback/gate1_rollback_20261116.sql
+      - tools/gate1_schema_objects.sql
+      - tools/gate1_schema_objects.py
+      - .github/workflows/gate1-rollback-local-20261116.yml
+permissions:
+  contents: read
+concurrency:
+  group: talabot-gate1-local-rollback
+  cancel-in-progress: false
+jobs:
+  rollback-proof:
+    if: github.repository == 'merapplications-sketch/Talabat-v3'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      GATE1_BASE_REF: dzydscryrnahnneydnry
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+      PGSSLMODE: disable
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false,fetch-depth: 0}
+      - name: Enforce exact accepted candidate ancestry and authorized ops-only files
+        run: |
+          set -eu
+          test "$(git merge-base 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD)" = 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17
+          git diff --name-only 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD > /tmp/gate1-ops-files
+          if grep -Ev '^((sql/rollback/gate1_rollback_20261116.sql)|(tools/gate1_schema_objects\.(sql|py))|(.github/workflows/gate1-rollback-local-20261116.yml))$' /tmp/gate1-ops-files; then
+            echo 'STOP unauthorized operations branch diff'; exit 1
+          fi
+          echo 'Ops-only files; candidate and user data untouched'
+      - uses: supabase/setup-cli@v1
+        with: {version: 3.1.0}
+      - name: Stage the authentic checked baseline locally
+        run: |
+          python3 tools/gate1_local_prepare.py
+          mv supabase/migrations/20261116000900_gate1_proposed.sql "$RUNNER_TEMP/gate1-approved-proposed.sql"
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+          fi
+      - name: Baseline then Gate1 then ROLLBACK; compare every object definition and ACL
+        run: |
+          set -euo pipefail
+          supabase start > "$RUNNER_TEMP/gate1-local-start.log" 2>&1 || { echo 'STOP local Supabase failed to start'; exit 1; }
+          supabase db reset --local > "$RUNNER_TEMP/gate1-local-reset.log" 2>&1 || { echo 'STOP baseline-only reset failed'; exit 1; }
+          python3 tools/gate1_schema_objects.py capture "$RUNNER_TEMP/gate1-baseline.json"
+          psql -X -q -v ON_ERROR_STOP=1 --single-transaction -f "$RUNNER_TEMP/gate1-approved-proposed.sql" >/dev/null
+          python3 tools/gate1_schema_objects.py capture "$RUNNER_TEMP/gate1-proposed.json"
+          psql -X -q -v ON_ERROR_STOP=1 --single-transaction -f sql/rollback/gate1_rollback_20261116.sql >/dev/null
+          python3 tools/gate1_schema_objects.py capture "$RUNNER_TEMP/gate1-restored.json"
+          python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-baseline.json" "$RUNNER_TEMP/gate1-restored.json"
+          mkdir -p evidence/gate1-rollback-20261116
+          cp "$RUNNER_TEMP/gate1-baseline.json" evidence/gate1-rollback-20261116/baseline.json
+          cp "$RUNNER_TEMP/gate1-proposed.json" evidence/gate1-rollback-20261116/proposed.json
+          cp "$RUNNER_TEMP/gate1-restored.json" evidence/gate1-rollback-20261116/restored.json
+          echo 'ROLLBACK_restores_baseline; no remote credential or project accessed'
+      - name: Upload metadata-only, no rows / no credentials
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-gate1-local-rollback-catalog-evidence
+          path: evidence/gate1-rollback-20261116/
+      - name: Tear down disposable local containers
+        if: always()
+        run: |
+          if command -v supabase >/dev/null; then supabase stop --no-backup || true; fi
