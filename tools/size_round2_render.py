@@ -121,11 +121,37 @@ def round2_audit():
           for key in ("header","swipe","thumb"):
             assert abs(measurements[0][key]["h"]-measurements[1][key]["h"])<1,(key,measurements)
         gain=round(measurements[0]["end"]["y"]-measurements[1]["end"]["y"],1)
-        assert gain>0,(app,measurements)
+        assert gain>=({"customer":80,"merchant":60,"driver":50}[app]),(app,gain,measurements)
         result[app]={"before":measurements[0],"after":measurements[1],"gain_px":gain}
         canvas=Image.new("RGB",(780,760),"white")
         canvas.paste(shots[0],(0,0));canvas.paste(shots[1],(390,0))
-        canvas.save(OUT/(app+"_main_synthetic_390_before-after.png"))
+        canvas.save(OUT/(app+"_main_en_390_before-after.png"))
+        # Exactly the same source-CSS/data and dimensions with RU sample labels.
+        ru_markup=samples[app]
+        for english,russian in [
+          ("Today from your favourites","Сегодня ваши любимые"),
+          ("Delivery available","Доставка доступна"),
+          ("New dishes","Новые блюда"),("Favourites again","Ваши любимые"),
+          ("Best offers","Лучшие предложения"),("Sample restaurant","Ресторан"),
+          ("Yesterday","Вчера"),("Reorder","Повторить"),("Explore","Смотреть"),
+          ("Search","Поиск"),("Orders","Заказы"),("New order","Новый заказ"),
+          ("Pending","Новые"),("Accept","Принять"),("Item","Блюдо"),
+          ("To restaurant","К ресторану"),("Navigate","Навигация"),
+          ("Collect","Получить"),("Mission detail","Детали заказа"),
+          ("Dushanbe","Душанбе"),("Food","Еда")]:
+          ru_markup=ru_markup.replace(english,russian)
+        ru_shots=[]
+        for style in (before,after):
+          context=browser.new_context(viewport={"width":390,"height":760},is_mobile=True,has_touch=True)
+          page=context.new_page()
+          page.route("**/*",lambda r:r.abort())
+          page.set_content(build_html(style,ru_markup),wait_until="domcontentloaded")
+          ru_shots.append(Image.open(io.BytesIO(page.screenshot(full_page=False))).convert("RGB"))
+          context.close()
+        ru_canvas=Image.new("RGB",(780,760),"white")
+        ru_canvas.paste(ru_shots[0],(0,0))
+        ru_canvas.paste(ru_shots[1],(390,0))
+        ru_canvas.save(OUT/(app+"_main_ru_390_before-after.png"))
       browser.close()
     (OUT/"fold.json").write_text(json.dumps({"source":"Real app CSS with synthetic DOM/data; NOT real Safari","viewport_css_px":[390,760],"safari_chrome_deduction_approximation_px":84,"results":result},indent=2),encoding="utf-8")
     print("SIZE2_above_fold_gain MEASURED in isolated 390x760 source-CSS fixtures: "+json.dumps({k:v["gain_px"] for k,v in result.items()}))
@@ -192,6 +218,6 @@ def main():
     round2_audit()
     print("SIZE2_tokens_applied PASS: app-scoped mobile CSS and runtime computed customer/merchant/driver values")
     print("SIZE2_touch_targets_ge_44 PASS: sampled primary 46+, segmented 44+, driver nav 44+, original 42px visual button and driver swipe geometry PRESERVED")
-    print("SIZE2_SCREENS: "+str(len(list(OUT.glob("*before-after.png"))))+" before/after pairs = 72 source-CSS synthetic screenshots at 360/390/430 RU/EN, 3 apps x 2 views")
+    print("SIZE2_SCREENS: "+str(len(list(OUT.glob("*before-after.png"))))+" before/after pairs = 390px RU/EN source-CSS fixture pairs (2 component views + main view per app); not live Safari")
 if __name__=="__main__":
     main()
