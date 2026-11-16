@@ -36,16 +36,18 @@
   // O-13: show the due amount ONCE in the approved cash breakdown, not header + card + button.
   '.b8-sheet:has(.cashb) .b8-head>p{display:none!important}',
   '.b8-head{padding-bottom:4px}.b8-content{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-padding-top:12px;scroll-padding-bottom:16px}',
-  '.b8-footer{padding-top:4px;border-top:1px solid var(--line,#e0e5ec)}.b8-footer .b8-actions{margin:4px 0 0!important}',
+  '.b8-footer{padding-top:6px;border-top:0!important}.b8-footer .b8-actions{margin:4px 0 0!important}',
   '.b8-reserved{height:auto!important;min-height:0!important;overflow:visible!important}',
   '.b8-reserved[aria-hidden=true]{display:none!important}',
   '.b8-reason-slot{display:none!important;height:auto!important;min-height:0!important;visibility:visible!important;pointer-events:auto!important}',
   '.b8-reason-slot.active{display:block!important}',
   '.b8-other-slot{display:none!important;height:auto!important;min-height:0!important;visibility:visible!important;pointer-events:auto!important}',
-  '.b8-other-slot.active{display:block!important;position:relative!important;clear:both;margin-top:14px!important;padding-top:9px!important;border-top:1px solid var(--line,#e0e5ec);box-sizing:border-box!important}',
+  '.b8-other-slot.active{display:block!important;position:relative!important;clear:both;margin-top:14px!important;padding-top:9px!important;border-top:0!important;box-sizing:border-box!important}',
   '.b8-other-slot.active .b8-other-input{display:block!important;margin:0!important;position:relative!important;min-height:44px!important}',
 
   '.b8-policy{min-height:0!important;margin:5px 0 4px!important;overflow-wrap:anywhere!important}',
+  // O-14: separate red warning from reason/amount fields; avoid redundant divider lines.
+  '.b8-policy.short{margin-top:14px!important;margin-bottom:10px!important;line-height:18px!important;padding:2px 0!important}',
   '.b8-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;min-width:0;gap:8px}',
   '.b8-actions .b{max-width:100%;min-width:0!important;overflow-wrap:anywhere;white-space:normal;font-size:13px}',
   '.b8-sheet #b8-full,.b8-sheet #b8-confirm{background:var(--o,#FF5A12)!important;color:#fff!important}',
