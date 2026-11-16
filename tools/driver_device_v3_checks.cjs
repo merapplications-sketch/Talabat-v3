@@ -16,7 +16,7 @@ async function check(name,fn){
 function context(extra){return vm.createContext(Object.assign({console,Promise,setTimeout,clearTimeout,Date,Math,Number,isFinite,encodeURIComponent,Array,Object,String},extra))}
 function n04fixture(){
  const timers=[], events={}, keys={},toasts=[], dictionaries={},calls=[];
- let html='',focused='',unlockCount=0,ready=false;
+ let html='',focused='',unlockCount=0,ready=false,c;
  const elements={
   'cashAmt':{id:'cashAmt',value:'',focus(){focused='cashAmt';doc.activeElement=this},scrollIntoView(){}},
   'cashNote':{id:'cashNote',value:'',focus(){focused='cashNote';doc.activeElement=this}},
@@ -36,12 +36,12 @@ function n04fixture(){
    testSound(){},me:()=>({id:'driver-1'})},
   $:id=>elements[id]||null,ico:()=>'<svg/>',due:()=>278,cashBox:()=>'<div class="cashb">278.00 TJS</div>',
   t:k=>dictionaries[k]||k,esc:v=>String(v).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])),
-  deliverClick:function(){},modal:()=>'',render:function(){html=sb.modal();return html},
-  online:true,unlockSound:()=>{unlockCount++},confirmDeliver:()=>{calls.push({amount:sb.DV.amt,note:sb.DV.note});return true},
+  deliverClick:function(){},modal:()=>'',render:function(){html=c.modal();return html},
+  online:true,unlockSound:()=>{unlockCount++},confirmDeliver:()=>{calls.push({amount:c.DV.amt,note:c.DV.note});return true},
   setTimeout:fn=>{timers.push(fn);return timers.length}
  };
  win.window=win;
- const c=context(sb);
+ c=context(sb);
  vm.runInContext(adapter,c,{filename:'device-notes-v3.js'});
  return {c,elements,events,dict:dictionaries,toasts,calls,timers,win,doc,render:()=>html,focus:()=>focused,
   audioReady:v=>{ready=v},unlocks:()=>unlockCount};
