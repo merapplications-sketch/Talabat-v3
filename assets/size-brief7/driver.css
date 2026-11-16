@@ -28,3 +28,15 @@
  h1,.a-compact-card h1{font-size:19px;line-height:25px}
  .a-sheet-body.shb{padding-left:12px;padding-right:12px}
 }
+
+/* Round2 compact mission fold: reclaim decorative whitespace, not protected controls. */
+@media (max-width:430px){
+ body.a-mission .a-sheet.a-compact-card{padding-top:8px}
+ .a-stages ol{padding:3px 0}
+ .a-journey-money{margin:2px 0}
+ .a-collect-line{padding:4px 0 3px;margin-top:2px}
+ .a-target{padding-bottom:3px}
+ .a-compact-card .a-tools{margin:4px 0 2px}
+ .a-compact-card .a-tools>*{height:52px;min-height:52px;padding:4px 2px}
+ /* Targets >=44px, icons/labels, 52px header, 56/46px swipe, map and cash values protected. */
+}
