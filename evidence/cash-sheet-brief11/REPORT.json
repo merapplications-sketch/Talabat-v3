@@ -1,0 +1,1500 @@
+{
+  "browser": "Playwright WebKit engine (NOT real iPhone Safari)",
+  "scope": "source CSS with executable BRIEF8/11 JS and synthetic model; NO real user backend",
+  "keyboard": "viewport height reduced; no native software keyboard",
+  "blocked_external_attempts": [],
+  "cases": [
+    {
+      "view": "cash",
+      "lang": "en",
+      "size": [
+        390,
+        844
+      ],
+      "before": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 566,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 629,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 757,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 332,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 13,
+          "y": 549,
+          "right": 377,
+          "bottom": 601,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 395,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 524,
+          "right": 377,
+          "bottom": 735,
+          "w": 364,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 740,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 390,
+          "h": 430,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 406
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 430
+        },
+        "input": {
+          "x": 13,
+          "y": 124,
+          "right": 377,
+          "bottom": 176,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 364,
+          "right": 377,
+          "bottom": 421,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 87,
+          "right": 377,
+          "bottom": 364,
+          "w": 364,
+          "h": 277
+        },
+        "reserved": {
+          "x": 13,
+          "y": 99,
+          "right": 377,
+          "bottom": 366,
+          "w": 364,
+          "h": 267
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 371,
+          "right": 377,
+          "bottom": 405,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "amount_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 364,
+          "height": 277
+        },
+        "footer": {
+          "top": 364,
+          "bottom": 421,
+          "height": 57
+        },
+        "input": {
+          "top": 124,
+          "bottom": 176,
+          "height": 52
+        },
+        "title": {
+          "top": 99,
+          "bottom": 119,
+          "height": 20
+        },
+        "isActive": true,
+        "display": "block"
+      },
+      "other_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 364,
+          "height": 277
+        },
+        "footer": {
+          "top": 364,
+          "bottom": 421,
+          "height": 57
+        },
+        "input": {
+          "top": 304,
+          "bottom": 352,
+          "height": 48
+        },
+        "title": null,
+        "isActive": true,
+        "display": "inline-block"
+      },
+      "not_partial_amount": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 124,
+          "bottom": 176,
+          "clipTop": 87,
+          "clipBottom": 364
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 308,
+          "bottom": 356,
+          "clipTop": 87,
+          "clipBottom": 364
+        }
+      ],
+      "not_partial_other": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 120,
+          "bottom": 172,
+          "clipTop": 87,
+          "clipBottom": 364
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 304,
+          "bottom": 352,
+          "clipTop": 87,
+          "clipBottom": 364
+        }
+      ],
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Reported to support — awaiting a decision. Delivery NOT completed.Call support",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "en",
+      "size": [
+        390,
+        844
+      ],
+      "rects": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 477.984375,
+          "right": 390,
+          "bottom": 843.984375,
+          "w": 390,
+          "h": 366
+        },
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "cash",
+      "lang": "ru",
+      "size": [
+        390,
+        844
+      ],
+      "before": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 566,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 629,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 757,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 332,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 13,
+          "y": 549,
+          "right": 377,
+          "bottom": 601,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 395,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 524,
+          "right": 377,
+          "bottom": 735,
+          "w": 364,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 740,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 390,
+          "h": 430,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 406
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 430
+        },
+        "input": {
+          "x": 13,
+          "y": 124,
+          "right": 377,
+          "bottom": 176,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 364,
+          "right": 377,
+          "bottom": 421,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 87,
+          "right": 377,
+          "bottom": 364,
+          "w": 364,
+          "h": 277
+        },
+        "reserved": {
+          "x": 13,
+          "y": 99,
+          "right": 377,
+          "bottom": 366,
+          "w": 364,
+          "h": 267
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 371,
+          "right": 377,
+          "bottom": 405,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "amount_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 364,
+          "height": 277
+        },
+        "footer": {
+          "top": 364,
+          "bottom": 421,
+          "height": 57
+        },
+        "input": {
+          "top": 124,
+          "bottom": 176,
+          "height": 52
+        },
+        "title": {
+          "top": 99,
+          "bottom": 119,
+          "height": 20
+        },
+        "isActive": true,
+        "display": "block"
+      },
+      "other_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 364,
+          "height": 277
+        },
+        "footer": {
+          "top": 364,
+          "bottom": 421,
+          "height": 57
+        },
+        "input": {
+          "top": 304,
+          "bottom": 352,
+          "height": 48
+        },
+        "title": null,
+        "isActive": true,
+        "display": "inline-block"
+      },
+      "not_partial_amount": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 124,
+          "bottom": 176,
+          "clipTop": 87,
+          "clipBottom": 364
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 308,
+          "bottom": 356,
+          "clipTop": 87,
+          "clipBottom": 364
+        }
+      ],
+      "not_partial_other": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 120,
+          "bottom": 172,
+          "clipTop": 87,
+          "clipBottom": 364
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 304,
+          "bottom": 352,
+          "clipTop": 87,
+          "clipBottom": 364
+        }
+      ],
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Обращение в поддержку отправлено — ожидайте решения. Доставка НЕ завершена.Позвонить в поддержку",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "ru",
+      "size": [
+        390,
+        844
+      ],
+      "rects": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 477.984375,
+          "right": 390,
+          "bottom": 843.984375,
+          "w": 390,
+          "h": 366
+        },
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "customer",
+      "size": [
+        390,
+        844
+      ],
+      "width": {
+        "w": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "view": "merchant",
+      "size": [
+        390,
+        844
+      ],
+      "width": {
+        "w": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "view": "cash",
+      "lang": "en",
+      "size": [
+        375,
+        667
+      ],
+      "before": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 389,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 452,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 580,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 155,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 13,
+          "y": 372,
+          "right": 362,
+          "bottom": 424,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 218,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 347,
+          "right": 362,
+          "bottom": 558,
+          "w": 349,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 563,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 375,
+          "h": 397,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 373
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 397
+        },
+        "input": {
+          "x": 13,
+          "y": 151,
+          "right": 362,
+          "bottom": 203,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 331,
+          "right": 362,
+          "bottom": 388,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 87,
+          "right": 362,
+          "bottom": 331,
+          "w": 349,
+          "h": 244
+        },
+        "reserved": {
+          "x": 13,
+          "y": 126,
+          "right": 362,
+          "bottom": 393,
+          "w": 349,
+          "h": 267
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 398,
+          "right": 362,
+          "bottom": 432,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "amount_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 331,
+          "height": 244
+        },
+        "footer": {
+          "top": 331,
+          "bottom": 388,
+          "height": 57
+        },
+        "input": {
+          "top": 151,
+          "bottom": 203,
+          "height": 52
+        },
+        "title": {
+          "top": 126,
+          "bottom": 146,
+          "height": 20
+        },
+        "isActive": true,
+        "display": "block"
+      },
+      "other_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 331,
+          "height": 244
+        },
+        "footer": {
+          "top": 331,
+          "bottom": 388,
+          "height": 57
+        },
+        "input": {
+          "top": 271,
+          "bottom": 319,
+          "height": 48
+        },
+        "title": null,
+        "isActive": true,
+        "display": "inline-block"
+      },
+      "not_partial_amount": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 151,
+          "bottom": 203,
+          "clipTop": 87,
+          "clipBottom": 331
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": false,
+          "partial": false,
+          "top": 335,
+          "bottom": 383,
+          "clipTop": 87,
+          "clipBottom": 331
+        }
+      ],
+      "not_partial_other": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 87,
+          "bottom": 139,
+          "clipTop": 87,
+          "clipBottom": 331
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 271,
+          "bottom": 319,
+          "clipTop": 87,
+          "clipBottom": 331
+        }
+      ],
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Reported to support — awaiting a decision. Delivery NOT completed.Call support",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "en",
+      "size": [
+        375,
+        667
+      ],
+      "rects": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 301,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 366
+        },
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "cash",
+      "lang": "ru",
+      "size": [
+        375,
+        667
+      ],
+      "before": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 389,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 452,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 580,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 155,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 13,
+          "y": 372,
+          "right": 362,
+          "bottom": 424,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 218,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 347,
+          "right": 362,
+          "bottom": 558,
+          "w": 349,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 563,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 375,
+          "h": 397,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 373
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 397
+        },
+        "input": {
+          "x": 13,
+          "y": 151,
+          "right": 362,
+          "bottom": 203,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 331,
+          "right": 362,
+          "bottom": 388,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 87,
+          "right": 362,
+          "bottom": 331,
+          "w": 349,
+          "h": 244
+        },
+        "reserved": {
+          "x": 13,
+          "y": 126,
+          "right": 362,
+          "bottom": 393,
+          "w": 349,
+          "h": 267
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 398,
+          "right": 362,
+          "bottom": 432,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "amount_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 331,
+          "height": 244
+        },
+        "footer": {
+          "top": 331,
+          "bottom": 388,
+          "height": 57
+        },
+        "input": {
+          "top": 151,
+          "bottom": 203,
+          "height": 52
+        },
+        "title": {
+          "top": 126,
+          "bottom": 146,
+          "height": 20
+        },
+        "isActive": true,
+        "display": "block"
+      },
+      "other_visible": {
+        "content": {
+          "top": 87,
+          "bottom": 331,
+          "height": 244
+        },
+        "footer": {
+          "top": 331,
+          "bottom": 388,
+          "height": 57
+        },
+        "input": {
+          "top": 271,
+          "bottom": 319,
+          "height": 48
+        },
+        "title": null,
+        "isActive": true,
+        "display": "inline-block"
+      },
+      "not_partial_amount": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 151,
+          "bottom": 203,
+          "clipTop": 87,
+          "clipBottom": 331
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": false,
+          "partial": false,
+          "top": 335,
+          "bottom": 383,
+          "clipTop": 87,
+          "clipBottom": 331
+        }
+      ],
+      "not_partial_other": [
+        {
+          "id": "cashAmt",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 87,
+          "bottom": 139,
+          "clipTop": 87,
+          "clipBottom": 331
+        },
+        {
+          "id": "cashNote",
+          "visible": true,
+          "touches": true,
+          "partial": false,
+          "top": 271,
+          "bottom": 319,
+          "clipTop": 87,
+          "clipBottom": 331
+        }
+      ],
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Обращение в поддержку отправлено — ожидайте решения. Доставка НЕ завершена.Позвонить в поддержку",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "ru",
+      "size": [
+        375,
+        667
+      ],
+      "rects": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 301,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 366
+        },
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "customer",
+      "size": [
+        375,
+        667
+      ],
+      "width": {
+        "w": 375,
+        "scroll": 375
+      }
+    },
+    {
+      "view": "merchant",
+      "size": [
+        375,
+        667
+      ],
+      "width": {
+        "w": 375,
+        "scroll": 375
+      }
+    }
+  ]
+}
