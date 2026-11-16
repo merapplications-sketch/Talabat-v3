@@ -1,0 +1,1148 @@
+{
+  "browser": "Playwright WebKit engine (NOT real iPhone Safari)",
+  "scope": "source CSS with executable BRIEF8/11 JS and synthetic model; NO real user backend",
+  "keyboard": "viewport height reduced; no native software keyboard",
+  "blocked_external_attempts": [],
+  "cases": [
+    {
+      "view": "cash",
+      "lang": "en",
+      "size": [
+        390,
+        844
+      ],
+      "before": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 566,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 629,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 757,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 332,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 13,
+          "y": 549,
+          "right": 377,
+          "bottom": 601,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 395,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 524,
+          "right": 377,
+          "bottom": 735,
+          "w": 364,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 740,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 390,
+          "h": 430,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 406
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 430
+        },
+        "input": {
+          "x": 13,
+          "y": 142,
+          "right": 377,
+          "bottom": 194,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 364,
+          "right": 377,
+          "bottom": 421,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 132,
+          "right": 377,
+          "bottom": 364,
+          "w": 364,
+          "h": 232
+        },
+        "reserved": {
+          "x": 13,
+          "y": 117,
+          "right": 377,
+          "bottom": 384,
+          "w": 364,
+          "h": 267
+        },
+        "alert": {
+          "x": 13,
+          "y": 89,
+          "right": 377,
+          "bottom": 122,
+          "w": 364,
+          "h": 33
+        },
+        "policy": {
+          "x": 13,
+          "y": 389,
+          "right": 377,
+          "bottom": 423,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Reported to support — awaiting a decision. Delivery NOT completed.Call support",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "en",
+      "size": [
+        390,
+        844
+      ],
+      "rects": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 477.984375,
+          "right": 390,
+          "bottom": 843.984375,
+          "w": 390,
+          "h": 366
+        },
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "cash",
+      "lang": "ru",
+      "size": [
+        390,
+        844
+      ],
+      "before": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 566,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 629,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 757,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 332,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 844,
+          "w": 390,
+          "h": 844
+        },
+        "input": {
+          "x": 13,
+          "y": 549,
+          "right": 377,
+          "bottom": 601,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 778,
+          "right": 377,
+          "bottom": 835,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 395,
+          "right": 377,
+          "bottom": 778,
+          "w": 364,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 524,
+          "right": 377,
+          "bottom": 735,
+          "w": 364,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 740,
+          "right": 377,
+          "bottom": 774,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 390,
+          "h": 430,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 406
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 390,
+          "bottom": 430,
+          "w": 390,
+          "h": 430
+        },
+        "input": {
+          "x": 13,
+          "y": 159,
+          "right": 377,
+          "bottom": 211,
+          "w": 364,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 364,
+          "right": 377,
+          "bottom": 421,
+          "w": 364,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 149,
+          "right": 377,
+          "bottom": 364,
+          "w": 364,
+          "h": 215
+        },
+        "reserved": {
+          "x": 13,
+          "y": 134,
+          "right": 377,
+          "bottom": 401,
+          "w": 364,
+          "h": 267
+        },
+        "alert": {
+          "x": 13,
+          "y": 89,
+          "right": 377,
+          "bottom": 139,
+          "w": 364,
+          "h": 50
+        },
+        "policy": {
+          "x": 13,
+          "y": 406,
+          "right": 377,
+          "bottom": 440,
+          "w": 364,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      },
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Обращение в поддержку отправлено — ожидайте решения. Доставка НЕ завершена.Позвонить в поддержку",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "ru",
+      "size": [
+        390,
+        844
+      ],
+      "rects": {
+        "viewport": {
+          "w": 390,
+          "h": 844,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 477.984375,
+          "right": 390,
+          "bottom": 843.984375,
+          "w": 390,
+          "h": 366
+        },
+        "rootScrollWidth": 390,
+        "totalVisible": 390,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "customer",
+      "size": [
+        390,
+        844
+      ],
+      "width": {
+        "w": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "view": "merchant",
+      "size": [
+        390,
+        844
+      ],
+      "width": {
+        "w": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "view": "cash",
+      "lang": "en",
+      "size": [
+        375,
+        667
+      ],
+      "before": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 389,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 452,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 580,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 155,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 13,
+          "y": 372,
+          "right": 362,
+          "bottom": 424,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 218,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 347,
+          "right": 362,
+          "bottom": 558,
+          "w": 349,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 563,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 375,
+          "h": 397,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 373
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 397
+        },
+        "input": {
+          "x": 13,
+          "y": 142,
+          "right": 362,
+          "bottom": 194,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 331,
+          "right": 362,
+          "bottom": 388,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 132,
+          "right": 362,
+          "bottom": 331,
+          "w": 349,
+          "h": 199
+        },
+        "reserved": {
+          "x": 13,
+          "y": 117,
+          "right": 362,
+          "bottom": 384,
+          "w": 349,
+          "h": 267
+        },
+        "alert": {
+          "x": 13,
+          "y": 89,
+          "right": 362,
+          "bottom": 122,
+          "w": 349,
+          "h": 33
+        },
+        "policy": {
+          "x": 13,
+          "y": 389,
+          "right": 362,
+          "bottom": 423,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Reported to support — awaiting a decision. Delivery NOT completed.Call support",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "en",
+      "size": [
+        375,
+        667
+      ],
+      "rects": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 301,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 366
+        },
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "cash",
+      "lang": "ru",
+      "size": [
+        375,
+        667
+      ],
+      "before": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 389,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 278
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 452,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 149
+        },
+        "reserved": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 580,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 17
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "short": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 155,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 512
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 667
+        },
+        "input": {
+          "x": 13,
+          "y": 372,
+          "right": 362,
+          "bottom": 424,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 601,
+          "right": 362,
+          "bottom": 658,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 218,
+          "right": 362,
+          "bottom": 601,
+          "w": 349,
+          "h": 383
+        },
+        "reserved": {
+          "x": 13,
+          "y": 347,
+          "right": 362,
+          "bottom": 558,
+          "w": 349,
+          "h": 211
+        },
+        "alert": {
+          "x": 0,
+          "y": 0,
+          "right": 0,
+          "bottom": 0,
+          "w": 0,
+          "h": 0
+        },
+        "policy": {
+          "x": 13,
+          "y": 563,
+          "right": 362,
+          "bottom": 597,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "keyboard_sim": {
+        "viewport": {
+          "w": 375,
+          "h": 397,
+          "top": 0
+        },
+        "sheet": {
+          "x": 0,
+          "y": 24,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 373
+        },
+        "overlay": {
+          "x": 0,
+          "y": 0,
+          "right": 375,
+          "bottom": 397,
+          "w": 375,
+          "h": 397
+        },
+        "input": {
+          "x": 13,
+          "y": 159,
+          "right": 362,
+          "bottom": 211,
+          "w": 349,
+          "h": 52
+        },
+        "footer": {
+          "x": 13,
+          "y": 331,
+          "right": 362,
+          "bottom": 388,
+          "w": 349,
+          "h": 57
+        },
+        "content": {
+          "x": 13,
+          "y": 149,
+          "right": 362,
+          "bottom": 331,
+          "w": 349,
+          "h": 182
+        },
+        "reserved": {
+          "x": 13,
+          "y": 134,
+          "right": 362,
+          "bottom": 401,
+          "w": 349,
+          "h": 267
+        },
+        "alert": {
+          "x": 13,
+          "y": 89,
+          "right": 362,
+          "bottom": 139,
+          "w": 349,
+          "h": 50
+        },
+        "policy": {
+          "x": 13,
+          "y": 406,
+          "right": 362,
+          "bottom": 440,
+          "w": 349,
+          "h": 34
+        },
+        "nav": null,
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      },
+      "waiting": {
+        "reports": 1,
+        "finishes": 0,
+        "notice": "Обращение в поддержку отправлено — ожидайте решения. Доставка НЕ завершена.Позвонить в поддержку",
+        "disabled": true,
+        "phone": "tel:+992900000000"
+      }
+    },
+    {
+      "view": "navigation",
+      "lang": "ru",
+      "size": [
+        375,
+        667
+      ],
+      "rects": {
+        "viewport": {
+          "w": 375,
+          "h": 667,
+          "top": 0
+        },
+        "sheet": null,
+        "overlay": null,
+        "input": null,
+        "footer": null,
+        "content": null,
+        "reserved": null,
+        "alert": null,
+        "policy": null,
+        "nav": {
+          "x": 0,
+          "y": 301,
+          "right": 375,
+          "bottom": 667,
+          "w": 375,
+          "h": 366
+        },
+        "rootScrollWidth": 375,
+        "totalVisible": 375,
+        "reportBanner": null
+      }
+    },
+    {
+      "view": "customer",
+      "size": [
+        375,
+        667
+      ],
+      "width": {
+        "w": 375,
+        "scroll": 375
+      }
+    },
+    {
+      "view": "merchant",
+      "size": [
+        375,
+        667
+      ],
+      "width": {
+        "w": 375,
+        "scroll": 375
+      }
+    }
+  ]
+}
