@@ -11,6 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/"evidence"/"cash-sheet-brief11"
 OUT.mkdir(parents=True,exist_ok=True)
 driver=(ROOT/"driver.html").read_text(encoding="utf8")
+driverA=(ROOT/"assets/driver-a/driver-a.js").read_text(encoding="utf8")
 base=re.search(r"<style>(.*?)</style>",driver,re.S).group(1)
 base+="\n"+(ROOT/"assets/driver-a/driver-a.css").read_text(encoding="utf8")
 base+="\n"+(ROOT/"assets/size-brief7/driver.css").read_text(encoding="utf8")
@@ -18,6 +19,12 @@ b8=(ROOT/"assets/driver-tech/nav-cash-brief8.js").read_text(encoding="utf8")
 b11=(ROOT/"assets/driver-tech/cash-sheet-polish-brief11.js").read_text(encoding="utf8")
 route=(ROOT/"assets/driver-tech/route-layer.js").read_text(encoding="utf8")
 assert "t('cashGet')" in driver, "real source cash panel title is absent"
+assert "t('aStageCount').replace('{n}',n)" in driverA and "t('jCollect')" in driverA
+assert "aStageCount:'Этап {n} из 4'" in driverA and "aStageCount:'Step {n} of 4'" in driverA
+assert "jCollect:'Получить от клиента'" in driverA and "jCollect:'Collect from customer'" in driverA
+assert "cashGet:'Возьмите наличными'" in driver and "cashGet:'Take in cash'" in driver
+assert "st4_4:'Передайте заказ клиенту'" in driver and "st4_4:'Hand the order to the customer'" in driver
+
 for name in ("google-maps","2gis","yandex-maps"):
     p=ROOT/"assets/driver-tech/map-icons"/(name+".svg")
     uri="data:image/svg+xml;base64,"+base64.b64encode(p.read_bytes()).decode("ascii")
@@ -41,6 +48,14 @@ var TLB={
           {links:[],mode:"tracking",reason:"disabled"}
 };
 window.TLB=TLB;
+// Locale keys below are verified verbatim above against production driver.html and driver-a.js.
+TLB.addDict({
+ aStageCount:'Этап {n} из 4',jCollect:'Получить от клиента',
+ cashGet:'Возьмите наличными',st4_4:'Передайте заказ клиенту',aDeliver:'Подтвердить доставку'
+},{
+ aStageCount:'Step {n} of 4',jCollect:'Collect from customer',
+ cashGet:'Take in cash',st4_4:'Hand the order to the customer',aDeliver:'Confirm delivery'
+});
 window.TALABOT_NAV_MODEL={point:p=>Array.isArray(p)&&p.length===2&&p.every(Number.isFinite),
  destination:(x,n,sp)=>[x.lat,x.lng],key:(x,n,to)=>JSON.stringify([x.id,n,to])};
 function t(k){return dictionary[k]||k}
@@ -53,17 +68,17 @@ function storePt(){return [38.5,68.7]}
 function mapUpd(){}
 function finish(){window.CALLS.finish++;return Promise.resolve(false)}
 function deliverClick(){window.CALLS.click++}
-function cashBox(){return '<div class="cashb"><div class="big"><span>💵 '+(window.SYN_LANG==='ru'?'Возьмите наличными':'Take in cash')+'</span><span>216.00 TJS</span></div></div>'}
+function cashBox(){return '<div class="cashb"><div class="big"><span>💵 '+t('cashGet')+'</span><span>216.00 TJS</span></div></div>'}
 function $(id){return document.getElementById(id)}
 function modal(){return ""}
 function render(){
   document.getElementById("app").innerHTML=
     '<header class="a-header hd" style="height:52px">TALABOT</header>'+
     '<main class="a-sheet a-compact-card" id="a-sheet"><div id="a-sheet-body">'+
-    '<div class="a-current-stage">Step 4 of 4</div><h1>Customer delivery</h1>'+
-    '<p class="a-compact-address">SYNTHETIC destination</p>'+
-    '<div class="a-collect-line">Cash <strong>216 TJS</strong></div></div></main>'+
-    '<footer class="a-dock" id="a-dock"><button class="a-step-button">Confirm delivery</button></footer>'+
+    '<div class="a-current-stage">'+t('aStageCount').replace('{n}',4)+'</div><h1>'+t('st4_4')+'</h1>'+
+    '<p class="a-compact-address">'+(TLB.lang()==='ru'?'Душанбе, тестовый адрес':'Dushanbe, test address')+'</p>'+
+    '<div class="a-collect-line">'+t('jCollect')+' <strong>216 TJS</strong></div></div></main>'+
+    '<footer class="a-dock" id="a-dock"><button class="a-step-button">'+t('aDeliver')+'</button></footer>'+
     modal();
 }
 window.__deviceNotesV3={money(v){const s=String(v).trim().replace(",",".");return /^\d+(\.\d{1,2})?$/.test(s)?Number(s):null;}};
@@ -96,7 +111,7 @@ function confirmDeliver(){return Promise.resolve()}
 function cashBox(){return '<div class="cashb">216.00 TJS</div>'}
 function $(id){return document.getElementById(id)}
 function modal(){return ""}
-function render(){document.getElementById("app").innerHTML='<div class="a-header">Driver</div>'+modal();}
+function render(){document.getElementById("app").innerHTML='<div class="a-header">TALABOT</div>'+modal();}
 window.__deviceNotesV3={money(v){return /^\d+(\.\d{1,2})?$/.test(String(v))?Number(v):null;}};
 """
 # Rendering exact production icon paths fixes the previous SYNTHETIC ◯ placeholder.
