@@ -364,6 +364,12 @@ h1{font-size:19px;line-height:1.2;font-weight:600}h2{font-size:15px;font-weight:
 .d6s .d6s-in h2{font-size:21px;line-height:25px;font-weight:600;margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 /* small screens / keyboard open (Chromium resize): the options must stay reachable — the panel may then use the screen minus
    56 px for the photo strip, the options region keeps room, the title takes at most 2 lines */
+
+/* F-04: preserve uncut product options and focus outlines while Safari keyboard is visible. */
+.sheet.d6s.d6-keyboard .osh{scroll-padding-top:12px;scroll-padding-bottom:88px;scroll-snap-type:y proximity}
+.sheet.d6s.d6-keyboard .osh .d6-ch{scroll-snap-align:start;scroll-margin-top:8px}
+.sheet.d6s.d6-keyboard #shn{scroll-margin-block:12px 92px}
+body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,0px))!important}
 .d6s .osh{min-height:96px}
 @media (max-height:560px){.d6s .d6s-p{max-height:calc(100dvh - 56px)}.d6s .d6s-top .d6-bdg{display:none}.d6s .d6s-in h2{-webkit-line-clamp:2;font-size:19px;line-height:23px}.d6s .d6s-pr{font-size:19px;line-height:23px;margin:2px 0 4px}.d6s .oshf .btn{min-height:52px}}
 .d6s .d6s-in .d6-sub{font-size:13px;line-height:18px;color:var(--mut2);margin-top:2px}
@@ -1423,15 +1429,55 @@ function shClose(){S.sh=null;render()}
 /* Mobile keyboards can resize only the visual viewport (not innerHeight / dvh).
    Fit this sheet to the visible area without changing the page or disabling zoom.
    Real Safari still needs device verification; resize tests alone do not prove it. */
-function dishViewport(){
-  const e=document.querySelector('.sheet.d6s'),v=window.visualViewport;if(!e)return;
-  const a=document.activeElement,editing=a&&e.contains(a)&&/^(INPUT|TEXTAREA)$/.test(a.tagName);
-  const keyboard=!!editing&&!!v&&Math.abs(v.scale-1)<.01&&v.height<window.innerHeight-80;
-  e.classList.toggle('d6-keyboard',keyboard);
-  if(keyboard){e.style.setProperty('--dish-height',v.height+'px');e.style.setProperty('--dish-top',v.offsetTop+'px')}
-  else{e.style.removeProperty('--dish-height');e.style.removeProperty('--dish-top')}
+/* F-04: visualViewport may shrink together with innerHeight in both WebKit
+   simulation and mobile Safari. Compare against the LAST unobstructed height,
+   not against the simultaneously shrinking innerHeight. */
+let f04MaxViewport=Math.max(innerHeight,window.visualViewport?.height||0),f04Frame=0;
+function f04VisibleField(){
+ const v=window.visualViewport,a=document.activeElement;
+ const sheet=document.querySelector('.sheet.d6s');
+ if(!a||!(/^(INPUT|TEXTAREA)$/.test(a.tagName)))return;
+ if(sheet?.contains(a)){
+   const sc=sheet.querySelector('.osh'),foot=sheet.querySelector('.oshf');
+   if(!sc||!sc.contains(a)||!foot)return;
+   const clip=sc.getBoundingClientRect(),field=a.getBoundingClientRect();
+   const floor=Math.min(clip.bottom,foot.getBoundingClientRect().top)-12;
+   if(field.bottom>floor)sc.scrollTop+=field.bottom-floor+12;
+   if(field.top<clip.top+10)sc.scrollTop-=clip.top+10-field.top;
+   return;
+ }
+ // Menu search/cart note/promo/checkout fields scroll above the physical keyboard.
+ const h=v?.height||innerHeight,top=v?.offsetTop||0;
+ if(h>=f04MaxViewport-95||!document.querySelector('#app')?.contains(a))return;
+ const rect=a.getBoundingClientRect(),floor=top+h-18;
+ if(rect.bottom+5>floor)window.scrollBy({top:rect.bottom-floor+14,behavior:'instant'});
+ if(rect.top<top+10)window.scrollBy({top:rect.top-top-10,behavior:'instant'});
 }
-if(window.visualViewport){window.visualViewport.addEventListener('resize',dishViewport);window.visualViewport.addEventListener('scroll',dishViewport);document.addEventListener('focusin',dishViewport);document.addEventListener('focusout',dishViewport)}
+function f04Schedule(){
+ if(f04Frame)return;
+ f04Frame=requestAnimationFrame(()=>{f04Frame=0;f04VisibleField()});
+}
+function dishViewport(){
+ const e=document.querySelector('.sheet.d6s'),v=window.visualViewport;
+ const h=v?.height||innerHeight;if(h>f04MaxViewport)f04MaxViewport=h;
+ const a=document.activeElement,editing=e&&a&&e.contains(a)&&/^(INPUT|TEXTAREA)$/.test(a.tagName);
+ const keyboard=!!editing&&!!v&&Math.abs(v.scale-1)<.01&&h<f04MaxViewport-95;
+ if(e){
+   e.classList.toggle('d6-keyboard',keyboard);
+   if(keyboard){e.style.setProperty('--dish-height',h+'px');e.style.setProperty('--dish-top',Math.max(0,v.offsetTop)+'px')}
+   else{e.style.removeProperty('--dish-height');e.style.removeProperty('--dish-top')}
+ }
+ const pageEditing=!e&&a&&document.querySelector('#app')?.contains(a)&&/^(INPUT|TEXTAREA)$/.test(a.tagName);
+ document.body.classList.toggle('f04-inline-keyboard',!!pageEditing&&h<f04MaxViewport-95);
+ f04Schedule();
+}
+if(window.visualViewport){
+ window.visualViewport.addEventListener('resize',dishViewport);
+ window.visualViewport.addEventListener('scroll',dishViewport);
+ window.addEventListener('resize',dishViewport);
+ document.addEventListener('focusin',()=>{dishViewport();setTimeout(dishViewport,140);setTimeout(dishViewport,300)});
+ document.addEventListener('focusout',()=>setTimeout(dishViewport,160));
+}
 function shPick(gid,oid,max){S.sh.miss='';const sel=S.sh.sel[gid]||(S.sh.sel[gid]=[]),p=sel.indexOf(oid);if(max==1)S.sh.sel[gid]=p>=0?[]:[oid];else{if(p>=0)sel.splice(p,1);else if(sel.length<max)sel.push(oid)}render()}
 function shQ(d){S.sh.q=Math.max(1,Math.min(50,S.sh.q+d));render()}
 const shOps=()=>Object.values(S.sh.sel).flat();
