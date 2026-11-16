@@ -50,12 +50,17 @@
  document.head.appendChild(sheetCSS);
  const priorRender=render,priorToast=TLB.toast,priorConfirm=window.b8Confirm,priorReport=TLB.reportDriverCashShort,priorClick=deliverClick;
  let successfulReport=null,viewportFrame=0;
+ const reportedThisPage=new Set();
  const reportKey=id=>'talabot:b11:short:'+String(DRV&&DRV.id||'unknown')+':'+String(id);
  const hasReport=id=>{
-   try{return sessionStorage.getItem(reportKey(id))==='1'}catch(_){return false}
+   const key=reportKey(id);
+   if(reportedThisPage.has(key))return true;
+   try{return sessionStorage.getItem(key)==='1'}catch(_){return false}
  };
  const remember=id=>{
-   try{sessionStorage.setItem(reportKey(id),'1')}catch(_){}
+   const key=reportKey(id);
+   reportedThisPage.add(key); // fail-safe even when iOS private/opaque storage denies access
+   try{sessionStorage.setItem(key,'1')}catch(_){}
  };
  const activeSheet=()=>document.body.querySelector(':scope > #b8-ov');
  function syncViewport(){
