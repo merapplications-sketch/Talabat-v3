@@ -15,7 +15,7 @@ function navFixture(store=new Map()){
  const urls=[],events={},lang={},win={};
  const storage={getItem:k=>store.has(k)?store.get(k):null,setItem:(k,v)=>store.set(k,String(v))};
  const dest=[38.567741,68.793569],task={id:9122,lat:dest[0],lng:dest[1],address:'Synthetic destination',store:'Synthetic Store'};
- const M={point:p=>Array.isArray(p)&&p.length===2&&p.every(Number.isFinite),destination:(x,n,sp)=>n>=3?[x.lat,x.lng]:sp,key:(x,n,to)=>JSON.stringify([x.id,n,to])};
+ const M={point:p=>Array.isArray(p)&&p.length===2&&p.every(Number.isFinite)&&Math.abs(p[0])<=90&&Math.abs(p[1])<=180&&!(p[0]===0&&p[1]===0),destination:(x,n,sp)=>n>=3?[x.lat,x.lng]:sp,key:(x,n,to)=>JSON.stringify([x.id,n,to])};
  const TLB={addDict:(ru,en)=>Object.assign(lang,en),
   navigation:async q=>q.op==='config'?{external:true,providers:['google','2gis','yandex'],mode:'tracking',reason:'disabled'}:({links:[],mode:'tracking',reason:'disabled'})};
  const doc={hidden:false,visibilityState:'visible',head:{appendChild(){}},
