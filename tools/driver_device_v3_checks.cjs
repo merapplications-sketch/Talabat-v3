@@ -56,15 +56,16 @@ function n01fixture(sharedStorage){
  const M={point,destination:(x,stage,sp)=>stage>=3?[x.lat,x.lng]:sp,key:(x,stage,to)=>JSON.stringify([x.id,stage,to])};
  win.TLB=TLB;win.TALABOT_NAV_MODEL=M;
  win.addEventListener=(n,f)=>{(events[n]??=[]).push(f)};
- const doc={hidden:false,addEventListener(){},getElementById(){return null},
+ win.location={assign:url=>urls.push(url)};
+ const doc={hidden:false,visibilityState:'visible',addEventListener(){},getElementById(){return null},
   createElement:()=>({style:{},textContent:''}),head:{appendChild(){}}};
  const job={id:9122,lat:38.567741,lng:68.793569,address:'Synthetic Street',store:'Synthetic Store'};
- const c=context({window:win,document:doc,TLB,mapUpd:()=>{},modal:()=>'',DM:null,GEO:{lat:null,lng:null},DRV:{id:'driver-A'},tab:'m',chatOpen:false,CXL:null,DV:null,
+ const c=context({window:win,document:doc,TLB,navigator:{userAgent:'iPhone',platform:'iPhone',maxTouchPoints:5},mapUpd:()=>{},modal:()=>'',DM:null,GEO:{lat:null,lng:null},DRV:{id:'driver-A'},tab:'m',chatOpen:false,CXL:null,DV:null,
   aTask:()=>job,aTaskStage:()=>3,storePt:()=>[38.5,68.7],render:()=>{},
   localStorage:store,ico:()=>'<svg/>',t:k=>locale[k]||k,esc:v=>String(v).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])),
   setInterval:()=>0,setTimeout:()=>0,clearTimeout:()=>{}});
  vm.runInContext(nav,c,{filename:'route-layer.js'});
- return {c,win,storage,events};
+ return {c,win,storage,events,urls};
 }
 (async()=>{
  await check('N04_amount_field_editable_and_focused',()=>{
@@ -115,25 +116,29 @@ function n01fixture(sharedStorage){
   const {win}=n01fixture();
   const links=win.__routeLayer.fallbackLinks([38.567741,68.793569]);
   assert.deepEqual(Array.from(links.map(x=>x.id)),['google','2gis','yandex']);
-  assert(links.every(x=>/^https:|^dgis:|^yandexmaps:/.test(x.app)&&x.web.startsWith('https://')));
-  assert(links[0].app.includes('destination=38.567741%2C68.793569'));
+  assert(links.every(x=>/^(comgooglemaps:|https:|dgis:|yandexmaps:)/.test(x.app)&&x.web.startsWith('https://')));
+  assert(links[0].app.includes('daddr=38.567741%2C68.793569'),'Google Maps iOS deep link');
   assert(links[1].app.includes('to/68.793569,38.567741'),'2GIS uses longitude,latitude');
   assert(links[2].web.startsWith('https://yandex.ru/maps/'));
   assert.equal(win.__routeLayer.fallbackLinks([200,200]).length,0);
  });
  await check('N01_default_navigator_persisted',async()=>{
   const store=new Map(),first=n01fixture(store);
+  assert.equal(first.win.aNavigationDefault(),null,'no default before deliberate choice');
   assert.equal(first.win.aNavigationSetDefault('2gis'),true);
   assert.equal(first.win.aNavigationDefault(),'2gis');
   assert.equal(first.win.aNavigationSetDefault('evil'),false);
-  const next=n01fixture(store);
-  assert.equal(next.win.aNavigationDefault(),'2gis');
-  assert(next.win.aNavigationProfileControl().includes('2GIS'));
-  next.win.aNavigationOpen();
+  const restored=n01fixture(store);
+  assert.equal(restored.win.aNavigationDefault(),'2gis');
+  assert(restored.win.aNavigationProfileControl().includes('2GIS'));
+  restored.win.aNavigationOpen();
+  assert(restored.urls[0].startsWith('dgis://'),'saved default must open directly');
+  const chooser=n01fixture(new Map());
+  chooser.win.aNavigationOpen();
   await Promise.resolve();await Promise.resolve();await Promise.resolve();await new Promise(resolve=>setImmediate(resolve));
-  const h=vm.runInContext('modal()',next.c);
+  const h=vm.runInContext('modal()',chooser.c);
   assert(h.includes('Google Maps')&&h.includes('2GIS')&&h.includes('Yandex Maps'));
-  assert(h.includes('aNavigationSetDefault'));
+  assert(h.includes('n-map-icons')&&h.includes('aNavigationSetDefault'));
  });
  await check('N05_sound_unlocked_on_shift_start',()=>{
   const a=driver.indexOf('async function startShift(){'),b=driver.indexOf('function unlockSound()',a);
