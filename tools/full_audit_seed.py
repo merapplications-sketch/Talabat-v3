@@ -3,7 +3,7 @@
 No real users or live records. This file never contains/prints bearer tokens or passwords.
 """
 import os,json,pathlib,secrets,uuid,datetime,sys
-from tools.gate1_local_seed import call, require_success, ORIGIN
+from gate1_local_seed import call, require_success, ORIGIN
 
 def main():
     if os.environ.get("SUPABASE_LOCAL_URL")!=ORIGIN or any(os.environ.get(k) for k in ("SUPABASE_ACCESS_TOKEN","DATABASE_URL","SUPABASE_PROJECT_REF")):
