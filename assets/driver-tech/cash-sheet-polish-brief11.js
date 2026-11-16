@@ -21,7 +21,7 @@
   'body.b11-cash-open #app{visibility:hidden!important}',
   // O-01: keyboard focus folds whole OPTIONAL blocks, never leaving half a button/chip.
   'body.b12-keyboard .b8-content>.cashb,body.b12-keyboard .b8-content>.b8-actions,body.b12-keyboard .b8-policy,body.b12-keyboard .b8-chips,body.b12-keyboard .b8-reason-slot>.b8-label{display:none!important}',
-  'body.b12-keyboard .b8-reason-slot.active{display:none!important}',
+  'body.b12-keyboard .b8-reason-slot.active{display:block!important}',
   'body.b12-keyboard.b12-other-focus .b8-reason-slot.active{display:block!important}',
   'body.b12-keyboard .b8-content{scroll-padding-top:12px;scroll-padding-bottom:12px}',
   'body.b12-keyboard .b8-reserved{padding-top:2px!important}',
