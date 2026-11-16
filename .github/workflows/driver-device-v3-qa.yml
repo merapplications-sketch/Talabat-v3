@@ -1,0 +1,80 @@
+name: TALABOT driver device v3 isolated candidate QA (no deployment)
+on:
+  push:
+    branches: [qa/driver-device-v3-20261116]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: talabot-device-v3-qa
+  cancel-in-progress: false
+jobs:
+  device-v3:
+    if: github.repository == 'merapplications-sketch/Talabat-v3'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Read pinned candidate without repository write credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 0}
+      - name: Verify test-only QA branch derives from actual programmer commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git merge-base 091966879e7f7ab8d98c33667854b3b7ed5b7447 HEAD)" = 091966879e7f7ab8d98c33667854b3b7ed5b7447
+          git diff --name-only 091966879e7f7ab8d98c33667854b3b7ed5b7447 HEAD >/tmp/driver-v3-qa-only
+          if grep -Ev '^((tools/driver_device_v3_checks.cjs)|(tools/driver_device_v3_screenshots.py)|(\.github/workflows/driver-device-v3-qa.yml))$' /tmp/driver-v3-qa-only; then
+            echo 'STOP: candidate changed by QA'; exit 1
+          fi
+      - name: Offline source-bound behavior and syntax contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check assets/driver-tech/device-notes-v3.js
+          node --check assets/driver-tech/route-layer.js
+          node --check talabat-core.js
+          node --check assets/driver-a/driver-a.js
+          node tools/driver_device_v3_checks.cjs
+      - name: Prepare disposable browser and local Gate1 dependencies
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/gate1-qr"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps chromium
+      - name: Render source-backed Chromium 390 and reduced-height QA screenshots
+        run: python3 tools/driver_device_v3_screenshots.py
+      - name: Fail closed on unverifiable local-only schema
+        run: python3 tools/gate1_local_prepare.py
+      - uses: supabase/setup-cli@v1
+        with: {version: 3.1.0}
+      - name: Start disposable local Supabase from approved schema-only baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase start >"$RUNNER_TEMP/driver-v3-local-start.log" 2>&1 || {
+            echo 'STOP local Supabase startup failure'; exit 1;
+          }
+          supabase db reset --local >"$RUNNER_TEMP/driver-v3-local-reset.log" 2>&1
+          supabase status -o env >"$RUNNER_TEMP/driver-v3-local.env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/driver-v3-local.env"
+      - name: Run existing local-only Gate1 regressions without modifying them
+        shell: bash
+        env:
+          GATE1_QR_DEPS: \${{ runner.temp }}/gate1-qr
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_local_seed.py
+          bash tools/check_all.sh
+      - name: Preserve local Chromium screenshot evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-driver-device-v3-chromium-390-qa
+          path: evidence/driver-device-v3/*.png
+          if-no-files-found: warn
+      - name: Stop and discard disposable local containers
+        if: always()
+        shell: bash
+        run: |
+          if command -v supabase >/dev/null 2>&1; then supabase stop --no-backup || true; fi
