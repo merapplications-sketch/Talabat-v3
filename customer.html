@@ -1146,6 +1146,21 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .chat-repeat summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
 
 .customer-quick{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.customer-quick button{min-height:44px;max-width:100%;font:inherit;font-size:13px;line-height:18px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--tint);color:var(--ink);overflow-wrap:anywhere}.customer-quick button:disabled{opacity:.5}
+/* F-03: track cards and quick chat stay in separate flow contexts. Do not
+   change financial totals or chat handlers; prevent long localized strings
+   from crossing into adjacent cards when Safari reflows the small viewport. */
+#app .d6p .pg>.d6-order-summary,#app .d6p .pg>.p1-restaurant,#app .d6p .pg>.p1-courier,
+#app .d6p .pg>.p1-contact{display:flow-root;clear:both;position:relative;box-sizing:border-box;width:100%;min-width:0}
+#app .d6p .pg>.p1-receipt{position:relative;clear:both;min-width:0}
+#app .d6p .d6-order-summary h2,#app .d6p .p1-receipt .tx,
+#app .d6p .p1-contact .chat .m{min-width:0;overflow-wrap:anywhere;word-break:normal}
+#app .d6p .d6-order-total{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:12px;align-items:center}
+#app .d6p .p1-contact .customer-quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+#app .d6p .p1-contact .customer-quick button{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;min-height:44px}
+#app .d6p .p1-contact .rg{display:flex;flex-wrap:wrap;gap:8px;min-width:0}
+#app .d6p .p1-contact #ci{flex:1 1 165px;max-width:100%;box-sizing:border-box}
+#app .d6p .p1-contact .chat{position:relative;display:flex;flex-direction:column;min-width:0;overflow-x:hidden;overflow-y:auto}
+
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
