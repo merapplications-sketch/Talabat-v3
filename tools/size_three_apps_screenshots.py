@@ -30,6 +30,11 @@ def base_style(app):
         external=(ROOT/"assets/customer-c/customer-c.css").read_text(encoding="utf-8")
     elif app=="driver":
         external=(ROOT/"assets/driver-a/driver-a.css").read_text(encoding="utf-8")
+    # Match ACTUAL source link order: customer external stylesheet precedes
+    # its inline <style>; Driver Compact A external CSS follows its inline CSS.
+    # A reversed cascade would fake the before comparison.
+    if app=="driver":
+        return m.group(1)+"\n"+external
     return external+"\n"+m.group(1)
 
 def fixture(app,lang,after):
