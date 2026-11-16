@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""TALABOT Gate1 B: fail-closed verification BEFORE touching remote PostgreSQL.
-This tool does not connect to any database and never prints connection details."""
+"""TALABOT Gate1 B: fail-closed checks plus read-only connection health probe.
+Never prints database connection details, SQL row data or credentials."""
 import os,sys,json,urllib.parse,urllib.request
 REF="dzydscryrnahnneydnry"
 INT_HEAD="09ef07fd29fb5c5a3e323c23c7331e577567ab1e"
@@ -44,5 +44,45 @@ def run():
         sha=status.get("object",{}).get("sha")
     except Exception:stop("unable to independently verify integration branch; no SQL permitted")
     if sha!=INT_HEAD:stop("tech/v82-int changed since approval; no SQL permitted")
+    # Read-only SELECT 1 diagnostic before any catalog query or DDL. Failure output is
+    # reduced to a fixed reason code; NEVER print libpq stderr or connection URI.
+    import subprocess
+    env=os.environ.copy()
+    env["PGDATABASE"]=raw
+    env["PGSSLMODE"]="require"
+    env["PGCONNECT_TIMEOUT"]="10"
+    try:
+        probe=subprocess.run(["psql","-X","-q","-A","-t","-w","-v","ON_ERROR_STOP=1","-c","SELECT 1"],
+                             env=env,capture_output=True,text=True,timeout=18)
+    except subprocess.TimeoutExpired:
+        stop("PSQL_CONNECT_TIMEOUT (read-only precheck, no SQL migration executed)")
+    except OSError:
+        stop("PSQL_CLIENT_UNAVAILABLE (read-only precheck, no SQL migration executed)")
+    if probe.returncode!=0:
+        detail=probe.stderr.lower()
+        if "password authentication failed" in detail or "authentication failed" in detail:
+            reason="PSQL_AUTHENTICATION_REJECTED"
+        elif "could not translate host name" in detail or "name or service not known" in detail or "temporary failure in name resolution" in detail:
+            reason="PSQL_DNS_FAILURE"
+        elif "network is unreachable" in detail or "no route to host" in detail:
+            reason="PSQL_NETWORK_UNREACHABLE"
+        elif "connection timed out" in detail or "timeout expired" in detail:
+            reason="PSQL_CONNECTION_TIMEOUT"
+        elif "connection refused" in detail:
+            reason="PSQL_CONNECTION_REFUSED"
+        elif "no pg_hba.conf entry" in detail or "ssl" in detail or "certificate" in detail:
+            reason="PSQL_SSL_OR_ACCESS_REJECTED"
+        elif "tenant or user not found" in detail or "tenant" in detail:
+            reason="PSQL_POOLER_TENANT_REJECTED"
+        elif "does not exist" in detail:
+            reason="PSQL_DATABASE_OR_USER_NOT_FOUND"
+        elif "invalid" in detail or "malformed" in detail:
+            reason="PSQL_CONNECTION_STRING_INVALID"
+        else:
+            reason="PSQL_CONNECTION_FAILED_UNCLASSIFIED"
+        stop(reason+" (read-only precheck; no migration executed; psql exit "+str(probe.returncode)+")")
+    if probe.stdout.strip()!="1":
+        stop("PSQL_READ_ONLY_PROBE_UNEXPECTED_RESULT (no migration executed)")
+    print("GATE1_B_PSQL_READONLY_CONNECT_PASS")
     print("GATE1_B_PRECHECK_PASS: exact Talabat database, SSL, isolated ops ref, and unchanged integration head")
 if __name__=="__main__":run()
