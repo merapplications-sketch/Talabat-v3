@@ -80,7 +80,7 @@
  // Honor explicit server external=false or a server-supplied restricted provider list.
  const NAV_PROVIDERS=['google','2gis','yandex'];
  const NAV_NAMES={google:'Google Maps','2gis':'2GIS',yandex:'Yandex Maps'};
- let ephemeralDefault='google';
+ let ephemeralDefault=null;
  function navKey(){return 'talabot-driver-nav-default-v1:'+(typeof DRV!=='undefined'&&DRV?DRV.id:'guest');}
  function navDefault(){
    try{const id=localStorage.getItem(navKey());if(NAV_PROVIDERS.includes(id))return id;}catch(e){}
@@ -92,8 +92,9 @@
    const pair=encodeURIComponent(la+','+ln),xy=ln+','+la;
    const ys=encodeURIComponent('~'+la+','+ln);
    const google='https://www.google.com/maps/dir/?api=1&destination='+pair+'&travelmode=driving&dir_action=navigate';
+   const gapp='comgooglemaps://?daddr='+pair+'&directionsmode=driving';
    return [
-     {id:'google',name:NAV_NAMES.google,app:google,web:google},
+     {id:'google',name:NAV_NAMES.google,app:gapp,web:google},
      {id:'2gis',name:NAV_NAMES['2gis'],app:'dgis://2gis.ru/routeSearch/rsType/car/to/'+xy,
       web:'https://2gis.ru/directions/tab/car/points/|'+xy},
      {id:'yandex',name:NAV_NAMES.yandex,
@@ -102,6 +103,56 @@
    ];
  }
  function eligibleId(id){return NAV_PROVIDERS.includes(id)&&(config?.external!==false)&&(!Array.isArray(config?.providers)||config.providers.includes(id));}
+
+ // NAV_three_icons_row: exactly three actual branded SVG image sources.
+ // NAV_default_green_dot_persisted: only explicit selection is stored.
+ // NAV_navigate_opens_default: aNavigationOpen bypasses chooser after explicit selection.
+ const NAV_ICONS={google:'assets/driver-tech/map-icons/google-maps.svg',
+   '2gis':'assets/driver-tech/map-icons/2gis.svg',
+   yandex:'assets/driver-tech/map-icons/yandex-maps.svg'};
+ TLB.addDict({nSetDot:'Выбрать карту по умолчанию',nSetHint:'Выберите карту по умолчанию точкой под значком',nSaved:'Выбрано',nAppLaunch:'Открыть карту'},
+   {nSetDot:'Set as default map',nSetHint:'Choose a default using the dot under its icon',nSaved:'Selected',nAppLaunch:'Open map'});
+ const navIcon=id=>'<img src="'+NAV_ICONS[id]+'" alt="" width="36" height="36" decoding="async">';
+ function iconSelect(id){
+   const chosen=navDefault()===id;
+   return '<button type="button" class="n-map-radio" aria-label="'+esc(t('nSetDot')+' '+NAV_NAMES[id])+
+     '" aria-pressed="'+chosen+'" onclick="aNavigationSetDefault(\''+id+'\')">'+
+     '<span class="n-map-radio-dot'+(chosen?' is-default':'')+'" aria-hidden="true"></span></button>';
+ }
+ function iconRows(list){
+   return '<div class="n-map-icons" role="group" aria-label="'+esc(t('nChoose'))+'">'+
+     list.map(v=>'<div class="n-map-item" data-nav-provider="'+v.id+'">'+
+       '<a class="n-map-link" href="'+esc(v.web)+'" aria-label="'+esc(t('nAppLaunch')+' '+v.name)+
+         '" onclick="return aNavigationLaunch(\''+v.id+'\')">'+
+         '<span class="n-map-icon">'+navIcon(v.id)+
+           (navDefault()===v.id?'<span class="n-map-default-indicator" aria-hidden="true"></span>':'')+
+         '</span><span class="n-map-label">'+esc(v.name)+'</span></a>'+iconSelect(v.id)+
+       '</div>').join('')+'</div>'+
+     '<p class="n-map-choice-hint">'+esc(t('nSetHint'))+'</p>';
+ }
+ function usableLinks(to){
+   // The only scheme origins are generated locally from validated numeric coordinates.
+   // The server can disable external navigation or restrict these named providers.
+   return (config?.external===false?[]:fallbackLinks(to).filter(v=>eligibleId(v.id)));
+ }
+ function secureLaunch(v){
+   if(!v||!NAV_PROVIDERS.includes(v.id))return false;
+   const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent||'')||
+     (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+   aNavigationExternal();
+   open=false;
+   const url=ios?v.app:v.web;
+   try{window.location.assign(url)}catch(e){try{window.location.assign(v.web)}catch(_){}}
+   if(ios&&v.app!==v.web){
+     const fallback=v.web;
+     // A custom scheme cannot be probed for availability on iOS. If Safari
+     // remains foregrounded, attempt the documented HTTPS route as fallback.
+     setTimeout(()=>{if(!document.hidden&&document.visibilityState!=='hidden'){
+       try{window.location.assign(fallback)}catch(e){}
+     }},1100);
+   }
+   return false; // prevent the anchor's duplicate activation
+ }
  window.aNavigationDefault=navDefault;
  window.aNavigationSetDefault=function(id){
    if(!eligibleId(id))return false;
@@ -111,10 +162,19 @@
    return true;
  };
  window.aNavigationProfileControl=function(){
-   const chosen=navDefault();
-   return '<section class="card n-default-profile"><h3>'+esc(t('nDefaultTitle'))+'</h3><p class="xs mut">'+esc(t('nDefaultHint'))+'</p>'+
-     NAV_PROVIDERS.filter(eligibleId).map(id=>'<button type="button" class="b '+(id===chosen?'':'s')+'" aria-pressed="'+(id===chosen)+'" onclick="aNavigationSetDefault(\''+id+'\')">'+
-       esc(NAV_NAMES[id])+(id===chosen?' · '+esc(t('nDefaultBadge')):'')+'</button>').join('')+'</section>';
+   const selected=navDefault();
+   return '<section class="card n-default-profile"><h3>'+esc(t('nDefaultTitle'))+'</h3>'+
+     '<p class="xs mut">'+esc(t('nDefaultHint'))+'</p>'+
+     '<div class="n-map-icons n-profile-map-row">'+NAV_PROVIDERS.filter(eligibleId).map(id=>
+       '<button type="button" class="n-profile-map" aria-label="'+esc(t('nSetDot')+' '+NAV_NAMES[id])+
+       '" aria-pressed="'+(selected===id)+'" onclick="aNavigationSetDefault(\''+id+'\')">'+
+       '<span class="n-map-icon">'+navIcon(id)+(selected===id?'<span class="n-map-default-indicator" aria-hidden="true"></span>':'')+
+       '</span><span class="n-map-label">'+esc(NAV_NAMES[id])+'</span></button>').join('')+
+       '</div></section>';
+ };
+ window.aNavigationLaunch=function(id){
+   const to=dest(task()),v=usableLinks(to).find(x=>x.id===id);
+   return secureLaunch(v);
  };
  async function loadLinks(){
    const x=task(),to=dest(x),k=destKey(x,to);if(!k)return;
@@ -131,7 +191,12 @@
  function dest(x){return pointTo||(x?target(x):null);}
  function destKey(x,to){return pointTo?'pt:'+pointTo.join(','):(x&&to?M.key(x,stage(x),to):null);}
  function openWith(){open=true;links=[];linksKey='';linksErr=false;polBusy=true;render();Promise.resolve(policy(true)).catch(()=>{config=null;configAt=0;reason='service_unavailable';}).then(()=>{polBusy=false;return loadLinks()}).catch(()=>{linksErr=true;linksKey=destKey(task(),dest(task()));}).finally(()=>{polBusy=false;if(open)render()});}
- window.aNavigationOpen=function(){pointTo=null;pointChat=false;openWith();};
+ window.aNavigationOpen=function(){
+   pointTo=null;pointChat=false;
+   const v=usableLinks(dest(task())).find(x=>x.id===navDefault());
+   if(v){secureLaunch(v);return;}
+   openWith();
+ };
  /* A point sent in the chat (LOC:lat,lng) opens the same chooser for exactly that point — no provider is forced. */
  window.aNavigationOpenPoint=function(lat,lng){const p=[+lat,+lng];if(!M.destination({lat:p[0],lng:p[1]},3,null))return false;pointTo=p;pointChat=!!chatOpen;chatOpen=false;openWith();return true;};
  window.aNavigationRetry=function(){links=[];linksKey='';linksErr=false;render();loadLinks().then(()=>{if(open)render();});};
@@ -142,24 +207,20 @@
  const oldModal=modal;
  modal=function(){
    if(!open||chatOpen||CXL||DV)return oldModal();
-   const x=task(),to=dest(x),k=destKey(x,to);
-   const safeLink=u=>typeof u==='string'&&/^(https:\/\/(www\.google\.com\/maps\/dir\/|yandex\.ru\/maps\/|2gis\.ru\/directions\/)|yandexmaps:\/\/maps\.yandex\.(com|ru)\/|dgis:\/\/2gis\.ru\/routeSearch\/rsType\/car\/to\/)/.test(u);
-   // Never trust unfiltered remote URLs. For a failed/offline links call use
-   // bounded provider-documented coordinates; no fake road route/ETA shown.
-   const fromServer=linksKey===k?links.filter(v=>eligibleId(v.id)&&safeLink(v.app)&&safeLink(v.web)):[];
-   const list=fromServer.length?fromServer:(config?.external===false?[]:fallbackLinks(to).filter(v=>eligibleId(v.id)));
-   const preferred=list.find(v=>v.id===navDefault());
-   const openLink=v=>'<a class="n-open" aria-label="'+esc(v.name)+' · '+t('nApp')+'" href="'+esc(v.app)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nApp')+' '+ico('arr',16)+'</a>';
-   const rows=list.map(v=>'<section class="n-provider"><b>'+esc(v.name)+(navDefault()===v.id?' · '+esc(t('nDefaultBadge')):'')+'</b><div>'+
-     openLink(v)+'<a class="n-web" aria-label="'+esc(v.name)+' · '+t('nWeb')+'" href="'+esc(v.web)+'" target="_blank" rel="noopener noreferrer" onclick="aNavigationExternal()">'+t('nWeb')+'</a>'+
-     '<button type="button" class="n-set-default" aria-pressed="'+(navDefault()===v.id)+'" onclick="aNavigationSetDefault(\''+v.id+'\')">'+esc(t(navDefault()===v.id?'nDefaultBadge':'nSetDefault'))+'</button></div></section>').join('');
-   return '<div class="ov a-aux n-chooser" onclick="aNavigationClose()"><div class="md" role="dialog" aria-modal="true" aria-label="'+t('nChoose')+'" onclick="event.stopPropagation()"><header class="n-heading"><h2>'+t('nChoose')+'</h2><button type="button" class="round" onclick="aNavigationClose()" aria-label="'+t('nClose')+'">'+ico('x',20)+'</button></header><div class="n-body">'+
-     (!to?'<p>'+t('nNoPin')+'</p>':'<p class="n-destination">'+(pointTo?esc(t('nPoint')+' · '+pointTo.map(v=>v.toFixed(6)).join(', ')):esc(stage(x)>=3?x.address:x.store))+'</p>')+
-     (to&&!pointTo&&config?.mode==='internal'?'<button type="button" class="b" onclick="aNavigationInside()">'+t('nInternal')+'</button>':'<p class="n-note" role="status">'+t('nExternalNote')+'</p>')+
-     (preferred?'<div class="n-preferred"><span>'+esc(t('nDefaultBadge'))+': '+esc(preferred.name)+'</span>'+openLink(preferred)+'</div>':'')+
-     rows+
-     (!list.length&&to?(polBusy||linksFlight?'<p role="status">'+t('nLoading')+'</p>':linksErr?'<p role="alert">'+t('nLinksFail')+'</p><button type="button" class="b s" onclick="aNavigationRetry()">'+t('nRetry')+'</button>':'<p>'+t('nDisabled')+'</p>'):'')+
-     '<p class="n-hint">'+t('nHint')+'</p></div></div></div>';
+   const x=task(),to=dest(x);
+   const list=usableLinks(to);
+   return '<div class="ov a-aux n-chooser" onclick="aNavigationClose()"><div class="md" role="dialog" aria-modal="true" aria-label="'+esc(t('nChoose'))+'" onclick="event.stopPropagation()">'+
+     '<header class="n-heading"><h2>'+esc(t('nChoose'))+'</h2><button type="button" class="round" onclick="aNavigationClose()" aria-label="'+esc(t('nClose'))+'">'+ico('x',20)+'</button></header>'+
+     '<div class="n-body">'+
+       (!to?'<p role="status">'+esc(t('nNoPin'))+'</p>':
+         '<p class="n-destination">'+(pointTo?esc(t('nPoint')+' · '+pointTo.map(v=>v.toFixed(6)).join(', ')):
+         esc(stage(x)>=3?x.address:x.store))+'</p>')+
+       (to&&!pointTo&&config?.mode==='internal'?'<button type="button" class="b" onclick="aNavigationInside()">'+esc(t('nInternal'))+'</button>':
+         '<p class="n-note" role="status">'+esc(t('nExternalNote'))+'</p>')+
+       (list.length?iconRows(list):
+         to?(polBusy||linksFlight?'<p role="status">'+esc(t('nLoading'))+'</p>':
+           '<p role="alert">'+esc(t('nDisabled'))+'</p>'):'')+
+       '<p class="n-hint">'+esc(t('nHint'))+'</p></div></div></div>';
  };
  const inner=mapUpd;mapUpd=function(x,force){const v=inner.apply(this,arguments);if(x)update(x);return v;};
  document.addEventListener('keydown',e=>{if(open&&e.key==='Escape'){e.preventDefault();aNavigationClose();}});
@@ -167,6 +228,7 @@
  window.addEventListener('pagehide',()=>reset());
  // Bounded lifecycle tick: stops provider requests off the mission; checks policy/staleness without creating a GPS watch.
  setInterval(()=>{const x=task();if(!x||document.hidden){if(currentKey)reset();return;}update(x);},1000);
- const css=document.createElement('style');css.textContent='.n-chooser .n-provider{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 12px;margin:0;padding:8px 0}.n-chooser .n-provider>b{min-width:0;overflow-wrap:anywhere}.n-chooser .n-provider>div{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0}.n-chooser .n-set-default{background:#fff;border:1px solid #dfe2e6;border-radius:12px;min-height:44px;padding:0 10px;color:var(--ink);font-size:12px;font-weight:600;cursor:pointer}.n-chooser .n-set-default[aria-pressed=true]{border-color:var(--o);color:var(--o)}.n-chooser .n-preferred{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border:1px solid var(--o);border-radius:14px;margin-bottom:10px}.n-chooser .n-preferred .n-open{padding:10px;background:var(--o);color:#fff;border-radius:10px}.n-default-profile .b{min-height:44px}.n-chooser .n-provider .n-open{min-height:44px;font-size:13px}.n-chooser .n-provider .n-web{min-height:44px;font-size:11px;padding:0 4px;font-weight:400}.n-chooser .n-body{overflow-y:auto;overscroll-behavior:contain}@media(max-width:370px){.n-chooser .n-provider{gap:6px}.n-chooser .n-provider>div{gap:4px}.n-chooser .n-open{padding:0 10px}}.a-map-state{max-width:calc(100% - 32px);white-space:normal}';document.head.appendChild(css);
- window.__routeLayer={state:()=>({key:currentKey,hasRoute:!!route,mode,reason,inflight:!!flight,following}),refreshPolicy:()=>policy(true),fallbackLinks:fallbackLinks,getDefault:navDefault};
+ const css=document.createElement('style');
+ css.textContent='.n-map-icons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:start;margin:14px 0 4px}.n-map-item{min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px}.n-map-link,.n-profile-map{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;min-height:78px;text-align:center;color:var(--ink);text-decoration:none;background:transparent;border:0;padding:4px;cursor:pointer}.n-map-icon{display:flex;align-items:center;justify-content:center;width:52px;height:52px;position:relative;border:1px solid var(--line);border-radius:15px;background:#fff}.n-map-icon img{width:36px;height:36px;object-fit:contain}.n-map-default-indicator{position:absolute;top:1px;right:1px;width:12px;height:12px;border:2px solid #fff;border-radius:50%;background:#18864c;box-shadow:0 0 0 1px #18864c}.n-map-label{font-size:12px;line-height:16px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.n-map-radio{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:0;background:none;border-radius:22px;cursor:pointer}.n-map-radio-dot{display:block;width:16px;height:16px;border:2px solid #8d99a2;border-radius:50%;background:#fff}.n-map-radio-dot.is-default{background:#18864c;border:3px solid #fff;box-shadow:0 0 0 2px #18864c}.n-map-choice-hint{margin:2px 0 10px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;color:var(--mut)}.n-profile-map-row .n-profile-map[aria-pressed=true] .n-map-icon{outline:2px solid #18864c;outline-offset:2px}.n-map-link:focus-visible,.n-map-radio:focus-visible,.n-profile-map:focus-visible{outline:3px solid var(--o);outline-offset:2px}.n-chooser .n-body{overflow-y:auto;overscroll-behavior:contain;max-width:100%}.n-chooser .n-hint{font-size:12px;color:var(--mut)}.a-map-state{max-width:calc(100% - 32px);white-space:normal}@media(max-width:370px){.n-map-icons{gap:4px}.n-map-label{font-size:11px}}';document.head.appendChild(css);
+ window.__routeLayer={state:()=>({key:currentKey,hasRoute:!!route,mode,reason,inflight:!!flight,following}),refreshPolicy:()=>policy(true),fallbackLinks:fallbackLinks,getDefault:navDefault,launch:window.aNavigationLaunch};
 })();
