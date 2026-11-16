@@ -192,6 +192,54 @@ def assert_no_partly_clipped_fields(page,label):
     assert not any(x["partial"] for x in results),(label,results)
     return results
 
+
+def assert_no_partial_keyboard_controls(page,label):
+    """Whole-block contract: the top actions, reason grid, and all focusable fields
+    either fit entirely within the content scroller or are entirely folded away."""
+    m=page.evaluate("""() => {
+      const clip=document.querySelector('.b8-content').getBoundingClientRect();
+      const selectors=['.b8-content>.b8-actions','.b8-content .b8-chips','#cashAmt','#cashNote'];
+      return selectors.flatMap(sel=>[...document.querySelectorAll(sel)].map(el=>{
+        const r=el.getBoundingClientRect(),cs=getComputedStyle(el);
+        const showing=r.width>0&&r.height>0&&cs.visibility!=='hidden'&&cs.display!=='none';
+        const crosses=showing&&r.bottom>clip.top+1&&r.top<clip.bottom-1&&
+          (r.top<clip.top-2||r.bottom>clip.bottom+2);
+        return {sel,showing,crosses,y:r.top,bottom:r.bottom,clipTop:clip.top,clipBottom:clip.bottom};
+      }));
+    }""")
+    assert not any(v["crosses"] for v in m),(label,m)
+    # Keyboard obscures the optional full-amount choice and reason chips WHOLE.
+    assert all(not v["showing"] for v in m if v["sel"] in (".b8-content>.b8-actions",".b8-content .b8-chips")),(label,m)
+    assert any(v["showing"] for v in m if v["sel"]=="#cashAmt"),(label,m)
+    return m
+
+def assert_other_spacing(page,label):
+    vals=page.evaluate("""() => {
+      const clip=document.querySelector('.b8-content');
+      const other=document.querySelector('#b8-other-slot');
+      const chips=document.querySelector('.b8-chips');
+      const amount=document.querySelector('#cashAmt');
+      const r=e=>{const b=e.getBoundingClientRect();return {top:b.top,bottom:b.bottom,h:b.height}};
+      return {other:r(other),chips:r(chips),amount:r(amount),scroll:clip.scrollTop,
+        otherDisplay:getComputedStyle(other).display,chipDisplay:getComputedStyle(chips).display};
+    }""")
+    assert vals["other"]["h"]>=44,(label,vals)
+    if vals["chips"]["h"]>0:
+        assert vals["other"]["top"]>=vals["chips"]["bottom"]+9,(label,vals)
+    else:
+        assert vals["other"]["top"]>=vals["amount"]["bottom"]+9,(label,vals)
+    return vals
+
+def assert_source_edge_and_language():
+    # The genuine application uses an RTL-neutral SVG and localized text lookup.
+    # The iOS grey ‹ cannot be attributed to the browser without physical Safari evidence.
+    for src in (driver,driverA,base,b8,b11,route):
+        assert "‹" not in src, "O04: app emits an unexpected LEFT handle glyph"
+    assert "aStageCount:'Этап {n} из 4'" in driverA
+    assert "cashGet:'Возьмите наличными'" in driver
+    assert "t('jCollect')" in driverA
+    assert "N08_delivered_banner_dismisses" in (ROOT/"tools/driver_device_v3_checks.cjs").read_text(encoding="utf8")
+
 def browser_page(browser,width,height,lang,setup):
     ctx=browser.new_context(viewport={"width":width,"height":height},is_mobile=True,
          has_touch=True,device_scale_factor=3,locale="ru-RU" if lang=="ru" else "en-US")
@@ -208,11 +256,28 @@ def check_cash(browser,width,height,lang):
     p.add_script_tag(content=b11)
     p.evaluate("render()")
     p.wait_for_timeout(100)
+    # O-09: actual UI keys are sourced from driver.html and driver-a.js;
+    # test only static USER INTERFACE labels, not addresses/user-entered data.
+    labels=p.evaluate("""() => ({
+      stage:document.querySelector('.a-current-stage')?.textContent,
+      collect:document.querySelector('.a-collect-line')?.textContent,
+      cash:document.querySelector('.cashb .big')?.textContent,
+      title:document.querySelector('#b8-title')?.textContent
+    })""")
+    if lang=="ru":
+        assert "Этап 4 из 4" in labels["stage"] and "Получить от клиента" in labels["collect"],labels
+        assert "Возьмите наличными" in labels["cash"] and "Приём наличных" in labels["title"],labels
+        assert "Step 4 of 4" not in str(labels) and "Take in cash" not in str(labels),labels
+    else:
+        assert "Step 4 of 4" in labels["stage"] and "Collect from customer" in labels["collect"],labels
+        assert "Take in cash" in labels["cash"] and "Cash received" in labels["title"],labels
+        assert "Этап 4" not in str(labels) and "Возьмите наличными" not in str(labels),labels
     initial=bounds(p)
     assert initial["sheet"] and initial["sheet"]["h"]<500,initial
     assert p.locator('#b8-reserved').get_attribute('aria-hidden')=='true'
     assert p.locator('#b8-reserved').evaluate("e=>getComputedStyle(e).display")=="none"
     assert_horizontal(p,"full")
+    assert p.locator("#app").evaluate("e=>getComputedStyle(e).visibility")=="hidden","O02: underlying step text bleeds through overlay edge"
     assert p.locator(".cashb .big").is_visible(), "real Take in cash block must be present"
     assert ("Take in cash" if lang=="en" else "Возьмите наличными") in p.locator(".cashb").inner_text()
     full_color=p.locator("#b8-full").evaluate("e=>getComputedStyle(e).backgroundColor")
@@ -237,6 +302,7 @@ def check_cash(browser,width,height,lang):
     assert p.locator(".b11-inline-alert").inner_text().strip()=="", "R02: error persisted after valid 200"
     p.locator('.b8-chip[data-reason="other"]').click()
     p.locator("#cashNote").fill("Customer disputes bill")
+    ordinary_other=assert_other_spacing(p,"O03 reason chips and Other must not overlap")
     p.screenshot(path=str(OUT/f"webkit_cash_other_{lang}_{width}.png"))
     keyboard=max(290,min(430,height-270))
     p.set_viewport_size({"width":width,"height":keyboard})
@@ -245,6 +311,7 @@ def check_cash(browser,width,height,lang):
     p.locator("#cashAmt").focus()
     p.wait_for_timeout(320)
     visible_amount=assert_vertical_visible(p,"R01 focused amount+title","#cashAmt",True)
+    amount_keyboard_blocks=assert_no_partial_keyboard_controls(p,"O01 amount keyboard no half buttons/rows")
     small=bounds(p)
     inp=small["input"];foot=small["footer"];view=small["viewport"]
     assert inp is not None and foot is not None,small
@@ -257,6 +324,8 @@ def check_cash(browser,width,height,lang):
     p.locator("#cashNote").focus()
     p.wait_for_timeout(320)
     other_rect=assert_vertical_visible(p,"R01 focused Other field","#cashNote",False)
+    other_keyboard_blocks=assert_no_partial_keyboard_controls(p,"O01 Other keyboard no half buttons/rows")
+    compact_other=assert_other_spacing(p,"O03 Other focused no overlap")
     assert_horizontal(p,"keyboard other")
     no_partial_other=assert_no_partly_clipped_fields(p,"R01 Other editing / no partly clipped field")
     p.screenshot(path=str(OUT/f"webkit_cash_keyboard_other_{lang}_{width}.png"))
@@ -274,7 +343,7 @@ def check_cash(browser,width,height,lang):
     p.evaluate("deliverClick(9122)")
     assert p.evaluate("CALLS.click")==0,"duplicate delivery action must be blocked"
     p.screenshot(path=str(OUT/f"webkit_cash_waiting_{lang}_{width}.png"))
-    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"waiting":status})
+    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"amount_blocks":amount_keyboard_blocks,"other_blocks":other_keyboard_blocks,"other_spacing":ordinary_other,"compact_other_spacing":compact_other,"ui_labels":labels,"waiting":status})
     ctx.close()
 def check_nav(browser,width,height,lang):
     ctx,p=browser_page(browser,width,height,lang,NAV_SETUP)
@@ -314,6 +383,7 @@ def check_home_css(browser,width,height,app):
     records.append({"view":app,"size":[width,height],"width":horizontal})
     ctx.close()
 
+assert_source_edge_and_language()
 with sync_playwright() as pw:
     try:
         browser=pw.webkit.launch(headless=True)
@@ -341,4 +411,9 @@ print("NAV_close_svg_real PASS (uses exact source X path; no synthetic circle)")
 print("CASH_focused_input_visible_webkit PASS (keyboard-height approximation, WebKit)")
 print("LAYOUT_no_horizontal_overflow_webkit PASS (375/390 CSSpx, iPhone-sized WebKit)")
 print("LAYOUT_no_text_overlap_webkit PASS (focused labels+inputs inside scroll clip, no footer overlap; 390/375 EN/RU)")
+print("O01_no_partial_clip_keyboard PASS: complete fields/footer; optional button and reason rows fully folded")
+print("O02_no_text_cut_by_sheet_edge PASS: underlying stage completely obscured")
+print("O03_other_input_no_overlap PASS: measured gap >9 CSSpx")
+print("O04_no_edge_handle PASS: no app-authored ‹ in scoped source/DOM; physical Safari OS origin UNVERIFIED")
+print("O09_no_mixed_language_ru_en PASS: actual source-backed UI labels in RU/EN synthetic WebKit")
 print("LAYOUT_webkit_suite PASS; real iPhone keyboard and live authenticated app UNTESTED")
