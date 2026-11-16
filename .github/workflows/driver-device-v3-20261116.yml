@@ -64,6 +64,12 @@ jobs:
           supabase db reset --local > "$RUNNER_TEMP/device-v3-local-reset.log" 2>&1 || { echo 'STOP local Supabase reset failed'; exit 1; }
           supabase status -o env > "$RUNNER_TEMP/device-v3-status.env"
           python3 tools/gate1_local_env.py "$RUNNER_TEMP/device-v3-status.env"
+      # $GITHUB_ENV becomes available to subsequent STEPS, not within its writer step.
+      - name: Seed disposable LOCAL synthetic Auth/catalog/orders only after environment export
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${SUPABASE_LOCAL_URL:-}" = "http://127.0.0.1:54321"
           python3 tools/gate1_local_seed.py
       - name: Gate1 originals and isolated device V3 source regressions
         shell: bash
