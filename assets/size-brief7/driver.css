@@ -1,0 +1,13 @@
+/* TALABOT BRIEF-7 — compact Driver A density only, 360/390/430.
+ * Current approved compact geometry is already 52px header and 56/46px swipe (NOT the designer's older 64/62/52 baseline).
+ * Do not touch --a-headh, .a-dock .swp/.swk, map offsets, nav targets, gestures or money amounts. */
+@media (max-width:430px){
+  body{font-size:15px;line-height:21px}
+  h2{font-size:17px;line-height:23px}
+  .card{padding:14px}
+}
+@media (min-width:371px) and (max-width:430px){
+  h1,.a-target h1,.a-compact-card h1{font-size:20px;line-height:26px}
+  .a-sheet-body.shb{padding-left:14px;padding-right:14px}
+}
+/* The narrower <=370px sizes and 44px+ targets from the approved compact driver remain intact. */
