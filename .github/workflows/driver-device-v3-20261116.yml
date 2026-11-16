@@ -1,0 +1,92 @@
+name: TALABOT Driver Device Notes V3 — isolated QA (no cloud writes)
+on:
+  push:
+    branches: [review/driver-device-notes-v3-20261116]
+    paths:
+      - driver.html
+      - talabat-core.js
+      - assets/driver-a/driver-a.js
+      - assets/driver-tech/route-layer.js
+      - assets/driver-tech/device-notes-v3.js
+      - tools/driver_device_v3_checks.cjs
+      - tools/driver_device_v3_screenshots.py
+      - .github/workflows/driver-device-v3-20261116.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: talabot-driver-device-v3-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  driver-v3:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/driver-device-notes-v3-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout candidate without credential persistence
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Confirm exact integration ancestor and no protected server/policy edits
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git merge-base 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD)" = '1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17'
+          test "$(git rev-parse HEAD:sql/proposed/gate1_cash_and_idempotent_delivery.sql)" = '684c9c18af434a267fd8b0dc07288aa287e8eb13'
+          git diff --name-only 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD > /tmp/driver-v3-allowed
+          if grep -Ev '^((driver.html)|(talabat-core.js)|(assets/driver-a/driver-a.js)|(assets/driver-tech/(route-layer.js|device-notes-v3.js))|(tools/driver_device_v3_(checks.cjs|screenshots.py))|(.github/workflows/driver-device-v3-20261116.yml)|(docs/qa-first-20261116/DRIVER-DEVICE-V3-REPORT.md))$' /tmp/driver-v3-allowed; then
+            echo 'STOP unauthorized modified files'; exit 1
+          fi
+          node --check talabat-core.js
+          node --check assets/driver-a/driver-a.js
+          node --check assets/driver-tech/route-layer.js
+          node --check assets/driver-tech/device-notes-v3.js
+          node --check tools/driver_device_v3_checks.cjs
+          python3 -m py_compile tools/driver_device_v3_screenshots.py
+      - name: Install pinned disposable browser/QR test dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/gate1-qr"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps chromium
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 3.1.0
+      - name: Prepare pinned schema-only disposable LOCAL database
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_local_prepare.py
+          supabase start > "$RUNNER_TEMP/device-v3-local-start.log" 2>&1 || { echo 'STOP local Supabase could not start'; exit 1; }
+          supabase db reset --local > "$RUNNER_TEMP/device-v3-local-reset.log" 2>&1 || { echo 'STOP local Supabase reset failed'; exit 1; }
+          supabase status -o env > "$RUNNER_TEMP/device-v3-status.env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/device-v3-status.env"
+          python3 tools/gate1_local_seed.py
+      - name: Gate1 originals and isolated device V3 source regressions
+        shell: bash
+        env:
+          GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
+        run: |
+          set -euo pipefail
+          bash tools/check_all.sh
+          node tools/driver_device_v3_checks.cjs
+      - name: Generate synthetic mobile viewport/screenshots (no real order or network)
+        shell: bash
+        run: |
+          python3 tools/driver_device_v3_screenshots.py
+      - name: Upload screenshots and synthetic evidence manifest only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-driver-v3-synthetic-mobile-screens
+          path: evidence/driver-device-v3/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Stop disposable local Supabase without backup
+        if: always()
+        shell: bash
+        run: |
+          if command -v supabase >/dev/null 2>&1; then supabase stop --no-backup || true; fi
