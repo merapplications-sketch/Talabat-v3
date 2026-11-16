@@ -5,3 +5,17 @@
   .seg button{padding-top:8px;padding-bottom:8px;min-height:44px}
   /* Body remains 13px; colors, navigation font and control order unchanged. */
 }
+
+/* BRIEF-10 Round2: spacing-only merchant density; statuses and 42px/44px actions protected. */
+@media (max-width:430px){
+ body{padding-left:10px;padding-right:10px}
+ .card{padding:10px;margin-bottom:10px}
+ .top{margin-bottom:10px}
+ .oc{margin-bottom:8px}
+ .oh{padding-top:7px;padding-bottom:7px}
+ .ob{padding:8px 12px 10px}
+ .it2{padding-top:2px;padding-bottom:2px}
+ .fch{margin-bottom:8px}
+ .items{margin-top:8px;margin-bottom:8px}
+ .seg button{min-height:44px}
+}

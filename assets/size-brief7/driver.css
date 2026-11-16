@@ -11,3 +11,20 @@
   .a-sheet-body.shb{padding-left:14px;padding-right:14px}
 }
 /* The narrower <=370px sizes and 44px+ targets from the approved compact driver remain intact. */
+
+/* BRIEF-10 Round2: compact information only. Header 52, swipe 56/46, actions >=44, map/gestures unchanged. */
+@media (max-width:430px){
+ body{font-size:14px;line-height:20px}
+ h2{font-size:16px;line-height:22px}
+ .card{padding:12px;margin-bottom:10px}
+ body.a-mission .a-sheet.a-compact-card{padding-top:12px}
+ .a-compact-card .a-tools{margin-top:6px;margin-bottom:2px}
+ .a-collect-line{padding-top:8px;padding-bottom:4px;margin-top:6px}
+ .a-target{padding-bottom:6px}
+ .a-stages ol{padding-top:7px;padding-bottom:6px}
+ .a-journey-money{margin-top:4px;margin-bottom:6px}
+}
+@media (min-width:371px) and (max-width:430px){
+ h1,.a-compact-card h1{font-size:19px;line-height:25px}
+ .a-sheet-body.shb{padding-left:12px;padding-right:12px}
+}

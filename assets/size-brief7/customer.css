@@ -4,3 +4,29 @@
   .card{padding:14px}
   /* Body 13px, h2 15px, button 42px/46px, navigation labels and radius are intentionally unchanged. */
 }
+
+/* BRIEF-10 Round2: Home B density only; no JS/brand/color/touch-target changes. */
+@media (max-width:430px){
+ #app .d6h .d6-hr{grid-template-rows:20px 44px;margin-bottom:2px}
+ #app .d6h .d6-hr>.d6-logo{height:20px}
+ #app .d6h .d6-hh{top:calc(-78px - env(safe-area-inset-top,0px))}
+ #app .d6h .d6-bento:not(.one){grid-template-rows:minmax(82px,auto) minmax(82px,auto);gap:6px;padding-top:4px}
+ #app .d6h .d6-bento.one{grid-template-rows:minmax(146px,auto);padding-top:4px}
+ #app .d6h .d6-bento.one:has(.d6-bt.img){grid-template-rows:116px}
+ #app .d6h .d6-bt.img>img{object-fit:contain}
+ #app .d6h .d6-cats{padding:8px 6px 2px}
+ #app .d6h .d6-ct{gap:4px;min-height:62px}
+ #app .d6h .d6-ct span{width:44px;height:44px}
+ #app .d6h .d6-ct img{width:34px;height:34px}
+ #app .d6h .d6-sh{padding:10px 12px 4px}
+ #app .d6h .d6-sh h2{font-size:16px;line-height:22px}
+ /* Effective late v75 rules were 152px/100px; old 122px/60px are overridden. */
+ #app .d6h .d6-lo{width:112px;padding-bottom:6px}
+ #app .d6h .d6-lo>.d6-ph{width:112px;height:52px}
+ #app .d6h .d6-lo>.nm{font-size:12px;line-height:16px;margin-top:6px}
+ #app .d6h .d6-lo .it{font-size:12px;line-height:16px;margin-top:2px}
+ #app .d6h .d6-lo .d6-ob{min-height:44px}
+ #app .d6h .d6-sc{width:150px;padding-bottom:8px}
+ #app .d6h .d6-sc>.d6-ph{width:150px;height:80px}
+ #app .d6h .d6-sc>.nm{font-size:13px;line-height:18px}
+}
