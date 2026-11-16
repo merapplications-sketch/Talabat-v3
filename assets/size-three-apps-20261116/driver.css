@@ -1,0 +1,14 @@
+/* TALABOT SIZE-7: active Driver Compact A only, not legacy driver or admin. */
+@media (max-width:430px) {
+  body{font-size:15px;line-height:21px}
+  h1{font-size:20px;line-height:26px}
+  h2{font-size:17px;line-height:23px}
+  .card{padding:14px}
+  .a-offer{padding:14px}
+}
+@media (min-width:371px) and (max-width:430px) {
+  body.a-mission .a-sheet.a-compact-card{padding-left:14px;padding-right:14px}
+}
+/* Existing --a-headh evaluates to 52px + safe-area inset, already SMALLER
+   than proposed 60px. Do not enlarge the header or desynchronize mission/map offsets.
+   Existing swipe 62/52px and fixed 44/52/56px touch targets stay unchanged. */

@@ -1,0 +1,10 @@
+/* TALABOT SIZE-7: customer / approved mobile density only; no palette, zoom or touch target changes. */
+@media (max-width:430px) {
+  body{font-size:13px;line-height:1.4}
+  h1{font-size:18px;line-height:1.2}
+  h2{font-size:15px}
+  .card{padding:14px}
+  .d6c .d6-card,.d6c .fdc,.d6p .card{padding:14px}
+  .d6c .d6-head h1,.d6m .d6-id h1{font-size:18px;line-height:24px}
+  /* Preserve existing .btn 42px, .btn.big 46px, mobile payment dock and nav. */
+}
