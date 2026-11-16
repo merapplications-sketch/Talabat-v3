@@ -83,6 +83,10 @@ select{border:0;border-radius:999px;font-weight:600}
 .f07-viewport{top:var(--f07-vtop,0px);bottom:auto;height:var(--f07-vheight,100dvh)}
 .f07-reject{max-height:calc(var(--f07-vheight,100dvh) - 8px)!important;overflow-y:auto;overscroll-behavior:contain;scroll-padding-bottom:80px}
 .f07-reject .rjta{scroll-margin-bottom:88px}
+/* F-08: create a true scrolling runway for profile fields when iOS opens the keyboard. */
+body.f08-profile-keyboard{padding-bottom:calc(320px + env(safe-area-inset-bottom,0px))!important}
+body.f08-profile-keyboard #app .nav{visibility:hidden;pointer-events:none}
+
 .rjk,.rjb{height:46px;border-radius:999px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}.rjk{flex:1;border:1.5px solid #e6e6ea;background:#fff;color:#1c1c21}.rjb{flex:2;border:0;background:#d92d20;color:#fff}.rjb:disabled{opacity:.45;cursor:default}.rjl button{text-align:start;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#fff;font:inherit;font-weight:600;cursor:pointer}.rjl button.on{border-color:var(--bad);background:#fdeceb;color:#a32d2d}.lnk{display:block;width:100%;background:none;border:0;padding:10px 0 2px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}.lnk.r{color:var(--bad,#d92d20)}
 
 /* Phase 1: same approved Russian palette, scoped to public store tools. */
@@ -348,6 +352,31 @@ TLB.start('merchant',()=>{TLB.chrome(false);TLB.on(()=>{if(SH||RQ||RJ)return;if(
   window.visualViewport?.addEventListener('scroll',schedule);
   window.addEventListener('resize',schedule);
   document.addEventListener('focusin',e=>{if(e.target?.id==='rjn'){schedule();setTimeout(schedule,140);setTimeout(schedule,340)}});
+})();
+/* F-08: native Safari profile field remains in the visual viewport; no profile save/RPC changes. */
+(function(){
+  let maxH=Math.max(innerHeight,window.visualViewport?.height||0),frame=0;
+  const update=()=>{
+    frame=0;
+    const e=document.activeElement,v=window.visualViewport,h=Math.max(1,v?.height||innerHeight);
+    if(h>maxH)maxH=h;
+    const field=tab==='p'&&e&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.tagName)&&document.getElementById('app')?.contains(e);
+    const keyboard=!!field&&h<maxH-120;
+    document.body.classList.toggle('f08-profile-keyboard',keyboard);
+    if(!keyboard)return;
+    requestAnimationFrame(()=>{
+      const r=e.getBoundingClientRect(),v2=window.visualViewport;
+      const bottom=(v2?.offsetTop||0)+(v2?.height||innerHeight)-12;
+      if(r.bottom+8>bottom)window.scrollBy(0,r.bottom-bottom+18);
+      if(r.top<12)window.scrollBy(0,r.top-12);
+    });
+  };
+  const schedule=()=>{if(!frame)frame=requestAnimationFrame(update)};
+  window.visualViewport?.addEventListener('resize',schedule);
+  window.visualViewport?.addEventListener('scroll',schedule);
+  window.addEventListener('resize',schedule);
+  document.addEventListener('focusin',e=>{if(tab==='p'){schedule();setTimeout(schedule,160);setTimeout(schedule,350)}});
+  document.addEventListener('focusout',()=>setTimeout(schedule,120));
 })();
 function render(){const a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
   render0();
