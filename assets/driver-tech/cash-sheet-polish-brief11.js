@@ -87,6 +87,20 @@
    // Re-measure after scrolling: WebKit/Safari updates layout synchronously here.
    c=sc.getBoundingClientRect();b=el.getBoundingClientRect();
    if(b.bottom>c.bottom-pad)sc.scrollTop+=b.bottom-(c.bottom-pad);
+   // Avoid showing the Other input HALF cut at the footer while typing an amount.
+   // If it cannot fit fully, scroll the content UP so the entire field remains below the clip;
+   // focusing Other later will scroll that field fully into view, without changing its value.
+   if(el.id==='cashAmt'){
+     const other=sc.querySelector('#cashNote');
+     if(other&&other.closest('.b8-other-slot.active')){
+       const clip=sc.getBoundingClientRect(),r=other.getBoundingClientRect();
+       if(r.top<clip.bottom-1&&r.bottom>clip.bottom+1){
+         const room=Math.max(0,clip.bottom-pad-el.getBoundingClientRect().bottom);
+         const shift=Math.min(clip.bottom-r.top+4,room);
+         if(shift>0)sc.scrollTop=Math.max(0,sc.scrollTop-shift);
+       }
+     }
+   }
    // The Other text field is independently focusable and must never hide behind the footer.
  }
  function restoreFocus(){
