@@ -1,4 +1,4 @@
--- TALABOT Gate1 exact original-object rollback; schema-only baseline SHA256
+-- TALABOT Gate1 restrictive pre-apply LIVE ACL rollback; schema-only baseline SHA256
 -- 4de26eb4c964e595e3b61865ce65772477ae4573c7e9b5817ed3f374bac808cf
 -- Scope: public.driver_ping, public.deliver_order, report_driver_cash_short,
 -- tickets_one_open_per_order and tickets_one_open_payment_per_order only.
@@ -59,11 +59,10 @@ DROP INDEX IF EXISTS public.tickets_one_open_payment_per_order;
 DROP INDEX IF EXISTS public.tickets_one_open_per_order;
 CREATE UNIQUE INDEX "tickets_one_open_per_order" ON "public"."support_tickets" USING "btree" ("order_id") WHERE (("order_id" IS NOT NULL) AND ("status" = ANY (ARRAY['open'::"text", 'in_progress'::"text"])));
 
--- Exact effective baseline ACL: the original local catalog confirms anon_execute=true
--- on BOTH functions, authenticated_execute=true and service_role_execute=true,
--- public_execute=false. Proposed Gate1 correctly revokes anon at migration time;
--- reverting the Gate1 change restores the ORIGINAL permissions (not an endorsement).
+-- Restore PRE-APPLY LIVE permissions (not the historic baseline's anon grants).
+-- Exact original function definitions remain pinned; no anonymous EXECUTE
+-- may ever be reintroduced by this rollback.
 REVOKE ALL ON FUNCTION public.driver_ping(boolean) FROM PUBLIC, anon, authenticated, service_role;
-GRANT EXECUTE ON FUNCTION public.driver_ping(boolean) TO anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.driver_ping(boolean) TO authenticated, service_role;
 REVOKE ALL ON FUNCTION public.deliver_order(bigint,numeric,text,text) FROM PUBLIC, anon, authenticated, service_role;
-GRANT EXECUTE ON FUNCTION public.deliver_order(bigint,numeric,text,text) TO anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.deliver_order(bigint,numeric,text,text) TO authenticated, service_role;

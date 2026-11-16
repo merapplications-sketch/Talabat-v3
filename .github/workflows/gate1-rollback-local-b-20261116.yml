@@ -1,4 +1,4 @@
-name: TALABOT Gate1 isolated local rollback proof B (no cloud access)
+name: TALABOT Gate1 B restricted ACL rollback LOCAL QA (no cloud writes)
 on:
   push:
     branches: [ops/gate1-apply-b-20261116]
@@ -34,7 +34,8 @@ jobs:
           set -euo pipefail
           test "$(git merge-base 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD)" = '1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17'
           git diff --name-only 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17 HEAD > /tmp/only-gate1-B
-          if grep -Ev '^((sql/rollback/gate1_rollback_20261116.sql)|(tools/gate1_schema_objects\.(sql|py))|(.github/workflows/gate1-rollback-local-b-20261116.yml))$' /tmp/only-gate1-B; then
+          test "$(git rev-parse HEAD:sql/proposed/gate1_cash_and_idempotent_delivery.sql)" = '684c9c18af434a267fd8b0dc07288aa287e8eb13'
+          if grep -Ev '^((sql/rollback/gate1_rollback_20261116.sql)|(tools/gate1_schema_objects\.(sql|py))|(tools/gate1_live_apply_precheck_b.py)|(\.github/workflows/gate1-rollback-local-b-20261116.yml)|(\.github/workflows/gate1-apply-cloud-b-20261116.yml)|(ops/gate1-apply-b-trigger.txt))$' /tmp/only-gate1-B; then
             echo 'STOP: out-of-scope B branch source'; exit 1
           fi
       - uses: supabase/setup-cli@v1
@@ -56,11 +57,16 @@ jobs:
           mkdir -p evidence/gate1-rollback-b-20261116
           supabase start > "$RUNNER_TEMP/stack-start.log" 2>&1 || { echo 'STOP local start failed'; exit 1; }
           supabase db reset --local > "$RUNNER_TEMP/stack-reset.log" 2>&1 || { echo 'STOP local baseline reset failed'; exit 1; }
+          python3 tools/gate1_schema_objects.py capture evidence/gate1-rollback-b-20261116/historical.json
+          # Emulate CURRENT live target: original baseline definitions, tighter anon ACL.
+          psql -X -q -v ON_ERROR_STOP=1 --single-transaction -c 'REVOKE EXECUTE ON FUNCTION public.driver_ping(boolean), public.deliver_order(bigint,numeric,text,text) FROM anon;' >/dev/null
           python3 tools/gate1_schema_objects.py capture evidence/gate1-rollback-b-20261116/baseline.json
+          python3 tools/gate1_schema_objects.py compare-restricted evidence/gate1-rollback-b-20261116/historical.json evidence/gate1-rollback-b-20261116/baseline.json
           psql -X -q -v ON_ERROR_STOP=1 --single-transaction -f "$RUNNER_TEMP/gate1-candidate.sql" >/dev/null
           python3 tools/gate1_schema_objects.py capture evidence/gate1-rollback-b-20261116/gate1.json
           psql -X -q -v ON_ERROR_STOP=1 --single-transaction -f sql/rollback/gate1_rollback_20261116.sql >/dev/null
           python3 tools/gate1_schema_objects.py capture evidence/gate1-rollback-b-20261116/restored.json
+          python3 tools/gate1_schema_objects.py rollback-never-anon sql/rollback/gate1_rollback_20261116.sql evidence/gate1-rollback-b-20261116/restored.json
           python3 tools/gate1_schema_objects.py compare evidence/gate1-rollback-b-20261116/baseline.json evidence/gate1-rollback-b-20261116/restored.json ROLLBACK_restores_baseline
           echo 'Gate1 B LOCAL rollback exact object / ACL comparison PASS'
       - name: Upload catalog metadata only (no accounts/orders/tokens)
