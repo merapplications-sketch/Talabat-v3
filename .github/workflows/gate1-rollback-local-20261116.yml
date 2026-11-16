@@ -56,11 +56,11 @@ jobs:
           python3 tools/gate1_schema_objects.py capture "$RUNNER_TEMP/gate1-proposed.json"
           psql -X -q -v ON_ERROR_STOP=1 --single-transaction -f sql/rollback/gate1_rollback_20261116.sql >/dev/null
           python3 tools/gate1_schema_objects.py capture "$RUNNER_TEMP/gate1-restored.json"
-          python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-baseline.json" "$RUNNER_TEMP/gate1-restored.json"
           mkdir -p evidence/gate1-rollback-20261116
           cp "$RUNNER_TEMP/gate1-baseline.json" evidence/gate1-rollback-20261116/baseline.json
           cp "$RUNNER_TEMP/gate1-proposed.json" evidence/gate1-rollback-20261116/proposed.json
           cp "$RUNNER_TEMP/gate1-restored.json" evidence/gate1-rollback-20261116/restored.json
+          python3 tools/gate1_schema_objects.py compare "$RUNNER_TEMP/gate1-baseline.json" "$RUNNER_TEMP/gate1-restored.json"
           echo 'ROLLBACK_restores_baseline; no remote credential or project accessed'
       - name: Upload metadata-only, no rows / no credentials
         if: always()
