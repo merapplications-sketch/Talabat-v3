@@ -126,8 +126,8 @@
       "status": "PASS",
       "geometry": {
         "kbd": true,
-        "top": 181,
-        "bottom": 247,
+        "top": 169,
+        "bottom": 235,
         "scrollTop": 171,
         "scrollBottom": 291,
         "footerTop": 315,
