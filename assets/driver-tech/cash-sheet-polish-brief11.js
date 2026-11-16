@@ -20,7 +20,7 @@
   '.b8-ov{position:fixed!important;top:var(--b11-top,0px)!important;left:0!important;right:0!important;bottom:auto!important;height:var(--b11-height,100dvh)!important;max-width:100vw!important;align-items:flex-end!important;justify-content:center!important;overflow:hidden!important;z-index:20000!important;pointer-events:auto!important;background:rgba(19,31,48,.78)!important}',
   '.b8-sheet{position:relative!important;width:min(430px,100%)!important;max-width:100vw!important;height:auto!important;min-height:0!important;max-height:calc(var(--b11-height,100dvh) - 6px)!important;flex:0 1 auto!important;display:flex!important;flex-direction:column!important;padding:10px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left))!important;box-sizing:border-box!important;overflow:hidden!important;margin:0 auto!important;border-radius:16px 16px 0 0!important;transition:max-height .18s ease!important}',
   '.b8-head,.b8-footer{flex:none!important;min-width:0;position:relative;z-index:1;background:#fff}',
-  '.b8-head{padding-bottom:4px}.b8-content{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-padding-bottom:12px}',
+  '.b8-head{padding-bottom:4px}.b8-content{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-padding-top:12px;scroll-padding-bottom:16px}',
   '.b8-footer{padding-top:4px;border-top:1px solid var(--line,#e0e5ec)}.b8-footer .b8-actions{margin:4px 0 0!important}',
   '.b8-reserved{height:auto!important;min-height:0!important;overflow:visible!important}',
   '.b8-reserved[aria-hidden=true]{display:none!important}',
@@ -31,9 +31,10 @@
   '.b8-policy{min-height:0!important;margin:5px 0 4px!important;overflow-wrap:anywhere!important}',
   '.b8-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;min-width:0;gap:8px}',
   '.b8-actions .b{max-width:100%;min-width:0!important;overflow-wrap:anywhere;white-space:normal;font-size:13px}',
+  '.b8-sheet #b8-full,.b8-sheet #b8-confirm{background:var(--o,#FF5A12)!important;color:#fff!important}',
   '.b8-amt,.b8-other-input{max-width:100%;min-width:0;scroll-margin:12px 0 90px;box-sizing:border-box}',
   '.b11-inline-alert{display:none;border-radius:10px;padding:8px 10px;background:#fff4f1;color:#8c2924;font-size:12px;line-height:17px;font-weight:600;overflow-wrap:anywhere}',
-  '.b11-inline-alert:not(:empty){display:block;margin:6px 0}',
+  '.b11-inline-alert:not(:empty){display:block;margin:6px 0 10px!important}',
   '.n-chooser{position:fixed!important;left:0!important;right:0!important;width:100vw!important;max-width:100vw!important;z-index:20000!important;box-sizing:border-box!important;overflow-x:hidden!important;pointer-events:auto!important}',
   '.n-chooser .md{box-sizing:border-box!important;width:min(430px,100%)!important;max-width:100vw!important;margin:0 auto!important;padding-left:max(12px,env(safe-area-inset-left))!important;padding-right:max(12px,env(safe-area-inset-right))!important;min-width:0!important;max-height:calc(100dvh - 12px)!important;overflow-x:hidden!important}',
   '.n-chooser .n-body,.n-chooser .n-map-icons,.n-chooser .n-map-item,.n-chooser .n-map-link,.n-chooser .n-map-label{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}',
@@ -78,9 +79,15 @@
  }
  function scrollFocused(el){
    const sc=document.querySelector('.b8-content');if(!sc||!sc.contains(el))return;
-   const r=el.getBoundingClientRect(),c=sc.getBoundingClientRect(),pad=10;
-   if(r.bottom>c.bottom-pad)sc.scrollTop+=r.bottom-(c.bottom-pad);
-   if(r.top<c.top+pad)sc.scrollTop-=c.top+pad-r.top;
+   const pad=12;
+   // Keep the amount LABEL + input visible together; never align only the input.
+   const lead=el.id==='cashAmt'?(sc.querySelector('label[for="cashAmt"]')||el):el;
+   let c=sc.getBoundingClientRect(),a=lead.getBoundingClientRect(),b=el.getBoundingClientRect();
+   if(a.top<c.top+pad)sc.scrollTop-=c.top+pad-a.top;
+   // Re-measure after scrolling: WebKit/Safari updates layout synchronously here.
+   c=sc.getBoundingClientRect();b=el.getBoundingClientRect();
+   if(b.bottom>c.bottom-pad)sc.scrollTop+=b.bottom-(c.bottom-pad);
+   // The Other text field is independently focusable and must never hide behind the footer.
  }
  function restoreFocus(){
    scheduleViewport();
@@ -95,7 +102,13 @@
    if(ev.target.id==='cashAmt'||ev.target.id==='cashNote')restoreFocus();
  });
  document.addEventListener('input',function(ev){
-   if(ev.target.id==='cashAmt'||ev.target.id==='cashNote')scheduleViewport();
+   if(ev.target.id!=='cashAmt'&&ev.target.id!=='cashNote')return;
+   // A prior invalid-value error must not persist once the CURRENT amount is valid.
+   const current=String(document.getElementById('cashAmt')?.value||'');
+   const parsed=window.__deviceNotesV3.money(current);
+   const alert=document.querySelector('#b8-ov .b11-inline-alert');
+   if(alert&&(parsed!==null || ev.target.id==='cashNote'))alert.textContent='';
+   scheduleViewport();
  });
  function supportPhone(){
    let raw='';
@@ -135,9 +148,11 @@
    moveOverlay('#b8-ov');moveOverlay('.n-chooser');
    const opened=!!activeSheet();
    document.body.classList.toggle('b11-cash-open',opened);
-   if(opened){const head=activeSheet().querySelector('.b8-head');
-     if(head&&!head.querySelector('.b11-inline-alert')){
-       const a=document.createElement('p');a.className='b11-inline-alert';a.setAttribute('role','status');a.setAttribute('aria-live','polite');head.appendChild(a);
+   if(opened){
+     // Errors belong at the END of scrollable content; never above the cash title/label.
+     const content=activeSheet().querySelector('.b8-content');
+     if(content&&!content.querySelector('.b11-inline-alert')){
+       const a=document.createElement('p');a.className='b11-inline-alert';a.setAttribute('role','status');a.setAttribute('aria-live','polite');content.appendChild(a);
      }
      syncViewport();
    }
@@ -148,7 +163,7 @@
    const sheet=activeSheet();
    if(sheet){
      const a=sheet.querySelector('.b11-inline-alert');
-     if(a){a.textContent=String(msg);a.dataset.error=bad?'true':'false';scheduleViewport();return;}
+     if(a){a.textContent=String(msg);a.dataset.error=bad?'true':'false';scheduleViewport();if(a.textContent)requestAnimationFrame(()=>a.scrollIntoView({block:'nearest',behavior:'instant'}));return;}
    }
    return priorToast.apply(this,arguments);
  };
