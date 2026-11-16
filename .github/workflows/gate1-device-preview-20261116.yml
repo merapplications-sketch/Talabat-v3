@@ -7,7 +7,7 @@ permissions: {contents: read}
 concurrency: {group: talabot-gate1-preview, cancel-in-progress: false}
 env:
   PROJECT: talabot-gate1-preview-20261116
-  SRC_SHA: 1c1ce8d0fc4a02648eb2c8d753acd75b9526ec17
+  SRC_SHA: c20fdd8ae5ce7a394af6f80d8a4553ccc5b8cc53
 jobs:
   preview:
     if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/ops/gate1-device-preview-20261116'
@@ -21,7 +21,7 @@ jobs:
           set -e
           test "$(git rev-parse HEAD)" = "$SRC_SHA"
           case "$PROJECT" in talabot-pilot-*|talabot-safari-demo-*) echo STOP; exit 1;; esac
-          mkdir site; cp customer.html driver.html merchant.html admin.html talabat-core.js site/; cp -r assets site/
+          mkdir site; cp customer.html driver.html merchant.html admin.html talabat-core.js site/; cp -r assets site/; test -f site/assets/size-brief7/driver.css; test -f site/assets/driver-tech/device-notes-v3.js
           grep -q gate1DeliveryFlights site/talabat-core.js
           printf '/*\n  X-Robots-Tag: noindex, nofollow\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: no-referrer\n' > site/_headers
           printf '<!doctype html><meta charset=utf-8><title>TALABOT Gate1 preview</title><ul><li><a href=driver.html>driver</a><li><a href=customer.html>customer</a><li><a href=merchant.html>merchant</a></ul>' > site/index.html
@@ -36,7 +36,7 @@ jobs:
           export CLOUDFLARE_ACCOUNT_ID=$A
           code=$(curl -sS -o p.json -w '%{http_code}' -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT)
           if [ "$code" = 404 ]; then npx --yes wrangler@3 pages project create "$PROJECT" --production-branch=main; fi
-          npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch=main --commit-hash="$SRC_SHA" --commit-message="Gate1 device preview tech/v82-int" --commit-dirty=true
+          npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch=main --commit-hash="$SRC_SHA" --commit-message="N-v3 + size-brief7 candidate" --commit-dirty=true
           sleep 20
           curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT | jq -r '"deployment=" + .result.latest_deployment.id + " " + .result.latest_deployment.latest_stage.status + " url=" + .result.subdomain'
           for p in talabot-pilot-20261106 talabot-safari-demo-20261115; do curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$p | jq -r '"untouched '$p' latest=" + .result.latest_deployment.id'; done

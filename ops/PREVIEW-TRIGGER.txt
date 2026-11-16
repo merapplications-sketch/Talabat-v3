@@ -1,1 +1,2 @@
 Gate1 device preview 2026-11-16 owner-approved (#48 10:43) — PM deploy
+preview update 2026-11-16T19:10+05: N-v3 23087ed1 + size c20fdd8a (owner-approved preview flow)
