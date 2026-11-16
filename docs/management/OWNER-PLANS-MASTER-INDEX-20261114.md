@@ -46,3 +46,12 @@
 - **حدود المستودع:** هذه الوثائق تخص TALABOT فقط ولا تمنح صلاحية الوصول أو الكتابة إلى أي مشروع آخر.
 
 **نقطة الحقيقة:** كل هذه الوثائق تعيش في GitHub وفرع توثيق منفصل، وليس في ذاكرة محادثة فقط. لا اعتماد نهائي للخطط الجديدة أو نقل لفرع الإنتاج قبل قرار المالك.
+
+## 5. تحديث المدير (Claude) — 2026-11-16
+| الخطة | الحالة | المرجع |
+|---|---|---|
+| Stage22 معاينة Safari الاصطناعية | **مغلقة/منشورة** f73de816 | #48 |
+| البوابة 1 (F-01..F-04 + E2E حرجة) | **مطبّقة**: SQL على Talabat، `tech/v82-int`=`1c1ce8d0`، مراجعة مستقلة GO، E2E محلي 16/16 | #48، [STATUS](https://github.com/merapplications-sketch/Talabat-v3/blob/docs/claude-manager-takeover-20261115/docs/management/STATUS.md) |
+| ملاحظات جهاز المالك N-01..N-08 + الأحجام (زبون/مطعم/سائق) | مرشح `c20fdd8a` على معاينة الجهاز talabot-gate1-preview-20261116 (84efa4d5)، بانتظار تجربة المالك واعتماد المصمم | #48 |
+| **إعادة تصميم الإدارة (TailAdmin، مستودع talabot-tailadmin-review)** | **مخطط — بانتظار جاهزية التصميم من الفريق.** المرشح الحالي `254757fa` نموذج واجهة ببيانات وهمية غير مربوط بالخادم. المسار: (1) معاينة وهمية واعتماد المالك على iPhone ← (2) ربط Supabase/أدوار/RPC الحالية وحذف صفحات القالب ← (3) مراجعة أمنية مستقلة ← (4) استبدال `admin.html` بموافقة المالك. الإدارة مستثناة من تعديل الأحجام حتى ذلك | [ADMIN-REDESIGN-PM-NOTES](https://github.com/merapplications-sketch/Talabat-v3/blob/docs/claude-manager-takeover-20261115/docs/management/ADMIN-REDESIGN-PM-NOTES-20261116.md) |
+| مستودع Talabat-v3 عام + GitHub Pages | خطر مسجّل: نقل الاستضافة لـCloudflare ثم Private في بوابة لاحقة | STATUS |
