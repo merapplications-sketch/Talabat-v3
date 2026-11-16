@@ -44,25 +44,48 @@ def run():
         sha=status.get("object",{}).get("sha")
     except Exception:stop("unable to independently verify integration branch; no SQL permitted")
     if sha!=INT_HEAD:stop("tech/v82-int changed since approval; no SQL permitted")
-    # Read-only SELECT 1 diagnostic before any catalog query or DDL. Failure output is
-    # reduced to a fixed reason code; NEVER print libpq stderr or connection URI.
-    import subprocess
+    # Build an ephemeral libpq connection service plus passfile: never put a URI
+    # or password in psql argv, GitHub logs, or committed files. PGDATABASE is
+    # the literal database name, NOT the secret connection URI.
+    import subprocess,pathlib
+    workspace=os.environ.get("RUNNER_TEMP","")
+    envfile=os.environ.get("GITHUB_ENV","")
+    if not workspace or not envfile:stop("missing ephemeral GitHub runner paths")
+    decoded=urllib.parse.unquote(password)
+    if not decoded or any(c in decoded for c in "\n\r\x00"):
+        stop("malformed decoded database password")
+    root=pathlib.Path(workspace)
+    service=root/"gate1-b-libpq.service"
+    passfile=root/"gate1-b-pgpass"
+    # Strictly controlled host/username are validated above; password goes only
+    # into a mode-0600 file, with libpq passfile escaping for ':' and '\\'.
+    def esc(value):
+        return value.replace("\\","\\\\").replace(":","\\:")
+    def write_private(path,content):
+        with os.fdopen(os.open(str(path),os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),"w",encoding="utf-8") as stream:
+            stream.write(content)
+    write_private(service,
+        "[gate1]\n"
+        "host="+host+"\nport="+str(port)+"\nuser="+name+
+        "\ndbname=postgres\nsslmode=require\nconnect_timeout=10\n")
+    write_private(passfile,":".join([esc(host),str(port),"postgres",esc(name),esc(decoded)])+"\n")
     env=os.environ.copy()
-    env["PGDATABASE"]=raw
-    env["PGSSLMODE"]="require"
-    env["PGCONNECT_TIMEOUT"]="10"
+    for k in ("PGHOST","PGPORT","PGUSER","PGPASSWORD","PGDATABASE","PGSERVICE","PGSERVICEFILE","PGPASSFILE"):
+        env.pop(k,None)
+    env.update({"PGSERVICE":"gate1","PGSERVICEFILE":str(service),
+                "PGPASSFILE":str(passfile),"PGDATABASE":"postgres","PGSSLMODE":"require"})
     try:
         probe=subprocess.run(["psql","-X","-q","-A","-t","-w","-v","ON_ERROR_STOP=1","-c","SELECT 1"],
                              env=env,capture_output=True,text=True,timeout=18)
     except subprocess.TimeoutExpired:
-        stop("PSQL_CONNECT_TIMEOUT (read-only precheck, no SQL migration executed)")
+        stop("PSQL_CONNECT_TIMEOUT (read-only precheck; no migration executed)")
     except OSError:
-        stop("PSQL_CLIENT_UNAVAILABLE (read-only precheck, no SQL migration executed)")
+        stop("PSQL_CLIENT_UNAVAILABLE (read-only precheck; no migration executed)")
     if probe.returncode!=0:
         detail=probe.stderr.lower()
         if "password authentication failed" in detail or "authentication failed" in detail:
             reason="PSQL_AUTHENTICATION_REJECTED"
-        elif "could not translate host name" in detail or "name or service not known" in detail or "temporary failure in name resolution" in detail:
+        elif "could not translate host name" in detail or "name or service not known" in detail:
             reason="PSQL_DNS_FAILURE"
         elif "network is unreachable" in detail or "no route to host" in detail:
             reason="PSQL_NETWORK_UNREACHABLE"
@@ -72,17 +95,21 @@ def run():
             reason="PSQL_CONNECTION_REFUSED"
         elif "no pg_hba.conf entry" in detail or "ssl" in detail or "certificate" in detail:
             reason="PSQL_SSL_OR_ACCESS_REJECTED"
-        elif "tenant or user not found" in detail or "tenant" in detail:
+        elif "tenant" in detail:
             reason="PSQL_POOLER_TENANT_REJECTED"
         elif "does not exist" in detail:
             reason="PSQL_DATABASE_OR_USER_NOT_FOUND"
         elif "invalid" in detail or "malformed" in detail:
-            reason="PSQL_CONNECTION_STRING_INVALID"
+            reason="PSQL_CONNECTION_CONFIG_INVALID"
         else:
             reason="PSQL_CONNECTION_FAILED_UNCLASSIFIED"
-        stop(reason+" (read-only precheck; no migration executed; psql exit "+str(probe.returncode)+")")
+        stop(reason+" (read-only precheck, no migration executed)")
     if probe.stdout.strip()!="1":
-        stop("PSQL_READ_ONLY_PROBE_UNEXPECTED_RESULT (no migration executed)")
-    print("GATE1_B_PSQL_READONLY_CONNECT_PASS")
+        stop("PSQL_READ_ONLY_PROBE_UNEXPECTED_RESULT")
+    # Export only ephemeral file paths; no password or URI into GITHUB_ENV.
+    with open(envfile,"a",encoding="utf-8") as out:
+        out.write("PGSERVICE=gate1\nPGSERVICEFILE="+str(service)+
+                  "\nPGPASSFILE="+str(passfile)+"\nPGDATABASE=postgres\nPGSSLMODE=require\n")
+    print("GATE1_B_PSQL_READONLY_CONNECT_PASS: libpq service + private passfile")
     print("GATE1_B_PRECHECK_PASS: exact Talabat database, SSL, isolated ops ref, and unchanged integration head")
 if __name__=="__main__":run()
