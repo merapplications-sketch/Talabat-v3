@@ -1,0 +1,84 @@
+name: TALABOT BRIEF-7 size-only candidate QA (no publish)
+on:
+  push:
+    branches: [review/size-brief7-20261116]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: talabot-brief7-size-qa
+  cancel-in-progress: false
+jobs:
+  size:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/size-brief7-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Checkout source with no persisted write credential
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 0}
+      - name: Verify source pinned to approved N batch and size-only scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git merge-base 23087ed1eec83e1f4640830539ee0464e17051e1 HEAD)" = '23087ed1eec83e1f4640830539ee0464e17051e1'
+          test "$(git rev-parse HEAD:sql/proposed/gate1_cash_and_idempotent_delivery.sql)" = '684c9c18af434a267fd8b0dc07288aa287e8eb13'
+          git diff --name-only 23087ed1eec83e1f4640830539ee0464e17051e1 HEAD >/tmp/brief7-paths
+          if grep -Ev '^((customer.html)|(merchant.html)|(driver.html)|(assets/size-brief7/(customer|merchant|driver).css)|(tools/size_brief7_render.py)|(\.github/workflows/size-brief7-20261116.yml))$' /tmp/brief7-paths; then
+            echo 'STOP out-of-scope app/SQL/admin/design mutation'; exit 1
+          fi
+          python3 -m py_compile tools/size_brief7_render.py
+          node --check talabat-core.js
+          node --check assets/driver-a/driver-a.js
+          node --check assets/driver-tech/device-notes-v3.js
+      - name: Install pinned disposable QA dependencies only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
+          python3 -m playwright install --with-deps chromium
+          mkdir -p "$RUNNER_TEMP/gate1-qr"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+      - name: Source-CSS synthetic-DOM before/after screenshots and computed-size/touch tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/size_brief7_render.py
+      - uses: supabase/setup-cli@v1
+        with: {version: 3.1.0}
+      - name: Prepare disposable LOCAL schema-only Supabase for unchanged original Gate1
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_local_prepare.py
+          supabase start >"$RUNNER_TEMP/size7-start.log" 2>&1 || { echo 'STOP local stack start failed'; exit 1; }
+          supabase db reset --local >"$RUNNER_TEMP/size7-reset.log" 2>&1
+          supabase status -o env >"$RUNNER_TEMP/size7-status.env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/size7-status.env"
+      - name: Seed test-only identities AFTER exporter step
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${SUPABASE_LOCAL_URL:-}" = 'http://127.0.0.1:54321'
+          python3 tools/gate1_local_seed.py
+      - name: Run unchanged F/core/E2E and driver V3 regressions
+        shell: bash
+        env:
+          GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
+        run: |
+          set -euo pipefail
+          bash tools/check_all.sh
+          node tools/driver_device_v3_checks.cjs
+      - name: Upload source-CSS synthetic component screenshot pairs, no secrets
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-brief7-size-before-after-36pairs
+          path: evidence/size-brief7/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Stop and discard synthetic LOCAL database
+        if: always()
+        shell: bash
+        run: |
+          if command -v supabase >/dev/null 2>&1; then supabase stop --no-backup || true; fi
