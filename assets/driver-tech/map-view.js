@@ -49,6 +49,36 @@
       }
     };
   }
+  /* F-09: core map loader may emit a second fixed red toast at bottom:96px,
+     precisely over the mission Call/Chat/Collect controls. The existing mission
+     status #a-map-state already announces the failure and fallback. Remove ONLY
+     that duplicate visual map-loading toast; all unrelated errors remain visible.
+     If no map status is visible, move the toast above the mission sheet instead. */
+  if(window.MutationObserver && document.body){
+    const mapFailure = new MutationObserver(records=>{
+      const a=typeof TLB!=='undefined'?TLB:null;
+      if(!a)return;
+      const allowed=[a.t('mapFail'),a.t('locMapFail')].filter(Boolean);
+      for(const rec of records){
+        for(const n of rec.addedNodes){
+          if(n.nodeType!==1 || n.parentNode!==document.body)continue;
+          const msg=(n.textContent||'').trim();
+          if(!allowed.includes(msg)||!String(n.style?.cssText||'').includes('position: fixed'))continue;
+          const status=document.getElementById('a-map-state');
+          if(status&&getComputedStyle(status).display!=='none'&&status.textContent.trim()){
+            n.remove(); // duplicate visual only; live aria-status remains
+          } else {
+            const sheet=document.getElementById('a-sheet'),vh=window.visualViewport?.height||innerHeight;
+            const pos=Math.max(64,Math.min(132,(sheet?.getBoundingClientRect().top||vh)-n.offsetHeight-18));
+            n.style.bottom='auto';n.style.top=pos+'px';
+            n.style.maxWidth='calc(100vw - 32px)';
+            n.setAttribute('role','status');
+          }
+        }
+      }
+    });
+    mapFailure.observe(document.body,{childList:true});
+  }
   /* for a «my location» control on the mission screen (none in driver A today): back to the automatic frame */
   window.aMapRecenter = function () { var x = typeof aTask === 'function' ? aTask() : null; user = false; if (x && ready()) { withMe = GEO.lat != null; frameOnce(x); } };
 })();
