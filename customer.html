@@ -2134,6 +2134,8 @@ function vSettings(){return topbar(t('n6Set'),'',"go('me')")+`<div class="pg"><d
 TLB.addDict({v66Details:'Подробнее',v66AboutWallet:'О кошельке',v66EarnRate:'Обычно {n} баллов за 1 TJS · у заведений своя ставка',v66CartNote:'Сумма блюд после скидок. Доставка, чаевые и списание кошелька — на следующем шаге.',v66Total:'Итого',v66Placed:'Оформлен',v66Preparing:'Готовим',v66Ready:'Готов',v66OnWay:'В пути',v66Delivered:'Доставлен'},
  {v66Details:'Details',v66AboutWallet:'About your wallet',v66EarnRate:'Usually {n} points per 1 TJS · rates vary by store',v66CartNote:'Items after discounts. Delivery, tip and wallet payment are shown at checkout.',v66Total:'Total',v66Placed:'Placed',v66Preparing:'Preparing',v66Ready:'Ready',v66OnWay:'On the way',v66Delivered:'Delivered'});
 TLB.addDict({v68Balances:'Баланс и бонусы',v68LineTotal:'За позицию'},{v68Balances:'Balance and rewards',v68LineTotal:'Item total'});
+/* F-05: explicit RU/EN fallback for legacy swipe-stage label if rendered. */
+TLB.addDict({stepsDrag:'Проведите вправо, чтобы заказать'},{stepsDrag:'Slide to place order'});
 TLB.addDict({v69Slide:'Сдвиньте, чтобы заказать',v69SlideHint:'Проведите стрелку вправо до конца и отпустите.',v69Sections:'Разделы меню',holdHint:'Проведите стрелку вправо до конца и отпустите. С клавиатуры: Enter и подтверждение.'},{v69Slide:'Slide to place order',v69SlideHint:'Drag the arrow all the way right, then release.',v69Sections:'Menu sections',holdHint:'Drag the arrow all the way right and release. Keyboard: Enter, then confirm.'});
 /* ---------- RENDER ---------- */
 function render(){
