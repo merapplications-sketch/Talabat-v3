@@ -78,7 +78,12 @@ select{border:0;border-radius:999px;font-weight:600}
 .fld2{padding:6px 8px 10px}.fld2 label{display:block;font-size:11px;color:var(--mut);margin:4px 0}
 .sgm{display:flex;gap:5px;margin:0 0 12px}.sgm i{flex:1;height:4px;border-radius:2px;background:#e6e6ea}.sgm i.on{background:var(--o)}
 .dr2{display:flex;justify-content:space-between;gap:10px;padding:7px 0}.dr2.tot{border-top:1px solid var(--line);margin-top:4px;padding-top:10px;font-weight:700}
-.rjl{display:grid;gap:8px}.rjta{display:block;width:100%;margin-top:12px;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#f7f7f9;font:inherit;font-size:16px;resize:vertical;min-height:64px}.rjta:focus{outline:0;border-color:#d92d20;background:#fff}.rjk,.rjb{height:46px;border-radius:999px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}.rjk{flex:1;border:1.5px solid #e6e6ea;background:#fff;color:#1c1c21}.rjb{flex:2;border:0;background:#d92d20;color:#fff}.rjb:disabled{opacity:.45;cursor:default}.rjl button{text-align:start;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#fff;font:inherit;font-weight:600;cursor:pointer}.rjl button.on{border-color:var(--bad);background:#fdeceb;color:#a32d2d}.lnk{display:block;width:100%;background:none;border:0;padding:10px 0 2px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}.lnk.r{color:var(--bad,#d92d20)}
+.rjl{display:grid;gap:8px}.rjta{display:block;width:100%;margin-top:12px;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#f7f7f9;font:inherit;font-size:16px;resize:vertical;min-height:64px}.rjta:focus{outline:0;border-color:#d92d20;background:#fff}
+/* F-07: rejection sheet follows the real Safari visual viewport; reason field remains accessible above the keyboard. */
+.f07-viewport{top:var(--f07-vtop,0px);bottom:auto;height:var(--f07-vheight,100dvh)}
+.f07-reject{max-height:calc(var(--f07-vheight,100dvh) - 8px)!important;overflow-y:auto;overscroll-behavior:contain;scroll-padding-bottom:80px}
+.f07-reject .rjta{scroll-margin-bottom:88px}
+.rjk,.rjb{height:46px;border-radius:999px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}.rjk{flex:1;border:1.5px solid #e6e6ea;background:#fff;color:#1c1c21}.rjb{flex:2;border:0;background:#d92d20;color:#fff}.rjb:disabled{opacity:.45;cursor:default}.rjl button{text-align:start;padding:12px 14px;border-radius:14px;border:1.5px solid #e6e6ea;background:#fff;font:inherit;font-weight:600;cursor:pointer}.rjl button.on{border-color:var(--bad);background:#fdeceb;color:#a32d2d}.lnk{display:block;width:100%;background:none;border:0;padding:10px 0 2px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}.lnk.r{color:var(--bad,#d92d20)}
 
 /* Phase 1: same approved Russian palette, scoped to public store tools. */
 .p1-store-link{border:1px solid #E0E5EC;border-radius:16px;box-shadow:none;color:#17243C;padding:16px}.p1-store-link h3{font-size:16px;font-weight:700}.p1-public-link{display:block;margin:12px 0;color:#b33c07;overflow-wrap:anywhere;font-size:13px;line-height:20px}.p1-qr{width:176px;max-width:100%;margin:12px auto}.p1-qr svg{display:block;width:100%;height:auto}.p1-link-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.p1-link-actions .b{flex:1;min-height:48px;border-radius:12px;margin:0;white-space:normal;min-width:120px}.p1-link-feedback{font-size:13px;line-height:19px;margin-top:10px;overflow-wrap:anywhere}.p1-link-feedback:empty{display:none}
@@ -123,7 +128,7 @@ const RJR=['out_of_stock','too_busy','closing','other'];
 function rjOpen(id){RJ={id,r:null,note:''};render()}
 async function rjSend(){if(!RJ||!RJ.r||RJ.busy)return;const n=String(RJ.note||'').trim();if(RJ.r=='other'&&n.length<3){alert(t('err_note_required'));return}
   RJ.busy=1;render();const r=await TLB.rejectOrder(RJ.id,RJ.r,n||null);if(r&&r.error){RJ.busy=0;alert(t('err_'+r.error));render();return}RJ=null;render()}
-function rjSheet(){if(!RJ)return '';return `<div class="ov" onclick="RJ=null;render()"><div class="md" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:6px"><b style="font-size:16px">${t('rjT').replace('{n}',RJ.id)}</b><button class="rb" onclick="RJ=null;render()" aria-label="${t('closeB')}">${SVG(I.x,18)}</button></div>
+function rjSheet(){if(!RJ)return '';return `<div class="ov f07-viewport" onclick="RJ=null;render()"><div class="md f07-reject" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:6px"><b style="font-size:16px">${t('rjT').replace('{n}',RJ.id)}</b><button class="rb" onclick="RJ=null;render()" aria-label="${t('closeB')}">${SVG(I.x,18)}</button></div>
   <div class="xs mut" style="margin-bottom:12px;line-height:1.45">${t('rjS')}</div><div class="rjl">${RJR.map(k=>`<button class="${RJ.r==k?'on':''}" onclick="RJ.r='${k}';render()">${t('cr_'+k)}</button>`).join('')}</div>
   <textarea id="rjn" class="rjta" maxlength="200" rows="2" placeholder="${RJ.r=='other'?t('rjNoteO'):t('rjNote')}" oninput="RJ.note=this.value">${esc(RJ.note)}</textarea>
   <div class="row" style="gap:10px;margin-top:12px"><button class="rjk" onclick="RJ=null;render()">${t('rjBack')}</button><button class="rjb" ${RJ.r&&!RJ.busy?'':'disabled'} onclick="rjSend()">${t('rjGo')}</button></div></div></div>`}
@@ -203,6 +208,8 @@ function sheet(){if(!SH)return '';const secs=[...new Set(TLB.getMenu(STORE).map(
   ${optEditor()}
   <div class="row" style="padding:10px 0"><span class="b6">${t('hitL')}</span><button class="sw ${SH.pop?'on':''}" onclick="SH.pop=!SH.pop;render()" aria-label="${t('hitL')}"><i></i></button></div>
   <div class="f06-actions"><button class="b s" onclick="saveSheet()">${t('saveB')}</button>${SH.id?`<button class="b r" style="width:100%;margin-top:8px;min-height:44px" onclick="delItem()">${t('delItem')}</button>`:''}</div></div></div>`}
+/* F-07: bind the legacy cancellation label in both supported locales. */
+TLB.addDict({pickupCancel:'Отмена получения заказа'},{pickupCancel:'Cancel pickup'});
 TLB.addDict({cancelled:'Отменено',stRj:'Отклонено',stCx:'Отменено',stStNote:'«Отклонено» и «Отменено» — статусы заказов, а не оценка ресторана.',odComNo:'не начисляется — заказ не выполнен',odNoR:'причина не указана',stBrRev:'Выручка',stBrCom:'Комиссия',stBrPts:'Баллы клиентов',stBrCb:'Кэшбэк',stBrFw:'Доставка за ваш счёт'},
  {cancelled:'Cancelled',stRj:'Rejected',stCx:'Cancelled',stStNote:'«Rejected» and «Cancelled» are order statuses, not a rating of the restaurant.',odComNo:'not charged — order not completed',odNoR:'no reason recorded',stBrRev:'Revenue',stBrCom:'Commission',stBrPts:'Customer points',stBrCb:'Cashback',stBrFw:'Delivery paid by you'});
 /* UAT013: neutral status names (the shared dictionary says «rejected by the restaurant», which names an executor the status alone does not prove) */
@@ -319,6 +326,29 @@ TLB.addDict({stMiss:'{n} доставл. заказ(ов) без записан�
 TLB.staffUI('merchant');
 TLB.start('merchant',()=>{TLB.chrome(false);TLB.on(()=>{if(SH||RQ||RJ)return;if((tab=='m'||tab=='p')&&document.activeElement&&/^(mqs|sdesc|sdis|rqn|rqp|rqa|rqt)$/.test(document.activeElement.id))return;render()});render()});
 
+/* F-07: adapt only the reject sheet on keyboard focus, without altering status/RPC handlers. */
+(function(){
+  let raf=0;
+  const update=()=>{
+    raf=0;const ov=document.querySelector('.f07-viewport'),md=ov?.querySelector('.f07-reject');
+    if(!ov||!md)return;const v=window.visualViewport,h=Math.max(1,v?.height||innerHeight);
+    ov.style.setProperty('--f07-vtop',Math.max(0,v?.offsetTop||0)+'px');
+    ov.style.setProperty('--f07-vheight',h+'px');
+    const input=document.activeElement;if(input?.id!=='rjn')return;
+    requestAnimationFrame(()=>{
+      if(!md.isConnected)return;
+      const ir=input.getBoundingClientRect(),mr=md.getBoundingClientRect();
+      const floor=Math.min(mr.bottom-12,(window.visualViewport?.offsetTop||0)+(window.visualViewport?.height||innerHeight)-12);
+      if(ir.bottom>floor)md.scrollTop+=ir.bottom-floor+12;
+      if(ir.top<mr.top+8)md.scrollTop-=mr.top+8-ir.top;
+    });
+  };
+  const schedule=()=>{if(!raf)raf=requestAnimationFrame(update)};
+  window.visualViewport?.addEventListener('resize',schedule);
+  window.visualViewport?.addEventListener('scroll',schedule);
+  window.addEventListener('resize',schedule);
+  document.addEventListener('focusin',e=>{if(e.target?.id==='rjn'){schedule();setTimeout(schedule,140);setTimeout(schedule,340)}});
+})();
 function render(){const a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
   render0();
   if(ok){let e=id?document.getElementById(id):null;if(!e||e===a){const n=[...document.querySelectorAll('input,textarea')];e=n[ix]}if(e&&e!==a){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
