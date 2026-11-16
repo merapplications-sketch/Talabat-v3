@@ -139,7 +139,7 @@
    if(!v||!NAV_PROVIDERS.includes(v.id))return false;
    const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent||'')||
      (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-   aNavigationExternal();
+   window.aNavigationExternal();
    open=false;
    const url=ios?v.app:v.web;
    try{window.location.assign(url)}catch(e){try{window.location.assign(v.web)}catch(_){}}
