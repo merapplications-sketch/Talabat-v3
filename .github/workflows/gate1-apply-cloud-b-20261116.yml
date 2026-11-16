@@ -29,6 +29,7 @@ jobs:
             echo 'STOP: unauthorized paths in B operations branch'; exit 1
           fi
           test "$(cat ops/gate1-apply-b-trigger.txt)" = 'APPROVED_GATE1_B_APPLY_1c1ce8d0_43815837840'
+          python3 -m py_compile tools/gate1_live_apply_precheck_b.py
       - name: Download B-branch VERIFIED successful LOCAL baseline / Gate1 catalog
         uses: actions/download-artifact@v4
         with:
@@ -55,9 +56,6 @@ jobs:
         run: python3 tools/gate1_live_apply_precheck_b.py
       - name: Read target catalog and compare to independently VERIFIED baseline before any DDL
         shell: bash
-        env:
-          PGDATABASE: ${{ secrets.SUPABASE_PROD_DB_URL }}
-          PGSSLMODE: require
         run: |
           set -euo pipefail
           mkdir -p evidence/gate1-cloud-b-20261116
@@ -66,9 +64,6 @@ jobs:
           echo 'PRE-APPLY CATALOG MATCH: APPROVED B baseline only'
       - name: Apply approved EXACT Gate1 SQL and PostgREST cache notify in ONE transaction
         shell: bash
-        env:
-          PGDATABASE: ${{ secrets.SUPABASE_PROD_DB_URL }}
-          PGSSLMODE: require
         run: |
           set -euo pipefail
           cp sql/proposed/gate1_cash_and_idempotent_delivery.sql "$RUNNER_TEMP/gate1-b-apply.sql"
@@ -77,9 +72,6 @@ jobs:
           echo 'OWNER-AUTHORIZED Gate1 SQL transaction committed once; no customer/order data written'
       - name: Read target catalog AFTER migration; verify exact approved Gate1 definitions and grants
         shell: bash
-        env:
-          PGDATABASE: ${{ secrets.SUPABASE_PROD_DB_URL }}
-          PGSSLMODE: require
         run: |
           set -euo pipefail
           python3 tools/gate1_schema_objects.py capture evidence/gate1-cloud-b-20261116/after.json
