@@ -1,0 +1,137 @@
+name: TALABOT BRIEF-14 complete original-app WebKit audit (NO PROD)
+on:
+  push:
+    branches: [review/full-app-audit-brief14-20261117]
+    paths:
+      - 'tools/full_audit.py'
+      - 'tools/full_audit_seed.py'
+      - 'tools/full_audit_nav_off.mjs'
+      - 'tools/check_all.sh'
+      - 'docs/management/GEOAPIFY-OFF-READINESS-BRIEF14-20261117.md'
+      - '.github/workflows/full-app-audit-brief14-20261117.yml'
+  workflow_dispatch:
+permissions:
+  contents: write  # restricted to committing synthetic screenshot evidence ON THIS ISOLATED REVIEW BRANCH
+concurrency:
+  group: talabot-brief14-single-crawl
+  cancel-in-progress: false
+jobs:
+  full-audit:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/full-app-audit-brief14-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - name: Checkout only isolated branch for source-pinned audit and evidence commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Verify no application/UI/backend modifications and never permit other-branch artifact push
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=c5020b131dad7cae01120cc36e333cae0d81c612
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          test "$GITHUB_REF" = refs/heads/review/full-app-audit-brief14-20261117
+          git diff --name-only "$BASE" HEAD | tee "$RUNNER_TEMP/brief14-diff"
+          if grep -Ev '^((tools/(full_audit.py|full_audit_seed.py|full_audit_nav_off.mjs|check_all.sh))|(docs/management/GEOAPIFY-OFF-READINESS-BRIEF14-20261117.md)|(.github/workflows/full-app-audit-brief14-20261117.yml)|(qa-shots/full-audit/.*))$' "$RUNNER_TEMP/brief14-diff"; then
+            echo 'BRIEF14_SCOPE_STOP: application/production mutation'; exit 1
+          fi
+          for f in talabat-core.js customer.html driver.html merchant.html admin.html assets/driver-tech/route-layer.js sql/proposed/patch40_navigation_budget.sql sql/proposed/gate1_cash_and_idempotent_delivery.sql; do
+            test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
+          done
+          python3 -m py_compile tools/full_audit.py tools/full_audit_seed.py
+          node --check tools/full_audit_nav_off.mjs
+          grep -Fq 'FULL_AUDIT_BRIEF14' tools/check_all.sh
+      - name: Install pinned browser engines and local-only authentication library in ephemeral runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
+          python3 -m playwright install --with-deps webkit chromium
+          mkdir -p "$RUNNER_TEMP/gate1-qr" "$RUNNER_TEMP/full-audit-npm"
+          npm --prefix "$RUNNER_TEMP/gate1-qr" install --no-save --ignore-scripts --package-lock=false qrcode-generator@1.4.4 jsqr@1.4.0
+          npm --prefix "$RUNNER_TEMP/full-audit-npm" install --no-save --ignore-scripts --package-lock=false @supabase/supabase-js@2.117.2
+          test -f "$RUNNER_TEMP/full-audit-npm/node_modules/@supabase/supabase-js/dist/umd/supabase.js"
+      - name: Prove Geoapify remains OFF with no key/provider requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          env -u GEOAPIFY_KEY -u SUPABASE_ACCESS_TOKEN node tools/full_audit_nav_off.mjs
+          env -u GEOAPIFY_KEY node tools/navigation_contract_check.mjs
+      - uses: supabase/setup-cli@v1
+        with: {version: 3.1.0}
+      - name: Prepare original pinned schema-only LOCAL Supabase
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/gate1_local_prepare.py
+          supabase start >"$RUNNER_TEMP/full-audit-start.log" 2>&1 || { echo 'LOCAL Supabase startup failed'; exit 1; }
+          supabase db reset --local >"$RUNNER_TEMP/full-audit-reset.log" 2>&1
+          supabase status -o env >"$RUNNER_TEMP/full-audit-status.env"
+          python3 tools/gate1_local_env.py "$RUNNER_TEMP/full-audit-status.env"
+      - name: Seed original five test-only Auth identities and Gate1 order
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$SUPABASE_LOCAL_URL" = http://127.0.0.1:54321
+          python3 tools/gate1_local_seed.py
+      - name: Original financial tests first; add local-only full audit seed; audit four actual apps in WebKit
+        shell: bash
+        env:
+          GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
+          FULL_AUDIT_SUPABASE_UMD: ${{ runner.temp }}/full-audit-npm/node_modules/@supabase/supabase-js/dist/umd/supabase.js
+          FULL_AUDIT_BRIEF14: '1'
+          FULL_AUDIT_LIMIT: '1000'
+        run: |
+          set +e
+          bash tools/check_all.sh >"$RUNNER_TEMP/brief14-check-all.log" 2>&1
+          RC=$?
+          grep -E '(GATE1_E2E:|GATE1_PASS|FULL_AUDIT_|NO_GO|FAIL|BLOCKED|O0[12349]_|LAYOUT_webkit_suite PASS)' "$RUNNER_TEMP/brief14-check-all.log" | tail -90 || true
+          echo "FULL_AUDIT_RC=$RC" >> "$GITHUB_ENV"
+          if test ! -s qa-shots/full-audit/FINDINGS.json; then
+            mkdir -p qa-shots/full-audit
+            printf '{"error":"AUDIT_HARNESS_DID_NOT_COMPLETE","found":true,"status":"BLOCKED"}\n' >qa-shots/full-audit/FINDINGS.json
+            printf '# BRIEF14 BLOCKED — see GitHub Actions runner logs\n' >qa-shots/full-audit/INDEX.md
+            echo "FULL_AUDIT_RC=2" >> "$GITHUB_ENV"
+          fi
+          exit 0
+      - name: Write synthetic visual evidence to SAME isolated review branch (never production)
+        shell: bash
+        if: always()
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/review/full-app-audit-brief14-20261117
+          test "$GITHUB_REPOSITORY" = merapplications-sketch/Talabat-v3
+          mkdir -p qa-shots/full-audit
+          git config user.name "talabot-brief14-audit"
+          git config user.email "talabot-brief14-audit@users.noreply.github.com"
+          git add -- qa-shots/full-audit/
+          if ! git diff --cached --quiet; then
+            if git diff --cached --name-only | grep -Ev '^qa-shots/full-audit/'; then
+              echo 'STOP evidence changes outside isolated audit folder';exit 1
+            fi
+            git commit -m "test(brief14): original-app WebKit screenshot evidence and findings [audit-evidence]"
+            git push origin HEAD:refs/heads/review/full-app-audit-brief14-20261117
+          fi
+      - name: Upload all synthetic visual evidence independent of issue findings
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-brief14-original-app-webkit-local-audit
+          path: qa-shots/full-audit/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Fail closed on any actual audit finding, preserve evidence for manager triage
+        if: always()
+        shell: bash
+        run: |
+          if test "$FULL_AUDIT_RC" != 0; then
+            echo "FULL_AUDIT_NO_GO: findings or missing coverage; SEE FINDINGS.json in isolated branch";exit 1
+          fi
+          echo "FULL_AUDIT_TEST_PASS: recorded cases, no detected problems (not physical iPhone acceptance)"
+      - name: Stop and discard disposable LOCAL Supabase, no remote resource
+        if: always()
+        shell: bash
+        run: |
+          if command -v supabase >/dev/null 2>&1; then supabase stop --no-backup || true; fi
