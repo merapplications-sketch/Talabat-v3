@@ -284,12 +284,28 @@ def use_real_local_backend(browser,app,lang,w,h,fixture,js):
     if errors:record(app,"local_auth",lang,w,"LOCAL_JAVASCRIPT_ERROR","; ".join(errors[:2]),"P1","local")
     ctx.close()
 
+def f10_classify_source_ids():
+    """F-10: `ord0` is synthetic QA fixture ONLY; real order IDs are PostgreSQL bigint.
+    No admin display/URL rewrite of server-generated IDs is permitted based on fake data."""
+    import re
+    admin=(ROOT/"admin.html").read_text("utf8")
+    schema=(ROOT/"sql/baseline/schema_baseline_dzydscryrnahnneydnry_20261116.sql").read_text("utf8")
+    assert not re.search(r"\\bord[0-9]+\\b",admin), "F-10 raw synthetic order ID hardcoded in production admin"
+    assert re.search(r'CREATE TABLE IF NOT EXISTS "public"\\."orders"\\s*\\(\\s*"id" bigint NOT NULL',schema)
+    assert "id:'ord'+i" in (ROOT/"tools/qa_all.py").read_text("utf8")
+    REPORT.setdefault("triage",{})["F-10"]={
+      "classification":"synthetic-fixture noise",
+      "evidence":"qa_all.py creates ord0..ord6, baseline production orders.id is bigint, admin.html has no hardcoded ord0",
+      "production_change":"none"}
+    print("F10_REAL_ORDER_IDS_NOT_FIXTURE PASS: bigint SQL; ord* only synthetic",flush=True)
+
 def main():
     if os.environ.get("SUPABASE_LOCAL_URL")!=BACKEND:
         raise SystemExit("STOP: FULL AUDIT requires disposable Supabase on loopback, not cloud.")
     if os.environ.get("SUPABASE_PROJECT_REF") or os.environ.get("DATABASE_URL") or os.environ.get("SUPABASE_ACCESS_TOKEN"):
         raise SystemExit("STOP: foreign/remote credential detected.")
     print("FULL_AUDIT real original HTML WebKit; synthetic read-only + disposable LOCAL backend; never remote")
+    f10_classify_source_ids()
     server=start_server()
     try:
         with sync_playwright() as pw:
