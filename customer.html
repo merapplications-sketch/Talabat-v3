@@ -366,7 +366,7 @@ h1{font-size:19px;line-height:1.2;font-weight:600}h2{font-size:15px;font-weight:
    56 px for the photo strip, the options region keeps room, the title takes at most 2 lines */
 
 /* F-04: preserve uncut product options and focus outlines while Safari keyboard is visible. */
-.sheet.d6s.d6-keyboard .osh{scroll-padding-top:12px;scroll-padding-bottom:88px;scroll-snap-type:y proximity}
+.sheet.d6s.d6-keyboard .osh{scroll-padding-top:12px;scroll-padding-bottom:88px;scroll-snap-type:none!important}
 .sheet.d6s.d6-keyboard .osh .d6-ch{scroll-snap-align:start;scroll-margin-top:8px}
 .sheet.d6s.d6-keyboard #shn{scroll-margin-block:12px 92px}
 body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,0px))!important}
@@ -1440,6 +1440,14 @@ function f04VisibleField(){
  if(sheet?.contains(a)){
    const sc=sheet.querySelector('.osh'),foot=sheet.querySelector('.oshf');
    if(!sc||!sc.contains(a)||!foot)return;
+   // Note field is the LAST scroller block. A deterministic bottom scroll wins
+   // over Safari focus scrolling and renders the complete textarea+outline.
+   if(a.id==='shn'){
+     sc.scrollTop=sc.scrollHeight;
+     requestAnimationFrame(()=>{if(a.isConnected&&document.activeElement===a)sc.scrollTop=sc.scrollHeight});
+     return;
+   }
+   a.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
    const clip=sc.getBoundingClientRect(),field=a.getBoundingClientRect();
    const floor=Math.min(clip.bottom,foot.getBoundingClientRect().top)-12;
    if(field.bottom>floor)sc.scrollTop+=field.bottom-floor+12;
