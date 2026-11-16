@@ -7,7 +7,7 @@ No real/cloud endpoint is permitted. Found defects are RECORDED, never silently 
 """
 import os, json, re, time, sys, pathlib, threading, http.server, functools, hashlib
 from playwright.sync_api import sync_playwright
-from tools.qa_all import FIX, CHECK, APPS, EMPTY
+from qa_all import FIX, CHECK, APPS, EMPTY
 
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 OUT=ROOT/"qa-shots"/"full-audit"
