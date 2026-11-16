@@ -72,28 +72,7 @@ jobs:
         run: |
           set -euo pipefail
           bash tools/check_all.sh | tee "$RUNNER_TEMP/brief8-gate1.log"
-          grep -Eq '^PASS E08 \[live isolated test HTTP only\]
-          grep -Fxq 'GATE1_E2E: 16 / 16 LOCAL HTTP PASS' "$RUNNER_TEMP/brief8-gate1.log"
-          echo 'PASS CASH_short_amount_reports_not_delivers: REAL LOCAL HTTP E08 (payment ticket, no delivered status)'
-          node tools/driver_device_v3_checks.cjs
-          node tools/driver_nav_cash_brief8_checks.cjs
-      - name: Capture branded maps + cash sheet in isolated 390px synthetic Chromium, keyboard reduced viewport
-        shell: bash
-        run: python3 tools/driver_nav_cash_brief8_screenshots.py
-      - name: Upload synthetic screenshots and evidence manifest only
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: talabot-brief8-driver-nav-cash-synthetic-390
-          path: evidence/driver-nav-cash-brief8/
-          if-no-files-found: warn
-          retention-days: 14
-      - name: Teardown disposable LOCAL Supabase without backup
-        if: always()
-        shell: bash
-        run: |
-          if command -v supabase >/dev/null 2>&1; then supabase stop --no-backup || true; fi
- "$RUNNER_TEMP/brief8-gate1.log"
+          grep -Fq 'PASS E08 [live isolated test HTTP only]' "$RUNNER_TEMP/brief8-gate1.log"
           grep -Fxq 'GATE1_E2E: 16 / 16 LOCAL HTTP PASS' "$RUNNER_TEMP/brief8-gate1.log"
           echo 'PASS CASH_short_amount_reports_not_delivers: REAL LOCAL HTTP E08 (payment ticket, no delivered status)'
           node tools/driver_device_v3_checks.cjs
