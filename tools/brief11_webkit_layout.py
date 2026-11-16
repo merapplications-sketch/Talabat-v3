@@ -10,6 +10,8 @@ from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/"evidence"/"cash-sheet-brief11"
 OUT.mkdir(parents=True,exist_ok=True)
+O_OUT=ROOT/"qa-shots"/"unified-fix"
+O_OUT.mkdir(parents=True,exist_ok=True)
 driver=(ROOT/"driver.html").read_text(encoding="utf8")
 driverA=(ROOT/"assets/driver-a/driver-a.js").read_text(encoding="utf8")
 base=re.search(r"<style>(.*?)</style>",driver,re.S).group(1)
@@ -280,6 +282,15 @@ def check_cash(browser,width,height,lang):
     assert p.locator("#app").evaluate("e=>getComputedStyle(e).visibility")=="hidden","O02: underlying step text bleeds through overlay edge"
     assert p.locator(".cashb .big").is_visible(), "real Take in cash block must be present"
     assert ("Take in cash" if lang=="en" else "Возьмите наличными") in p.locator(".cashb").inner_text()
+    # O-13: due is shown only in existing cash box, not repeated header and action.
+    o13=p.evaluate("""() => ({
+      box:document.querySelector('.cashb')?.textContent||'',
+      headerVisible:!!document.querySelector('.b8-head>p')?.getBoundingClientRect().height,
+      full:document.querySelector('#b8-full')?.textContent||''
+    })""")
+    assert "216.00 TJS" in o13["box"] and not o13["headerVisible"],("O13 duplicate due header",o13)
+    assert "216" not in o13["full"],("O13 duplicate full cash button",o13)
+    p.screenshot(path=str(O_OUT/f"O13-cash-{lang}-{width}-after.png"))
     full_color=p.locator("#b8-full").evaluate("e=>getComputedStyle(e).backgroundColor")
     approved=p.evaluate("""() => {const el=document.createElement('div');el.style.backgroundColor='var(--o)';document.body.append(el);const color=getComputedStyle(el).backgroundColor;el.remove();return color}""")
     assert full_color==approved,("R03 approved orange full amount",full_color,approved)
@@ -289,6 +300,14 @@ def check_cash(browser,width,height,lang):
     after=bounds(p)
     assert after["sheet"]["h"]>initial["sheet"]["h"],(initial,after)
     assert_horizontal(p,"difference")
+    # O-14: original red cash policy is below the reasons with readable separation.
+    o14=p.evaluate("""() => {
+       const e=document.querySelector('#b8-policy'),st=getComputedStyle(e);
+       return {warning:e?.classList.contains('short'),marginTop:parseFloat(st.marginTop),
+          footerBorder:getComputedStyle(document.querySelector('.b8-footer')).borderTopWidth};
+    }""")
+    assert o14["warning"] and o14["marginTop"]>=13 and o14["footerBorder"]=="0px",("O14 warning too close / duplicate dividers",o14)
+    p.screenshot(path=str(O_OUT/f"O14-cash-{lang}-{width}-after.png"))
     confirm_color=p.locator("#b8-confirm").evaluate("e=>getComputedStyle(e).backgroundColor")
     assert confirm_color==approved,("R03 approved orange confirm",confirm_color,approved)
     p.screenshot(path=str(OUT/f"webkit_cash_short_{lang}_{width}.png"))
@@ -318,11 +337,27 @@ def check_cash(browser,width,height,lang):
     assert inp["y"]>=view["top"]-2 and inp["bottom"]<=foot["y"]+3,(inp,foot,view)
     assert foot["bottom"]<=view["top"]+view["h"]+2,(foot,view)
     assert_horizontal(p,"keyboard")
+    # O-12: focus ring on BOTH horizontal sides is completely inside the scroller.
+    o12=p.evaluate("""() => {
+      const el=document.querySelector('#cashAmt'),clip=document.querySelector('.b8-content');
+      const a=el.getBoundingClientRect(),c=clip.getBoundingClientRect(),style=getComputedStyle(el);
+      return {left:a.left-c.left,right:c.right-a.right,
+        ring:(parseFloat(style.outlineWidth)||0)+(parseFloat(style.outlineOffset)||0)};
+    }""")
+    assert o12["left"]>=o12["ring"]-1 and o12["right"]>=o12["ring"]-1,("O12 horizontal outline clipped",o12)
     no_partial_amount=assert_no_partly_clipped_fields(p,"R01 amount editing / other fully visible or fully offscreen")
     assert p.locator(".b11-inline-alert").inner_text().strip()==""
     p.screenshot(path=str(OUT/f"webkit_cash_keyboard_sim_{lang}_{width}.png"))
     p.locator("#cashNote").focus()
     p.wait_for_timeout(320)
+    # O-15: selected 'Other' remains visible even when chips are entirely folded.
+    o15=p.evaluate("""() => {
+      const x=document.querySelector('.b15-selected-reason'),r=x?.getBoundingClientRect();
+      return {text:x?.textContent?.trim(),visible:!!r&&r.width>0&&r.height>0,
+        height:r?.height||0,chips:getComputedStyle(document.querySelector('.b8-chips')).display};
+    }""")
+    assert o15["text"]==("Другое" if lang=="ru" else "Other") and o15["visible"] and o15["height"]<=26 and o15["chips"]=="none",("O15 reason lost under keyboard",o15)
+    p.screenshot(path=str(O_OUT/f"O15-cash-{lang}-{width}-after.png"))
     other_rect=assert_vertical_visible(p,"R01 focused Other field","#cashNote",False)
     # The input rectangle alone is insufficient: Safari clips the OUTER focus ring.
     other_outline=p.evaluate("""() => {
@@ -335,6 +370,14 @@ def check_cash(browser,width,height,lang):
     other_keyboard_blocks=assert_no_partial_keyboard_controls(p,"O01 Other keyboard no half buttons/rows")
     compact_other=assert_other_spacing(p,"O03 Other focused no overlap")
     assert_horizontal(p,"keyboard other")
+    o12_other=p.evaluate("""() => {
+      const e=document.querySelector('#cashNote'),c=document.querySelector('.b8-content');
+      const r=e.getBoundingClientRect(),q=c.getBoundingClientRect(),s=getComputedStyle(e);
+      return {left:r.left-q.left,right:q.right-r.right,
+        ring:(parseFloat(s.outlineWidth)||0)+(parseFloat(s.outlineOffset)||0)};
+    }""")
+    assert o12_other["left"]>=o12_other["ring"]-1 and o12_other["right"]>=o12_other["ring"]-1,("O12 Other outline clipped",o12_other)
+    p.screenshot(path=str(O_OUT/f"O12-cash-{lang}-{width}-after.png"))
     no_partial_other=assert_no_partly_clipped_fields(p,"R01 Other editing / no partly clipped field")
     p.screenshot(path=str(OUT/f"webkit_cash_keyboard_other_{lang}_{width}.png"))
     p.set_viewport_size({"width":width,"height":height})
@@ -351,7 +394,7 @@ def check_cash(browser,width,height,lang):
     p.evaluate("deliverClick(9122)")
     assert p.evaluate("CALLS.click")==0,"duplicate delivery action must be blocked"
     p.screenshot(path=str(OUT/f"webkit_cash_waiting_{lang}_{width}.png"))
-    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"amount_blocks":amount_keyboard_blocks,"other_blocks":other_keyboard_blocks,"other_outline":other_outline,"other_spacing":ordinary_other,"compact_other_spacing":compact_other,"ui_labels":labels,"waiting":status})
+    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"amount_blocks":amount_keyboard_blocks,"other_blocks":other_keyboard_blocks,"other_outline":other_outline,"other_spacing":ordinary_other,"compact_other_spacing":compact_other,"ui_labels":labels,"o12":o12,"o12_other":o12_other,"o13":o13,"o14":o14,"o15":o15,"waiting":status})
     ctx.close()
 def check_nav(browser,width,height,lang):
     ctx,p=browser_page(browser,width,height,lang,NAV_SETUP)
@@ -424,4 +467,8 @@ print("O02_no_text_cut_by_sheet_edge PASS: underlying stage completely obscured"
 print("O03_other_input_no_overlap PASS: measured gap >9 CSSpx")
 print("O04_no_edge_handle PASS: no app-authored ‹ in scoped source/DOM; physical Safari OS origin UNVERIFIED")
 print("O09_no_mixed_language_ru_en PASS: actual source-backed UI labels in RU/EN synthetic WebKit")
+print("O12_cash_focus_ring_horizontal PASS")
+print("O13_cash_amount_not_triplicated PASS")
+print("O14_short_warning_spacing PASS")
+print("O15_selected_cash_reason_keyboard PASS")
 print("LAYOUT_webkit_suite PASS; real iPhone keyboard and live authenticated app UNTESTED")
