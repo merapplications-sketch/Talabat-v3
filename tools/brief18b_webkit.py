@@ -78,12 +78,15 @@ def check(page, case, lang, width):
               e.textContent.trim()==='+ '+TLB.t('optAdd')),
             expected=TLB.lang()==='ru'?'Добавить вариант':'Add variant',
             unclipped=rows.every(r=>{const a=r.querySelector('.u18-option-name');return
-              a && a.scrollHeight<=a.clientHeight+3 && a.scrollWidth<=a.clientWidth+1;});
+              a && a.scrollHeight<=a.clientHeight+3;})&&
+            document.documentElement.scrollWidth<=document.documentElement.clientWidth+1;
           return {ok:!!n&&!!p&&!!sw&&!!del&&!!button&&
             TLB.t('optAdd')===expected&&diff<=2&&unclipped&&
             b.right<=pb.left+3&&pb.right<=sb.left+3&&sb.right<=db.left+3,
             textCenter,rowCenter,diff,unclipped,button:button?.textContent.trim(),
             text:n?.value,nameHeight:b?.height,priceHeight:pb?.height,
+            pageScrollWidth:document.documentElement.scrollWidth,pageClientWidth:document.documentElement.clientWidth,
+            textAreas:rows.map(r=>{const a=r.querySelector('.u18-option-name');return a&&{text:a.value,scrollHeight:a.scrollHeight,clientHeight:a.clientHeight,scrollWidth:a.scrollWidth,clientWidth:a.clientWidth}}),
             names:rows.map(r=>r.querySelector('.u18-option-name')?.value)};
         }""")
     if case == "P-02":
