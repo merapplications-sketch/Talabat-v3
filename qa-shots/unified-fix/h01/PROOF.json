@@ -1,0 +1,20 @@
+{
+  "verified": 24,
+  "roles": [
+    "customer",
+    "driver",
+    "merchant",
+    "admin"
+  ],
+  "widths": [
+    375,
+    390,
+    430
+  ],
+  "languages": [
+    "ru",
+    "en"
+  ],
+  "backend": "disposable LOCAL Supabase; original HTML; actual login UI",
+  "token_data_in_evidence": false
+}
