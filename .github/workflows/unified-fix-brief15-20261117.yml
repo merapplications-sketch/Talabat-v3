@@ -224,6 +224,73 @@ jobs:
           if test "$rc" -ne 0; then tail -12 "$RUNNER_TEMP/brief15-cash.log"; fi
           echo "BRIEF15_CASH_RC=$rc" >> "$GITHUB_ENV"
           exit 0
+      - name: Create pinned BEFORE WebKit PNGs from original BRIEF-14 source (NO app edits)
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=f85f927db58280c24773768f4aa5ddc88956a448
+          BEFORE_WORK="$RUNNER_TEMP/brief15-original-before"
+          mkdir -p qa-shots/unified-fix/before
+          git worktree add --detach "$BEFORE_WORK" "$BASE" >/dev/null
+          # Read-only old app source, using current test driver only to photograph it.
+          cp tools/brief15_webkit.py "$BEFORE_WORK/tools/brief15_webkit.py"
+          (cd "$BEFORE_WORK" && BRIEF15_WIDTHS=375 BRIEF15_LANGS=ru python3 tools/brief15_webkit.py >"$RUNNER_TEMP/brief15-before-webkit.log" 2>&1) || true
+          for kind in F-01 F-02 F-03 F-04 F-05 F-06 F-07 F-08 F-09 F-10; do
+            case "$kind" in
+              F-01|F-02|F-03|F-04|F-05) app=customer;;
+              F-06|F-07|F-08) app=merchant;;
+              F-09) app=driver;;
+              F-10) app=admin;;
+            esac
+            src="$BEFORE_WORK/qa-shots/unified-fix/$kind-$app-ru-375-after.png"
+            test -s "$src" || { echo "MISSING original BEFORE screenshot $kind";exit 1; }
+            cp "$src" "qa-shots/unified-fix/before/$kind-$app-ru-375-before.png"
+          done
+          for app in customer merchant driver admin; do
+            src="$BEFORE_WORK/qa-shots/unified-fix/NOTIFY-01-$app-ru-375-after.png"
+            test -s "$src" || { echo "MISSING original BEFORE NOTIFY-01 $app";exit 1; }
+            cp "$src" "qa-shots/unified-fix/before/NOTIFY-01-$app-ru-375-before.png"
+          done
+          # One extra screenshot of the ORIGINAL cash full-mode before choosing
+          # Different, produced in disposable baseline worktree only.
+          python3 - "$BEFORE_WORK" <<'PY'
+          import pathlib,sys
+          root=pathlib.Path(sys.argv[1])
+          p=root/'tools/brief11_webkit_layout.py'
+          s=p.read_text('utf8')
+          old='    p.locator("#b8-different").click()'
+          assert s.count(old)==1
+          s=s.replace(old,'    p.screenshot(path=str(OUT/f"webkit_cash_full_{lang}_{width}.png"))\n'+old)
+          p.write_text(s,encoding='utf8')
+          PY
+          (cd "$BEFORE_WORK" && python3 tools/brief11_webkit_layout.py >"$RUNNER_TEMP/brief15-before-cash.log" 2>&1) || true
+          SRC="$BEFORE_WORK/evidence/cash-sheet-brief11"
+          test -s "$SRC/webkit_cash_full_ru_375.png"
+          test -s "$SRC/webkit_cash_short_ru_375.png"
+          test -s "$SRC/webkit_cash_keyboard_other_ru_375.png"
+          cp "$SRC/webkit_cash_full_ru_375.png" qa-shots/unified-fix/before/O13-cash-ru-375-before.png
+          cp "$SRC/webkit_cash_short_ru_375.png" qa-shots/unified-fix/before/O14-cash-ru-375-before.png
+          cp "$SRC/webkit_cash_keyboard_other_ru_375.png" qa-shots/unified-fix/before/O12-cash-ru-375-before.png
+          cp "$SRC/webkit_cash_keyboard_other_ru_375.png" qa-shots/unified-fix/before/O15-cash-ru-375-before.png
+          cat > qa-shots/unified-fix/before/README.md <<'DOC'
+          # BRIEF-15 BEFORE screenshots (RU/375)
+          Source pinned to f85f927db58280c24773768f4aa5ddc88956a448.
+          F-01..F-10 + NOTIFY-01: original app HTML/CSS/JS, WebKit,
+          read-only synthetic fixture, exact targeted screen state.
+          O-12..O-15: original BRIEF-11 WebKit cash UI with reduced-height
+          keyboard approximation; no money/order/delivery action.
+          AFTER images are in parent qa-shots/unified-fix.
+          Neither set is a native iPhone Safari or live-app screenshot.
+          DOC
+          python3 - <<'PY'
+          import pathlib
+          p=pathlib.Path('qa-shots/unified-fix/before')
+          images=list(p.glob('*.png'))
+          assert len(images)==18,(len(images),images)
+          for f in images:
+              assert f.stat().st_size>2500 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n',f
+          print('BRIEF15_BEFORE_REPRODUCED 18 pinned WebKit original-source PNG (RU/375)')
+          PY
       - name: Commit only screenshot/result evidence to this review branch, no UI or prod files
         shell: bash
         if: always()
