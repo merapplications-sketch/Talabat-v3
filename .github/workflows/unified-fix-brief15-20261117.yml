@@ -8,6 +8,9 @@ on:
       - 'tools/full_audit.py'
       - 'tools/brief15_webkit.py'
       - 'tools/brief15b_webkit.py'
+      - 'tools/brief18_webkit.py'
+      - 'talabat-core.js'
+      - 'assets/3d/motor-scooter-yellow.png'
       - 'tools/brief11_webkit_layout.py'
       - 'tools/check_all.sh'
       - 'customer.html'
@@ -261,7 +264,7 @@ jobs:
           assert all(addition.count('    '+x+': function')==1 for x in ('deliveryInstructionsReady','saveDeliveryInstructions','getDeliveryInstructions')),'U-02 methods missing'
           assert current[:a]+current[b:]==original,'Money / existing core code differs from frozen baseline'
           PY
-          python3 -m py_compile tools/brief15_webkit.py tools/brief15b_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
+          python3 -m py_compile tools/brief15_webkit.py tools/brief15b_webkit.py tools/brief18_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
       - name: Install pinned WebKit test engine only in disposable runner
         shell: bash
         run: |
@@ -400,6 +403,59 @@ jobs:
           img_rc=$?
           echo "BRIEF15B_IMAGE_RC=$img_rc" >> "$GITHUB_ENV"
           exit 0
+      - name: BRIEF-18 original WebKit RU375 EN390 width320 visual and parity evidence
+        shell: bash
+        run: |
+          set +e
+          BRIEF18_MODE=after python3 tools/brief18_webkit.py > "$RUNNER_TEMP/brief18-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF18_WEBKIT|BRIEF18_FAIL|Traceback' "$RUNNER_TEMP/brief18-after.log" | tail -35 || true
+          BEFORE18="$RUNNER_TEMP/brief18-original-before"
+          git worktree add --detach "$BEFORE18" f7d961ecd444ee4299e727beb64a0e98afcd0408 > "$RUNNER_TEMP/brief18-worktree.log" 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
+            cp tools/brief18_webkit.py "$BEFORE18/tools/brief18_webkit.py"
+            (cd "$BEFORE18" && BRIEF18_MODE=before python3 tools/brief18_webkit.py) > "$RUNNER_TEMP/brief18-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/brief18/before
+            cp -a "$BEFORE18/qa-shots/unified-fix/brief18/before/." qa-shots/unified-fix/brief18/before/ || before_rc=1
+          fi
+          echo "BRIEF18_AFTER_RC=$after_rc" >> "$GITHUB_ENV"
+          echo "BRIEF18_BEFORE_RC=$before_rc" >> "$GITHUB_ENV"
+          echo "BRIEF18_AFTER_RC=$after_rc BRIEF18_BEFORE_RC=$before_rc"
+          python3 - <<'PY'
+          import json,pathlib,math
+          root=pathlib.Path('qa-shots/unified-fix/brief18')
+          before=json.loads((root/'before/REPORT.json').read_text())
+          after=json.loads((root/'after/REPORT.json').read_text())
+          assert len(after['cases'])==28,(len(after['cases']),after['errors'])
+          assert len(before['cases'])==28,len(before['cases'])
+          assert not after['errors'] and all(x['status']=='PASS' for x in after['cases']),after['errors']
+          for mode in ('before','after'):
+              dir=root/mode;pngs=list(dir.glob('*.png'))
+              assert len(pngs)>=28,(mode,len(pngs))
+              assert (dir/'INDEX.md').exists()
+              assert all(f.stat().st_size>2000 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for f in pngs)
+          fmt=lambda r:(r['id'],r['app'],r['lang'],r['width'])
+          prior={fmt(x):x for x in before['cases']}
+          keys=('total','sub','discount','happyHour','promo','pointsValue','fee','tip','saved','due','wallet')
+          count=0
+          for item in after['cases']:
+              new=item.get('financial');old=prior[fmt(item)].get('financial')
+              if new is None:continue
+              assert old is not None,fmt(item)
+              for key in keys:
+                  assert math.isclose(float(new[key]),float(old[key]),abs_tol=0.011),(
+                    'NONFINANCIAL_PARITY_FAIL',fmt(item),key,old[key],new[key])
+              count+=1
+          assert count>=16,count
+          print('BRIEF18_VISUAL_ALL_PASS',len(after['cases']),'/28')
+          print('BRIEF18_FINANCIAL_PARITY',count,'cases x',len(keys),'metrics PASS')
+          print('BRIEF18_BEFORE_AFTER_PNG_VERIFIED')
+          PY
+          image_rc=$?
+          echo "BRIEF18_IMAGE_RC=$image_rc" >> "$GITHUB_ENV"
+          exit 0
       - name: Commit only new BRIEF-15c evidence to isolated branch (avoid H01 and legacy PNG conflicts)
         shell: bash
         if: always()
@@ -413,18 +469,18 @@ jobs:
           git config user.email "talabot-brief15-webkit@users.noreply.github.com"
           # H01 commits only h01/, while this job commits ONLY the BRIEF15c b/ tree.
           # Re-rendered older F/NOTIFY png and reports must never cause merge races.
-          git add -- qa-shots/unified-fix/b/
+          git add -- qa-shots/unified-fix/b/ qa-shots/unified-fix/brief18/
           git restore --worktree -- qa-shots/unified-fix/
           git clean -fd -- qa-shots/unified-fix/
           if ! git diff --cached --quiet; then
-            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/b/'; then
+            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/(b|brief18)/'; then
               echo 'STOP: outside BRIEF-15c evidence-only staged path' >&2
               exit 1
             fi
             git commit -m "test(BRIEF-15c): pinned RU375 EN390 BEFORE AFTER WebKit geometry evidence"
             git fetch origin review/unified-fix-brief15-20261117
             git rebase origin/review/unified-fix-brief15-20261117
-            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/b/'; then
+            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/(b|brief18)/'; then
               echo 'STOP: rebased commit modified protected files' >&2
               exit 1
             fi
@@ -449,4 +505,7 @@ jobs:
           test "$BRIEF15B_BEFORE_RC" = 0
           test "$BRIEF15B_AFTER_RC" = 0
           test "$BRIEF15B_IMAGE_RC" = 0
+          test "$BRIEF18_AFTER_RC" = 0
+          test "$BRIEF18_BEFORE_RC" = 0
+          test "$BRIEF18_IMAGE_RC" = 0
           echo 'BRIEF15_VISUAL_WEBKIT_ALL_PASS (NOT physical iPhone approval)'
