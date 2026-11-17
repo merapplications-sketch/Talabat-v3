@@ -46,7 +46,7 @@
   // Bottom padding alone cannot stop a fixed card hiding list rows mid-scroll.
   const listAnchor=!homeBanner&&(
     S.v==='cat'?document.querySelector('#app .d6-lh'):
-    S.v==='menu'?document.querySelector('#app .d6m .d6-cover'):
+    S.v==='menu'?document.querySelector('#app .d6m .d6-stats'):
     S.v==='home'?document.querySelector('#app .d6-hh'):
     document.querySelector('#app .top, #app .d6-head')
   );
