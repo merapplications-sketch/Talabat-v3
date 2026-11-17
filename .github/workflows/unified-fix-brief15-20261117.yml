@@ -82,7 +82,7 @@ jobs:
                                """${setup?(g07LogSetup(),''):''}""")
               assert current==expected,(path,'outside approved G-04/G-07 UI delta')
           PY
-          python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py
+          python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py tools/brief15b_webkit.py
       - name: Install immutable QA browsers and dependencies
         shell: bash
         run: |
@@ -208,7 +208,7 @@ jobs:
           for f in talabat-core.js sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
             test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
           done
-          python3 -m py_compile tools/brief15_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
+          python3 -m py_compile tools/brief15_webkit.py tools/brief15b_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
       - name: Install pinned WebKit test engine only in disposable runner
         shell: bash
         run: |
@@ -310,6 +310,40 @@ jobs:
               assert f.stat().st_size>2500 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n',f
           print('BRIEF15_BEFORE_REPRODUCED 18 pinned WebKit original-source PNG (RU/375)')
           PY
+      - name: BRIEF-15b WebKit RU/375 and EN/390 geometry and BEFORE/AFTER original-source evidence
+        shell: bash
+        run: |
+          set +e
+          BRIEF15B_MODE=after python3 tools/brief15b_webkit.py > "$RUNNER_TEMP/brief15b-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF15B|Traceback|AssertionError' "$RUNNER_TEMP/brief15b-after.log" | tail -25 || true
+          BEFORE_WORK="$RUNNER_TEMP/brief15-original-before"
+          if test -d "$BEFORE_WORK"; then
+            cp tools/brief15b_webkit.py "$BEFORE_WORK/tools/brief15b_webkit.py"
+            (cd "$BEFORE_WORK" && BRIEF15B_MODE=before python3 tools/brief15b_webkit.py) > "$RUNNER_TEMP/brief15b-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/b/before
+            cp -a "$BEFORE_WORK/qa-shots/unified-fix/b/before/." qa-shots/unified-fix/b/before/ 2>/dev/null || before_rc=1
+          else
+            before_rc=1
+            echo 'BRIEF15B_BEFORE_MISSING_PINNED_WORKTREE' >&2
+          fi
+          echo "BRIEF15B_AFTER_RC=$after_rc" >> "$GITHUB_ENV"
+          echo "BRIEF15B_BEFORE_RC=$before_rc" >> "$GITHUB_ENV"
+          printf 'BRIEF15B_AFTER_RC=%s BRIEF15B_BEFORE_RC=%s\n' "$after_rc" "$before_rc"
+          python3 - <<'PY'
+          import pathlib
+          p=pathlib.Path('qa-shots/unified-fix/b')
+          for mode in ('before','after'):
+              folder=p/mode; images=list(folder.glob('*.png'))
+              assert len(images)>=30,(mode,len(images))
+              assert (folder/'REPORT.json').exists() and (folder/'INDEX.md').exists(),mode
+              assert all(x.stat().st_size>2000 and x.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for x in images),mode
+          print('BRIEF15B_SCREENSHOT_EVIDENCE_VERIFIED')
+          PY
+          img_rc=$?
+          echo "BRIEF15B_IMAGE_RC=$img_rc" >> "$GITHUB_ENV"
+          exit 0
       - name: Commit only screenshot/result evidence to this review branch, no UI or prod files
         shell: bash
         if: always()
@@ -350,4 +384,7 @@ jobs:
         run: |
           test "$BRIEF15_VISUAL_RC" = 0
           test "$BRIEF15_CASH_RC" = 0
+          test "$BRIEF15B_BEFORE_RC" = 0
+          test "$BRIEF15B_AFTER_RC" = 0
+          test "$BRIEF15B_IMAGE_RC" = 0
           echo 'BRIEF15_VISUAL_WEBKIT_ALL_PASS (NOT physical iPhone approval)'
