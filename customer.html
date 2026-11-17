@@ -1192,6 +1192,12 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 
 /* BRIEF-15b G-08: a real store initial replaces image-less blank tiles. */
 .d6-lo .d6-name-ph{background:#fff1e9;display:flex;align-items:center;justify-content:center;color:#b44820;font-weight:700;font-size:25px}
+/* BRIEF-15c G-03: narrow mobile CTA uses a real gap and hard no-wrap price. */
+#app .d6s .oshf{min-width:0;padding-inline:12px;gap:8px}
+#app .d6s .oshf .d6-q{flex:0 0 118px;min-width:0}
+#app .d6s .oshf .btn{min-width:0;flex:1 1 0;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px}
+#app .d6s .oshf .btn span:first-child{flex:1 1 auto;min-width:0;white-space:normal;overflow-wrap:normal;word-break:normal;font-size:clamp(11px,3vw,13px);line-height:16px;text-align:start}
+#app .d6s .oshf .btn .px6{flex:0 0 auto;min-width:0;white-space:nowrap;font-size:clamp(12px,3.4vw,14px);line-height:18px;margin-left:auto}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
