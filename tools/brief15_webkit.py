@@ -206,12 +206,16 @@ def F08(pg,w,h):
     pg.locator("#sdesc").focus()
     pg.set_viewport_size({"width":w,"height":max(300,h-280)})
     pg.evaluate("() => window.visualViewport?.dispatchEvent(new Event('resize'))")
-    pg.wait_for_timeout(350)
-    return assert_js(pg,"""() => {
+    # Safari/WebKit applies viewport resize, focus scrolling and rAF on separate frames.
+    # Wait for the SAME visibility contract to settle rather than sampling at 350ms.
+    condition="""() => {
       const e=document.querySelector('#sdesc');if(!e||document.activeElement!==e)return false;
       const r=e.getBoundingClientRect(),h=window.visualViewport?.height||innerHeight;
       return r.bottom<=h+2 && r.top>=-1 &&document.body.classList.contains('f08-profile-keyboard');
-    }""","F-08 profile input obscured by keyboard")
+    }"""
+    try:pg.wait_for_function(condition,timeout=2400, polling="raf")
+    except Exception:pass
+    return assert_js(pg,condition,"F-08 profile input obscured by keyboard")
 
 def F09(pg):
     pg.evaluate("() => {const o=mine();if(o){o.status='pickedup';o.arrivedCustAt=Date.now();}render()}")
