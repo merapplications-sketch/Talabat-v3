@@ -415,6 +415,11 @@ body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,
 .d6 .d6-add:disabled,.d6s .oshf .btn:disabled{background:#d5d8de!important;color:#777e8a!important;box-shadow:none!important;cursor:not-allowed!important}
 .c01-closed-cart .d6-head .st{color:#81858b!important;text-decoration:line-through}
 .c01-closed-cart .ci{opacity:.62;filter:grayscale(.65)}
+/* C-01c: deep-linked closed restaurant remains a readable, non-orderable grey view. */
+.c01-closed-menu .d6-cover,.c01-closed-menu .d6-stats,
+.c01-closed-menu .d6-ofs,.c01-closed-menu .d6-sec,
+.c01-closed-menu .d69-menu-nav{filter:grayscale(1);opacity:.65}
+.c01-closed-menu :is(.d6-pv,.d6-mi){cursor:default!important}
 /* ---------- cart ---------- */
 .d6c{padding:0 16px}
 .d6c .d6-head{display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top,0px)) 0 16px}
@@ -1361,7 +1366,7 @@ function grpDeep(){if(S.gDeepDone||!ALLS.length)return;S.gDeepDone=true;let id=d
   TLB.groupGet(id).then(r=>{if(r&&r.group&&['open','closed'].includes(r.group.status)){S.gid=id;S.grp=r.group;render()}else{try{localStorage.removeItem(GK())}catch(e){}}});return}
   grpOpen(id)}
 function openDeep(){if(!deepStore||S.deepDone||!ALLS.length)return;S.deepDone=true;try{history.replaceState(null,'',location.pathname)}catch(e){}
-  const o=ALLS.find(x=>x.id==deepStore);if(!o){TLB.toast&&TLB.toast(t('storeGone'),true);return}openN(o.n)}
+  const o=ALLS.find(x=>x.id==deepStore);if(!o){TLB.toast&&TLB.toast(t('storeGone'),true);return}if(TLB.isOpen(o.n))openN(o.n);else go('menu',{store:o.n,back:'home',msq:'',msearch:false,sheet:false})}
 /* ---------- delivery address sheet ---------- */
 function openSheet(back){S.addrBack=back||S.v;S.sheetAddr=true;render()}
 function closeSheet(){S.sheetAddr=false;render()}
@@ -1801,8 +1806,8 @@ TLB.addDict({v75Reduce:'Уменьшить количество'},{v75Reduce:'Re
 function d6Dec(id){if(S.cartStore==S.store&&S.cart[id])add(id,-1);else goCart()}
 const d6Minus=i=>{if(i.hasOpts||i.optsBlocked||closedNow(S.store))return '';const q=S.cartStore==S.store?qtyOf(i.id):0;if(!q)return '';const one=(S.cart[i.id]||0)==1&&q==1;
   return `<button class="d6-add" aria-label="${one?t('removeI'):'−'}: ${esc(i.name)}" onclick="event.stopPropagation();d6Dec('${i.id}')"><i>${ico(one?'trash':'minus')}</i></button>`};
-const d6Card=(i,sd)=>`<div class="d6-pv" ${i.optsBlocked?'':`role="button" tabindex="0" onclick="${d6Open(i)}"`}><div class="d69-product-photo">${d6Ph(i.image,d6Bdg(i,sd))}${d6Add(i)}</div><div class="d6-pc"><div class="nm">${esc(i.name)}</div>${i.hasOpts?`<div class="d6-sub">${t('customT')}</div>`:''}<div class="d6-pf">${d6Price(i,sd)}</div></div></div>`;
-const d6Row=(i,sd)=>`<div class="d6-mi" ${i.optsBlocked?'':`role="button" tabindex="0" onclick="${d6Open(i)}"`}>${d6Ph(i.image,d6Bdg(i,sd))}<div class="d6-mc"><div class="nm">${esc(i.name)}</div>${i.hasOpts?`<div class="d6-sub">${t('customT')}</div>`:''}<div class="d6-mf">${d6Price(i,sd)}<div class="d6-ctl">${d6Add(i)}</div></div></div></div>`;
+const d6Card=(i,sd)=>`<div class="d6-pv" ${i.optsBlocked||closedNow(S.store)?'':`role="button" tabindex="0" onclick="${d6Open(i)}"`}><div class="d69-product-photo">${d6Ph(i.image,d6Bdg(i,sd))}${d6Add(i)}</div><div class="d6-pc"><div class="nm">${esc(i.name)}</div>${i.hasOpts?`<div class="d6-sub">${t('customT')}</div>`:''}<div class="d6-pf">${d6Price(i,sd)}</div></div></div>`;
+const d6Row=(i,sd)=>`<div class="d6-mi" ${i.optsBlocked||closedNow(S.store)?'':`role="button" tabindex="0" onclick="${d6Open(i)}"`}>${d6Ph(i.image,d6Bdg(i,sd))}<div class="d6-mc"><div class="nm">${esc(i.name)}</div>${i.hasOpts?`<div class="d6-sub">${t('customT')}</div>`:''}<div class="d6-mf">${d6Price(i,sd)}<div class="d6-ctl">${d6Add(i)}</div></div></div></div>`;
 function menuSecs(M,sn){const secs=[];
   const seen=new Set(),again=[];TLB.orders().filter(o=>o.store==sn&&o.status=='delivered').forEach(o=>(o.items||[]).forEach(x=>{const it=M.find(m=>m.id==x.id);if(it&&!seen.has(it.id)){seen.add(it.id);again.push(it)}}));
   if(again.length)secs.push({title:t('ordAgain'),kind:'h',items:again.slice(0,10)});
@@ -1826,7 +1831,7 @@ function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store
   const body=q?(()=>{const f=M.filter(i=>i.name.toLowerCase().includes(q));return search+(f.length?`<div class="d6-list" style="margin-top:12px">${f.map(i=>d6Row(i,sdp)).join('')}</div>`:`<div class="d6-empty">${emptyV(t('noItemsF'),t('emNoResS'),'','search')}</div>`)})()
     :M.length?again.map(sec).join('')+search+rest.map(sec).join(''):`<div class="d6-empty">${emptyV(t('noMenu'),'','','receipt')}</div>`;
   const n=S.cartStore==S.store?cartCount():0;
-  return `<div class="d6 d6m"><div class="d6-cover">${st.cover_url?`<img src="${esc(st.cover_url)}" alt="" onerror="this.remove()">`:''}
+  return `<div class="d6 d6m ${open?'':'c01-closed-menu'}"><div class="d6-cover">${st.cover_url?`<img src="${esc(st.cover_url)}" alt="" onerror="this.remove()">`:''}
   <div class="d6-act"><button class="d6-circ" onclick="go('${S.back||'home'}')" aria-label="${t('back')}">${ico('back')}</button><span class="sp"></span>
   <button class="d6-circ ${fav?'on':''}" aria-label="${t('favs')}" aria-pressed="${!!fav}" onclick="TLB.toggleFav('${st.id}')">${ico('heart',22,fav)}</button><button class="d6-circ" aria-label="${t('shareStore')}" onclick="shareStore()">${ico('share')}</button></div>
   <div class="d6-id"><div class="d6-logo">${st.logo_url?`<img src="${esc(st.logo_url)}" alt="" onerror="this.remove()">`:esc(String(S.store||'?').charAt(0).toUpperCase())}</div><div style="min-width:0;flex:1"><h1>${esc(S.store)}</h1>${st.description?`<div class="d6-tag">${esc(st.description)}</div>`:''}
@@ -2238,7 +2243,7 @@ TLB.addDict({v69Slide:'Сдвиньте, чтобы заказать',v69SlideHi
 function render(){
   if(!ME.phone){$('app').innerHTML=phoneGateV();return}
   if(TLB.me().banned&&!['support','ticket'].includes(S.v)){S.v='support';TLB.wantSupport(true)}
-  if(S.v=='menu'&&!TLB.isOpen(S.store)){S.v='home';S.sh=null}
+  if(S.v=='menu'&&!TLB.isOpen(S.store)){S.sh=null}
   if(S.v=='track'&&TLB.unread(S.tid))setTimeout(()=>TLB.markRead(S.tid),0);
   const V={home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
   const full=['cart','pay','group','addr','addrForm','ticket'].includes(S.v),nav=['home','orders','wallet','promo','me'],ni={home:'home',orders:'receipt',wallet:'card',promo:'tag',me:'user'},un=TLB.totalUnread();
