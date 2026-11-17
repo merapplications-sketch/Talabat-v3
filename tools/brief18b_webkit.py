@@ -101,14 +101,14 @@ def check(page, case, lang, width):
             }),
             pageFit=document.documentElement.scrollWidth<=document.documentElement.clientWidth+1,
             namesFit=rows.length>=2&&nameChecks.every(x=>x.heightOkay&&x.widthOkay),
-            visible=!!lb&&!!ab&&!!eb&&lb.height>=40&&lb.top>=eb.top-1&&
+            visible=!!lb&&!!ab&&!!eb&&lb.height>=43.5&&lb.top>=eb.top-1&&
               lb.bottom<=ab.top-16+2&&lb.right<=eb.right+1&&hitTarget,
             expected=TLB.lang()==='ru'?'Добавить вариант':'Add variant';
           return {ok:!!n&&!!p&&!!sw&&!!del&&adds.length>=2&&
             TLB.t('optAdd')===expected&&diff<=2&&namesFit&&pageFit&&visible&&
             clearanceGap>=15.5&&b.right<=pb.left+3&&pb.right<=sb.left+3&&sb.right<=db.left+3,
             textCenter,rowCenter,diff,namesFit,pageFit,visible,gap,clearanceGap,hitTarget,
-            lastAdd:last?.textContent.trim(),lastAddTop:lb?.top,lastAddBottom:lb?.bottom,
+            lastAdd:last?.textContent.trim(),lastAddTop:lb?.top,lastAddBottom:lb?.bottom,lastAddHeight:lb?.height,editorTop:eb?.top,editorBottom:eb?.bottom,
             actionsTop:ab?.top,actionsHeight:ab?.height,clearanceHeight:cb?.height,
             nameChecks,pageScrollWidth:document.documentElement.scrollWidth,
             pageClientWidth:document.documentElement.clientWidth};

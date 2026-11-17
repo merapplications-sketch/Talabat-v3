@@ -146,6 +146,8 @@ body.f08-profile-keyboard #app .nav{visibility:hidden;pointer-events:none}
 .f06-item-editor .u18-merchant-option .f15c-option-controls>.rb{width:31px}}
 /* BRIEF-18b P-01: scrollable clearance equal to measured sticky controls + 16px.
    The last Add variant and form controls must never sit behind Save/Delete. */
+/* P-01: the revealed Add variant must also be a full 44px touch target. */
+.f06-item-editor .ogc > button.b.o{min-height:44px}
 .f06-item-editor .p18b-actions-clearance{
   display:block;height:calc(var(--p18b-actions-height,120px) + 16px);
   min-height:16px;pointer-events:none
