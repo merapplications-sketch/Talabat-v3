@@ -8,7 +8,28 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:04:40Заказать се",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 2283,
+              "right": 375,
+              "bottom": 2283
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-01-customer-ru-375-after.png"
     },
     {
@@ -17,7 +38,28 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:04:39Заказать се",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 2283,
+              "right": 375,
+              "bottom": 2283
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-02-customer-ru-375-after.png"
     },
     {
@@ -26,7 +68,28 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Заказ #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 1415,
+              "right": 375,
+              "bottom": 1415
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-03-customer-ru-375-after.png"
     },
     {
@@ -66,7 +129,28 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Оплата\n  \n  Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 1620,
+              "right": 375,
+              "bottom": 1620
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-05-customer-ru-375-after.png"
     },
     {
@@ -75,7 +159,28 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 355,
+              "h": 1709,
+              "right": 365,
+              "bottom": 1723
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-06-merchant-ru-375-after.png"
     },
     {
@@ -84,7 +189,28 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 387
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 355,
+              "h": 1787,
+              "right": 365,
+              "bottom": 1801
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-07-merchant-ru-375-after.png"
     },
     {
@@ -93,7 +219,28 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 387
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": -137,
+              "w": 355,
+              "h": 1944,
+              "right": 365,
+              "bottom": 1807
+            }
+          }
+        ],
+        "scrollY": 151,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-08-merchant-ru-375-after.png"
     },
     {
@@ -101,8 +248,7 @@
       "app": "driver",
       "lang": "ru",
       "width": 375,
-      "status": "PASS",
-      "geometry": null,
+      "status": "FAIL",
       "image": "qa-shots/unified-fix/F-09-driver-ru-375-after.png"
     },
     {
@@ -111,8 +257,89 @@
       "lang": "ru",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Панель администратора0/1курьеров на линии2/3магазинов открыто Ста",
+            "rect": {
+              "x": 14,
+              "y": 49,
+              "w": 347,
+              "h": 2209,
+              "right": 361,
+              "bottom": 2258
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-10-admin-ru-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "status": "FAIL",
+      "image": "qa-shots/unified-fix/NOTIFY-01-customer-ru-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "driver",
+      "lang": "ru",
+      "width": 375,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 355,
+          "right": 359,
+          "bottom": 393,
+          "w": 343,
+          "h": 38
+        },
+        "parent": "a-sheet-body",
+        "overlapped": [],
+        "checkedNodes": 12
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-driver-ru-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 375,
+      "status": "FAIL",
+      "image": "qa-shots/unified-fix/NOTIFY-01-merchant-ru-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "admin",
+      "lang": "ru",
+      "width": 375,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 57,
+          "right": 361,
+          "bottom": 95,
+          "w": 347,
+          "h": 38
+        },
+        "parent": "w",
+        "overlapped": [],
+        "checkedNodes": 25
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-admin-ru-375-after.png"
     },
     {
       "id": "F-01",
@@ -120,7 +347,28 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:04:17Order now Favour",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 2248,
+              "right": 375,
+              "bottom": 2248
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-01-customer-en-375-after.png"
     },
     {
@@ -129,7 +377,28 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:04:15Order now Favour",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 2248,
+              "right": 375,
+              "bottom": 2248
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-02-customer-en-375-after.png"
     },
     {
@@ -138,7 +407,28 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Order #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 1371,
+              "right": 375,
+              "bottom": 1371
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-03-customer-en-375-after.png"
     },
     {
@@ -178,7 +468,28 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Payment\n  \n  Delivery address · Homeпр. Рудаки 100, entrance 2, f",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 375,
+              "h": 1604,
+              "right": 375,
+              "bottom": 1604
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-05-customer-en-375-after.png"
     },
     {
@@ -187,7 +498,28 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 355,
+              "h": 1709,
+              "right": 365,
+              "bottom": 1723
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-06-merchant-en-375-after.png"
     },
     {
@@ -196,7 +528,28 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 387
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 355,
+              "h": 1727,
+              "right": 365,
+              "bottom": 1741
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-07-merchant-en-375-after.png"
     },
     {
@@ -205,7 +558,28 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 387
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": -137,
+              "w": 355,
+              "h": 1911,
+              "right": 365,
+              "bottom": 1774
+            }
+          }
+        ],
+        "scrollY": 151,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-08-merchant-en-375-after.png"
     },
     {
@@ -213,8 +587,7 @@
       "app": "driver",
       "lang": "en",
       "width": 375,
-      "status": "PASS",
-      "geometry": null,
+      "status": "FAIL",
       "image": "qa-shots/unified-fix/F-09-driver-en-375-after.png"
     },
     {
@@ -223,8 +596,89 @@
       "lang": "en",
       "width": 375,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Admin dashboard0/1couriers online2/3stores open The “online” stat",
+            "rect": {
+              "x": 14,
+              "y": 49,
+              "w": 347,
+              "h": 2176,
+              "right": 361,
+              "bottom": 2225
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-10-admin-en-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "en",
+      "width": 375,
+      "status": "FAIL",
+      "image": "qa-shots/unified-fix/NOTIFY-01-customer-en-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "driver",
+      "lang": "en",
+      "width": 375,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 355,
+          "right": 359,
+          "bottom": 393,
+          "w": 343,
+          "h": 38
+        },
+        "parent": "a-sheet-body",
+        "overlapped": [],
+        "checkedNodes": 12
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-driver-en-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 375,
+      "status": "FAIL",
+      "image": "qa-shots/unified-fix/NOTIFY-01-merchant-en-375-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "admin",
+      "lang": "en",
+      "width": 375,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 57,
+          "right": 361,
+          "bottom": 95,
+          "w": 347,
+          "h": 38
+        },
+        "parent": "w",
+        "overlapped": [],
+        "checkedNodes": 25
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-admin-en-375-after.png"
     },
     {
       "id": "F-01",
@@ -232,7 +686,28 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:53Заказать се",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 2283,
+              "right": 390,
+              "bottom": 2283
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-01-customer-ru-390-after.png"
     },
     {
@@ -241,7 +716,28 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:51Заказать се",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 2283,
+              "right": 390,
+              "bottom": 2283
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-02-customer-ru-390-after.png"
     },
     {
@@ -250,7 +746,28 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Заказ #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 1401,
+              "right": 390,
+              "bottom": 1401
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-03-customer-ru-390-after.png"
     },
     {
@@ -290,7 +807,28 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Оплата\n  \n  Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 1604,
+              "right": 390,
+              "bottom": 1604
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-05-customer-ru-390-after.png"
     },
     {
@@ -299,7 +837,28 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 370,
+              "h": 1709,
+              "right": 380,
+              "bottom": 1723
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-06-merchant-ru-390-after.png"
     },
     {
@@ -308,7 +867,28 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 564
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 370,
+              "h": 1757,
+              "right": 380,
+              "bottom": 1771
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-07-merchant-ru-390-after.png"
     },
     {
@@ -317,7 +897,28 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 564
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 370,
+              "h": 1944,
+              "right": 380,
+              "bottom": 1958
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-08-merchant-ru-390-after.png"
     },
     {
@@ -325,8 +926,7 @@
       "app": "driver",
       "lang": "ru",
       "width": 390,
-      "status": "PASS",
-      "geometry": null,
+      "status": "FAIL",
       "image": "qa-shots/unified-fix/F-09-driver-ru-390-after.png"
     },
     {
@@ -335,8 +935,117 @@
       "lang": "ru",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Панель администратора0/1курьеров на линии2/3магазинов открыто Ста",
+            "rect": {
+              "x": 14,
+              "y": 49,
+              "w": 362,
+              "h": 2209,
+              "right": 376,
+              "bottom": 2258
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-10-admin-ru-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "ru",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 669.015625,
+          "right": 374,
+          "bottom": 707.015625,
+          "w": 358,
+          "h": 38
+        },
+        "parent": "osh",
+        "overlapped": [],
+        "checkedNodes": 55
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-customer-ru-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "driver",
+      "lang": "ru",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 557,
+          "right": 374,
+          "bottom": 595,
+          "w": 358,
+          "h": 38
+        },
+        "parent": "a-sheet-body",
+        "overlapped": [],
+        "checkedNodes": 12
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-driver-ru-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 336.609375,
+          "right": 376,
+          "bottom": 374.609375,
+          "w": 362,
+          "h": 38
+        },
+        "parent": "md f07-reject",
+        "overlapped": [],
+        "checkedNodes": 26
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-merchant-ru-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "admin",
+      "lang": "ru",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 57,
+          "right": 376,
+          "bottom": 95,
+          "w": 362,
+          "h": 38
+        },
+        "parent": "w",
+        "overlapped": [],
+        "checkedNodes": 25
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-admin-ru-390-after.png"
     },
     {
       "id": "F-01",
@@ -344,7 +1053,28 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:03:29Order now Favour",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 2248,
+              "right": 390,
+              "bottom": 2248
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-01-customer-en-390-after.png"
     },
     {
@@ -353,7 +1083,28 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:03:27Order now Favour",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 2248,
+              "right": 390,
+              "bottom": 2248
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-02-customer-en-390-after.png"
     },
     {
@@ -362,7 +1113,28 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Order #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 1371,
+              "right": 390,
+              "bottom": 1371
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-03-customer-en-390-after.png"
     },
     {
@@ -402,7 +1174,28 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Payment\n  \n  Delivery address · Homeпр. Рудаки 100, entrance 2, f",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 390,
+              "h": 1584,
+              "right": 390,
+              "bottom": 1584
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-05-customer-en-390-after.png"
     },
     {
@@ -411,7 +1204,28 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 370,
+              "h": 1709,
+              "right": 380,
+              "bottom": 1723
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-06-merchant-en-390-after.png"
     },
     {
@@ -420,7 +1234,28 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 564
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 370,
+              "h": 1727,
+              "right": 380,
+              "bottom": 1741
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-07-merchant-en-390-after.png"
     },
     {
@@ -429,7 +1264,28 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 564
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 370,
+              "h": 1896,
+              "right": 380,
+              "bottom": 1910
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-08-merchant-en-390-after.png"
     },
     {
@@ -437,8 +1293,7 @@
       "app": "driver",
       "lang": "en",
       "width": 390,
-      "status": "PASS",
-      "geometry": null,
+      "status": "FAIL",
       "image": "qa-shots/unified-fix/F-09-driver-en-390-after.png"
     },
     {
@@ -447,8 +1302,117 @@
       "lang": "en",
       "width": 390,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Admin dashboard0/1couriers online2/3stores open The “online” stat",
+            "rect": {
+              "x": 14,
+              "y": 49,
+              "w": 362,
+              "h": 2176,
+              "right": 376,
+              "bottom": 2225
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-10-admin-en-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 669.015625,
+          "right": 374,
+          "bottom": 707.015625,
+          "w": 358,
+          "h": 38
+        },
+        "parent": "osh",
+        "overlapped": [],
+        "checkedNodes": 55
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-customer-en-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "driver",
+      "lang": "en",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 557,
+          "right": 374,
+          "bottom": 595,
+          "w": 358,
+          "h": 38
+        },
+        "parent": "a-sheet-body",
+        "overlapped": [],
+        "checkedNodes": 12
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-driver-en-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 336.609375,
+          "right": 376,
+          "bottom": 374.609375,
+          "w": 362,
+          "h": 38
+        },
+        "parent": "md f07-reject",
+        "overlapped": [],
+        "checkedNodes": 26
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-merchant-en-390-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "admin",
+      "lang": "en",
+      "width": 390,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 57,
+          "right": 376,
+          "bottom": 95,
+          "w": 362,
+          "h": 38
+        },
+        "parent": "w",
+        "overlapped": [],
+        "checkedNodes": 25
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-admin-en-390-after.png"
     },
     {
       "id": "F-01",
@@ -456,7 +1420,28 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:05Заказать се",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 2265,
+              "right": 430,
+              "bottom": 2265
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-01-customer-ru-430-after.png"
     },
     {
@@ -465,7 +1450,28 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:03Заказать се",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 2265,
+              "right": 430,
+              "bottom": 2265
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-02-customer-ru-430-after.png"
     },
     {
@@ -474,7 +1480,28 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Заказ #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 1313,
+              "right": 430,
+              "bottom": 1313
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-03-customer-ru-430-after.png"
     },
     {
@@ -514,7 +1541,28 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Оплата\n  \n  Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 1563,
+              "right": 430,
+              "bottom": 1563
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-05-customer-ru-430-after.png"
     },
     {
@@ -523,7 +1571,28 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 410,
+              "h": 1709,
+              "right": 420,
+              "bottom": 1723
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-06-merchant-ru-430-after.png"
     },
     {
@@ -532,7 +1601,28 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 652
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 410,
+              "h": 1727,
+              "right": 420,
+              "bottom": 1741
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-07-merchant-ru-430-after.png"
     },
     {
@@ -541,7 +1631,28 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 652
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 410,
+              "h": 1911,
+              "right": 420,
+              "bottom": 1925
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-08-merchant-ru-430-after.png"
     },
     {
@@ -549,8 +1660,7 @@
       "app": "driver",
       "lang": "ru",
       "width": 430,
-      "status": "PASS",
-      "geometry": null,
+      "status": "FAIL",
       "image": "qa-shots/unified-fix/F-09-driver-ru-430-after.png"
     },
     {
@@ -559,8 +1669,117 @@
       "lang": "ru",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Панель администратора0/1курьеров на линии2/3магазинов открыто Ста",
+            "rect": {
+              "x": 14,
+              "y": 49,
+              "w": 402,
+              "h": 2036,
+              "right": 416,
+              "bottom": 2085
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-10-admin-ru-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "ru",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 757,
+          "right": 414,
+          "bottom": 795,
+          "w": 398,
+          "h": 38
+        },
+        "parent": "osh",
+        "overlapped": [],
+        "checkedNodes": 55
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-customer-ru-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "driver",
+      "lang": "ru",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 645,
+          "right": 414,
+          "bottom": 683,
+          "w": 398,
+          "h": 38
+        },
+        "parent": "a-sheet-body",
+        "overlapped": [],
+        "checkedNodes": 12
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-driver-ru-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 424.625,
+          "right": 416,
+          "bottom": 462.625,
+          "w": 402,
+          "h": 38
+        },
+        "parent": "md f07-reject",
+        "overlapped": [],
+        "checkedNodes": 26
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-merchant-ru-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "admin",
+      "lang": "ru",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 57,
+          "right": 416,
+          "bottom": 95,
+          "w": 402,
+          "h": 38
+        },
+        "parent": "w",
+        "overlapped": [],
+        "checkedNodes": 25
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-admin-ru-430-after.png"
     },
     {
       "id": "F-01",
@@ -568,7 +1787,28 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:02:41Order now Favour",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 2248,
+              "right": 430,
+              "bottom": 2248
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-01-customer-en-430-after.png"
     },
     {
@@ -577,7 +1817,28 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:02:39Order now Favour",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 2248,
+              "right": 430,
+              "bottom": 2248
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-02-customer-en-430-after.png"
     },
     {
@@ -586,7 +1847,28 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Order #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 1299,
+              "right": 430,
+              "bottom": 1299
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-03-customer-en-430-after.png"
     },
     {
@@ -626,7 +1908,28 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Payment\n  \n  Delivery address · Homeпр. Рудаки 100, entrance 2, f",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 430,
+              "h": 1563,
+              "right": 430,
+              "bottom": 1563
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-05-customer-en-430-after.png"
     },
     {
@@ -635,7 +1938,28 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 410,
+              "h": 1709,
+              "right": 420,
+              "bottom": 1723
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-06-merchant-en-430-after.png"
     },
     {
@@ -644,7 +1968,28 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 652
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 410,
+              "h": 1727,
+              "right": 420,
+              "bottom": 1741
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-07-merchant-en-430-after.png"
     },
     {
@@ -653,7 +1998,28 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 652
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "rect": {
+              "x": 10,
+              "y": 14,
+              "w": 410,
+              "h": 1881,
+              "right": 420,
+              "bottom": 1895
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-08-merchant-en-430-after.png"
     },
     {
@@ -661,8 +2027,7 @@
       "app": "driver",
       "lang": "en",
       "width": 430,
-      "status": "PASS",
-      "geometry": null,
+      "status": "FAIL",
       "image": "qa-shots/unified-fix/F-09-driver-en-430-after.png"
     },
     {
@@ -671,9 +2036,199 @@
       "lang": "en",
       "width": 430,
       "status": "PASS",
-      "geometry": null,
+      "geometry": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "positions": [
+          {
+            "selector": "#app",
+            "text": "Admin dashboard0/1couriers online2/3stores open The “online” stat",
+            "rect": {
+              "x": 14,
+              "y": 49,
+              "w": 402,
+              "h": 1994,
+              "right": 416,
+              "bottom": 2043
+            }
+          }
+        ],
+        "scrollY": 0,
+        "verifiedCount": 1
+      },
       "image": "qa-shots/unified-fix/F-10-admin-en-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "en",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 757,
+          "right": 414,
+          "bottom": 795,
+          "w": 398,
+          "h": 38
+        },
+        "parent": "osh",
+        "overlapped": [],
+        "checkedNodes": 55
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-customer-en-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "driver",
+      "lang": "en",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 645,
+          "right": 414,
+          "bottom": 683,
+          "w": 398,
+          "h": 38
+        },
+        "parent": "a-sheet-body",
+        "overlapped": [],
+        "checkedNodes": 12
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-driver-en-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 424.625,
+          "right": 416,
+          "bottom": 462.625,
+          "w": 402,
+          "h": 38
+        },
+        "parent": "md f07-reject",
+        "overlapped": [],
+        "checkedNodes": 26
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-merchant-en-430-after.png"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "admin",
+      "lang": "en",
+      "width": 430,
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 57,
+          "right": 416,
+          "bottom": 95,
+          "w": 402,
+          "h": 38
+        },
+        "parent": "w",
+        "overlapped": [],
+        "checkedNodes": 25
+      },
+      "image": "qa-shots/unified-fix/NOTIFY-01-admin-en-430-after.png"
     }
   ],
-  "errors": []
+  "errors": [
+    {
+      "id": "F-09",
+      "app": "driver",
+      "lang": "ru",
+      "width": 375,
+      "type": "AssertionError",
+      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 355, 'bottom': 90, 'w': 343, 'h': 34}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 503, 'right': 359, 'bottom': 535, 'w': 343, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 538, 'right': 97.25, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 103.25, 'y': 538, 'right': 184.5, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 190.5, 'y': 538, 'right': 271.75, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 277.75, 'y': 538, 'right': 359, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 603, 'right': 359, 'bottom': 655, 'w': 343, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "type": "AssertionError",
+      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 16, 'y': 492, 'right': 359, 'bottom': 530, 'w': 343, 'h': 38}, 'parent': 'osh', 'overlapped': [{'name': 'd6-h2', 'text': 'Заказать снова'}], 'checkedNodes': 55}"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 375,
+      "type": "AssertionError",
+      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 14, 'y': 159.625, 'right': 361, 'bottom': 197.625, 'w': 347, 'h': 38}, 'parent': 'md f07-reject', 'overlapped': [{'name': 'on', 'text': 'Все 4'}, {'name': 'BUTTON', 'text': 'Новые 1'}, {'name': 'BUTTON', 'text': 'Готовятся 1'}, {'name': 'BUTTON', 'text': 'Готовы 1'}], 'checkedNodes': 26}"
+    },
+    {
+      "id": "F-09",
+      "app": "driver",
+      "lang": "en",
+      "width": 375,
+      "type": "AssertionError",
+      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 503, 'right': 359, 'bottom': 535, 'w': 343, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 538, 'right': 97.25, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 103.25, 'y': 538, 'right': 184.5, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 190.5, 'y': 538, 'right': 271.75, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 277.75, 'y': 538, 'right': 359, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 603, 'right': 359, 'bottom': 655, 'w': 343, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "customer",
+      "lang": "en",
+      "width": 375,
+      "type": "AssertionError",
+      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 16, 'y': 492, 'right': 359, 'bottom': 530, 'w': 343, 'h': 38}, 'parent': 'osh', 'overlapped': [{'name': 'd6-h2', 'text': 'Order again'}], 'checkedNodes': 55}"
+    },
+    {
+      "id": "NOTIFY-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 375,
+      "type": "AssertionError",
+      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 14, 'y': 159.625, 'right': 361, 'bottom': 197.625, 'w': 347, 'h': 38}, 'parent': 'md f07-reject', 'overlapped': [{'name': 'on', 'text': 'All 4'}, {'name': 'BUTTON', 'text': 'New 1'}, {'name': 'BUTTON', 'text': 'Preparing 1'}, {'name': 'BUTTON', 'text': 'Ready 1'}, {'name': 'BUTTON', 'text': 'On the way 1'}], 'checkedNodes': 26}"
+    },
+    {
+      "id": "F-09",
+      "app": "driver",
+      "lang": "ru",
+      "width": 390,
+      "type": "AssertionError",
+      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 370, 'bottom': 90, 'w': 358, 'h': 34}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 680, 'right': 374, 'bottom': 712, 'w': 358, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 715, 'right': 101, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 107, 'y': 715, 'right': 192, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 198, 'y': 715, 'right': 283, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 289, 'y': 715, 'right': 374, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 780, 'right': 374, 'bottom': 832, 'w': 358, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
+    },
+    {
+      "id": "F-09",
+      "app": "driver",
+      "lang": "en",
+      "width": 390,
+      "type": "AssertionError",
+      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 680, 'right': 374, 'bottom': 712, 'w': 358, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 715, 'right': 101, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 107, 'y': 715, 'right': 192, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 198, 'y': 715, 'right': 283, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 289, 'y': 715, 'right': 374, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 780, 'right': 374, 'bottom': 832, 'w': 358, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
+    },
+    {
+      "id": "F-09",
+      "app": "driver",
+      "lang": "ru",
+      "width": 430,
+      "type": "AssertionError",
+      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 372.921875, 'bottom': 76, 'w': 360.921875, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 768, 'right': 414, 'bottom': 800, 'w': 398, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 803, 'right': 111, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 117, 'y': 803, 'right': 212, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 218, 'y': 803, 'right': 313, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 319, 'y': 803, 'right': 414, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 868, 'right': 414, 'bottom': 920, 'w': 398, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
+    },
+    {
+      "id": "F-09",
+      "app": "driver",
+      "lang": "en",
+      "width": 430,
+      "type": "AssertionError",
+      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 768, 'right': 414, 'bottom': 800, 'w': 398, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 803, 'right': 111, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 117, 'y': 803, 'right': 212, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 218, 'y': 803, 'right': 313, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 319, 'y': 803, 'right': 414, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 868, 'right': 414, 'bottom': 920, 'w': 398, 'h': 52}}], 'overlaps': [], 'floatingErrors': 1}"
+    }
+  ]
 }
