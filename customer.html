@@ -1279,6 +1279,13 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
   #app .p1-schedule .tipr .tip:nth-child(2){flex:1 1 auto;padding-inline:5px}
 }
 
+/* BRIEF-18d A-01: full-width address; inline compact Change at heading edge. */
+#app .d67-checkout .a01-address-content{display:block;min-width:0;padding:16px}
+#app .d67-checkout .a01-heading{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:0;margin-bottom:7px}
+#app .d67-checkout .a01-title{display:flex;align-items:center;gap:6px;flex:1 1 auto;min-width:0;color:var(--mut2);font-size:13px;line-height:19px;white-space:normal;overflow-wrap:break-word}
+#app .d67-checkout .a01-title .a01-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 20px;width:20px;height:20px;background:transparent;color:var(--o);padding:0}
+#app .d67-checkout .a01-change{display:inline-flex;align-items:center;justify-content:flex-end;flex:0 0 auto;min-height:44px;background:transparent;border:0;color:var(--o);font:inherit;font-size:14px;line-height:20px;font-weight:600;padding:0 2px 0 8px;cursor:pointer;white-space:nowrap}
+#app .d67-checkout .a01-address-line{display:block;width:100%;box-sizing:border-box;min-width:0;font-size:14px;line-height:21px;font-weight:600;overflow-wrap:break-word;word-break:normal;white-space:normal}
 /* BRIEF-18c M-01: checkout address map only; all other cards unchanged. */
 #app .m01-address-card{padding:0;overflow:hidden}
 #app .m01-address-card>.rg{padding:16px;min-width:0}
@@ -2250,7 +2257,7 @@ function vPay(){u18SyncAddress();const c=calc();if(!Object.keys(S.cart).length)r
     :`<div class="pm"><input class="fld" type="text" id="pc" maxlength="20" autocapitalize="characters" autocomplete="off" placeholder="${t('promoPh')}" value="${esc(S.pcode)}" oninput="S.pcode=this.value;S.perr='';var e=document.getElementById('pe');if(e)e.remove()"><button class="btn" onclick="applyPromo()">${t('promoApply')}</button></div>${S.perr?`<div class="pe" id="pe">${esc(perrMsg())}</div>`:''}<div class="xs mut" style="margin-top:8px">${t('promoOffNote')}</div>`;
   return topbar(t('payT'),S.gCheckout?t('grpT'):'',S.gCheckout?"grpBackPay()":"go('cart')")+`<div class="pg d67-checkout">
   ${closedNow(S.cartStore)?`<div class="closedb" style="margin:0 0 14px">${t('closedBanner')}</div>`:''}
-  <div class="card${m01Coords?' m01-address-card':''}">${m01Markup(m01Coords)}<div class="rg" style="gap:12px"><span class="or">${ico(curAddr()?LABI[curAddr().label]:'pin',22)}</span><div style="flex:1;min-width:0"><div class="xs mut">${t('addrL')}${curAddr()?' · '+t(LABS[curAddr().label]):''}</div><div class="b6" style="word-break:break-word">${curAddr()?esc(addrLine(curAddr())):t('addrAddFirst')}</div></div><button class="btn t" onclick="openSheet('pay')">${curAddr()?t('addrChange'):t('addrAdd')}</button></div></div>
+  <div class="card${m01Coords?' m01-address-card':''}">${m01Markup(m01Coords)}<div class="rg a01-address-content"><div class="a01-heading"><span class="a01-title"><span class="or a01-icon">${ico(curAddr()?LABI[curAddr().label]:'pin',18)}</span><span>${t('addrL')}${curAddr()?' · '+t(LABS[curAddr().label]):''}</span></span><button class="a01-change" type="button" onclick="openSheet('pay')">${curAddr()?t('addrChange'):t('addrAdd')}</button></div><div class="b6 a01-address-line">${curAddr()?esc(addrLine(curAddr())):t('addrAddFirst')}</div></div></div>
   ${curAddr()&&curAddr().label=='point'?`<div class="card"><label class="b6 sm">${t('tmpNoteL')}</label><input class="fld" id="tmpn" type="text" maxlength="120" placeholder="${t('tmpNotePh')}" value="${esc(S.tmp.note||'')}" oninput="tmpNote(this.value)" style="margin:6px 0 8px"><div class="xs mut" style="line-height:1.45">${t('tmpHint')}</div><button class="btn t" style="margin-top:8px" onclick="tmpSave()">${t('tmpSaveL')}</button></div>`:''}
   ${tooFar()?`<div class="closedb" style="margin:-4px 0 12px">${ico('pin',18)}<div><b>${t('tooFarT')}</b><div style="font-weight:500;margin-top:2px">${t('err_too_far')}</div></div></div>`:''}
   ${whenCard()}${balances?`<section class="d68-balances" aria-label="${t('v68Balances')}"><h3>${t('v68Balances')}</h3>${balances}</section>`:''}${optsCard()}
