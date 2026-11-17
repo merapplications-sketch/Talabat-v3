@@ -286,10 +286,15 @@ def check_cash(browser,width,height,lang):
     o13=p.evaluate("""() => ({
       box:document.querySelector('.cashb')?.textContent||'',
       headerVisible:!!document.querySelector('.b8-head>p')?.getBoundingClientRect().height,
-      full:document.querySelector('#b8-full')?.textContent||''
+      full:document.querySelector('#b8-full')?.textContent||'',
+      amountConfirmDisabled:document.querySelector('#b8-confirm')?.disabled===true,
+      amountConfirmDisplay:getComputedStyle(document.querySelector('#b8-confirm')).display,
+      fullMode:document.querySelector('#b8-reserved')?.getAttribute('aria-hidden')==='true',
+      footer:getComputedStyle(document.querySelector('.b8-footer .b8-actions')).gridTemplateColumns
     })""")
     assert "216.00 TJS" in o13["box"] and not o13["headerVisible"],("O13 duplicate due header",o13)
     assert "216" not in o13["full"],("O13 duplicate full cash button",o13)
+    assert o13["fullMode"] and o13["amountConfirmDisabled"] and o13["amountConfirmDisplay"]=="none",("O13 redundant disabled button exposed",o13)
     p.screenshot(path=str(O_OUT/f"O13-cash-{lang}-{width}-after.png"))
     full_color=p.locator("#b8-full").evaluate("e=>getComputedStyle(e).backgroundColor")
     approved=p.evaluate("""() => {const el=document.createElement('div');el.style.backgroundColor='var(--o)';document.body.append(el);const color=getComputedStyle(el).backgroundColor;el.remove();return color}""")
@@ -298,6 +303,15 @@ def check_cash(browser,width,height,lang):
     p.locator("#cashAmt").fill("200")
     p.locator('.b8-chip[data-reason="short"]').click()
     after=bounds(p)
+    o13Different=p.evaluate("""() => ({
+      visible:getComputedStyle(document.querySelector('#b8-confirm')).display!=='none',
+      enabled:document.querySelector('#b8-confirm').disabled===false,
+      label:document.querySelector('#b8-confirm').textContent.trim(),
+      rect:(() =>{const r=document.querySelector('#b8-confirm').getBoundingClientRect();
+        return {x:r.x,y:r.y,width:r.width,height:r.height};})()
+    })""")
+    assert o13Different["visible"] and o13Different["enabled"] and o13Different["rect"]["height"]>=44,("O13 different amount confirm unavailable",o13Different)
+    p.screenshot(path=str(O_OUT/f"O13-different-{lang}-{width}-after.png"))
     assert after["sheet"]["h"]>initial["sheet"]["h"],(initial,after)
     assert_horizontal(p,"difference")
     # O-14: original red cash policy is below the reasons with readable separation.
@@ -394,7 +408,7 @@ def check_cash(browser,width,height,lang):
     p.evaluate("deliverClick(9122)")
     assert p.evaluate("CALLS.click")==0,"duplicate delivery action must be blocked"
     p.screenshot(path=str(OUT/f"webkit_cash_waiting_{lang}_{width}.png"))
-    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"amount_blocks":amount_keyboard_blocks,"other_blocks":other_keyboard_blocks,"other_outline":other_outline,"other_spacing":ordinary_other,"compact_other_spacing":compact_other,"ui_labels":labels,"o12":o12,"o12_other":o12_other,"o13":o13,"o14":o14,"o15":o15,"waiting":status})
+    records.append({"view":"cash","lang":lang,"size":[width,height],"before":initial,"short":after,"keyboard_sim":small,"amount_visible":visible_amount,"other_visible":other_rect,"not_partial_amount":no_partial_amount,"not_partial_other":no_partial_other,"amount_blocks":amount_keyboard_blocks,"other_blocks":other_keyboard_blocks,"other_outline":other_outline,"other_spacing":ordinary_other,"compact_other_spacing":compact_other,"ui_labels":labels,"o12":o12,"o12_other":o12_other,"o13":o13,"o13Different":o13Different,"o14":o14,"o15":o15,"waiting":status})
     ctx.close()
 def check_nav(browser,width,height,lang):
     ctx,p=browser_page(browser,width,height,lang,NAV_SETUP)
