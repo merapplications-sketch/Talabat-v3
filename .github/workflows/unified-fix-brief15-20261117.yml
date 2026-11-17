@@ -530,14 +530,14 @@ jobs:
           git restore --worktree -- qa-shots/unified-fix/
           git clean -fd -- qa-shots/unified-fix/
           if ! git diff --cached --quiet; then
-            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/(b|brief18)/'; then
+            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/(b|brief18|brief18b)/'; then
               echo 'STOP: outside BRIEF-15c evidence-only staged path' >&2
               exit 1
             fi
             git commit -m "test(BRIEF-15c): pinned RU375 EN390 BEFORE AFTER WebKit geometry evidence"
             git fetch origin review/unified-fix-brief15-20261117
             git rebase origin/review/unified-fix-brief15-20261117
-            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/(b|brief18)/'; then
+            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/(b|brief18|brief18b)/'; then
               echo 'STOP: rebased commit modified protected files' >&2
               exit 1
             fi
