@@ -258,9 +258,13 @@ def use_real_local_backend(browser,app,lang,w,h,fixture,js):
         pg.locator("#tlb-em").fill(entry["audit_email"])
         pg.locator("#tlb-pw").fill(entry["audit_password"])
         pg.locator("#tlb-go").click()
-        pg.wait_for_function("""() => !document.getElementById('tlb-boot') &&
-           !document.getElementById('tlb-ov') && !!document.getElementById('app')?.textContent.trim()
-           && TLB.me()?.role===location.pathname.slice(1,-5)""",timeout=30000)
+        # TLB.me() deliberately omits privileged role; compare the actual public
+        # session user id to the verified ephemeral LOCAL Auth account instead.
+        # The application's own enter() enforces the role before rendering #app.
+        pg.wait_for_function("""expected => !document.getElementById('tlb-boot') &&
+           !document.getElementById('tlb-ov') &&
+           !!document.getElementById('app')?.textContent.trim() &&
+           TLB.me()?.id===expected""",arg=entry["id"],timeout=30000)
         capture(pg,app,"local_authenticated",lang,w,mode="local")
         issue_checks(pg,app,"local_authenticated",lang,w,mode="local")
         REPORT["coverage"].append({"app":app,"screen":"local_authenticated","lang":lang,"width":w,"mode":"local"})
