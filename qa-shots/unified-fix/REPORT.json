@@ -16,7 +16,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:04:40Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:57:41Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -46,7 +46,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:04:39Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:57:40Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -286,7 +286,22 @@
       "app": "customer",
       "lang": "ru",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 492,
+          "right": 359,
+          "bottom": 530,
+          "w": 343,
+          "h": 38
+        },
+        "parent": "osh",
+        "activePanel": "sheet d6 d6s",
+        "overlapped": [],
+        "checkedNodes": 17
+      },
       "image": "qa-shots/unified-fix/NOTIFY-01-customer-ru-375-after.png"
     },
     {
@@ -306,6 +321,7 @@
           "h": 38
         },
         "parent": "a-sheet-body",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 12
       },
@@ -316,7 +332,22 @@
       "app": "merchant",
       "lang": "ru",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 159.625,
+          "right": 361,
+          "bottom": 197.625,
+          "w": 347,
+          "h": 38
+        },
+        "parent": "md f07-reject",
+        "activePanel": "ov f07-viewport",
+        "overlapped": [],
+        "checkedNodes": 8
+      },
       "image": "qa-shots/unified-fix/NOTIFY-01-merchant-ru-375-after.png"
     },
     {
@@ -336,6 +367,7 @@
           "h": 38
         },
         "parent": "w",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 25
       },
@@ -355,7 +387,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:04:17Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:57:21Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -385,7 +417,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:04:15Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:57:19Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -587,7 +619,100 @@
       "app": "driver",
       "lang": "en",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mapLabel": "Route unavailable · Tracking only · arrival time unavailable",
+        "box": {
+          "x": 12,
+          "y": 56,
+          "right": 280.375,
+          "bottom": 76,
+          "w": 268.375,
+          "h": 20
+        },
+        "statusRole": "alert",
+        "mapAboveSheet": true,
+        "noticeRects": [
+          {
+            "x": 12,
+            "y": 56,
+            "right": 280.375,
+            "bottom": 76,
+            "w": 268.375,
+            "h": 20
+          }
+        ],
+        "controls": [
+          {
+            "name": "a-collect-line",
+            "rect": {
+              "x": 16,
+              "y": 503,
+              "right": 359,
+              "bottom": 535,
+              "w": 343,
+              "h": 32
+            }
+          },
+          {
+            "name": "a-navigation",
+            "rect": {
+              "x": 16,
+              "y": 538,
+              "right": 97.25,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-call",
+            "rect": {
+              "x": 103.25,
+              "y": 538,
+              "right": 184.5,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "round a-chat",
+            "rect": {
+              "x": 190.5,
+              "y": 538,
+              "right": 271.75,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-details-button",
+            "rect": {
+              "x": 277.75,
+              "y": 538,
+              "right": 359,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "b a-step-button",
+            "rect": {
+              "x": 16,
+              "y": 603,
+              "right": 359,
+              "bottom": 655,
+              "w": 343,
+              "h": 52
+            }
+          }
+        ],
+        "overlaps": [],
+        "floatingErrors": 0
+      },
       "image": "qa-shots/unified-fix/F-09-driver-en-375-after.png"
     },
     {
@@ -625,7 +750,22 @@
       "app": "customer",
       "lang": "en",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 16,
+          "y": 492,
+          "right": 359,
+          "bottom": 530,
+          "w": 343,
+          "h": 38
+        },
+        "parent": "osh",
+        "activePanel": "sheet d6 d6s",
+        "overlapped": [],
+        "checkedNodes": 17
+      },
       "image": "qa-shots/unified-fix/NOTIFY-01-customer-en-375-after.png"
     },
     {
@@ -645,6 +785,7 @@
           "h": 38
         },
         "parent": "a-sheet-body",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 12
       },
@@ -655,7 +796,22 @@
       "app": "merchant",
       "lang": "en",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mode": "static",
+        "box": {
+          "x": 14,
+          "y": 159.625,
+          "right": 361,
+          "bottom": 197.625,
+          "w": 347,
+          "h": 38
+        },
+        "parent": "md f07-reject",
+        "activePanel": "ov f07-viewport",
+        "overlapped": [],
+        "checkedNodes": 8
+      },
       "image": "qa-shots/unified-fix/NOTIFY-01-merchant-en-375-after.png"
     },
     {
@@ -675,6 +831,7 @@
           "h": 38
         },
         "parent": "w",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 25
       },
@@ -694,7 +851,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:53Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:57:00Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -724,7 +881,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:51Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:56:59Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -926,7 +1083,100 @@
       "app": "driver",
       "lang": "ru",
       "width": 390,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mapLabel": "Маршрут недоступен · Только отслеживание · время прибытия недоступно",
+        "box": {
+          "x": 12,
+          "y": 56,
+          "right": 370,
+          "bottom": 90,
+          "w": 358,
+          "h": 34
+        },
+        "statusRole": "alert",
+        "mapAboveSheet": true,
+        "noticeRects": [
+          {
+            "x": 12,
+            "y": 56,
+            "right": 370,
+            "bottom": 90,
+            "w": 358,
+            "h": 34
+          }
+        ],
+        "controls": [
+          {
+            "name": "a-collect-line",
+            "rect": {
+              "x": 16,
+              "y": 680,
+              "right": 374,
+              "bottom": 712,
+              "w": 358,
+              "h": 32
+            }
+          },
+          {
+            "name": "a-navigation",
+            "rect": {
+              "x": 16,
+              "y": 715,
+              "right": 101,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-call",
+            "rect": {
+              "x": 107,
+              "y": 715,
+              "right": 192,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "round a-chat",
+            "rect": {
+              "x": 198,
+              "y": 715,
+              "right": 283,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-details-button",
+            "rect": {
+              "x": 289,
+              "y": 715,
+              "right": 374,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "b a-step-button",
+            "rect": {
+              "x": 16,
+              "y": 780,
+              "right": 374,
+              "bottom": 832,
+              "w": 358,
+              "h": 52
+            }
+          }
+        ],
+        "overlaps": [],
+        "floatingErrors": 0
+      },
       "image": "qa-shots/unified-fix/F-09-driver-ru-390-after.png"
     },
     {
@@ -976,8 +1226,9 @@
           "h": 38
         },
         "parent": "osh",
+        "activePanel": "sheet d6 d6s",
         "overlapped": [],
-        "checkedNodes": 55
+        "checkedNodes": 17
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-customer-ru-390-after.png"
     },
@@ -998,6 +1249,7 @@
           "h": 38
         },
         "parent": "a-sheet-body",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 12
       },
@@ -1020,8 +1272,9 @@
           "h": 38
         },
         "parent": "md f07-reject",
+        "activePanel": "ov f07-viewport",
         "overlapped": [],
-        "checkedNodes": 26
+        "checkedNodes": 8
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-merchant-ru-390-after.png"
     },
@@ -1042,6 +1295,7 @@
           "h": 38
         },
         "parent": "w",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 25
       },
@@ -1061,7 +1315,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:03:29Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:56:40Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1091,7 +1345,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:03:27Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:56:38Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1343,8 +1597,9 @@
           "h": 38
         },
         "parent": "osh",
+        "activePanel": "sheet d6 d6s",
         "overlapped": [],
-        "checkedNodes": 55
+        "checkedNodes": 17
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-customer-en-390-after.png"
     },
@@ -1365,6 +1620,7 @@
           "h": 38
         },
         "parent": "a-sheet-body",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 12
       },
@@ -1387,8 +1643,9 @@
           "h": 38
         },
         "parent": "md f07-reject",
+        "activePanel": "ov f07-viewport",
         "overlapped": [],
-        "checkedNodes": 26
+        "checkedNodes": 8
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-merchant-en-390-after.png"
     },
@@ -1409,6 +1666,7 @@
           "h": 38
         },
         "parent": "w",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 25
       },
@@ -1428,7 +1686,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:05Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:56:19Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1458,7 +1716,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 13:03:03Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:56:17Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1660,7 +1918,100 @@
       "app": "driver",
       "lang": "ru",
       "width": 430,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mapLabel": "Маршрут недоступен · Только отслеживание · время прибытия недоступно",
+        "box": {
+          "x": 12,
+          "y": 56,
+          "right": 372.921875,
+          "bottom": 76,
+          "w": 360.921875,
+          "h": 20
+        },
+        "statusRole": "alert",
+        "mapAboveSheet": true,
+        "noticeRects": [
+          {
+            "x": 12,
+            "y": 56,
+            "right": 372.921875,
+            "bottom": 76,
+            "w": 360.921875,
+            "h": 20
+          }
+        ],
+        "controls": [
+          {
+            "name": "a-collect-line",
+            "rect": {
+              "x": 16,
+              "y": 768,
+              "right": 414,
+              "bottom": 800,
+              "w": 398,
+              "h": 32
+            }
+          },
+          {
+            "name": "a-navigation",
+            "rect": {
+              "x": 16,
+              "y": 803,
+              "right": 111,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-call",
+            "rect": {
+              "x": 117,
+              "y": 803,
+              "right": 212,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "round a-chat",
+            "rect": {
+              "x": 218,
+              "y": 803,
+              "right": 313,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-details-button",
+            "rect": {
+              "x": 319,
+              "y": 803,
+              "right": 414,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "b a-step-button",
+            "rect": {
+              "x": 16,
+              "y": 868,
+              "right": 414,
+              "bottom": 920,
+              "w": 398,
+              "h": 52
+            }
+          }
+        ],
+        "overlaps": [],
+        "floatingErrors": 0
+      },
       "image": "qa-shots/unified-fix/F-09-driver-ru-430-after.png"
     },
     {
@@ -1710,8 +2061,9 @@
           "h": 38
         },
         "parent": "osh",
+        "activePanel": "sheet d6 d6s",
         "overlapped": [],
-        "checkedNodes": 55
+        "checkedNodes": 17
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-customer-ru-430-after.png"
     },
@@ -1732,6 +2084,7 @@
           "h": 38
         },
         "parent": "a-sheet-body",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 12
       },
@@ -1754,8 +2107,9 @@
           "h": 38
         },
         "parent": "md f07-reject",
+        "activePanel": "ov f07-viewport",
         "overlapped": [],
-        "checkedNodes": 26
+        "checkedNodes": 8
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-merchant-ru-430-after.png"
     },
@@ -1776,6 +2130,7 @@
           "h": 38
         },
         "parent": "w",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 25
       },
@@ -1795,7 +2150,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:02:41Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:55:58Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1825,7 +2180,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 13:02:39Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:55:56Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -2027,7 +2382,100 @@
       "app": "driver",
       "lang": "en",
       "width": 430,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mapLabel": "Route unavailable · Tracking only · arrival time unavailable",
+        "box": {
+          "x": 12,
+          "y": 56,
+          "right": 280.375,
+          "bottom": 76,
+          "w": 268.375,
+          "h": 20
+        },
+        "statusRole": "alert",
+        "mapAboveSheet": true,
+        "noticeRects": [
+          {
+            "x": 12,
+            "y": 56,
+            "right": 280.375,
+            "bottom": 76,
+            "w": 268.375,
+            "h": 20
+          }
+        ],
+        "controls": [
+          {
+            "name": "a-collect-line",
+            "rect": {
+              "x": 16,
+              "y": 768,
+              "right": 414,
+              "bottom": 800,
+              "w": 398,
+              "h": 32
+            }
+          },
+          {
+            "name": "a-navigation",
+            "rect": {
+              "x": 16,
+              "y": 803,
+              "right": 111,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-call",
+            "rect": {
+              "x": 117,
+              "y": 803,
+              "right": 212,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "round a-chat",
+            "rect": {
+              "x": 218,
+              "y": 803,
+              "right": 313,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-details-button",
+            "rect": {
+              "x": 319,
+              "y": 803,
+              "right": 414,
+              "bottom": 855,
+              "w": 95,
+              "h": 52
+            }
+          },
+          {
+            "name": "b a-step-button",
+            "rect": {
+              "x": 16,
+              "y": 868,
+              "right": 414,
+              "bottom": 920,
+              "w": 398,
+              "h": 52
+            }
+          }
+        ],
+        "overlaps": [],
+        "floatingErrors": 0
+      },
       "image": "qa-shots/unified-fix/F-09-driver-en-430-after.png"
     },
     {
@@ -2077,8 +2525,9 @@
           "h": 38
         },
         "parent": "osh",
+        "activePanel": "sheet d6 d6s",
         "overlapped": [],
-        "checkedNodes": 55
+        "checkedNodes": 17
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-customer-en-430-after.png"
     },
@@ -2099,6 +2548,7 @@
           "h": 38
         },
         "parent": "a-sheet-body",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 12
       },
@@ -2121,8 +2571,9 @@
           "h": 38
         },
         "parent": "md f07-reject",
+        "activePanel": "ov f07-viewport",
         "overlapped": [],
-        "checkedNodes": 26
+        "checkedNodes": 8
       },
       "image": "qa-shots/unified-fix/NOTIFY-01-merchant-en-430-after.png"
     },
@@ -2143,6 +2594,7 @@
           "h": 38
         },
         "parent": "w",
+        "activePanel": "none",
         "overlapped": [],
         "checkedNodes": 25
       },
@@ -2156,55 +2608,7 @@
       "lang": "ru",
       "width": 375,
       "type": "AssertionError",
-      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 355, 'bottom': 90, 'w': 343, 'h': 34}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 503, 'right': 359, 'bottom': 535, 'w': 343, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 538, 'right': 97.25, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 103.25, 'y': 538, 'right': 184.5, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 190.5, 'y': 538, 'right': 271.75, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 277.75, 'y': 538, 'right': 359, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 603, 'right': 359, 'bottom': 655, 'w': 343, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
-    },
-    {
-      "id": "NOTIFY-01",
-      "app": "customer",
-      "lang": "ru",
-      "width": 375,
-      "type": "AssertionError",
-      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 16, 'y': 492, 'right': 359, 'bottom': 530, 'w': 343, 'h': 38}, 'parent': 'osh', 'overlapped': [{'name': 'd6-h2', 'text': 'Заказать снова'}], 'checkedNodes': 55}"
-    },
-    {
-      "id": "NOTIFY-01",
-      "app": "merchant",
-      "lang": "ru",
-      "width": 375,
-      "type": "AssertionError",
-      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 14, 'y': 159.625, 'right': 361, 'bottom': 197.625, 'w': 347, 'h': 38}, 'parent': 'md f07-reject', 'overlapped': [{'name': 'on', 'text': 'Все 4'}, {'name': 'BUTTON', 'text': 'Новые 1'}, {'name': 'BUTTON', 'text': 'Готовятся 1'}, {'name': 'BUTTON', 'text': 'Готовы 1'}], 'checkedNodes': 26}"
-    },
-    {
-      "id": "F-09",
-      "app": "driver",
-      "lang": "en",
-      "width": 375,
-      "type": "AssertionError",
-      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 503, 'right': 359, 'bottom': 535, 'w': 343, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 538, 'right': 97.25, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 103.25, 'y': 538, 'right': 184.5, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 190.5, 'y': 538, 'right': 271.75, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 277.75, 'y': 538, 'right': 359, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 603, 'right': 359, 'bottom': 655, 'w': 343, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
-    },
-    {
-      "id": "NOTIFY-01",
-      "app": "customer",
-      "lang": "en",
-      "width": 375,
-      "type": "AssertionError",
-      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 16, 'y': 492, 'right': 359, 'bottom': 530, 'w': 343, 'h': 38}, 'parent': 'osh', 'overlapped': [{'name': 'd6-h2', 'text': 'Order again'}], 'checkedNodes': 55}"
-    },
-    {
-      "id": "NOTIFY-01",
-      "app": "merchant",
-      "lang": "en",
-      "width": 375,
-      "type": "AssertionError",
-      "message": "NOTIFY-01 shared core toast obscures controls or text: {'mode': 'static', 'box': {'x': 14, 'y': 159.625, 'right': 361, 'bottom': 197.625, 'w': 347, 'h': 38}, 'parent': 'md f07-reject', 'overlapped': [{'name': 'on', 'text': 'All 4'}, {'name': 'BUTTON', 'text': 'New 1'}, {'name': 'BUTTON', 'text': 'Preparing 1'}, {'name': 'BUTTON', 'text': 'Ready 1'}, {'name': 'BUTTON', 'text': 'On the way 1'}], 'checkedNodes': 26}"
-    },
-    {
-      "id": "F-09",
-      "app": "driver",
-      "lang": "ru",
-      "width": 390,
-      "type": "AssertionError",
-      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 370, 'bottom': 90, 'w': 358, 'h': 34}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 680, 'right': 374, 'bottom': 712, 'w': 358, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 715, 'right': 101, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 107, 'y': 715, 'right': 192, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 198, 'y': 715, 'right': 283, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 289, 'y': 715, 'right': 374, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 780, 'right': 374, 'bottom': 832, 'w': 358, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
+      "message": "F-09 core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 355, 'bottom': 90, 'w': 343, 'h': 34}, 'statusRole': 'alert', 'mapAboveSheet': True, 'noticeRects': [{'x': 12, 'y': 56, 'right': 355, 'bottom': 90, 'w': 343, 'h': 34}], 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 503, 'right': 359, 'bottom': 535, 'w': 343, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 538, 'right': 97.25, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 103.25, 'y': 538, 'right': 184.5, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 190.5, 'y': 538, 'right': 271.75, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 277.75, 'y': 538, 'right': 359, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 603, 'right': 359, 'bottom': 655, 'w': 343, 'h': 52}}], 'overlaps': [], 'floatingErrors': 1}"
     },
     {
       "id": "F-09",
@@ -2212,23 +2616,7 @@
       "lang": "en",
       "width": 390,
       "type": "AssertionError",
-      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 680, 'right': 374, 'bottom': 712, 'w': 358, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 715, 'right': 101, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 107, 'y': 715, 'right': 192, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 198, 'y': 715, 'right': 283, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 289, 'y': 715, 'right': 374, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 780, 'right': 374, 'bottom': 832, 'w': 358, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
-    },
-    {
-      "id": "F-09",
-      "app": "driver",
-      "lang": "ru",
-      "width": 430,
-      "type": "AssertionError",
-      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 372.921875, 'bottom': 76, 'w': 360.921875, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 768, 'right': 414, 'bottom': 800, 'w': 398, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 803, 'right': 111, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 117, 'y': 803, 'right': 212, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 218, 'y': 803, 'right': 313, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 319, 'y': 803, 'right': 414, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 868, 'right': 414, 'bottom': 920, 'w': 398, 'h': 52}}], 'overlaps': [], 'floatingErrors': 0}"
-    },
-    {
-      "id": "F-09",
-      "app": "driver",
-      "lang": "en",
-      "width": 430,
-      "type": "AssertionError",
-      "message": "F-09 genuine core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 768, 'right': 414, 'bottom': 800, 'w': 398, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 803, 'right': 111, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 117, 'y': 803, 'right': 212, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 218, 'y': 803, 'right': 313, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 319, 'y': 803, 'right': 414, 'bottom': 855, 'w': 95, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 868, 'right': 414, 'bottom': 920, 'w': 398, 'h': 52}}], 'overlaps': [], 'floatingErrors': 1}"
+      "message": "F-09 core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'statusRole': 'alert', 'mapAboveSheet': True, 'noticeRects': [{'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}], 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 680, 'right': 374, 'bottom': 712, 'w': 358, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 715, 'right': 101, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 107, 'y': 715, 'right': 192, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 198, 'y': 715, 'right': 283, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 289, 'y': 715, 'right': 374, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 780, 'right': 374, 'bottom': 832, 'w': 358, 'h': 52}}], 'overlaps': [], 'floatingErrors': 1}"
     }
   ]
 }
