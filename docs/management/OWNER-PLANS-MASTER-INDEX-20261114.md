@@ -55,3 +55,6 @@
 | ملاحظات جهاز المالك N-01..N-08 + الأحجام (زبون/مطعم/سائق) | مرشح `c20fdd8a` على معاينة الجهاز talabot-gate1-preview-20261116 (84efa4d5)، بانتظار تجربة المالك واعتماد المصمم | #48 |
 | **إعادة تصميم الإدارة (TailAdmin، مستودع talabot-tailadmin-review)** | **مخطط — بانتظار جاهزية التصميم من الفريق.** المرشح الحالي `254757fa` نموذج واجهة ببيانات وهمية غير مربوط بالخادم. المسار: (1) معاينة وهمية واعتماد المالك على iPhone ← (2) ربط Supabase/أدوار/RPC الحالية وحذف صفحات القالب ← (3) مراجعة أمنية مستقلة ← (4) استبدال `admin.html` بموافقة المالك. الإدارة مستثناة من تعديل الأحجام حتى ذلك | [ADMIN-REDESIGN-PM-NOTES](https://github.com/merapplications-sketch/Talabat-v3/blob/docs/claude-manager-takeover-20261115/docs/management/ADMIN-REDESIGN-PM-NOTES-20261116.md) |
 | مستودع Talabat-v3 عام + GitHub Pages | خطر مسجّل: نقل الاستضافة لـCloudflare ثم Private في بوابة لاحقة | STATUS |
+
+## 6. نقطة الاستئناف الحالية — 2026-11-18
+**ابدأ من [RESUME-20261118.md](https://github.com/merapplications-sketch/Talabat-v3/blob/docs/claude-manager-takeover-20261115/docs/management/RESUME-20261118.md)** ومن [سجل ميزات المالك](https://github.com/merapplications-sketch/Talabat-v3/blob/docs/claude-manager-takeover-20261115/docs/management/OWNER-FEATURE-BACKLOG-20261118.md). الأقسام 3 و5 أعلاه تاريخية.
