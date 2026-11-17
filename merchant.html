@@ -33,6 +33,10 @@ input[type=text],input[type=number],input[type=search],input[type=tel],.fl selec
 .oin{border:1.5px solid transparent;border-radius:12px;padding:10px 12px;font-size:16px;background:#fff;margin:0!important;width:100%}
 /* F-06: readable native multi-line names, decimal keypad without desktop steppers, always reachable save/delete. */
 .f06-item-editor textarea#sn,.f06-item-editor .f06-option-name{display:block;resize:vertical;min-height:64px;line-height:22px;white-space:pre-wrap;overflow-wrap:anywhere}
+/* F-06: the complete edit name (up to the approved 60 characters) must be readable,
+   including its last line; do not rely on textarea's initial two-line viewport. */
+.f06-item-editor textarea#sn{height:auto!important;min-height:112px!important;max-height:176px;overflow-y:auto;resize:vertical}
+
 .f06-item-editor input[type=number]{appearance:textfield;-moz-appearance:textfield}
 .f06-item-editor input[type=number]::-webkit-inner-spin-button,.f06-item-editor input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .f06-item-editor .f06-actions{position:sticky;bottom:0;background:#fff;padding:10px 0 max(10px,env(safe-area-inset-bottom,0px));z-index:2;border-top:1px solid var(--line);margin-top:12px}
@@ -205,7 +209,7 @@ function sheet(){if(!SH)return '';const secs=[...new Set(TLB.getMenu(STORE).map(
   return `<div class="ov" onclick="closeSheet()"><div class="md f06-item-editor" onclick="event.stopPropagation()"><div class="row" style="margin-bottom:12px"><h3 style="margin:0">${SH.id?t('editD'):t('addD')}</h3><button class="rb" onclick="closeSheet()" aria-label="${t('closeB')}">${SVG(I.x,18)}</button></div>
   <label class="photo">${SH.image?`<img src="${esc(SH.image)}" alt="">`:`<span>${SVG(I.cam,26)}<br>${t('photoAdd')}</span>`}<input type="file" accept="image/*" style="display:none" onchange="shPick(event)"></label>
   ${SH.image?`<div class="xs mut" style="text-align:center;margin:-4px 0 10px">${t('photoCh')}</div>`:''}
-  <label class="fl">${t('nm')}<textarea id="sn" rows="2" maxlength="60" oninput="shSet('name',this.value)">${esc(SH.name)}</textarea></label>
+  <label class="fl">${t('nm')}<textarea id="sn" rows="4" maxlength="60" oninput="shSet('name',this.value)">${esc(SH.name)}</textarea></label>
   <div class="rg" style="gap:10px"><label class="fl" style="flex:1">${t('pr')}<input type="number" inputmode="decimal" id="sp" min="0" step="0.5" value="${esc(SH.price)}" oninput="shSet('price',this.value)"></label><label class="fl" style="flex:1">${t('itDis')} (≤${mx})<input type="number" inputmode="decimal" id="sdisc" min="0" max="${mx}" step="1" value="${esc(SH.disc)}" oninput="shSet('disc',this.value)"></label></div>
   <label class="fl">${t('secL')}<input type="text" id="ssec" maxlength="40" value="${esc(SH.section)}" placeholder="${t('secPh')}" oninput="shSet('section',this.value)"></label>
   ${secs.length?(SECL=secs,`<div class="chs">${secs.map((s,i)=>`<span class="ch" onclick="pickSec(${i})">${esc(s)}</span>`).join('')}</div>`):''}
