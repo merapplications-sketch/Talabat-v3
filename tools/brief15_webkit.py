@@ -248,7 +248,7 @@ def F09(pg):
 
 def NOTIFY(pg,app,w,h):
     # Core (not a fake button/DOM fixture) creates a fixed bottom:96px toast.
-    # The shared policy must convert it to normal flow in ALL FOUR app shells.
+    # Owner C-02: preserve a compact in-flow bubble for a generic warning.\n    # Closed-restaurant warnings must NOT surface inside driver or merchant.
     if app=="customer":
         pg.evaluate("() => {go('menu',{store:STORES[0].n});openItem('i1')}")
         pg.locator("#shn").wait_for(state="visible")
@@ -257,7 +257,7 @@ def NOTIFY(pg,app,w,h):
         pg.evaluate("() => rjOpen('ord0')")
     elif app=="driver":
         pg.evaluate("() => {const o=mine();if(o){o.status='pickedup';o.arrivedCustAt=Date.now();}render()}")
-    pg.evaluate("() => TLB.toast(TLB.t('err_closed'),true)")
+    pg.evaluate("() => TLB.toast('NOTIFY-01 geometry probe',true)")
     pg.wait_for_timeout(105)
     r=pg.evaluate("""() => {
       const e=document.querySelector('.t15-flow-toast');
@@ -280,10 +280,17 @@ def NOTIFY(pg,app,w,h):
         parent:e.parentElement?.className||e.parentElement?.id||'',
         activePanel:activePanel?.className||'none',
         overlapped:overlap.map(n=>({name:n.className||n.tagName,text:n.textContent?.slice(0,35)})),
-        checkedNodes:nodes.length};
+        checkedNodes:nodes.length,compact:a.width<=320&&a.height>10};
     }""")
-    if not r or r["mode"]!="static" or r["overlapped"] or r["checkedNodes"]<3:
+    if not r or r["mode"]!="static" or not r["compact"] or r["overlapped"] or r["checkedNodes"]<3:
         raise AssertionError("NOTIFY-01 shared core toast obscures controls or text: "+str(r))
+    if app in ("merchant","driver"):
+        pg.evaluate("() => TLB.toast(TLB.t('err_closed'),true)")
+        pg.wait_for_timeout(90)
+        blocked=pg.evaluate("""() => ![...document.querySelectorAll('.t15-flow-toast')]
+          .some(e=>e.textContent.includes(TLB.t('err_closed')))""")
+        if not blocked:raise AssertionError("C-02 closed restaurant toast leaked into "+app)
+        r["closedRestaurantSuppressed"]=blocked
     return r
 
 def F10(pg):
