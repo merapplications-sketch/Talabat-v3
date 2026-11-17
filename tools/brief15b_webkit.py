@@ -134,15 +134,25 @@ def run_case(pg,case,app,lang,w):
         close_store_for_visual(pg)
         pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';S.srt='';S.fo=false;render()}""")
         pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
+        pg.evaluate("""() => {
+          const badge=document.querySelector('#app .d6-sr.closed .or'),
+                nav=document.querySelector('#app .nav');
+          if(!badge||!nav)return;
+          const b=badge.getBoundingClientRect(),n=nav.getBoundingClientRect();
+          if(b.bottom>n.top-14)window.scrollBy(0,b.bottom-n.top+36);
+        }""")
+        pg.wait_for_timeout(95)
         r=invoke(pg,"""() => {
           const e=document.querySelector('#app .d6-sr.closed'),card=document.querySelector('#app .c-current'),
+                nav=document.querySelector('#app .nav'),navTop=nav?.getBoundingClientRect()?.top||innerHeight,
                 badge=e?.querySelector('.or'),row=e?.getBoundingClientRect(),
                 a=card?.getBoundingClientRect(),b=badge?.getBoundingClientRect();
           const overlap=x=>a&&x&&Math.min(a.right,x.right)-Math.max(a.left,x.left)>2&&
             Math.min(a.bottom,x.bottom)-Math.max(a.top,x.top)>2;
           return {ok:!!e&&!!card&&!!badge&&getComputedStyle(card).position!=='fixed'&&
-             !overlap(row)&&!overlap(b)&&!!b&&b.width>25&&b.height>10,
-             mode:getComputedStyle(card).position,overlapRow:!!overlap(row),
+             !overlap(row)&&!overlap(b)&&!!b&&b.width>25&&b.height>10&&
+             b.bottom<=navTop-8&&b.top>0,
+             mode:getComputedStyle(card).position,navTop,overlapRow:!!overlap(row),
              overlapBadge:!!overlap(b),badge:badge?.innerText||'',
              badgeRect:b&&{x:b.x,y:b.y,right:b.right,bottom:b.bottom}};
         }""")
@@ -245,6 +255,15 @@ def run_case(pg,case,app,lang,w):
         }""")
         shot(pg,case,app,lang,w,"group-title")
         pg.locator(".f15c-option-row").first.scroll_into_view_if_needed(timeout=3000)
+        pg.evaluate("""() => {
+          const ed=document.querySelector('.f06-item-editor'),
+            actions=ed?.querySelector('.f15c-option-row .f15c-option-controls'),
+            footer=ed?.querySelector('.f06-actions');
+          if(!ed||!actions||!footer)return;
+          const gap=actions.getBoundingClientRect().bottom-footer.getBoundingClientRect().top+22;
+          if(gap>0)ed.scrollTop+=gap;
+        }""")
+        pg.wait_for_timeout(110)
         opt=invoke(pg,"""() => {
           const a=[...document.querySelectorAll('.f15c-option-row')].filter(e=>e.querySelector('.f06-option-name')),
            metrics=a.map(row=>{
@@ -253,11 +272,16 @@ def run_case(pg,case,app,lang,w):
                canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),cs=getComputedStyle(inp);
              ctx.font=cs.font;
              const textW=ctx.measureText(inp.value).width;
+             const footer=document.querySelector('.f06-item-editor .f06-actions')?.getBoundingClientRect(),
+               editor=document.querySelector('.f06-item-editor')?.getBoundingClientRect();
              return {name:inp.value,inputWidth:i.width,textWidth:textW,controlsY:act.y,
                nameBottom:i.bottom,rowWidth:r.width,full:textW+30<=i.width,
-               secondRow:act.y>=i.bottom-1,controlItems:actions.children.length};
+               secondRow:act.y>=i.bottom-1,controlItems:actions.children.length,
+               notCovered:!!footer&&!!editor&&act.bottom<=footer.top-8&&act.top>=editor.top+4,
+               footerY:footer?.top||0};
            });
-          return {ok:metrics.length>0&&metrics.every(x=>x.full&&x.secondRow&&x.controlItems===4),
+          return {ok:metrics.length>0&&metrics.every(x=>x.full&&x.secondRow&&x.controlItems===4)
+            &&metrics.some(x=>x.notCovered),
              metrics};
         }""")
         shot(pg,case,app,lang,w,"option-controls")
