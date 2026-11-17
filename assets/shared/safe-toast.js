@@ -16,10 +16,13 @@
  'pointer-events:none!important}';
  document.head.appendChild(css);
  function isCoreToast(e){
-   return e&&e.nodeType===1&&e.tagName==='DIV'&&e.parentElement===document.body&&
-     e.style.position==='fixed'&&e.style.bottom==='96px'&&
-     e.style.zIndex==='10001'&&e.style.left==='50%'&&
-     String(e.style.transform).includes('translateX');
+   if(!e||e.nodeType!==1||e.tagName!=='DIV'||e.parentElement!==document.body)return false;
+   // Strictly recognize the ONE app-core toast primitive, independent of
+   // Safari's normalized transform/left style serialization.
+   const p=e.style.position||getComputedStyle(e).position;
+   const z=Number(e.style.zIndex||getComputedStyle(e).zIndex);
+   const b=parseFloat(e.style.bottom||getComputedStyle(e).bottom);
+   return p==='fixed'&&z===10001&&Number.isFinite(b)&&Math.abs(b-96)<1;
  }
  function target(){
    // Product note and choices are scrolled together. New notice follows the note
@@ -49,9 +52,35 @@
    // Keep focus where the user was typing. No scroll-to-top and no button clicks.
    return true;
  }
+ function sweep(){
+   if(!document.body)return;
+   // On slow first loads, a failing Leaflet script may have emitted a toast
+   // BEFORE this final script was parsed. MutationObserver does not replay it.
+   for(const n of [...document.body.children])if(isCoreToast(n))place(n);
+ }
  const obs=new MutationObserver(rs=>{
    for(const r of rs)for(const n of r.addedNodes)if(isCoreToast(n))place(n);
  });
- if(document.body)obs.observe(document.body,{childList:true});
- window.__talabotSafeToast={isCoreToast,place};
+ if(document.body){
+   obs.observe(document.body,{childList:true});
+   sweep();requestAnimationFrame(sweep);
+   document.addEventListener('DOMContentLoaded',sweep,{once:true});
+   window.addEventListener('pageshow',sweep);
+ }
+ // Intercept only *future explicit* map-failure toasts at their API entry;
+ // internal core Leaflet callbacks are still caught by the observer and sweep.
+ if(window.TLB&&typeof TLB.toast==='function'){
+   const original=TLB.toast;
+   TLB.toast=function(message,bad){
+     const msg=String(message);
+     if(document.body.classList.contains('a-mission')&&
+       (msg===TLB.t('mapFail')||msg===TLB.t('locMapFail'))&&
+       typeof window.__talabotF09MapNotice==='function'){
+       const virtual=document.createElement('div');virtual.textContent=msg;
+       if(window.__talabotF09MapNotice(virtual))return;
+     }
+     return original.apply(this,arguments);
+   };
+ }
+ window.__talabotSafeToast={isCoreToast,place,sweep};
 })();
