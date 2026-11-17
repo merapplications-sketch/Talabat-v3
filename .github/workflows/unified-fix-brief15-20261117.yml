@@ -7,6 +7,7 @@ on:
       - 'tools/full_audit_seed.py'
       - 'tools/full_audit.py'
       - 'tools/brief15_webkit.py'
+      - 'tools/brief15b_webkit.py'
       - 'tools/brief11_webkit_layout.py'
       - 'tools/check_all.sh'
       - 'customer.html'
@@ -49,19 +50,37 @@ jobs:
           git diff --name-only "$BASE" HEAD > "$RUNNER_TEMP/brief15-paths"
           while IFS= read -r changed; do
             case "$changed" in
-              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
+              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"
-          # Driver/Admin must differ from protected source ONLY by shared toast loader.
+          # BRIEF-15b: permit only the precisely scoped G-04 and G-07 display changes.
+          # Reverse the two known patches and compare byte-for-byte to the protected baseline.
           python3 - <<'PY'
           import pathlib,subprocess
           base='f85f927db58280c24773768f4aa5ddc88956a448'
+          def undo(src,old,new):
+              assert src.count(new)==1,('unrecognized UI delta',new[:80])
+              return src.replace(new,old)
           for path in ('driver.html','admin.html'):
               original=subprocess.check_output(['git','show',f'{base}:{path}']).decode('utf8')
               expected=original.replace('</body></html>',
                     '<script src="assets/shared/safe-toast.js"></script></body></html>')
-              assert pathlib.Path(path).read_text('utf8')==expected,(path,'unexpected HTML change')
+              current=pathlib.Path(path).read_text('utf8')
+              if path=='driver.html':
+                  current=undo(current,'',"""/* G-04: delivery progress is distinct from the courier's server-acknowledged shift. */
+          TLB.addDict({g04Delivering:'Доставка активна'},{g04Delivering:'Delivery in progress'});
+          """)
+                  current=undo(current,"""<div class="pill"><span class="dot ${online?'':'off'}"></span>${online?t('online'):t('shOff')}${online?""",
+                               """<div class="pill"><span class="dot ${online||a0?'':'off'}"></span>${online?t('online'):a0?t('g04Delivering'):t('shOff')}${online?""")
+              else:
+                  current=undo(current,'',"""/* BRIEF-15b G-07: migration diagnostics are developer-console only. */
+          let g07SetupLogged=false;
+          function g07LogSetup(){if(!g07SetupLogged){g07SetupLogged=true;console.warn('[TALABOT G-07]',t('aSetupW'))}}
+          """)
+                  current=undo(current,"""${setup?`<div class="setupw">${ic('alert',14)} ${t('aSetupW')}</div>`:''}""",
+                               """${setup?(g07LogSetup(),''):''}""")
+              assert current==expected,(path,'outside approved G-04/G-07 UI delta')
           PY
           python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py
       - name: Install immutable QA browsers and dependencies
