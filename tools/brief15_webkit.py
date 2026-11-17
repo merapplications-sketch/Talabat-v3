@@ -280,7 +280,7 @@ def NOTIFY(pg,app,w,h):
         parent:e.parentElement?.className||e.parentElement?.id||'',
         activePanel:activePanel?.className||'none',
         overlapped:overlap.map(n=>({name:n.className||n.tagName,text:n.textContent?.slice(0,35)})),
-        checkedNodes:nodes.length,compact:a.width<=320&&a.height>10};
+        checkedNodes:nodes.length,compact:a.w<=320&&a.h>10};
     }""")
     if not r or r["mode"]!="static" or not r["compact"] or r["overlapped"] or r["checkedNodes"]<3:
         raise AssertionError("NOTIFY-01 shared core toast obscures controls or text: "+str(r))
