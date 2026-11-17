@@ -111,6 +111,8 @@ const P={nav:'<path d="M3 11l18-8-8 18-2-8z"/>',phone:'<path d="M5 4h4l2 5-2.5 1
 const ico=(n,s)=>`<svg viewBox="0 0 24 24" width="${s||20}" height="${s||20}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;flex-shrink:0">${P[n]}</svg>`;
 let DLV={},DRV=null,tab='o',online=false,SUM=null,chatOpen=false,invOpen=false,lastN=-1,DV=null,ftm=null,phErr='',SHF=false,SWB=0,LASTACT=null,CXL=null,DM=null,DMK='';
 const mine=()=>TLB.orders(o=>o.driver==DRV.id&&['preparing','ready','pickedup'].includes(o.status))[0]||null;
+/* G-04: delivery progress is distinct from the courier's server-acknowledged shift. */
+TLB.addDict({g04Delivering:'Доставка активна'},{g04Delivering:'Delivery in progress'});
 const done=()=>TLB.orders(o=>o.driver==DRV.id&&o.status=='delivered');
 const setTab=x=>{tab=x;render()};
 let GEO={state:'idle',lat:null,lng:null,acc:null,sent:0,wid:null},wake=null;
@@ -347,7 +349,7 @@ function render0(){
   const un=TLB.totalUnread();
   const a=document.activeElement,kid=a&&['ci','cashAmt','cashNote','ph'].includes(a.id)?a.id:null,keep=kid?a.value:null;
   $('app').innerHTML=`<div class="hd"><div class="row"><div class="av">${esc(String(DRV.name||'?').charAt(0).toUpperCase())}</div><div><b>${esc(DRV.name)}</b><div style="font-size:11px;opacity:.75;letter-spacing:.3px">ID ${esc(String(DRV.id).slice(0,6).toUpperCase())}</div></div></div>
-  <div class="pill"><span class="dot ${online?'':'off'}"></span>${online?t('online'):t('shOff')}${online?`<span class="geo ${GEO.state&&['denied','na','err','wait'].includes(GEO.state)?'bad':'ok'}" aria-label="gps">${ico('pin',14)}</span>`:''}</div></div>
+  <div class="pill"><span class="dot ${online||a0?'':'off'}"></span>${online?t('online'):a0?t('g04Delivering'):t('shOff')}${online?`<span class="geo ${GEO.state&&['denied','na','err','wait'].includes(GEO.state)?'bad':'ok'}" aria-label="gps">${ico('pin',14)}</span>`:''}</div></div>
   ${ringing&&tab!='o'?nbarH(ofl):''}
   ${tab=='o'&&mine()?sheetH(mine()):`<div class="pg">${{o:vOrders,h:vHist,m:vMe}[tab]()}</div>`}${modal()}
   <div class="nav">${[['o','home','dOrders'],['h','receipt','dHist'],['m','user','dMe']].map(x=>`<div class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')"><span>${ico(x[1],24)}</span>${t(x[2])}${x[0]=='o'&&un?` <span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
