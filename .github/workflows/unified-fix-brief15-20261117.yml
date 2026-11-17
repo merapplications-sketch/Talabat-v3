@@ -364,27 +364,33 @@ jobs:
           img_rc=$?
           echo "BRIEF15B_IMAGE_RC=$img_rc" >> "$GITHUB_ENV"
           exit 0
-      - name: Commit only screenshot/result evidence to this review branch, no UI or prod files
+      - name: Commit only new BRIEF-15c evidence to isolated branch (avoid H01 and legacy PNG conflicts)
         shell: bash
         if: always()
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
           test "$GITHUB_REPOSITORY" = merapplications-sketch/Talabat-v3
-          mkdir -p qa-shots/unified-fix
+          test -f qa-shots/unified-fix/b/after/REPORT.json
+          test -f qa-shots/unified-fix/b/before/REPORT.json
           git config user.name "talabot-brief15-webkit"
           git config user.email "talabot-brief15-webkit@users.noreply.github.com"
-          git add -- qa-shots/unified-fix/
+          # H01 commits only h01/, while this job commits ONLY the BRIEF15c b/ tree.
+          # Re-rendered older F/NOTIFY png and reports must never cause merge races.
+          git add -- qa-shots/unified-fix/b/
+          git restore --worktree -- qa-shots/unified-fix/
+          git clean -fd -- qa-shots/unified-fix/
           if ! git diff --cached --quiet; then
-            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/'; then exit 1; fi
-            git commit -m "test(BRIEF-15): evidence screenshots after F/O isolated corrections"
-            # H01 and visual jobs independently publish synthetic evidence.
-            # Rebase this evidence-only commit over H01 if the branch advanced;
-            # never force-push or rebase an application change in this job.
+            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/b/'; then
+              echo 'STOP: outside BRIEF-15c evidence-only staged path' >&2
+              exit 1
+            fi
+            git commit -m "test(BRIEF-15c): pinned RU375 EN390 BEFORE AFTER WebKit geometry evidence"
             git fetch origin review/unified-fix-brief15-20261117
             git rebase origin/review/unified-fix-brief15-20261117
-            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/'; then
-              echo "STOP: rebased commit is not evidence-only";exit 1
+            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/b/'; then
+              echo 'STOP: rebased commit modified protected files' >&2
+              exit 1
             fi
             git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
           fi
