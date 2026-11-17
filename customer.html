@@ -1266,6 +1266,13 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
   #app .d6s .oshf .btn span:first-child{white-space:nowrap;overflow:visible;text-overflow:clip;font-size:10px;line-height:15px;letter-spacing:-.025em}
   #app .d6s .oshf .btn .px6{white-space:nowrap;font-size:11px;line-height:16px;letter-spacing:-.02em}
 }
+
+/* BRIEF-18b P-04: 320px-only single-line payment labels; swipe interaction untouched. */
+@media(max-width:340px){
+  #app .d69-slide-label{font-size:11px;line-height:17px;letter-spacing:-.015em;padding-inline:62px 8px}
+  #app .p1-schedule .tipr{display:flex;flex-wrap:nowrap;gap:6px}
+  #app .p1-schedule .tipr .tip{min-width:0;flex:1 1 0;white-space:nowrap;font-size:10.5px;line-height:17px;padding-inline:3px;gap:3px}
+}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
