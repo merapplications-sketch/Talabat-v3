@@ -27,9 +27,48 @@ function aPrimary(x){const n=aTaskStage(x),kind=n===0?'earn':n<3?'restaurant':'c
 function aSecondary(x){const n=aTaskStage(x),primary=aPrimary(x),rows=[];if(!primary.includes('data-money="collect"'))rows.push([t('aCollect'),aCash(x)?due(x):0]);if(n>0&&!primary.includes('data-money="earn"'))rows.push([t('aEarn'),x.payout]);return `<div class="a-money-secondary">${rows.map(([label,value])=>`<div><small>${label}</small><b>${aAmount(value)} <span>TJS</span></b></div>`).join('')}</div>`}
 
 function aTools(x){const n=aTaskStage(x);if(!n)return '';const client=n>=3,phone=client?x.client?.phone:x.storePhone,un=TLB.unread(x.id);return `<div class="a-tools"><button type="button" class="a-navigation" onclick="aNavigationOpen()">${ico('nav',18)} ${t('navB')}</button>${phone?`<a class="a-call" href="tel:${esc(phone)}">${ico('phone',18)} ${t('callRest')}</a>`:aButton(ico('phone',18)+t('callRest'),'','a-call',`disabled aria-label="${t('noPh')}"`)}${aButton(ico('chat',18)+t('chatT')+(un?`<span class="dotb">${un}</span>`:''),"chatOpen=true;render()",'round a-chat',`aria-label="${t('chatT')}${un?' · '+un:''}"`)}${aButton(aJourneyIcon('info',18)+t('jDetails'),'aDetails()','a-details-button')}</div>`}
+/* BRIEF-18 U-02: actual driver UI reads separately permission-checked instructions. */
+TLB.addDict({
+ u18DriverTitle:'Инструкции для курьера',u18DriverDoor:'Оставить у двери',
+ u18DriverCall:'Позвонить',u18DriverNoRing:'Не звонить в дверь',
+ u18DriverKnock:'Постучать',u18DriverReception:'Оставить на ресепшене',
+ u18DriverMeet:'Встретить у подъезда',u18DriverLoading:'Получаем инструкции…'
+},{
+ u18DriverTitle:'Courier instructions',u18DriverDoor:'Leave at the door',
+ u18DriverCall:'Call',u18DriverNoRing:'Do not ring the bell',
+ u18DriverKnock:'Knock',u18DriverReception:'Leave at reception',
+ u18DriverMeet:'Meet at the entrance',u18DriverLoading:'Loading instructions…'
+});
+const U18_DRIVER_LABELS={door:'u18DriverDoor',call:'u18DriverCall',no_ring:'u18DriverNoRing',
+ knock:'u18DriverKnock',reception:'u18DriverReception',meet:'u18DriverMeet'};
+const U18_DRIVER_CACHE=Object.create(null);
+function u18LoadDriver(x){if(!x||!x.id||typeof TLB.getDeliveryInstructions!=='function')return;
+ const id=String(x.id),p=U18_DRIVER_CACHE[id],now=Date.now();
+ if(p&&(p.pending||now-p.at<30000))return;
+ U18_DRIVER_CACHE[id]={pending:true,at:now,keys:p?p.keys:[]};
+ TLB.getDeliveryInstructions(id).then(function(r){const it=U18_DRIVER_CACHE[id];if(!it)return;
+  it.pending=false;it.at=Date.now();
+  if(r&&!r.error&&Array.isArray(r.keys))
+    it.keys=r.keys.filter(k=>Object.prototype.hasOwnProperty.call(U18_DRIVER_LABELS,k));
+  if(String((aTask()||{}).id||'')===id)render();
+ }).catch(function(){const it=U18_DRIVER_CACHE[id];if(it){it.pending=false;it.at=Date.now()}});
+}
+function u18DriverPanel(x){if(aTaskStage(x)<3)return '';
+ u18LoadDriver(x);
+ const item=U18_DRIVER_CACHE[String(x.id)],arr=[...(item?item.keys:[])];
+ if(x.leaveAtDoor&&!arr.includes('door'))arr.unshift('door');
+ const keys=arr.filter(k=>Object.prototype.hasOwnProperty.call(U18_DRIVER_LABELS,k));
+ if(!keys.length&&!(item&&item.pending))return '';
+ let out='<section class="a-u18-instructions" aria-label="'+t('u18DriverTitle')+'"><h3>'+t('u18DriverTitle')+'</h3>';
+ if(keys.length){out+='<div class="a-u18-tags">';
+  keys.forEach(k=>{out+='<span>'+t(U18_DRIVER_LABELS[k])+'</span>'});out+='</div>';
+ }else out+='<p>'+t('u18DriverLoading')+'</p>';
+ return out+'</section>';
+}
+(function(){const st=document.createElement('style');st.id='u18-driver-instructions';st.textContent=".a-sheet .a-u18-instructions{display:block;padding:10px 12px;margin:8px 0;border-radius:12px;background:#fff;color:#17243c;border:1px solid #e0e5ec}\n.a-sheet .a-u18-instructions h3{font-size:14px;font-weight:700;margin:0 0 7px;line-height:20px}\n.a-sheet .a-u18-instructions .a-u18-tags{display:flex;gap:6px;flex-wrap:wrap}\n.a-sheet .a-u18-instructions .a-u18-tags>span{font-size:12px;line-height:18px;color:#17243c;border-radius:8px;padding:5px 8px;background:#f0f2f5}\n.a-sheet .a-u18-instructions p{font-size:12px;line-height:18px;margin:0;color:#536176}";document.head.appendChild(st)})();
 function aExtraInfo(x){let h='';if(x.recipient)h+=`<div class="a-note"><b>${t('dGift')}</b><p>${esc(x.recipient.name)}</p><a href="tel:${esc(x.recipient.phone)}">${ico('phone',18)} ${t('dGiftCall')}</a></div>`;else if(x.isGift)h+=`<p class="a-note">${t('dGift')}</p>`;if(x.scheduledFor)h+=`<p class="a-note">${t('dSched')} ${new Date(x.scheduledFor).toLocaleTimeString(TLB.lang()==='ru'?'ru-RU':'en-GB',{hour:'2-digit',minute:'2-digit'})}</p>`;if(x.leaveAtDoor)h+=`<p class="a-note">${t('dDoor')}</p>`;if(x.substitution&&x.substitution!=='call')h+=`<p class="a-note">${t('dsub_'+x.substitution)}</p>`;return h}
 function aNext(x){const client=aTaskStage(x)>=3,st=aStore(x);return `<section class="a-next" data-previous-store="${client}">${ico(client?'store':'pin',20)}<div><small>${t(client?'aPrevious':'aNext')}</small><b>${esc(client?x.store:x.address)}</b>${client?`<small>${esc(st.address||t('aStoreAddress'))}</small>`:''}</div></section>`}
-function aSheet(x){const n=aTaskStage(x),client=n>=3,st=aStore(x),name=client?(x.client?.name||t('custT')):x.store,address=client?(x.address||t('jMissingAddress')):(st.address||t('aStoreAddress'));return `<main class="a-sheet a-compact-card ${n?'a-active-card':'a-new-offer'}" id="a-sheet"><div id="a-sheet-body">${n?`<div class="a-current-stage"><span>${t('aStageCount').replace('{n}',n)}</span><strong>${t('st4_'+n)}</strong></div><h1>${esc(name)}</h1><p class="a-compact-address">${esc(address)}</p>${n===2?(x.status==='ready'?`<p class="a-ready-tag">${t('readyNow')}</p>`:aReadyPrepEstimate(x)):''}<div class="a-collect-line"><span>${t('jCollect')}</span><strong>${aCash(x)?aAmount(due(x))+' <small>TJS</small>':t('paidOnline')}</strong></div>${aTools(x)}`:`<div class="a-offer-top"><span>${t(x.offer?.mode==='single'?'forYou':'openOrd')}</span><span>#${esc(x.id)} · ${Math.max(0,Math.ceil(x.offer?.left||0))} ${t('secS')}</span></div><div class="a-offer-earn"><small>${t('aEarn')}</small><strong>${x.payout!=null&&Number.isFinite(+x.payout)?aAmount(x.payout)+' <small>TJS</small>':'—'}</strong></div>${aJourneyOfferRoute(x)}${aOfferDistance(x)}<div class="a-offer-actions">${aButton(t('declineB'),`aDecline(${aId(x.id)})`,'a-link-button',AFlight?'disabled':'')}${aButton(t('jDetails'),'aDetails()','a-link-button')}</div>`}</div></main>`}
+function aSheet(x){const n=aTaskStage(x),client=n>=3,st=aStore(x),name=client?(x.client?.name||t('custT')):x.store,address=client?(x.address||t('jMissingAddress')):(st.address||t('aStoreAddress'));return `<main class="a-sheet a-compact-card ${n?'a-active-card':'a-new-offer'}" id="a-sheet"><div id="a-sheet-body">${n?`<div class="a-current-stage"><span>${t('aStageCount').replace('{n}',n)}</span><strong>${t('st4_'+n)}</strong></div><h1>${esc(name)}</h1><p class="a-compact-address">${esc(address)}</p>${client?u18DriverPanel(x):''}${n===2?(x.status==='ready'?`<p class="a-ready-tag">${t('readyNow')}</p>`:aReadyPrepEstimate(x)):''}<div class="a-collect-line"><span>${t('jCollect')}</span><strong>${aCash(x)?aAmount(due(x))+' <small>TJS</small>':t('paidOnline')}</strong></div>${aTools(x)}`:`<div class="a-offer-top"><span>${t(x.offer?.mode==='single'?'forYou':'openOrd')}</span><span>#${esc(x.id)} · ${Math.max(0,Math.ceil(x.offer?.left||0))} ${t('secS')}</span></div><div class="a-offer-earn"><small>${t('aEarn')}</small><strong>${x.payout!=null&&Number.isFinite(+x.payout)?aAmount(x.payout)+' <small>TJS</small>':'—'}</strong></div>${aJourneyOfferRoute(x)}${aOfferDistance(x)}<div class="a-offer-actions">${aButton(t('declineB'),`aDecline(${aId(x.id)})`,'a-link-button',AFlight?'disabled':'')}${aButton(t('jDetails'),'aDetails()','a-link-button')}</div>`}</div></main>`}
 function aActionLabel(x){const n=aTaskStage(x);return n===0?t('aTake'):n===2?t('aPickup'):n===4?t('aDeliver'):t('sw'+n)}
 function aBlocked(x){const n=aTaskStage(x),m=TLB.me();return n===0?(!online||m.blocked||!!mine()||!aFind(x.id)):n===2&&x.status!=='ready'}
 function aDock(x){const n=aTaskStage(x),locked=aBlocked(x),r=AResult&&String(AResult.id)===String(x.id)&&AResult.n===n?AResult:null,busy=!!AFlight;return `<footer class="a-dock" id="a-dock">${aButton(locked?t(n===2?'swWait':'err_no_offer'):busy?aPendingLabel():r?.kind==='success'?t('aSuccess'):aActionLabel(x),'aStepClick()','b a-step-button',(busy||locked||r?.kind==='success'?'disabled ':'')+(busy?'aria-busy="true"':''))}${r?.kind==='error'?`<p class="a-error" role="alert">${esc(r.message)}</p>`:''}</footer>`}

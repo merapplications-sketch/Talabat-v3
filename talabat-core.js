@@ -1430,6 +1430,33 @@
       return rpc('place_order', { p_store: s.id, p_items: items, p_tip: o.tip || 0, p_payment: o.payment || '', p_address: String(o.address || '').slice(0, 200), p_lat: isNaN(num(o.lat)) ? null : num(o.lat), p_lng: isNaN(num(o.lng)) ? null : num(o.lng), p_promo: (o.promo && /^[A-Za-z0-9_-]{3,20}$/.test(o.promo)) ? o.promo : null, p_key: (o.key && /^[A-Za-z0-9_-]{8,64}$/.test(o.key)) ? o.key : null, p_fee: isNaN(num(o.fee)) ? null : num(o.fee), p_wallet: (isNaN(num(o.wallet)) || num(o.wallet) <= 0) ? null : Math.round(num(o.wallet) * 100) / 100, p_points: (o.points > 0 && o.points <= 100000000) ? Math.floor(o.points) : null, p_extra: o.extra || null })
         .then(function (r) { return r.error ? r : { id: r.data }; });
     },
+    /* BRIEF-18 U-02 nonfinancial courier-instruction APIs; financial RPC unchanged. */
+    deliveryInstructionsReady: function () {
+      if (!sb || !ME || ME.role !== 'customer') return Promise.resolve(false);
+      return sb.rpc('delivery_instructions_ready').then(function (r) {
+        return !r.error && r.data === true;
+      }, function () { return false; });
+    },
+    saveDeliveryInstructions: function (id, keys) {
+      if (!sb || !ME || ME.role !== 'customer' || !/^[0-9]+$/.test(String(id)))
+        return Promise.resolve({ error: 'bad_value' });
+      var valid = ['door', 'call', 'no_ring', 'knock', 'reception', 'meet'];
+      var list = Array.isArray(keys) ? keys : [];
+      if (list.length > 6 || list.some(function (k) { return valid.indexOf(k) < 0; }) ||
+          new Set(list).size !== list.length) return Promise.resolve({ error: 'bad_value' });
+      return sb.rpc('set_order_delivery_instructions', { p_order: id, p_keys: list }).then(function (r) {
+        return r.error || r.data !== true ? { error: 'delivery_instructions_failed' } : { ok: true };
+      }, function () { return { error: 'delivery_instructions_failed' }; });
+    },
+    getDeliveryInstructions: function (id) {
+      if (!sb || !ME || (ME.role !== 'driver' && ME.role !== 'customer') ||
+          !/^[0-9]+$/.test(String(id))) return Promise.resolve({ error: 'bad_value', keys: [] });
+      return sb.rpc('get_order_delivery_instructions', { p_order: id }).then(function (r) {
+        return r.error || !Array.isArray(r.data)
+          ? { error: 'delivery_instructions_unavailable', keys: [] }
+          : { keys: r.data.filter(function (v) { return typeof v === 'string'; }) };
+      }, function () { return { error: 'delivery_instructions_unavailable', keys: [] }; });
+    },
     checkPromo: function (storeN, cart, code) {
       var s = storeByName(storeN), k = String(code || '').trim();
       if (!s || !/^[A-Za-z0-9_-]{3,20}$/.test(k)) return Promise.resolve({ error: 'promo_invalid' });

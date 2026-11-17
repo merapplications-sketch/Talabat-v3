@@ -1248,6 +1248,16 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .fbar.d70-dock .u18-saving{grid-column:1/-1}
 #app .fbar.d68-pay-dock .u18-saving{flex:none}
 @media(max-width:340px){#app .u18-saving{font-size:12px;padding:8px}#app .u18-saving b{font-size:12px}}
+/* BRIEF-18 U-02: courier instructions are always visible, horizontal TEXT-ONLY choices. */
+#app .u18-courier{display:block;min-width:0;padding:16px;overflow:hidden}
+#app .u18-courier h3{font-size:17px;line-height:24px;font-weight:600;margin:0 0 2px}
+#app .u18-instruction-rail{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x;margin:12px -16px 0;padding:2px 16px 8px;scroll-padding-inline:16px}
+#app .u18-instruction-rail::-webkit-scrollbar{height:4px}
+#app .u18-instruction-chip{box-sizing:border-box;display:inline-flex;flex:none;align-items:center;justify-content:center;min-height:44px;padding:9px 14px;border:1.5px solid var(--line2);background:#fff;color:var(--ink);border-radius:22px;font-family:inherit;font-size:13px;font-weight:600;line-height:18px;white-space:nowrap;scroll-snap-align:start;cursor:pointer}
+#app .u18-instruction-chip.on{border-color:var(--o);background:var(--tint);color:var(--o)}
+#app .u18-courier .u18-door-note{margin-top:6px;line-height:19px}
+#app .u18-remember{display:flex;align-items:center;gap:10px;margin-top:14px;min-height:44px;font-size:13px;line-height:20px;cursor:pointer}
+#app .u18-remember input{flex:none;width:21px;height:21px;accent-color:var(--o);cursor:pointer}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -1330,7 +1340,7 @@ const CATL={};
 const catIn=(c,x)=>c=='flowersgifts'?(x=='flowers'||x=='gifts'):x==c;
 const PGV='customer-55';
 let STORES=[],ALLS=[],ME={name:'',phone:''};
-let S={useWallet:false,usePts:false,subst:'call',door:false,gift:null,cartAt:0,tmp:null,useTmp:false,rep:null,tkid:null,tmsg:'',tseen:'',sheetAddr:false,hereBusy:false,quoteErr:null,ro:null,deepDone:false,af:null,addrId:null,addrBack:'home',quote:null,fresh:null,sh:null,promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
+let S={useWallet:false,usePts:false,subst:'call',door:false,u18Choices:[],u18Remember:false,u18Address:null,gift:null,cartAt:0,tmp:null,useTmp:false,rep:null,tkid:null,tmsg:'',tseen:'',sheetAddr:false,hereBusy:false,quoteErr:null,ro:null,deepDone:false,af:null,addrId:null,addrBack:'home',quote:null,fresh:null,sh:null,promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
 const syncStores=()=>{ALLS=TLB.stores().map(x=>({bid:x.brand_id||'',bn:x.branch_name||'',id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,rd:+x.discount_pct,hh:TLB.hhPct?TLB.hhPct(x.id):0,pmo:x.points_min_order==null?null:+x.points_min_order,cb:x.cashback_pct==null?null:+x.cashback_pct,disc:Math.max(+x.discount_pct||0,TLB.hhPct?TLB.hhPct(x.id):0),cr:x.created_at||'',ffd:!!x.free_first_delivery,fdm:+x.free_delivery_min||0,er:x.earn_per_tjs==null?null:+x.earn_per_tjs,lg:x.logo_url||'',ad:x.address||'',ph:x.phone||'',la:x.lat==null?null:+x.lat,lo:x.lng==null?null:+x.lng,po:x.accept_online!==false,aw:x.allow_wallet!==false,ap:x.allow_points!==false,rt:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating:+x.rating)||0,rc:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating_count:+x.rating_count)||0}));;
   /* one card per brand: an open branch first, then the nearest to the chosen address */
   const a=curAddr(),dist=s=>a&&a.lat!=null&&s.la!=null?(s.la-a.lat)**2+(s.lo-a.lng)**2:0,seen={};STORES=[];
@@ -1642,13 +1652,20 @@ async function place(){
   if(S.gift&&(String(S.gift.name).trim().length<2||!/^\+?992\d{9}$/.test(String(S.gift.phone).replace(/[\s()-]/g,'')))){alert(t('err_bad_gift'));return}
   if(S.at&&S.at<Date.now()+41*60000){alert(t('err_bad_time'));S.at=null;render();return}
   const ad=curAddr();if(!ad){alert(t('addrNeed'));newAddr();S.addrBack='pay';return}
+  const u18Extras=u18Keys().filter(k=>k!=='door');
+  if(u18Extras.length&&(!TLB.deliveryInstructionsReady||!await TLB.deliveryInstructionsReady())){
+    alert(t('u18Pending'));return;
+  }
   S.busy=true;if(!S.okey)S.okey=newKey();render();
   try{const q=await ensureQuote();if(!q){alert(tooFar()?t('err_too_far'):t('err_generic'));return}
     const ks=Object.keys(S.cart),nn=S.gCheckout?null:lineNotes(ks);if(nn&&nn.some(x=>x.length>120)){alert(t('d6CmtLong'));go('cart');return}
     const lines=ks.map((k,i)=>{const p=pk(k),l={item_id:p.id,qty:S.cart[k],options:p.ops};if(S.gCheckout){if(S.gNotes&&S.gNotes[k])l.note=S.gNotes[k].slice(0,120)}else if(nn[i])l.note=nn[i];return l});
     const r=await TLB.placeOrder({store:S.cartStore,lines,tip:S.tip,payment:S.pay,promo:S.promo&&S.promo.code,address:addrText(ad),lat:ad.lat,lng:ad.lng,fee:calc().fw>0?0:q.fee,wallet:calc().w>0?calc().w:null,points:calc().pts||null,extra:optExtra(),key:S.okey});
     if(r.error){if(r.error=='wallet_changed')TLB.loadWallet(true);if(r.error=='points_changed'||r.error=='points_min')TLB.reload&&TLB.reload().then(render);if(r.error=='unavailable'||r.error=='bad_options'){TLB.reload&&TLB.reload().then(render);go('cart')}if(r.error=='fee_changed'||r.error=='too_far'){S.quote=null;S.quoteErr=null;quoteNow()}if(/^promo_|too_many$/.test(r.error)){S.promo=null;S.perr=r.error;go('cart')}if(r.error=='bad_time')S.at=null;if(r.error=='bad_group'){grpEnd();go('home')}alert(errMsg(r));return}
-    S.cart={};S.tip=0;S.promo=null;S.perr='';S.pm=null;S.note='';S.pcode='';S.quote=null;S.okey=null;S.gift=null;S.door=false;S.subst='call';S.usePts=false;S.at=null;if(S.gCheckout)grpEnd();prefSave();go('track',{tid:r.id,fresh:r.id})}
+    let u18Sent=true;
+    if(u18Extras.length){const d=TLB.saveDeliveryInstructions?await TLB.saveDeliveryInstructions(r.id,u18Keys()):{error:'missing'};
+      u18Sent=!!d?.ok}
+    S.cart={};S.tip=0;S.promo=null;S.perr='';S.pm=null;S.note='';S.pcode='';S.quote=null;S.okey=null;S.gift=null;S.door=false;S.u18Choices=[];S.u18Address=null;S.u18Remember=false;S.subst='call';S.usePts=false;S.at=null;if(S.gCheckout)grpEnd();prefSave();go('track',{tid:r.id,fresh:r.id});if(!u18Sent)alert(t('u18SendFail'))}
   catch(e){console.error(e);alert(t('err_generic'))}
   finally{S.busy=false;if(S.v=='pay')render()}}
 let phErr='';
@@ -1947,9 +1964,63 @@ function vCart(){const m=menuOf(S.cartStore),ids=Object.keys(S.cart),mm=TLB.allM
 function fdCard(c){if(!(c.fdm>0)||c.ff||!c.sub)return '';const st=ALLS.find(x=>x.n==S.cartStore)||{};if(st.ft=='free')return '';const pc=Math.max(4,Math.min(100,Math.round((c.sub-c.d-c.h)/c.fdm*100)));
   return `<div class="card fdc" id="fdc"><div class="rg" style="gap:10px"><span class="or">${ico('bike',20)}</span><b class="sm" style="flex:1;min-width:0">${c.fdLeft>0?t('fdLeft').replace('{x} TJS','<strong>'+c.fdLeft+' TJS</strong>').replace('{x}',c.fdLeft):t('fdOk')}</b></div><div class="bar2"><i style="width:${pc}%"></i></div></div>`}
 /* ---------- ORDER OPTIONS: missing dish, leave at the door, gift ---------- */
-function optsCard(){const g=S.gift;return `<details class="card d69-preferences" ${S.prefsOpen?'open':''} ontoggle="if(this.isConnected)S.prefsOpen=this.open"><summary>${t('optT')} ${ico('down',16)}</summary><div class="d69-pref-body">
+/* BRIEF-18 U-02 — visible courier preferences; only door uses existing place_order. */
+TLB.addDict({
+ u18Instructions:'Инструкции для курьера',u18Many:'Можно выбрать несколько',
+ u18Door:'Оставить у двери',u18Call:'Позвонить',u18NoRing:'Не звонить в дверь',
+ u18Knock:'Постучать',u18Reception:'Оставить на ресепшене',
+ u18Meet:'Встретить у подъезда',u18Remember:'Запомнить для этого адреса',
+ u18Pending:'Дополнительные инструкции пока недоступны: настройка безопасного хранения ожидает утверждения. Заказ не отправлен.',
+ u18SendFail:'Заказ оформлен, но дополнительные инструкции не доставлены курьеру. Свяжитесь с курьером через чат.'
+},{
+ u18Instructions:'Instructions for the courier',u18Many:'Select more than one',
+ u18Door:'Leave at the door',u18Call:'Call',u18NoRing:'Do not ring the bell',
+ u18Knock:'Knock',u18Reception:'Leave at reception',u18Meet:'Meet at the entrance',
+ u18Remember:'Remember for this address',
+ u18Pending:'Additional instructions are unavailable until secure storage is approved. Your order has not been placed.',
+ u18SendFail:'The order was placed but extra instructions were not delivered to the courier. Please message the courier.'
+});
+const U18_KEYS=['door','call','no_ring','knock','reception','meet'];
+const U18_LABELS={door:'u18Door',call:'u18Call',no_ring:'u18NoRing',knock:'u18Knock',reception:'u18Reception',meet:'u18Meet'};
+const u18Keys=()=>U18_KEYS.filter(k=>k==='door'?!!S.door:(S.u18Choices||[]).includes(k));
+function u18AddressKey(){const a=curAddr(),m=TLB.me();return a&&a.id&&m&&m.id?'tlb-u18-delivery-'+m.id+'-'+a.id:''}
+function u18SyncAddress(){const key=u18AddressKey();if(S.u18Address===key)return;
+ const wasKnown=S.u18Address!==null;S.u18Address=key;S.u18Choices=[];S.u18Remember=false;
+ if(wasKnown)S.door=false;
+ if(!key)return;
+ try{const data=JSON.parse(localStorage.getItem(key)||'null');
+   if(data&&Array.isArray(data.keys)){const keys=data.keys.filter(k=>U18_KEYS.includes(k));
+     S.door=keys.includes('door');S.u18Choices=keys.filter(k=>k!=='door');S.u18Remember=true}
+ }catch(e){}
+}
+function u18SaveAddress(){const key=u18AddressKey();if(!key)return;
+ try{if(S.u18Remember)localStorage.setItem(key,JSON.stringify({keys:u18Keys()}));
+ else localStorage.removeItem(key)}catch(e){}
+}
+function u18Toggle(key){if(!U18_KEYS.includes(key))return;
+ if(key==='door')S.door=!S.door;else{
+ const a=S.u18Choices||[];S.u18Choices=a.includes(key)?a.filter(x=>x!==key):a.concat(key)}
+ u18SaveAddress();render()}
+function u18RememberToggle(){if(!u18AddressKey())return;S.u18Remember=!S.u18Remember;u18SaveAddress();render()}
+document.addEventListener('click',function(e){
+ const chip=e.target.closest&&e.target.closest('.u18-instruction-chip[data-u18-key]');
+ if(chip&&document.getElementById('app')?.contains(chip))u18Toggle(chip.dataset.u18Key);
+});
+function u18InstructionsCard(){u18SyncAddress();
+ let html='<div class="card u18-courier" aria-label="'+t('u18Instructions')+'"><h3>'+
+   t('u18Instructions')+'</h3><div class="xs mut">'+t('u18Many')+'</div><div class="u18-instruction-rail" role="group">';
+ U18_KEYS.forEach(function(key){const on=key==='door'?!!S.door:(S.u18Choices||[]).includes(key);
+   html+='<button type="button" class="u18-instruction-chip'+(on?' on':'')+'" data-u18-key="'+key+
+     '" role="checkbox" aria-checked="'+on+'">'+t(U18_LABELS[key])+'</button>'});
+ html+='</div>';
+ if(S.door)html+='<div class="xs mut u18-door-note">'+t('doorS')+'</div>';
+ html+='<label class="u18-remember"><input type="checkbox" '+(S.u18Remember?'checked ':'')+
+   (u18AddressKey()?'':'disabled ')+'onchange="u18RememberToggle()"><span>'+t('u18Remember')+
+   '</span></label></div>';
+ return html;
+}
+function optsCard(){const g=S.gift;return `${u18InstructionsCard()}<details class="card d69-preferences" ${S.prefsOpen?'open':''} ontoggle="if(this.isConnected)S.prefsOpen=this.open"><summary>${t('optT')} ${ico('down',16)}</summary><div class="d69-pref-body">
   <div class="xs mut" style="margin-bottom:6px">${t('subT')}</div><div class="tipr sub3">${['call','replace','remove'].map(k=>`<div class="tip ${S.subst==k?'on':''}" onclick="S.subst='${k}';render()">${t('sub_'+k)}</div>`).join('')}</div>
-  <div class="rg" style="gap:12px;margin-top:14px"><div style="flex:1;min-width:0"><b class="sm">${t('doorT')}</b><div class="xs mut">${t('doorS')}</div></div><button class="wsw ${S.door?'on':''}" onclick="S.door=!S.door;render()" aria-label="${t('doorT')}"><i></i></button></div>
   <div class="rg" style="gap:12px;margin-top:14px"><div style="flex:1;min-width:0"><b class="sm">${t('giftT')}</b><div class="xs mut">${t('giftS')}</div></div><button class="wsw ${g?'on':''}" onclick="S.gift=S.gift?null:{name:'',phone:''};render()" aria-label="${t('giftT')}"><i></i></button></div>
   ${g?`<input class="fld" id="gfn" type="text" maxlength="60" placeholder="${t('giftName')}" value="${esc(g.name)}" oninput="S.gift.name=this.value" style="margin-top:10px"><input class="fld" id="gfp" type="tel" inputmode="tel" maxlength="17" placeholder="+992 90 000 00 00" value="${esc(g.phone)}" oninput="S.gift.phone=this.value" style="margin-top:8px">`:''}</div></details>`}
 const optExtra=()=>Object.assign({door:!!S.door,subst:S.subst||'call'},S.at?{at:new Date(S.at).toISOString()}:{},S.gCheckout&&S.gid?{group:S.gid}:{},S.gift?{gift:{name:String(S.gift.name||'').trim(),phone:String(S.gift.phone||'').trim()}}:{});
@@ -2040,7 +2111,7 @@ function vWallet(){const w=TLB.wallet();TLB.loadWallet();const L=TLB.loyalty&&TL
   ${S.wOps?`<div class="d6-tabs" role="group" aria-label="${t('d6Ops')}"><button class="${S.wTab==='cb'?'':'on'}" aria-pressed="${S.wTab!=='cb'}" onclick="S.wTab='all';render()">${t('fAll')}</button><button class="${S.wTab==='cb'?'on':''}" aria-pressed="${S.wTab==='cb'}" onclick="S.wTab='cb';render()">${t('d6CbH')}</button></div>${(S.wTab==='cb'?cb:w.entries).length?`<div class="card" style="padding:4px 16px">${(S.wTab==='cb'?cb:w.entries).map(wrow).join('')}</div>`:emptyV(S.wTab==='cb'?t('d6NoCb'):t('walNone'),t('walNoneS'),'','card')}`:''}</section>`}</div>`}
 TLB.addDict({u18TipDesc:'Курьер получает их полностью'},{u18TipDesc:'The courier receives the full tip'});
 /* ---------- PAYMENT (address, method, tip, promo, summary) ---------- */
-function vPay(){const c=calc();if(!Object.keys(S.cart).length)return vCart();if(badKeys().length){S.v='cart';return vCart()}
+function vPay(){u18SyncAddress();const c=calc();if(!Object.keys(S.cart).length)return vCart();if(badKeys().length){S.v='cart';return vCart()}
   const sp=ALLS.find(x=>x.n==S.cartStore)||{},cashOnly=sp.po===false;if(cashOnly&&S.pay!='cash')S.pay='cash';   /* patch 38: a cash-only place shows no electronic method */
   const M=(cashOnly?[]:[['apple','apple','payApple'],['card','card','payCard']]).concat([['cash','cash','payCash']]),saved=u18Saved(c),balances=(sp.ap===false?'':ptsCard(c))+(sp.aw===false?'':walletCard(c));
   const promoBox=c.base<=0?`<div class="sm mut" style="margin-top:8px">${t('promoNoOffer')}</div>`:S.promo?`<div class="po"><span>${esc(S.promo.code)} · −${c.p} TJS</span><button class="btn t" onclick="removePromo()">${t('promoRm')}</button></div>`
