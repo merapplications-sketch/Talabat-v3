@@ -1,0 +1,252 @@
+{
+  "mode": "before",
+  "browser": "Linux WebKit original TALABOT UI; synthetic read-only adapter; NOT live iPhone",
+  "source": "70dfaf9a",
+  "cases": [
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-01-ru-375-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-02-ru-375-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-ru-375-missing-before.png",
+      "status": "REFERENCE",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-ru-375-available-before.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-03-ru-375-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/before/P-04-ru-375-schedule-before.png",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-04-ru-375-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-01-en-390-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-02-en-390-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-en-390-missing-before.png",
+      "status": "REFERENCE",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-en-390-available-before.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-03-en-390-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/before/P-04-en-390-schedule-before.png",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-04-en-390-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-01-ru-320-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-02-ru-320-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-ru-320-missing-before.png",
+      "status": "REFERENCE",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-ru-320-available-before.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-03-ru-320-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/before/P-04-ru-320-schedule-before.png",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-04-ru-320-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-01-en-320-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-02-en-320-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-en-320-missing-before.png",
+      "status": "REFERENCE",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/before/P-03-en-320-available-before.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-03-en-320-main-before.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/before/P-04-en-320-schedule-before.png",
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/brief18b/before/P-04-en-320-main-before.png",
+      "js_errors": []
+    }
+  ],
+  "errors": []
+}

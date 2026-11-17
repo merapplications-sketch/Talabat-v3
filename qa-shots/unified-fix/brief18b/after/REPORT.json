@@ -1,0 +1,761 @@
+{
+  "mode": "after",
+  "browser": "Linux WebKit original TALABOT UI; synthetic read-only adapter; NOT live iPhone",
+  "source": "BRIEF-18b isolated review",
+  "cases": [
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 375,
+      "mode": "after",
+      "geometry": {
+        "ok": false,
+        "textCenter": 337,
+        "rowCenter": 337,
+        "diff": 0,
+        "unclipped": false,
+        "button": "+ Добавить вариант",
+        "text": "Маленький",
+        "nameHeight": 46,
+        "priceHeight": 35,
+        "pageScrollWidth": 375,
+        "pageClientWidth": 375,
+        "textAreas": [
+          {
+            "text": "Маленький",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 150,
+            "clientWidth": 150
+          },
+          {
+            "text": "Средний",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 150,
+            "clientWidth": 150
+          },
+          {
+            "text": "Большой",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 150,
+            "clientWidth": 150
+          },
+          {
+            "text": "Сыр",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 150,
+            "clientWidth": 150
+          },
+          {
+            "text": "Бекон",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 150,
+            "clientWidth": 150
+          },
+          {
+            "text": "Халапеньо",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 150,
+            "clientWidth": 150
+          },
+          {
+            "text": "Соус",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 150,
+            "clientWidth": 150
+          }
+        ],
+        "names": [
+          "Маленький",
+          "Средний",
+          "Большой",
+          "Сыр",
+          "Бекон",
+          "Халапеньо",
+          "Соус"
+        ]
+      },
+      "status": "FAIL",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-ru-375-main-after.png",
+      "js_errors": [],
+      "error": "{\"ok\": false, \"textCenter\": 337, \"rowCenter\": 337, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Добавить вариант\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 375, \"pageClientWidth\": 375, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "after",
+      "geometry": {
+        "ok": true,
+        "title": "Очень длинное название блюда с несколькими ингредиентами и соусом 1",
+        "clamp": "none",
+        "titleHeight": 78,
+        "titleScrollHeight": 78,
+        "titleClientHeight": 78,
+        "cta": "Добавить в корзину",
+        "lines": 1,
+        "lineHeight": 16,
+        "textHeight": 13,
+        "ctaScrollWidth": 125,
+        "ctaClientWidth": 125,
+        "ctaRight": 274.75,
+        "priceLeft": 284.75
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-02-ru-375-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "ru",
+      "width": 375,
+      "mode": "after",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-ru-375-missing-after.png",
+      "geometry": {
+        "ok": true,
+        "missing": true,
+        "customerTelephoneLink": false,
+        "toast": "Номер клиента недоступен",
+        "reason": "Номер клиента недоступен",
+        "ariaDisabled": "true",
+        "foreground": "rgb(23, 36, 60)"
+      },
+      "status": "PASS",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-ru-375-available-after.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-03-ru-375-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/after/P-04-ru-375-schedule-after.png",
+      "geometry": {
+        "ok": true,
+        "slider": {
+          "ok": true,
+          "text": "Сдвиньте, чтобы заказать",
+          "rectCount": 1,
+          "height": 16,
+          "lineHeight": 20,
+          "scrollWidth": 343,
+          "clientWidth": 343
+        },
+        "whenNow": {
+          "ok": true,
+          "text": "Как можно скорее",
+          "rectCount": 1,
+          "height": 16,
+          "lineHeight": 20,
+          "scrollWidth": 156,
+          "clientWidth": 156
+        }
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-04-ru-375-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 390,
+      "mode": "after",
+      "geometry": {
+        "ok": false,
+        "textCenter": 809.015625,
+        "rowCenter": 809.015625,
+        "diff": 0,
+        "unclipped": false,
+        "button": "+ Add variant",
+        "text": "Маленький",
+        "nameHeight": 46,
+        "priceHeight": 35,
+        "pageScrollWidth": 390,
+        "pageClientWidth": 390,
+        "textAreas": [
+          {
+            "text": "Маленький",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 165,
+            "clientWidth": 165
+          },
+          {
+            "text": "Средний",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 165,
+            "clientWidth": 165
+          },
+          {
+            "text": "Большой",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 165,
+            "clientWidth": 165
+          },
+          {
+            "text": "Сыр",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 165,
+            "clientWidth": 165
+          },
+          {
+            "text": "Бекон",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 165,
+            "clientWidth": 165
+          },
+          {
+            "text": "Халапеньо",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 165,
+            "clientWidth": 165
+          },
+          {
+            "text": "Соус",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 165,
+            "clientWidth": 165
+          }
+        ],
+        "names": [
+          "Маленький",
+          "Средний",
+          "Большой",
+          "Сыр",
+          "Бекон",
+          "Халапеньо",
+          "Соус"
+        ]
+      },
+      "status": "FAIL",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-en-390-main-after.png",
+      "js_errors": [],
+      "error": "{\"ok\": false, \"textCenter\": 809.015625, \"rowCenter\": 809.015625, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Add variant\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 390, \"pageClientWidth\": 390, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "after",
+      "geometry": {
+        "ok": true,
+        "title": "Очень длинное название блюда с несколькими ингредиентами и соусом 1",
+        "clamp": "none",
+        "titleHeight": 78,
+        "titleScrollHeight": 78,
+        "titleClientHeight": 78,
+        "cta": "Add to cart",
+        "lines": 1,
+        "lineHeight": 16,
+        "textHeight": 14,
+        "ctaScrollWidth": 137,
+        "ctaClientWidth": 137,
+        "ctaRight": 287.15625,
+        "priceLeft": 297.15625
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-02-en-390-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "en",
+      "width": 390,
+      "mode": "after",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-en-390-missing-after.png",
+      "geometry": {
+        "ok": true,
+        "missing": true,
+        "customerTelephoneLink": false,
+        "toast": "Customer phone unavailable",
+        "reason": "Customer phone unavailable",
+        "ariaDisabled": "true",
+        "foreground": "rgb(23, 36, 60)"
+      },
+      "status": "PASS",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-en-390-available-after.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-03-en-390-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/after/P-04-en-390-schedule-after.png",
+      "geometry": {
+        "ok": true,
+        "slider": {
+          "ok": true,
+          "text": "Slide to place order",
+          "rectCount": 1,
+          "height": 16,
+          "lineHeight": 20,
+          "scrollWidth": 358,
+          "clientWidth": 358
+        },
+        "whenNow": {
+          "ok": true,
+          "text": "As soon as possible",
+          "rectCount": 1,
+          "height": 16,
+          "lineHeight": 20,
+          "scrollWidth": 163,
+          "clientWidth": 163
+        }
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-04-en-390-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 320,
+      "mode": "after",
+      "geometry": {
+        "ok": false,
+        "textCenter": 353,
+        "rowCenter": 353,
+        "diff": 0,
+        "unclipped": false,
+        "button": "+ Добавить вариант",
+        "text": "Маленький",
+        "nameHeight": 46,
+        "priceHeight": 35,
+        "pageScrollWidth": 320,
+        "pageClientWidth": 320,
+        "textAreas": [
+          {
+            "text": "Маленький",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Средний",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Большой",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Сыр",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Бекон",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Халапеньо",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Соус",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          }
+        ],
+        "names": [
+          "Маленький",
+          "Средний",
+          "Большой",
+          "Сыр",
+          "Бекон",
+          "Халапеньо",
+          "Соус"
+        ]
+      },
+      "status": "FAIL",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-ru-320-main-after.png",
+      "js_errors": [],
+      "error": "{\"ok\": false, \"textCenter\": 353, \"rowCenter\": 353, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Добавить вариант\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 320, \"pageClientWidth\": 320, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "after",
+      "geometry": {
+        "ok": true,
+        "title": "Очень длинное название блюда с несколькими ингредиентами и соусом 1",
+        "clamp": "none",
+        "titleHeight": 104,
+        "titleScrollHeight": 104,
+        "titleClientHeight": 104,
+        "cta": "Добавить в корзину",
+        "lines": 1,
+        "lineHeight": 15,
+        "textHeight": 11,
+        "ctaScrollWidth": 102,
+        "ctaClientWidth": 102,
+        "ctaRight": 244.828125,
+        "priceLeft": 246.828125
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-02-ru-320-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "ru",
+      "width": 320,
+      "mode": "after",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-ru-320-missing-after.png",
+      "geometry": {
+        "ok": true,
+        "missing": true,
+        "customerTelephoneLink": false,
+        "toast": "Номер клиента недоступен",
+        "reason": "Номер клиента недоступен",
+        "ariaDisabled": "true",
+        "foreground": "rgb(23, 36, 60)"
+      },
+      "status": "PASS",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-ru-320-available-after.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-03-ru-320-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/after/P-04-ru-320-schedule-after.png",
+      "geometry": {
+        "ok": true,
+        "slider": {
+          "ok": true,
+          "text": "Сдвиньте, чтобы заказать",
+          "rectCount": 1,
+          "height": 13,
+          "lineHeight": 17,
+          "scrollWidth": 288,
+          "clientWidth": 288
+        },
+        "whenNow": {
+          "ok": true,
+          "text": "Как можно скорее",
+          "rectCount": 1,
+          "height": 12,
+          "lineHeight": 17,
+          "scrollWidth": 128,
+          "clientWidth": 128
+        }
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-04-ru-320-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 320,
+      "mode": "after",
+      "geometry": {
+        "ok": false,
+        "textCenter": 353,
+        "rowCenter": 353,
+        "diff": 0,
+        "unclipped": false,
+        "button": "+ Add variant",
+        "text": "Маленький",
+        "nameHeight": 46,
+        "priceHeight": 35,
+        "pageScrollWidth": 320,
+        "pageClientWidth": 320,
+        "textAreas": [
+          {
+            "text": "Маленький",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Средний",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Большой",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Сыр",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Бекон",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Халапеньо",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          },
+          {
+            "text": "Соус",
+            "scrollHeight": 43,
+            "clientHeight": 43,
+            "scrollWidth": 117,
+            "clientWidth": 117
+          }
+        ],
+        "names": [
+          "Маленький",
+          "Средний",
+          "Большой",
+          "Сыр",
+          "Бекон",
+          "Халапеньо",
+          "Соус"
+        ]
+      },
+      "status": "FAIL",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-en-320-main-after.png",
+      "js_errors": [],
+      "error": "{\"ok\": false, \"textCenter\": 353, \"rowCenter\": 353, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Add variant\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 320, \"pageClientWidth\": 320, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    },
+    {
+      "id": "P-02",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "after",
+      "geometry": {
+        "ok": true,
+        "title": "Очень длинное название блюда с несколькими ингредиентами и соусом 1",
+        "clamp": "none",
+        "titleHeight": 104,
+        "titleScrollHeight": 104,
+        "titleClientHeight": 104,
+        "cta": "Add to cart",
+        "lines": 1,
+        "lineHeight": 15,
+        "textHeight": 11,
+        "ctaScrollWidth": 102,
+        "ctaClientWidth": 102,
+        "ctaRight": 244.828125,
+        "priceLeft": 246.828125
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-02-en-320-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-03",
+      "app": "driver",
+      "lang": "en",
+      "width": 320,
+      "mode": "after",
+      "missingScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-en-320-missing-after.png",
+      "geometry": {
+        "ok": true,
+        "missing": true,
+        "customerTelephoneLink": false,
+        "toast": "Customer phone unavailable",
+        "reason": "Customer phone unavailable",
+        "ariaDisabled": "true",
+        "foreground": "rgb(23, 36, 60)"
+      },
+      "status": "PASS",
+      "availablePhone": {
+        "ok": true,
+        "href": "tel:+992900001111",
+        "source": "synthetic in-memory authorized order"
+      },
+      "availableScreenshot": "qa-shots/unified-fix/brief18b/after/P-03-en-320-available-after.png",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-03-en-320-main-after.png",
+      "js_errors": []
+    },
+    {
+      "id": "P-04",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "scheduleScreenshot": "qa-shots/unified-fix/brief18b/after/P-04-en-320-schedule-after.png",
+      "geometry": {
+        "ok": true,
+        "slider": {
+          "ok": true,
+          "text": "Slide to place order",
+          "rectCount": 1,
+          "height": 13,
+          "lineHeight": 17,
+          "scrollWidth": 288,
+          "clientWidth": 288
+        },
+        "whenNow": {
+          "ok": true,
+          "text": "As soon as possible",
+          "rectCount": 1,
+          "height": 12,
+          "lineHeight": 17,
+          "scrollWidth": 128,
+          "clientWidth": 128
+        }
+      },
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/brief18b/after/P-04-en-320-main-after.png",
+      "js_errors": []
+    }
+  ],
+  "errors": [
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 375,
+      "error": "{\"ok\": false, \"textCenter\": 337, \"rowCenter\": 337, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Добавить вариант\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 375, \"pageClientWidth\": 375, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 390,
+      "error": "{\"ok\": false, \"textCenter\": 809.015625, \"rowCenter\": 809.015625, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Add variant\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 390, \"pageClientWidth\": 390, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 320,
+      "error": "{\"ok\": false, \"textCenter\": 353, \"rowCenter\": 353, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Добавить вариант\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 320, \"pageClientWidth\": 320, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    },
+    {
+      "id": "P-01",
+      "app": "merchant",
+      "lang": "en",
+      "width": 320,
+      "error": "{\"ok\": false, \"textCenter\": 353, \"rowCenter\": 353, \"diff\": 0, \"unclipped\": false, \"button\": \"+ Add variant\", \"text\": \"Маленький\", \"nameHeight\": 46, \"priceHeight\": 35, \"pageScrollWidth\": 320, \"pageClientWidth\": 320, \"textAreas\": [{\"text\": \"Маленький\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"names\": [\"Маленький\", \"Средний\", \"Большой\", \"Сыр\", \"Бекон\", \"Халапеньо\", \"Соус\"]}"
+    }
+  ]
+}
