@@ -149,6 +149,10 @@ jobs:
           if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/h01/'; then exit 1; fi
           if ! git diff --cached --quiet; then
             git commit -m "test(H-01): 8 post-auth original-app LOCAL screenshots visible in review branch"
+            # Clean ONLY temporary BRIEF-14 audit outputs. The verified screenshots
+            # have already been copied into h01/ and committed; no user files touched.
+            git restore --worktree -- qa-shots/full-audit/
+            git clean -fd -- qa-shots/full-audit/
             git fetch origin review/unified-fix-brief15-20261117
             git rebase origin/review/unified-fix-brief15-20261117
             git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
@@ -158,7 +162,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: talabot-brief15-h01-local-auth-evidence
-          path: qa-shots/full-audit/
+          path: qa-shots/unified-fix/h01/
           retention-days: 7
           if-no-files-found: warn
       - name: Stop throwaway local DB
