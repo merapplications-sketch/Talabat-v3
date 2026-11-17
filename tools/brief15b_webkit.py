@@ -16,7 +16,7 @@ VIEWPORTS=(("ru",375,667),("en",390,844))
 CASES=(
     ("C-01","customer"),("C-02","customer"),("C-02","merchant"),("C-02","driver"),
     ("G-01","merchant"),("G-02","merchant"),("G-03","customer"),
-    ("G-04","driver"),("G-05","merchant"),("G-06","merchant"),
+    ("G-04","driver"),("G-05","merchant"),("G-06","merchant"),("G-06","admin"),
     ("G-07","admin"),("G-08","customer"),("G-09","customer")
 )
 rows=[];errors=[]
@@ -177,6 +177,17 @@ def run_case(pg,case,app,lang,w):
             actions:[reject,accept].filter(Boolean).map(x=>({txt:x.innerText,width:x.clientWidth,scroll:x.scrollWidth}))};
         }""")
         return r,["#app .oc.new .oh","#app .oc.new .b.r","#app .oc.new .b.g"]
+    if case=="G-06" and app=="admin":
+        r=invoke(pg,"""() => {
+          if(typeof g06Orders!=='function')return {ok:false,error:'admin plural helper absent'};
+          const nums=[0,1,2,5,11,14,21,22,25,101],
+             expected=TLB.lang()==='ru'?['заказов','заказ','заказа','заказов','заказов',
+                 'заказов','заказ','заказа','заказов','заказ']:
+                 ['orders','order','orders','orders','orders','orders','orders','orders','orders','orders'],
+             actual=nums.map(g06Orders);
+          return {ok:actual.every((v,i)=>v===expected[i]),nums,expected,actual};
+        }""")
+        return r,["#app .grid","#app .k"]
     if case=="G-06":
         pg.evaluate("""() => {setTab('p');render()}""")
         r=invoke(pg,"""() => {
