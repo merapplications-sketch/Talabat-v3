@@ -1,0 +1,517 @@
+{
+  "mode": "before",
+  "browser": "Linux WebKit; original TALABOT UI, synthetic-only read adapter",
+  "viewport_cases": [
+    [
+      "ru",
+      375,
+      667
+    ],
+    [
+      "en",
+      390,
+      844
+    ],
+    [
+      "ru",
+      320,
+      700
+    ],
+    [
+      "en",
+      320,
+      700
+    ]
+  ],
+  "cases": [
+    {
+      "id": "U-01",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-ru-375-before.png"
+    },
+    {
+      "id": "U-02",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-ru-375-before.png"
+    },
+    {
+      "id": "U-03",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-ru-375-before.png"
+    },
+    {
+      "id": "U-04",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "BEFORE_LIMITATION",
+      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-ru-375-before.png"
+    },
+    {
+      "id": "U-05",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-ru-375-before.png"
+    },
+    {
+      "id": "U-06",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "financial": {
+        "total": 20.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 48,
+        "fee": 10,
+        "tip": 10,
+        "saved": 64.25,
+        "due": 0,
+        "wallet": 20.75
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-ru-375-before.png"
+    },
+    {
+      "id": "U-02-driver",
+      "app": "driver",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-ru-375-before.png"
+    },
+    {
+      "id": "U-01",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-en-390-before.png"
+    },
+    {
+      "id": "U-02",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-en-390-before.png"
+    },
+    {
+      "id": "U-03",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-en-390-before.png"
+    },
+    {
+      "id": "U-04",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "BEFORE_LIMITATION",
+      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-en-390-before.png"
+    },
+    {
+      "id": "U-05",
+      "app": "merchant",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-en-390-before.png"
+    },
+    {
+      "id": "U-06",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "financial": {
+        "total": 20.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 48,
+        "fee": 10,
+        "tip": 10,
+        "saved": 64.25,
+        "due": 0,
+        "wallet": 20.75
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-en-390-before.png"
+    },
+    {
+      "id": "U-02-driver",
+      "app": "driver",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-en-390-before.png"
+    },
+    {
+      "id": "U-01",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-ru-320-before.png"
+    },
+    {
+      "id": "U-02",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-ru-320-before.png"
+    },
+    {
+      "id": "U-03",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-ru-320-before.png"
+    },
+    {
+      "id": "U-04",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "BEFORE_LIMITATION",
+      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-ru-320-before.png"
+    },
+    {
+      "id": "U-05",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-ru-320-before.png"
+    },
+    {
+      "id": "U-06",
+      "app": "customer",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 20.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 48,
+        "fee": 10,
+        "tip": 10,
+        "saved": 64.25,
+        "due": 0,
+        "wallet": 20.75
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-ru-320-before.png"
+    },
+    {
+      "id": "U-02-driver",
+      "app": "driver",
+      "lang": "ru",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-ru-320-before.png"
+    },
+    {
+      "id": "U-01",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-en-320-before.png"
+    },
+    {
+      "id": "U-02",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-en-320-before.png"
+    },
+    {
+      "id": "U-03",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-en-320-before.png"
+    },
+    {
+      "id": "U-04",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "status": "BEFORE_LIMITATION",
+      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-en-320-before.png"
+    },
+    {
+      "id": "U-05",
+      "app": "merchant",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-en-320-before.png"
+    },
+    {
+      "id": "U-06",
+      "app": "customer",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "financial": {
+        "total": 20.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 48,
+        "fee": 10,
+        "tip": 10,
+        "saved": 64.25,
+        "due": 0,
+        "wallet": 20.75
+      },
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-en-320-before.png"
+    },
+    {
+      "id": "U-02-driver",
+      "app": "driver",
+      "lang": "en",
+      "width": 320,
+      "mode": "before",
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-en-320-before.png"
+    }
+  ],
+  "errors": []
+}

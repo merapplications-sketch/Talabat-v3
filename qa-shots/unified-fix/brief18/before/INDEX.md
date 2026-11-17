@@ -1,0 +1,33 @@
+# TALABOT BRIEF-18 BEFORE
+
+Original HTML/JS, read-only synthetic fixture.
+NOT a physical iPhone, deployed production, or SQL migration test.
+
+- U-01 customer ru/375: REFERENCE [U-01-customer-ru-375-before.png](U-01-customer-ru-375-before.png)
+- U-02 customer ru/375: REFERENCE [U-02-customer-ru-375-before.png](U-02-customer-ru-375-before.png)
+- U-03 customer ru/375: REFERENCE [U-03-customer-ru-375-before.png](U-03-customer-ru-375-before.png)
+- U-04 customer ru/375: BEFORE_LIMITATION [U-04-customer-ru-375-before.png](U-04-customer-ru-375-before.png)
+- U-05 merchant ru/375: REFERENCE [U-05-merchant-ru-375-before.png](U-05-merchant-ru-375-before.png)
+- U-06 customer ru/375: REFERENCE [U-06-customer-ru-375-before.png](U-06-customer-ru-375-before.png)
+- U-02-driver driver ru/375: REFERENCE [U-02-driver-driver-ru-375-before.png](U-02-driver-driver-ru-375-before.png)
+- U-01 customer en/390: REFERENCE [U-01-customer-en-390-before.png](U-01-customer-en-390-before.png)
+- U-02 customer en/390: REFERENCE [U-02-customer-en-390-before.png](U-02-customer-en-390-before.png)
+- U-03 customer en/390: REFERENCE [U-03-customer-en-390-before.png](U-03-customer-en-390-before.png)
+- U-04 customer en/390: BEFORE_LIMITATION [U-04-customer-en-390-before.png](U-04-customer-en-390-before.png)
+- U-05 merchant en/390: REFERENCE [U-05-merchant-en-390-before.png](U-05-merchant-en-390-before.png)
+- U-06 customer en/390: REFERENCE [U-06-customer-en-390-before.png](U-06-customer-en-390-before.png)
+- U-02-driver driver en/390: REFERENCE [U-02-driver-driver-en-390-before.png](U-02-driver-driver-en-390-before.png)
+- U-01 customer ru/320: REFERENCE [U-01-customer-ru-320-before.png](U-01-customer-ru-320-before.png)
+- U-02 customer ru/320: REFERENCE [U-02-customer-ru-320-before.png](U-02-customer-ru-320-before.png)
+- U-03 customer ru/320: REFERENCE [U-03-customer-ru-320-before.png](U-03-customer-ru-320-before.png)
+- U-04 customer ru/320: BEFORE_LIMITATION [U-04-customer-ru-320-before.png](U-04-customer-ru-320-before.png)
+- U-05 merchant ru/320: REFERENCE [U-05-merchant-ru-320-before.png](U-05-merchant-ru-320-before.png)
+- U-06 customer ru/320: REFERENCE [U-06-customer-ru-320-before.png](U-06-customer-ru-320-before.png)
+- U-02-driver driver ru/320: REFERENCE [U-02-driver-driver-ru-320-before.png](U-02-driver-driver-ru-320-before.png)
+- U-01 customer en/320: REFERENCE [U-01-customer-en-320-before.png](U-01-customer-en-320-before.png)
+- U-02 customer en/320: REFERENCE [U-02-customer-en-320-before.png](U-02-customer-en-320-before.png)
+- U-03 customer en/320: REFERENCE [U-03-customer-en-320-before.png](U-03-customer-en-320-before.png)
+- U-04 customer en/320: BEFORE_LIMITATION [U-04-customer-en-320-before.png](U-04-customer-en-320-before.png)
+- U-05 merchant en/320: REFERENCE [U-05-merchant-en-320-before.png](U-05-merchant-en-320-before.png)
+- U-06 customer en/320: REFERENCE [U-06-customer-en-320-before.png](U-06-customer-en-320-before.png)
+- U-02-driver driver en/320: REFERENCE [U-02-driver-driver-en-320-before.png](U-02-driver-driver-en-320-before.png)
