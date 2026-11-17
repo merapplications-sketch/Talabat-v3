@@ -191,16 +191,16 @@
       "width": 375,
       "mode": "after",
       "financial": {
-        "total": 68.75,
+        "total": 75.25,
         "sub": 65,
         "discount": 9.75,
-        "happyHour": 6.5,
+        "happyHour": 0,
         "promo": 0,
         "pointsValue": 0,
         "fee": 10,
         "tip": 10,
-        "saved": 16.25,
-        "due": 68.75,
+        "saved": 9.75,
+        "due": 75.25,
         "wallet": 0
       },
       "result": {
@@ -344,16 +344,16 @@
       "width": 375,
       "mode": "after",
       "financial": {
-        "total": 68.75,
+        "total": 75.25,
         "sub": 65,
         "discount": 9.75,
-        "happyHour": 6.5,
+        "happyHour": 0,
         "promo": 0,
         "pointsValue": 0,
         "fee": 10,
         "tip": 10,
-        "saved": 16.25,
-        "due": 68.75,
+        "saved": 9.75,
+        "due": 75.25,
         "wallet": 0
       },
       "result": {
@@ -465,23 +465,23 @@
       "width": 375,
       "mode": "after",
       "financial": {
-        "total": 68.75,
+        "total": 75.25,
         "sub": 65,
         "discount": 9.75,
-        "happyHour": 6.5,
+        "happyHour": 0,
         "promo": 0,
         "pointsValue": 0,
         "fee": 10,
         "tip": 10,
-        "saved": 16.25,
-        "due": 68.75,
+        "saved": 9.75,
+        "due": 75.25,
         "wallet": 0
       },
       "result": {
         "ok": true,
         "pay": {
           "ok": true,
-          "saved": 16.25,
+          "saved": 9.75,
           "overlap": false,
           "bandBottom": 561,
           "sliderTop": 593,
@@ -489,7 +489,7 @@
         },
         "cart": {
           "ok": true,
-          "saved": 16.25,
+          "saved": 9.75,
           "bandBottom": 567,
           "buttons": 2,
           "firstTop": 603
@@ -498,7 +498,7 @@
       "geometry": [
         {
           "selector": ".d70-dock .u18-saving",
-          "txt": "Вы экономите\n16.25 TJS\n",
+          "txt": "Вы экономите\n9.75 TJS\n",
           "left": 16,
           "right": 359,
           "top": 525,
@@ -935,17 +935,17 @@
       "width": 375,
       "mode": "after",
       "financial": {
-        "total": 20.75,
+        "total": 20.25,
         "sub": 65,
         "discount": 9.75,
-        "happyHour": 6.5,
+        "happyHour": 0,
         "promo": 0,
-        "pointsValue": 48,
+        "pointsValue": 55,
         "fee": 10,
         "tip": 10,
-        "saved": 64.25,
+        "saved": 64.75,
         "due": 0,
-        "wallet": 20.75
+        "wallet": 20.25
       },
       "result": {
         "ok": true,
@@ -1262,16 +1262,16 @@
       "width": 390,
       "mode": "after",
       "financial": {
-        "total": 68.75,
+        "total": 75.25,
         "sub": 65,
         "discount": 9.75,
-        "happyHour": 6.5,
+        "happyHour": 0,
         "promo": 0,
         "pointsValue": 0,
         "fee": 10,
         "tip": 10,
-        "saved": 16.25,
-        "due": 68.75,
+        "saved": 9.75,
+        "due": 75.25,
         "wallet": 0
       },
       "result": {
@@ -1415,16 +1415,16 @@
       "width": 390,
       "mode": "after",
       "financial": {
-        "total": 68.75,
+        "total": 75.25,
         "sub": 65,
         "discount": 9.75,
-        "happyHour": 6.5,
+        "happyHour": 0,
         "promo": 0,
         "pointsValue": 0,
         "fee": 10,
         "tip": 10,
-        "saved": 16.25,
-        "due": 68.75,
+        "saved": 9.75,
+        "due": 75.25,
         "wallet": 0
       },
       "result": {
@@ -1536,23 +1536,23 @@
       "width": 390,
       "mode": "after",
       "financial": {
-        "total": 68.75,
+        "total": 75.25,
         "sub": 65,
         "discount": 9.75,
-        "happyHour": 6.5,
+        "happyHour": 0,
         "promo": 0,
         "pointsValue": 0,
         "fee": 10,
         "tip": 10,
-        "saved": 16.25,
-        "due": 68.75,
+        "saved": 9.75,
+        "due": 75.25,
         "wallet": 0
       },
       "result": {
         "ok": true,
         "pay": {
           "ok": true,
-          "saved": 16.25,
+          "saved": 9.75,
           "overlap": false,
           "bandBottom": 738,
           "sliderTop": 770,
@@ -1560,7 +1560,7 @@
         },
         "cart": {
           "ok": true,
-          "saved": 16.25,
+          "saved": 9.75,
           "bandBottom": 744,
           "buttons": 2,
           "firstTop": 780
@@ -1569,7 +1569,7 @@
       "geometry": [
         {
           "selector": ".d70-dock .u18-saving",
-          "txt": "You are saving\n16.25 TJS\n",
+          "txt": "You are saving\n9.75 TJS\n",
           "left": 16,
           "right": 374,
           "top": 702,

@@ -43,10 +43,11 @@
           38.5599955582107,
           68.78000378608705
         ],
+        "pixelGap": 0.31813734909187,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "localTiles": true
       },
       "network": {
@@ -60,8 +61,8 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 341, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.78000378608705], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
+      "status": "PASS",
+      "pageerrors": []
     },
     {
       "id": "M-01",
@@ -96,6 +97,7 @@
         "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
         "coords": null,
         "center": null,
+        "pixelGap": null,
         "stationary": false,
         "bg": null,
         "ok": true,
@@ -149,10 +151,11 @@
           38.5599955582107,
           68.78000378608705
         ],
+        "pixelGap": 0.31813734909187,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "failedTiles": true
       },
       "network": {
@@ -166,8 +169,8 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 341, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.78000378608705], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
+      "status": "PASS",
+      "pageerrors": []
     },
     {
       "id": "M-01",
@@ -208,10 +211,11 @@
           38.5599955582107,
           68.77999305725099
         ],
+        "pixelGap": 0.41805134622653556,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "localTiles": true
       },
       "network": {
@@ -225,8 +229,8 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 356, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
+      "status": "PASS",
+      "pageerrors": []
     },
     {
       "id": "M-01",
@@ -261,6 +265,7 @@
         "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
         "coords": null,
         "center": null,
+        "pixelGap": null,
         "stationary": false,
         "bg": null,
         "ok": true,
@@ -314,10 +319,11 @@
           38.5599955582107,
           68.77999305725099
         ],
+        "pixelGap": 0.41805134622653556,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "failedTiles": true
       },
       "network": {
@@ -331,8 +337,8 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 356, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
+      "status": "PASS",
+      "pageerrors": []
     },
     {
       "id": "M-01",
@@ -373,10 +379,11 @@
           38.5599955582107,
           68.77999305725099
         ],
+        "pixelGap": 0.41805134622653556,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "localTiles": true
       },
       "network": {
@@ -390,8 +397,8 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 305, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
+      "status": "PASS",
+      "pageerrors": []
     },
     {
       "id": "M-01",
@@ -426,6 +433,7 @@
         "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
         "coords": null,
         "center": null,
+        "pixelGap": null,
         "stationary": false,
         "bg": null,
         "ok": true,
@@ -479,10 +487,11 @@
           38.5599955582107,
           68.77999305725099
         ],
+        "pixelGap": 0.41805134622653556,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "failedTiles": true
       },
       "network": {
@@ -496,8 +505,8 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 305, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
+      "status": "PASS",
+      "pageerrors": []
     },
     {
       "id": "M-01",
@@ -538,10 +547,11 @@
           38.5599955582107,
           68.77999305725099
         ],
+        "pixelGap": 0.41805134622653556,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "localTiles": true
       },
       "network": {
@@ -555,8 +565,8 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 284, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
+      "status": "PASS",
+      "pageerrors": []
     },
     {
       "id": "M-01",
@@ -591,6 +601,7 @@
         "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
         "coords": null,
         "center": null,
+        "pixelGap": null,
         "stationary": false,
         "bg": null,
         "ok": true,
@@ -644,10 +655,11 @@
           38.5599955582107,
           68.77999305725099
         ],
+        "pixelGap": 0.41805134622653556,
         "stationary": true,
         "bg": "rgb(237, 240, 236)",
-        "ok": false,
-        "dragUnchanged": false,
+        "ok": true,
+        "dragUnchanged": true,
         "failedTiles": true
       },
       "network": {
@@ -661,66 +673,9 @@
         "mapDisposed": true,
         "ok": true
       },
-      "status": "FAIL",
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 284, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
+      "status": "PASS",
+      "pageerrors": []
     }
   ],
-  "errors": [
-    {
-      "id": "M-01",
-      "state": "coordinates",
-      "lang": "ru",
-      "width": 375,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 341, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.78000378608705], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
-    },
-    {
-      "id": "M-01",
-      "state": "tile_failure",
-      "lang": "ru",
-      "width": 375,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 341, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.78000378608705], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
-    },
-    {
-      "id": "M-01",
-      "state": "coordinates",
-      "lang": "en",
-      "width": 390,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 356, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
-    },
-    {
-      "id": "M-01",
-      "state": "tile_failure",
-      "lang": "en",
-      "width": 390,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 245, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 356, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
-    },
-    {
-      "id": "M-01",
-      "state": "coordinates",
-      "lang": "ru",
-      "width": 320,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 305, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
-    },
-    {
-      "id": "M-01",
-      "state": "tile_failure",
-      "lang": "ru",
-      "width": 320,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 305, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Адрес доставки · Дом\\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\\nИзменить\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
-    },
-    {
-      "id": "M-01",
-      "state": "coordinates",
-      "lang": "en",
-      "width": 320,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 284, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"localTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 4, \"local\": 4, \"failed\": 0}}"
-    },
-    {
-      "id": "M-01",
-      "state": "tile_failure",
-      "lang": "en",
-      "width": 320,
-      "error": "{\"result\": {\"pageFit\": true, \"labels\": true, \"cardHeight\": 284, \"hasMap\": true, \"mapCount\": 1, \"attr\": \"© OpenStreetMap\", \"width\": 286, \"height\": 130, \"pinDx\": 0, \"pinDy\": 0, \"addressText\": \"Delivery address · Home\\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\\nChange\\n\", \"coords\": [38.56, 68.78], \"center\": [38.5599955582107, 68.77999305725099], \"stationary\": true, \"bg\": \"rgb(237, 240, 236)\", \"ok\": false, \"dragUnchanged\": false, \"failedTiles\": true}, \"errors\": [], \"network\": {\"tiles\": 8, \"local\": 0, \"failed\": 8}}"
-    }
-  ]
+  "errors": []
 }
