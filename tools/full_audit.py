@@ -331,11 +331,21 @@ def main():
                 fixture=json.loads(pathlib.Path(fixture_path).read_text("utf8"))
                 assert fixture.get("synthetic_only") and fixture.get("origin")==BACKEND
                 js=pathlib.Path(npm).read_text("utf8")
+                # H-01 fail-fast mode: an actual Auth/UI failure invalidates all
+                # 24-case coverage; do not retry the same broken backend 24 times.
+                halted=False
                 for w,h in WIDTHS:
                     for lang in LANGS:
                         for app in APPS4:
+                            before=len(REPORT.get("local_auth_verified",[]))
                             try:use_real_local_backend(browser,app,lang,w,h,fixture,js)
                             except Exception as e:record(app,"local_auth",lang,w,"LOCAL_BACKEND_RUNTIME_ERROR",str(e),"P1","local")
+                            if os.environ.get("FULL_AUDIT_FAIL_FAST")=="1" and len(REPORT.get("local_auth_verified",[]))==before:
+                                halted=True
+                                print("H01_FAIL_FAST: original app Auth/ready not proven, stopping further cases",flush=True)
+                                break
+                        if halted:break
+                    if halted:break
             browser.close()
     finally:
         server.shutdown()
