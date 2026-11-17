@@ -1,5 +1,5 @@
 /* TALABOT / NOTIFY-01 — shared visual safety for the original core 2.3s toast.
- * Four apps, NO changes to money, RPC, text, timing, permissions or alert semantics.
+ * Four apps, NO changes to money, RPC, timing, permissions or other alert semantics.
  * Convert the core's bottom:96px fixed toast into a normal-flow status element;
  * insertion shifts the affected content rather than covering text or buttons.
  * Driver map errors are delegated to F-09's existing map status region.
@@ -10,9 +10,9 @@
  const css=document.createElement('style');css.id='talabot-safe-toast';
  css.textContent=
  '.t15-flow-toast{position:static!important;inset:auto!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;'+
- 'z-index:auto!important;display:block!important;width:auto!important;min-height:36px!important;max-width:100%!important;'+
- 'box-sizing:border-box!important;overflow-wrap:anywhere!important;white-space:normal!important;margin:8px 0 12px!important;'+
- 'text-align:center!important;font-size:13px!important;line-height:18px!important;border-radius:12px!important;'+
+ 'z-index:auto!important;display:block!important;width:fit-content!important;min-height:0!important;max-width:min(86%,320px)!important;'+
+ 'box-sizing:border-box!important;overflow-wrap:break-word!important;white-space:normal!important;margin:8px auto 12px!important;'+
+ 'text-align:center!important;font-size:13px!important;line-height:18px!important;border-radius:22px!important;'+
  'pointer-events:none!important}';
  document.head.appendChild(css);
  function isCoreToast(e){
@@ -38,8 +38,15 @@
    const main=document.querySelector('#app .pg,#app main,#app .a-utility,#app');
    return main?{container:main}:null;
  }
+ /* Closed-customer ordering feedback does not belong in courier/merchant workflows. */
+ function suppressClosedMerchantDriver(msg){
+   if(!/(?:^|\/)(?:driver|merchant)\.html$/i.test(location.pathname))return false;
+   const value=String(msg||'').trim();
+   return /^(?:Ресторан сейчас закрыт|The restaurant is closed|Restaurant is currently closed)/i.test(value);
+ }
  function place(e){
    if(!isCoreToast(e))return false;
+   if(suppressClosedMerchantDriver(e.textContent)){e.remove();return true;}
    if(document.body.classList.contains('a-mission')&&
       typeof window.__talabotF09MapNotice==='function'&&
       window.__talabotF09MapNotice(e))return true;
@@ -73,6 +80,7 @@
    const original=TLB.toast;
    TLB.toast=function(message,bad){
      const msg=String(message);
+     if(suppressClosedMerchantDriver(msg))return;
      if(document.body.classList.contains('a-mission')&&
        (msg===TLB.t('mapFail')||msg===TLB.t('locMapFail'))&&
        typeof window.__talabotF09MapNotice==='function'){
