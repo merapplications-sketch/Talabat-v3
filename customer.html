@@ -1202,6 +1202,8 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .d6h .d6-loc{height:auto;min-height:44px}
 #app .d6h .d6-loc span{display:block;flex:1;min-width:0;overflow:visible}
 #app .d6h .d6-loc b{display:block;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:normal;word-break:normal;hyphens:none;line-height:16px;font-size:12px;max-height:none}
+/* C-01b: preserve scrolling runway below restaurant lists, including the current-order panel and bottom navigation. */
+#app .c01-list-content{padding-bottom:calc(178px + env(safe-area-inset-bottom,0px))}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -1796,7 +1798,7 @@ function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.al
   <div class="d6-l3">${tl('disc','a','tag','d6tDisc')}${tl('free','b','bike','d6tFree')}${hasMine?tl('mine','c','heart','d6tMine'):''}</div>
   <div class="d6-sf" onclick="if(event.target==this)$('cq').focus()">${ico('search',20)}<input type="search" id="cq" placeholder="${t('searchCat')}" value="${esc(S.cq)}" oninput="S.cq=this.value;render()" enterkeyhint="search"></div>
   <div class="chips">${ch(S.srt=='rate',"S.srt=S.srt=='rate'?'':'rate'",'fRate')}${ch(S.srt=='disc',"S.srt=S.srt=='disc'?'':'disc'",'fDisc')}${ch(S.srt=='free',"S.srt=S.srt=='free'?'':'free'",'fFree')}${ch(S.fo,'S.fo=!S.fo','fOpen')}</div>
-  <div class="pg">${body}</div>`}
+  <div class="pg c01-list-content">${body}</div>`}
 /* ---------- RESTAURANT ---------- */
 /* v06.1 store page parts. The photo is the dish's / store's own (no demo picture); without one, a neutral «no photo» slot. */
 const d6Ph=(src,badges,cls)=>`<div class="d6-ph ${src?'':'none'} ${cls||''}">${src?`<img src="${esc(src)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('none');this.remove()">`:''}${badges||''}</div>`;
