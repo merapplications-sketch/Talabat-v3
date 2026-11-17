@@ -15,20 +15,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:52:25Заказать се",
+            "selector": "#app .c-current-inline",
+            "text": "Текущие заказы · 4Заказ отправлен · Готовим ваш заказ · Заказ поч",
+            "rect": {
+              "x": 14,
+              "y": 362,
+              "w": 347,
+              "h": 96,
+              "right": 361,
+              "bottom": 458
+            }
+          },
+          {
+            "selector": "#app .d6-bento",
+            "text": "Счастливые часыскидка до 25% 12:45:32Заказать сейчас Любимые блюд",
             "rect": {
               "x": 0,
-              "y": 0,
+              "y": 130,
               "w": 375,
-              "h": 2283,
+              "h": 222,
               "right": 375,
-              "bottom": 2283
+              "bottom": 352
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-01-customer-ru-375-after.png"
     },
@@ -45,20 +57,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:52:23Заказать се",
+            "selector": "#app .d6-ct b",
+            "text": "Рестораны",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 375,
-              "h": 2283,
-              "right": 375,
-              "bottom": 2283
+              "x": 8.72,
+              "y": 518,
+              "w": 53.39,
+              "h": 28,
+              "right": 62.11,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Продукты",
+            "rect": {
+              "x": 71.34,
+              "y": 518,
+              "w": 49.78,
+              "h": 28,
+              "right": 121.13,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Аптеки",
+            "rect": {
+              "x": 139.17,
+              "y": 518,
+              "w": 35.8,
+              "h": 28,
+              "right": 174.97,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Красота",
+            "rect": {
+              "x": 197.56,
+              "y": 518,
+              "w": 40.7,
+              "h": 28,
+              "right": 238.27,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Цветы",
+            "rect": {
+              "x": 262.84,
+              "y": 518,
+              "w": 31.78,
+              "h": 28,
+              "right": 294.63,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Сладости",
+            "rect": {
+              "x": 315.8,
+              "y": 518,
+              "w": 47.56,
+              "h": 28,
+              "right": 363.36,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-bt.d6tp .tt",
+            "text": "Бесплатная доставка",
+            "rect": {
+              "x": 238.2,
+              "y": 265,
+              "w": 110.78,
+              "h": 38,
+              "right": 348.98,
+              "bottom": 303
+            }
+          },
+          {
+            "selector": "#app input[placeholder]",
+            "text": "",
+            "rect": {
+              "x": 59,
+              "y": 76,
+              "w": 242,
+              "h": 46,
+              "right": 301,
+              "bottom": 122
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-02-customer-ru-375-after.png"
     },
@@ -75,20 +171,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "Заказ #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "selector": "#app .p1-summary",
+            "text": "#ord117 нояб., 04:53Ресторан «Дар-ул-Хилоф Шарқи Бузург» (централ",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 375,
-              "h": 1415,
-              "right": 375,
-              "bottom": 1415
+              "x": 16,
+              "y": 157,
+              "w": 343,
+              "h": 290,
+              "right": 359,
+              "bottom": 447
+            }
+          },
+          {
+            "selector": "#app .p1-contact",
+            "text": "Связаться по заказуКурьер назначенКурьер\n  Здравствуйте! Подъезд ",
+            "rect": {
+              "x": 16,
+              "y": 733,
+              "w": 343,
+              "h": 578,
+              "right": 359,
+              "bottom": 1311
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Здравствуйте",
+            "rect": {
+              "x": 33,
+              "y": 1014,
+              "w": 150.5,
+              "h": 44,
+              "right": 183.5,
+              "bottom": 1058
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Где вы сейчас?",
+            "rect": {
+              "x": 191.5,
+              "y": 1014,
+              "w": 150.5,
+              "h": 44,
+              "right": 342,
+              "bottom": 1058
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Я выхожу",
+            "rect": {
+              "x": 33,
+              "y": 1066,
+              "w": 150.5,
+              "h": 58,
+              "right": 183.5,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Подождите, пожалуйста",
+            "rect": {
+              "x": 191.5,
+              "y": 1066,
+              "w": 150.5,
+              "h": 58,
+              "right": 342,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Позвоните мне",
+            "rect": {
+              "x": 33,
+              "y": 1132,
+              "w": 150.5,
+              "h": 58,
+              "right": 183.5,
+              "bottom": 1190
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Оставьте у двери",
+            "rect": {
+              "x": 191.5,
+              "y": 1132,
+              "w": 150.5,
+              "h": 58,
+              "right": 342,
+              "bottom": 1190
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-03-customer-ru-375-after.png"
     },
@@ -136,7 +316,31 @@
         },
         "positions": [
           {
-            "selector": "#app",
+            "selector": "#app .d67-checkout",
+            "text": "Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, до",
+            "rect": {
+              "x": 0,
+              "y": 64,
+              "w": 375,
+              "h": 1460,
+              "right": 375,
+              "bottom": 1524
+            }
+          },
+          {
+            "selector": "#app .fbar",
+            "text": "Итого 58.75 TJSСдвиньте, чтобы заказать\n  Подтвердить заказ в два",
+            "rect": {
+              "x": 0,
+              "y": 561,
+              "w": 375,
+              "h": 106,
+              "right": 375,
+              "bottom": 667
+            }
+          },
+          {
+            "selector": "#app .d6p",
             "text": "Оплата\n  \n  Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5",
             "rect": {
               "x": 0,
@@ -149,7 +353,7 @@
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 3
       },
       "image": "qa-shots/unified-fix/F-05-customer-ru-375-after.png"
     },
@@ -166,20 +370,140 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": ".f06-item-editor",
+            "text": "Редактировать блюдо\n  Добавить фото\n  \n  Название блюдаОчень длин",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 355,
-              "h": 1709,
-              "right": 365,
-              "bottom": 1723
+              "x": 0,
+              "y": 8,
+              "w": 375,
+              "h": 659,
+              "right": 375,
+              "bottom": 667
+            }
+          },
+          {
+            "selector": "#sn",
+            "text": "Очень длинное название блюда с несколькими ингредиентами и соусом",
+            "rect": {
+              "x": 14,
+              "y": -944,
+              "w": 347,
+              "h": 115,
+              "right": 361,
+              "bottom": -829
+            }
+          },
+          {
+            "selector": "#sp",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": -791.5,
+              "w": 168.5,
+              "h": 46,
+              "right": 182.5,
+              "bottom": -745.5
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Размер порции (обязательно выбрать)",
+            "rect": {
+              "x": 26,
+              "y": -495,
+              "w": 277,
+              "h": 67,
+              "right": 303,
+              "bottom": -428
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Маленький",
+            "rect": {
+              "x": 26,
+              "y": -366,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": -299
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Средний",
+            "rect": {
+              "x": 26,
+              "y": -293,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": -226
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Большой",
+            "rect": {
+              "x": 26,
+              "y": -220,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": -153
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Добавки",
+            "rect": {
+              "x": 26,
+              "y": -71,
+              "w": 277,
+              "h": 67,
+              "right": 303,
+              "bottom": -4
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Сыр",
+            "rect": {
+              "x": 26,
+              "y": 58,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": 125
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Бекон",
+            "rect": {
+              "x": 26,
+              "y": 131,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": 198
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Халапеньо",
+            "rect": {
+              "x": 26,
+              "y": 204,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": 271
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 11
       },
       "image": "qa-shots/unified-fix/F-06-merchant-ru-375-after.png"
     },
@@ -196,20 +520,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": ".f07-reject",
+            "text": "Отменить заказ #ord0\n  Выберите причину — клиент увидит её с изви",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 355,
-              "h": 1787,
-              "right": 365,
-              "bottom": 1801
+              "x": 0,
+              "y": 8,
+              "w": 375,
+              "h": 379,
+              "right": 375,
+              "bottom": 387
+            }
+          },
+          {
+            "selector": "#rjn",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": 272,
+              "w": 347,
+              "h": 73.38,
+              "right": 361,
+              "bottom": 345.38
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-07-merchant-ru-375-after.png"
     },
@@ -226,20 +562,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": "#sdesc",
+            "text": "",
+            "rect": {
+              "x": 24,
+              "y": 311,
+              "w": 327,
+              "h": 46,
+              "right": 351,
+              "bottom": 357
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "ОписаниеСохранить",
             "rect": {
               "x": 10,
-              "y": -137,
+              "y": 278,
               "w": 355,
-              "h": 1944,
+              "h": 143,
               "right": 365,
-              "bottom": 1807
+              "bottom": 421
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Телефон ресторана+992900000001Чтобы изменить номер, обратитесь в ",
+            "rect": {
+              "x": 10,
+              "y": 433,
+              "w": 355,
+              "h": 81,
+              "right": 365,
+              "bottom": 514
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Скидка на блюда (Максимум (задаёт администрация): 30%)Сохранить",
+            "rect": {
+              "x": 10,
+              "y": 526,
+              "w": 355,
+              "h": 108,
+              "right": 365,
+              "bottom": 634
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Фото и логотипЛоготип — квадрат (лучше 400×400). Обложка — широко",
+            "rect": {
+              "x": 10,
+              "y": 1093,
+              "w": 355,
+              "h": 173,
+              "right": 365,
+              "bottom": 1266
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Добавить ресторанМои заявки1 на проверке",
+            "rect": {
+              "x": 10,
+              "y": 1278,
+              "w": 355,
+              "h": 108,
+              "right": 365,
+              "bottom": 1386
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Филиалы: Дар-ул-ХилофЦентр12 заказов · 1500.5 TJSСинхр. менюСино…",
+            "rect": {
+              "x": 10,
+              "y": 1398,
+              "w": 355,
+              "h": 252,
+              "right": 365,
+              "bottom": 1650
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "ЯзыкRUEN",
+            "rect": {
+              "x": 10,
+              "y": 1662,
+              "w": 355,
+              "h": 60,
+              "right": 365,
+              "bottom": 1722
             }
           }
         ],
         "scrollY": 151,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-08-merchant-ru-375-after.png"
     },
@@ -367,10 +787,106 @@
               "right": 361,
               "bottom": 2258
             }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Заказы",
+            "rect": {
+              "x": 14,
+              "y": 738,
+              "w": 86.92,
+              "h": 37,
+              "right": 100.92,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Магазины1",
+            "rect": {
+              "x": 108.92,
+              "y": 738,
+              "w": 134.33,
+              "h": 37,
+              "right": 243.25,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Курьеры",
+            "rect": {
+              "x": 251.25,
+              "y": 738,
+              "w": 98.52,
+              "h": 37,
+              "right": 349.77,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Клиенты",
+            "rect": {
+              "x": 357.77,
+              "y": 738,
+              "w": 98.36,
+              "h": 37,
+              "right": 456.13,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Поддержка1",
+            "rect": {
+              "x": 464.13,
+              "y": 738,
+              "w": 149.13,
+              "h": 37,
+              "right": 613.25,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Тексты",
+            "rect": {
+              "x": 621.25,
+              "y": 738,
+              "w": 85.52,
+              "h": 37,
+              "right": 706.77,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Оценки1",
+            "rect": {
+              "x": 714.77,
+              "y": 738,
+              "w": 116.08,
+              "h": 37,
+              "right": 830.84,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Баннеры",
+            "rect": {
+              "x": 838.84,
+              "y": 738,
+              "w": 98.53,
+              "h": 37,
+              "right": 937.38,
+              "bottom": 775
+            }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 9
       },
       "image": "qa-shots/unified-fix/F-10-admin-ru-375-after.png"
     },
@@ -479,20 +995,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:52:04Order now Favour",
+            "selector": "#app .c-current-inline",
+            "text": "Current orders · 4Order sent · Preparing your order · Almost read",
+            "rect": {
+              "x": 14,
+              "y": 345,
+              "w": 347,
+              "h": 78,
+              "right": 361,
+              "bottom": 423
+            }
+          },
+          {
+            "selector": "#app .d6-bento",
+            "text": "Happy hourup to 25% off 12:45:08Order now Favourite dishes nearby",
             "rect": {
               "x": 0,
-              "y": 0,
+              "y": 130,
               "w": 375,
-              "h": 2248,
+              "h": 205,
               "right": 375,
-              "bottom": 2248
+              "bottom": 335
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-01-customer-en-375-after.png"
     },
@@ -509,20 +1037,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:52:03Order now Favour",
+            "selector": "#app .d6-ct b",
+            "text": "Food",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 375,
-              "h": 2248,
-              "right": 375,
-              "bottom": 2248
+              "x": 24.11,
+              "y": 483,
+              "w": 22.59,
+              "h": 28,
+              "right": 46.7,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Grocery",
+            "rect": {
+              "x": 77.73,
+              "y": 483,
+              "w": 37,
+              "h": 28,
+              "right": 114.73,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Pharmacy",
+            "rect": {
+              "x": 133.61,
+              "y": 483,
+              "w": 46.92,
+              "h": 28,
+              "right": 180.53,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Beauty",
+            "rect": {
+              "x": 201.3,
+              "y": 483,
+              "w": 33.22,
+              "h": 28,
+              "right": 234.52,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Flowers",
+            "rect": {
+              "x": 260.81,
+              "y": 483,
+              "w": 35.86,
+              "h": 28,
+              "right": 296.67,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Sweets",
+            "rect": {
+              "x": 322.64,
+              "y": 483,
+              "w": 33.88,
+              "h": 28,
+              "right": 356.52,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-bt.d6tp .tt",
+            "text": "Free delivery",
+            "rect": {
+              "x": 238.2,
+              "y": 265,
+              "w": 110.58,
+              "h": 19,
+              "right": 348.78,
+              "bottom": 284
+            }
+          },
+          {
+            "selector": "#app input[placeholder]",
+            "text": "",
+            "rect": {
+              "x": 59,
+              "y": 76,
+              "w": 242,
+              "h": 46,
+              "right": 301,
+              "bottom": 122
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-02-customer-en-375-after.png"
     },
@@ -539,20 +1151,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "Order #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "selector": "#app .p1-summary",
+            "text": "#ord117 Nov, 04:53Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральн",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 375,
-              "h": 1371,
-              "right": 375,
-              "bottom": 1371
+              "x": 16,
+              "y": 157,
+              "w": 343,
+              "h": 290,
+              "right": 359,
+              "bottom": 447
+            }
+          },
+          {
+            "selector": "#app .p1-contact",
+            "text": "Contact about the orderCourier assignedCourier\n  Здравствуйте! По",
+            "rect": {
+              "x": 16,
+              "y": 733,
+              "w": 343,
+              "h": 534,
+              "right": 359,
+              "bottom": 1267
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Hello",
+            "rect": {
+              "x": 33,
+              "y": 1014,
+              "w": 150.5,
+              "h": 58,
+              "right": 183.5,
+              "bottom": 1072
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Where are you now?",
+            "rect": {
+              "x": 191.5,
+              "y": 1014,
+              "w": 150.5,
+              "h": 58,
+              "right": 342,
+              "bottom": 1072
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "I am coming out",
+            "rect": {
+              "x": 33,
+              "y": 1080,
+              "w": 150.5,
+              "h": 44,
+              "right": 183.5,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Please wait",
+            "rect": {
+              "x": 191.5,
+              "y": 1080,
+              "w": 150.5,
+              "h": 44,
+              "right": 342,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Call me",
+            "rect": {
+              "x": 33,
+              "y": 1132,
+              "w": 150.5,
+              "h": 58,
+              "right": 183.5,
+              "bottom": 1190
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Leave it at the door",
+            "rect": {
+              "x": 191.5,
+              "y": 1132,
+              "w": 150.5,
+              "h": 58,
+              "right": 342,
+              "bottom": 1190
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-03-customer-en-375-after.png"
     },
@@ -600,7 +1296,31 @@
         },
         "positions": [
           {
-            "selector": "#app",
+            "selector": "#app .d67-checkout",
+            "text": "Delivery address · Homeпр. Рудаки 100, entrance 2, floor 5, apt 4",
+            "rect": {
+              "x": 0,
+              "y": 64,
+              "w": 375,
+              "h": 1444,
+              "right": 375,
+              "bottom": 1508
+            }
+          },
+          {
+            "selector": "#app .fbar",
+            "text": "Total 58.75 TJSSlide to place order\n  Confirm the order in two st",
+            "rect": {
+              "x": 0,
+              "y": 561,
+              "w": 375,
+              "h": 106,
+              "right": 375,
+              "bottom": 667
+            }
+          },
+          {
+            "selector": "#app .d6p",
             "text": "Payment\n  \n  Delivery address · Homeпр. Рудаки 100, entrance 2, f",
             "rect": {
               "x": 0,
@@ -613,7 +1333,7 @@
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 3
       },
       "image": "qa-shots/unified-fix/F-05-customer-en-375-after.png"
     },
@@ -630,20 +1350,140 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": ".f06-item-editor",
+            "text": "Edit item\n  Add photo\n  \n  Item nameОчень длинное название блюда ",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 355,
-              "h": 1709,
-              "right": 365,
-              "bottom": 1723
+              "x": 0,
+              "y": 8,
+              "w": 375,
+              "h": 659,
+              "right": 375,
+              "bottom": 667
+            }
+          },
+          {
+            "selector": "#sn",
+            "text": "Очень длинное название блюда с несколькими ингредиентами и соусом",
+            "rect": {
+              "x": 14,
+              "y": -929,
+              "w": 347,
+              "h": 115,
+              "right": 361,
+              "bottom": -814
+            }
+          },
+          {
+            "selector": "#sp",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": -784,
+              "w": 168.5,
+              "h": 46,
+              "right": 182.5,
+              "bottom": -738
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Размер порции (обязательно выбрать)",
+            "rect": {
+              "x": 26,
+              "y": -495,
+              "w": 277,
+              "h": 67,
+              "right": 303,
+              "bottom": -428
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Маленький",
+            "rect": {
+              "x": 26,
+              "y": -366,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": -299
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Средний",
+            "rect": {
+              "x": 26,
+              "y": -293,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": -226
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Большой",
+            "rect": {
+              "x": 26,
+              "y": -220,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": -153
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Добавки",
+            "rect": {
+              "x": 26,
+              "y": -71,
+              "w": 277,
+              "h": 67,
+              "right": 303,
+              "bottom": -4
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Сыр",
+            "rect": {
+              "x": 26,
+              "y": 58,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": 125
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Бекон",
+            "rect": {
+              "x": 26,
+              "y": 131,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": 198
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Халапеньо",
+            "rect": {
+              "x": 26,
+              "y": 204,
+              "w": 119.78,
+              "h": 67,
+              "right": 145.78,
+              "bottom": 271
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 11
       },
       "image": "qa-shots/unified-fix/F-06-merchant-en-375-after.png"
     },
@@ -660,20 +1500,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": ".f07-reject",
+            "text": "Cancel order #ord0\n  Choose the reason — the customer will see it",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 355,
-              "h": 1727,
-              "right": 365,
-              "bottom": 1741
+              "x": 0,
+              "y": 8,
+              "w": 375,
+              "h": 379,
+              "right": 375,
+              "bottom": 387
+            }
+          },
+          {
+            "selector": "#rjn",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": 272,
+              "w": 347,
+              "h": 73.38,
+              "right": 361,
+              "bottom": 345.38
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-07-merchant-en-375-after.png"
     },
@@ -690,20 +1542,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": "#sdesc",
+            "text": "",
+            "rect": {
+              "x": 24,
+              "y": 311,
+              "w": 327,
+              "h": 46,
+              "right": 351,
+              "bottom": 357
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "DescriptionSave",
             "rect": {
               "x": 10,
-              "y": -137,
+              "y": 278,
               "w": 355,
-              "h": 1911,
+              "h": 143,
               "right": 365,
-              "bottom": 1774
+              "bottom": 421
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Restaurant phone+992900000001To change the number, contact the ad",
+            "rect": {
+              "x": 10,
+              "y": 433,
+              "w": 355,
+              "h": 81,
+              "right": 365,
+              "bottom": 514
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Dish discount (Maximum (set by admin): 30%)Save",
+            "rect": {
+              "x": 10,
+              "y": 526,
+              "w": 355,
+              "h": 93,
+              "right": 365,
+              "bottom": 619
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Photo and logoLogo: a square image (best 400×400). Cover: a wide ",
+            "rect": {
+              "x": 10,
+              "y": 1060,
+              "w": 355,
+              "h": 173,
+              "right": 365,
+              "bottom": 1233
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Add a restaurantMy requests1 under review",
+            "rect": {
+              "x": 10,
+              "y": 1245,
+              "w": 355,
+              "h": 108,
+              "right": 365,
+              "bottom": 1353
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Branches: Дар-ул-ХилофЦентр12 orders · 1500.5 TJSSync menuСино…Sy",
+            "rect": {
+              "x": 10,
+              "y": 1365,
+              "w": 355,
+              "h": 252,
+              "right": 365,
+              "bottom": 1617
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "LanguageRUEN",
+            "rect": {
+              "x": 10,
+              "y": 1629,
+              "w": 355,
+              "h": 60,
+              "right": 365,
+              "bottom": 1689
             }
           }
         ],
         "scrollY": 151,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-08-merchant-en-375-after.png"
     },
@@ -831,10 +1767,106 @@
               "right": 361,
               "bottom": 2225
             }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Orders",
+            "rect": {
+              "x": 14,
+              "y": 705,
+              "w": 81.73,
+              "h": 37,
+              "right": 95.73,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Stores1",
+            "rect": {
+              "x": 103.73,
+              "y": 705,
+              "w": 107.14,
+              "h": 37,
+              "right": 210.88,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Couriers",
+            "rect": {
+              "x": 218.88,
+              "y": 705,
+              "w": 93.56,
+              "h": 37,
+              "right": 312.44,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Customers",
+            "rect": {
+              "x": 320.44,
+              "y": 705,
+              "w": 110.2,
+              "h": 37,
+              "right": 430.64,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Support1",
+            "rect": {
+              "x": 438.64,
+              "y": 705,
+              "w": 118.45,
+              "h": 37,
+              "right": 557.09,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Texts",
+            "rect": {
+              "x": 565.09,
+              "y": 705,
+              "w": 70.3,
+              "h": 37,
+              "right": 635.39,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Ratings1",
+            "rect": {
+              "x": 643.39,
+              "y": 705,
+              "w": 115.41,
+              "h": 37,
+              "right": 758.8,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Banners",
+            "rect": {
+              "x": 766.8,
+              "y": 705,
+              "w": 92.17,
+              "h": 37,
+              "right": 858.97,
+              "bottom": 742
+            }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 9
       },
       "image": "qa-shots/unified-fix/F-10-admin-en-375-after.png"
     },
@@ -943,20 +1975,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:44Заказать се",
+            "selector": "#app .c-current-inline",
+            "text": "Текущие заказы · 4Заказ отправлен · Готовим ваш заказ · Заказ поч",
+            "rect": {
+              "x": 14,
+              "y": 362,
+              "w": 362,
+              "h": 96,
+              "right": 376,
+              "bottom": 458
+            }
+          },
+          {
+            "selector": "#app .d6-bento",
+            "text": "Счастливые часыскидка до 25% 12:44:44Заказать сейчас Любимые блюд",
             "rect": {
               "x": 0,
-              "y": 0,
+              "y": 130,
               "w": 390,
-              "h": 2283,
+              "h": 222,
               "right": 390,
-              "bottom": 2283
+              "bottom": 352
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-01-customer-ru-390-after.png"
     },
@@ -973,20 +2017,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:43Заказать се",
+            "selector": "#app .d6-ct b",
+            "text": "Рестораны",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 390,
-              "h": 2283,
-              "right": 390,
-              "bottom": 2283
+              "x": 6,
+              "y": 518,
+              "w": 61.33,
+              "h": 28,
+              "right": 67.33,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Продукты",
+            "rect": {
+              "x": 71.06,
+              "y": 518,
+              "w": 57.84,
+              "h": 28,
+              "right": 128.91,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Аптеки",
+            "rect": {
+              "x": 142.48,
+              "y": 518,
+              "w": 41.69,
+              "h": 28,
+              "right": 184.17,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Красота",
+            "rect": {
+              "x": 202.92,
+              "y": 518,
+              "w": 47.47,
+              "h": 28,
+              "right": 250.39,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Цветы",
+            "rect": {
+              "x": 271.55,
+              "y": 518,
+              "w": 36.89,
+              "h": 28,
+              "right": 308.44,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Сладости",
+            "rect": {
+              "x": 325.63,
+              "y": 518,
+              "w": 55.41,
+              "h": 28,
+              "right": 381.03,
+              "bottom": 546
+            }
+          },
+          {
+            "selector": "#app .d6-bt.d6tp .tt",
+            "text": "Бесплатная доставка",
+            "rect": {
+              "x": 247.28,
+              "y": 265,
+              "w": 116.7,
+              "h": 38,
+              "right": 363.98,
+              "bottom": 303
+            }
+          },
+          {
+            "selector": "#app input[placeholder]",
+            "text": "",
+            "rect": {
+              "x": 59,
+              "y": 76,
+              "w": 257,
+              "h": 46,
+              "right": 316,
+              "bottom": 122
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-02-customer-ru-390-after.png"
     },
@@ -1003,20 +2131,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "Заказ #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "selector": "#app .p1-summary",
+            "text": "#ord117 нояб., 04:54Ресторан «Дар-ул-Хилоф Шарқи Бузург» (централ",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 390,
-              "h": 1401,
-              "right": 390,
-              "bottom": 1401
+              "x": 16,
+              "y": 157,
+              "w": 358,
+              "h": 290,
+              "right": 374,
+              "bottom": 447
+            }
+          },
+          {
+            "selector": "#app .p1-contact",
+            "text": "Связаться по заказуКурьер назначенКурьер\n  Здравствуйте! Подъезд ",
+            "rect": {
+              "x": 16,
+              "y": 733,
+              "w": 358,
+              "h": 564,
+              "right": 374,
+              "bottom": 1297
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Здравствуйте",
+            "rect": {
+              "x": 33,
+              "y": 1014,
+              "w": 158,
+              "h": 44,
+              "right": 191,
+              "bottom": 1058
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Где вы сейчас?",
+            "rect": {
+              "x": 199,
+              "y": 1014,
+              "w": 158,
+              "h": 44,
+              "right": 357,
+              "bottom": 1058
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Я выхожу",
+            "rect": {
+              "x": 33,
+              "y": 1066,
+              "w": 158,
+              "h": 58,
+              "right": 191,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Подождите, пожалуйста",
+            "rect": {
+              "x": 199,
+              "y": 1066,
+              "w": 158,
+              "h": 58,
+              "right": 357,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Позвоните мне",
+            "rect": {
+              "x": 33,
+              "y": 1132,
+              "w": 158,
+              "h": 44,
+              "right": 191,
+              "bottom": 1176
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Оставьте у двери",
+            "rect": {
+              "x": 199,
+              "y": 1132,
+              "w": 158,
+              "h": 44,
+              "right": 357,
+              "bottom": 1176
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-03-customer-ru-390-after.png"
     },
@@ -1064,7 +2276,31 @@
         },
         "positions": [
           {
-            "selector": "#app",
+            "selector": "#app .d67-checkout",
+            "text": "Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, до",
+            "rect": {
+              "x": 0,
+              "y": 64,
+              "w": 390,
+              "h": 1444,
+              "right": 390,
+              "bottom": 1508
+            }
+          },
+          {
+            "selector": "#app .fbar",
+            "text": "Итого 58.75 TJSСдвиньте, чтобы заказать\n  Подтвердить заказ в два",
+            "rect": {
+              "x": 0,
+              "y": 738,
+              "w": 390,
+              "h": 106,
+              "right": 390,
+              "bottom": 844
+            }
+          },
+          {
+            "selector": "#app .d6p",
             "text": "Оплата\n  \n  Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5",
             "rect": {
               "x": 0,
@@ -1077,7 +2313,7 @@
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 3
       },
       "image": "qa-shots/unified-fix/F-05-customer-ru-390-after.png"
     },
@@ -1094,20 +2330,140 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": ".f06-item-editor",
+            "text": "Редактировать блюдо\n  Добавить фото\n  \n  Название блюдаОчень длин",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 370,
-              "h": 1709,
-              "right": 380,
-              "bottom": 1723
+              "x": 0,
+              "y": 8.02,
+              "w": 390,
+              "h": 835.98,
+              "right": 390,
+              "bottom": 844
+            }
+          },
+          {
+            "selector": "#sn",
+            "text": "Очень длинное название блюда с несколькими ингредиентами и соусом",
+            "rect": {
+              "x": 14,
+              "y": -751.98,
+              "w": 362,
+              "h": 115,
+              "right": 376,
+              "bottom": -636.98
+            }
+          },
+          {
+            "selector": "#sp",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": -606.98,
+              "w": 176,
+              "h": 46,
+              "right": 190,
+              "bottom": -560.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Размер порции (обязательно выбрать)",
+            "rect": {
+              "x": 26,
+              "y": -317.98,
+              "w": 292,
+              "h": 67,
+              "right": 318,
+              "bottom": -250.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Маленький",
+            "rect": {
+              "x": 26,
+              "y": -188.98,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": -121.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Средний",
+            "rect": {
+              "x": 26,
+              "y": -115.98,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": -48.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Большой",
+            "rect": {
+              "x": 26,
+              "y": -42.98,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 24.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Добавки",
+            "rect": {
+              "x": 26,
+              "y": 106.02,
+              "w": 292,
+              "h": 67,
+              "right": 318,
+              "bottom": 173.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Сыр",
+            "rect": {
+              "x": 26,
+              "y": 235.02,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 302.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Бекон",
+            "rect": {
+              "x": 26,
+              "y": 308.02,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 375.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Халапеньо",
+            "rect": {
+              "x": 26,
+              "y": 381.02,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 448.02
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 11
       },
       "image": "qa-shots/unified-fix/F-06-merchant-ru-390-after.png"
     },
@@ -1124,20 +2480,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": ".f07-reject",
+            "text": "Отменить заказ #ord0\n  Выберите причину — клиент увидит её с изви",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 370,
-              "h": 1757,
-              "right": 380,
-              "bottom": 1771
+              "x": 0,
+              "y": 86.63,
+              "w": 390,
+              "h": 477.38,
+              "right": 390,
+              "bottom": 564
+            }
+          },
+          {
+            "selector": "#rjn",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": 408.63,
+              "w": 362,
+              "h": 73.38,
+              "right": 376,
+              "bottom": 482
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-07-merchant-ru-390-after.png"
     },
@@ -1154,20 +2522,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": "#sdesc",
+            "text": "",
+            "rect": {
+              "x": 24,
+              "y": 462,
+              "w": 342,
+              "h": 46,
+              "right": 366,
+              "bottom": 508
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "ОписаниеСохранить",
             "rect": {
               "x": 10,
-              "y": 14,
+              "y": 429,
               "w": 370,
-              "h": 1944,
+              "h": 143,
               "right": 380,
-              "bottom": 1958
+              "bottom": 572
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Телефон ресторана+992900000001Чтобы изменить номер, обратитесь в ",
+            "rect": {
+              "x": 10,
+              "y": 584,
+              "w": 370,
+              "h": 81,
+              "right": 380,
+              "bottom": 665
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Скидка на блюда (Максимум (задаёт администрация): 30%)Сохранить",
+            "rect": {
+              "x": 10,
+              "y": 677,
+              "w": 370,
+              "h": 108,
+              "right": 380,
+              "bottom": 785
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Фото и логотипЛоготип — квадрат (лучше 400×400). Обложка — широко",
+            "rect": {
+              "x": 10,
+              "y": 1244,
+              "w": 370,
+              "h": 173,
+              "right": 380,
+              "bottom": 1417
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Добавить ресторанМои заявки1 на проверке",
+            "rect": {
+              "x": 10,
+              "y": 1429,
+              "w": 370,
+              "h": 108,
+              "right": 380,
+              "bottom": 1537
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Филиалы: Дар-ул-ХилофЦентр12 заказов · 1500.5 TJSСинхр. менюСино…",
+            "rect": {
+              "x": 10,
+              "y": 1549,
+              "w": 370,
+              "h": 252,
+              "right": 380,
+              "bottom": 1801
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "ЯзыкRUEN",
+            "rect": {
+              "x": 10,
+              "y": 1813,
+              "w": 370,
+              "h": 60,
+              "right": 380,
+              "bottom": 1873
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-08-merchant-ru-390-after.png"
     },
@@ -1295,10 +2747,106 @@
               "right": 376,
               "bottom": 2258
             }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Заказы",
+            "rect": {
+              "x": 14,
+              "y": 738,
+              "w": 86.92,
+              "h": 37,
+              "right": 100.92,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Магазины1",
+            "rect": {
+              "x": 108.92,
+              "y": 738,
+              "w": 134.33,
+              "h": 37,
+              "right": 243.25,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Курьеры",
+            "rect": {
+              "x": 251.25,
+              "y": 738,
+              "w": 98.52,
+              "h": 37,
+              "right": 349.77,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Клиенты",
+            "rect": {
+              "x": 357.77,
+              "y": 738,
+              "w": 98.36,
+              "h": 37,
+              "right": 456.13,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Поддержка1",
+            "rect": {
+              "x": 464.13,
+              "y": 738,
+              "w": 149.13,
+              "h": 37,
+              "right": 613.25,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Тексты",
+            "rect": {
+              "x": 621.25,
+              "y": 738,
+              "w": 85.52,
+              "h": 37,
+              "right": 706.77,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Оценки1",
+            "rect": {
+              "x": 714.77,
+              "y": 738,
+              "w": 116.08,
+              "h": 37,
+              "right": 830.84,
+              "bottom": 775
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Баннеры",
+            "rect": {
+              "x": 838.84,
+              "y": 738,
+              "w": 98.53,
+              "h": 37,
+              "right": 937.38,
+              "bottom": 775
+            }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 9
       },
       "image": "qa-shots/unified-fix/F-10-admin-ru-390-after.png"
     },
@@ -1407,20 +2955,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:51:24Order now Favour",
+            "selector": "#app .c-current-inline",
+            "text": "Current orders · 4Order sent · Preparing your order · Almost read",
+            "rect": {
+              "x": 14,
+              "y": 345,
+              "w": 362,
+              "h": 78,
+              "right": 376,
+              "bottom": 423
+            }
+          },
+          {
+            "selector": "#app .d6-bento",
+            "text": "Happy hourup to 25% off 12:44:21Order now Favourite dishes nearby",
             "rect": {
               "x": 0,
-              "y": 0,
+              "y": 130,
               "w": 390,
-              "h": 2248,
+              "h": 205,
               "right": 390,
-              "bottom": 2248
+              "bottom": 335
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-01-customer-en-390-after.png"
     },
@@ -1437,20 +2997,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:51:22Order now Favour",
+            "selector": "#app .d6-ct b",
+            "text": "Food",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 390,
-              "h": 2248,
-              "right": 390,
-              "bottom": 2248
+              "x": 23.47,
+              "y": 483,
+              "w": 26.39,
+              "h": 28,
+              "right": 49.86,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Grocery",
+            "rect": {
+              "x": 78.3,
+              "y": 483,
+              "w": 43.39,
+              "h": 28,
+              "right": 121.69,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Pharmacy",
+            "rect": {
+              "x": 135.97,
+              "y": 483,
+              "w": 54.7,
+              "h": 28,
+              "right": 190.67,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Beauty",
+            "rect": {
+              "x": 207.23,
+              "y": 483,
+              "w": 38.86,
+              "h": 28,
+              "right": 246.09,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Flowers",
+            "rect": {
+              "x": 268.92,
+              "y": 483,
+              "w": 42.14,
+              "h": 28,
+              "right": 311.06,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Sweets",
+            "rect": {
+              "x": 333.55,
+              "y": 483,
+              "w": 39.56,
+              "h": 28,
+              "right": 373.11,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-bt.d6tp .tt",
+            "text": "Free delivery",
+            "rect": {
+              "x": 247.28,
+              "y": 265,
+              "w": 113.45,
+              "h": 19,
+              "right": 360.73,
+              "bottom": 284
+            }
+          },
+          {
+            "selector": "#app input[placeholder]",
+            "text": "",
+            "rect": {
+              "x": 59,
+              "y": 76,
+              "w": 257,
+              "h": 46,
+              "right": 316,
+              "bottom": 122
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-02-customer-en-390-after.png"
     },
@@ -1467,20 +3111,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "Order #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "selector": "#app .p1-summary",
+            "text": "#ord117 Nov, 04:54Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральн",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 390,
-              "h": 1371,
-              "right": 390,
-              "bottom": 1371
+              "x": 16,
+              "y": 157,
+              "w": 358,
+              "h": 290,
+              "right": 374,
+              "bottom": 447
+            }
+          },
+          {
+            "selector": "#app .p1-contact",
+            "text": "Contact about the orderCourier assignedCourier\n  Здравствуйте! По",
+            "rect": {
+              "x": 16,
+              "y": 733,
+              "w": 358,
+              "h": 534,
+              "right": 374,
+              "bottom": 1267
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Hello",
+            "rect": {
+              "x": 33,
+              "y": 1014,
+              "w": 158,
+              "h": 58,
+              "right": 191,
+              "bottom": 1072
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Where are you now?",
+            "rect": {
+              "x": 199,
+              "y": 1014,
+              "w": 158,
+              "h": 58,
+              "right": 357,
+              "bottom": 1072
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "I am coming out",
+            "rect": {
+              "x": 33,
+              "y": 1080,
+              "w": 158,
+              "h": 44,
+              "right": 191,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Please wait",
+            "rect": {
+              "x": 199,
+              "y": 1080,
+              "w": 158,
+              "h": 44,
+              "right": 357,
+              "bottom": 1124
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Call me",
+            "rect": {
+              "x": 33,
+              "y": 1132,
+              "w": 158,
+              "h": 58,
+              "right": 191,
+              "bottom": 1190
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Leave it at the door",
+            "rect": {
+              "x": 199,
+              "y": 1132,
+              "w": 158,
+              "h": 58,
+              "right": 357,
+              "bottom": 1190
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-03-customer-en-390-after.png"
     },
@@ -1528,7 +3256,31 @@
         },
         "positions": [
           {
-            "selector": "#app",
+            "selector": "#app .d67-checkout",
+            "text": "Delivery address · Homeпр. Рудаки 100, entrance 2, floor 5, apt 4",
+            "rect": {
+              "x": 0,
+              "y": 64,
+              "w": 390,
+              "h": 1424,
+              "right": 390,
+              "bottom": 1488
+            }
+          },
+          {
+            "selector": "#app .fbar",
+            "text": "Total 58.75 TJSSlide to place order\n  Confirm the order in two st",
+            "rect": {
+              "x": 0,
+              "y": 738,
+              "w": 390,
+              "h": 106,
+              "right": 390,
+              "bottom": 844
+            }
+          },
+          {
+            "selector": "#app .d6p",
             "text": "Payment\n  \n  Delivery address · Homeпр. Рудаки 100, entrance 2, f",
             "rect": {
               "x": 0,
@@ -1541,7 +3293,7 @@
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 3
       },
       "image": "qa-shots/unified-fix/F-05-customer-en-390-after.png"
     },
@@ -1558,20 +3310,140 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": ".f06-item-editor",
+            "text": "Edit item\n  Add photo\n  \n  Item nameОчень длинное название блюда ",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 370,
-              "h": 1709,
-              "right": 380,
-              "bottom": 1723
+              "x": 0,
+              "y": 8.02,
+              "w": 390,
+              "h": 835.98,
+              "right": 390,
+              "bottom": 844
+            }
+          },
+          {
+            "selector": "#sn",
+            "text": "Очень длинное название блюда с несколькими ингредиентами и соусом",
+            "rect": {
+              "x": 14,
+              "y": -751.98,
+              "w": 362,
+              "h": 115,
+              "right": 376,
+              "bottom": -636.98
+            }
+          },
+          {
+            "selector": "#sp",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": -606.98,
+              "w": 176,
+              "h": 46,
+              "right": 190,
+              "bottom": -560.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Размер порции (обязательно выбрать)",
+            "rect": {
+              "x": 26,
+              "y": -317.98,
+              "w": 292,
+              "h": 67,
+              "right": 318,
+              "bottom": -250.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Маленький",
+            "rect": {
+              "x": 26,
+              "y": -188.98,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": -121.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Средний",
+            "rect": {
+              "x": 26,
+              "y": -115.98,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": -48.98
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Большой",
+            "rect": {
+              "x": 26,
+              "y": -42.98,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 24.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Добавки",
+            "rect": {
+              "x": 26,
+              "y": 106.02,
+              "w": 292,
+              "h": 67,
+              "right": 318,
+              "bottom": 173.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Сыр",
+            "rect": {
+              "x": 26,
+              "y": 235.02,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 302.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Бекон",
+            "rect": {
+              "x": 26,
+              "y": 308.02,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 375.02
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Халапеньо",
+            "rect": {
+              "x": 26,
+              "y": 381.02,
+              "w": 134.78,
+              "h": 67,
+              "right": 160.78,
+              "bottom": 448.02
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 11
       },
       "image": "qa-shots/unified-fix/F-06-merchant-en-390-after.png"
     },
@@ -1588,20 +3460,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": ".f07-reject",
+            "text": "Cancel order #ord0\n  Choose the reason — the customer will see it",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 370,
-              "h": 1727,
-              "right": 380,
-              "bottom": 1741
+              "x": 0,
+              "y": 86.63,
+              "w": 390,
+              "h": 477.38,
+              "right": 390,
+              "bottom": 564
+            }
+          },
+          {
+            "selector": "#rjn",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": 408.63,
+              "w": 362,
+              "h": 73.38,
+              "right": 376,
+              "bottom": 482
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-07-merchant-en-390-after.png"
     },
@@ -1618,20 +3502,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": "#sdesc",
+            "text": "",
+            "rect": {
+              "x": 24,
+              "y": 462,
+              "w": 342,
+              "h": 46,
+              "right": 366,
+              "bottom": 508
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "DescriptionSave",
             "rect": {
               "x": 10,
-              "y": 14,
+              "y": 429,
               "w": 370,
-              "h": 1896,
+              "h": 143,
               "right": 380,
-              "bottom": 1910
+              "bottom": 572
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Restaurant phone+992900000001To change the number, contact the ad",
+            "rect": {
+              "x": 10,
+              "y": 584,
+              "w": 370,
+              "h": 81,
+              "right": 380,
+              "bottom": 665
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Dish discount (Maximum (set by admin): 30%)Save",
+            "rect": {
+              "x": 10,
+              "y": 677,
+              "w": 370,
+              "h": 93,
+              "right": 380,
+              "bottom": 770
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Photo and logoLogo: a square image (best 400×400). Cover: a wide ",
+            "rect": {
+              "x": 10,
+              "y": 1196,
+              "w": 370,
+              "h": 173,
+              "right": 380,
+              "bottom": 1369
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Add a restaurantMy requests1 under review",
+            "rect": {
+              "x": 10,
+              "y": 1381,
+              "w": 370,
+              "h": 108,
+              "right": 380,
+              "bottom": 1489
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Branches: Дар-ул-ХилофЦентр12 orders · 1500.5 TJSSync menuСино…Sy",
+            "rect": {
+              "x": 10,
+              "y": 1501,
+              "w": 370,
+              "h": 252,
+              "right": 380,
+              "bottom": 1753
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "LanguageRUEN",
+            "rect": {
+              "x": 10,
+              "y": 1765,
+              "w": 370,
+              "h": 60,
+              "right": 380,
+              "bottom": 1825
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-08-merchant-en-390-after.png"
     },
@@ -1759,10 +3727,106 @@
               "right": 376,
               "bottom": 2225
             }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Orders",
+            "rect": {
+              "x": 14,
+              "y": 705,
+              "w": 81.73,
+              "h": 37,
+              "right": 95.73,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Stores1",
+            "rect": {
+              "x": 103.73,
+              "y": 705,
+              "w": 107.14,
+              "h": 37,
+              "right": 210.88,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Couriers",
+            "rect": {
+              "x": 218.88,
+              "y": 705,
+              "w": 93.56,
+              "h": 37,
+              "right": 312.44,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Customers",
+            "rect": {
+              "x": 320.44,
+              "y": 705,
+              "w": 110.2,
+              "h": 37,
+              "right": 430.64,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Support1",
+            "rect": {
+              "x": 438.64,
+              "y": 705,
+              "w": 118.45,
+              "h": 37,
+              "right": 557.09,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Texts",
+            "rect": {
+              "x": 565.09,
+              "y": 705,
+              "w": 70.3,
+              "h": 37,
+              "right": 635.39,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Ratings1",
+            "rect": {
+              "x": 643.39,
+              "y": 705,
+              "w": 115.41,
+              "h": 37,
+              "right": 758.8,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Banners",
+            "rect": {
+              "x": 766.8,
+              "y": 705,
+              "w": 92.17,
+              "h": 37,
+              "right": 858.97,
+              "bottom": 742
+            }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 9
       },
       "image": "qa-shots/unified-fix/F-10-admin-en-390-after.png"
     },
@@ -1871,20 +3935,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:03Заказать се",
+            "selector": "#app .c-current-inline",
+            "text": "Текущие заказы · 4Заказ отправлен · Готовим ваш заказ · Заказ поч",
+            "rect": {
+              "x": 14,
+              "y": 362,
+              "w": 402,
+              "h": 78,
+              "right": 416,
+              "bottom": 440
+            }
+          },
+          {
+            "selector": "#app .d6-bento",
+            "text": "Счастливые часыскидка до 25% 12:43:57Заказать сейчас Любимые блюд",
             "rect": {
               "x": 0,
-              "y": 0,
+              "y": 130,
               "w": 430,
-              "h": 2265,
+              "h": 222,
               "right": 430,
-              "bottom": 2265
+              "bottom": 352
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-01-customer-ru-430-after.png"
     },
@@ -1901,20 +3977,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:01Заказать се",
+            "selector": "#app .d6-ct b",
+            "text": "Рестораны",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 430,
-              "h": 2265,
-              "right": 430,
-              "bottom": 2265
+              "x": 8.91,
+              "y": 500,
+              "w": 62.19,
+              "h": 28,
+              "right": 71.09,
+              "bottom": 528
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Продукты",
+            "rect": {
+              "x": 81.08,
+              "y": 500,
+              "w": 57.84,
+              "h": 28,
+              "right": 138.92,
+              "bottom": 528
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Аптеки",
+            "rect": {
+              "x": 159.16,
+              "y": 500,
+              "w": 41.69,
+              "h": 28,
+              "right": 200.84,
+              "bottom": 528
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Красота",
+            "rect": {
+              "x": 226.27,
+              "y": 500,
+              "w": 47.47,
+              "h": 28,
+              "right": 273.73,
+              "bottom": 528
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Цветы",
+            "rect": {
+              "x": 301.55,
+              "y": 500,
+              "w": 36.89,
+              "h": 28,
+              "right": 338.44,
+              "bottom": 528
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Сладости",
+            "rect": {
+              "x": 362.3,
+              "y": 500,
+              "w": 55.41,
+              "h": 28,
+              "right": 417.7,
+              "bottom": 528
+            }
+          },
+          {
+            "selector": "#app .d6-bt.d6tp .tt",
+            "text": "Бесплатная доставка",
+            "rect": {
+              "x": 271.47,
+              "y": 265,
+              "w": 132.53,
+              "h": 38,
+              "right": 404,
+              "bottom": 303
+            }
+          },
+          {
+            "selector": "#app input[placeholder]",
+            "text": "",
+            "rect": {
+              "x": 59,
+              "y": 76,
+              "w": 297,
+              "h": 46,
+              "right": 356,
+              "bottom": 122
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-02-customer-ru-430-after.png"
     },
@@ -1931,20 +4091,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "Заказ #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "selector": "#app .p1-summary",
+            "text": "#ord117 нояб., 04:55Ресторан «Дар-ул-Хилоф Шарқи Бузург» (централ",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 430,
-              "h": 1313,
-              "right": 430,
-              "bottom": 1313
+              "x": 16,
+              "y": 157,
+              "w": 398,
+              "h": 246,
+              "right": 414,
+              "bottom": 403
+            }
+          },
+          {
+            "selector": "#app .p1-contact",
+            "text": "Связаться по заказуКурьер назначенКурьер\n  Здравствуйте! Подъезд ",
+            "rect": {
+              "x": 16,
+              "y": 689,
+              "w": 398,
+              "h": 520,
+              "right": 414,
+              "bottom": 1209
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Здравствуйте",
+            "rect": {
+              "x": 33,
+              "y": 970,
+              "w": 178,
+              "h": 44,
+              "right": 211,
+              "bottom": 1014
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Где вы сейчас?",
+            "rect": {
+              "x": 219,
+              "y": 970,
+              "w": 178,
+              "h": 44,
+              "right": 397,
+              "bottom": 1014
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Я выхожу",
+            "rect": {
+              "x": 33,
+              "y": 1022,
+              "w": 178,
+              "h": 58,
+              "right": 211,
+              "bottom": 1080
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Подождите, пожалуйста",
+            "rect": {
+              "x": 219,
+              "y": 1022,
+              "w": 178,
+              "h": 58,
+              "right": 397,
+              "bottom": 1080
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Позвоните мне",
+            "rect": {
+              "x": 33,
+              "y": 1088,
+              "w": 178,
+              "h": 44,
+              "right": 211,
+              "bottom": 1132
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Оставьте у двери",
+            "rect": {
+              "x": 219,
+              "y": 1088,
+              "w": 178,
+              "h": 44,
+              "right": 397,
+              "bottom": 1132
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-03-customer-ru-430-after.png"
     },
@@ -1992,7 +4236,31 @@
         },
         "positions": [
           {
-            "selector": "#app",
+            "selector": "#app .d67-checkout",
+            "text": "Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, до",
+            "rect": {
+              "x": 0,
+              "y": 64,
+              "w": 430,
+              "h": 1403,
+              "right": 430,
+              "bottom": 1467
+            }
+          },
+          {
+            "selector": "#app .fbar",
+            "text": "Итого 58.75 TJSСдвиньте, чтобы заказать\n  Подтвердить заказ в два",
+            "rect": {
+              "x": 0,
+              "y": 826,
+              "w": 430,
+              "h": 106,
+              "right": 430,
+              "bottom": 932
+            }
+          },
+          {
+            "selector": "#app .d6p",
             "text": "Оплата\n  \n  Адрес доставки · Домпр. Рудаки 100, подъезд 2, этаж 5",
             "rect": {
               "x": 0,
@@ -2005,7 +4273,7 @@
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 3
       },
       "image": "qa-shots/unified-fix/F-05-customer-ru-430-after.png"
     },
@@ -2022,20 +4290,140 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": ".f06-item-editor",
+            "text": "Редактировать блюдо\n  Добавить фото\n  \n  Название блюдаОчень длин",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 410,
-              "h": 1709,
-              "right": 420,
-              "bottom": 1723
+              "x": 0,
+              "y": 8,
+              "w": 430,
+              "h": 924,
+              "right": 430,
+              "bottom": 932
+            }
+          },
+          {
+            "selector": "#sn",
+            "text": "Очень длинное название блюда с несколькими ингредиентами и соусом",
+            "rect": {
+              "x": 14,
+              "y": -664,
+              "w": 402,
+              "h": 115,
+              "right": 416,
+              "bottom": -549
+            }
+          },
+          {
+            "selector": "#sp",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": -519,
+              "w": 196,
+              "h": 46,
+              "right": 210,
+              "bottom": -473
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Размер порции (обязательно выбрать)",
+            "rect": {
+              "x": 26,
+              "y": -230,
+              "w": 332,
+              "h": 67,
+              "right": 358,
+              "bottom": -163
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Маленький",
+            "rect": {
+              "x": 26,
+              "y": -101,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": -34
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Средний",
+            "rect": {
+              "x": 26,
+              "y": -28,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 39
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Большой",
+            "rect": {
+              "x": 26,
+              "y": 45,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 112
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Добавки",
+            "rect": {
+              "x": 26,
+              "y": 194,
+              "w": 332,
+              "h": 67,
+              "right": 358,
+              "bottom": 261
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Сыр",
+            "rect": {
+              "x": 26,
+              "y": 323,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 390
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Бекон",
+            "rect": {
+              "x": 26,
+              "y": 396,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 463
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Халапеньо",
+            "rect": {
+              "x": 26,
+              "y": 469,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 536
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 11
       },
       "image": "qa-shots/unified-fix/F-06-merchant-ru-430-after.png"
     },
@@ -2052,20 +4440,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": ".f07-reject",
+            "text": "Отменить заказ #ord0\n  Выберите причину — клиент увидит её с изви",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 410,
-              "h": 1727,
-              "right": 420,
-              "bottom": 1741
+              "x": 0,
+              "y": 174.63,
+              "w": 430,
+              "h": 477.38,
+              "right": 430,
+              "bottom": 652
+            }
+          },
+          {
+            "selector": "#rjn",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": 496.63,
+              "w": 402,
+              "h": 73.38,
+              "right": 416,
+              "bottom": 570
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-07-merchant-ru-430-after.png"
     },
@@ -2082,20 +4482,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
+            "selector": "#sdesc",
+            "text": "",
+            "rect": {
+              "x": 24,
+              "y": 462,
+              "w": 382,
+              "h": 46,
+              "right": 406,
+              "bottom": 508
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "ОписаниеСохранить",
             "rect": {
               "x": 10,
-              "y": 14,
+              "y": 429,
               "w": 410,
-              "h": 1911,
+              "h": 143,
               "right": 420,
-              "bottom": 1925
+              "bottom": 572
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Телефон ресторана+992900000001Чтобы изменить номер, обратитесь в ",
+            "rect": {
+              "x": 10,
+              "y": 584,
+              "w": 410,
+              "h": 81,
+              "right": 420,
+              "bottom": 665
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Скидка на блюда (Максимум (задаёт администрация): 30%)Сохранить",
+            "rect": {
+              "x": 10,
+              "y": 677,
+              "w": 410,
+              "h": 93,
+              "right": 420,
+              "bottom": 770
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Фото и логотипЛоготип — квадрат (лучше 400×400). Обложка — широко",
+            "rect": {
+              "x": 10,
+              "y": 1211,
+              "w": 410,
+              "h": 173,
+              "right": 420,
+              "bottom": 1384
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Добавить ресторанМои заявки1 на проверке",
+            "rect": {
+              "x": 10,
+              "y": 1396,
+              "w": 410,
+              "h": 108,
+              "right": 420,
+              "bottom": 1504
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Филиалы: Дар-ул-ХилофЦентр12 заказов · 1500.5 TJSСинхр. менюСино…",
+            "rect": {
+              "x": 10,
+              "y": 1516,
+              "w": 410,
+              "h": 252,
+              "right": 420,
+              "bottom": 1768
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "ЯзыкRUEN",
+            "rect": {
+              "x": 10,
+              "y": 1780,
+              "w": 410,
+              "h": 60,
+              "right": 420,
+              "bottom": 1840
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-08-merchant-ru-430-after.png"
     },
@@ -2223,10 +4707,106 @@
               "right": 416,
               "bottom": 2085
             }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Заказы",
+            "rect": {
+              "x": 14,
+              "y": 705,
+              "w": 86.92,
+              "h": 37,
+              "right": 100.92,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Магазины1",
+            "rect": {
+              "x": 108.92,
+              "y": 705,
+              "w": 134.33,
+              "h": 37,
+              "right": 243.25,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Курьеры",
+            "rect": {
+              "x": 251.25,
+              "y": 705,
+              "w": 98.52,
+              "h": 37,
+              "right": 349.77,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Клиенты",
+            "rect": {
+              "x": 357.77,
+              "y": 705,
+              "w": 98.36,
+              "h": 37,
+              "right": 456.13,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Поддержка1",
+            "rect": {
+              "x": 464.13,
+              "y": 705,
+              "w": 149.13,
+              "h": 37,
+              "right": 613.25,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Тексты",
+            "rect": {
+              "x": 621.25,
+              "y": 705,
+              "w": 85.52,
+              "h": 37,
+              "right": 706.77,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Оценки1",
+            "rect": {
+              "x": 714.77,
+              "y": 705,
+              "w": 116.08,
+              "h": 37,
+              "right": 830.84,
+              "bottom": 742
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Баннеры",
+            "rect": {
+              "x": 838.84,
+              "y": 705,
+              "w": 98.53,
+              "h": 37,
+              "right": 937.38,
+              "bottom": 742
+            }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 9
       },
       "image": "qa-shots/unified-fix/F-10-admin-ru-430-after.png"
     },
@@ -2335,20 +4915,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:50:42Order now Favour",
+            "selector": "#app .c-current-inline",
+            "text": "Current orders · 4Order sent · Preparing your order · Almost read",
+            "rect": {
+              "x": 14,
+              "y": 345,
+              "w": 402,
+              "h": 78,
+              "right": 416,
+              "bottom": 423
+            }
+          },
+          {
+            "selector": "#app .d6-bento",
+            "text": "Happy hourup to 25% off 12:43:33Order now Favourite dishes nearby",
             "rect": {
               "x": 0,
-              "y": 0,
+              "y": 130,
               "w": 430,
-              "h": 2248,
+              "h": 205,
               "right": 430,
-              "bottom": 2248
+              "bottom": 335
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-01-customer-en-430-after.png"
     },
@@ -2365,20 +4957,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:50:41Order now Favour",
+            "selector": "#app .d6-ct b",
+            "text": "Food",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 430,
-              "h": 2248,
-              "right": 430,
-              "bottom": 2248
+              "x": 26.8,
+              "y": 483,
+              "w": 26.39,
+              "h": 28,
+              "right": 53.19,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Grocery",
+            "rect": {
+              "x": 88.3,
+              "y": 483,
+              "w": 43.39,
+              "h": 28,
+              "right": 131.69,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Pharmacy",
+            "rect": {
+              "x": 152.64,
+              "y": 483,
+              "w": 54.7,
+              "h": 28,
+              "right": 207.34,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Beauty",
+            "rect": {
+              "x": 230.56,
+              "y": 483,
+              "w": 38.86,
+              "h": 28,
+              "right": 269.42,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Flowers",
+            "rect": {
+              "x": 298.92,
+              "y": 483,
+              "w": 42.14,
+              "h": 28,
+              "right": 341.06,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-ct b",
+            "text": "Sweets",
+            "rect": {
+              "x": 370.22,
+              "y": 483,
+              "w": 39.56,
+              "h": 28,
+              "right": 409.78,
+              "bottom": 511
+            }
+          },
+          {
+            "selector": "#app .d6-bt.d6tp .tt",
+            "text": "Free delivery",
+            "rect": {
+              "x": 271.47,
+              "y": 265,
+              "w": 125.2,
+              "h": 19,
+              "right": 396.67,
+              "bottom": 284
+            }
+          },
+          {
+            "selector": "#app input[placeholder]",
+            "text": "",
+            "rect": {
+              "x": 59,
+              "y": 76,
+              "w": 297,
+              "h": 46,
+              "right": 356,
+              "bottom": 122
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-02-customer-en-430-after.png"
     },
@@ -2395,20 +5071,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "Order #ord1Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фили",
+            "selector": "#app .p1-summary",
+            "text": "#ord117 Nov, 04:55Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральн",
             "rect": {
-              "x": 0,
-              "y": 0,
-              "w": 430,
-              "h": 1299,
-              "right": 430,
-              "bottom": 1299
+              "x": 16,
+              "y": 157,
+              "w": 398,
+              "h": 246,
+              "right": 414,
+              "bottom": 403
+            }
+          },
+          {
+            "selector": "#app .p1-contact",
+            "text": "Contact about the orderCourier assignedCourier\n  Здравствуйте! По",
+            "rect": {
+              "x": 16,
+              "y": 689,
+              "w": 398,
+              "h": 506,
+              "right": 414,
+              "bottom": 1195
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Hello",
+            "rect": {
+              "x": 33,
+              "y": 970,
+              "w": 178,
+              "h": 44,
+              "right": 211,
+              "bottom": 1014
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Where are you now?",
+            "rect": {
+              "x": 219,
+              "y": 970,
+              "w": 178,
+              "h": 44,
+              "right": 397,
+              "bottom": 1014
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "I am coming out",
+            "rect": {
+              "x": 33,
+              "y": 1022,
+              "w": 178,
+              "h": 44,
+              "right": 211,
+              "bottom": 1066
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Please wait",
+            "rect": {
+              "x": 219,
+              "y": 1022,
+              "w": 178,
+              "h": 44,
+              "right": 397,
+              "bottom": 1066
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Call me",
+            "rect": {
+              "x": 33,
+              "y": 1074,
+              "w": 178,
+              "h": 44,
+              "right": 211,
+              "bottom": 1118
+            }
+          },
+          {
+            "selector": "#app .customer-quick button",
+            "text": "Leave it at the door",
+            "rect": {
+              "x": 219,
+              "y": 1074,
+              "w": 178,
+              "h": 44,
+              "right": 397,
+              "bottom": 1118
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-03-customer-en-430-after.png"
     },
@@ -2456,7 +5216,31 @@
         },
         "positions": [
           {
-            "selector": "#app",
+            "selector": "#app .d67-checkout",
+            "text": "Delivery address · Homeпр. Рудаки 100, entrance 2, floor 5, apt 4",
+            "rect": {
+              "x": 0,
+              "y": 64,
+              "w": 430,
+              "h": 1403,
+              "right": 430,
+              "bottom": 1467
+            }
+          },
+          {
+            "selector": "#app .fbar",
+            "text": "Total 58.75 TJSSlide to place order\n  Confirm the order in two st",
+            "rect": {
+              "x": 0,
+              "y": 826,
+              "w": 430,
+              "h": 106,
+              "right": 430,
+              "bottom": 932
+            }
+          },
+          {
+            "selector": "#app .d6p",
             "text": "Payment\n  \n  Delivery address · Homeпр. Рудаки 100, entrance 2, f",
             "rect": {
               "x": 0,
@@ -2469,7 +5253,7 @@
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 3
       },
       "image": "qa-shots/unified-fix/F-05-customer-en-430-after.png"
     },
@@ -2486,20 +5270,140 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": ".f06-item-editor",
+            "text": "Edit item\n  Add photo\n  \n  Item nameОчень длинное название блюда ",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 410,
-              "h": 1709,
-              "right": 420,
-              "bottom": 1723
+              "x": 0,
+              "y": 8,
+              "w": 430,
+              "h": 924,
+              "right": 430,
+              "bottom": 932
+            }
+          },
+          {
+            "selector": "#sn",
+            "text": "Очень длинное название блюда с несколькими ингредиентами и соусом",
+            "rect": {
+              "x": 14,
+              "y": -664,
+              "w": 402,
+              "h": 115,
+              "right": 416,
+              "bottom": -549
+            }
+          },
+          {
+            "selector": "#sp",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": -519,
+              "w": 196,
+              "h": 46,
+              "right": 210,
+              "bottom": -473
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Размер порции (обязательно выбрать)",
+            "rect": {
+              "x": 26,
+              "y": -230,
+              "w": 332,
+              "h": 67,
+              "right": 358,
+              "bottom": -163
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Маленький",
+            "rect": {
+              "x": 26,
+              "y": -101,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": -34
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Средний",
+            "rect": {
+              "x": 26,
+              "y": -28,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 39
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Большой",
+            "rect": {
+              "x": 26,
+              "y": 45,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 112
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Добавки",
+            "rect": {
+              "x": 26,
+              "y": 194,
+              "w": 332,
+              "h": 67,
+              "right": 358,
+              "bottom": 261
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Сыр",
+            "rect": {
+              "x": 26,
+              "y": 323,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 390
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Бекон",
+            "rect": {
+              "x": 26,
+              "y": 396,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 463
+            }
+          },
+          {
+            "selector": ".f06-option-name",
+            "text": "Халапеньо",
+            "rect": {
+              "x": 26,
+              "y": 469,
+              "w": 174.78,
+              "h": 67,
+              "right": 200.78,
+              "bottom": 536
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 11
       },
       "image": "qa-shots/unified-fix/F-06-merchant-en-430-after.png"
     },
@@ -2516,20 +5420,32 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": ".f07-reject",
+            "text": "Cancel order #ord0\n  Choose the reason — the customer will see it",
             "rect": {
-              "x": 10,
-              "y": 14,
-              "w": 410,
-              "h": 1727,
-              "right": 420,
-              "bottom": 1741
+              "x": 0,
+              "y": 174.63,
+              "w": 430,
+              "h": 477.38,
+              "right": 430,
+              "bottom": 652
+            }
+          },
+          {
+            "selector": "#rjn",
+            "text": "",
+            "rect": {
+              "x": 14,
+              "y": 496.63,
+              "w": 402,
+              "h": 73.38,
+              "right": 416,
+              "bottom": 570
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 2
       },
       "image": "qa-shots/unified-fix/F-07-merchant-en-430-after.png"
     },
@@ -2546,20 +5462,104 @@
         },
         "positions": [
           {
-            "selector": "#app",
-            "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+            "selector": "#sdesc",
+            "text": "",
+            "rect": {
+              "x": 24,
+              "y": 462,
+              "w": 382,
+              "h": 46,
+              "right": 406,
+              "bottom": 508
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "DescriptionSave",
             "rect": {
               "x": 10,
-              "y": 14,
+              "y": 429,
               "w": 410,
-              "h": 1881,
+              "h": 143,
               "right": 420,
-              "bottom": 1895
+              "bottom": 572
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Restaurant phone+992900000001To change the number, contact the ad",
+            "rect": {
+              "x": 10,
+              "y": 584,
+              "w": 410,
+              "h": 81,
+              "right": 420,
+              "bottom": 665
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Dish discount (Maximum (set by admin): 30%)Save",
+            "rect": {
+              "x": 10,
+              "y": 677,
+              "w": 410,
+              "h": 93,
+              "right": 420,
+              "bottom": 770
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Photo and logoLogo: a square image (best 400×400). Cover: a wide ",
+            "rect": {
+              "x": 10,
+              "y": 1181,
+              "w": 410,
+              "h": 173,
+              "right": 420,
+              "bottom": 1354
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Add a restaurantMy requests1 under review",
+            "rect": {
+              "x": 10,
+              "y": 1366,
+              "w": 410,
+              "h": 108,
+              "right": 420,
+              "bottom": 1474
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "Branches: Дар-ул-ХилофЦентр12 orders · 1500.5 TJSSync menuСино…Sy",
+            "rect": {
+              "x": 10,
+              "y": 1486,
+              "w": 410,
+              "h": 252,
+              "right": 420,
+              "bottom": 1738
+            }
+          },
+          {
+            "selector": "#app .gp",
+            "text": "LanguageRUEN",
+            "rect": {
+              "x": 10,
+              "y": 1750,
+              "w": 410,
+              "h": 60,
+              "right": 420,
+              "bottom": 1810
             }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 8
       },
       "image": "qa-shots/unified-fix/F-08-merchant-en-430-after.png"
     },
@@ -2687,10 +5687,106 @@
               "right": 416,
               "bottom": 2043
             }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Orders",
+            "rect": {
+              "x": 14,
+              "y": 663,
+              "w": 81.73,
+              "h": 37,
+              "right": 95.73,
+              "bottom": 700
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Stores1",
+            "rect": {
+              "x": 103.73,
+              "y": 663,
+              "w": 107.14,
+              "h": 37,
+              "right": 210.88,
+              "bottom": 700
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Couriers",
+            "rect": {
+              "x": 218.88,
+              "y": 663,
+              "w": 93.56,
+              "h": 37,
+              "right": 312.44,
+              "bottom": 700
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Customers",
+            "rect": {
+              "x": 320.44,
+              "y": 663,
+              "w": 110.2,
+              "h": 37,
+              "right": 430.64,
+              "bottom": 700
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Support1",
+            "rect": {
+              "x": 438.64,
+              "y": 663,
+              "w": 118.45,
+              "h": 37,
+              "right": 557.09,
+              "bottom": 700
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Texts",
+            "rect": {
+              "x": 565.09,
+              "y": 663,
+              "w": 70.3,
+              "h": 37,
+              "right": 635.39,
+              "bottom": 700
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Ratings1",
+            "rect": {
+              "x": 643.39,
+              "y": 663,
+              "w": 115.41,
+              "h": 37,
+              "right": 758.8,
+              "bottom": 700
+            }
+          },
+          {
+            "selector": ".tabs button",
+            "text": "Banners",
+            "rect": {
+              "x": 766.8,
+              "y": 663,
+              "w": 92.17,
+              "h": 37,
+              "right": 858.97,
+              "bottom": 700
+            }
           }
         ],
         "scrollY": 0,
-        "verifiedCount": 1
+        "verifiedCount": 9
       },
       "image": "qa-shots/unified-fix/F-10-admin-en-430-after.png"
     },
