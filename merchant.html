@@ -144,6 +144,12 @@ body.f08-profile-keyboard #app .nav{visibility:hidden;pointer-events:none}
 .f06-item-editor .u18-merchant-option .f15c-option-controls>input{width:53px!important}
 .f06-item-editor .u18-merchant-option .f15c-option-controls>.sw{width:40px}
 .f06-item-editor .u18-merchant-option .f15c-option-controls>.rb{width:31px}}
+/* U-05 finishing: header title grows exactly to its content, no unused 3-row whitespace. */
+#app .f06-item-editor .f15c-group-name-row textarea.f15c-group-name{
+  box-sizing:border-box;min-height:46px!important;max-height:none!important;height:auto;
+  overflow:hidden;resize:none;white-space:pre-wrap;word-break:normal;
+  overflow-wrap:break-word;line-height:21px;padding:10px 12px;field-sizing:content
+}
 </style><link rel="stylesheet" href="assets/size-brief7/merchant.css"></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
@@ -203,7 +209,7 @@ async function updO(id,f){const r=await TLB.updateOption(id,f);if(r&&r.error)ale
 async function delO(id){if(!confirm(t('optDelQ')))return;await TLB.deleteOption(id);render()}
 function optEditor(){if(!SH||!SH.id)return `<div class="xs mut" style="padding:8px 0">${t('optSaveFirst')}</div>`;const gs=TLB.optionsOf(SH.id,true);
   return `<div class="oe"><div class="b6" style="margin-bottom:2px">${t('optT')}</div><div class="xs mut" style="margin-bottom:10px">${t('optHint')}</div>
-  ${gs.map(g=>`<div class="ogc"><div class="rg f15c-group-name-row" style="gap:8px"><textarea class="oin f15c-group-name" rows="3" maxlength="60" onchange="updG('${g.id}',{name:this.value})">${esc(g.name)}</textarea><button class="rb" onclick="delG('${g.id}')" aria-label="${t('del')}">${SVG(I.trash,16)}</button></div>
+  ${gs.map(g=>`<div class="ogc"><div class="rg f15c-group-name-row" style="gap:8px"><textarea class="oin f15c-group-name" rows="1" maxlength="60" onchange="updG('${g.id}',{name:this.value})">${esc(g.name)}</textarea><button class="rb" onclick="delG('${g.id}')" aria-label="${t('del')}">${SVG(I.trash,16)}</button></div>
   <div class="rg" style="gap:16px;margin:8px 0;flex-wrap:wrap"><label class="xs mut rg" style="gap:8px">${t('optReqL')}<button class="sw ${g.required?'on':''}" onclick="updG('${g.id}',{required:${!g.required}})"><i></i></button></label><label class="xs mut rg" style="gap:8px">${t('optMax')}<input class="oin" style="width:64px" type="number" min="1" max="20" value="${g.max}" onchange="updG('${g.id}',{max:this.value})"></label></div>
   ${!g.options.some(o=>o.available)?`<div class="ow">${g.required?t('optReqEmptyW'):t('optEmptyW')}</div>`:''}
   ${g.options.map(o=>`<div class="orow f15c-option-row u18-merchant-option"><textarea class="oin f06-option-name u18-option-name" rows="1" maxlength="60" onchange="updO('${o.id}',{name:this.value})" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'">${esc(o.name)}</textarea><div class="f15c-option-controls"><span class="xs mut">+</span><input class="oin" type="number" min="0" step="0.5" value="${o.price}" onchange="updO('${o.id}',{price:this.value})"><button class="sw ${o.available?'on':''}" title="${t('avail')}" onclick="updO('${o.id}',{available:${!o.available}})"><i></i></button><button class="rb" onclick="delO('${o.id}')" aria-label="${t('del')}">${SVG(I.trash,16)}</button></div></div>`).join('')}
@@ -420,7 +426,7 @@ TLB.start('merchant',()=>{TLB.chrome(false);TLB.on(()=>{if(SH||RQ||RJ)return;if(
 function render(){const a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
   render0();
   /* U-05: fit actual wrapped text after render, including long 60-char names. */
-  document.querySelectorAll('.u18-option-name').forEach(e=>{e.style.height='auto';e.style.height=Math.max(46,e.scrollHeight)+'px'});
+  document.querySelectorAll('.u18-option-name,.f15c-group-name').forEach(e=>{e.style.height='auto';e.style.height=Math.max(46,e.scrollHeight)+'px'});
   if(ok){let e=id?document.getElementById(id):null;if(!e||e===a){const n=[...document.querySelectorAll('input,textarea')];e=n[ix]}if(e&&e!==a){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
   if(Math.abs(window.scrollY-y)>1)window.scrollTo(0,y)}
 </script><script src="assets/shared/safe-toast.js"></script></body></html>
