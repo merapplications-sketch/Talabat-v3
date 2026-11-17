@@ -305,7 +305,14 @@ jobs:
           if ! git diff --cached --quiet; then
             if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/'; then exit 1; fi
             git commit -m "test(BRIEF-15): evidence screenshots after F/O isolated corrections"
-            # Reject non-fast-forward if code changed concurrently; never force-push.
+            # H01 and visual jobs independently publish synthetic evidence.
+            # Rebase this evidence-only commit over H01 if the branch advanced;
+            # never force-push or rebase an application change in this job.
+            git fetch origin review/unified-fix-brief15-20261117
+            git rebase origin/review/unified-fix-brief15-20261117
+            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/'; then
+              echo "STOP: rebased commit is not evidence-only";exit 1
+            fi
             git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
           fi
       - name: Upload source-backed visual evidence
