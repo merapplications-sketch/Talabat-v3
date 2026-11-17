@@ -1258,6 +1258,14 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .u18-courier .u18-door-note{margin-top:6px;line-height:19px}
 #app .u18-remember{display:flex;align-items:center;gap:10px;margin-top:14px;min-height:44px;font-size:13px;line-height:20px;cursor:pointer}
 #app .u18-remember input{flex:none;width:21px;height:21px;accent-color:var(--o);cursor:pointer}
+
+/* BRIEF-18b P-02: full word-wrapped dish title, including short screens/keyboard. */
+#app .d6s .d6s-in h2{display:block;-webkit-line-clamp:unset;white-space:normal;overflow:visible;overflow-wrap:break-word;word-break:normal}
+@media(max-width:340px){
+  #app .d6s .oshf .btn{gap:2px;padding-inline:5px}
+  #app .d6s .oshf .btn span:first-child{white-space:nowrap;overflow:visible;text-overflow:clip;font-size:10px;line-height:15px;letter-spacing:-.025em}
+  #app .d6s .oshf .btn .px6{white-space:nowrap;font-size:11px;line-height:16px;letter-spacing:-.02em}
+}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
