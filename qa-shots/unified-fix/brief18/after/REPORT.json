@@ -196,7 +196,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-customer-ru-375-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-ru-375-main-after.png"
     },
     {
       "id": "U-02",
@@ -349,7 +349,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-customer-ru-375-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-ru-375-main-after.png"
     },
     {
       "id": "U-03",
@@ -470,7 +470,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-customer-ru-375-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-ru-375-main-after.png"
     },
     {
       "id": "U-04",
@@ -491,9 +491,71 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "FAIL",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-customer-ru-375-after.png"
+      "result": {
+        "ok": true,
+        "pay": {
+          "ok": true,
+          "saved": 16.25,
+          "overlap": false,
+          "bandBottom": 561,
+          "sliderTop": 593,
+          "dockPosition": "fixed"
+        },
+        "cart": {
+          "ok": true,
+          "saved": 16.25,
+          "bandBottom": 567,
+          "buttons": 2,
+          "firstTop": 603
+        }
+      },
+      "geometry": [
+        {
+          "selector": ".d70-dock .u18-saving",
+          "txt": "Вы экономите\n16.25 TJS\n",
+          "left": 16,
+          "right": 359,
+          "top": 525,
+          "bottom": 567,
+          "width": 343,
+          "height": 42,
+          "scrollWidth": 343,
+          "clientWidth": 343,
+          "scrollHeight": 42,
+          "clientHeight": 42
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Добавить ещё",
+          "left": 16,
+          "right": 183.5,
+          "top": 603,
+          "bottom": 655,
+          "width": 167.5,
+          "height": 52,
+          "scrollWidth": 166,
+          "clientWidth": 166,
+          "scrollHeight": 50,
+          "clientHeight": 50
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Перейти к оплате",
+          "left": 191.5,
+          "right": 359,
+          "top": 603,
+          "bottom": 655,
+          "width": 167.5,
+          "height": 52,
+          "scrollWidth": 168,
+          "clientWidth": 168,
+          "scrollHeight": 52,
+          "clientHeight": 52
+        }
+      ],
+      "status": "PASS",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-ru-375-main-after.png"
     },
     {
       "id": "U-05",
@@ -846,7 +908,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-merchant-ru-375-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-ru-375-main-after.png"
     },
     {
       "id": "U-06",
@@ -906,7 +968,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-customer-ru-375-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-ru-375-main-after.png"
     },
     {
       "id": "U-02-driver",
@@ -1013,7 +1075,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-driver-ru-375-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-ru-375-main-after.png"
     },
     {
       "id": "U-01",
@@ -1187,7 +1249,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-customer-en-390-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-en-390-main-after.png"
     },
     {
       "id": "U-02",
@@ -1340,7 +1402,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-customer-en-390-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-en-390-main-after.png"
     },
     {
       "id": "U-03",
@@ -1461,7 +1523,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-customer-en-390-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-en-390-main-after.png"
     },
     {
       "id": "U-04",
@@ -1482,9 +1544,71 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "FAIL",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-customer-en-390-after.png"
+      "result": {
+        "ok": true,
+        "pay": {
+          "ok": true,
+          "saved": 16.25,
+          "overlap": false,
+          "bandBottom": 738,
+          "sliderTop": 770,
+          "dockPosition": "fixed"
+        },
+        "cart": {
+          "ok": true,
+          "saved": 16.25,
+          "bandBottom": 744,
+          "buttons": 2,
+          "firstTop": 780
+        }
+      },
+      "geometry": [
+        {
+          "selector": ".d70-dock .u18-saving",
+          "txt": "You are saving\n16.25 TJS\n",
+          "left": 16,
+          "right": 374,
+          "top": 702,
+          "bottom": 744,
+          "width": 358,
+          "height": 42,
+          "scrollWidth": 358,
+          "clientWidth": 358,
+          "scrollHeight": 42,
+          "clientHeight": 42
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Add more",
+          "left": 16,
+          "right": 191,
+          "top": 780,
+          "bottom": 832,
+          "width": 175,
+          "height": 52,
+          "scrollWidth": 173,
+          "clientWidth": 173,
+          "scrollHeight": 50,
+          "clientHeight": 50
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Continue to payment",
+          "left": 199,
+          "right": 374,
+          "top": 780,
+          "bottom": 832,
+          "width": 175,
+          "height": 52,
+          "scrollWidth": 175,
+          "clientWidth": 175,
+          "scrollHeight": 52,
+          "clientHeight": 52
+        }
+      ],
+      "status": "PASS",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-en-390-main-after.png"
     },
     {
       "id": "U-05",
@@ -1837,7 +1961,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-merchant-en-390-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-en-390-main-after.png"
     },
     {
       "id": "U-06",
@@ -1897,7 +2021,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-customer-en-390-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-en-390-main-after.png"
     },
     {
       "id": "U-02-driver",
@@ -2004,7 +2128,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-driver-en-390-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-en-390-main-after.png"
     },
     {
       "id": "U-01",
@@ -2178,7 +2302,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-customer-ru-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-ru-320-main-after.png"
     },
     {
       "id": "U-02",
@@ -2331,7 +2455,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-customer-ru-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-ru-320-main-after.png"
     },
     {
       "id": "U-03",
@@ -2452,7 +2576,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-customer-ru-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-ru-320-main-after.png"
     },
     {
       "id": "U-04",
@@ -2473,9 +2597,71 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "FAIL",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-customer-ru-320-after.png"
+      "result": {
+        "ok": true,
+        "pay": {
+          "ok": true,
+          "saved": 16.25,
+          "overlap": false,
+          "bandBottom": 594,
+          "sliderTop": 626,
+          "dockPosition": "fixed"
+        },
+        "cart": {
+          "ok": true,
+          "saved": 16.25,
+          "bandBottom": 600,
+          "buttons": 2,
+          "firstTop": 636
+        }
+      },
+      "geometry": [
+        {
+          "selector": ".d70-dock .u18-saving",
+          "txt": "Вы экономите\n16.25 TJS\n",
+          "left": 16,
+          "right": 304,
+          "top": 558,
+          "bottom": 600,
+          "width": 288,
+          "height": 42,
+          "scrollWidth": 288,
+          "clientWidth": 288,
+          "scrollHeight": 42,
+          "clientHeight": 42
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Добавить ещё",
+          "left": 16,
+          "right": 156,
+          "top": 636,
+          "bottom": 688,
+          "width": 140,
+          "height": 52,
+          "scrollWidth": 138,
+          "clientWidth": 138,
+          "scrollHeight": 50,
+          "clientHeight": 50
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Перейти к оплате",
+          "left": 164,
+          "right": 304,
+          "top": 636,
+          "bottom": 688,
+          "width": 140,
+          "height": 52,
+          "scrollWidth": 140,
+          "clientWidth": 140,
+          "scrollHeight": 52,
+          "clientHeight": 52
+        }
+      ],
+      "status": "PASS",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-ru-320-main-after.png"
     },
     {
       "id": "U-05",
@@ -2828,7 +3014,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-merchant-ru-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-ru-320-main-after.png"
     },
     {
       "id": "U-06",
@@ -2888,7 +3074,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-customer-ru-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-ru-320-main-after.png"
     },
     {
       "id": "U-02-driver",
@@ -2995,7 +3181,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-driver-ru-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-ru-320-main-after.png"
     },
     {
       "id": "U-01",
@@ -3169,7 +3355,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-customer-en-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-01-en-320-main-after.png"
     },
     {
       "id": "U-02",
@@ -3322,7 +3508,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-customer-en-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-en-320-main-after.png"
     },
     {
       "id": "U-03",
@@ -3443,7 +3629,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-customer-en-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-03-en-320-main-after.png"
     },
     {
       "id": "U-04",
@@ -3464,9 +3650,71 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "FAIL",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-customer-en-320-after.png"
+      "result": {
+        "ok": true,
+        "pay": {
+          "ok": true,
+          "saved": 16.25,
+          "overlap": false,
+          "bandBottom": 594,
+          "sliderTop": 626,
+          "dockPosition": "fixed"
+        },
+        "cart": {
+          "ok": true,
+          "saved": 16.25,
+          "bandBottom": 600,
+          "buttons": 2,
+          "firstTop": 636
+        }
+      },
+      "geometry": [
+        {
+          "selector": ".d70-dock .u18-saving",
+          "txt": "You are saving\n16.25 TJS\n",
+          "left": 16,
+          "right": 304,
+          "top": 558,
+          "bottom": 600,
+          "width": 288,
+          "height": 42,
+          "scrollWidth": 288,
+          "clientWidth": 288,
+          "scrollHeight": 42,
+          "clientHeight": 42
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Add more",
+          "left": 16,
+          "right": 156,
+          "top": 636,
+          "bottom": 688,
+          "width": 140,
+          "height": 52,
+          "scrollWidth": 138,
+          "clientWidth": 138,
+          "scrollHeight": 50,
+          "clientHeight": 50
+        },
+        {
+          "selector": ".d70-dock button",
+          "txt": "Continue to payment",
+          "left": 164,
+          "right": 304,
+          "top": 636,
+          "bottom": 688,
+          "width": 140,
+          "height": 52,
+          "scrollWidth": 140,
+          "clientWidth": 140,
+          "scrollHeight": 52,
+          "clientHeight": 52
+        }
+      ],
+      "status": "PASS",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-04-en-320-main-after.png"
     },
     {
       "id": "U-05",
@@ -3819,7 +4067,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-merchant-en-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-05-en-320-main-after.png"
     },
     {
       "id": "U-06",
@@ -3879,7 +4127,7 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-customer-en-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-06-en-320-main-after.png"
     },
     {
       "id": "U-02-driver",
@@ -3986,37 +4234,8 @@
       ],
       "status": "PASS",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-driver-en-320-after.png"
+      "screenshot": "qa-shots/unified-fix/brief18/after/U-02-driver-en-320-main-after.png"
     }
   ],
-  "errors": [
-    {
-      "id": "U-04",
-      "app": "customer",
-      "lang": "ru",
-      "width": 375,
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given"
-    },
-    {
-      "id": "U-04",
-      "app": "customer",
-      "lang": "en",
-      "width": 390,
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given"
-    },
-    {
-      "id": "U-04",
-      "app": "customer",
-      "lang": "ru",
-      "width": 320,
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given"
-    },
-    {
-      "id": "U-04",
-      "app": "customer",
-      "lang": "en",
-      "width": 320,
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given"
-    }
-  ]
+  "errors": []
 }

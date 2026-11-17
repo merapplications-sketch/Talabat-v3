@@ -32,7 +32,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-ru-375-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-ru-375-main-before.png"
     },
     {
       "id": "U-02",
@@ -55,7 +55,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-ru-375-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-ru-375-main-before.png"
     },
     {
       "id": "U-03",
@@ -78,7 +78,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-ru-375-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-ru-375-main-before.png"
     },
     {
       "id": "U-04",
@@ -99,9 +99,9 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "BEFORE_LIMITATION",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-ru-375-before.png"
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-ru-375-main-before.png"
     },
     {
       "id": "U-05",
@@ -111,7 +111,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-ru-375-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-ru-375-main-before.png"
     },
     {
       "id": "U-06",
@@ -134,7 +134,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-ru-375-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-ru-375-main-before.png"
     },
     {
       "id": "U-02-driver",
@@ -144,7 +144,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-ru-375-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-ru-375-main-before.png"
     },
     {
       "id": "U-01",
@@ -154,7 +154,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-en-390-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-en-390-main-before.png"
     },
     {
       "id": "U-02",
@@ -177,7 +177,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-en-390-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-en-390-main-before.png"
     },
     {
       "id": "U-03",
@@ -200,7 +200,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-en-390-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-en-390-main-before.png"
     },
     {
       "id": "U-04",
@@ -221,9 +221,9 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "BEFORE_LIMITATION",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-en-390-before.png"
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-en-390-main-before.png"
     },
     {
       "id": "U-05",
@@ -233,7 +233,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-en-390-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-en-390-main-before.png"
     },
     {
       "id": "U-06",
@@ -256,7 +256,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-en-390-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-en-390-main-before.png"
     },
     {
       "id": "U-02-driver",
@@ -266,7 +266,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-en-390-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-en-390-main-before.png"
     },
     {
       "id": "U-01",
@@ -276,7 +276,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-ru-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-ru-320-main-before.png"
     },
     {
       "id": "U-02",
@@ -299,7 +299,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-ru-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-ru-320-main-before.png"
     },
     {
       "id": "U-03",
@@ -322,7 +322,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-ru-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-ru-320-main-before.png"
     },
     {
       "id": "U-04",
@@ -343,9 +343,9 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "BEFORE_LIMITATION",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-ru-320-before.png"
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-ru-320-main-before.png"
     },
     {
       "id": "U-05",
@@ -355,7 +355,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-ru-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-ru-320-main-before.png"
     },
     {
       "id": "U-06",
@@ -378,7 +378,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-ru-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-ru-320-main-before.png"
     },
     {
       "id": "U-02-driver",
@@ -388,7 +388,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-ru-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-ru-320-main-before.png"
     },
     {
       "id": "U-01",
@@ -398,7 +398,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-customer-en-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-01-en-320-main-before.png"
     },
     {
       "id": "U-02",
@@ -421,7 +421,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-customer-en-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-en-320-main-before.png"
     },
     {
       "id": "U-03",
@@ -444,7 +444,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-customer-en-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-03-en-320-main-before.png"
     },
     {
       "id": "U-04",
@@ -465,9 +465,9 @@
         "due": 68.75,
         "wallet": 0
       },
-      "status": "BEFORE_LIMITATION",
-      "error": "shot() takes from 4 to 5 positional arguments but 6 were given",
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-customer-en-320-before.png"
+      "status": "REFERENCE",
+      "page_errors": [],
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-04-en-320-main-before.png"
     },
     {
       "id": "U-05",
@@ -477,7 +477,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-merchant-en-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-05-en-320-main-before.png"
     },
     {
       "id": "U-06",
@@ -500,7 +500,7 @@
       },
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-customer-en-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-06-en-320-main-before.png"
     },
     {
       "id": "U-02-driver",
@@ -510,7 +510,7 @@
       "mode": "before",
       "status": "REFERENCE",
       "page_errors": [],
-      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-driver-en-320-before.png"
+      "screenshot": "qa-shots/unified-fix/brief18/before/U-02-driver-en-320-main-before.png"
     }
   ],
   "errors": []
