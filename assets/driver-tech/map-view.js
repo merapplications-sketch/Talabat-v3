@@ -68,6 +68,29 @@
     node.remove(); // remove ONLY duplicate fixed toast, not its message
     return true;
   };
+  /* F-09 / follow-up: TLB.toast is a synchronous public entry for app-facing
+     map failures. Route it DIRECTLY to the existing mission map status before a
+     fixed bottom=96px element is ever appended. The MutationObserver above still
+     handles private core loadLeaflet() failure toasts. Other app toasts unchanged. */
+  if(typeof TLB!=='undefined'&&typeof TLB.toast==='function'){
+    const originalMissionToast=TLB.toast;
+    TLB.toast=function(message,bad){
+      const label=String(message==null?'':message).trim();
+      const mission=document.body.classList.contains('a-mission');
+      const isMap=label===TLB.t('mapFail')||label===TLB.t('locMapFail');
+      if(mission&&isMap){
+        const node=document.getElementById('a-map-state');
+        if(node){
+          node.textContent=label;
+          node.setAttribute('role','alert');
+          node.setAttribute('aria-live','polite');
+          node.classList.add('f09-map-error');
+          return;
+        }
+      }
+      return originalMissionToast.apply(this,arguments);
+    };
+  }
   /* for a «my location» control on the mission screen (none in driver A today): back to the automatic frame */
   window.aMapRecenter = function () { var x = typeof aTask === 'function' ? aTask() : null; user = false; if (x && ready()) { withMe = GEO.lat != null; frameOnce(x); } };
 })();
