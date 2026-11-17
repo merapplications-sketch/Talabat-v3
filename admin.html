@@ -475,9 +475,12 @@ const stAvg=id=>avg(TLB.ratings().filter(r=>r.store_id==id),'store_stars');
 const starsTxt=n=>'★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n));
 const drvState=x=>!isLive(x)?'off':busyOf(x)?'busy':'free';
 function goLive(k){D=null;E=null;DE=null;BE=null;if(k=='d'){tab='d';dfl='on';dq=''}else{tab='s';sfl='all';sq=''}render();window.scrollTo(0,0)}
+/* BRIEF-15b G-07: migration diagnostics are developer-console only. */
+let g07SetupLogged=false;
+function g07LogSetup(){if(!g07SetupLogged){g07SetupLogged=true;console.warn('[TALABOT G-07]',t('aSetupW'))}}
 function livePills(){const ds=TLB.drivers().filter(x=>x.driver_status=='approved'),on=ds.filter(isLive),busy=on.filter(busyOf).length,ss=TLB.stores(true).filter(s=>s.is_active),op=ss.filter(s=>s.is_open);
   const setup=TLB.drivers().length>0&&!TLB.drivers().some(x=>'online' in x);
-  return `<div class="pills"><button class="lp" onclick="goLive('d')" title="${on.length-busy} ${t('aFreeC')} · ${busy} ${t('aBusyN')}"><span class="ld ${on.length?'on':''}"></span><b>${on.length}</b><span class="lo">/${ds.length}</span><span class="lt">${t('aCourL')} ${t('aOnLine')}</span></button><button class="lp" onclick="goLive('s')"><span class="ld ${op.length?'on':''}"></span><b>${op.length}</b><span class="lo">/${ss.length}</span><span class="lt">${t('aStoreL2')} ${t('aOpenL')}</span></button></div>${setup?`<div class="setupw">${ic('alert',14)} ${t('aSetupW')}</div>`:''}`}
+  return `<div class="pills"><button class="lp" onclick="goLive('d')" title="${on.length-busy} ${t('aFreeC')} · ${busy} ${t('aBusyN')}"><span class="ld ${on.length?'on':''}"></span><b>${on.length}</b><span class="lo">/${ds.length}</span><span class="lt">${t('aCourL')} ${t('aOnLine')}</span></button><button class="lp" onclick="goLive('s')"><span class="ld ${op.length?'on':''}"></span><b>${op.length}</b><span class="lo">/${ss.length}</span><span class="lt">${t('aStoreL2')} ${t('aOpenL')}</span></button></div>${setup?(g07LogSetup(),''):''}`}
 const STAR=on=>`<svg viewBox="0 0 24 24" width="16" height="16" fill="${on?'#f5a300':'none'}" stroke="${on?'#f5a300':'#c9ccd1'}" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>`;
 const starsRow=n=>`<span class="stv">${[1,2,3,4,5].map(i=>STAR(i<=n)).join('')}</span>`;
 const lowOf=(r,m)=>(r.store_stars!=null&&r.store_stars<=m)||(r.driver_stars!=null&&r.driver_stars<=m);
