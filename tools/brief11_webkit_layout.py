@@ -280,6 +280,11 @@ def check_cash(browser,width,height,lang):
     assert p.locator('#b8-reserved').evaluate("e=>getComputedStyle(e).display")=="none"
     assert_horizontal(p,"full")
     assert p.locator("#app").evaluate("e=>getComputedStyle(e).visibility")=="hidden","O02: underlying step text bleeds through overlay edge"
+    # O-13 owner evidence: 'full amount' is a ONE-TAP approved handler.
+    # The different-only secondary confirmation must not appear disabled on
+    # the initial full amount view; it becomes visible and enabled on choice.
+    assert not p.locator("#b8-confirm").is_visible(), "O13 different-only confirmation misleadingly disabled on full amount"
+    assert p.locator("#b8-full").is_visible() and p.locator("#b8-full").is_enabled(), "O13 single-tap full amount action unavailable"
     assert p.locator(".cashb .big").is_visible(), "real Take in cash block must be present"
     assert ("Take in cash" if lang=="en" else "Возьмите наличными") in p.locator(".cashb").inner_text()
     # O-13: due is shown only in existing cash box, not repeated header and action.
@@ -322,6 +327,7 @@ def check_cash(browser,width,height,lang):
     }""")
     assert o14["warning"] and o14["marginTop"]>=13 and o14["footerBorder"]=="0px",("O14 warning too close / duplicate dividers",o14)
     p.screenshot(path=str(O_OUT/f"O14-cash-{lang}-{width}-after.png"))
+    assert p.locator("#b8-confirm").is_visible() and p.locator("#b8-confirm").is_enabled(), "O13 different amount confirm remains grey/disabled"
     confirm_color=p.locator("#b8-confirm").evaluate("e=>getComputedStyle(e).backgroundColor")
     assert confirm_color==approved,("R03 approved orange confirm",confirm_color,approved)
     p.screenshot(path=str(OUT/f"webkit_cash_short_{lang}_{width}.png"))
