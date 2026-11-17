@@ -41,6 +41,15 @@ def prep(page, case):
     if case == "P-01":
         page.evaluate("() => {setTab('m');openSheet('i1')}")
         page.locator(".u18-merchant-option").first.scroll_into_view_if_needed(timeout=5000)
+        # Scroll the real modal scroller until the LAST Add variant clears the sticky action footer.
+        page.evaluate("""() => {
+          const editor=document.querySelector('.f06-item-editor'),
+            buttons=[...(editor?.querySelectorAll('.ogc .b.o')||[])],
+            last=buttons[buttons.length-1],bar=editor?.querySelector('.f06-actions');
+          if(editor&&last&&bar)editor.scrollTop+=Math.max(0,
+            last.getBoundingClientRect().bottom-bar.getBoundingClientRect().top+20);
+        }""")
+        page.wait_for_timeout(90)
     elif case == "P-02":
         page.evaluate("() => {go('menu',{store:STORES[0].n});openItem('i1')}")
         page.locator("#shT").wait_for(state="visible", timeout=5000)
@@ -64,30 +73,45 @@ def prep(page, case):
 def check(page, case, lang, width):
     if case == "P-01":
         return page.evaluate("""() => {
-          const rows=[...document.querySelectorAll('.u18-merchant-option')];
-          const row=rows.find(x=>x.querySelector('.u18-option-name')?.value==='Маленький')||rows[0];
-          const n=row?.querySelector('.u18-option-name'),p=row?.querySelector('input[type="number"]'),
+          const editor=document.querySelector('.f06-item-editor'),
+            actions=editor?.querySelector('.f06-actions'),
+            clearance=editor?.querySelector('.p18b-actions-clearance'),
+            rows=[...(editor?.querySelectorAll('.u18-merchant-option')||[])],
+            row=rows.find(x=>x.querySelector('.u18-option-name')?.value==='Маленький')||rows[0],
+            n=row?.querySelector('.u18-option-name'),p=row?.querySelector('input[type="number"]'),
             sw=row?.querySelector('.sw'),del=row?.querySelector('.rb'),
             box=e=>e?.getBoundingClientRect(),b=box(n),pb=box(p),sb=box(sw),db=box(del),
             css=n&&getComputedStyle(n),line=css?parseFloat(css.lineHeight):0,
             top=css?parseFloat(css.borderTopWidth)+parseFloat(css.paddingTop):0,
-            textCenter=b?b.top+top+line/2:0,
-            rowCenter=pb?(pb.top+pb.bottom)/2:0,
+            textCenter=b?b.top+top+line/2:0,rowCenter=pb?(pb.top+pb.bottom)/2:0,
             diff=Math.abs(textCenter-rowCenter),
-            button=[...document.querySelectorAll('.f06-item-editor button')].find(e=>
+            adds=[...(editor?.querySelectorAll('.ogc .b.o')||[])].filter(e=>
               e.textContent.trim()==='+ '+TLB.t('optAdd')),
-            expected=TLB.lang()==='ru'?'Добавить вариант':'Add variant',
-            unclipped=rows.every(r=>{const a=r.querySelector('.u18-option-name');return
-              a && a.scrollHeight<=a.clientHeight+3;})&&
-            document.documentElement.scrollWidth<=document.documentElement.clientWidth+1;
-          return {ok:!!n&&!!p&&!!sw&&!!del&&!!button&&
-            TLB.t('optAdd')===expected&&diff<=2&&unclipped&&
-            b.right<=pb.left+3&&pb.right<=sb.left+3&&sb.right<=db.left+3,
-            textCenter,rowCenter,diff,unclipped,button:button?.textContent.trim(),
-            text:n?.value,nameHeight:b?.height,priceHeight:pb?.height,
-            pageScrollWidth:document.documentElement.scrollWidth,pageClientWidth:document.documentElement.clientWidth,
-            textAreas:rows.map(r=>{const a=r.querySelector('.u18-option-name');return a&&{text:a.value,scrollHeight:a.scrollHeight,clientHeight:a.clientHeight,scrollWidth:a.scrollWidth,clientWidth:a.clientWidth}}),
-            names:rows.map(r=>r.querySelector('.u18-option-name')?.value)};
+            last=adds[adds.length-1],lb=box(last),ab=box(actions),eb=box(editor),cb=box(clearance),
+            hit=lb?document.elementFromPoint((lb.left+lb.right)/2,(lb.top+lb.bottom)/2):null,
+            hitTarget=!!last&&(hit===last||last.contains(hit)),
+            gap=lb&&ab?ab.top-lb.bottom:-999,
+            clearanceGap=cb&&ab?cb.height-ab.height:-999,
+            nameChecks=rows.map(r=>{
+              const a=r.querySelector('.u18-option-name');
+              return {text:a?.value||'',heightOkay:!!a&&a.scrollHeight<=a.clientHeight+3,
+                widthOkay:!!a&&a.scrollWidth<=a.clientWidth+1,
+                scrollHeight:a?.scrollHeight||0,clientHeight:a?.clientHeight||0,
+                scrollWidth:a?.scrollWidth||0,clientWidth:a?.clientWidth||0};
+            }),
+            pageFit=document.documentElement.scrollWidth<=document.documentElement.clientWidth+1,
+            namesFit=rows.length>=2&&nameChecks.every(x=>x.heightOkay&&x.widthOkay),
+            visible=!!lb&&!!ab&&!!eb&&lb.height>=40&&lb.top>=eb.top-1&&
+              lb.bottom<=ab.top-16+2&&lb.right<=eb.right+1&&hitTarget,
+            expected=TLB.lang()==='ru'?'Добавить вариант':'Add variant';
+          return {ok:!!n&&!!p&&!!sw&&!!del&&adds.length>=2&&
+            TLB.t('optAdd')===expected&&diff<=2&&namesFit&&pageFit&&visible&&
+            clearanceGap>=15.5&&b.right<=pb.left+3&&pb.right<=sb.left+3&&sb.right<=db.left+3,
+            textCenter,rowCenter,diff,namesFit,pageFit,visible,gap,clearanceGap,hitTarget,
+            lastAdd:last?.textContent.trim(),lastAddTop:lb?.top,lastAddBottom:lb?.bottom,
+            actionsTop:ab?.top,actionsHeight:ab?.height,clearanceHeight:cb?.height,
+            nameChecks,pageScrollWidth:document.documentElement.scrollWidth,
+            pageClientWidth:document.documentElement.clientWidth};
         }""")
     if case == "P-02":
         return page.evaluate("""() => {
@@ -95,20 +119,25 @@ def check(page, case, lang, width):
             price=document.querySelector('.d6s .oshf .btn .px6'),
             st=h&&getComputedStyle(h),a=h?.getBoundingClientRect(),b=c?.getBoundingClientRect(),
             p=price?.getBoundingClientRect(),cs=c&&getComputedStyle(c),
+            ps=price&&getComputedStyle(price),
             range=document.createRange();if(c)range.selectNodeContents(c);
           const lines=c?[...range.getClientRects()]:[],
-            lh=cs?parseFloat(cs.lineHeight):0,actual=Math.max(0,...lines.map(x=>x.height));
+            lh=cs?parseFloat(cs.lineHeight):0,actual=Math.max(0,...lines.map(x=>x.height)),
+            narrow=innerWidth<=340,
+            font=cs?parseFloat(cs.fontSize):0,priceFont=ps?parseFloat(ps.fontSize):0,
+            textExpected=narrow?(TLB.lang()==='ru'?'В корзину':'Add'):TLB.t('d6AddCart');
           return {ok:!!h&&!!c&&!!price&&
             st.webkitLineClamp==='none'&&st.overflow==='visible'&&
             h.scrollHeight<=h.clientHeight+2&&h.scrollWidth<=h.clientWidth+1&&
             a.height>=parseFloat(st.lineHeight)*2&&
             lines.length===1&&actual<=lh+2&&
-            c.scrollWidth<=c.clientWidth+1&&b.right<=p.left+2,
+            c.scrollWidth<=c.clientWidth+1&&b.right<=p.left+2&&
+            (!narrow||(font>=12.99&&priceFont>=12.99&&c.innerText===textExpected)),
             title:h?.innerText,clamp:st?.webkitLineClamp,titleHeight:a?.height,
             titleScrollHeight:h?.scrollHeight,titleClientHeight:h?.clientHeight,
-            cta:c?.innerText,lines:lines.length,lineHeight:lh,textHeight:actual,
-            ctaScrollWidth:c?.scrollWidth,ctaClientWidth:c?.clientWidth,
-            ctaRight:b?.right,priceLeft:p?.left};
+            cta:c?.innerText,textExpected,narrow,font,priceFont,lines:lines.length,
+            lineHeight:lh,textHeight:actual,ctaScrollWidth:c?.scrollWidth,
+            ctaClientWidth:c?.clientWidth,ctaRight:b?.right,priceLeft:p?.left};
         }""")
     if case == "P-03":
         return page.evaluate("""() => {
@@ -128,7 +157,10 @@ def check(page, case, lang, width):
         return page.evaluate("""() => {
           const slider=document.querySelector('.d69-slide-label'),
             now=[...document.querySelectorAll('.p1-schedule .tipr button')]
-              .find(b=>b.innerText.includes(TLB.t('whenNow')));
+              .find(b=>b.innerText.includes(innerWidth<=340?TLB.t('p18bWhenShort'):TLB.t('whenNow'))),
+            narrow=innerWidth<=340,
+            expectedSlider=narrow?TLB.t('p18bSlideShort'):TLB.t('v69Slide'),
+            expectedWhen=narrow?TLB.t('p18bWhenShort'):TLB.t('whenNow');
           const line=e=>{
             if(!e)return {ok:false};
             const range=document.createRange();range.selectNodeContents(e);
@@ -136,10 +168,12 @@ def check(page, case, lang, width):
               height=Math.max(0,...rects.map(r=>r.height)),lh=parseFloat(cs.lineHeight);
             return {ok:rects.length===1&&height<=lh+2&&e.scrollWidth<=e.clientWidth+1,
               text:e.innerText,rectCount:rects.length,height,lineHeight:lh,
-              scrollWidth:e.scrollWidth,clientWidth:e.clientWidth};
+              font:parseFloat(cs.fontSize),scrollWidth:e.scrollWidth,clientWidth:e.clientWidth};
           };
           const a=line(slider),b=line(now);
-          return {ok:a.ok&&b.ok,slider:a,whenNow:b};
+          return {ok:a.ok&&b.ok&&a.text===expectedSlider&&b.text===expectedWhen&&
+            (!narrow||(a.font>=13.99&&b.font>=12.99)),
+            narrow,slider:a,whenNow:b,expectedSlider,expectedWhen};
         }""")
     raise AssertionError(f"Unsupported case {case}")
 
