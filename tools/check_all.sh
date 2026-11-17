@@ -19,6 +19,11 @@ else
 fi
 echo "GATE1 11 original + 5 new local Supabase E2E scenarios"
 python3 tools/gate1_e2e.py || fail=1
+# BRIEF-19: explicitly opt-in to real, LOCAL-only SEC-18 RLS/ACL tests and safe rollback.
+if [ "${BRIEF19_SEC18_LOCAL:-0}" = "1" ]; then
+  echo "BRIEF19 SEC-18 LOCAL migration, real PostgreSQL authorization and non-destructive rollback"
+  python3 tools/brief19_sec18_local.py || fail=1
+fi
 echo "BRIEF-11 mandatory offline Playwright WebKit iPhone-layout C01..C07"
 python3 tools/brief11_webkit_layout.py || fail=1
 # BRIEF-14 is an EXPLICIT opt-in on its source-pinned isolated QA branch only.
