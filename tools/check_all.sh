@@ -38,6 +38,12 @@ if [ "${FULL_AUDIT_BRIEF15:-0}" = "1" ]; then
   echo "BRIEF15 WebKit real HTML F01..F10 source-backed visual regressions"
   python3 tools/brief15_webkit.py || fail=1
 fi
+# BRIEF-15b: explicit source-backed WebKit RU/375 EN/390 UI geometry gate.
+# Runs only against the isolated synthetic fixture; no production credentials.
+if [ "${FULL_AUDIT_BRIEF15B:-0}" = "1" ]; then
+  echo "BRIEF15b WebKit closed-store, compact toast and nine G-01..G-09 checks"
+  BRIEF15B_MODE=after python3 tools/brief15b_webkit.py || fail=1
+fi
 if [ "$fail" -ne 0 ]; then
   echo "GATE1_NO_GO: incomplete or failing required gates" >&2
   exit 1
