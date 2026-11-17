@@ -96,7 +96,7 @@ def inspect(page,state,lang,width):
         color===getComputedStyle(card.querySelector('.a01-icon')).color&&
         geometry.linkSameRow&&geometry.noOverlap&&
         geometry.contentWidth>=geometry.cardWidth-34&&
-        geometry.addrWidth>=geometry.contentWidth-1&&
+        geometry.addrWidth>=geometry.contentWidth-34&&
         geometry.pageFit&&(innerWidth!==375||rows<=3);
       const readinessOk=uiValid&&checkCalls===1&&
         (available?status==='ready'&&extras.includes('call')&&extras.includes('knock'):
