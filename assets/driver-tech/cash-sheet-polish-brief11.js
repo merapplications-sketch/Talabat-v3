@@ -38,6 +38,11 @@
   '.b8-head,.b8-footer{flex:none!important;min-width:0;position:relative;z-index:1;background:#fff}',
   // O-13: show the due amount ONCE in the approved cash breakdown, not header + card + button.
   '.b8-sheet:has(.cashb) .b8-head>p{display:none!important}',
+  // O-13: the FULL button executes confirmed Q14 delivery directly. Its unrelated
+  // amount-confirm button is intentionally disabled until 'Different amount'.
+  // Do not enable a duplicate financial action: remove that inert control visually.
+  '.b8-sheet:has(#b8-reserved[aria-hidden=true]) #b8-confirm{display:none!important}',
+  '.b8-sheet:has(#b8-reserved[aria-hidden=true]) .b8-footer .b8-actions{grid-template-columns:minmax(0,1fr)!important}',
   '.b8-head{padding-bottom:4px}.b8-content{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-padding-top:12px;scroll-padding-bottom:16px}',
   '.b8-footer{padding-top:6px;border-top:0!important}.b8-footer .b8-actions{margin:4px 0 0!important}',
   '.b8-reserved{height:auto!important;min-height:0!important;overflow:visible!important}',
