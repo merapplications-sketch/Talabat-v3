@@ -400,6 +400,9 @@ body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,
 .d6s .d6-nt h3{font-size:17px;line-height:24px;font-weight:600;margin:0 0 8px}
 .d6s .d6-nt textarea{width:100%;min-height:48px;border-radius:12px;background:var(--form);border:1px solid var(--line);padding:10px 12px;font-family:inherit;font-size:16px;line-height:24px;color:var(--ink);resize:vertical;outline:none}
 .d6s .d6-nt textarea:focus{border-color:var(--o);background:#fff}
+/* F-04: avoid browser's extra navy focus stroke below the approved orange border. */
+.d6s .d6-nt textarea:is(:focus,:focus-visible){outline:0!important;outline-offset:0!important;box-shadow:none!important;-webkit-appearance:none;appearance:none}
+
 .d6s .d6-nt small{display:block;font-size:12px;line-height:16px;color:var(--mut);margin-top:4px}
 .d6s .oshf{position:static;flex:none;display:flex;gap:8px;align-items:center;background:#fff;margin:0 -16px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 16px #17243C0d}
 .d6s .oshf .btn{flex:1;height:auto;min-height:56px;border-radius:12px;background:var(--o);display:flex;flex-direction:column;justify-content:center;gap:0;padding:8px;font-size:14px;line-height:20px;font-weight:600}
