@@ -1278,6 +1278,18 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
   #app .p1-schedule .tipr .tip:first-child{flex:0 0 auto;padding-inline:11px}
   #app .p1-schedule .tipr .tip:nth-child(2){flex:1 1 auto;padding-inline:5px}
 }
+
+/* BRIEF-18c M-01: checkout address map only; all other cards unchanged. */
+#app .m01-address-card{padding:0;overflow:hidden}
+#app .m01-address-card>.rg{padding:16px;min-width:0}
+#app .m01-preview{position:relative;display:block;box-sizing:border-box;width:100%;height:130px;overflow:hidden;background:#edf0ec;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;isolation:isolate}
+#app .m01-preview:focus-visible{outline:3px solid var(--o);outline-offset:-3px}
+#app .m01-tiles{position:absolute;inset:0;z-index:0;width:100%;height:100%;background:#edf0ec;pointer-events:none!important;touch-action:none!important}
+#app .m01-tiles .leaflet-pane,#app .m01-tiles .leaflet-control-container{pointer-events:none!important}
+#app .m01-tiles .leaflet-tile{font-size:0;color:transparent}
+#app .m01-pin{position:absolute;left:50%;top:50%;z-index:3;transform:translate(-50%,-50%);width:42px;height:50px;display:block;pointer-events:none;filter:drop-shadow(0 2px 4px #17243c30)}
+#app .m01-pin svg{display:block;width:100%;height:100%}
+#app .m01-osm{position:absolute;right:7px;bottom:6px;z-index:4;background:#ffffffd9;color:#606974;border-radius:4px;padding:2px 5px;font-size:10px;line-height:14px;white-space:nowrap;pointer-events:none}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -2130,15 +2142,115 @@ function vWallet(){const w=TLB.wallet();TLB.loadWallet();const L=TLB.loyalty&&TL
   <button class="d6-dis ${S.wOps?'on':''}" aria-expanded="${!!S.wOps}" onclick="S.wOps=!S.wOps;render()">${t('d6Ops')}${ico('down',18)}</button>
   ${S.wOps?`<div class="d6-tabs" role="group" aria-label="${t('d6Ops')}"><button class="${S.wTab==='cb'?'':'on'}" aria-pressed="${S.wTab!=='cb'}" onclick="S.wTab='all';render()">${t('fAll')}</button><button class="${S.wTab==='cb'?'on':''}" aria-pressed="${S.wTab==='cb'}" onclick="S.wTab='cb';render()">${t('d6CbH')}</button></div>${(S.wTab==='cb'?cb:w.entries).length?`<div class="card" style="padding:4px 16px">${(S.wTab==='cb'?cb:w.entries).map(wrow).join('')}</div>`:emptyV(S.wTab==='cb'?t('d6NoCb'):t('walNone'),t('walNoneS'),'','card')}`:''}</section>`}</div>`}
 TLB.addDict({u18TipDesc:'Курьер получает их полностью'},{u18TipDesc:'The courier receives the full tip'});
+
+/* BRIEF-18c M-01: only the current checkout address gets one noninteractive
+   OSM preview. Leaflet 1.9.4 + tile source match talabat-core.js exactly.
+   No address writes, geocoding, billing changes or map provider additions. */
+const M01={map:null,host:null,observer:null,scrollCheck:null,frame:0,token:0};
+let m01LeafletPromise=null;
+const m01TileUrl='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const m01LeafletUrl='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+const m01LeafletCss='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+function m01Coordinates(a){
+ if(!a||a.lat===null||a.lng===null||a.lat===undefined||a.lng===undefined||a.lat===''||a.lng==='')return null;
+ const lat=Number(a.lat),lng=Number(a.lng);
+ return Number.isFinite(lat)&&Number.isFinite(lng)&&Math.abs(lat)<=90&&Math.abs(lng)<=180?[lat,lng]:null;
+}
+function m01Markup(coordinates){
+ if(!coordinates)return '';
+ return '<div id="m01-pay-preview" class="m01-preview" role="button" tabindex="0"'+
+    ' aria-label="'+esc(t('addrChange'))+'" data-lat="'+coordinates[0]+'" data-lng="'+coordinates[1]+'"'+
+    ' onclick="openSheet(\'pay\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openSheet(\'pay\')}"'+
+    '><div class="m01-tiles" aria-hidden="true"></div><span class="m01-pin" aria-hidden="true">'+
+    '<svg viewBox="0 0 42 50" xmlns="http://www.w3.org/2000/svg"><path fill="#F1511B" d="M21 1C9.7 1 1 9.8 1 21c0 15 20 28 20 28s20-13 20-28C41 9.8 32.3 1 21 1Z"/><circle cx="21" cy="21" r="8.3" fill="#FFF"/></svg>'+
+    '</span><span class="m01-osm" aria-hidden="true">© OpenStreetMap</span></div>';
+}
+function m01Dispose(){
+ ++M01.token;
+ if(M01.observer){M01.observer.disconnect();M01.observer=null}
+ if(M01.scrollCheck){window.removeEventListener('scroll',M01.scrollCheck);window.removeEventListener('resize',M01.scrollCheck);M01.scrollCheck=null}
+ if(M01.frame){cancelAnimationFrame(M01.frame);M01.frame=0}
+ if(M01.map){try{M01.map.off();M01.map.remove()}catch(_e){} M01.map=null}
+ M01.host=null;
+}
+function m01Ready(cb){
+ if(window.L&&typeof window.L.map==='function'){cb(true);return}
+ if(!m01LeafletPromise){
+  m01LeafletPromise=new Promise(resolve=>{
+   let finished=false;
+   const timer=window.setTimeout(()=>complete(false),9000);
+   function complete(ok){if(finished)return;finished=true;clearTimeout(timer);resolve(!!ok&&!!window.L&&typeof window.L.map==='function')}
+   if(!document.querySelector('link[href="'+m01LeafletCss+'"]')){
+    const link=document.createElement('link');link.rel='stylesheet';link.href=m01LeafletCss;document.head.appendChild(link);
+   }
+   let script=document.querySelector('script[src="'+m01LeafletUrl+'"]');
+   if(!script){script=document.createElement('script');script.async=true;script.src=m01LeafletUrl;document.head.appendChild(script)}
+   script.addEventListener('load',()=>complete(true),{once:true});
+   script.addEventListener('error',()=>complete(false),{once:true});
+   if(window.L&&typeof window.L.map==='function')complete(true);
+  });
+ }
+ m01LeafletPromise.then(cb);
+}
+function m01Initialize(host,token){
+ m01Ready(ok=>{
+  if(!ok||token!==M01.token||M01.host!==host||S.v!=='pay'||!host.isConnected||M01.map)return;
+  const tile=host.querySelector('.m01-tiles');
+  if(!tile)return;
+  let map=null;
+  try{
+   const lat=Number(host.dataset.lat),lng=Number(host.dataset.lng);
+   map=window.L.map(tile,{center:[lat,lng],zoom:16,zoomControl:false,attributionControl:false,
+    dragging:false,touchZoom:false,scrollWheelZoom:false,doubleClickZoom:false,
+    boxZoom:false,keyboard:false,zoomAnimation:false,fadeAnimation:false});
+   M01.map=map;
+   window.L.tileLayer(m01TileUrl,{maxZoom:19,attribution:'© OpenStreetMap',
+    referrerPolicy:'strict-origin-when-cross-origin',
+    errorTileUrl:'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="256" height="256"%3E%3Crect width="256" height="256" fill="%23edf0ec"/%3E%3C/svg%3E'}).addTo(map);
+   M01.frame=requestAnimationFrame(()=>{
+    M01.frame=0;
+    if(token===M01.token&&M01.map===map&&host.isConnected)map.invalidateSize({pan:false});
+   });
+  }catch(_e){
+   if(map){try{map.off();map.remove()}catch(_ignored){}}
+   if(M01.map===map)M01.map=null;
+   // The pale background, orange pin and attribution remain visible.
+  }
+ });
+}
+function m01Observe(){
+ const host=document.querySelector('#m01-pay-preview');
+ if(!host||S.v!=='pay')return;
+ M01.host=host;
+ const token=M01.token;
+ const visible=()=>{const r=host.getBoundingClientRect();return r.width>0&&r.height>0&&r.top<innerHeight&&r.bottom>0};
+ const start=()=>{if(token!==M01.token||M01.host!==host||!host.isConnected)return;
+  if(M01.observer){M01.observer.disconnect();M01.observer=null}
+  if(M01.scrollCheck){window.removeEventListener('scroll',M01.scrollCheck);window.removeEventListener('resize',M01.scrollCheck);M01.scrollCheck=null}
+  m01Initialize(host,token);
+ };
+ if(typeof IntersectionObserver==='function'){
+  M01.observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting))start()},{threshold:0.01});
+  M01.observer.observe(host);
+ }else{
+  M01.scrollCheck=()=>{if(visible())start()};
+  window.addEventListener('scroll',M01.scrollCheck,{passive:true});
+  window.addEventListener('resize',M01.scrollCheck);
+  M01.scrollCheck();
+ }
+}
+window.addEventListener('pagehide',m01Dispose);
+
 /* ---------- PAYMENT (address, method, tip, promo, summary) ---------- */
 function vPay(){u18SyncAddress();const c=calc();if(!Object.keys(S.cart).length)return vCart();if(badKeys().length){S.v='cart';return vCart()}
   const sp=ALLS.find(x=>x.n==S.cartStore)||{},cashOnly=sp.po===false;if(cashOnly&&S.pay!='cash')S.pay='cash';   /* patch 38: a cash-only place shows no electronic method */
   const M=(cashOnly?[]:[['apple','apple','payApple'],['card','card','payCard']]).concat([['cash','cash','payCash']]),saved=u18Saved(c),balances=(sp.ap===false?'':ptsCard(c))+(sp.aw===false?'':walletCard(c));
+  const m01Coords=m01Coordinates(curAddr());
   const promoBox=c.base<=0?`<div class="sm mut" style="margin-top:8px">${t('promoNoOffer')}</div>`:S.promo?`<div class="po"><span>${esc(S.promo.code)} · −${c.p} TJS</span><button class="btn t" onclick="removePromo()">${t('promoRm')}</button></div>`
     :`<div class="pm"><input class="fld" type="text" id="pc" maxlength="20" autocapitalize="characters" autocomplete="off" placeholder="${t('promoPh')}" value="${esc(S.pcode)}" oninput="S.pcode=this.value;S.perr='';var e=document.getElementById('pe');if(e)e.remove()"><button class="btn" onclick="applyPromo()">${t('promoApply')}</button></div>${S.perr?`<div class="pe" id="pe">${esc(perrMsg())}</div>`:''}<div class="xs mut" style="margin-top:8px">${t('promoOffNote')}</div>`;
   return topbar(t('payT'),S.gCheckout?t('grpT'):'',S.gCheckout?"grpBackPay()":"go('cart')")+`<div class="pg d67-checkout">
   ${closedNow(S.cartStore)?`<div class="closedb" style="margin:0 0 14px">${t('closedBanner')}</div>`:''}
-  <div class="card"><div class="rg" style="gap:12px"><span class="or">${ico(curAddr()?LABI[curAddr().label]:'pin',22)}</span><div style="flex:1;min-width:0"><div class="xs mut">${t('addrL')}${curAddr()?' · '+t(LABS[curAddr().label]):''}</div><div class="b6" style="word-break:break-word">${curAddr()?esc(addrLine(curAddr())):t('addrAddFirst')}</div></div><button class="btn t" onclick="openSheet('pay')">${curAddr()?t('addrChange'):t('addrAdd')}</button></div></div>
+  <div class="card${m01Coords?' m01-address-card':''}">${m01Markup(m01Coords)}<div class="rg" style="gap:12px"><span class="or">${ico(curAddr()?LABI[curAddr().label]:'pin',22)}</span><div style="flex:1;min-width:0"><div class="xs mut">${t('addrL')}${curAddr()?' · '+t(LABS[curAddr().label]):''}</div><div class="b6" style="word-break:break-word">${curAddr()?esc(addrLine(curAddr())):t('addrAddFirst')}</div></div><button class="btn t" onclick="openSheet('pay')">${curAddr()?t('addrChange'):t('addrAdd')}</button></div></div>
   ${curAddr()&&curAddr().label=='point'?`<div class="card"><label class="b6 sm">${t('tmpNoteL')}</label><input class="fld" id="tmpn" type="text" maxlength="120" placeholder="${t('tmpNotePh')}" value="${esc(S.tmp.note||'')}" oninput="tmpNote(this.value)" style="margin:6px 0 8px"><div class="xs mut" style="line-height:1.45">${t('tmpHint')}</div><button class="btn t" style="margin-top:8px" onclick="tmpSave()">${t('tmpSaveL')}</button></div>`:''}
   ${tooFar()?`<div class="closedb" style="margin:-4px 0 12px">${ico('pin',18)}<div><b>${t('tooFarT')}</b><div style="font-weight:500;margin-top:2px">${t('err_too_far')}</div></div></div>`:''}
   ${whenCard()}${balances?`<section class="d68-balances" aria-label="${t('v68Balances')}"><h3>${t('v68Balances')}</h3>${balances}</section>`:''}${optsCard()}
@@ -2399,6 +2511,7 @@ TLB.addDict({p18bCartShort:'В корзину',p18bSlideShort:'Сдвиньте 
             {p18bCartShort:'Add',p18bSlideShort:'Slide to order',p18bWhenShort:'ASAP'});
 /* ---------- RENDER ---------- */
 function render(){
+  m01Dispose();
   if(!ME.phone){$('app').innerHTML=phoneGateV();return}
   if(TLB.me().banned&&!['support','ticket'].includes(S.v)){S.v='support';TLB.wantSupport(true)}
   if(S.v=='menu'&&!TLB.isOpen(S.store)){S.sh=null}
@@ -2414,6 +2527,7 @@ function render(){
   const _n=document.querySelector('.osh');if(_n&&_osw&&S.sh&&S.sh.keep)_n.scrollTop=_ost;document.documentElement.classList.toggle('shopen',!!S.sh);
   if(kid&&$(kid)){const e=$(kid);if(kid!=='ci')e.value=keep;e.focus();e.setSelectionRange(e.value.length,e.value.length)}   /* the chat field takes its text from the per-order draft (never another order's text) */
   if(walletFocus)$(walletFocus)?.focus({preventScroll:true});
+  m01Observe();
   dishViewport();const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();menuAfter();
   cartSave();if(['home','wallet','track'].includes(S.v))milestone();
   if(document.body&&document.body.style)document.body.style.paddingBottom=full?'0px':bar?'calc(150px + env(safe-area-inset-bottom,0px))':'calc(84px + env(safe-area-inset-bottom,0px))'}
