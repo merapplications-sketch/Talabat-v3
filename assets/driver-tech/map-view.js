@@ -49,36 +49,25 @@
       }
     };
   }
-  /* F-09: core map loader may emit a second fixed red toast at bottom:96px,
-     precisely over the mission Call/Chat/Collect controls. The existing mission
-     status #a-map-state already announces the failure and fallback. Remove ONLY
-     that duplicate visual map-loading toast; all unrelated errors remain visible.
-     If no map status is visible, move the toast above the mission sheet instead. */
-  if(window.MutationObserver && document.body){
-    const mapFailure = new MutationObserver(records=>{
-      const a=typeof TLB!=='undefined'?TLB:null;
-      if(!a)return;
-      const allowed=[a.t('mapFail'),a.t('locMapFail')].filter(Boolean);
-      for(const rec of records){
-        for(const n of rec.addedNodes){
-          if(n.nodeType!==1 || n.parentNode!==document.body)continue;
-          const msg=(n.textContent||'').trim();
-          if(!allowed.includes(msg)||!String(n.style?.cssText||'').includes('position: fixed'))continue;
-          const status=document.getElementById('a-map-state');
-          if(status&&getComputedStyle(status).display!=='none'&&status.textContent.trim()){
-            n.remove(); // duplicate visual only; live aria-status remains
-          } else {
-            const sheet=document.getElementById('a-sheet'),vh=window.visualViewport?.height||innerHeight;
-            const pos=Math.max(64,Math.min(132,(sheet?.getBoundingClientRect().top||vh)-n.offsetHeight-18));
-            n.style.bottom='auto';n.style.top=pos+'px';
-            n.style.maxWidth='calc(100vw - 32px)';
-            n.setAttribute('role','status');
-          }
-        }
-      }
-    });
-    mapFailure.observe(document.body,{childList:true});
-  }
+  /* F-09: the core map-loading failure belongs in the existing MAP status
+     above the mission sheet. Never draw a fixed toast over Call/Chat/Cash.
+     NOTIFY-01 calls this handler synchronously from its MutationObserver;
+     missing map status falls back to the shared in-flow notice. */
+  window.__talabotF09MapNotice=function(node){
+    const a=typeof TLB!=='undefined'?TLB:null;
+    const status=document.getElementById('a-map-state');
+    if(!a||!status||!node||!document.body.classList.contains('a-mission'))return false;
+    const msg=(node.textContent||'').trim();
+    if(msg!==a.t('mapFail')&&msg!==a.t('locMapFail'))return false;
+    const old=(status.textContent||'').trim();
+    const hint=old&&!old.includes(msg)&&old!==a.t('aMapLoading')?old:'';
+    status.textContent=msg+(hint?' · '+hint:'');
+    status.setAttribute('role','alert');
+    status.setAttribute('aria-live','polite');
+    status.classList.add('f09-map-error');
+    node.remove(); // remove ONLY duplicate fixed toast, not its message
+    return true;
+  };
   /* for a «my location» control on the mission screen (none in driver A today): back to the automatic frame */
   window.aMapRecenter = function () { var x = typeof aTask === 'function' ? aTask() : null; user = false; if (x && ready()) { withMe = GEO.lat != null; frameOnce(x); } };
 })();
