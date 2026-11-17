@@ -16,6 +16,8 @@ on:
       - 'assets/3d/motor-scooter-yellow.png'
       - 'tools/brief11_webkit_layout.py'
       - 'tools/check_all.sh'
+      - 'tools/brief19_sec18_local.py'
+      - 'sql/proposed/brief18_delivery_instructions*.sql'
       - 'customer.html'
       - 'merchant.html'
       - 'assets/customer-c/customer-c.js'
@@ -70,7 +72,7 @@ jobs:
           git diff --name-only "$BASE" HEAD > "$RUNNER_TEMP/brief15-paths"
           while IFS= read -r changed; do
             case "$changed" in
-              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief18_webkit.py|tools/brief18b_webkit.py|tools/brief18c_webkit.py|tools/brief18d_webkit.py|talabat-core.js|assets/3d/motor-scooter-yellow.png|sql/proposed/brief18_delivery_instructions.sql|sql/proposed/brief18_delivery_instructions_rollback.sql|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
+              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief18_webkit.py|tools/brief18b_webkit.py|tools/brief18c_webkit.py|tools/brief18d_webkit.py|talabat-core.js|assets/3d/motor-scooter-yellow.png|sql/proposed/brief18_delivery_instructions.sql|sql/proposed/brief18_delivery_instructions_rollback.sql|sql/proposed/brief18_delivery_instructions_owner_purge.sql|tools/brief19_sec18_local.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"
@@ -131,7 +133,7 @@ jobs:
              "<p class=\"a-compact-address\">${esc(address)}</p>${client?u18DriverPanel(x):''}${n===2?")
           assert changed.count(new)==1 and changed.replace(new,old)==orig,'G-04 or U-02 driver-A beyond approved UI status'
           PY
-          python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py tools/brief15b_webkit.py tools/brief18c_webkit.py tools/brief18d_webkit.py
+          python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py tools/brief15b_webkit.py tools/brief18c_webkit.py tools/brief18d_webkit.py tools/brief19_sec18_local.py
       - name: Install immutable QA browsers and dependencies
         shell: bash
         run: |
@@ -148,6 +150,8 @@ jobs:
         run: |
           set -euo pipefail
           python3 tools/gate1_local_prepare.py
+          test ! -e supabase/migrations/20261116001000_brief18.sql
+          cp sql/proposed/brief18_delivery_instructions.sql supabase/migrations/20261116001000_brief18.sql
           supabase start >"$RUNNER_TEMP/local-start.log" 2>&1
           supabase db reset --local >"$RUNNER_TEMP/local-reset.log" 2>&1
           supabase status -o env >"$RUNNER_TEMP/local-status.env"
@@ -159,12 +163,15 @@ jobs:
           FULL_AUDIT_SUPABASE_UMD: ${{ runner.temp }}/full-audit-npm/node_modules/@supabase/supabase-js/dist/umd/supabase.js
           FULL_AUDIT_MODE: auth_only
           FULL_AUDIT_FAIL_FAST: '1'
+          BRIEF19_SEC18_LOCAL: '1'
         run: |
           set -euo pipefail
           test "$SUPABASE_LOCAL_URL" = http://127.0.0.1:54321
           python3 tools/gate1_local_seed.py
           bash tools/check_all.sh >"$RUNNER_TEMP/brief15-gates.log"
           grep -Fxq 'GATE1_E2E: 16 / 16 LOCAL HTTP PASS' "$RUNNER_TEMP/brief15-gates.log"
+          grep -E '^PASS BRIEF19_SEC18 |^BRIEF19_SEC18_LOCAL_PASS ' "$RUNNER_TEMP/brief15-gates.log"
+          grep -Fxq 'BRIEF19_SEC18_LOCAL_PASS 16/16' "$RUNNER_TEMP/brief15-gates.log"
           python3 tools/full_audit_seed.py
           python3 tools/full_audit.py >"$RUNNER_TEMP/h01.log" 2>&1 || true
           grep -E '^H01_LOCAL_AUTHENTICATED|^FULL_APP_AUDIT' "$RUNNER_TEMP/h01.log" || true
