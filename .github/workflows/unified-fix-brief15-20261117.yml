@@ -323,16 +323,19 @@ jobs:
           BRIEF15B_MODE=after python3 tools/brief15b_webkit.py > "$RUNNER_TEMP/brief15b-after.log" 2>&1
           after_rc=$?
           grep -E 'BRIEF15B|Traceback|AssertionError' "$RUNNER_TEMP/brief15b-after.log" | tail -25 || true
-          BEFORE_WORK="$RUNNER_TEMP/brief15-original-before"
-          if test -d "$BEFORE_WORK"; then
+          # The owner specified 99dbec06 as BRIEF-15b BEFORE; not the older F/O baseline.
+          BRIEF15B_BASE=99dbec06e1d06949e250c59233b3aa5305e24590
+          BEFORE_WORK="$RUNNER_TEMP/brief15b-before-99dbec06"
+          git worktree add --detach "$BEFORE_WORK" "$BRIEF15B_BASE" >/dev/null 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
             cp tools/brief15b_webkit.py "$BEFORE_WORK/tools/brief15b_webkit.py"
             (cd "$BEFORE_WORK" && BRIEF15B_MODE=before python3 tools/brief15b_webkit.py) > "$RUNNER_TEMP/brief15b-before.log" 2>&1
             before_rc=$?
             mkdir -p qa-shots/unified-fix/b/before
             cp -a "$BEFORE_WORK/qa-shots/unified-fix/b/before/." qa-shots/unified-fix/b/before/ 2>/dev/null || before_rc=1
           else
-            before_rc=1
-            echo 'BRIEF15B_BEFORE_MISSING_PINNED_WORKTREE' >&2
+            echo 'BRIEF15B_BEFORE_MISSING_PINNED_99dbec06' >&2
           fi
           echo "BRIEF15B_AFTER_RC=$after_rc" >> "$GITHUB_ENV"
           echo "BRIEF15B_BEFORE_RC=$before_rc" >> "$GITHUB_ENV"
