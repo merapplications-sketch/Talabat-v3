@@ -406,7 +406,8 @@ body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,
 .d6s .d6-nt small{display:block;font-size:12px;line-height:16px;color:var(--mut);margin-top:4px}
 .d6s .oshf{position:static;flex:none;display:flex;gap:8px;align-items:center;background:#fff;margin:0 -16px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 16px #17243C0d}
 .d6s .oshf .btn{flex:1;height:auto;min-height:56px;border-radius:12px;background:var(--o);display:flex;flex-direction:column;justify-content:center;gap:0;padding:8px;font-size:14px;line-height:20px;font-weight:600}
-.d6s .oshf .btn .px6{font-size:18px;line-height:22px;font-weight:600}
+.d6s .oshf .btn .px6{font-size:clamp(14px,4.2vw,18px);line-height:22px;font-weight:600;white-space:nowrap;display:block;min-width:0;max-width:100%;letter-spacing:-.01em}
+.d6s .oshf .btn span:first-child{white-space:nowrap;font-size:clamp(12px,3.5vw,14px)}
 .d6s .oshf .btn.soft span:first-child{font-size:13px;line-height:17px}
 .d6s .oshf .btn.soft{background:#C9CED8}
 /* BRIEF-15b C-01: closed cards are grey and inert; cart remains editable for removal. */
