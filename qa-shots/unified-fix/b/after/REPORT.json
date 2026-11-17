@@ -85,7 +85,7 @@
           "clickedFrom": "cat",
           "clickedTo": "cat",
           "blocked": "true",
-          "label": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)−25%Самые вку",
+          "label": "ЗакрытРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)−25%Сам",
           "bounds": {
             "width": 347,
             "height": 132
@@ -116,22 +116,22 @@
       "mode": "after",
       "geometry": [
         {
-          "selector": "#app .d6-sr.closed .or",
+          "selector": "#app .d6-sr.closed .g12-closed-badge",
           "text": "Закрыт",
           "rect": {
-            "x": 289.48,
-            "y": 275,
-            "width": 58.52,
+            "x": 33,
+            "y": 213,
+            "width": 58.91,
             "height": 22,
-            "right": 348,
-            "bottom": 297
+            "right": 91.91,
+            "bottom": 235
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-sr.closed",
-          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "text": "ЗакрытРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
           "rect": {
             "x": 14,
             "y": 192,
@@ -185,39 +185,39 @@
           "text": "Текущие заказы · 4Заказ отправлен · Готовим ваш заказ · Заказ по",
           "rect": {
             "x": 14,
-            "y": 54,
+            "y": 98,
             "width": 347,
             "height": 96,
             "right": 361,
-            "bottom": 150
+            "bottom": 194
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-sr.closed",
-          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "text": "ЗакрытРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
           "rect": {
             "x": 14,
-            "y": 446,
+            "y": 490,
             "width": 347,
             "height": 132,
             "right": 361,
-            "bottom": 578
+            "bottom": 622
           },
           "disabled": false,
           "ariaDisabled": "true"
         },
         {
-          "selector": "#app .d6-sr.closed .or",
+          "selector": "#app .d6-sr.closed .g12-closed-badge",
           "text": "Закрыт",
           "rect": {
-            "x": 290.48,
-            "y": 544,
-            "width": 58.52,
+            "x": 20,
+            "y": 508,
+            "width": 58.91,
             "height": 22,
-            "right": 349,
-            "bottom": 566
+            "right": 78.91,
+            "bottom": 530
           },
           "disabled": false,
           "ariaDisabled": null
@@ -231,10 +231,10 @@
         "overlapBadge": false,
         "badge": "Закрыт",
         "badgeRect": {
-          "x": 290.484375,
-          "y": 544,
-          "right": 349,
-          "bottom": 566
+          "x": 20,
+          "y": 508,
+          "right": 78.90625,
+          "bottom": 530
         }
       },
       "page_errors": [],
@@ -1112,7 +1112,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 10:51",
+          "text": "Ожидание подтверждения · #ord0 13:34",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1140,7 +1140,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 09:51",
+          "text": "Принять с 12:34",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1155,7 +1155,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 10:51\n",
+        "heading": "Ожидание подтверждения · #ord0\n 13:34\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1176,7 +1176,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 09:51",
+            "txt": "Принять с 12:34",
             "width": 209,
             "scroll": 209
           }
@@ -1834,6 +1834,141 @@
       "screenshot": "qa-shots/unified-fix/b/after/G-11-merchant-ru-375-main-after.png"
     },
     {
+      "id": "G-12",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "after",
+      "geometry": [
+        {
+          "selector": "#app .d6-sr.closed .g12-closed-badge",
+          "text": "Закрыт",
+          "rect": {
+            "x": 20,
+            "y": 279,
+            "width": 58.91,
+            "height": 22,
+            "right": 78.91,
+            "bottom": 301
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-sr.closed .g12-delivery-text",
+          "text": "Первый заказ — бесплатно",
+          "rect": {
+            "x": 124,
+            "y": 363,
+            "width": 203,
+            "height": 18,
+            "right": 327,
+            "bottom": 381
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-sr.closed .d6-ph",
+          "text": "Закрыт",
+          "rect": {
+            "x": 14,
+            "y": 273,
+            "width": 80,
+            "height": 80,
+            "right": 94,
+            "bottom": 353
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "scenes": {
+          "search": {
+            "ok": true,
+            "scene": "home",
+            "badgeText": "Закрыт",
+            "badgeParent": "d6-ph none th",
+            "contained": true,
+            "textNodesMeasured": 8,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 33,
+              "right": 91.90625,
+              "top": 213,
+              "bottom": 235
+            },
+            "photoRect": {
+              "left": 27,
+              "right": 107,
+              "top": 207,
+              "bottom": 287
+            },
+            "offer": "Первый заказ — бесплатно",
+            "offerScroll": 177,
+            "offerWidth": 177,
+            "ellipsis": true
+          },
+          "category": {
+            "ok": true,
+            "scene": "cat",
+            "badgeText": "Закрыт",
+            "badgeParent": "d6-ph none th",
+            "contained": true,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 20,
+              "right": 78.90625,
+              "top": 279,
+              "bottom": 301
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 273,
+              "bottom": 353
+            },
+            "offer": "Первый заказ — бесплатно",
+            "offerScroll": 203,
+            "offerWidth": 203,
+            "ellipsis": true
+          },
+          "reorder": {
+            "ok": true,
+            "scene": "cat",
+            "badgeText": "Закрыт",
+            "badgeParent": "d6-ph none th",
+            "contained": true,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 20,
+              "right": 78.90625,
+              "top": 279,
+              "bottom": 301
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 273,
+              "bottom": 353
+            },
+            "offer": "Первый заказ — бесплатно",
+            "offerScroll": 203,
+            "offerWidth": 203,
+            "ellipsis": true,
+            "reorderSectionPresent": true
+          }
+        }
+      },
+      "page_errors": [],
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/b/after/G-12-customer-ru-375-main-after.png"
+    },
+    {
       "id": "C-01",
       "app": "customer",
       "lang": "en",
@@ -1904,7 +2039,7 @@
           "clickedFrom": "cat",
           "clickedTo": "cat",
           "blocked": "true",
-          "label": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)−25%Самые вку",
+          "label": "ClosedРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)−25%Сам",
           "bounds": {
             "width": 362,
             "height": 132
@@ -1935,22 +2070,22 @@
       "mode": "after",
       "geometry": [
         {
-          "selector": "#app .d6-sr.closed .or",
+          "selector": "#app .d6-sr.closed .g12-closed-badge",
           "text": "Closed",
           "rect": {
-            "x": 310.05,
-            "y": 257,
-            "width": 52.95,
+            "x": 33,
+            "y": 195,
+            "width": 53.3,
             "height": 22,
-            "right": 363,
-            "bottom": 279
+            "right": 86.3,
+            "bottom": 217
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-sr.closed",
-          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "text": "ClosedРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
           "rect": {
             "x": 14,
             "y": 174,
@@ -2015,7 +2150,7 @@
         },
         {
           "selector": "#app .d6-sr.closed",
-          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "text": "ClosedРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
           "rect": {
             "x": 14,
             "y": 472,
@@ -2028,15 +2163,15 @@
           "ariaDisabled": "true"
         },
         {
-          "selector": "#app .d6-sr.closed .or",
+          "selector": "#app .d6-sr.closed .g12-closed-badge",
           "text": "Closed",
           "rect": {
-            "x": 311.05,
-            "y": 570,
-            "width": 52.95,
+            "x": 20,
+            "y": 490,
+            "width": 53.3,
             "height": 22,
-            "right": 364,
-            "bottom": 592
+            "right": 73.3,
+            "bottom": 512
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2050,10 +2185,10 @@
         "overlapBadge": false,
         "badge": "Closed",
         "badgeRect": {
-          "x": 311.046875,
-          "y": 570,
-          "right": 364,
-          "bottom": 592
+          "x": 20,
+          "y": 490,
+          "right": 73.296875,
+          "bottom": 512
         }
       },
       "page_errors": [],
@@ -2338,7 +2473,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 11:",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 8:2",
           "rect": {
             "x": 0,
             "y": 8,
@@ -2931,7 +3066,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 10:52",
+          "text": "Waiting for confirmation · #ord0 13:34",
           "rect": {
             "x": 10,
             "y": 222,
@@ -2959,7 +3094,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 09:52",
+          "text": "Accept from 12:34",
           "rect": {
             "x": 22,
             "y": 589,
@@ -2974,7 +3109,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 10:52\n",
+        "heading": "Waiting for confirmation · #ord0\n 13:34\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -2995,7 +3130,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 09:52",
+            "txt": "Accept from 12:34",
             "width": 219,
             "scroll": 219
           }
@@ -3651,6 +3786,141 @@
       "page_errors": [],
       "status": "PASS",
       "screenshot": "qa-shots/unified-fix/b/after/G-11-merchant-en-390-main-after.png"
+    },
+    {
+      "id": "G-12",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "after",
+      "geometry": [
+        {
+          "selector": "#app .d6-sr.closed .g12-closed-badge",
+          "text": "Closed",
+          "rect": {
+            "x": 20,
+            "y": 406,
+            "width": 53.3,
+            "height": 22,
+            "right": 73.3,
+            "bottom": 428
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-sr.closed .g12-delivery-text",
+          "text": "Free on your first order",
+          "rect": {
+            "x": 124,
+            "y": 490,
+            "width": 218,
+            "height": 18,
+            "right": 342,
+            "bottom": 508
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-sr.closed .d6-ph",
+          "text": "Closed",
+          "rect": {
+            "x": 14,
+            "y": 400,
+            "width": 80,
+            "height": 80,
+            "right": 94,
+            "bottom": 480
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "scenes": {
+          "search": {
+            "ok": true,
+            "scene": "home",
+            "badgeText": "Closed",
+            "badgeParent": "d6-ph none th",
+            "contained": true,
+            "textNodesMeasured": 8,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 33,
+              "right": 86.296875,
+              "top": 195,
+              "bottom": 217
+            },
+            "photoRect": {
+              "left": 27,
+              "right": 107,
+              "top": 189,
+              "bottom": 269
+            },
+            "offer": "Free on your first order",
+            "offerScroll": 192,
+            "offerWidth": 192,
+            "ellipsis": true
+          },
+          "category": {
+            "ok": true,
+            "scene": "cat",
+            "badgeText": "Closed",
+            "badgeParent": "d6-ph none th",
+            "contained": true,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 20,
+              "right": 73.296875,
+              "top": 338,
+              "bottom": 360
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 332,
+              "bottom": 412
+            },
+            "offer": "Free on your first order",
+            "offerScroll": 218,
+            "offerWidth": 218,
+            "ellipsis": true
+          },
+          "reorder": {
+            "ok": true,
+            "scene": "cat",
+            "badgeText": "Closed",
+            "badgeParent": "d6-ph none th",
+            "contained": true,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 20,
+              "right": 73.296875,
+              "top": 406,
+              "bottom": 428
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 400,
+              "bottom": 480
+            },
+            "offer": "Free on your first order",
+            "offerScroll": 218,
+            "offerWidth": 218,
+            "ellipsis": true,
+            "reorderSectionPresent": true
+          }
+        }
+      },
+      "page_errors": [],
+      "status": "PASS",
+      "screenshot": "qa-shots/unified-fix/b/after/G-12-customer-en-390-main-after.png"
     }
   ],
   "errors": []

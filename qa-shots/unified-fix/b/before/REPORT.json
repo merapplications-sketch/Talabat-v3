@@ -32,8 +32,8 @@
             "right": 183.5,
             "bottom": 655
           },
-          "disabled": false,
-          "ariaDisabled": null
+          "disabled": true,
+          "ariaDisabled": "true"
         },
         {
           "selector": "#app .d70-dock button",
@@ -51,40 +51,40 @@
         },
         {
           "selector": "#app .closedb",
-          "text": "Некоторых блюд сейчас нет в наличииУдалите их из корзины, чтобы ",
+          "text": "Ресторан сейчас закрыт — заказать нельзя",
           "rect": {
             "x": 16,
             "y": 68,
             "width": 343,
-            "height": 118,
+            "height": 44,
             "right": 359,
-            "bottom": 186
+            "bottom": 112
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .closedb",
-          "text": "Ресторан сейчас закрыт — заказать нельзя",
+          "text": "Некоторых блюд сейчас нет в наличииУдалите их из корзины, чтобы ",
           "rect": {
             "x": 16,
-            "y": 738,
+            "y": 124,
             "width": 343,
-            "height": 44,
+            "height": 118,
             "right": 359,
-            "bottom": 782
+            "bottom": 242
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "category": {
-          "ok": false,
+          "ok": true,
           "clickedFrom": "cat",
           "clickedTo": "cat",
-          "blocked": null,
+          "blocked": "true",
           "label": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)−25%Самые вку",
           "bounds": {
             "width": 347,
@@ -92,15 +92,15 @@
           }
         },
         "dish": {
-          "ok": false,
-          "disabled": false,
+          "ok": true,
+          "disabled": true,
           "width": 44
         },
         "cart": {
-          "ok": false,
+          "ok": true,
           "checkoutDisabled": true,
-          "reason": "Некоторых блюд сейчас нет в наличии\nУдалите их из корзины, чтобы продолжить.\nУдалить недоступные",
-          "storeName": "",
+          "reason": "Ресторан сейчас закрыт — заказать нельзя",
+          "storeName": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
           "ctaWidth": 167.5
         }
       },
@@ -116,57 +116,43 @@
       "mode": "before",
       "geometry": [
         {
-          "selector": "#app .d6-sr.closed .or",
-          "text": "Закрыто",
-          "rect": {
-            "x": 282.75,
-            "y": 141,
-            "width": 65.25,
-            "height": 22,
-            "right": 348,
-            "bottom": 163
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        },
-        {
           "selector": "#app .d6-sr.closed",
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 14,
-            "y": 58,
+            "y": 192,
             "width": 347,
             "height": 118,
             "right": 361,
-            "bottom": 176
+            "bottom": 310
           },
           "disabled": false,
-          "ariaDisabled": null
+          "ariaDisabled": "true"
         }
       ],
       "result": {
         "ok": false,
         "home": {
-          "ok": false,
+          "ok": true,
           "home": "home",
           "view": "home",
-          "closed": "Закрыто",
+          "closed": "Закрыт",
           "badgeRect": {
             "x": 22,
             "y": 264,
-            "width": 69.71875
+            "width": 62.390625
           },
           "photoRight": 164,
           "search": {
             "ok": false,
             "screen": "home",
-            "visibleBadge": "Закрыто"
+            "visibleBadge": ""
           }
         },
         "search": {
           "ok": false,
           "screen": "home",
-          "visibleBadge": "Закрыто"
+          "visibleBadge": ""
         }
       },
       "page_errors": [],
@@ -184,12 +170,12 @@
           "selector": "#app .c-current",
           "text": "Текущие заказы · 4Заказ отправлен · Готовим ваш заказ · Заказ по",
           "rect": {
-            "x": 16,
-            "y": 498,
-            "width": 343,
+            "x": 14,
+            "y": 98,
+            "width": 347,
             "height": 96,
-            "right": 359,
-            "bottom": 594
+            "right": 361,
+            "bottom": 194
           },
           "disabled": false,
           "ariaDisabled": null
@@ -199,43 +185,24 @@
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 14,
-            "y": 390,
+            "y": 490,
             "width": 347,
             "height": 132,
             "right": 361,
-            "bottom": 522
+            "bottom": 622
           },
           "disabled": false,
-          "ariaDisabled": null
-        },
-        {
-          "selector": "#app .d6-sr.closed .or",
-          "text": "Закрыто",
-          "rect": {
-            "x": 283.75,
-            "y": 488,
-            "width": 65.25,
-            "height": 22,
-            "right": 349,
-            "bottom": 510
-          },
-          "disabled": false,
-          "ariaDisabled": null
+          "ariaDisabled": "true"
         }
       ],
       "result": {
         "ok": false,
-        "mode": "fixed",
+        "mode": "relative",
         "navTop": 602,
-        "overlapRow": true,
-        "overlapBadge": true,
-        "badge": "Закрыто",
-        "badgeRect": {
-          "x": 283.75,
-          "y": 488,
-          "right": 349,
-          "bottom": 510
-        }
+        "overlapRow": false,
+        "overlapBadge": false,
+        "badge": "",
+        "badgeRect": null
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -247,18 +214,186 @@
       "lang": "ru",
       "width": 375,
       "mode": "before",
-      "geometry": [],
+      "geometry": [
+        {
+          "selector": "#app .c01-closed-menu",
+          "text": "РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на про",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 3273.38,
+            "right": 375,
+            "bottom": 3273.38
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 22,
+            "y": 717,
+            "width": 44,
+            "height": 44,
+            "right": 66,
+            "bottom": 761
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 22,
+            "y": 1095.13,
+            "width": 44,
+            "height": 44,
+            "right": 66,
+            "bottom": 1139.13
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 199.5,
+            "y": 1095.13,
+            "width": 44,
+            "height": 44,
+            "right": 243.5,
+            "bottom": 1139.13
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 22,
+            "y": 1317.25,
+            "width": 44,
+            "height": 44,
+            "right": 66,
+            "bottom": 1361.25
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 199.5,
+            "y": 1317.25,
+            "width": 44,
+            "height": 44,
+            "right": 243.5,
+            "bottom": 1361.25
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 304,
+            "y": 1699.38,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 1743.38
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        }
+      ],
       "result": {
-        "ok": false,
+        "ok": true,
         "tap": {
-          "ok": false,
+          "ok": true,
           "before": "cat",
           "after": "cat"
         },
         "direct": {
-          "ok": false,
-          "grey": false,
-          "buttons": [],
+          "ok": true,
+          "grey": true,
+          "buttons": [
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            }
+          ],
           "sheetOpen": false
         }
       },
@@ -278,14 +413,14 @@
           "text": "Групповой заказПригласите коллег: каждый добавит своё, а вы офор",
           "rect": {
             "x": 16,
-            "y": 852,
+            "y": 467,
             "width": 343,
             "height": 92,
             "right": 359,
-            "bottom": 944
+            "bottom": 559
           },
-          "disabled": false,
-          "ariaDisabled": null
+          "disabled": true,
+          "ariaDisabled": "true"
         },
         {
           "selector": "#app .d70-dock button",
@@ -298,8 +433,8 @@
             "right": 183.5,
             "bottom": 655
           },
-          "disabled": false,
-          "ariaDisabled": null
+          "disabled": true,
+          "ariaDisabled": "true"
         },
         {
           "selector": "#app .d70-dock button",
@@ -314,14 +449,28 @@
           },
           "disabled": true,
           "ariaDisabled": null
+        },
+        {
+          "selector": "#app #c01-cart-closed",
+          "text": "Ресторан сейчас закрыт — заказать нельзя",
+          "rect": {
+            "x": 16,
+            "y": 68,
+            "width": 343,
+            "height": 44,
+            "right": 359,
+            "bottom": 112
+          },
+          "disabled": false,
+          "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "groupDisabled": false,
-        "moreDisabled": false,
+        "ok": true,
+        "groupDisabled": true,
+        "moreDisabled": true,
         "payDisabled": true,
-        "reason": "",
+        "reason": "Ресторан сейчас закрыт — заказать нельзя",
         "after": "cart"
       },
       "page_errors": [],
@@ -353,11 +502,11 @@
           "selector": ".t15-flow-toast",
           "text": "BRIEF15B_TOAST_PROBE",
           "rect": {
-            "x": 0,
+            "x": 79.11,
             "y": 8,
-            "width": 375,
+            "width": 216.77,
             "height": 38,
-            "right": 375,
+            "right": 295.88,
             "bottom": 46
           },
           "disabled": false,
@@ -365,9 +514,9 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "position": "static",
-        "width": 375,
+        "width": 216.765625,
         "height": 38,
         "fixed": 0
       },
@@ -384,44 +533,28 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "Ресторан сейчас закрытМагазинРесторан «Дар-ул-Хилоф Шарқи Бузург",
+          "text": "МагазинРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал ",
           "rect": {
             "x": 10,
-            "y": 22,
+            "y": 14,
             "width": 355,
-            "height": 1837,
+            "height": 1781,
             "right": 365,
-            "bottom": 1859
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        },
-        {
-          "selector": ".t15-flow-toast",
-          "text": "Ресторан сейчас закрыт",
-          "rect": {
-            "x": 10,
-            "y": 22,
-            "width": 355,
-            "height": 38,
-            "right": 365,
-            "bottom": 60
+            "bottom": 1795
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "position": "static",
-        "width": 355,
+        "width": 216.765625,
         "height": 38,
         "fixed": 0,
         "suppression": {
-          "ok": false,
-          "leaked": [
-            "Ресторан сейчас закрыт"
-          ]
+          "ok": true,
+          "leaked": []
         }
       },
       "page_errors": [],
@@ -437,7 +570,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "Не на сменеМаршрут недоступен · Только отслеживание · время приб",
+          "text": "Доставка активнаМаршрут недоступен · Только отслеживание · время",
           "rect": {
             "x": 0,
             "y": 0,
@@ -448,33 +581,17 @@
           },
           "disabled": false,
           "ariaDisabled": null
-        },
-        {
-          "selector": ".t15-flow-toast",
-          "text": "Ресторан сейчас закрыт",
-          "rect": {
-            "x": 16,
-            "y": 330,
-            "width": 343,
-            "height": 38,
-            "right": 359,
-            "bottom": 368
-          },
-          "disabled": false,
-          "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "position": "static",
-        "width": 343,
+        "width": 216.765625,
         "height": 38,
         "fixed": 0,
         "suppression": {
-          "ok": false,
-          "leaked": [
-            "Ресторан сейчас закрыт"
-          ]
+          "ok": true,
+          "leaked": []
         }
       },
       "page_errors": [],
@@ -487,15 +604,44 @@
       "lang": "ru",
       "width": 375,
       "mode": "before",
-      "geometry": [],
+      "geometry": [
+        {
+          "selector": "#app .top .g10-store-label",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 42,
+            "y": 51,
+            "width": 269,
+            "height": 28,
+            "right": 311,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .top .g10-store-wrap select",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 30,
+            "y": 51,
+            "width": 315,
+            "height": 28,
+            "right": 345,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
       "result": {
-        "ok": false,
-        "displayLabel": "",
-        "selected": "",
-        "labelInk": "",
-        "background": "",
-        "width": 0,
-        "height": 0
+        "ok": true,
+        "displayLabel": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "selected": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "labelInk": "rgb(28, 28, 33)",
+        "background": "rgb(255, 255, 255)",
+        "width": 269,
+        "height": 28
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -507,8 +653,312 @@
       "lang": "ru",
       "width": 375,
       "mode": "before",
-      "status": "BEFORE_LIMITATION",
-      "error": "Locator.scroll_into_view_if_needed: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\".f15c-group-name\").first\n",
+      "geometry": [
+        {
+          "selector": ".f15c-group-name",
+          "text": "Размер порции (обязательно выбрать)",
+          "rect": {
+            "x": 26,
+            "y": 244,
+            "width": 277,
+            "height": 90,
+            "right": 303,
+            "bottom": 334
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-group-name",
+          "text": "Добавки",
+          "rect": {
+            "x": 26,
+            "y": 841,
+            "width": 277,
+            "height": 90,
+            "right": 303,
+            "bottom": 931
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 396,
+            "width": 323,
+            "height": 117,
+            "right": 349,
+            "bottom": 513
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 519,
+            "width": 323,
+            "height": 117,
+            "right": 349,
+            "bottom": 636
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 642,
+            "width": 323,
+            "height": 117,
+            "right": 349,
+            "bottom": 759
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 993,
+            "width": 323,
+            "height": 117,
+            "right": 349,
+            "bottom": 1110
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1116,
+            "width": 323,
+            "height": 117,
+            "right": 349,
+            "bottom": 1233
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1239,
+            "width": 323,
+            "height": 117,
+            "right": 349,
+            "bottom": 1356
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 458,
+            "width": 323,
+            "height": 46,
+            "right": 349,
+            "bottom": 504
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 581,
+            "width": 323,
+            "height": 46,
+            "right": 349,
+            "bottom": 627
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 704,
+            "width": 323,
+            "height": 46,
+            "right": 349,
+            "bottom": 750
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1055,
+            "width": 323,
+            "height": 46,
+            "right": 349,
+            "bottom": 1101
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1178,
+            "width": 323,
+            "height": 46,
+            "right": 349,
+            "bottom": 1224
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1301,
+            "width": 323,
+            "height": 46,
+            "right": 349,
+            "bottom": 1347
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "group": {
+          "ok": true,
+          "value": "Размер порции (обязательно выбрать)",
+          "height": 90,
+          "scroll": 87,
+          "client": 87
+        },
+        "options": {
+          "ok": true,
+          "metrics": [
+            {
+              "name": "Маленький",
+              "inputWidth": 323,
+              "textWidth": 94.03125,
+              "controlsY": 458,
+              "nameBottom": 450,
+              "rowWidth": 323,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": true,
+              "footerY": 526
+            },
+            {
+              "name": "Средний",
+              "inputWidth": 323,
+              "textWidth": 73.4921875,
+              "controlsY": 581,
+              "nameBottom": 573,
+              "rowWidth": 323,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
+            },
+            {
+              "name": "Большой",
+              "inputWidth": 323,
+              "textWidth": 75.25,
+              "controlsY": 704,
+              "nameBottom": 696,
+              "rowWidth": 323,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
+            },
+            {
+              "name": "Сыр",
+              "inputWidth": 323,
+              "textWidth": 33.9609375,
+              "controlsY": 1055,
+              "nameBottom": 1047,
+              "rowWidth": 323,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
+            },
+            {
+              "name": "Бекон",
+              "inputWidth": 323,
+              "textWidth": 50.734375,
+              "controlsY": 1178,
+              "nameBottom": 1170,
+              "rowWidth": 323,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
+            },
+            {
+              "name": "Халапеньо",
+              "inputWidth": 323,
+              "textWidth": 90.78125,
+              "controlsY": 1301,
+              "nameBottom": 1293,
+              "rowWidth": 323,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
+            },
+            {
+              "name": "Соус",
+              "inputWidth": 323,
+              "textWidth": 39.2265625,
+              "controlsY": 1424,
+              "nameBottom": 1416,
+              "rowWidth": 323,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
+            }
+          ]
+        }
+      },
+      "page_errors": [],
+      "status": "REFERENCE",
       "screenshot": "qa-shots/unified-fix/b/before/G-02-merchant-ru-375-main-before.png"
     },
     {
@@ -522,11 +972,11 @@
           "selector": ".d6s .oshf .btn",
           "text": "Добавить в корзину11.25 TJS",
           "rect": {
-            "x": 142,
+            "x": 138,
             "y": 603,
-            "width": 217,
+            "width": 225,
             "height": 56,
-            "right": 359,
+            "right": 363,
             "bottom": 659
           },
           "disabled": false,
@@ -537,11 +987,11 @@
           "text": "Добавить в корзину",
           "rect": {
             "x": 150,
-            "y": 622,
-            "width": 136.98,
-            "height": 18,
-            "right": 286.98,
-            "bottom": 640
+            "y": 623,
+            "width": 124.75,
+            "height": 16,
+            "right": 274.75,
+            "bottom": 639
           },
           "disabled": false,
           "ariaDisabled": null
@@ -550,24 +1000,24 @@
           "selector": ".d6s .oshf .px6",
           "text": "11.25 TJS",
           "rect": {
-            "x": 286.98,
-            "y": 609,
-            "width": 64.02,
-            "height": 44,
+            "x": 284.75,
+            "y": 622,
+            "width": 66.25,
+            "height": 18,
             "right": 351,
-            "bottom": 653
+            "bottom": 640
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "gap": 0,
+        "ok": true,
+        "gap": 10,
         "price": "11.25 TJS",
-        "priceWidth": 64.015625,
-        "buttonRight": 359,
-        "captionRight": 286.984375
+        "priceWidth": 66.25,
+        "buttonRight": 363,
+        "captionRight": 274.75
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -582,11 +1032,11 @@
       "geometry": [
         {
           "selector": ".hd .a-shift-dot",
-          "text": "Не на смене",
+          "text": "Доставка активна",
           "rect": {
-            "x": 194.47,
+            "x": 165.63,
             "y": 18,
-            "width": 80.53,
+            "width": 109.38,
             "height": 16,
             "right": 275,
             "bottom": 34
@@ -610,11 +1060,11 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "active": true,
         "online": false,
-        "pill": "Не на смене",
-        "width": 80.53125
+        "pill": "Доставка активна",
+        "width": 109.375
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -629,14 +1079,14 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 10:52",
+          "text": "Ожидание подтверждения · #ord0 13:35",
           "rect": {
             "x": 10,
-            "y": 232,
+            "y": 222,
             "width": 355,
-            "height": 32,
+            "height": 33,
             "right": 365,
-            "bottom": 264
+            "bottom": 255
           },
           "disabled": false,
           "ariaDisabled": null
@@ -645,57 +1095,57 @@
           "selector": "#app .oc.new .b.r",
           "text": "Отклонить",
           "rect": {
-            "x": 234,
-            "y": 613,
-            "width": 119,
+            "x": 241.33,
+            "y": 604,
+            "width": 111.67,
             "height": 42,
             "right": 353,
-            "bottom": 655
+            "bottom": 646
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 09:52",
+          "text": "Принять с 12:35",
           "rect": {
             "x": 22,
-            "y": 613,
-            "width": 202,
+            "y": 604,
+            "width": 209.33,
             "height": 42,
-            "right": 224,
-            "bottom": 655
+            "right": 231.33,
+            "bottom": 646
           },
           "disabled": true,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "heading": "Ожидание подтверждения · #ord0\n 10:52\n",
+        "ok": true,
+        "heading": "Ожидание подтверждения · #ord0\n 13:35\n",
         "headerWidth": 355,
         "spans": [
           {
-            "width": 263,
-            "scroll": 263,
-            "whiteSpace": "normal"
+            "width": 243,
+            "scroll": 243,
+            "whiteSpace": "nowrap"
           },
           {
-            "width": 59,
-            "scroll": 59,
-            "whiteSpace": "normal"
+            "width": 55,
+            "scroll": 55,
+            "whiteSpace": "nowrap"
           }
         ],
         "actions": [
           {
             "txt": "Отклонить",
-            "width": 119,
-            "scroll": 119
+            "width": 112,
+            "scroll": 112
           },
           {
-            "txt": "Принять с 09:52",
-            "width": 202,
-            "scroll": 202
+            "txt": "Принять с 12:35",
+            "width": 209,
+            "scroll": 209
           }
         ]
       },
@@ -712,14 +1162,14 @@
       "geometry": [
         {
           "selector": "#app .k",
-          "text": "Сегодня1 заказов",
+          "text": "Сегодня1 заказ",
           "rect": {
             "x": 10,
-            "y": 345,
+            "y": 335,
             "width": 173.5,
             "height": 72,
             "right": 183.5,
-            "bottom": 417
+            "bottom": 407
           },
           "disabled": false,
           "ariaDisabled": null
@@ -729,19 +1179,51 @@
           "text": "Выручка440 TJS",
           "rect": {
             "x": 191.5,
-            "y": 345,
+            "y": 335,
             "width": 173.5,
             "height": 72,
             "right": 365,
-            "bottom": 417
+            "bottom": 407
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "error": "plural function absent"
+        "ok": true,
+        "numbers": [
+          1,
+          2,
+          5,
+          11,
+          14,
+          21,
+          22,
+          25,
+          101
+        ],
+        "got": [
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказов",
+          "заказов",
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказ"
+        ],
+        "expected": [
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказов",
+          "заказов",
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказ"
+        ]
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -759,11 +1241,11 @@
           "text": "7Заказов415.00 TJSВыручка44.00 TJSКомиссия4В работе",
           "rect": {
             "x": 14,
-            "y": 358,
+            "y": 264,
             "width": 347,
             "height": 246,
             "right": 361,
-            "bottom": 604
+            "bottom": 510
           },
           "disabled": false,
           "ariaDisabled": null
@@ -773,11 +1255,11 @@
           "text": "7Заказов",
           "rect": {
             "x": 14,
-            "y": 358,
+            "y": 264,
             "width": 168.5,
             "height": 118,
             "right": 182.5,
-            "bottom": 476
+            "bottom": 382
           },
           "disabled": false,
           "ariaDisabled": null
@@ -787,11 +1269,11 @@
           "text": "415.00 TJSВыручка",
           "rect": {
             "x": 192.5,
-            "y": 358,
+            "y": 264,
             "width": 168.5,
             "height": 118,
             "right": 361,
-            "bottom": 476
+            "bottom": 382
           },
           "disabled": false,
           "ariaDisabled": null
@@ -801,11 +1283,11 @@
           "text": "44.00 TJSКомиссия",
           "rect": {
             "x": 14,
-            "y": 486,
+            "y": 392,
             "width": 168.5,
             "height": 118,
             "right": 182.5,
-            "bottom": 604
+            "bottom": 510
           },
           "disabled": false,
           "ariaDisabled": null
@@ -815,19 +1297,54 @@
           "text": "4В работе",
           "rect": {
             "x": 192.5,
-            "y": 486,
+            "y": 392,
             "width": 168.5,
             "height": 118,
             "right": 361,
-            "bottom": 604
+            "bottom": 510
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "error": "admin plural helper absent"
+        "ok": true,
+        "nums": [
+          0,
+          1,
+          2,
+          5,
+          11,
+          14,
+          21,
+          22,
+          25,
+          101
+        ],
+        "expected": [
+          "заказов",
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказов",
+          "заказов",
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказ"
+        ],
+        "actual": [
+          "заказов",
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказов",
+          "заказов",
+          "заказ",
+          "заказа",
+          "заказов",
+          "заказ"
+        ]
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -839,8 +1356,128 @@
       "lang": "ru",
       "width": 375,
       "mode": "before",
-      "status": "BEFORE_LIMITATION",
-      "error": "Page.evaluate: ReferenceError: Can't find variable: g06Orders",
+      "geometry": [
+        {
+          "selector": "#app .grid .k",
+          "text": "7Заказов",
+          "rect": {
+            "x": 14,
+            "y": 264,
+            "width": 168.5,
+            "height": 118,
+            "right": 182.5,
+            "bottom": 382
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k",
+          "text": "415.00 TJSВыручка",
+          "rect": {
+            "x": 192.5,
+            "y": 264,
+            "width": 168.5,
+            "height": 118,
+            "right": 361,
+            "bottom": 382
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k",
+          "text": "44.00 TJSКомиссия",
+          "rect": {
+            "x": 14,
+            "y": 392,
+            "width": 168.5,
+            "height": 118,
+            "right": 182.5,
+            "bottom": 510
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k",
+          "text": "4В работе",
+          "rect": {
+            "x": 192.5,
+            "y": 392,
+            "width": 168.5,
+            "height": 118,
+            "right": 361,
+            "bottom": 510
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "Заказов",
+          "rect": {
+            "x": 28,
+            "y": 351,
+            "width": 140.5,
+            "height": 17,
+            "right": 168.5,
+            "bottom": 368
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "Выручка",
+          "rect": {
+            "x": 206.5,
+            "y": 351,
+            "width": 140.5,
+            "height": 17,
+            "right": 347,
+            "bottom": 368
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "Комиссия",
+          "rect": {
+            "x": 28,
+            "y": 479,
+            "width": 140.5,
+            "height": 17,
+            "right": 168.5,
+            "bottom": 496
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "В работе",
+          "rect": {
+            "x": 206.5,
+            "y": 479,
+            "width": 140.5,
+            "height": 17,
+            "right": 347,
+            "bottom": 496
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "expected": "Заказов",
+        "actual": "Заказов",
+        "n": 7
+      },
+      "page_errors": [],
+      "status": "REFERENCE",
       "screenshot": "qa-shots/unified-fix/b/before/G-06b-admin-ru-375-main-before.png"
     },
     {
@@ -866,24 +1503,24 @@
         },
         {
           "selector": "#app",
-          "text": "Панель администратора0/1курьеров на линии2/3магазинов открыто Ст",
+          "text": "Панель администратора0/1курьеров на линии2/3магазинов открыто\n  ",
           "rect": {
             "x": 14,
             "y": 49,
             "width": 347,
-            "height": 2209,
+            "height": 2115,
             "right": 361,
-            "bottom": 2258
+            "bottom": 2164
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "logged": false,
-        "visibleSql": true,
-        "setupVisible": true
+        "ok": true,
+        "logged": true,
+        "visibleSql": false,
+        "setupVisible": false
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -954,9 +1591,9 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "initialCards": 1,
-        "named": false,
+        "named": true,
         "emptyCount": 0
       },
       "page_errors": [],
@@ -972,27 +1609,27 @@
       "geometry": [
         {
           "selector": "#app .d6-loc b",
-          "text": "Добавьте адрес доставки",
+          "text": "Добавить адрес",
           "rect": {
             "x": 36,
-            "y": 41,
-            "width": 175.2,
-            "height": 18,
-            "right": 211.2,
-            "bottom": 59
+            "y": 34,
+            "width": 99.47,
+            "height": 32,
+            "right": 135.47,
+            "bottom": 66
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-loc",
-          "text": "Добавьте адрес доставки",
+          "text": "Добавить адрес",
           "rect": {
             "x": 16,
             "y": 28,
-            "width": 217.2,
+            "width": 141.47,
             "height": 44,
-            "right": 233.2,
+            "right": 157.47,
             "bottom": 72
           },
           "disabled": false,
@@ -1000,7 +1637,7 @@
         },
         {
           "selector": "#app .d6-hh",
-          "text": "Добавьте адрес доставки",
+          "text": "Добавить адрес",
           "rect": {
             "x": 0,
             "y": 0,
@@ -1014,13 +1651,13 @@
         }
       ],
       "result": {
-        "ok": false,
-        "label": "Добавьте адрес доставки",
+        "ok": true,
+        "label": "Добавить адрес",
         "expected": "Добавить адрес",
-        "whiteSpace": "nowrap",
-        "overflow": "ellipsis",
-        "width": 175.203125,
-        "height": 18,
+        "whiteSpace": "normal",
+        "overflow": "clip",
+        "width": 99.46875,
+        "height": 32,
         "parentHeight": 44
       },
       "page_errors": [],
@@ -1035,27 +1672,41 @@
       "mode": "before",
       "geometry": [
         {
+          "selector": "#app .top .g10-store-label",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 42,
+            "y": 51,
+            "width": 269,
+            "height": 28,
+            "right": 311,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
           "selector": "#app .top select",
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 30,
             "y": 51,
             "width": 315,
-            "height": 38,
+            "height": 28,
             "right": 345,
-            "bottom": 89
+            "bottom": 79
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "value": "",
-        "label": "",
-        "width": 0,
-        "scroll": 0,
-        "overflow": null
+        "ok": true,
+        "value": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "label": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "width": 269,
+        "scroll": 606,
+        "overflow": "ellipsis"
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1069,15 +1720,29 @@
       "mode": "before",
       "geometry": [
         {
+          "selector": "#app textarea#sdesc",
+          "text": "Самые вкусные бургеры и шашлык в городе, доставка по всему Душан",
+          "rect": {
+            "x": 24,
+            "y": 452,
+            "width": 327,
+            "height": 100,
+            "right": 351,
+            "bottom": 552
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
           "selector": "#app .fld2",
-          "text": "ОписаниеСохранить",
+          "text": "ОписаниеСамые вкусные бургеры и шашлык в городе, доставка по все",
           "rect": {
             "x": 16,
-            "y": 433,
+            "y": 423,
             "width": 343,
-            "height": 135,
+            "height": 189,
             "right": 359,
-            "bottom": 568
+            "bottom": 612
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1087,11 +1752,11 @@
           "text": "Скидка на блюда (Максимум (задаёт администрация): 30%)Сохранить",
           "rect": {
             "x": 16,
-            "y": 681,
+            "y": 725,
             "width": 343,
             "height": 100,
             "right": 359,
-            "bottom": 781
+            "bottom": 825
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1101,11 +1766,11 @@
           "text": "Фото и логотипЛоготип — квадрат (лучше 400×400). Обложка — широк",
           "rect": {
             "x": 16,
-            "y": 1248,
+            "y": 1292,
             "width": 343,
             "height": 165,
             "right": 359,
-            "bottom": 1413
+            "bottom": 1457
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1115,11 +1780,43 @@
           "text": "Филиалы: Дар-ул-ХилофЦентр12 заказов · 1500.5 TJSСинхр. менюСино",
           "rect": {
             "x": 16,
-            "y": 1553,
+            "y": 1597,
             "width": 343,
             "height": 244,
             "right": 359,
-            "bottom": 1797
+            "bottom": 1841
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "content": "Самые вкусные бургеры и шашлык в городе, доставка по всему Душанбе",
+        "height": 100,
+        "tag": "TEXTAREA"
+      },
+      "page_errors": [],
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/b/before/G-11-merchant-ru-375-main-before.png"
+    },
+    {
+      "id": "G-12",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "mode": "before",
+      "geometry": [
+        {
+          "selector": "#app .d6-sr.closed .d6-ph",
+          "text": "",
+          "rect": {
+            "x": 14,
+            "y": 273,
+            "width": 80,
+            "height": 80,
+            "right": 94,
+            "bottom": 353
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1127,13 +1824,94 @@
       ],
       "result": {
         "ok": false,
-        "content": "",
-        "height": 0,
-        "tag": ""
+        "scenes": {
+          "search": {
+            "ok": false,
+            "scene": "home",
+            "badgeText": "Закрыт",
+            "badgeParent": "sr d6-sr closed",
+            "contained": false,
+            "textNodesMeasured": 8,
+            "overlappingTextNodes": [
+              "Первый заказ — бесплатно"
+            ],
+            "badgeRect": {
+              "left": 289.484375,
+              "right": 348,
+              "top": 275,
+              "bottom": 297
+            },
+            "photoRect": {
+              "left": 27,
+              "right": 107,
+              "top": 207,
+              "bottom": 287
+            },
+            "offer": "",
+            "offerScroll": 0,
+            "offerWidth": 0,
+            "ellipsis": false
+          },
+          "category": {
+            "ok": false,
+            "scene": "cat",
+            "badgeText": "Закрыт",
+            "badgeParent": "sr d6-sr closed",
+            "contained": false,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [
+              "Первый заказ — бесплатно"
+            ],
+            "badgeRect": {
+              "left": 290.484375,
+              "right": 349,
+              "top": 359,
+              "bottom": 381
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 273,
+              "bottom": 353
+            },
+            "offer": "",
+            "offerScroll": 0,
+            "offerWidth": 0,
+            "ellipsis": false
+          },
+          "reorder": {
+            "ok": false,
+            "scene": "cat",
+            "badgeText": "Закрыт",
+            "badgeParent": "sr d6-sr closed",
+            "contained": false,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [
+              "Первый заказ — бесплатно"
+            ],
+            "badgeRect": {
+              "left": 290.484375,
+              "right": 349,
+              "top": 359,
+              "bottom": 381
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 273,
+              "bottom": 353
+            },
+            "offer": "",
+            "offerScroll": 0,
+            "offerWidth": 0,
+            "ellipsis": false,
+            "reorderSectionPresent": true
+          }
+        }
       },
       "page_errors": [],
       "status": "REFERENCE",
-      "screenshot": "qa-shots/unified-fix/b/before/G-11-merchant-ru-375-main-before.png"
+      "screenshot": "qa-shots/unified-fix/b/before/G-12-customer-ru-375-main-before.png"
     },
     {
       "id": "C-01",
@@ -1153,8 +1931,8 @@
             "right": 191,
             "bottom": 832
           },
-          "disabled": false,
-          "ariaDisabled": null
+          "disabled": true,
+          "ariaDisabled": "true"
         },
         {
           "selector": "#app .d70-dock button",
@@ -1172,40 +1950,40 @@
         },
         {
           "selector": "#app .closedb",
-          "text": "Some items are not available right nowRemove them from the cart ",
+          "text": "The restaurant is closed right now — you cannot order",
           "rect": {
             "x": 16,
             "y": 68,
             "width": 358,
-            "height": 118,
+            "height": 64,
             "right": 374,
-            "bottom": 186
+            "bottom": 132
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .closedb",
-          "text": "The restaurant is closed right now — you cannot order",
+          "text": "Some items are not available right nowRemove them from the cart ",
           "rect": {
             "x": 16,
-            "y": 738,
+            "y": 144,
             "width": 358,
-            "height": 64,
+            "height": 118,
             "right": 374,
-            "bottom": 802
+            "bottom": 262
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "category": {
-          "ok": false,
+          "ok": true,
           "clickedFrom": "cat",
           "clickedTo": "cat",
-          "blocked": null,
+          "blocked": "true",
           "label": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)−25%Самые вку",
           "bounds": {
             "width": 362,
@@ -1213,15 +1991,15 @@
           }
         },
         "dish": {
-          "ok": false,
-          "disabled": false,
+          "ok": true,
+          "disabled": true,
           "width": 44
         },
         "cart": {
-          "ok": false,
+          "ok": true,
           "checkoutDisabled": true,
-          "reason": "Some items are not available right now\nRemove them from the cart to continue.\nRemove unavailable items",
-          "storeName": "",
+          "reason": "The restaurant is closed right now — you cannot order",
+          "storeName": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
           "ctaWidth": 175
         }
       },
@@ -1237,38 +2015,24 @@
       "mode": "before",
       "geometry": [
         {
-          "selector": "#app .d6-sr.closed .or",
-          "text": "Closed",
-          "rect": {
-            "x": 310.05,
-            "y": 159,
-            "width": 52.95,
-            "height": 22,
-            "right": 363,
-            "bottom": 181
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        },
-        {
           "selector": "#app .d6-sr.closed",
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 14,
-            "y": 76,
+            "y": 174,
             "width": 362,
             "height": 118,
             "right": 376,
-            "bottom": 194
+            "bottom": 292
           },
           "disabled": false,
-          "ariaDisabled": null
+          "ariaDisabled": "true"
         }
       ],
       "result": {
         "ok": false,
         "home": {
-          "ok": false,
+          "ok": true,
           "home": "home",
           "view": "home",
           "closed": "Closed",
@@ -1281,13 +2045,13 @@
           "search": {
             "ok": false,
             "screen": "home",
-            "visibleBadge": "Closed"
+            "visibleBadge": ""
           }
         },
         "search": {
           "ok": false,
           "screen": "home",
-          "visibleBadge": "Closed"
+          "visibleBadge": ""
         }
       },
       "page_errors": [],
@@ -1305,12 +2069,12 @@
           "selector": "#app .c-current",
           "text": "Current orders · 4Order sent · Preparing your order · Almost rea",
           "rect": {
-            "x": 16,
-            "y": 693,
-            "width": 358,
+            "x": 14,
+            "y": 98,
+            "width": 362,
             "height": 78,
-            "right": 374,
-            "bottom": 771
+            "right": 376,
+            "bottom": 176
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1320,43 +2084,24 @@
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 14,
-            "y": 390,
+            "y": 472,
             "width": 362,
             "height": 132,
             "right": 376,
-            "bottom": 522
+            "bottom": 604
           },
           "disabled": false,
-          "ariaDisabled": null
-        },
-        {
-          "selector": "#app .d6-sr.closed .or",
-          "text": "Closed",
-          "rect": {
-            "x": 311.05,
-            "y": 488,
-            "width": 52.95,
-            "height": 22,
-            "right": 364,
-            "bottom": 510
-          },
-          "disabled": false,
-          "ariaDisabled": null
+          "ariaDisabled": "true"
         }
       ],
       "result": {
         "ok": false,
-        "mode": "fixed",
+        "mode": "relative",
         "navTop": 779,
         "overlapRow": false,
         "overlapBadge": false,
-        "badge": "Closed",
-        "badgeRect": {
-          "x": 311.046875,
-          "y": 488,
-          "right": 364,
-          "bottom": 510
-        }
+        "badge": "",
+        "badgeRect": null
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1368,18 +2113,186 @@
       "lang": "en",
       "width": 390,
       "mode": "before",
-      "geometry": [],
+      "geometry": [
+        {
+          "selector": "#app .c01-closed-menu",
+          "text": "РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на про",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 3287.25,
+            "right": 390,
+            "bottom": 3287.25
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 22,
+            "y": 718,
+            "width": 44,
+            "height": 44,
+            "right": 66,
+            "bottom": 762
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 22,
+            "y": 1101.75,
+            "width": 44,
+            "height": 44,
+            "right": 66,
+            "bottom": 1145.75
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 207,
+            "y": 1101.75,
+            "width": 44,
+            "height": 44,
+            "right": 251,
+            "bottom": 1145.75
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 22,
+            "y": 1329.5,
+            "width": 44,
+            "height": 44,
+            "right": 66,
+            "bottom": 1373.5
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 207,
+            "y": 1329.5,
+            "width": 44,
+            "height": 44,
+            "right": 251,
+            "bottom": 1373.5
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        },
+        {
+          "selector": "#app .d6-add",
+          "text": "",
+          "rect": {
+            "x": 319,
+            "y": 1717.25,
+            "width": 44,
+            "height": 44,
+            "right": 363,
+            "bottom": 1761.25
+          },
+          "disabled": true,
+          "ariaDisabled": "true"
+        }
+      ],
       "result": {
-        "ok": false,
+        "ok": true,
         "tap": {
-          "ok": false,
+          "ok": true,
           "before": "cat",
           "after": "cat"
         },
         "direct": {
-          "ok": false,
-          "grey": false,
-          "buttons": [],
+          "ok": true,
+          "grey": true,
+          "buttons": [
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            },
+            {
+              "disabled": true,
+              "aria": "true"
+            }
+          ],
           "sheetOpen": false
         }
       },
@@ -1399,14 +2312,14 @@
           "text": "Group orderInvite colleagues: everyone adds their dishes, you pl",
           "rect": {
             "x": 16,
-            "y": 890,
+            "y": 487,
             "width": 358,
             "height": 92,
             "right": 374,
-            "bottom": 982
+            "bottom": 579
           },
-          "disabled": false,
-          "ariaDisabled": null
+          "disabled": true,
+          "ariaDisabled": "true"
         },
         {
           "selector": "#app .d70-dock button",
@@ -1419,8 +2332,8 @@
             "right": 191,
             "bottom": 832
           },
-          "disabled": false,
-          "ariaDisabled": null
+          "disabled": true,
+          "ariaDisabled": "true"
         },
         {
           "selector": "#app .d70-dock button",
@@ -1435,14 +2348,28 @@
           },
           "disabled": true,
           "ariaDisabled": null
+        },
+        {
+          "selector": "#app #c01-cart-closed",
+          "text": "The restaurant is closed right now — you cannot order",
+          "rect": {
+            "x": 16,
+            "y": 68,
+            "width": 358,
+            "height": 64,
+            "right": 374,
+            "bottom": 132
+          },
+          "disabled": false,
+          "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "groupDisabled": false,
-        "moreDisabled": false,
+        "ok": true,
+        "groupDisabled": true,
+        "moreDisabled": true,
         "payDisabled": true,
-        "reason": "",
+        "reason": "The restaurant is closed right now — you cannot order",
         "after": "cart"
       },
       "page_errors": [],
@@ -1458,7 +2385,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 11:",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 8:2",
           "rect": {
             "x": 0,
             "y": 8,
@@ -1474,11 +2401,11 @@
           "selector": ".t15-flow-toast",
           "text": "BRIEF15B_TOAST_PROBE",
           "rect": {
-            "x": 0,
+            "x": 86.61,
             "y": 8,
-            "width": 390,
+            "width": 216.77,
             "height": 38,
-            "right": 390,
+            "right": 303.38,
             "bottom": 46
           },
           "disabled": false,
@@ -1486,9 +2413,9 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "position": "static",
-        "width": 390,
+        "width": 216.765625,
         "height": 38,
         "fixed": 0
       },
@@ -1505,44 +2432,28 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "Ресторан сейчас закрытStoreРесторан «Дар-ул-Хилоф Шарқи Бузург» ",
+          "text": "StoreРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на",
           "rect": {
             "x": 10,
-            "y": 22,
+            "y": 14,
             "width": 370,
-            "height": 1777,
+            "height": 1721,
             "right": 380,
-            "bottom": 1799
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        },
-        {
-          "selector": ".t15-flow-toast",
-          "text": "Ресторан сейчас закрыт",
-          "rect": {
-            "x": 10,
-            "y": 22,
-            "width": 370,
-            "height": 38,
-            "right": 380,
-            "bottom": 60
+            "bottom": 1735
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "position": "static",
-        "width": 370,
+        "width": 216.765625,
         "height": 38,
         "fixed": 0,
         "suppression": {
-          "ok": false,
-          "leaked": [
-            "Ресторан сейчас закрыт"
-          ]
+          "ok": true,
+          "leaked": []
         }
       },
       "page_errors": [],
@@ -1558,7 +2469,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "Off shiftRoute unavailable · Tracking only · arrival time unavai",
+          "text": "Delivery in progressRoute unavailable · Tracking only · arrival ",
           "rect": {
             "x": 0,
             "y": 0,
@@ -1569,33 +2480,17 @@
           },
           "disabled": false,
           "ariaDisabled": null
-        },
-        {
-          "selector": ".t15-flow-toast",
-          "text": "Ресторан сейчас закрыт",
-          "rect": {
-            "x": 16,
-            "y": 507,
-            "width": 358,
-            "height": 38,
-            "right": 374,
-            "bottom": 545
-          },
-          "disabled": false,
-          "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "position": "static",
-        "width": 358,
+        "width": 216.765625,
         "height": 38,
         "fixed": 0,
         "suppression": {
-          "ok": false,
-          "leaked": [
-            "Ресторан сейчас закрыт"
-          ]
+          "ok": true,
+          "leaked": []
         }
       },
       "page_errors": [],
@@ -1608,15 +2503,44 @@
       "lang": "en",
       "width": 390,
       "mode": "before",
-      "geometry": [],
+      "geometry": [
+        {
+          "selector": "#app .top .g10-store-label",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 42,
+            "y": 51,
+            "width": 284,
+            "height": 28,
+            "right": 326,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .top .g10-store-wrap select",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 30,
+            "y": 51,
+            "width": 330,
+            "height": 28,
+            "right": 360,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
       "result": {
-        "ok": false,
-        "displayLabel": "",
-        "selected": "",
-        "labelInk": "",
-        "background": "",
-        "width": 0,
-        "height": 0
+        "ok": true,
+        "displayLabel": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "selected": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "labelInk": "rgb(28, 28, 33)",
+        "background": "rgb(255, 255, 255)",
+        "width": 284,
+        "height": 28
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1628,8 +2552,312 @@
       "lang": "en",
       "width": 390,
       "mode": "before",
-      "status": "BEFORE_LIMITATION",
-      "error": "Locator.scroll_into_view_if_needed: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\".f15c-group-name\").first\n",
+      "geometry": [
+        {
+          "selector": ".f15c-group-name",
+          "text": "Размер порции (обязательно выбрать)",
+          "rect": {
+            "x": 26,
+            "y": 421.02,
+            "width": 292,
+            "height": 90,
+            "right": 318,
+            "bottom": 511.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-group-name",
+          "text": "Добавки",
+          "rect": {
+            "x": 26,
+            "y": 1018.02,
+            "width": 292,
+            "height": 90,
+            "right": 318,
+            "bottom": 1108.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 573.02,
+            "width": 338,
+            "height": 117,
+            "right": 364,
+            "bottom": 690.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 696.02,
+            "width": 338,
+            "height": 117,
+            "right": 364,
+            "bottom": 813.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 819.02,
+            "width": 338,
+            "height": 117,
+            "right": 364,
+            "bottom": 936.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1170.02,
+            "width": 338,
+            "height": 117,
+            "right": 364,
+            "bottom": 1287.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1293.02,
+            "width": 338,
+            "height": 117,
+            "right": 364,
+            "bottom": 1410.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-row",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1416.02,
+            "width": 338,
+            "height": 117,
+            "right": 364,
+            "bottom": 1533.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 635.02,
+            "width": 338,
+            "height": 46,
+            "right": 364,
+            "bottom": 681.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 758.02,
+            "width": 338,
+            "height": 46,
+            "right": 364,
+            "bottom": 804.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 881.02,
+            "width": 338,
+            "height": 46,
+            "right": 364,
+            "bottom": 927.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1232.02,
+            "width": 338,
+            "height": 46,
+            "right": 364,
+            "bottom": 1278.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1355.02,
+            "width": 338,
+            "height": 46,
+            "right": 364,
+            "bottom": 1401.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": ".f15c-option-controls",
+          "text": "+",
+          "rect": {
+            "x": 26,
+            "y": 1478.02,
+            "width": 338,
+            "height": 46,
+            "right": 364,
+            "bottom": 1524.02
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "group": {
+          "ok": true,
+          "value": "Размер порции (обязательно выбрать)",
+          "height": 90,
+          "scroll": 87,
+          "client": 87
+        },
+        "options": {
+          "ok": true,
+          "metrics": [
+            {
+              "name": "Маленький",
+              "inputWidth": 338,
+              "textWidth": 94.03125,
+              "controlsY": 635.015625,
+              "nameBottom": 627.015625,
+              "rowWidth": 338,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": true,
+              "footerY": 703
+            },
+            {
+              "name": "Средний",
+              "inputWidth": 338,
+              "textWidth": 73.4921875,
+              "controlsY": 758.015625,
+              "nameBottom": 750.015625,
+              "rowWidth": 338,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
+            },
+            {
+              "name": "Большой",
+              "inputWidth": 338,
+              "textWidth": 75.25,
+              "controlsY": 881.015625,
+              "nameBottom": 873.015625,
+              "rowWidth": 338,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
+            },
+            {
+              "name": "Сыр",
+              "inputWidth": 338,
+              "textWidth": 33.9609375,
+              "controlsY": 1232.015625,
+              "nameBottom": 1224.015625,
+              "rowWidth": 338,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
+            },
+            {
+              "name": "Бекон",
+              "inputWidth": 338,
+              "textWidth": 50.734375,
+              "controlsY": 1355.015625,
+              "nameBottom": 1347.015625,
+              "rowWidth": 338,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
+            },
+            {
+              "name": "Халапеньо",
+              "inputWidth": 338,
+              "textWidth": 90.78125,
+              "controlsY": 1478.015625,
+              "nameBottom": 1470.015625,
+              "rowWidth": 338,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
+            },
+            {
+              "name": "Соус",
+              "inputWidth": 338,
+              "textWidth": 39.2265625,
+              "controlsY": 1601.015625,
+              "nameBottom": 1593.015625,
+              "rowWidth": 338,
+              "full": true,
+              "secondRow": true,
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
+            }
+          ]
+        }
+      },
+      "page_errors": [],
+      "status": "REFERENCE",
       "screenshot": "qa-shots/unified-fix/b/before/G-02-merchant-en-390-main-before.png"
     },
     {
@@ -1643,11 +2871,11 @@
           "selector": ".d6s .oshf .btn",
           "text": "Add to cart11.25 TJS",
           "rect": {
-            "x": 142,
+            "x": 138,
             "y": 780,
-            "width": 232,
+            "width": 240,
             "height": 56,
-            "right": 374,
+            "right": 378,
             "bottom": 836
           },
           "disabled": false,
@@ -1658,11 +2886,11 @@
           "text": "Add to cart",
           "rect": {
             "x": 150,
-            "y": 799,
-            "width": 72.05,
-            "height": 18,
-            "right": 222.05,
-            "bottom": 817
+            "y": 800,
+            "width": 137.16,
+            "height": 16,
+            "right": 287.16,
+            "bottom": 816
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1671,24 +2899,24 @@
           "selector": ".d6s .oshf .px6",
           "text": "11.25 TJS",
           "rect": {
-            "x": 281.42,
-            "y": 797,
-            "width": 84.58,
-            "height": 22,
+            "x": 297.16,
+            "y": 799,
+            "width": 68.84,
+            "height": 18,
             "right": 366,
-            "bottom": 819
+            "bottom": 817
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "gap": 59.375,
+        "ok": true,
+        "gap": 10,
         "price": "11.25 TJS",
-        "priceWidth": 84.578125,
-        "buttonRight": 374,
-        "captionRight": 222.046875
+        "priceWidth": 68.84375,
+        "buttonRight": 378,
+        "captionRight": 287.15625
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1703,11 +2931,11 @@
       "geometry": [
         {
           "selector": ".hd .a-shift-dot",
-          "text": "Off shift",
+          "text": "Delivery in progress",
           "rect": {
-            "x": 237.36,
+            "x": 173.33,
             "y": 18,
-            "width": 52.64,
+            "width": 116.67,
             "height": 16,
             "right": 290,
             "bottom": 34
@@ -1731,11 +2959,11 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "active": true,
         "online": false,
-        "pill": "Off shift",
-        "width": 52.640625
+        "pill": "Delivery in progress",
+        "width": 116.671875
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1750,14 +2978,14 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 10:53",
+          "text": "Waiting for confirmation · #ord0 13:35",
           "rect": {
             "x": 10,
-            "y": 232,
+            "y": 222,
             "width": 370,
-            "height": 32,
+            "height": 33,
             "right": 380,
-            "bottom": 264
+            "bottom": 255
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1766,57 +2994,57 @@
           "selector": "#app .oc.new .b.r",
           "text": "Reject",
           "rect": {
-            "x": 244,
-            "y": 598,
-            "width": 124,
+            "x": 251.33,
+            "y": 589,
+            "width": 116.67,
             "height": 42,
             "right": 368,
-            "bottom": 640
+            "bottom": 631
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 09:53",
+          "text": "Accept from 12:35",
           "rect": {
             "x": 22,
-            "y": 598,
-            "width": 212,
+            "y": 589,
+            "width": 219.33,
             "height": 42,
-            "right": 234,
-            "bottom": 640
+            "right": 241.33,
+            "bottom": 631
           },
           "disabled": true,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "heading": "Waiting for confirmation · #ord0\n 10:53\n",
+        "ok": true,
+        "heading": "Waiting for confirmation · #ord0\n 13:35\n",
         "headerWidth": 370,
         "spans": [
           {
-            "width": 238,
-            "scroll": 238,
-            "whiteSpace": "normal"
+            "width": 220,
+            "scroll": 220,
+            "whiteSpace": "nowrap"
           },
           {
-            "width": 59,
-            "scroll": 59,
-            "whiteSpace": "normal"
+            "width": 55,
+            "scroll": 55,
+            "whiteSpace": "nowrap"
           }
         ],
         "actions": [
           {
-            "txt": " Reject",
-            "width": 124,
-            "scroll": 124
+            "txt": "Reject",
+            "width": 117,
+            "scroll": 117
           },
           {
-            "txt": "Accept from 09:53",
-            "width": 212,
-            "scroll": 212
+            "txt": "Accept from 12:35",
+            "width": 219,
+            "scroll": 219
           }
         ]
       },
@@ -1833,14 +3061,14 @@
       "geometry": [
         {
           "selector": "#app .k",
-          "text": "Today1 orders",
+          "text": "Today1 order",
           "rect": {
             "x": 10,
-            "y": 345,
+            "y": 335,
             "width": 181,
             "height": 72,
             "right": 191,
-            "bottom": 417
+            "bottom": 407
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1850,19 +3078,51 @@
           "text": "Revenue440 TJS",
           "rect": {
             "x": 199,
-            "y": 345,
+            "y": 335,
             "width": 181,
             "height": 72,
             "right": 380,
-            "bottom": 417
+            "bottom": 407
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "error": "plural function absent"
+        "ok": true,
+        "numbers": [
+          1,
+          2,
+          5,
+          11,
+          14,
+          21,
+          22,
+          25,
+          101
+        ],
+        "got": [
+          "order",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders"
+        ],
+        "expected": [
+          "order",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders"
+        ]
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1880,11 +3140,11 @@
           "text": "7Orders415.00 TJSRevenue44.00 TJSCommission4Active",
           "rect": {
             "x": 14,
-            "y": 341,
+            "y": 264,
             "width": 362,
             "height": 246,
             "right": 376,
-            "bottom": 587
+            "bottom": 510
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1894,11 +3154,11 @@
           "text": "7Orders",
           "rect": {
             "x": 14,
-            "y": 341,
+            "y": 264,
             "width": 176,
             "height": 118,
             "right": 190,
-            "bottom": 459
+            "bottom": 382
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1908,11 +3168,11 @@
           "text": "415.00 TJSRevenue",
           "rect": {
             "x": 200,
-            "y": 341,
+            "y": 264,
             "width": 176,
             "height": 118,
             "right": 376,
-            "bottom": 459
+            "bottom": 382
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1922,11 +3182,11 @@
           "text": "44.00 TJSCommission",
           "rect": {
             "x": 14,
-            "y": 469,
+            "y": 392,
             "width": 176,
             "height": 118,
             "right": 190,
-            "bottom": 587
+            "bottom": 510
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1936,19 +3196,54 @@
           "text": "4Active",
           "rect": {
             "x": 200,
-            "y": 469,
+            "y": 392,
             "width": 176,
             "height": 118,
             "right": 376,
-            "bottom": 587
+            "bottom": 510
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "error": "admin plural helper absent"
+        "ok": true,
+        "nums": [
+          0,
+          1,
+          2,
+          5,
+          11,
+          14,
+          21,
+          22,
+          25,
+          101
+        ],
+        "expected": [
+          "orders",
+          "order",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders"
+        ],
+        "actual": [
+          "orders",
+          "order",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders",
+          "orders"
+        ]
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1960,8 +3255,128 @@
       "lang": "en",
       "width": 390,
       "mode": "before",
-      "status": "BEFORE_LIMITATION",
-      "error": "Page.evaluate: ReferenceError: Can't find variable: g06Orders",
+      "geometry": [
+        {
+          "selector": "#app .grid .k",
+          "text": "7Orders",
+          "rect": {
+            "x": 14,
+            "y": 264,
+            "width": 176,
+            "height": 118,
+            "right": 190,
+            "bottom": 382
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k",
+          "text": "415.00 TJSRevenue",
+          "rect": {
+            "x": 200,
+            "y": 264,
+            "width": 176,
+            "height": 118,
+            "right": 376,
+            "bottom": 382
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k",
+          "text": "44.00 TJSCommission",
+          "rect": {
+            "x": 14,
+            "y": 392,
+            "width": 176,
+            "height": 118,
+            "right": 190,
+            "bottom": 510
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k",
+          "text": "4Active",
+          "rect": {
+            "x": 200,
+            "y": 392,
+            "width": 176,
+            "height": 118,
+            "right": 376,
+            "bottom": 510
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "Orders",
+          "rect": {
+            "x": 28,
+            "y": 351,
+            "width": 148,
+            "height": 17,
+            "right": 176,
+            "bottom": 368
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "Revenue",
+          "rect": {
+            "x": 214,
+            "y": 351,
+            "width": 148,
+            "height": 17,
+            "right": 362,
+            "bottom": 368
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "Commission",
+          "rect": {
+            "x": 28,
+            "y": 479,
+            "width": 148,
+            "height": 17,
+            "right": 176,
+            "bottom": 496
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .grid .k span",
+          "text": "Active",
+          "rect": {
+            "x": 214,
+            "y": 479,
+            "width": 148,
+            "height": 17,
+            "right": 362,
+            "bottom": 496
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "expected": "Orders",
+        "actual": "Orders",
+        "n": 7
+      },
+      "page_errors": [],
+      "status": "REFERENCE",
       "screenshot": "qa-shots/unified-fix/b/before/G-06b-admin-en-390-main-before.png"
     },
     {
@@ -1987,24 +3402,24 @@
         },
         {
           "selector": "#app",
-          "text": "Admin dashboard0/1couriers online2/3stores open The “online” sta",
+          "text": "Admin dashboard0/1couriers online2/3stores open\n   1 support req",
           "rect": {
             "x": 14,
             "y": 49,
             "width": 362,
-            "height": 2176,
+            "height": 2099,
             "right": 376,
-            "bottom": 2225
+            "bottom": 2148
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "logged": false,
-        "visibleSql": true,
-        "setupVisible": true
+        "ok": true,
+        "logged": true,
+        "visibleSql": false,
+        "setupVisible": false
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -2075,9 +3490,9 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "initialCards": 1,
-        "named": false,
+        "named": true,
         "emptyCount": 0
       },
       "page_errors": [],
@@ -2093,27 +3508,27 @@
       "geometry": [
         {
           "selector": "#app .d6-loc b",
-          "text": "Add a delivery address",
+          "text": "Add address",
           "rect": {
             "x": 36,
-            "y": 41,
-            "width": 146.81,
-            "height": 18,
-            "right": 182.81,
-            "bottom": 59
+            "y": 34,
+            "width": 72.2,
+            "height": 32,
+            "right": 108.2,
+            "bottom": 66
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-loc",
-          "text": "Add a delivery address",
+          "text": "Add address",
           "rect": {
             "x": 16,
             "y": 28,
-            "width": 188.81,
+            "width": 114.2,
             "height": 44,
-            "right": 204.81,
+            "right": 130.2,
             "bottom": 72
           },
           "disabled": false,
@@ -2121,7 +3536,7 @@
         },
         {
           "selector": "#app .d6-hh",
-          "text": "Add a delivery address",
+          "text": "Add address",
           "rect": {
             "x": 0,
             "y": 0,
@@ -2135,13 +3550,13 @@
         }
       ],
       "result": {
-        "ok": false,
-        "label": "Add a delivery address",
+        "ok": true,
+        "label": "Add address",
         "expected": "Add address",
-        "whiteSpace": "nowrap",
-        "overflow": "ellipsis",
-        "width": 146.8125,
-        "height": 18,
+        "whiteSpace": "normal",
+        "overflow": "clip",
+        "width": 72.203125,
+        "height": 32,
         "parentHeight": 44
       },
       "page_errors": [],
@@ -2156,27 +3571,41 @@
       "mode": "before",
       "geometry": [
         {
+          "selector": "#app .top .g10-store-label",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 42,
+            "y": 51,
+            "width": 284,
+            "height": 28,
+            "right": 326,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
           "selector": "#app .top select",
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 30,
             "y": 51,
             "width": 330,
-            "height": 38,
+            "height": 28,
             "right": 360,
-            "bottom": 89
+            "bottom": 79
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": false,
-        "value": "",
-        "label": "",
-        "width": 0,
-        "scroll": 0,
-        "overflow": null
+        "ok": true,
+        "value": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "label": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "width": 284,
+        "scroll": 606,
+        "overflow": "ellipsis"
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -2190,15 +3619,29 @@
       "mode": "before",
       "geometry": [
         {
+          "selector": "#app textarea#sdesc",
+          "text": "Самые вкусные бургеры и шашлык в городе, доставка по всему Душан",
+          "rect": {
+            "x": 24,
+            "y": 452,
+            "width": 342,
+            "height": 100,
+            "right": 366,
+            "bottom": 552
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
           "selector": "#app .fld2",
-          "text": "DescriptionSave",
+          "text": "DescriptionСамые вкусные бургеры и шашлык в городе, доставка по ",
           "rect": {
             "x": 16,
-            "y": 433,
+            "y": 423,
             "width": 358,
-            "height": 135,
+            "height": 189,
             "right": 374,
-            "bottom": 568
+            "bottom": 612
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2208,11 +3651,11 @@
           "text": "Dish discount (Maximum (set by admin): 30%)Save",
           "rect": {
             "x": 16,
-            "y": 681,
+            "y": 725,
             "width": 358,
             "height": 85,
             "right": 374,
-            "bottom": 766
+            "bottom": 810
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2222,11 +3665,11 @@
           "text": "Photo and logoLogo: a square image (best 400×400). Cover: a wide",
           "rect": {
             "x": 16,
-            "y": 1200,
+            "y": 1244,
             "width": 358,
             "height": 165,
             "right": 374,
-            "bottom": 1365
+            "bottom": 1409
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2236,11 +3679,43 @@
           "text": "Branches: Дар-ул-ХилофЦентр12 orders · 1500.5 TJSSync menuСино…S",
           "rect": {
             "x": 16,
-            "y": 1505,
+            "y": 1549,
             "width": 358,
             "height": 244,
             "right": 374,
-            "bottom": 1749
+            "bottom": 1793
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        }
+      ],
+      "result": {
+        "ok": true,
+        "content": "Самые вкусные бургеры и шашлык в городе, доставка по всему Душанбе",
+        "height": 100,
+        "tag": "TEXTAREA"
+      },
+      "page_errors": [],
+      "status": "REFERENCE",
+      "screenshot": "qa-shots/unified-fix/b/before/G-11-merchant-en-390-main-before.png"
+    },
+    {
+      "id": "G-12",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "mode": "before",
+      "geometry": [
+        {
+          "selector": "#app .d6-sr.closed .d6-ph",
+          "text": "",
+          "rect": {
+            "x": 14,
+            "y": 400,
+            "width": 80,
+            "height": 80,
+            "right": 94,
+            "bottom": 480
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2248,13 +3723,88 @@
       ],
       "result": {
         "ok": false,
-        "content": "",
-        "height": 0,
-        "tag": ""
+        "scenes": {
+          "search": {
+            "ok": false,
+            "scene": "home",
+            "badgeText": "Closed",
+            "badgeParent": "sr d6-sr closed",
+            "contained": false,
+            "textNodesMeasured": 8,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 310.046875,
+              "right": 363,
+              "top": 257,
+              "bottom": 279
+            },
+            "photoRect": {
+              "left": 27,
+              "right": 107,
+              "top": 189,
+              "bottom": 269
+            },
+            "offer": "",
+            "offerScroll": 0,
+            "offerWidth": 0,
+            "ellipsis": false
+          },
+          "category": {
+            "ok": false,
+            "scene": "cat",
+            "badgeText": "Closed",
+            "badgeParent": "sr d6-sr closed",
+            "contained": false,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 311.046875,
+              "right": 364,
+              "top": 418,
+              "bottom": 440
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 332,
+              "bottom": 412
+            },
+            "offer": "",
+            "offerScroll": 0,
+            "offerWidth": 0,
+            "ellipsis": false
+          },
+          "reorder": {
+            "ok": false,
+            "scene": "cat",
+            "badgeText": "Closed",
+            "badgeParent": "sr d6-sr closed",
+            "contained": false,
+            "textNodesMeasured": 9,
+            "overlappingTextNodes": [],
+            "badgeRect": {
+              "left": 311.046875,
+              "right": 364,
+              "top": 486,
+              "bottom": 508
+            },
+            "photoRect": {
+              "left": 14,
+              "right": 94,
+              "top": 400,
+              "bottom": 480
+            },
+            "offer": "",
+            "offerScroll": 0,
+            "offerWidth": 0,
+            "ellipsis": false,
+            "reorderSectionPresent": true
+          }
+        }
       },
       "page_errors": [],
       "status": "REFERENCE",
-      "screenshot": "qa-shots/unified-fix/b/before/G-11-merchant-en-390-main-before.png"
+      "screenshot": "qa-shots/unified-fix/b/before/G-12-customer-en-390-main-before.png"
     }
   ],
   "errors": []

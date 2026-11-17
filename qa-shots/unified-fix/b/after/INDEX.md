@@ -23,6 +23,7 @@ Original TALABOT app HTML/JS; synthetic read-only fixture. Not physical Safari o
 - G-09 customer ru/375: PASS — [G-09-customer-ru-375-main-after.png](G-09-customer-ru-375-main-after.png)
 - G-10 merchant ru/375: PASS — [G-10-merchant-ru-375-main-after.png](G-10-merchant-ru-375-main-after.png)
 - G-11 merchant ru/375: PASS — [G-11-merchant-ru-375-main-after.png](G-11-merchant-ru-375-main-after.png)
+- G-12 customer ru/375: PASS — [G-12-customer-ru-375-main-after.png](G-12-customer-ru-375-main-after.png)
 - C-01 customer en/390: PASS — [C-01-customer-en-390-main-after.png](C-01-customer-en-390-main-after.png)
 - C-01a customer en/390: PASS — [C-01a-customer-en-390-main-after.png](C-01a-customer-en-390-main-after.png)
 - C-01b customer en/390: PASS — [C-01b-customer-en-390-main-after.png](C-01b-customer-en-390-main-after.png)
@@ -44,3 +45,4 @@ Original TALABOT app HTML/JS; synthetic read-only fixture. Not physical Safari o
 - G-09 customer en/390: PASS — [G-09-customer-en-390-main-after.png](G-09-customer-en-390-main-after.png)
 - G-10 merchant en/390: PASS — [G-10-merchant-en-390-main-after.png](G-10-merchant-en-390-main-after.png)
 - G-11 merchant en/390: PASS — [G-11-merchant-en-390-main-after.png](G-11-merchant-en-390-main-after.png)
+- G-12 customer en/390: PASS — [G-12-customer-en-390-main-after.png](G-12-customer-en-390-main-after.png)
