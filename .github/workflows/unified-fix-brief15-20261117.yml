@@ -15,6 +15,9 @@ on:
       - 'assets/customer-c/customer-c.css'
       - 'assets/driver-tech/map-view.js'
       - 'assets/driver-tech/cash-sheet-polish-brief11.js'
+      - 'assets/shared/safe-toast.js'
+      - 'driver.html'
+      - 'admin.html'
       - '.github/workflows/unified-fix-brief15-20261117.yml'
   workflow_dispatch:
 permissions:
@@ -27,10 +30,12 @@ jobs:
     if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    permissions:
+      contents: write  # commit synthetic evidence ONLY on isolated review branch
     steps:
-      - name: Checkout read-only isolated review
+      - name: Checkout isolated review for ephemeral authentication evidence
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with: {persist-credentials: false, fetch-depth: 0}
+        with: {persist-credentials: true, fetch-depth: 0}
       - name: Guard immutable backend/finance and strictly scoped owner F/O app repairs
         shell: bash
         run: |
@@ -38,16 +43,26 @@ jobs:
           BASE=f85f927db58280c24773768f4aa5ddc88956a448
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
           # Each approved UI correction has an independently revertible F/O commit.
-          for f in talabat-core.js driver.html admin.html sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
+          for f in talabat-core.js sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
             test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
           done
           git diff --name-only "$BASE" HEAD > "$RUNNER_TEMP/brief15-paths"
           while IFS= read -r changed; do
             case "$changed" in
-              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
+              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"
+          # Driver/Admin must differ from protected source ONLY by shared toast loader.
+          python3 - <<'PY'
+          import pathlib,subprocess
+          base='f85f927db58280c24773768f4aa5ddc88956a448'
+          for path in ('driver.html','admin.html'):
+              original=subprocess.check_output(['git','show',f'{base}:{path}']).decode('utf8')
+              expected=original.replace('</body></html>',
+                    '<script src="assets/shared/safe-toast.js"></script></body></html>')
+              assert pathlib.Path(path).read_text('utf8')==expected,(path,'unexpected HTML change')
+          PY
           python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py
       - name: Install immutable QA browsers and dependencies
         shell: bash
@@ -96,6 +111,48 @@ jobs:
           for r in errors[:5]:print('H01_BLOCKER',r.get('app'),r.get('type'),r.get('detail','')[:180])
           assert len(verified)==24 and not errors,'Original local-authenticated UI is NOT verified'
           PY
+      - name: Commit H-01 AFTER-login screenshots to isolated review branch (no credentials)
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
+          test "$GITHUB_REPOSITORY" = merapplications-sketch/Talabat-v3
+          mkdir -p qa-shots/unified-fix/h01
+          python3 - <<'PY'
+          import pathlib,shutil,json
+          root=pathlib.Path('qa-shots/full-audit')
+          report=json.loads((root/'FINDINGS.json').read_text('utf8'))
+          verified=report.get('local_auth_verified',[])
+          assert len(verified)==24, 'Must prove all 4 original roles x RU/EN x 3 widths'
+          output=pathlib.Path('qa-shots/unified-fix/h01')
+          index=['# TALABOT H-01 — original app authenticated LOCAL screenshots',
+            '', 'Data: ephemeral synthetic Supabase, real login UI, no production, no tokens.',
+            'Each screenshot is AFTER the login overlay disappeared and TLB.me role was verified.','']
+          for app in ('customer','driver','merchant','admin'):
+            for lang,w in (('ru',375),('en',390)):
+              src=root/app/f'local_authenticated_{lang}_{w}_local.png'
+              assert src.exists(),f'Missing verified screenshot: {app} {lang} {w}'
+              name=f'{app}-{lang}-{w}-authenticated.png'
+              shutil.copyfile(src,output/name)
+              index.append(f'- [{app} / {lang} / {w}]({name})')
+          (output/'INDEX.md').write_text('\n'.join(index)+'\n',encoding='utf8')
+          (output/'PROOF.json').write_text(json.dumps({'verified':len(verified),
+             'roles':['customer','driver','merchant','admin'],
+             'widths':[375,390,430],'languages':['ru','en'],
+             'backend':'disposable LOCAL Supabase; original HTML; actual login UI',
+             'token_data_in_evidence':False},indent=2),encoding='utf8')
+          print('H01_BRANCH_SCREENSHOTS_READY 8 synthetic images')
+          PY
+          git config user.name "talabot-brief15-h01"
+          git config user.email "talabot-brief15-h01@users.noreply.github.com"
+          git add -- qa-shots/unified-fix/h01/
+          if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/h01/'; then exit 1; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "test(H-01): 8 post-auth original-app LOCAL screenshots visible in review branch"
+            git fetch origin review/unified-fix-brief15-20261117
+            git rebase origin/review/unified-fix-brief15-20261117
+            git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
+          fi
       - name: Preserve source-backed local test screenshots and findings (no account secrets)
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -125,7 +182,7 @@ jobs:
           BASE=f85f927db58280c24773768f4aa5ddc88956a448
           test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
-          for f in talabat-core.js driver.html admin.html sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
+          for f in talabat-core.js sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
             test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
           done
           python3 -m py_compile tools/brief15_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
