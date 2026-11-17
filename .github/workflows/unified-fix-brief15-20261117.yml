@@ -15,6 +15,7 @@ on:
       - 'assets/customer-c/customer-c.js'
       - 'assets/customer-c/customer-c.css'
       - 'assets/driver-tech/map-view.js'
+      - 'assets/driver-a/driver-a.js'
       - 'assets/driver-tech/cash-sheet-polish-brief11.js'
       - 'assets/shared/safe-toast.js'
       - 'driver.html'
@@ -50,7 +51,7 @@ jobs:
           git diff --name-only "$BASE" HEAD > "$RUNNER_TEMP/brief15-paths"
           while IFS= read -r changed; do
             case "$changed" in
-              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
+              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"
@@ -87,6 +88,13 @@ jobs:
                   current=undo(current,"""${setup?`<div class="setupw">${ic('alert',14)} ${t('aSetupW')}</div>`:''}""",
                                """${setup?(g07LogSetup(),''):''}""")
               assert current==expected,(path,'outside approved G-04/G-07 UI delta')
+          # The actual driver-A header must only differ by approved G-04 state label.
+          path='assets/driver-a/driver-a.js'
+          orig=subprocess.check_output(['git','show',f'{base}:{path}']).decode('utf8')
+          changed=pathlib.Path(path).read_text('utf8')
+          old="""function aHeader(task){return `<header class="hd a-header"><div class="a-brand"><img src="assets/driver-a/brand/TALABOT-Original-RU.png" alt="Талабот"></div><div class="a-header-actions"><span class="a-shift-dot ${online?'on':''}">${t(online?'onShift':'shOff')}</span>"""
+          new="""function aHeader(task){const delivering=!!(task||mine());return `<header class="hd a-header"><div class="a-brand"><img src="assets/driver-a/brand/TALABOT-Original-RU.png" alt="Талабот"></div><div class="a-header-actions"><span class="a-shift-dot ${online||delivering?'on':''}">${t(online?'onShift':delivering?'g04Delivering':'shOff')}</span>"""
+          assert changed.count(new)==1 and changed.replace(new,old)==orig,'G-04 driver-A beyond UI status'
           PY
           python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py tools/brief15b_webkit.py
       - name: Install immutable QA browsers and dependencies
