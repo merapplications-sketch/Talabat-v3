@@ -218,11 +218,20 @@ def run_case(pg,case,app,lang,w):
         return r,["#app",".t15-flow-toast"]
     if case=="G-01":
         r=invoke(pg,"""() => {
-          const e=document.querySelector('#app .top select'),s=e&&getComputedStyle(e),b=e?.getBoundingClientRect();
-          return {ok:!!e&&s.color==='rgb(28, 28, 33)'&&s.backgroundColor==='rgb(255, 255, 255)'
-            &&b.width>90&&b.height>20,fg:s?.color||'',bg:s?.backgroundColor||'',width:b?.width||0};
+          const e=document.querySelector('#app .top .g10-store-wrap select'),
+                label=document.querySelector('#app .top .g10-store-label'),
+                visual=label&&getComputedStyle(label),sel=e&&getComputedStyle(e),
+                box=label?.getBoundingClientRect();
+          return {ok:!!e&&!!label&&e.value===STORE&&label.innerText===STORE&&
+            visual.color==='rgb(28, 28, 33)'&&
+            visual.pointerEvents==='none'&&
+            sel.backgroundColor==='rgb(255, 255, 255)'&&
+            box.width>90&&box.height>18,
+            displayLabel:label?.innerText||'',selected:e?.value||'',
+            labelInk:visual?.color||'',background:sel?.backgroundColor||'',
+            width:box?.width||0,height:box?.height||0};
         }""")
-        return r,["#app .top select"]
+        return r,["#app .top .g10-store-label","#app .top .g10-store-wrap select"]
     if case=="G-02":
         pg.evaluate("""() => {setTab('m');openSheet('i1')}""")
         pg.wait_for_timeout(90)
