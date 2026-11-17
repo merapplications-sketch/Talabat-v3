@@ -1691,10 +1691,9 @@ async function place(){
   if(S.gift&&(String(S.gift.name).trim().length<2||!/^\+?992\d{9}$/.test(String(S.gift.phone).replace(/[\s()-]/g,'')))){alert(t('err_bad_gift'));return}
   if(S.at&&S.at<Date.now()+41*60000){alert(t('err_bad_time'));S.at=null;render();return}
   const ad=curAddr();if(!ad){alert(t('addrNeed'));newAddr();S.addrBack='pay';return}
+  // Server capability was probed once on entering checkout: missing capability
+  // suppresses extras but never prevents the original door-only checkout.
   const u18Extras=u18Keys().filter(k=>k!=='door');
-  if(u18Extras.length&&(!TLB.deliveryInstructionsReady||!await TLB.deliveryInstructionsReady())){
-    alert(t('u18Pending'));return;
-  }
   S.busy=true;if(!S.okey)S.okey=newKey();render();
   try{const q=await ensureQuote();if(!q){alert(tooFar()?t('err_too_far'):t('err_generic'));return}
     const ks=Object.keys(S.cart),nn=S.gCheckout?null:lineNotes(ks);if(nn&&nn.some(x=>x.length>120)){alert(t('d6CmtLong'));go('cart');return}
@@ -2019,9 +2018,19 @@ TLB.addDict({
  u18Pending:'Additional instructions are unavailable until secure storage is approved. Your order has not been placed.',
  u18SendFail:'The order was placed but extra instructions were not delivered to the courier. Please message the courier.'
 });
+/* BRIEF-18d A-02: one readiness probe per page session, on first checkout.
+   Fail closed for extra UI options, never block the pre-existing door-only order. */
+const U18_SERVER={status:'unknown',checks:0};
+function u18ProbeOnce(){
+ if(U18_SERVER.status!=='unknown')return;
+ U18_SERVER.status='checking';U18_SERVER.checks++;
+ Promise.resolve().then(()=>typeof TLB.deliveryInstructionsReady==='function'?TLB.deliveryInstructionsReady():false)
+  .then(ok=>{U18_SERVER.status=ok===true?'ready':'unready';if(S.v==='pay')render()})
+  .catch(()=>{U18_SERVER.status='unready';if(S.v==='pay')render()});
+}
 const U18_KEYS=['door','call','no_ring','knock','reception','meet'];
 const U18_LABELS={door:'u18Door',call:'u18Call',no_ring:'u18NoRing',knock:'u18Knock',reception:'u18Reception',meet:'u18Meet'};
-const u18Keys=()=>U18_KEYS.filter(k=>k==='door'?!!S.door:(S.u18Choices||[]).includes(k));
+const u18Keys=()=>U18_KEYS.filter(k=>k==='door'?!!S.door:(U18_SERVER.status==='ready'&&(S.u18Choices||[]).includes(k)));
 function u18AddressKey(){const a=curAddr(),m=TLB.me();return a&&a.id&&m&&m.id?'tlb-u18-delivery-'+m.id+'-'+a.id:''}
 function u18SyncAddress(){const key=u18AddressKey();if(S.u18Address===key)return;
  const wasKnown=S.u18Address!==null;S.u18Address=key;S.u18Choices=[];S.u18Remember=false;
@@ -2036,7 +2045,7 @@ function u18SaveAddress(){const key=u18AddressKey();if(!key)return;
  try{if(S.u18Remember)localStorage.setItem(key,JSON.stringify({keys:u18Keys()}));
  else localStorage.removeItem(key)}catch(e){}
 }
-function u18Toggle(key){if(!U18_KEYS.includes(key))return;
+function u18Toggle(key){if(!U18_KEYS.includes(key)||(key!=='door'&&U18_SERVER.status!=='ready'))return;
  if(key==='door')S.door=!S.door;else{
  const a=S.u18Choices||[];S.u18Choices=a.includes(key)?a.filter(x=>x!==key):a.concat(key)}
  u18SaveAddress();render()}
@@ -2045,10 +2054,12 @@ document.addEventListener('click',function(e){
  const chip=e.target.closest&&e.target.closest('.u18-instruction-chip[data-u18-key]');
  if(chip&&document.getElementById('app')?.contains(chip))u18Toggle(chip.dataset.u18Key);
 });
-function u18InstructionsCard(){u18SyncAddress();
+function u18InstructionsCard(){u18SyncAddress();u18ProbeOnce();
+ const ready=U18_SERVER.status==='ready';
  let html='<div class="card u18-courier" aria-label="'+t('u18Instructions')+'"><h3>'+
-   t('u18Instructions')+'</h3><div class="xs mut">'+t('u18Many')+'</div><div class="u18-instruction-rail" role="group">';
- U18_KEYS.forEach(function(key){const on=key==='door'?!!S.door:(S.u18Choices||[]).includes(key);
+   t('u18Instructions')+'</h3>'+(ready?'<div class="xs mut">'+t('u18Many')+'</div>':'')+
+   '<div class="u18-instruction-rail" role="group">';
+ (ready?U18_KEYS:['door']).forEach(function(key){const on=key==='door'?!!S.door:(S.u18Choices||[]).includes(key);
    html+='<button type="button" class="u18-instruction-chip'+(on?' on':'')+'" data-u18-key="'+key+
      '" role="checkbox" aria-checked="'+on+'">'+t(U18_LABELS[key])+'</button>'});
  html+='</div>';
