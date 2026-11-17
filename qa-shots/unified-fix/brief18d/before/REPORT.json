@@ -1,0 +1,193 @@
+{
+  "mode": "before",
+  "source": "8a416e67",
+  "browser": "Linux WebKit original TALABOT customer; synthetic local fixture; NO live order",
+  "network": "Leaflet 1.9.4 and generated offline tiles via BRIEF18c fixture",
+  "cases": [
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 375,
+      "state": "unready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/unready-ru-375-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 375,
+      "state": "ready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/ready-ru-375-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 390,
+      "state": "unready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/unready-en-390-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 390,
+      "state": "ready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/ready-en-390-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 320,
+      "state": "unready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/unready-ru-320-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 320,
+      "state": "ready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/ready-ru-320-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 320,
+      "state": "unready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/unready-en-320-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 320,
+      "state": "ready",
+      "mode": "before",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/before/ready-en-320-pay-before.png",
+      "status": "REFERENCE",
+      "pageerrors": []
+    }
+  ],
+  "errors": []
+}

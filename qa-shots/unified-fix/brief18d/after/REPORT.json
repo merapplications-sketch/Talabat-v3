@@ -1,0 +1,593 @@
+{
+  "mode": "after",
+  "source": "BRIEF18d candidate",
+  "browser": "Linux WebKit original TALABOT customer; synthetic local fixture; NO live order",
+  "network": "Leaflet 1.9.4 and generated offline tiles via BRIEF18c fixture",
+  "cases": [
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 375,
+      "state": "unready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/unready-ru-375-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Изменить",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Адрес доставки · Дом\n",
+          "addressText": "пр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает",
+          "lines": 2,
+          "lineHeight": 21,
+          "contentWidth": 341,
+          "addrWidth": 309,
+          "cardWidth": 343,
+          "addressHeight": 42,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door"
+        ],
+        "extras": [],
+        "status": "unready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 0,
+        "savedKeys": [],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 375,
+      "state": "ready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/ready-ru-375-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Изменить",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Адрес доставки · Дом\n",
+          "addressText": "пр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает",
+          "lines": 2,
+          "lineHeight": 21,
+          "contentWidth": 341,
+          "addrWidth": 309,
+          "cardWidth": 343,
+          "addressHeight": 42,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door",
+          "call",
+          "no_ring",
+          "knock",
+          "reception",
+          "meet"
+        ],
+        "extras": [
+          "call",
+          "knock"
+        ],
+        "status": "ready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 1,
+        "savedKeys": [
+          "door",
+          "call",
+          "knock"
+        ],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 390,
+      "state": "unready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/unready-en-390-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Change",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Delivery address · Home\n",
+          "addressText": "пр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает",
+          "lines": 2,
+          "lineHeight": 21,
+          "contentWidth": 356,
+          "addrWidth": 324,
+          "cardWidth": 358,
+          "addressHeight": 42,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door"
+        ],
+        "extras": [],
+        "status": "unready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 0,
+        "savedKeys": [],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 390,
+      "state": "ready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/ready-en-390-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Change",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Delivery address · Home\n",
+          "addressText": "пр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает",
+          "lines": 2,
+          "lineHeight": 21,
+          "contentWidth": 356,
+          "addrWidth": 324,
+          "cardWidth": 358,
+          "addressHeight": 42,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door",
+          "call",
+          "no_ring",
+          "knock",
+          "reception",
+          "meet"
+        ],
+        "extras": [
+          "call",
+          "knock"
+        ],
+        "status": "ready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 1,
+        "savedKeys": [
+          "door",
+          "call",
+          "knock"
+        ],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 320,
+      "state": "unready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/unready-ru-320-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Изменить",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Адрес доставки · Дом\n",
+          "addressText": "пр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает",
+          "lines": 3,
+          "lineHeight": 21,
+          "contentWidth": 286,
+          "addrWidth": 254,
+          "cardWidth": 288,
+          "addressHeight": 63,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door"
+        ],
+        "extras": [],
+        "status": "unready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 0,
+        "savedKeys": [],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "ru",
+      "width": 320,
+      "state": "ready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/ready-ru-320-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Изменить",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Адрес доставки · Дом\n",
+          "addressText": "пр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает",
+          "lines": 3,
+          "lineHeight": 21,
+          "contentWidth": 286,
+          "addrWidth": 254,
+          "cardWidth": 288,
+          "addressHeight": 63,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door",
+          "call",
+          "no_ring",
+          "knock",
+          "reception",
+          "meet"
+        ],
+        "extras": [
+          "call",
+          "knock"
+        ],
+        "status": "ready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 1,
+        "savedKeys": [
+          "door",
+          "call",
+          "knock"
+        ],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 320,
+      "state": "unready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/unready-en-320-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Change",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Delivery address · Home\n",
+          "addressText": "пр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает",
+          "lines": 3,
+          "lineHeight": 21,
+          "contentWidth": 286,
+          "addrWidth": 254,
+          "cardWidth": 288,
+          "addressHeight": 63,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door"
+        ],
+        "extras": [],
+        "status": "unready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 0,
+        "savedKeys": [],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    },
+    {
+      "id": "BRIEF18d",
+      "lang": "en",
+      "width": 320,
+      "state": "ready",
+      "mode": "after",
+      "financial": {
+        "total": 68.75,
+        "sub": 65,
+        "discount": 9.75,
+        "happyHour": 6.5,
+        "promo": 0,
+        "pointsValue": 0,
+        "fee": 10,
+        "tip": 10,
+        "saved": 16.25,
+        "due": 68.75,
+        "wallet": 0
+      },
+      "screenshot": "qa-shots/unified-fix/brief18d/after/ready-en-320-pay-after.png",
+      "result": {
+        "ok": true,
+        "geometry": {
+          "linkText": "Change",
+          "linkFont": 14,
+          "linkColor": "rgb(255, 90, 18)",
+          "linkHeight": 44,
+          "headingHeight": 44,
+          "headingText": "Delivery address · Home\n",
+          "addressText": "пр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает",
+          "lines": 3,
+          "lineHeight": 21,
+          "contentWidth": 286,
+          "addrWidth": 254,
+          "cardWidth": 288,
+          "addressHeight": 63,
+          "linkSameRow": true,
+          "noOverlap": true,
+          "pageFit": true
+        },
+        "geometryOk": true,
+        "readinessOk": true,
+        "keys": [
+          "door",
+          "call",
+          "no_ring",
+          "knock",
+          "reception",
+          "meet"
+        ],
+        "extras": [
+          "call",
+          "knock"
+        ],
+        "status": "ready",
+        "checkCalls": 1,
+        "remembered": [
+          "call",
+          "knock"
+        ],
+        "selectedDoor": true
+      },
+      "editUnchanged": true,
+      "fakeOrder": {
+        "ok": true,
+        "calls": 1,
+        "saveCalls": 1,
+        "savedKeys": [
+          "door",
+          "call",
+          "knock"
+        ],
+        "readinessChecks": 1,
+        "alerts": [],
+        "hasPayload": true
+      },
+      "status": "PASS",
+      "pageerrors": []
+    }
+  ],
+  "errors": []
+}

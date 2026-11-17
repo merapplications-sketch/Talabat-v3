@@ -26,7 +26,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 245,
+        "cardHeight": 257,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -34,7 +34,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
+        "addressText": "Адрес доставки · Дом\nИзменить\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
@@ -86,7 +86,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 107,
+        "cardHeight": 151,
         "hasMap": false,
         "mapCount": 0,
         "attr": "",
@@ -94,7 +94,7 @@
         "height": null,
         "pinDx": null,
         "pinDy": null,
-        "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
+        "addressText": "Адрес доставки · Дом\nИзменить\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\n",
         "coords": null,
         "center": null,
         "pixelGap": null,
@@ -134,7 +134,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 245,
+        "cardHeight": 257,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -142,7 +142,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
+        "addressText": "Адрес доставки · Дом\nИзменить\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
@@ -194,7 +194,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 245,
+        "cardHeight": 257,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -202,7 +202,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
+        "addressText": "Delivery address · Home\nChange\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
@@ -254,7 +254,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 107,
+        "cardHeight": 151,
         "hasMap": false,
         "mapCount": 0,
         "attr": "",
@@ -262,7 +262,7 @@
         "height": null,
         "pinDx": null,
         "pinDy": null,
-        "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
+        "addressText": "Delivery address · Home\nChange\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\n",
         "coords": null,
         "center": null,
         "pixelGap": null,
@@ -302,7 +302,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 245,
+        "cardHeight": 257,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -310,7 +310,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
+        "addressText": "Delivery address · Home\nChange\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
@@ -362,7 +362,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 305,
+        "cardHeight": 278,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -370,7 +370,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
+        "addressText": "Адрес доставки · Дом\nИзменить\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
@@ -422,7 +422,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 167,
+        "cardHeight": 172,
         "hasMap": false,
         "mapCount": 0,
         "attr": "",
@@ -430,7 +430,7 @@
         "height": null,
         "pinDx": null,
         "pinDy": null,
-        "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
+        "addressText": "Адрес доставки · Дом\nИзменить\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\n",
         "coords": null,
         "center": null,
         "pixelGap": null,
@@ -470,7 +470,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 305,
+        "cardHeight": 278,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -478,7 +478,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Адрес доставки · Дом\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\nИзменить\n",
+        "addressText": "Адрес доставки · Дом\nИзменить\nпр. Рудаки 100, подъезд 2, этаж 5, кв. 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
@@ -530,7 +530,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 284,
+        "cardHeight": 278,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -538,7 +538,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
+        "addressText": "Delivery address · Home\nChange\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
@@ -590,7 +590,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 128,
+        "cardHeight": 172,
         "hasMap": false,
         "mapCount": 0,
         "attr": "",
@@ -598,7 +598,7 @@
         "height": null,
         "pinDx": null,
         "pinDy": null,
-        "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
+        "addressText": "Delivery address · Home\nChange\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\n",
         "coords": null,
         "center": null,
         "pixelGap": null,
@@ -638,7 +638,7 @@
       "result": {
         "pageFit": true,
         "labels": true,
-        "cardHeight": 284,
+        "cardHeight": 278,
         "hasMap": true,
         "mapCount": 1,
         "attr": "© OpenStreetMap",
@@ -646,7 +646,7 @@
         "height": 130,
         "pinDx": 0,
         "pinDy": 0,
-        "addressText": "Delivery address · Home\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\nChange\n",
+        "addressText": "Delivery address · Home\nChange\nпр. Рудаки 100, entrance 2, floor 5, apt 45, домофон не работает\n",
         "coords": [
           38.56,
           68.78
