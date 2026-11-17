@@ -6,6 +6,13 @@
 <script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location}catch(e){}}</script>
 <title>Talabat — Merchant</title>
 <style>:root{--o:#f1511b;--o2:#d94512;--tint:#fff0ea;--ink:#1c1c21;--mut:#8b8f98;--line:#eeeef1;--bg:#f6f6f8;--ok:#1fa05a;--okbg:#e6f6ed;--bad:#d92d20;--badbg:#fdeceb;--wbg:#fff0e5;--sh:0 2px 14px rgba(28,28,33,.06)}
+/* BRIEF-15c G-10: accessible native selector with explicit ellipsis label. */
+.top .g10-store-wrap{position:relative;display:block;min-width:0;width:100%}
+.top .g10-store-wrap select{position:relative;z-index:1;appearance:none;-webkit-appearance:none;color:transparent!important;padding-right:32px}
+.top .g10-store-wrap select option{color:#1c1c21}
+.top .g10-store-label{position:absolute;z-index:2;inset:0 34px 0 12px;display:flex;align-items:center;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;color:#1c1c21;font-size:12px;font-weight:600}
+.top .g10-store-label{display:block;line-height:32px}
+.top .g10-store-wrap:after{content:'';position:absolute;z-index:3;right:16px;top:calc(50% - 5px);width:7px;height:7px;border-right:2px solid #29313a;border-bottom:2px solid #29313a;transform:rotate(45deg);pointer-events:none}
 /* iPhone: no automatic text enlargement in landscape (it re-flows the whole page on every rotation) */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -337,7 +344,7 @@ function render0(){
   const stores=TLB.myStores().map(s=>s.name);if(!stores.includes(STORE))STORE=stores[0]||'';
   if(!stores.length){const f=TLB.loadFailed();$('app').innerHTML=`<div class="card" style="margin-top:90px;text-align:center;padding:26px 18px"><b style="font-size:15px">${f?t('loadFail'):t('mNoStoreT')}</b><p class="xs mut" style="margin:8px 0 14px;line-height:1.5">${f?t('mLoadS'):t('mNoStoreS')}</p><button class="b" onclick="location.reload()">${t('mReload')}</button><button class="b g" style="margin-left:8px" onclick="TLB.logout()">${t('logout')}</button></div>`;return}const open=TLB.isOpen(STORE),n=act().filter(o=>o.status=='pending').length;
   if(lastN>=0&&n>lastN)beep();lastN=n;
-  const H=`<div class="top"><div style="min-width:0"><small>${t('sto')}</small><select onchange="setStore(this.value)">${stores.map(s=>`<option ${s==STORE?'selected':''} value="${esc(s)}">${esc(s)}</option>`).join('')}</select></div>
+  const H=`<div class="top"><div style="min-width:0"><small>${t('sto')}</small><span class="g10-store-wrap"><span class="g10-store-label" aria-hidden="true">${esc(STORE)}</span><select aria-label="${t('sto')}" onchange="setStore(this.value)">${stores.map(s=>`<option ${s==STORE?'selected':''} value="${esc(s)}">${esc(s)}</option>`).join('')}</select></span></div>
   <button class="swb ${open?'on':''}" onclick="TLB.setOpen(STORE,${!open})"><i></i><span>${open?t('open'):t('shut')}</span></button></div>
 `+({o:vOrders,m:vMenu,s:vStats,p:vStore}[tab])()+`<div class="nav">${[['o','doc','mOrders'],['m','tag','mMenu'],['s','chart','mStats'],['p','store','mSt']].map(x=>`<div class="${tab==x[0]?'on':''}" onclick="setTab('${x[0]}')" role="button"><span>${ic(x[1],24)}</span>${t(x[2])}${x[0]=='o'&&n?`<em class="bdg">${n}</em>`:''}</div>`).join('')}</div>`+sheet()+odSheet()+rqSheet()+rlSheet()+brSheet()+rjSheet();
   const ap=$('app'),cx=mCtx();if(MCX===cx&&ap.firstChild)TLB.morph(ap,H);else ap.innerHTML=H;MCX=cx;
