@@ -415,7 +415,10 @@ body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,
 .d6 .d6-add:disabled,.d6s .oshf .btn:disabled{background:#d5d8de!important;color:#777e8a!important;box-shadow:none!important;cursor:not-allowed!important}
 .c01-closed-cart .d6-head .st{color:#81858b!important;text-decoration:line-through}
 .c01-closed-cart .ci{opacity:.62;filter:grayscale(.65)}
-/* C-01c: deep-linked closed restaurant remains a readable, non-orderable grey view. */
+/* C-01d: disabled closed-store cart actions remain visible with an explicit reason. */
+.c01-closed-cart :is(.grpe,.d70-dock .btn,.d70-edit,.d6-q button):disabled{background:#e4e5e9!important;color:#777c85!important;border-color:#e4e5e9!important;cursor:not-allowed!important;box-shadow:none!important;opacity:1}
+.c01-closed-cart .grpe:disabled :is(span,b,svg){color:#777c85!important}
+ /* C-01c: deep-linked closed restaurant remains a readable, non-orderable grey view. */
 .c01-closed-menu .d6-cover,.c01-closed-menu .d6-stats,
 .c01-closed-menu .d6-ofs,.c01-closed-menu .d6-sec,
 .c01-closed-menu .d69-menu-nav{filter:grayscale(1);opacity:.65}
@@ -1442,7 +1445,7 @@ function undoLine(){const u=S.cartUndo;S.cartUndo=null;if(!u||(Object.keys(S.car
 function clearCart(){if(!confirm(t('clearCart')))return;S.cart={};S.cartUndo=null;afterCart()}
 function goMore(){if(!TLB.isOpen(S.cartStore)){go('home');return}go('menu',{store:S.cartStore,back:'cart'})}
 function goCart(){S.perr='';S.pm=null;go('cart')}
-function add(id,d){S.cartUndo=null;S.cart[id]=Math.min(50,(S.cart[id]||0)+d);if(S.cart[id]<=0)delete S.cart[id];afterCart()}
+function add(id,d){if(d>0&&closedNow(S.cartStore))return;S.cartUndo=null;S.cart[id]=Math.min(50,(S.cart[id]||0)+d);if(S.cart[id]<=0)delete S.cart[id];afterCart()}
 function closedNow(n){return !TLB.isOpen(n)}
 function ensureStore(){if(Object.keys(S.cart).length&&S.cartStore!==S.store){if(!confirm(t('clear_cart')))return false;S.cart={};S.cartUndo=null;S.promo=null;S.perr='';S.pm=null;S.okey=null}S.cartStore=S.store;return true}
 function addFrom(id){if(closedNow(S.store))return;const it=menuOf(S.store).find(x=>x.id==id);if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}if(it&&it.hasOpts){openItem(id);return}if(!ensureStore())return;add(id,1)}
@@ -1858,7 +1861,7 @@ TLB.addDict({v71RewardCart:'За блюда в корзине · начисли�
 function d6Earn(){const L=TLB.loyalty&&TLB.loyalty(),sd=ALLS.find(x=>x.n==S.store)||{},er=sd.er!=null?sd.er:(L?+L.earn_per_tjs||0:0);if(!L||!(er>0))return '';const c=S.cartStore==S.store&&cartCount()?calc():null;
   return `<section class="d68-earn ui-ready-reward"><div class="d6-rw">${ico('star',16,1)} <span class="d71-reward-copy"><span>${c&&c.earn>0?t('ptsEarn').replace('{n}',fmtN(c.earn)):t('ptsEarnRule').replace('{n}',fmtN(er))}</span></span></div><p class="d6-rwn ui-ready-estimate-note">${t('ernNote')}</p></section>`}
 /* ---------- CART ---------- */
-function stepper(id,q){return `<div class="d6-q"><button aria-label="${q==1?t('removeI'):'−'}" onclick="${q==1?`delLine('${id}')`:`add('${id}',-1)`}">${ico(q==1?'trash':'minus')}</button><span>${q}</span><button aria-label="+" ${q>=50?'disabled':''} onclick="add('${id}',1)">${ico('plus')}</button></div>`}
+function stepper(id,q){return `<div class="d6-q"><button aria-label="${q==1?t('removeI'):'−'}" onclick="${q==1?`delLine('${id}')`:`add('${id}',-1)`}">${ico(q==1?'trash':'minus')}</button><span>${q}</span><button aria-label="+" ${q>=50||closedNow(S.cartStore)?'disabled aria-disabled="true"':''} onclick="add('${id}',1)">${ico('plus')}</button></div>`}
 /* v06.1 cart: line cards (photo, options, the dish request, price, quantity with remove / «Вернуть»), suggestions, group order, comment */
 function cartSuggestAdd(id){S.store=S.cartStore;addFrom(id)}
 function vCart(){const m=menuOf(S.cartStore),ids=Object.keys(S.cart),mm=TLB.allMenus(true)[S.cartStore]||[],sd=sdOf(S.cartStore),U=S.cartUndo&&S.cartUndo.store==S.cartStore?S.cartUndo:null;
@@ -1868,18 +1871,18 @@ function vCart(){const m=menuOf(S.cartStore),ids=Object.keys(S.cart),mm=TLB.allM
   const rm=()=>{const p=pk(U.key),i=m.find(x=>x.id==p.id)||{name:'—'},ot=optTxt(p.id,p.ops);return `<div class="d6-rm" role="status"><div><b>${t('d6Removed')}: ${esc(i.name)}${U.q>1?' × '+U.q:''}</b>${ot||p.note?`<small>${esc([ot,p.note].filter(Boolean).join(' · '))}</small>`:''}</div><button class="d6-undo" id="cundo" onclick="undoLine()">${t('d6Undo')}</button></div>`};
   const line=key=>{const p=pk(key),i=m.find(x=>x.id==p.id)||{name:'—',price:0,image:'',discount:0,id:p.id},q=S.cart[key],e=eff(i,sd),ot=optTxt(p.id,p.ops),gone=bad.includes(key);
     return `<div class="ci${gone?' gone':''}"><div class="d69-cart-photo">${d6Ph(i.image,e&&!gone?`<span class="d6-bdg">−${e}%</span>`:'')}${gone?'':stepper(key,q)}</div><div class="d6-ci"><div class="nm">${esc(i.name)}</div>${ot?`<div class="d6-sub">${esc(ot)}</div>`:''}${p.note?`<div class="d6-lnote">${t('d6Note')}: ${esc(p.note)}</div>`:''}
-    ${gone?`<div class="xs" style="color:var(--bad);font-weight:600">${t('cartGoneL')}</div><div class="d6-q" style="width:46px"><button aria-label="${t('removeI')}" onclick="delLine('${key}')">${ico('trash')}</button></div>`:`<div class="d6-ci-bottom"><div class="d6-lp">${d6Price(i,sd,baseOf(i,p.ops),q).replace(/^<span class="d6-px">|<\/span>$/g,'')}</div><button class="d70-edit" onclick="editLine('${key}')">${t('v70Edit')}</button></div>`}</div></div>`};
+    ${gone?`<div class="xs" style="color:var(--bad);font-weight:600">${t('cartGoneL')}</div><div class="d6-q" style="width:46px"><button aria-label="${t('removeI')}" onclick="delLine('${key}')">${ico('trash')}</button></div>`:`<div class="d6-ci-bottom"><div class="d6-lp">${d6Price(i,sd,baseOf(i,p.ops),q).replace(/^<span class="d6-px">|<\/span>$/g,'')}</div><button class="d70-edit" ${closedNow(S.cartStore)?'disabled aria-disabled="true"':''} onclick="editLine('${key}')">${t('v70Edit')}</button></div>`}</div></div>`};
   const rows=ids.map(line);if(U)rows.splice(Math.min(U.pos,rows.length),0,rm());
   const lk2=i=>`<div class="d6-pv" ${i.optsBlocked?'':`role="button" tabindex="0" onclick="openItem('${i.id}')"`}><div class="d69-product-photo">${d6Ph(i.image,d6Bdg(i,sd))}${i.optsBlocked?'':`<button class="d6-add addb" aria-label="${t('addMore')}: ${esc(i.name)}" onclick="event.stopPropagation();cartSuggestAdd('${i.id}')"><i>${ico('plus')}</i></button>`}</div><div class="d6-pc"><div class="nm">${esc(i.name)}</div><div class="d6-pf">${d6Price(i,sd)}${i.optsBlocked?`<span class="d6-un">${t('itemOff')}</span>`:''}</div></div></div>`;
   return `<div class="d6 d6c ${closedNow(S.cartStore)?'c01-closed-cart':''}">${head}
+  ${ids.length&&closedNow(S.cartStore)?`<div class="closedb" role="alert" id="c01-cart-closed" style="margin:0 0 12px">${t('closedBanner')}</div>`:''}
   ${bad.length?`<div class="closedb" id="cgone" style="margin:0 0 12px;display:block"><div style="display:flex;gap:8px;align-items:flex-start">${ico('x',18)}<div style="flex:1;min-width:0"><b>${t('cartGoneT')}</b><div style="font-weight:500;margin-top:2px">${t('cartGoneS')}</div></div></div><button class="btn s" style="width:100%;margin-top:10px" onclick="rmBad()">${t('cartGoneRm')}</button></div>`:''}
   ${ids.length?fdCard(c):''}${rows.join('')}${ids.length?`<p class="d6-cart-note">${t('v66CartNote')}</p>`:''}
   ${!ids.length?emptyV(t('emptyCartT'),t('emptyCartS'),'','store'):''}
   ${ids.length&&like.length?`<div class="d6-lk"><div class="d6-hd"><h2 class="d6-h2">${t('youLike')}</h2></div><div class="d6-rail">${like.map(lk2).join('')}</div></div>`:''}
-  ${ids.length&&closedNow(S.cartStore)?`<div class="closedb" style="margin:0 0 12px">${t('closedBanner')}</div>`:''}
-  ${ids.length&&!inGrp()&&!S.gCheckout?`<button class="grpe" onclick="grpStart()"><span class="or">${ico('user',22)}</span><div style="flex:1;min-width:0;text-align:start"><b>${t('grpBtn')}</b><div class="xs mut" style="margin-top:2px">${t('grpBtnS')}</div></div>${ico('chev',18)}</button>`:''}
+  ${ids.length&&!inGrp()&&!S.gCheckout?`<button class="grpe" ${closedNow(S.cartStore)?`disabled aria-disabled="true" title="${esc(t('closedBanner'))}"`:''} onclick="grpStart()"><span class="or">${ico('user',22)}</span><div style="flex:1;min-width:0;text-align:start"><b>${t('grpBtn')}</b><div class="xs mut" style="margin-top:2px">${t('grpBtnS')}</div></div>${ico('chev',18)}</button>`:''}
   ${ids.length?`<div class="d6-card d6-cmt"><label for="nt">${t('noteT')}</label><textarea id="nt" maxlength="${cap}" placeholder="${t('notePh')}" oninput="S.note=this.value">${esc(S.note)}</textarea>${cap<120?`<small>${t('d6CmtCap').replace('{n}',Math.max(0,cap-String(S.note||'').length))}</small>`:''}</div>`:''}</div>
-  <div style="height:${ids.length?140:24}px"></div>${itemSheet()}${ids.length?`<div class="fbar d6-dock d70-dock"><div class="d70-total">${t('total')}: ${Math.round((c.sub-c.d-c.h)*100)/100} TJS</div><button class="btn s" onclick="goMore()">${t('addMore')}</button>${inGrp()?`<button class="btn" ${ok&&!S.busy?'':'disabled'} onclick="grpPush()">${t('grpPush')}</button>`:`<button class="btn" ${ok?'':'disabled'} style="flex-direction:column;gap:1px;line-height:1.2" onclick="go('pay');quoteNow()"><span>${t('contPay')}</span></button>`}</div>`:''}`}
+  <div style="height:${ids.length?140:24}px"></div>${itemSheet()}${ids.length?`<div class="fbar d6-dock d70-dock"><div class="d70-total">${t('total')}: ${Math.round((c.sub-c.d-c.h)*100)/100} TJS</div><button class="btn s" ${closedNow(S.cartStore)?`disabled aria-disabled="true" title="${esc(t('closedBanner'))}"`:''} onclick="goMore()">${t('addMore')}</button>${inGrp()?`<button class="btn" ${ok&&!S.busy?'':'disabled'} onclick="grpPush()">${t('grpPush')}</button>`:`<button class="btn" ${ok?'':'disabled'} style="flex-direction:column;gap:1px;line-height:1.2" onclick="go('pay');quoteNow()"><span>${t('contPay')}</span></button>`}</div>`:''}`}
 /* ---------- free delivery above the restaurant's own threshold ---------- */
 function fdCard(c){if(!(c.fdm>0)||c.ff||!c.sub)return '';const st=ALLS.find(x=>x.n==S.cartStore)||{};if(st.ft=='free')return '';const pc=Math.max(4,Math.min(100,Math.round((c.sub-c.d-c.h)/c.fdm*100)));
   return `<div class="card fdc" id="fdc"><div class="rg" style="gap:10px"><span class="or">${ico('bike',20)}</span><b class="sm" style="flex:1;min-width:0">${c.fdLeft>0?t('fdLeft').replace('{x} TJS','<strong>'+c.fdLeft+' TJS</strong>').replace('{x}',c.fdLeft):t('fdOk')}</b></div><div class="bar2"><i style="width:${pc}%"></i></div></div>`}
@@ -2008,9 +2011,9 @@ async function grpOpen(id){const r=await TLB.groupGet(id);if(!r||r.error||!r.gro
   S.gid=id;S.grp=r.group;grpKeep();if(!grpStore()){TLB.toast&&TLB.toast(t('storeGone'),true);return}go('group')}
 async function grpLoad(){if(!S.gid||S.gBusy)return;S.gBusy=1;try{const r=await TLB.groupGet(S.gid);if(r&&r.group){const a=JSON.stringify(S.grp);S.grp=r.group;if(a!==JSON.stringify(r.group)&&S.v=='group')render()}}finally{S.gBusy=0}}
 if(!window.__gTick)window.__gTick=setInterval(()=>{if(S.v=='group'&&S.gid&&!document.hidden)grpLoad()},5000);
-async function grpStart(){if(S.busy||badKeys().length)return;S.busy=true;render();try{const r=await TLB.groupCreate(S.cartStore);if(!grpSet(r))return;await grpPush(true)}finally{S.busy=false;render()}}
+async function grpStart(){if(S.busy||badKeys().length||closedNow(S.cartStore))return;S.busy=true;render();try{const r=await TLB.groupCreate(S.cartStore);if(!grpSet(r))return;await grpPush(true)}finally{S.busy=false;render()}}
 /* this person's cart goes into the group (line by line, the server checks each dish and its options) */
-async function grpPush(inner){if(!S.gid||(!inner&&S.busy))return;S.busy=true;if(!inner)render();
+async function grpPush(inner){if(!S.gid||closedNow(S.cartStore)||(!inner&&S.busy))return;S.busy=true;if(!inner)render();
   try{const ks=Object.keys(S.cart),nn=lineNotes(ks);if(nn.some(x=>x.length>120)){alert(t('d6CmtLong'));return}for(let i=0;i<ks.length;i++){const k=ks[i],p=pk(k),r=await TLB.groupAdd(S.gid,p.id,S.cart[k],p.ops,nn[i]||null);if(!grpSet(r))return;delete S.cart[k]}
     S.note='';S.okey=null;go('group')}finally{S.busy=false;if(!inner)render()}}
 async function grpStatus(st){if(st=='cancelled'&&!confirm(t('grpCancelQ')))return;const r=await TLB.groupSet(S.gid,st);if(grpSet(r)&&st=='cancelled'){grpEnd();go('home')}else render()}
