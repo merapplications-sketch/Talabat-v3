@@ -93,7 +93,7 @@ def inspect(page,state,lang,width):
         pageFit:document.documentElement.scrollWidth<=document.documentElement.clientWidth+1};
       const geometryOk=!!card&&!!content&&!!change&&!!addr&&
         geometry.linkText===label&&Math.abs(geometry.linkFont-14)<0.1&&
-        color==='rgb(255, 90, 0)'&&
+        color===getComputedStyle(card.querySelector('.a01-icon')).color&&
         geometry.linkSameRow&&geometry.noOverlap&&
         geometry.contentWidth>=geometry.cardWidth-34&&
         geometry.addrWidth>=geometry.contentWidth-1&&
