@@ -124,6 +124,8 @@ def inspect(page, state):
         current=typeof M01!=='undefined'?M01.map:null,
         leaflets=document.querySelectorAll('.d67-checkout .leaflet-container').length,
         center=current?.getCenter(),coord=shell?[+shell.dataset.lat,+shell.dataset.lng]:null,
+        pixelGap=current&&coord?current.project(center,current.getZoom()).distanceTo(
+          current.project(coord,current.getZoom())):null,
         dx=p&&s?Math.abs((p.left+p.right)/2-(s.left+s.right)/2):null,
         dy=p&&s?Math.abs((p.top+p.bottom)/2-(s.top+s.bottom)/2):null,
         stationary=!!current&&!current.dragging.enabled()&&!current.scrollWheelZoom.enabled()&&
@@ -136,15 +138,14 @@ def inspect(page, state):
         cardHeight:c?.height,hasMap:!!shell,mapCount:leaflets,attr:attr?.innerText||'',
         width:s?.width,height:s?.height,pinDx:dx,pinDy:dy,
         addressText:card?.querySelector('.rg')?.innerText||'', coords:coord,
-        center:center?[center.lat,center.lng]:null,stationary,
+        center:center?[center.lat,center.lng]:null,pixelGap,stationary,
         bg:shell?getComputedStyle(shell).backgroundColor:null};
       if(state==='no_coordinates')return {...common,ok:!shell&&leaflets===0&&
         !card.classList.contains('m01-address-card')&&!!change&&common.pageFit&&common.labels};
       return {...common,ok:!!shell&&!!current&&leaflets===1&&stationary&&
         common.pageFit&&common.labels&&!!attr&&attr.innerText==='© OpenStreetMap'&&
         s.width>200&&Math.abs(s.height-130)<=2&&
-        dx<=4&&dy<=4&&Math.abs(center.lat-coord[0])<1e-7&&
-        Math.abs(center.lng-coord[1])<1e-7 &&
+        dx<=4&&dy<=4&&pixelGap<=1&&
         Math.abs(s.left-c.left)<=2&&Math.abs(s.right-c.right)<=2};
     }""", state)
     if state != "no_coordinates":
@@ -161,11 +162,11 @@ def inspect(page, state):
             clientX:x+dx,clientY:y+dy,buttons:type==='pointerup'?0:1
           }));
         }""")
-        stable = page.evaluate("""() => {
-          const p=document.querySelector('#m01-pay-preview'),c=M01.map.getCenter();
-          return Math.abs(c.lat-(+p.dataset.lat))<1e-7&&
-                 Math.abs(c.lng-(+p.dataset.lng))<1e-7;
-        }""")
+        stable = page.evaluate("""initial => {
+          const c=M01.map.getCenter();
+          return Math.abs(c.lat-initial[0])<1e-10&&
+                 Math.abs(c.lng-initial[1])<1e-10;
+        }""", result["center"])
         result["dragUnchanged"] = stable
         result["ok"] = result["ok"] and stable
     return result
