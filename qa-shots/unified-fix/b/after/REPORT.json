@@ -692,11 +692,11 @@
           "text": "Размер порции (обязательно выбрать)",
           "rect": {
             "x": 26,
-            "y": 287,
+            "y": 306,
             "width": 277,
-            "height": 90,
+            "height": 62,
             "right": 303,
-            "bottom": 377
+            "bottom": 368
           },
           "disabled": false,
           "ariaDisabled": null
@@ -706,11 +706,11 @@
           "text": "Добавки",
           "rect": {
             "x": 26,
-            "y": 716,
+            "y": 707,
             "width": 277,
-            "height": 90,
+            "height": 46,
             "right": 303,
-            "bottom": 806
+            "bottom": 753
           },
           "disabled": false,
           "ariaDisabled": null
@@ -720,11 +720,11 @@
           "text": "Маленький+",
           "rect": {
             "x": 26,
-            "y": 439,
+            "y": 430,
             "width": 323,
             "height": 67,
             "right": 349,
-            "bottom": 506
+            "bottom": 497
           },
           "disabled": false,
           "ariaDisabled": null
@@ -734,11 +734,11 @@
           "text": "Средний+",
           "rect": {
             "x": 26,
-            "y": 506,
+            "y": 497,
             "width": 323,
             "height": 67,
             "right": 349,
-            "bottom": 573
+            "bottom": 564
           },
           "disabled": false,
           "ariaDisabled": null
@@ -748,11 +748,11 @@
           "text": "Большой+",
           "rect": {
             "x": 26,
-            "y": 573,
+            "y": 564,
             "width": 323,
             "height": 67,
             "right": 349,
-            "bottom": 640
+            "bottom": 631
           },
           "disabled": false,
           "ariaDisabled": null
@@ -762,11 +762,11 @@
           "text": "Сыр+",
           "rect": {
             "x": 26,
-            "y": 868,
+            "y": 815,
             "width": 323,
             "height": 67,
             "right": 349,
-            "bottom": 935
+            "bottom": 882
           },
           "disabled": false,
           "ariaDisabled": null
@@ -776,11 +776,11 @@
           "text": "Бекон+",
           "rect": {
             "x": 26,
-            "y": 935,
+            "y": 882,
             "width": 323,
             "height": 67,
             "right": 349,
-            "bottom": 1002
+            "bottom": 949
           },
           "disabled": false,
           "ariaDisabled": null
@@ -790,11 +790,11 @@
           "text": "Халапеньо+",
           "rect": {
             "x": 26,
-            "y": 1002,
+            "y": 949,
             "width": 323,
             "height": 67,
             "right": 349,
-            "bottom": 1069
+            "bottom": 1016
           },
           "disabled": false,
           "ariaDisabled": null
@@ -804,11 +804,11 @@
           "text": "Маленький",
           "rect": {
             "x": 26,
-            "y": 449,
+            "y": 440,
             "width": 153,
             "height": 46,
             "right": 179,
-            "bottom": 495
+            "bottom": 486
           },
           "disabled": false,
           "ariaDisabled": null
@@ -818,11 +818,11 @@
           "text": "Средний",
           "rect": {
             "x": 26,
-            "y": 516,
+            "y": 507,
             "width": 153,
             "height": 46,
             "right": 179,
-            "bottom": 562
+            "bottom": 553
           },
           "disabled": false,
           "ariaDisabled": null
@@ -832,11 +832,11 @@
           "text": "Большой",
           "rect": {
             "x": 26,
-            "y": 583,
+            "y": 574,
             "width": 153,
             "height": 46,
             "right": 179,
-            "bottom": 629
+            "bottom": 620
           },
           "disabled": false,
           "ariaDisabled": null
@@ -846,11 +846,11 @@
           "text": "Сыр",
           "rect": {
             "x": 26,
-            "y": 878,
+            "y": 825,
             "width": 153,
             "height": 46,
             "right": 179,
-            "bottom": 924
+            "bottom": 871
           },
           "disabled": false,
           "ariaDisabled": null
@@ -860,11 +860,11 @@
           "text": "Бекон",
           "rect": {
             "x": 26,
-            "y": 945,
+            "y": 892,
             "width": 153,
             "height": 46,
             "right": 179,
-            "bottom": 991
+            "bottom": 938
           },
           "disabled": false,
           "ariaDisabled": null
@@ -874,11 +874,11 @@
           "text": "Халапеньо",
           "rect": {
             "x": 26,
-            "y": 1012,
+            "y": 959,
             "width": 153,
             "height": 46,
             "right": 179,
-            "bottom": 1058
+            "bottom": 1005
           },
           "disabled": false,
           "ariaDisabled": null
@@ -889,9 +889,9 @@
         "group": {
           "ok": true,
           "value": "Размер порции (обязательно выбрать)",
-          "height": 90,
-          "client": 87,
-          "scroll": 87
+          "height": 62,
+          "client": 59,
+          "scroll": 62
         },
         "options": {
           "ok": true,
@@ -1154,7 +1154,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 14:55",
+          "text": "Ожидание подтверждения · #ord0 18:45",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1182,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 13:55",
+          "text": "Принять с 17:45",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1197,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 14:55\n",
+        "heading": "Ожидание подтверждения · #ord0\n 18:45\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1218,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 13:55",
+            "txt": "Принять с 17:45",
             "width": 209,
             "scroll": 209
           }
@@ -2515,7 +2515,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 7:0",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 3:1",
           "rect": {
             "x": 0,
             "y": 8,
@@ -2688,9 +2688,9 @@
           "text": "Размер порции (обязательно выбрать)",
           "rect": {
             "x": 26,
-            "y": 464.02,
+            "y": 492.02,
             "width": 292,
-            "height": 90,
+            "height": 62,
             "right": 318,
             "bottom": 554.02
           },
@@ -2704,9 +2704,9 @@
             "x": 26,
             "y": 893.02,
             "width": 292,
-            "height": 90,
+            "height": 46,
             "right": 318,
-            "bottom": 983.02
+            "bottom": 939.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2758,11 +2758,11 @@
           "text": "Сыр+",
           "rect": {
             "x": 26,
-            "y": 1045.02,
+            "y": 1001.02,
             "width": 338,
             "height": 67,
             "right": 364,
-            "bottom": 1112.02
+            "bottom": 1068.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2772,11 +2772,11 @@
           "text": "Бекон+",
           "rect": {
             "x": 26,
-            "y": 1112.02,
+            "y": 1068.02,
             "width": 338,
             "height": 67,
             "right": 364,
-            "bottom": 1179.02
+            "bottom": 1135.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2786,11 +2786,11 @@
           "text": "Халапеньо+",
           "rect": {
             "x": 26,
-            "y": 1179.02,
+            "y": 1135.02,
             "width": 338,
             "height": 67,
             "right": 364,
-            "bottom": 1246.02
+            "bottom": 1202.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2842,11 +2842,11 @@
           "text": "Сыр",
           "rect": {
             "x": 26,
-            "y": 1055.02,
+            "y": 1011.02,
             "width": 168,
             "height": 46,
             "right": 194,
-            "bottom": 1101.02
+            "bottom": 1057.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2856,11 +2856,11 @@
           "text": "Бекон",
           "rect": {
             "x": 26,
-            "y": 1122.02,
+            "y": 1078.02,
             "width": 168,
             "height": 46,
             "right": 194,
-            "bottom": 1168.02
+            "bottom": 1124.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2870,11 +2870,11 @@
           "text": "Халапеньо",
           "rect": {
             "x": 26,
-            "y": 1189.02,
+            "y": 1145.02,
             "width": 168,
             "height": 46,
             "right": 194,
-            "bottom": 1235.02
+            "bottom": 1191.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2885,9 +2885,9 @@
         "group": {
           "ok": true,
           "value": "Размер порции (обязательно выбрать)",
-          "height": 90,
-          "client": 87,
-          "scroll": 87
+          "height": 62,
+          "client": 59,
+          "scroll": 62
         },
         "options": {
           "ok": true,
@@ -3150,7 +3150,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 14:55",
+          "text": "Waiting for confirmation · #ord0 18:46",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3178,7 +3178,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 13:55",
+          "text": "Accept from 17:46",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3193,7 +3193,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 14:55\n",
+        "heading": "Waiting for confirmation · #ord0\n 18:46\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3214,7 +3214,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 13:55",
+            "txt": "Accept from 17:46",
             "width": 219,
             "scroll": 219
           }
