@@ -49,9 +49,16 @@ def F02(pg):
       const lang=TLB.lang();
       if(lang==='ru'&&!ph.includes('поиск еды и магазинов'))return false;
       if(lang==='en'&&!ph.includes('search food and stores'))return false;
-      return cats.every(e=>getComputedStyle(e).whiteSpace==='normal'&&
+      const labelsOK=cats.every(e=>getComputedStyle(e).whiteSpace==='normal'&&
         getComputedStyle(e).webkitLineClamp==='2'&&e.scrollWidth<=e.clientWidth+2);
-    }""","F-02 search placeholder/category labels clipped")
+      const promo=document.querySelector('#app .d6-bt.d6tp .tt');
+      if(!promo)return labelsOK;
+      const panel=promo.closest('.d6-bt'),r=panel.getBoundingClientRect();
+      const range=document.createRange();range.selectNodeContents(promo);
+      const lines=[...range.getClientRects()];
+      const promoOK=lines.length>=1&&lines.every(x=>x.left>=r.left+3&&x.right<=r.right-3&&x.top>=r.top-1&&x.bottom<=r.bottom+1);
+      return labelsOK&&promoOK;
+    }""","F-02 search/category/free-delivery banner content clipped")
 
 def F03(pg):
     pg.evaluate("() => go('track',{tid:'ord1'})")
@@ -200,10 +207,16 @@ def main():
                         except Exception as err:
                             detail=str(err)
                             if case=="F-02" and pg:
-                                detail+=" | category_metrics="+str(pg.evaluate("""() =>
-                                [...document.querySelectorAll('#app .d6-ct b')].map(e=>({
-                                txt:e.textContent,sw:e.scrollWidth,cw:e.clientWidth,
-                                fs:getComputedStyle(e).fontSize,ws:getComputedStyle(e).whiteSpace}))"""))
+                                detail+=" | category_metrics="+str(pg.evaluate("""() => ({
+                                   cats:[...document.querySelectorAll('#app .d6-ct b')].map(e=>({
+                                   txt:e.textContent,sw:e.scrollWidth,cw:e.clientWidth,
+                                   fs:getComputedStyle(e).fontSize,ws:getComputedStyle(e).whiteSpace})),
+                                   promo:(() => {const e=document.querySelector('#app .d6-bt.d6tp .tt');if(!e)return null;
+                                     const b=e.closest('.d6-bt').getBoundingClientRect(),range=document.createRange();
+                                     range.selectNodeContents(e);
+                                     return {text:e.textContent,fs:getComputedStyle(e).fontSize,panelRight:b.right,
+                                       textLines:[...range.getClientRects()].map(x=>({left:x.left,right:x.right}))};})()
+                                })"""))
                             errors.append({"id":case,"app":app,"lang":lang,"width":w,"type":type(err).__name__,"message":detail[:1400]})
                             rows.append({"id":case,"app":app,"lang":lang,"width":w,"status":"FAIL"})
                         finally:
