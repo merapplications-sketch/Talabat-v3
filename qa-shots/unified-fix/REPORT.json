@@ -16,7 +16,8 @@
       "app": "customer",
       "lang": "ru",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": null,
       "image": "qa-shots/unified-fix/F-02-customer-ru-375-after.png"
     },
     {
@@ -674,14 +675,5 @@
       "image": "qa-shots/unified-fix/F-10-admin-en-430-after.png"
     }
   ],
-  "errors": [
-    {
-      "id": "F-02",
-      "app": "customer",
-      "lang": "ru",
-      "width": 375,
-      "type": "AssertionError",
-      "message": "F-02 search placeholder/category labels clipped | category_metrics=[{'txt': 'Рестораны', 'sw': 62, 'cw': 59, 'fs': '11px', 'ws': 'normal'}, {'txt': 'Продукты', 'sw': 58, 'cw': 58, 'fs': '11px', 'ws': 'normal'}, {'txt': 'Аптеки', 'sw': 42, 'cw': 42, 'fs': '11px', 'ws': 'normal'}, {'txt': 'Красота', 'sw': 47, 'cw': 47, 'fs': '11px', 'ws': 'normal'}, {'txt': 'Цветы', 'sw': 37, 'cw': 37, 'fs': '11px', 'ws': 'normal'}, {'txt': 'Сладости', 'sw': 55, 'cw': 55, 'fs': '11px', 'ws': 'normal'}]"
-    }
-  ]
+  "errors": []
 }

@@ -4,7 +4,7 @@ These are original source-backed pages with read-only synthetic fixture. Not pro
 Each BEFORE reference is pinned to unchanged BRIEF-14 original screenshots in this same isolated branch.
 
 - F-01 ru/375: [PASS](REPORT.json) | [BEFORE](../full-audit/customer/home_ru_375.png) | [AFTER](F-01-customer-ru-375-after.png)
-- F-02 ru/375: [FAIL](REPORT.json) | [BEFORE](../full-audit/customer/home_ru_375.png) | [AFTER](F-02-customer-ru-375-after.png)
+- F-02 ru/375: [PASS](REPORT.json) | [BEFORE](../full-audit/customer/home_ru_375.png) | [AFTER](F-02-customer-ru-375-after.png)
 - F-03 ru/375: [PASS](REPORT.json) | [BEFORE](../full-audit/customer/track_ru_375.png) | [AFTER](F-03-customer-ru-375-after.png)
 - F-04 ru/375: [PASS](REPORT.json) | [BEFORE](../full-audit/customer/item-sheet_ru_375.png) | [AFTER](F-04-customer-ru-375-after.png)
 - F-05 ru/375: [PASS](REPORT.json) | [BEFORE](../full-audit/customer/pay_ru_375.png) | [AFTER](F-05-customer-ru-375-after.png)
