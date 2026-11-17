@@ -409,6 +409,11 @@ body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,
 .d6s .oshf .btn .px6{font-size:18px;line-height:22px;font-weight:600}
 .d6s .oshf .btn.soft span:first-child{font-size:13px;line-height:17px}
 .d6s .oshf .btn.soft{background:#C9CED8}
+/* BRIEF-15b C-01: closed cards are grey and inert; cart remains editable for removal. */
+.d6-sc.closed,.d6-nc.closed,.sr.closed,.mini.closed,.d6-dc.closed{filter:grayscale(1);opacity:.58;cursor:default!important}
+.d6 .d6-add:disabled,.d6s .oshf .btn:disabled{background:#d5d8de!important;color:#777e8a!important;box-shadow:none!important;cursor:not-allowed!important}
+.c01-closed-cart .d6-head .st{color:#81858b!important;text-decoration:line-through}
+.c01-closed-cart .ci{opacity:.62;filter:grayscale(.65)}
 /* ---------- cart ---------- */
 .d6c{padding:0 16px}
 .d6c .d6-head{display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top,0px)) 0 16px}
@@ -1265,9 +1270,12 @@ const syncStores=()=>{ALLS=TLB.stores().map(x=>({bid:x.brand_id||'',bn:x.branch_
   ALLS.forEach(s=>{if(!s.bid){STORES.push(s);return}if(seen[s.bid])return;const g=ALLS.filter(x=>x.bid==s.bid).sort((x,y)=>(TLB.isOpen(y.n)?1:0)-(TLB.isOpen(x.n)?1:0)||dist(x)-dist(y));seen[s.bid]=1;STORES.push(g[0])})};
 const menuOf=n=>TLB.allMenus(false)[n]||[];
 const go=(v,x)=>{if(v!='cart')S.cartUndo=null;if(v!='menu')S.sinfo=false;Object.assign(S,{v,sheetAddr:false,ro:null,rep:null,hcf:null,hmsg:''},v=='track'&&S.v!='track'?{cxe:null}:{},x||{});if(v=='support')TLB.wantSupport(true);if(v=='wallet')TLB.loadWallet(true);if(v=='about'||v=='privacy')TLB.loadPages(true);render();scrollTo(0,0)};
-const openStore=i=>openN(STORES[i].n);
-const openN=n=>{if(!TLB.isOpen(n)){TLB.toast&&TLB.toast(t('closedMsg'),true);return}go('menu',{store:n,back:S.v=='cat'?'cat':S.v=='fav'?'fav':(S.v=='promo'||S.v=='offer')?'promo':'home',msq:'',msearch:false,sheet:false})};
+const openStore=i=>{const st=STORES[i];if(st&&TLB.isOpen(st.n))openN(st.n)};
+const openN=n=>{if(!TLB.isOpen(n))return;go('menu',{store:n,back:S.v=='cat'?'cat':S.v=='fav'?'fav':(S.v=='promo'||S.v=='offer')?'promo':'home',msq:'',msearch:false,sheet:false})};
 const openCat=c=>go('cat',{catKey:c,cq:'',srt:'',fo:false});
+/* BRIEF-15b C-01: closed locations have no click handler, not a misleading toast. */
+const storeTap=st=>TLB.isOpen(st.n)?`onclick="openStore(${STORES.indexOf(st)})"`:'aria-disabled="true"';
+TLB.addDict({closedStoreBadge:'Закрыт'},{closedStoreBadge:'Closed'});
 const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
 const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p);
 const isFirst=n=>!TLB.orders().some(o=>o.store==n&&o.status!='rejected'&&o.status!='cancelled');
@@ -1424,14 +1432,14 @@ function undoLine(){const u=S.cartUndo;S.cartUndo=null;if(!u||(Object.keys(S.car
   const ks=Object.keys(S.cart),c={};ks.forEach((k,i)=>{if(i==u.pos)c[u.key]=(c[u.key]||0)+u.q;c[k]=(c[k]||0)+S.cart[k]});if(!(u.key in c))c[u.key]=u.q;
   S.cart=c;S.cartStore=u.store;if(!S.note&&u.note)S.note=u.note;if(!S.promo&&u.promo)S.promo=u.promo;afterCart()}
 function clearCart(){if(!confirm(t('clearCart')))return;S.cart={};S.cartUndo=null;afterCart()}
-function goMore(){if(!TLB.isOpen(S.cartStore)){TLB.toast&&TLB.toast(t('closedMsg'),true);return}go('menu',{store:S.cartStore,back:'cart'})}
+function goMore(){if(!TLB.isOpen(S.cartStore)){go('home');return}go('menu',{store:S.cartStore,back:'cart'})}
 function goCart(){S.perr='';S.pm=null;go('cart')}
 function add(id,d){S.cartUndo=null;S.cart[id]=Math.min(50,(S.cart[id]||0)+d);if(S.cart[id]<=0)delete S.cart[id];afterCart()}
 function closedNow(n){return !TLB.isOpen(n)}
 function ensureStore(){if(Object.keys(S.cart).length&&S.cartStore!==S.store){if(!confirm(t('clear_cart')))return false;S.cart={};S.cartUndo=null;S.promo=null;S.perr='';S.pm=null;S.okey=null}S.cartStore=S.store;return true}
-function addFrom(id){if(closedNow(S.store)){alert(t('closedMsg'));return}const it=menuOf(S.store).find(x=>x.id==id);if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}if(it&&it.hasOpts){openItem(id);return}if(!ensureStore())return;add(id,1)}
+function addFrom(id){if(closedNow(S.store))return;const it=menuOf(S.store).find(x=>x.id==id);if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}if(it&&it.hasOpts){openItem(id);return}if(!ensureStore())return;add(id,1)}
 /* ---------- item sheet (choose size / drink / extras) ---------- */
-function openItem(id){const st=S.v=='cart'?S.cartStore:S.store;if(closedNow(st)){alert(t('closedMsg'));return}const it=menuOf(st).find(x=>x.id==id);if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}S.store=st;S.sh={id,sel:{},q:1,note:'',keep:false};render();S.sh&&(S.sh.keep=true)}
+function openItem(id){const st=S.v=='cart'?S.cartStore:S.store;if(closedNow(st))return;const it=menuOf(st).find(x=>x.id==id);if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}S.store=st;S.sh={id,sel:{},q:1,note:'',keep:false};render();S.sh&&(S.sh.keep=true)}
 TLB.addDict({v70Edit:'Изменить',v70Save:'Сохранить',v70Changed:'Корзина изменилась. Откройте блюдо заново.',v70Limit:'Не более 50 одинаковых блюд.'},{v70Edit:'Edit',v70Save:'Save changes',v70Changed:'The cart changed. Please reopen this item.',v70Limit:'Maximum 50 identical items.'});
 function editLine(key){const p=pk(key),q=S.cart[key];if(!q)return;openItem(p.id);if(!S.sh)return;const sel={};TLB.optionsOf(p.id).forEach(g=>{sel[g.id]=g.options?g.options.filter(o=>p.ops.includes(o.id)).map(o=>o.id):[]});S.sh.sel=sel;S.sh.q=q;S.sh.note=p.note;S.sh.editKey=key;S.sh.editQty=q;S.sh.editStore=S.cartStore;render()}
 function shClose(){S.sh=null;render()}
@@ -1507,7 +1515,7 @@ function shPick(gid,oid,max){S.sh.miss='';const sel=S.sh.sel[gid]||(S.sh.sel[gid
 function shQ(d){S.sh.q=Math.max(1,Math.min(50,S.sh.q+d));render()}
 const shOps=()=>Object.values(S.sh.sel).flat();
 const shOk=()=>{const gs=TLB.optionsOf(S.sh.id);return gs.every(g=>{const n=(S.sh.sel[g.id]||[]).length;return n<=g.max&&(!g.required||n>=1)})};
-function shAdd(){if(!S.sh)return;if(!shOk()){const g=TLB.optionsOf(S.sh.id).find(g=>{const n=(S.sh.sel[g.id]||[]).length;return n>g.max||(g.required&&n<1)});if(g){S.sh.miss=g.id;render();const e=$('og-'+g.id);if(e)e.scrollIntoView({block:'center',behavior:'smooth'})}return}if(closedNow(S.store)){alert(t('closedMsg'));return}if(S.sh.editKey&&S.cartStore!==S.sh.editStore){alert(t('v70Changed'));return}if(!ensureStore())return;const key=lk(S.sh.id,shOps(),S.sh.note);if(S.sh.editKey){if(S.cartStore!==S.sh.editStore||S.cart[S.sh.editKey]!==S.sh.editQty){alert(t('v70Changed'));return}const combined=(key===S.sh.editKey?0:(S.cart[key]||0))+S.sh.q;if(combined>50){alert(t('v70Limit'));return}delete S.cart[S.sh.editKey];S.cart[key]=combined}else S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.cartUndo=null;S.sh=null;afterCart()}
+function shAdd(){if(!S.sh)return;if(!shOk()){const g=TLB.optionsOf(S.sh.id).find(g=>{const n=(S.sh.sel[g.id]||[]).length;return n>g.max||(g.required&&n<1)});if(g){S.sh.miss=g.id;render();const e=$('og-'+g.id);if(e)e.scrollIntoView({block:'center',behavior:'smooth'})}return}if(closedNow(S.store))return;if(S.sh.editKey&&S.cartStore!==S.sh.editStore){alert(t('v70Changed'));return}if(!ensureStore())return;const key=lk(S.sh.id,shOps(),S.sh.note);if(S.sh.editKey){if(S.cartStore!==S.sh.editStore||S.cart[S.sh.editKey]!==S.sh.editQty){alert(t('v70Changed'));return}const combined=(key===S.sh.editKey?0:(S.cart[key]||0))+S.sh.q;if(combined>50){alert(t('v70Limit'));return}delete S.cart[S.sh.editKey];S.cart[key]=combined}else S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.cartUndo=null;S.sh=null;afterCart()}
 /* v06.1 dish sheet: photo above, panel max min(560px,66dvh); title / price and quantity / add stay outside the options scroll (.osh) */
 function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S.sh.id);if(!it){S.sh=null;return ''}const gs=TLB.optionsOf(it.id),sd=sdOf(S.store),ops=shOps(),base=baseOf(it,ops),u=unit(it,sd,base),ok=shOk(),e=eff(it,sd),q=S.sh.q;
   const grp=g=>{const sel=S.sh.sel[g.id]||[],multi=g.max>1;
@@ -1521,7 +1529,7 @@ function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S
   <div class="osh">${gs.map(grp).join('')}
   <div class="d6-nt"><h3><label for="shn">${t('d6Note')}</label></h3><textarea id="shn" maxlength="120" rows="2" placeholder="${t('d6NotePh')}" oninput="S.sh.note=this.value">${esc(S.sh.note||'')}</textarea><small>${t('d6NoteHint')}</small></div></div>
   ${ok?'':`<div class="d67-choice-hint" role="status">${t('needChoose')}</div>`}<div class="oshf"><div class="d6-q"><button aria-label="−" ${q<=1?'disabled':''} onclick="shQ(-1)">${ico('minus')}</button><span aria-live="polite">${q}</span><button aria-label="+" ${q>=50?'disabled':''} onclick="shQ(1)">${ico('plus')}</button></div>
-  <button class="btn ${ok?'':'soft'}" onclick="shAdd()"><span>${t(S.sh.editKey?'v70Save':'d6AddCart')}</span><span class="px6">${Math.round(u*q*100)/100} TJS</span></button></div></div></div>`}
+  <button class="btn ${ok&&!closedNow(S.store)?'':'soft'}" ${closedNow(S.store)?'disabled aria-disabled="true"':''} onclick="shAdd()"><span>${t(S.sh.editKey?'v70Save':'d6AddCart')}</span><span class="px6">${Math.round(u*q*100)/100} TJS</span></button></div></div></div>`}
 const cartLines=()=>Object.keys(S.cart).map(k=>{const p=pk(k);return{item_id:p.id,qty:S.cart[k],options:p.ops}});
 async function applyPromo(){const code=(($('pc')||{}).value||'').trim();if(!code)return;S.pcode=code;const seq=++pSeq,store=S.cartStore,lines=JSON.stringify(cartLines());let r;try{r=await TLB.checkPromo(store,JSON.parse(lines),code)}catch(_){r={error:'generic'}}if(seq!==pSeq||S.cartStore!==store||JSON.stringify(cartLines())!==lines||S.pcode.trim()!==code)return;r=r||{error:'generic'};
   if(r.error){S.promo=null;S.perr=r.error;S.pm=r.error=='promo_min'?{min:r.min,have:r.have}:null}else{S.promo={code:code.toUpperCase(),d:r.discount};S.perr='';S.pm=null}render()}
@@ -1630,8 +1638,8 @@ const pic=u=>u?`<img src="${esc(u)}" alt="" loading="lazy">`:`<div class="ph"></
 const isFavS=s=>TLB.isFav(s.id);
 const heart=s=>`<button class="hrt" aria-label="${t('favs')}" onclick="event.stopPropagation();TLB.toggleFav('${s.id}')" style="color:${isFavS(s)?'#f1511b':'#1c1c21'}">${ico('heart',18,isFavS(s))}</button>`;
 const isNew=s=>s.cr&&Date.now()-Date.parse(s.cr)<30*864e5;
-const mini=s=>`<div class="mini ${TLB.isOpen(s.n)?'':'closed'}" onclick="openStore(${STORES.indexOf(s)})"><div class="mi-i">${pic(s.i)}${TLB.isOpen(s.n)?'':`<span class="cl-tag">${t('closed')}</span>`}${heart(s)}${s.disc>0?`<span class="tg">−${s.disc}%</span>`:''}${isNew(s)?`<span class="tg n">${t('newTag')}</span>`:''}</div><div class="mi-t"><b>${esc(s.n)}</b><div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span></div></div></div>`;
-const storeRow=(s,h)=>`<div class="sr ${TLB.isOpen(s.n)?'':'closed'}" onclick="openStore(${STORES.indexOf(s)})"><div class="th">${pic(s.i)}</div><div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p style="color:var(--o);font-weight:600">${esc(h.name)} — ${h.price} TJS</p>`:''}<div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span>${TLB.isOpen(s.n)?'':`<span class="or">${t('closed')}</span>`}</div></div>${heart(s)}</div>`;
+const mini=s=>`<div class="mini ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="mi-i">${pic(s.i)}${TLB.isOpen(s.n)?'':`<span class="cl-tag">${t('closedStoreBadge')}</span>`}${heart(s)}${s.disc>0?`<span class="tg">−${s.disc}%</span>`:''}${isNew(s)?`<span class="tg n">${t('newTag')}</span>`:''}</div><div class="mi-t"><b>${esc(s.n)}</b><div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span></div></div></div>`;
+const storeRow=(s,h)=>`<div class="sr ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="th">${pic(s.i)}</div><div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p style="color:var(--o);font-weight:600">${esc(h.name)} — ${h.price} TJS</p>`:''}<div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span>${TLB.isOpen(s.n)?'':`<span class="or">${t('closedStoreBadge')}</span>`}</div></div>${heart(s)}</div>`;
 const matches=(M,q)=>STORES.map(s=>({s,h:q&&(M[s.n]||[]).find(i=>i.name.toLowerCase().includes(q))})).filter(({s,h})=>!q||s.n.toLowerCase().includes(q)||s.d.toLowerCase().includes(q)||h);
 const topbar=(ti,su,bk,right)=>`<div class="top"><button class="ib" onclick="${bk}" aria-label="${t('back')}">${ico('back')}</button><div class="tt"><b>${ti}</b>${su?`<span>${su}</span>`:''}</div>${right||''}</div>`;
 /* one empty-state component: icon + title + hint (+ optional action) */
@@ -1669,7 +1677,7 @@ const d6Rt=st=>st.rt>0?`<b class="rt">${ico('star',13,1)} ${st.rt.toFixed(1)}${s
 function d6Ago(ts){const d=new Date(ts);if(isNaN(d))return '';const day=x=>{const y=new Date(x);y.setHours(0,0,0,0);return y.getTime()},n=Math.round((day(Date.now())-day(d))/864e5),L=TLB.lang()=='ru'?'ru-RU':'en-GB';
   if(n>=0&&n<7&&window.Intl&&Intl.RelativeTimeFormat){const s=new Intl.RelativeTimeFormat(L,{numeric:'auto'}).format(-n,'day');return s.charAt(0).toUpperCase()+s.slice(1)}return d.toLocaleDateString(L,{day:'numeric',month:'short'})}
 /* one store card for the Home rails */
-const sCard=st=>{const op=TLB.isOpen(st.n),m=d6Meta(st);return `<div class="d6-sc ${op?'':'closed'}" role="button" onclick="openStore(${STORES.indexOf(st)})">${d6Ph(st.i||st.lg,(op?badge(st):`<span class="hb k">${t('closed')}</span>`)+heart(st))}<b class="nm">${esc(st.n)}</b><div class="mt">${[d6Rt(st),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>${perk(st)}</div>`};
+const sCard=st=>{const op=TLB.isOpen(st.n),m=d6Meta(st);return `<div class="d6-sc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${d6Ph(st.i||st.lg,(op?badge(st):`<span class="hb k">${t('closedStoreBadge')}</span>`)+heart(st))}<b class="nm">${esc(st.n)}</b><div class="mt">${[d6Rt(st),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>${perk(st)}</div>`};
 const rail=list=>`<div class="d6-rl">${list.map(sCard).join('')}</div>`;
 function perk(st){if(st.disc>0)return `<span class="pk r">${t('hDiscL').replace('{n}',st.disc)}</span>`;if(st.ft=='free')return `<span class="pk g">${t('hFreeL')}</span>`;if(st.fdm>0)return `<span class="pk g">${t('hFreeFromL').replace('{n}',st.fdm)}</span>`;if(st.ffd)return `<span class="pk g">${t('hFreeFirstL')}</span>`;return ''}
 function badge(st){if(st.disc>0)return `<span class="hb r">−${st.disc}%</span>`;if(TLB.isExpress&&TLB.isExpress(st.id))return `<span class="hb d">⚡ ${t('hExpL')}</span>`;if(isNew(st))return `<span class="hb b">${t('hNewL')}</span>`;return ''}
@@ -1725,7 +1733,7 @@ function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes
   return secH('',t('hRecT'))+`<div class="d6-rl">${out.slice(0,12).map(({it,st})=>{const e=eff(it,sdOf(st.n)),sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b>${pxH(it,sdOf(st.n))}<span class="st">${esc(st.n)}</span></div>`}).join('')}</div>`}
 /* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
 function nearH(){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b))).slice(0,8);if(!l.length)return '';
-  return secH('pin',t('d6Near'))+`<div class="d6-nr">${l.map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="button" onclick="openStore(${STORES.indexOf(st)})">${d6Ph(st.i||st.lg)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closed')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
+  return secH('pin',t('d6Near'))+`<div class="d6-nr">${l.map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${d6Ph(st.i||st.lg)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closedStoreBadge')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
 /* wallet + points: the user's own numbers */
 /* coupons and rewards: both open the wallet (vouchers, points, balance are there) */
 function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0);
@@ -1734,10 +1742,10 @@ function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0
 const areaOf=st=>{const a=String(st.ad||'').split(',').map(x=>x.trim()).filter(Boolean);return a[0]||''};
 function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0).sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,12);if(!l.length)return '';const mx=l[0].disc;
   return secH('',t('hDineT'),"openCat('rest');S.srt='disc'")+`<div class="d6-dn" role="button" onclick="openCat('rest');S.srt='disc'"><b class="dlg">DineOut</b><p>${t('hDineS')}</p><span class="go">${t('hDineGo')} ${ico('arr',14)}</span><img class="art" src="${A3('pizza')}" alt="" width="120" height="120" loading="lazy"><span class="pct">${t('hDineP').replace('{n}',mx)}</span></div>
-  <div class="d6-rl">${l.map(st=>{const km=kmOf(st),ar=areaOf(st);return `<div class="d6-dc" role="button" onclick="openStore(${STORES.indexOf(st)})">${d6Ph(st.i||st.lg,`<span class="hb r">−${st.disc}%</span>`+heart(st))}<b class="nm"><span>${esc(st.n)}</span>${ico('chev',14)}</b><div class="mt">${[d6Rt(st),ar||km!=null?`<span>${esc(ar||t('hKm').replace('{n}',km))}${ar&&km!=null?` · ${t('hKm').replace('{n}',km)}`:''}</span>`:''].filter(Boolean).join('<span>·</span>')}</div></div>`}).join('')}</div>`}
+  <div class="d6-rl">${l.map(st=>{const km=kmOf(st),ar=areaOf(st);return `<div class="d6-dc" role="button" ${storeTap(st)}>${d6Ph(st.i||st.lg,`<span class="hb r">−${st.disc}%</span>`+heart(st))}<b class="nm"><span>${esc(st.n)}</span>${ico('chev',14)}</b><div class="mt">${[d6Rt(st),ar||km!=null?`<span>${esc(ar||t('hKm').replace('{n}',km))}${ar&&km!=null?` · ${t('hKm').replace('{n}',km)}`:''}</span>`:''].filter(Boolean).join('<span>·</span>')}</div></div>`}).join('')}</div>`}
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
-const d6SRow=(s,h,last)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);return `<div class="sr d6-sr ${op?'':'closed'}" role="button" onclick="openStore(${STORES.indexOf(s)})">${d6Ph(s.i||s.lg,'','th')}<div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p class="hit">${esc(h.name)} — ${h.price} TJS</p>`:''}${last?`<p>${t('d6LastO').replace('{d}',d6Ago(last))}</p>`:''}${d6Rt(s)||m?`<div class="mt">${[d6Rt(s),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>`:''}<div class="dl">${ico('bike',14)} ${delTxt(s)}</div></div>${op?'':`<span class="or">${t('closed')}</span>`}${heart(s)}</div>`};
+const d6SRow=(s,h,last)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);return `<div class="sr d6-sr ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(s)}>${d6Ph(s.i||s.lg,'','th')}<div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p class="hit">${esc(h.name)} — ${h.price} TJS</p>`:''}${last?`<p>${t('d6LastO').replace('{d}',d6Ago(last))}</p>`:''}${d6Rt(s)||m?`<div class="mt">${[d6Rt(s),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>`:''}<div class="dl">${ico('bike',14)} ${delTxt(s)}</div></div>${op?'':`<span class="or">${t('closedStoreBadge')}</span>`}${heart(s)}</div>`};
 /* stores of the user's delivered orders → date of the last one */
 function d6Mine(){const m={};TLB.orders().forEach(o=>{if(o.status!='delivered')return;const d=+new Date(o.doneAt||o.createdAt)||0;if(!(o.store in m)||d>m[o.store])m[o.store]=d});return m}
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf||Object.assign({},HF0);const head=hHead();
@@ -1774,14 +1782,14 @@ const d6Ph=(src,badges,cls)=>`<div class="d6-ph ${src?'':'none'} ${cls||''}">${s
 const d6Bdg=(i,sd)=>{const e=eff(i,sd);return (e?`<span class="d6-bdg">−${e}%</span>`:'')+(isBest(i.id)?`<span class="d6-bdg hot">${t('hotB')}</span>`:'')};
 const d6Price=(i,sd,base,q)=>{const e=eff(i,sd),k=q||1,b=base==null?i.price:base,full=Math.round(b*k*100)/100;return e?`<span class="d6-px">${Math.round(b*k*(100-e))/100} TJS<s>${full} TJS</s></span>`:`<span class="d6-px">${full} TJS</span>`};
 /* tapping a dish opens its sheet (photo, options, request, quantity) */
-const d6Open=i=>i.optsBlocked?'':closedNow(S.store)?"alert(t('closedMsg'))":`openItem('${i.id}')`;
+const d6Open=i=>i.optsBlocked||closedNow(S.store)?'':`openItem('${i.id}')`;
 /* add control: white + → orange ✓ (with the quantity) only once the dish is in the cart; dishes with options open the sheet first */
 function d6Add(i){const q=S.cartStore==S.store?qtyOf(i.id):0;
   if(i.optsBlocked)return `<span class="d6-un">${t('itemOff')}</span>`;
-  if(closedNow(S.store))return `<button class="d6-add off" aria-label="${t('closed')}" onclick="event.stopPropagation();alert(t('closedMsg'))"><i>${ico('plus')}</i></button>`;
+  if(closedNow(S.store))return `<button class="d6-add off" type="button" disabled aria-disabled="true" aria-label="${t('closedStoreBadge')}"><i>${ico('plus')}</i></button>`;
   const act=i.hasOpts?`openItem('${i.id}')`:`addFrom('${i.id}')`;
   return q?quantityCtl(i,S.store):`<button class="d6-add" aria-label="${t('addMore')}: ${esc(i.name)}" onclick="event.stopPropagation();${act}"><i>${ico('plus')}</i></button>`}
-function quantityUp(sn,id){if(closedNow(sn)){alert(t('closedMsg'));return}const keys=S.cartStore===sn?Object.keys(S.cart).filter(k=>pk(k).id===id):[];if(keys.length===1){add(keys[0],1);return}if(keys.length>1){goCart();return}if(S.v==='home')quickAdd(sn,id);else{S.store=sn;addFrom(id)}}
+function quantityUp(sn,id){if(closedNow(sn))return;const keys=S.cartStore===sn?Object.keys(S.cart).filter(k=>pk(k).id===id):[];if(keys.length===1){add(keys[0],1);return}if(keys.length>1){goCart();return}if(S.v==='home')quickAdd(sn,id);else{S.store=sn;addFrom(id)}}
 function quantityDown(sn,id){if(S.cartStore!==sn)return;const keys=Object.keys(S.cart).filter(k=>pk(k).id==id);if(keys.length===1)add(keys[0],-1);else if(keys.length>1)goCart()}
 function quantityCtl(i,sn){const q=S.cartStore===sn?qtyOf(i.id):0,n=esc(JSON.stringify(sn));return `<div class="d75-qty"><button aria-label="${t('v75Reduce')}: ${esc(i.name)}" onclick="event.stopPropagation();quantityDown(${n},'${i.id}')">${ico(q===1?'trash':'minus',18)}</button><span aria-live="polite">${q}</span><button ${!TLB.isOpen(sn)||i.optsBlocked?'disabled':''} aria-label="${t('addMore')}: ${esc(i.name)}" onclick="event.stopPropagation();quantityUp(${n},'${i.id}')">${ico('plus',18)}</button></div>`}
 TLB.addDict({v75Reduce:'Уменьшить количество'},{v75Reduce:'Reduce quantity'});
@@ -1801,7 +1809,7 @@ function menuSecs(M,sn){const secs=[];
   return secs.map((s,i)=>Object.assign(s,{id:'s_'+i}))}
 const brGo=i=>{if(ALLS[i])go('menu',{store:ALLS[i].n,msq:'',msearch:false})};
 function brChips(sd){if(!sd||!sd.bid)return'';const l=ALLS.filter(x=>x.bid==sd.bid);if(l.length<2)return'';
-  return `<div class="brs"><div class="xs mut" style="margin:12px 0 6px">${t('brs')}</div><div class="brw">${l.map(x=>`<button class="brc ${x.n==S.store?'on':''} ${TLB.isOpen(x.n)?'':'cl'}" onclick="brGo(${ALLS.indexOf(x)})">${esc(x.bn||x.n)}${TLB.isOpen(x.n)?'':' · '+t('closed')}</button>`).join('')}</div></div>`}
+  return `<div class="brs"><div class="xs mut" style="margin:12px 0 6px">${t('brs')}</div><div class="brw">${l.map(x=>`<button class="brc ${x.n==S.store?'on':''} ${TLB.isOpen(x.n)?'':'cl'}" onclick="brGo(${ALLS.indexOf(x)})">${esc(x.bn||x.n)}${TLB.isOpen(x.n)?'':' · '+t('closedStoreBadge')}</button>`).join('')}</div></div>`}
 function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store),st=TLB.stores().find(x=>x.name==S.store)||{},sd=storeOf(S.store),q=S.msq.trim().toLowerCase(),sdp=sd.disc||0;
   const fav=st.id&&TLB.isFav(st.id),eta=etaOf(sd),maxIt=M.reduce((m,i)=>Math.max(m,+i.discount||0),0);
   /* offers: only what the data says (store discount or the best dish discount, free first delivery, free delivery threshold) */
@@ -1847,15 +1855,15 @@ function stepper(id,q){return `<div class="d6-q"><button aria-label="${q==1?t('r
 function cartSuggestAdd(id){S.store=S.cartStore;addFrom(id)}
 function vCart(){const m=menuOf(S.cartStore),ids=Object.keys(S.cart),mm=TLB.allMenus(true)[S.cartStore]||[],sd=sdOf(S.cartStore),U=S.cartUndo&&S.cartUndo.store==S.cartStore?S.cartUndo:null;
   if(!ids.length&&!U)return topbar(t('cartT'),'',"go('home')")+emptyV(t('emptyCartT'),t('emptyCartS'),'','store');
-  const like=mm.filter(x=>x.available&&x.approved&&!x.optsBlocked&&!qtyOf(x.id)).slice(0,10),bad=badKeys(),c=calc(),ok=!bad.length&&!closedNow(S.cartStore),cap=cmtCap();
-  const head=`<div class="d6-head"><button class="d6-circ" onclick="goMore()" aria-label="${t('back')}">${ico('back')}</button><div><h1>${t('cartT')}</h1><div class="st">${esc(S.cartStore||'')}</div></div>${ids.length?`<button class="d6-circ" onclick="clearCart()" aria-label="${t('d6Clear')}">${ico('trash')}</button>`:''}</div>`;
+  const like=mm.filter(x=>!closedNow(S.cartStore)&&x.available&&x.approved&&!x.optsBlocked&&!qtyOf(x.id)).slice(0,10),bad=badKeys(),c=calc(),ok=!bad.length&&!closedNow(S.cartStore),cap=cmtCap();
+  const head=`<div class="d6-head ${closedNow(S.cartStore)?'c01-closed-store':''}"><button class="d6-circ" onclick="goMore()" aria-label="${t('back')}">${ico('back')}</button><div><h1>${t('cartT')}</h1><div class="st">${esc(S.cartStore||'')}</div></div>${ids.length?`<button class="d6-circ" onclick="clearCart()" aria-label="${t('d6Clear')}">${ico('trash')}</button>`:''}</div>`;
   const rm=()=>{const p=pk(U.key),i=m.find(x=>x.id==p.id)||{name:'—'},ot=optTxt(p.id,p.ops);return `<div class="d6-rm" role="status"><div><b>${t('d6Removed')}: ${esc(i.name)}${U.q>1?' × '+U.q:''}</b>${ot||p.note?`<small>${esc([ot,p.note].filter(Boolean).join(' · '))}</small>`:''}</div><button class="d6-undo" id="cundo" onclick="undoLine()">${t('d6Undo')}</button></div>`};
   const line=key=>{const p=pk(key),i=m.find(x=>x.id==p.id)||{name:'—',price:0,image:'',discount:0,id:p.id},q=S.cart[key],e=eff(i,sd),ot=optTxt(p.id,p.ops),gone=bad.includes(key);
     return `<div class="ci${gone?' gone':''}"><div class="d69-cart-photo">${d6Ph(i.image,e&&!gone?`<span class="d6-bdg">−${e}%</span>`:'')}${gone?'':stepper(key,q)}</div><div class="d6-ci"><div class="nm">${esc(i.name)}</div>${ot?`<div class="d6-sub">${esc(ot)}</div>`:''}${p.note?`<div class="d6-lnote">${t('d6Note')}: ${esc(p.note)}</div>`:''}
     ${gone?`<div class="xs" style="color:var(--bad);font-weight:600">${t('cartGoneL')}</div><div class="d6-q" style="width:46px"><button aria-label="${t('removeI')}" onclick="delLine('${key}')">${ico('trash')}</button></div>`:`<div class="d6-ci-bottom"><div class="d6-lp">${d6Price(i,sd,baseOf(i,p.ops),q).replace(/^<span class="d6-px">|<\/span>$/g,'')}</div><button class="d70-edit" onclick="editLine('${key}')">${t('v70Edit')}</button></div>`}</div></div>`};
   const rows=ids.map(line);if(U)rows.splice(Math.min(U.pos,rows.length),0,rm());
   const lk2=i=>`<div class="d6-pv" ${i.optsBlocked?'':`role="button" tabindex="0" onclick="openItem('${i.id}')"`}><div class="d69-product-photo">${d6Ph(i.image,d6Bdg(i,sd))}${i.optsBlocked?'':`<button class="d6-add addb" aria-label="${t('addMore')}: ${esc(i.name)}" onclick="event.stopPropagation();cartSuggestAdd('${i.id}')"><i>${ico('plus')}</i></button>`}</div><div class="d6-pc"><div class="nm">${esc(i.name)}</div><div class="d6-pf">${d6Price(i,sd)}${i.optsBlocked?`<span class="d6-un">${t('itemOff')}</span>`:''}</div></div></div>`;
-  return `<div class="d6 d6c">${head}
+  return `<div class="d6 d6c ${closedNow(S.cartStore)?'c01-closed-cart':''}">${head}
   ${bad.length?`<div class="closedb" id="cgone" style="margin:0 0 12px;display:block"><div style="display:flex;gap:8px;align-items:flex-start">${ico('x',18)}<div style="flex:1;min-width:0"><b>${t('cartGoneT')}</b><div style="font-weight:500;margin-top:2px">${t('cartGoneS')}</div></div></div><button class="btn s" style="width:100%;margin-top:10px" onclick="rmBad()">${t('cartGoneRm')}</button></div>`:''}
   ${ids.length?fdCard(c):''}${rows.join('')}${ids.length?`<p class="d6-cart-note">${t('v66CartNote')}</p>`:''}
   ${!ids.length?emptyV(t('emptyCartT'),t('emptyCartS'),'','store'):''}
@@ -2201,7 +2209,7 @@ function vOffer(){const s=STORES.find(x=>x.id==S.oid);if(!s){S.v='promo';return 
   return topbar(esc(s.n),'',"go('promo')")+`<div class="pg"><div class="odh">${s.i?`<img src="${esc(s.i)}" alt="">`:''}</div>
   <div class="card"><h3>${t('n6Cond')}</h3>${rows.map(([a,b])=>`<div class="dr"><span>${a}</span><b>${b}</b></div>`).join('')}${s.d?`<div class="xs mut" style="margin-top:8px;line-height:1.45">${esc(s.d)}</div>`:''}</div>
   <div class="card"><h3 style="margin-bottom:4px">${t('n6Cont')}</h3><div class="ctr"><span class="i3">${ico('pin',16)}</span><div class="ctx"><div class="xs mut">${t('n6Addr')}</div><div class="b6">${s.ad?esc(s.ad):'—'}</div></div>${mapH(s)?`<a class="cbt" href="${mapH(s)}" target="_blank" rel="noopener" aria-label="${t('n7Map')}" title="${t('n7Map')}">${ico('nav',18)}</a>`:''}</div><div class="ctr"><span class="i3">${ico('phone',16)}</span><div class="ctx"><div class="xs mut">${t('n6Phone')}</div><div class="b6">${s.ph?esc(s.ph):`<span class="mut">${t('n6NoPh')}</span>`}</div></div>${s.ph?`<a class="cbt call" href="${telH(s.ph)}" aria-label="${t('n6Phone')}" title="${t('n6Phone')}">${ico('phone',18)}</a>`:''}</div></div>
-  <button class="btn big" onclick="openStore(${STORES.indexOf(s)})">${t('n6Menu')}</button></div>`}
+  <button class="btn big" ${TLB.isOpen(s.n)?`onclick="openStore(${STORES.indexOf(s)})"`:'disabled aria-disabled="true"'}>${t('n6Menu')}</button></div>`}
 /* v06.1 profile: the user's card, savings on delivered orders, the same menu */
 const maskPh=p=>{const d=String(p||'');return d.length>8?d.slice(0,7)+' ••• •• '+d.slice(-2):d};
 function vMe(){const dl=TLB.orders().filter(o=>o.status=='delivered'),r2=n=>Math.round(n*100)/100,d=r2(dl.reduce((a,o)=>a+(+o.discount||0),0)),p=r2(dl.reduce((a,o)=>a+(+o.promoDiscount||0),0)),row=(ic,tx,go,vl)=>`<div class="r2" role="button" tabindex="0" onclick="${go}"><span class="i3">${ico(ic,20)}</span><span>${tx}</span><span class="vl">${vl||''}${ico('chev',16)}</span></div>`;
@@ -2227,7 +2235,7 @@ TLB.addDict({v69Slide:'Сдвиньте, чтобы заказать',v69SlideHi
 function render(){
   if(!ME.phone){$('app').innerHTML=phoneGateV();return}
   if(TLB.me().banned&&!['support','ticket'].includes(S.v)){S.v='support';TLB.wantSupport(true)}
-  if(S.v=='menu'&&!TLB.isOpen(S.store)){S.v='home';TLB.toast&&TLB.toast(t('closedMsg'),true)}
+  if(S.v=='menu'&&!TLB.isOpen(S.store)){S.v='home';S.sh=null}
   if(S.v=='track'&&TLB.unread(S.tid))setTimeout(()=>TLB.markRead(S.tid),0);
   const V={home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
   const full=['cart','pay','group','addr','addrForm','ticket'].includes(S.v),nav=['home','orders','wallet','promo','me'],ni={home:'home',orders:'receipt',wallet:'card',promo:'tag',me:'user'},un=TLB.totalUnread();
