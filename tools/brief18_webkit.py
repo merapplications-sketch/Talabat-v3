@@ -244,6 +244,8 @@ def main():
                     try:
                         ctx=make_context(browser,app,lang,w,h)
                         page=ctx.new_page()
+                        # Deterministic synthetic pricing hour; prevent midnight rollover in before/after parity.
+                        page.clock.install(time="2026-11-17T14:00:00Z")
                         page.on("pageerror",lambda err:page_errors.append(str(err)[:350]))
                         page.goto(LOCAL+"/"+app+".html",wait_until="domcontentloaded",timeout=20000)
                         page.wait_for_timeout(750)
