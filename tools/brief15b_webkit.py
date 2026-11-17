@@ -247,45 +247,48 @@ def run_case(pg,case,app,lang,w):
         pg.wait_for_timeout(90)
         pg.locator(".f15c-group-name").first.scroll_into_view_if_needed(timeout=3000)
         top=invoke(pg,"""() => {
-          const e=document.querySelector('.f15c-group-name'),r=e?.getBoundingClientRect(),
-            complete=!!e&&e.tagName==='TEXTAREA'&&e.scrollHeight<=e.clientHeight+3&&
-              getComputedStyle(e).whiteSpace==='pre-wrap';
-          return {ok:complete,value:e?.value||'',height:r?.height||0,
-            scroll:e?.scrollHeight||0,client:e?.clientHeight||0};
+          const e=document.querySelector('.f15c-group-name'),r=e?.getBoundingClientRect();
+          return {ok:!!e&&e.tagName==='TEXTAREA'&&
+            e.scrollHeight<=e.clientHeight+3&&getComputedStyle(e).whiteSpace==='pre-wrap',
+            value:e?.value||'',height:r?.height||0,client:e?.clientHeight||0,
+            scroll:e?.scrollHeight||0};
         }""")
         shot(pg,case,app,lang,w,"group-title")
-        pg.locator(".f15c-option-row").first.scroll_into_view_if_needed(timeout=3000)
+        pg.locator(".u18-merchant-option").first.scroll_into_view_if_needed(timeout=3000)
         pg.evaluate("""() => {
           const ed=document.querySelector('.f06-item-editor'),
-            actions=ed?.querySelector('.f15c-option-row .f15c-option-controls'),
-            footer=ed?.querySelector('.f06-actions');
-          if(!ed||!actions||!footer)return;
-          const gap=actions.getBoundingClientRect().bottom-footer.getBoundingClientRect().top+22;
-          if(gap>0)ed.scrollTop+=gap;
+            row=ed?.querySelector('.u18-merchant-option'),foot=ed?.querySelector('.f06-actions');
+          if(!ed||!row||!foot)return;
+          const delta=row.getBoundingClientRect().bottom-foot.getBoundingClientRect().top+20;
+          if(delta>0)ed.scrollTop+=delta;
         }""")
         pg.wait_for_timeout(110)
-        opt=invoke(pg,"""() => {
-          const a=[...document.querySelectorAll('.f15c-option-row')].filter(e=>e.querySelector('.f06-option-name')),
-           metrics=a.map(row=>{
-             const inp=row.querySelector('.f06-option-name'),actions=row.querySelector('.f15c-option-controls'),
-               i=inp.getBoundingClientRect(),act=actions.getBoundingClientRect(),r=row.getBoundingClientRect(),
-               canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),cs=getComputedStyle(inp);
-             ctx.font=cs.font;
-             const textW=ctx.measureText(inp.value).width;
-             const footer=document.querySelector('.f06-item-editor .f06-actions')?.getBoundingClientRect(),
-               editor=document.querySelector('.f06-item-editor')?.getBoundingClientRect();
-             return {name:inp.value,inputWidth:i.width,textWidth:textW,controlsY:act.y,
-               nameBottom:i.bottom,rowWidth:r.width,full:textW+30<=i.width,
-               secondRow:act.y>=i.bottom-1,controlItems:actions.children.length,
-               notCovered:!!footer&&!!editor&&act.bottom<=footer.top-8&&act.top>=editor.top+4,
-               footerY:footer?.top||0};
-           });
-          return {ok:metrics.length>0&&metrics.every(x=>x.full&&x.secondRow&&x.controlItems===4)
-            &&metrics.some(x=>x.notCovered),
-             metrics};
+        opts=invoke(pg,"""() => {
+          const rows=[...document.querySelectorAll('.u18-merchant-option')];
+          const metrics=rows.map(row=>{
+            const name=row.querySelector('textarea.u18-option-name'),
+              price=row.querySelector('.f15c-option-controls input[type=number]'),
+              toggle=row.querySelector('.f15c-option-controls .sw'),
+              remove=row.querySelector('.f15c-option-controls .rb'),
+              box=x=>x?.getBoundingClientRect(),r=box(row),n=box(name),p=box(price),
+              t=box(toggle),d=box(remove),foot=box(document.querySelector('.f06-item-editor .f06-actions')),
+              ed=box(document.querySelector('.f06-item-editor'));
+            const xok=!!r&&!!n&&!!p&&!!t&&!!d&&n.right<=p.left+3&&
+              p.right<=t.left+3&&t.right<=d.left+3&&d.right<=r.right+3;
+            return {name:name?.value||'',nameHeight:n?.height||0,
+              natural:name?.scrollHeight||0,editorHeight:name?.clientHeight||0,
+              sameRow:xok&&Math.abs(n.top-p.top)<30&&Math.abs(n.top-t.top)<30,
+              nowrapError:!!name&&name.scrollHeight<=name.clientHeight+3,
+              fullyVisible:!!foot&&!!ed&&r.top>=ed.top-3&&r.bottom<=foot.top-4,
+              positions:r&&{rowRight:r.right,nameRight:n.right,priceLeft:p.left,priceRight:p.right,
+                toggleLeft:t.left,toggleRight:t.right,deleteLeft:d.left,deleteRight:d.right}};
+          });
+          return {ok:metrics.length>0&&metrics.every(x=>x.sameRow&&x.nowrapError)
+              &&metrics.some(x=>x.fullyVisible),metrics};
         }""")
         shot(pg,case,app,lang,w,"option-controls")
-        return {"ok":top["ok"] and opt["ok"],"group":top,"options":opt},[".f15c-group-name",".f15c-option-row",".f15c-option-controls"]
+        return {"ok":top["ok"] and opts["ok"],"group":top,"options":opts},[
+          ".f15c-group-name",".u18-merchant-option",".u18-option-name"]
     if case=="G-03":
         pg.evaluate("""() => {go('menu',{store:STORES[0].n});openItem('i1')}""")
         pg.wait_for_timeout(90)
