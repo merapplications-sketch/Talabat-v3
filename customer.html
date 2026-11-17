@@ -1480,6 +1480,14 @@ function dishViewport(){
  const pageEditing=!e&&a&&document.querySelector('#app')?.contains(a)&&/^(INPUT|TEXTAREA)$/.test(a.tagName);
  document.body.classList.toggle('f04-inline-keyboard',!!pageEditing&&h<f04MaxViewport-95);
  f04Schedule();
+ // WebKit may lay out the reduced-height dish scroller AFTER the resize frame.
+ // Bounded post-layout checks keep the focused last textarea above the fixed action row.
+ if(keyboard&&a?.id==='shn'){
+   [70,170,290].forEach(delay=>setTimeout(()=>{
+     if(document.activeElement===a&&e.isConnected&&e.classList.contains('d6-keyboard'))
+       f04VisibleField();
+   },delay));
+ }
 }
 if(window.visualViewport){
  window.visualViewport.addEventListener('resize',dishViewport);
