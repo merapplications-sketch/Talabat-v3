@@ -10,19 +10,22 @@
       "width": 375,
       "mode": "after",
       "geometry": {
-        "ok": false,
-        "textCenter": -156,
-        "rowCenter": -156,
+        "ok": true,
+        "textCenter": -172,
+        "rowCenter": -172,
         "diff": 0,
         "namesFit": true,
         "pageFit": true,
-        "visible": false,
+        "visible": true,
         "gap": 20,
         "clearanceGap": 16,
         "hitTarget": true,
         "lastAdd": "+ Добавить вариант",
-        "lastAddTop": 470,
+        "lastAddTop": 462,
         "lastAddBottom": 506,
+        "lastAddHeight": 44,
+        "editorTop": 8,
+        "editorBottom": 667,
         "actionsTop": 526,
         "actionsHeight": 117,
         "clearanceHeight": 133,
@@ -94,10 +97,9 @@
         "pageScrollWidth": 375,
         "pageClientWidth": 375
       },
-      "status": "FAIL",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-ru-375-main-after.png",
-      "js_errors": [],
-      "error": "{\"ok\": false, \"textCenter\": -156, \"rowCenter\": -156, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 20, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Добавить вариант\", \"lastAddTop\": 470, \"lastAddBottom\": 506, \"actionsTop\": 526, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}], \"pa"
+      "js_errors": []
     },
     {
       "id": "P-02",
@@ -212,19 +214,22 @@
       "width": 390,
       "mode": "after",
       "geometry": {
-        "ok": false,
-        "textCenter": 21.015625,
-        "rowCenter": 21.015625,
+        "ok": true,
+        "textCenter": 5.015625,
+        "rowCenter": 5.015625,
         "diff": 0,
         "namesFit": true,
         "pageFit": true,
-        "visible": false,
+        "visible": true,
         "gap": 19.984375,
         "clearanceGap": 16,
         "hitTarget": true,
         "lastAdd": "+ Add variant",
-        "lastAddTop": 647.015625,
+        "lastAddTop": 639.015625,
         "lastAddBottom": 683.015625,
+        "lastAddHeight": 44,
+        "editorTop": 8.015625,
+        "editorBottom": 844,
         "actionsTop": 703,
         "actionsHeight": 117,
         "clearanceHeight": 133,
@@ -296,10 +301,9 @@
         "pageScrollWidth": 390,
         "pageClientWidth": 390
       },
-      "status": "FAIL",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-en-390-main-after.png",
-      "js_errors": [],
-      "error": "{\"ok\": false, \"textCenter\": 21.015625, \"rowCenter\": 21.015625, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 19.984375, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Add variant\", \"lastAddTop\": 647.015625, \"lastAddBottom\": 683.015625, \"actionsTop\": 703, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165,"
+      "js_errors": []
     },
     {
       "id": "P-02",
@@ -414,19 +418,22 @@
       "width": 320,
       "mode": "after",
       "geometry": {
-        "ok": false,
-        "textCenter": -169,
-        "rowCenter": -169,
+        "ok": true,
+        "textCenter": -185,
+        "rowCenter": -185,
         "diff": 0,
         "namesFit": true,
         "pageFit": true,
-        "visible": false,
+        "visible": true,
         "gap": 20,
         "clearanceGap": 16,
         "hitTarget": true,
         "lastAdd": "+ Добавить вариант",
-        "lastAddTop": 503,
+        "lastAddTop": 495,
         "lastAddBottom": 539,
+        "lastAddHeight": 44,
+        "editorTop": 8,
+        "editorBottom": 700,
         "actionsTop": 559,
         "actionsHeight": 117,
         "clearanceHeight": 133,
@@ -498,10 +505,9 @@
         "pageScrollWidth": 320,
         "pageClientWidth": 320
       },
-      "status": "FAIL",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-ru-320-main-after.png",
-      "js_errors": [],
-      "error": "{\"ok\": false, \"textCenter\": -169, \"rowCenter\": -169, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 20, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Добавить вариант\", \"lastAddTop\": 503, \"lastAddBottom\": 539, \"actionsTop\": 559, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"pa"
+      "js_errors": []
     },
     {
       "id": "P-02",
@@ -616,19 +622,22 @@
       "width": 320,
       "mode": "after",
       "geometry": {
-        "ok": false,
-        "textCenter": -123,
-        "rowCenter": -123,
+        "ok": true,
+        "textCenter": -139,
+        "rowCenter": -139,
         "diff": 0,
         "namesFit": true,
         "pageFit": true,
-        "visible": false,
+        "visible": true,
         "gap": 20,
         "clearanceGap": 16,
         "hitTarget": true,
         "lastAdd": "+ Add variant",
-        "lastAddTop": 503,
+        "lastAddTop": 495,
         "lastAddBottom": 539,
+        "lastAddHeight": 44,
+        "editorTop": 8,
+        "editorBottom": 700,
         "actionsTop": 559,
         "actionsHeight": 117,
         "clearanceHeight": 133,
@@ -700,10 +709,9 @@
         "pageScrollWidth": 320,
         "pageClientWidth": 320
       },
-      "status": "FAIL",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/brief18b/after/P-01-en-320-main-after.png",
-      "js_errors": [],
-      "error": "{\"ok\": false, \"textCenter\": -123, \"rowCenter\": -123, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 20, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Add variant\", \"lastAddTop\": 503, \"lastAddBottom\": 539, \"actionsTop\": 559, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"pageScr"
+      "js_errors": []
     },
     {
       "id": "P-02",
@@ -812,34 +820,5 @@
       "js_errors": []
     }
   ],
-  "errors": [
-    {
-      "id": "P-01",
-      "app": "merchant",
-      "lang": "ru",
-      "width": 375,
-      "error": "{\"ok\": false, \"textCenter\": -156, \"rowCenter\": -156, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 20, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Добавить вариант\", \"lastAddTop\": 470, \"lastAddBottom\": 506, \"actionsTop\": 526, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 150, \"clientWidth\": 150}], \"pa"
-    },
-    {
-      "id": "P-01",
-      "app": "merchant",
-      "lang": "en",
-      "width": 390,
-      "error": "{\"ok\": false, \"textCenter\": 21.015625, \"rowCenter\": 21.015625, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 19.984375, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Add variant\", \"lastAddTop\": 647.015625, \"lastAddBottom\": 683.015625, \"actionsTop\": 703, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165, \"clientWidth\": 165}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 165,"
-    },
-    {
-      "id": "P-01",
-      "app": "merchant",
-      "lang": "ru",
-      "width": 320,
-      "error": "{\"ok\": false, \"textCenter\": -169, \"rowCenter\": -169, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 20, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Добавить вариант\", \"lastAddTop\": 503, \"lastAddBottom\": 539, \"actionsTop\": 559, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"pa"
-    },
-    {
-      "id": "P-01",
-      "app": "merchant",
-      "lang": "en",
-      "width": 320,
-      "error": "{\"ok\": false, \"textCenter\": -123, \"rowCenter\": -123, \"diff\": 0, \"namesFit\": true, \"pageFit\": true, \"visible\": false, \"gap\": 20, \"clearanceGap\": 16, \"hitTarget\": true, \"lastAdd\": \"+ Add variant\", \"lastAddTop\": 503, \"lastAddBottom\": 539, \"actionsTop\": 559, \"actionsHeight\": 117, \"clearanceHeight\": 133, \"nameChecks\": [{\"text\": \"Маленький\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Средний\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Большой\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Сыр\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Бекон\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Халапеньо\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}, {\"text\": \"Соус\", \"heightOkay\": true, \"widthOkay\": true, \"scrollHeight\": 43, \"clientHeight\": 43, \"scrollWidth\": 117, \"clientWidth\": 117}], \"pageScr"
-    }
-  ]
+  "errors": []
 }
