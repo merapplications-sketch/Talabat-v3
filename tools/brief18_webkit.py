@@ -59,6 +59,11 @@ def prepare(pg,case,lang,w,h):
         pg.evaluate("""() => {go('menu',{store:STORES[0].n});openItem('i1')}""")
         pg.wait_for_timeout(100)
     elif case in ("U-02","U-03","U-04","U-06"):
+        # BRIEF-18d: original U-02 six-choice contract is the READY-server case.
+        # Stub readiness BEFORE entering checkout; the separate BRIEF-18d suite
+        # asserts that UNREADY shows door only and does not block checkout.
+        if case=="U-02" and MODE=="after":
+            pg.evaluate("() => {TLB.deliveryInstructionsReady=async()=>true}")
         seed_cart(pg)
         if case=="U-02" and MODE=="after":
             pg.evaluate("""() => {
