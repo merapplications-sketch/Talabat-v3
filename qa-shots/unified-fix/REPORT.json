@@ -16,8 +16,7 @@
       "app": "customer",
       "lang": "ru",
       "width": 375,
-      "status": "PASS",
-      "geometry": null,
+      "status": "FAIL",
       "image": "qa-shots/unified-fix/F-02-customer-ru-375-after.png"
     },
     {
@@ -34,7 +33,30 @@
       "app": "customer",
       "lang": "ru",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "kbd": true,
+        "top": 169,
+        "bottom": 235,
+        "scrollTop": 171,
+        "scrollBottom": 291,
+        "footerTop": 315,
+        "active": true,
+        "debug": {
+          "before": 464,
+          "scrollHeight": 583,
+          "clientHeight": 119,
+          "scrollMax": 464,
+          "overflow": "auto",
+          "snap": "none",
+          "textareaOffset": 462,
+          "visibleHeight": 120,
+          "after": 464,
+          "newTop": 169,
+          "newBottom": 235,
+          "restored": 464
+        }
+      },
       "image": "qa-shots/unified-fix/F-04-customer-ru-375-after.png"
     },
     {
@@ -131,7 +153,21 @@
         "scrollTop": 171,
         "scrollBottom": 291,
         "footerTop": 315,
-        "active": true
+        "active": true,
+        "debug": {
+          "before": 464,
+          "scrollHeight": 583,
+          "clientHeight": 119,
+          "scrollMax": 464,
+          "overflow": "auto",
+          "snap": "none",
+          "textareaOffset": 462,
+          "visibleHeight": 120,
+          "after": 464,
+          "newTop": 169,
+          "newBottom": 235,
+          "restored": 464
+        }
       },
       "image": "qa-shots/unified-fix/F-04-customer-en-375-after.png"
     },
@@ -229,7 +265,21 @@
         "scrollTop": 171,
         "scrollBottom": 468,
         "footerTop": 492,
-        "active": true
+        "active": true,
+        "debug": {
+          "before": 287,
+          "scrollHeight": 583,
+          "clientHeight": 296,
+          "scrollMax": 287,
+          "overflow": "auto",
+          "snap": "none",
+          "textareaOffset": 462,
+          "visibleHeight": 297,
+          "after": 287,
+          "newTop": 346,
+          "newBottom": 412,
+          "restored": 287
+        }
       },
       "image": "qa-shots/unified-fix/F-04-customer-ru-390-after.png"
     },
@@ -327,7 +377,21 @@
         "scrollTop": 171,
         "scrollBottom": 468,
         "footerTop": 492,
-        "active": true
+        "active": true,
+        "debug": {
+          "before": 287,
+          "scrollHeight": 583,
+          "clientHeight": 296,
+          "scrollMax": 287,
+          "overflow": "auto",
+          "snap": "none",
+          "textareaOffset": 462,
+          "visibleHeight": 297,
+          "after": 287,
+          "newTop": 346,
+          "newBottom": 412,
+          "restored": 287
+        }
       },
       "image": "qa-shots/unified-fix/F-04-customer-en-390-after.png"
     },
@@ -425,7 +489,21 @@
         "scrollTop": 171,
         "scrollBottom": 556,
         "footerTop": 580,
-        "active": true
+        "active": true,
+        "debug": {
+          "before": 199,
+          "scrollHeight": 583,
+          "clientHeight": 384,
+          "scrollMax": 199,
+          "overflow": "auto",
+          "snap": "none",
+          "textareaOffset": 462,
+          "visibleHeight": 385,
+          "after": 199,
+          "newTop": 434,
+          "newBottom": 500,
+          "restored": 199
+        }
       },
       "image": "qa-shots/unified-fix/F-04-customer-ru-430-after.png"
     },
@@ -523,7 +601,21 @@
         "scrollTop": 171,
         "scrollBottom": 556,
         "footerTop": 580,
-        "active": true
+        "active": true,
+        "debug": {
+          "before": 181,
+          "scrollHeight": 565,
+          "clientHeight": 384,
+          "scrollMax": 181,
+          "overflow": "auto",
+          "snap": "none",
+          "textareaOffset": 444,
+          "visibleHeight": 385,
+          "after": 181,
+          "newTop": 434,
+          "newBottom": 500,
+          "restored": 181
+        }
       },
       "image": "qa-shots/unified-fix/F-04-customer-en-430-after.png"
     },
@@ -584,12 +676,12 @@
   ],
   "errors": [
     {
-      "id": "F-04",
+      "id": "F-02",
       "app": "customer",
       "lang": "ru",
       "width": 375,
       "type": "AssertionError",
-      "message": "F-04 focused dish note hidden/partly clipped: {'kbd': True, 'top': 633, 'bottom': 699, 'scrollTop': 171, 'scrollBottom': 291, 'footerTop': 315, 'active': True}"
+      "message": "F-02 search placeholder/category labels clipped"
     }
   ]
 }
