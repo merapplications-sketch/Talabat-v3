@@ -127,6 +127,13 @@ def inspect(pg,case,lang,w):
              names:choices.map(x=>x.innerText),horizontal,doorSelected,remember:!!remember,
              scroll:rail?.scrollWidth||0,client:rail?.clientWidth||0};
         }""")
+        # Screenshot the entire visible instruction panel rather than a bottom-edge partial heading.
+        pg.evaluate("""() => {
+          const card=document.querySelector('.u18-courier');
+          if(card)window.scrollBy(0,card.getBoundingClientRect().top-105);
+        }""")
+        pg.wait_for_timeout(130)
+        shot(pg,case,lang,w,"instructions")
         return r,[".u18-courier",".u18-instruction-rail",".u18-instruction-chip"]
     if case=="U-03":
         pg.locator(".u18-tip-card").scroll_into_view_if_needed(timeout=2400)
@@ -186,10 +193,15 @@ def inspect(pg,case,lang,w):
                  p.right<=s.left+4&&s.right<=d.left+4&&d.right<=r.right+4,
                sameRow:!!n&&!!p&&Math.abs((n.top+n.bottom)/2-(p.top+p.bottom)/2)<25};
           });
-          return {ok:results.length>=2&&results.every(x=>x.wrapped&&x.order&&x.sameRow),
-             rows:results};
+          const title=document.querySelector('.f15c-group-name'),
+                th=title?.getBoundingClientRect()?.height||0;
+          const correctTitle=!!title&&title.scrollHeight<=title.clientHeight+3&&
+               th>=44&&th<=120&&getComputedStyle(title).whiteSpace==='pre-wrap';
+          return {ok:correctTitle&&results.length>=2&&results.every(x=>x.wrapped&&x.order&&x.sameRow),
+             rows:results,titleHeight:th,titleScroll: title?.scrollHeight||0,
+             titleClient:title?.clientHeight||0,correctTitle};
         }""")
-        return r,[".u18-merchant-option",".u18-option-name",".f15c-option-controls input"]
+        return r,[".u18-merchant-option",".u18-option-name",".f15c-option-controls input",".f15c-group-name"]
     if case=="U-06":
         r=assert_result(pg,"""() => {
           const pts=document.querySelector('.d79-points-toggle.on'),
