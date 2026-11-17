@@ -11,6 +11,7 @@ on:
       - 'tools/brief18_webkit.py'
       - 'tools/brief18b_webkit.py'
       - 'tools/brief18c_webkit.py'
+      - 'tools/brief18d_webkit.py'
       - 'talabat-core.js'
       - 'assets/3d/motor-scooter-yellow.png'
       - 'tools/brief11_webkit_layout.py'
@@ -69,7 +70,7 @@ jobs:
           git diff --name-only "$BASE" HEAD > "$RUNNER_TEMP/brief15-paths"
           while IFS= read -r changed; do
             case "$changed" in
-              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief18_webkit.py|tools/brief18b_webkit.py|tools/brief18c_webkit.py|talabat-core.js|assets/3d/motor-scooter-yellow.png|sql/proposed/brief18_delivery_instructions.sql|sql/proposed/brief18_delivery_instructions_rollback.sql|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
+              tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief18_webkit.py|tools/brief18b_webkit.py|tools/brief18c_webkit.py|tools/brief18d_webkit.py|talabat-core.js|assets/3d/motor-scooter-yellow.png|sql/proposed/brief18_delivery_instructions.sql|sql/proposed/brief18_delivery_instructions_rollback.sql|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"
@@ -130,7 +131,7 @@ jobs:
              "<p class=\"a-compact-address\">${esc(address)}</p>${client?u18DriverPanel(x):''}${n===2?")
           assert changed.count(new)==1 and changed.replace(new,old)==orig,'G-04 or U-02 driver-A beyond approved UI status'
           PY
-          python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py tools/brief15b_webkit.py tools/brief18c_webkit.py
+          python3 -m py_compile tools/full_audit.py tools/gate1_local_seed.py tools/full_audit_seed.py tools/brief15b_webkit.py tools/brief18c_webkit.py tools/brief18d_webkit.py
       - name: Install immutable QA browsers and dependencies
         shell: bash
         run: |
@@ -269,7 +270,7 @@ jobs:
           assert all(addition.count('    '+x+': function')==1 for x in ('deliveryInstructionsReady','saveDeliveryInstructions','getDeliveryInstructions')),'U-02 methods missing'
           assert current[:a]+current[b:]==original,'Money / existing core code differs from frozen baseline'
           PY
-          python3 -m py_compile tools/brief15_webkit.py tools/brief15b_webkit.py tools/brief18_webkit.py tools/brief18b_webkit.py tools/brief18c_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
+          python3 -m py_compile tools/brief15_webkit.py tools/brief15b_webkit.py tools/brief18_webkit.py tools/brief18b_webkit.py tools/brief18c_webkit.py tools/brief18d_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
       - name: Install pinned WebKit test engine only in disposable runner
         shell: bash
         run: |
@@ -572,6 +573,61 @@ jobs:
             echo 'BRIEF18C_RC=1' >>"$GITHUB_ENV"
           fi
           exit 0
+      - name: BRIEF-18d A-01/A-02 WebKit address layout, one-session readiness, synthetic orders and financial parity
+        shell: bash
+        run: |
+          set +e
+          export BRIEF18C_LEAFLET_JS="$RUNNER_TEMP/brief18c-leaflet/node_modules/leaflet/dist/leaflet.js"
+          export BRIEF18C_LEAFLET_CSS="$RUNNER_TEMP/brief18c-leaflet/node_modules/leaflet/dist/leaflet.css"
+          BRIEF18D_MODE=after python3 tools/brief18d_webkit.py >"$RUNNER_TEMP/brief18d-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF18D_WEBKIT|BRIEF18D_FAIL|Traceback|AssertionError' "$RUNNER_TEMP/brief18d-after.log" | tail -25 || true
+          BEFORE18D="$RUNNER_TEMP/brief18d-before-8a416e67"
+          git worktree add --detach "$BEFORE18D" 8a416e67324da2e04f43cc4f8ab95452ecc0c360 >"$RUNNER_TEMP/brief18d-worktree.log" 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
+            cp tools/brief18d_webkit.py "$BEFORE18D/tools/brief18d_webkit.py"
+            (cd "$BEFORE18D" && BRIEF18D_MODE=before python3 tools/brief18d_webkit.py) >"$RUNNER_TEMP/brief18d-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/brief18d/before
+            cp -a "$BEFORE18D/qa-shots/unified-fix/brief18d/before/." qa-shots/unified-fix/brief18d/before/ || before_rc=1
+          fi
+          python3 - <<'PY'
+          import json,pathlib,math
+          root=pathlib.Path('qa-shots/unified-fix/brief18d')
+          before=json.loads((root/'before/REPORT.json').read_text())
+          after=json.loads((root/'after/REPORT.json').read_text())
+          assert len(before['cases'])==len(after['cases'])==8,('BRIEF18D_CASES',len(before['cases']),len(after['cases']))
+          assert not after['errors'] and all(r['status']=='PASS' for r in after['cases']),after['errors']
+          fmt=lambda x:(x['lang'],x['width'],x['state'])
+          prior={fmt(r):r for r in before['cases']}
+          keys=('total','sub','discount','happyHour','promo','pointsValue','fee','tip','saved','due','wallet')
+          counts={'ready':0,'unready':0}
+          for row in after['cases']:
+            old=prior[fmt(row)]
+            for key in keys:
+              assert math.isclose(float(row['financial'][key]),float(old['financial'][key]),abs_tol=.011),('FINANCIAL_PARITY',fmt(row),key,old['financial'][key],row['financial'][key])
+            assert row['result']['checkCalls']==1 and row['fakeOrder']['ok'] and row['editUnchanged'],fmt(row)
+            if row['width']==375:assert row['result']['geometry']['lines']<=3,fmt(row)
+            counts[row['state']]+=1
+          assert counts=={'ready':4,'unready':4},counts
+          for mode in ('before','after'):
+            folder=root/mode
+            png=list(folder.glob('*.png'))
+            assert len(png)==8,(mode,len(png))
+            assert all(f.stat().st_size>2500 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for f in png)
+            assert (folder/'INDEX.md').is_file() and (folder/'REPORT.json').is_file()
+          print('BRIEF18D_WEBKIT_ALL_PASS 8/8; A01_FULL_WIDTH_MAX3_LINES; A02_READY_UNREADY_NO_BLOCK')
+          print('BRIEF18D_FINANCIAL_PARITY 8 cases x 11 metrics PASS')
+          PY
+          proof_rc=$?
+          echo "BRIEF18D_AFTER_RC=$after_rc BEFORE_RC=$before_rc PROOF_RC=$proof_rc"
+          if test "$after_rc" -eq 0 && test "$before_rc" -eq 0 && test "$proof_rc" -eq 0; then
+            echo 'BRIEF18D_RC=0' >>"$GITHUB_ENV"
+          else
+            echo 'BRIEF18D_RC=1' >>"$GITHUB_ENV"
+          fi
+          exit 0
       - name: Commit only new BRIEF-15c evidence to isolated branch (avoid H01 and legacy PNG conflicts)
         shell: bash
         if: always()
@@ -585,18 +641,18 @@ jobs:
           git config user.email "talabot-brief15-webkit@users.noreply.github.com"
           # H01 commits only h01/, while this job commits ONLY the BRIEF15c b/ tree.
           # Re-rendered older F/NOTIFY png and reports must never cause merge races.
-          git add -- qa-shots/unified-fix/b/ qa-shots/unified-fix/brief18/ qa-shots/unified-fix/brief18b/ qa-shots/unified-fix/brief18c/
+          git add -- qa-shots/unified-fix/b/ qa-shots/unified-fix/brief18/ qa-shots/unified-fix/brief18b/ qa-shots/unified-fix/brief18c/ qa-shots/unified-fix/brief18d/
           git restore --worktree -- qa-shots/unified-fix/
           git clean -fd -- qa-shots/unified-fix/
           if ! git diff --cached --quiet; then
-            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/(b|brief18|brief18b|brief18c)/'; then
+            if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/(b|brief18|brief18b|brief18c|brief18d)/'; then
               echo 'STOP: outside BRIEF-15c evidence-only staged path' >&2
               exit 1
             fi
             git commit -m "test(BRIEF-15c): pinned RU375 EN390 BEFORE AFTER WebKit geometry evidence"
             git fetch origin review/unified-fix-brief15-20261117
             git rebase origin/review/unified-fix-brief15-20261117
-            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/(b|brief18|brief18b|brief18c)/'; then
+            if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/(b|brief18|brief18b|brief18c|brief18d)/'; then
               echo 'STOP: rebased commit modified protected files' >&2
               exit 1
             fi
@@ -626,4 +682,5 @@ jobs:
           test "$BRIEF18_IMAGE_RC" = 0
           test "$BRIEF18B_RC" = 0
           test "$BRIEF18C_RC" = 0
+          test "$BRIEF18D_RC" = 0
           echo 'BRIEF15_VISUAL_WEBKIT_ALL_PASS (NOT physical iPhone approval)'
