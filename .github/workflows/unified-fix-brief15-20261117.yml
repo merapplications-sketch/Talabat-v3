@@ -120,6 +120,9 @@ jobs:
           added=changed[a:b]
           assert 'function u18DriverPanel(x)' in added and 'function u18LoadDriver(x)' in added,'U-02 driver read missing'
           changed=changed[:a]+changed[b:]
+          # BRIEF-18b P-03: undo only the approved no-phone explanation, never phone authorization.
+          changed=undo(changed,'',"TLB.addDict({p18NoClientPhone:'Номер клиента недоступен'},{p18NoClientPhone:'Customer phone unavailable'});\n")
+          changed=undo(changed,":aButton(ico('phone',18)+t('callRest'),'','a-call',`disabled aria-label=\"${t('noPh')}\"`)}",":client?aButton(ico('phone',18)+t('callRest'),\"TLB.toast(t('p18NoClientPhone'))\",'a-contact-missing',`aria-disabled=\"true\" title=\"${t('p18NoClientPhone')}\" aria-label=\"${t('p18NoClientPhone')}\"`):aButton(ico('phone',18)+t('callRest'),'','a-call',`disabled aria-label=\"${t('noPh')}\"`)}")
           changed=undo(changed,
              "<p class=\"a-compact-address\">${esc(address)}</p>${n===2?",
              "<p class=\"a-compact-address\">${esc(address)}</p>${client?u18DriverPanel(x):''}${n===2?")
