@@ -74,6 +74,12 @@ jobs:
                   current=undo(current,"""<div class="pill"><span class="dot ${online?'':'off'}"></span>${online?t('online'):t('shOff')}${online?""",
                                """<div class="pill"><span class="dot ${online||a0?'':'off'}"></span>${online?t('online'):a0?t('g04Delivering'):t('shOff')}${online?""")
               else:
+                  current=undo(current,'',"""/* BRIEF-15b G-06: compact Russian/English count inflection for admin totals. */
+          function g06Orders(n){const v=Math.abs(Math.trunc(+n||0));if(TLB.lang()!=='ru')return v===1?'order':'orders';const d=v%10,h=v%100;return d===1&&h!==11?'заказ':d>=2&&d<=4&&(h<12||h>14)?'заказа':'заказов'}
+          """)
+                  current=undo(current,"kp('box',all.length,t('aKOrd'))","kp('box',all.length,g06Orders(all.length))")
+                  current=undo(current,"<span>${t('xCuOrders')}</span>","<span>${g06Orders(x.orders_count)}</span>")
+                  current=undo(current,"${x.orders_count} ${t('xCuOrders').toLowerCase()}","${x.orders_count} ${g06Orders(x.orders_count)}")
                   current=undo(current,'',"""/* BRIEF-15b G-07: migration diagnostics are developer-console only. */
           let g07SetupLogged=false;
           function g07LogSetup(){if(!g07SetupLogged){g07SetupLogged=true;console.warn('[TALABOT G-07]',t('aSetupW'))}}
