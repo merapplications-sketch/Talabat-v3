@@ -19,7 +19,7 @@ CASES=(
     ("G-01","merchant"),("G-02","merchant"),("G-03","customer"),
     ("G-04","driver"),("G-05","merchant"),("G-06","merchant"),("G-06","admin"),
     ("G-06b","admin"),("G-07","admin"),("G-08","customer"),("G-09","customer"),
-    ("G-10","merchant"),("G-11","merchant")
+    ("G-10","merchant"),("G-11","merchant"),("G-12","customer")
 )
 rows=[];errors=[]
 
@@ -122,20 +122,20 @@ def run_case(pg,case,app,lang,w):
         pg.evaluate("""() => {S.v='home';S.q=window.__bClosed.slice(0,12);render()}""")
         pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
         search=invoke(pg,"""() => {
-          const e=document.querySelector('#app .d6-sr.closed'),t=e?.querySelector('.or'),v=S.v;
+          const e=document.querySelector('#app .d6-sr.closed'),t=e?.querySelector('.g12-closed-badge'),v=S.v;
           if(e)e.click();
           return {ok:!!e&&!!t&&t.innerText.includes(TLB.t('closedStoreBadge'))&&
              !e.getAttribute('onclick')&&v===S.v,screen:S.v,visibleBadge:t?.innerText||''};
         }""")
         shot(pg,case,app,lang,w,"search")
         r["search"]=search
-        return {"ok":r["ok"] and search["ok"],"home":r,"search":search},["#app .d6-sr.closed .or","#app .d6-sr.closed"]
+        return {"ok":r["ok"] and search["ok"],"home":r,"search":search},["#app .d6-sr.closed .g12-closed-badge","#app .d6-sr.closed"]
     if case=="C-01b":
         close_store_for_visual(pg)
         pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';S.srt='';S.fo=false;render()}""")
         pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
         pg.evaluate("""() => {
-          const badge=document.querySelector('#app .d6-sr.closed .or'),
+          const badge=document.querySelector('#app .d6-sr.closed .g12-closed-badge'),
                 nav=document.querySelector('#app .nav');
           if(!badge||!nav)return;
           const b=badge.getBoundingClientRect(),n=nav.getBoundingClientRect();
@@ -145,7 +145,7 @@ def run_case(pg,case,app,lang,w):
         r=invoke(pg,"""() => {
           const e=document.querySelector('#app .d6-sr.closed'),card=document.querySelector('#app .c-current'),
                 nav=document.querySelector('#app .nav'),navTop=nav?.getBoundingClientRect()?.top||innerHeight,
-                badge=e?.querySelector('.or'),row=e?.getBoundingClientRect(),
+                badge=e?.querySelector('.g12-closed-badge'),row=e?.getBoundingClientRect(),
                 a=card?.getBoundingClientRect(),b=badge?.getBoundingClientRect();
           const overlap=x=>a&&x&&Math.min(a.right,x.right)-Math.max(a.left,x.left)>2&&
             Math.min(a.bottom,x.bottom)-Math.max(a.top,x.top)>2;
@@ -157,7 +157,7 @@ def run_case(pg,case,app,lang,w):
              badgeRect:b&&{x:b.x,y:b.y,right:b.right,bottom:b.bottom}};
         }""")
         shot(pg,case,app,lang,w,"category")
-        return r,["#app .c-current","#app .d6-sr.closed","#app .d6-sr.closed .or"]
+        return r,["#app .c-current","#app .d6-sr.closed","#app .d6-sr.closed .g12-closed-badge"]
     if case=="C-01c":
         close_store_for_visual(pg)
         pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';render()}""")
@@ -426,6 +426,76 @@ def run_case(pg,case,app,lang,w):
              content:e?.value?.slice(0,90)||'',height:r?.height||0,tag:e?.tagName||''};
         }""")
         return r,["#app textarea#sdesc","#app .fld2"]
+    if case=="G-12":
+        close_store_for_visual(pg)
+        evidence={}
+        views=(
+            ("search","() => {S.v='home';S.q=window.__bClosed.slice(0,12);S.hf=null;render()}"),
+            ("category","() => {S.v='cat';S.catKey='rest';S.cq='';S.srt='disc';S.fo=false;render()}"),
+            ("reorder","() => {S.v='cat';S.catKey='rest';S.cq='';S.srt='';S.fo=false;render()}")
+        )
+        for scene,script in views:
+            pg.evaluate(script)
+            pg.wait_for_timeout(85)
+            pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
+            pg.evaluate("""() => {
+              const row=document.querySelector('#app .d6-sr.closed');
+              if(!row)return;const top=row.getBoundingClientRect().top;
+              if(top>155)window.scrollBy(0,top-145);
+            }""")
+            pg.wait_for_timeout(115)
+            data=invoke(pg,"""() => {
+              const row=document.querySelector('#app .d6-sr.closed'),
+                badge=row?.querySelector('.g12-closed-badge,.or'),
+                photo=row?.querySelector('.d6-ph.th'),
+                offer=row?.querySelector('.g12-delivery-text'),
+                b=badge?.getBoundingClientRect(),p=photo?.getBoundingClientRect(),
+                textRects=[],hits=[];
+              if(row){
+                const walker=document.createTreeWalker(row,NodeFilter.SHOW_TEXT);
+                let node;
+                while((node=walker.nextNode())){
+                  if(!node.textContent?.trim()||badge?.contains(node.parentElement))continue;
+                  const parent=node.parentElement;
+                  if(!parent)continue;
+                  const style=getComputedStyle(parent);
+                  if(style.display==='none'||style.visibility==='hidden')continue;
+                  const range=document.createRange();range.selectNodeContents(node);
+                  for(const r of range.getClientRects()){
+                    if(r.width<1||r.height<1)continue;
+                    textRects.push({text:node.textContent.trim().slice(0,46),
+                      left:r.left,right:r.right,top:r.top,bottom:r.bottom});
+                    if(b&&Math.min(r.right,b.right)-Math.max(r.left,b.left)>1&&
+                       Math.min(r.bottom,b.bottom)-Math.max(r.top,b.top)>1)
+                        hits.push(node.textContent.trim().slice(0,80));
+                  }
+                }
+              }
+              const contained=!!badge&&!!photo&&photo.contains(badge)&&!!b&&!!p&&
+                  b.left>=p.left-1&&b.top>=p.top-1&&b.right<=p.right+1&&b.bottom<=p.bottom+1;
+              const style=offer&&getComputedStyle(offer),ellipsis=!!offer&&
+                  style.textOverflow==='ellipsis'&&style.whiteSpace==='nowrap'&&offer.clientWidth>20;
+              const correct=badge?.textContent?.trim()===TLB.t('closedStoreBadge');
+              return {ok:contained&&correct&&hits.length===0&&textRects.length>=3&&ellipsis,
+                scene:S.v,badgeText:badge?.textContent?.trim()||'',
+                badgeParent:badge?.parentElement?.className||'',contained,
+                textNodesMeasured:textRects.length,overlappingTextNodes:hits,
+                badgeRect:b&&{left:b.left,right:b.right,top:b.top,bottom:b.bottom},
+                photoRect:p&&{left:p.left,right:p.right,top:p.top,bottom:p.bottom},
+                offer:offer?.innerText||'',offerScroll:offer?.scrollWidth||0,
+                offerWidth:offer?.clientWidth||0,ellipsis};
+            }""")
+            if scene=="reorder":
+                data["reorderSectionPresent"]=pg.evaluate("""() => {
+                  const s=TLB.t('hLastGo');return !!s&&
+                     (document.querySelector('#app')?.innerText||'').includes(s)
+                }""")
+                data["ok"]=data["ok"] and data["reorderSectionPresent"]
+            evidence[scene]=data
+            shot(pg,case,app,lang,w,scene)
+        return {"ok":all(v["ok"] for v in evidence.values()),"scenes":evidence},[
+          "#app .d6-sr.closed .g12-closed-badge",
+          "#app .d6-sr.closed .g12-delivery-text","#app .d6-sr.closed .d6-ph"]
     raise RuntimeError("Unregistered case "+case)
 
 def main():
