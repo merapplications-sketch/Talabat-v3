@@ -213,7 +213,7 @@ function sheet(){if(!SH)return '';const secs=[...new Set(TLB.getMenu(STORE).map(
   <div class="row" style="padding:10px 0"><span class="b6">${t('hitL')}</span><button class="sw ${SH.pop?'on':''}" onclick="SH.pop=!SH.pop;render()" aria-label="${t('hitL')}"><i></i></button></div>
   <div class="f06-actions"><button class="b s" onclick="saveSheet()">${t('saveB')}</button>${SH.id?`<button class="b r" style="width:100%;margin-top:8px;min-height:44px" onclick="delItem()">${t('delItem')}</button>`:''}</div></div></div>`}
 /* F-07: bind the legacy cancellation label in both supported locales. */
-TLB.addDict({pickupCancel:'Отмена получения заказа'},{pickupCancel:'Cancel pickup'});
+TLB.addDict({pickupCancel:'Отмена получения заказа',cr_pickupCancel:'Отмена получения заказа'},{pickupCancel:'Cancel pickup',cr_pickupCancel:'Pickup cancelled'});
 TLB.addDict({cancelled:'Отменено',stRj:'Отклонено',stCx:'Отменено',stStNote:'«Отклонено» и «Отменено» — статусы заказов, а не оценка ресторана.',odComNo:'не начисляется — заказ не выполнен',odNoR:'причина не указана',stBrRev:'Выручка',stBrCom:'Комиссия',stBrPts:'Баллы клиентов',stBrCb:'Кэшбэк',stBrFw:'Доставка за ваш счёт'},
  {cancelled:'Cancelled',stRj:'Rejected',stCx:'Cancelled',stStNote:'«Rejected» and «Cancelled» are order statuses, not a rating of the restaurant.',odComNo:'not charged — order not completed',odNoR:'no reason recorded',stBrRev:'Revenue',stBrCom:'Commission',stBrPts:'Customer points',stBrCb:'Cashback',stBrFw:'Delivery paid by you'});
 /* UAT013: neutral status names (the shared dictionary says «rejected by the restaurant», which names an executor the status alone does not prove) */
