@@ -3,7 +3,7 @@
 Read-only synthetic data only. Screenshot evidence is committed on isolated review branch.
 No app/finance/RPC writes and no external requests. No physical iOS keyboard is claimed.
 """
-import pathlib,json,os,sys,traceback
+import pathlib,json,os,sys,traceback,re
 from playwright.sync_api import sync_playwright
 from full_audit import ROOT,LOCAL,start_server,make_context
 OUT=ROOT/"qa-shots"/"unified-fix"
@@ -15,7 +15,33 @@ rows=[];errors=[]
 def assert_js(pg,script,name):
     r=pg.evaluate(script)
     if not r: raise AssertionError(name)
-    return r
+    if isinstance(r,dict): return r
+    # Explicit postcondition geometry. A passing Boolean alone is NOT an
+    # inspectable visual contract; no accepted case may store geometry:null.
+    key=(re.search(r'F-\\d\\d|NOTIFY-01',name) or [None])[0]
+    selectors={
+      "F-01":["#app .c-current-inline","#app .d6-bento"],
+      "F-02":["#app .d6-ct b","#app .d6-bt.d6tp .tt","#app input[placeholder]"],
+      "F-03":["#app .p1-summary","#app .p1-contact","#app .customer-quick button"],
+      "F-04":["#shn",".d6s .osh",".d6s .oshf"],
+      "F-05":["#app .d67-checkout","#app .fbar","#app .d6p"],
+      "F-06":[".f06-item-editor","#sn","#sp",".f06-option-name"],
+      "F-07":[".f07-reject","#rjn"],
+      "F-08":["#sdesc","#app .gp"],
+      "F-10":["#app",".tabs button"]
+    }.get(key,["#app"])
+    geometry=pg.evaluate("""q => {
+       const box=e=>{const r=e.getBoundingClientRect();return {
+         x:Math.round(r.x*100)/100,y:Math.round(r.y*100)/100,
+         w:Math.round(r.width*100)/100,h:Math.round(r.height*100)/100,
+         right:Math.round(r.right*100)/100,bottom:Math.round(r.bottom*100)/100}};
+       const data=q.flatMap(sel=>[...document.querySelectorAll(sel)].slice(0,8).map(e=>({
+         selector:sel,text:(e.textContent||'').trim().slice(0,65),rect:box(e)})));
+       return {viewport:{width:innerWidth,height:innerHeight},positions:data,
+         scrollY:scrollY,verifiedCount:data.length};
+    }""",selectors)
+    if not geometry["positions"]:raise AssertionError(name+" no actual DOM geometry measured")
+    return geometry
 
 def ready(pg,app,w,h,lang):
     ctx=make_context(BROWSER,app,lang,w,h)
@@ -105,24 +131,42 @@ def F04(pg,w,h):
     return r
 
 def F05(pg):
+    # A checkout screenshot is invalid unless the ORIGINAL customer has a cart.
+    # The previous audit loaded Home because no cart was seeded for this case.
+    pg.evaluate("""() => {
+      S.sh=null;S.cart={i2:2,['i1~o11']:1};S.cartStore=STORES[0].n;
+      go('cart');go('pay');
+    }""")
+    pg.wait_for_timeout(140)
     return assert_js(pg,"""() => {
-      const s=TLB.t('stepsDrag'),l=TLB.lang();
-      return s&&s!=='stepsDrag'&&(l==='ru'?s==='Проведите вправо, чтобы заказать':
-        s==='Slide to place order');
-    }""","F-05 raw stepsDrag translation exposed")
+      const checkout=document.querySelector('#app .d67-checkout'),
+            raw=document.querySelector('#app')?.innerText||'',
+            value=TLB.t('stepsDrag'),ru=TLB.lang()==='ru';
+      return S.v==='pay'&&checkout&&checkout.getBoundingClientRect().height>90&&
+        !/\bstepsDrag\b/.test(raw)&&value!=='stepsDrag'&&
+        value===(ru?'Проведите вправо, чтобы заказать':'Slide to place order');
+    }""","F-05 payment page with localized stepsDrag, real checkout DOM")
 
 def F06(pg):
     pg.evaluate("() => {setTab('m');openSheet('i1')}")
     pg.locator(".f06-item-editor").wait_for(state="visible",timeout=2500)
-    return assert_js(pg,"""() => {
+    # Two independent views: option-name group and TOP of edit form.
+    ed=pg.locator(".f06-item-editor")
+    if pg.locator(".f06-option-name").count():
+        pg.locator(".f06-option-name").first.scroll_into_view_if_needed()
+        screenshot(pg,"F-06-options","merchant",pg.evaluate("TLB.lang()"),
+                   pg.evaluate("window.innerWidth"))
+    ed.evaluate("e=>e.scrollTop=e.scrollHeight")
+    r=assert_js(pg,"""() => {
       const ed=document.querySelector('.f06-item-editor'),name=ed?.querySelector('textarea#sn'),
         num=ed?.querySelector('#sp'),act=ed?.querySelector('.f06-actions');
       if(!name||!num||!act||act.querySelectorAll('button').length<1)return false;
-      ed.scrollTop=ed.scrollHeight;
-      const t=name.getBoundingClientRect(),r=ed.getBoundingClientRect();
+      const t=name.getBoundingClientRect(),b=ed.getBoundingClientRect();
       return name.rows>=2&&name.value.length>0&&getComputedStyle(num).appearance==='textfield'
-        &&getComputedStyle(act).position==='sticky'&&t.width<=r.width;
-    }""","F-06 merchant item/option fields and save strip inaccessible")
+        &&getComputedStyle(act).position==='sticky'&&t.width<=b.width;
+    }""","F-06 merchant editable name, no steppers and safe actions")
+    ed.evaluate("e=>e.scrollTop=0")  # final screenshot MUST show heading/name/price
+    return r
 
 def F07(pg,w,h):
     pg.evaluate("() => rjOpen('ord0')")
@@ -155,21 +199,63 @@ def F08(pg,w,h):
 
 def F09(pg):
     pg.evaluate("() => {const o=mine();if(o){o.status='pickedup';o.arrivedCustAt=Date.now();}render()}")
-    pg.wait_for_timeout(220)
-    return assert_js(pg,"""async () => {
-      if(!document.querySelector('#app .a-tools'))return false;
-      const x=document.createElement('div');
-      x.textContent=TLB.t('mapFail');
-      x.style.cssText='position:fixed;bottom:96px;left:25%;width:50%;z-index:9998;background:#f44;color:#fff';
-      document.body.appendChild(x);
-      await new Promise(res=>setTimeout(res,65));
-      const tools=document.querySelector('#app .a-tools')?.getBoundingClientRect();
-      if(!tools)return false;
-      if(!x.isConnected)return true;
-      const r=x.getBoundingClientRect();
-      return !(Math.min(r.right,tools.right)>Math.max(r.left,tools.left)+1 &&
-               Math.min(r.bottom,tools.bottom)>Math.max(r.top,tools.top)+1);
-    }""","F-09 map failure toast obscures Call/Chat/Collect")
+    pg.wait_for_timeout(150)
+    pg.evaluate("() => TLB.toast(TLB.t('mapFail'),true)")
+    pg.wait_for_timeout(110)
+    r=pg.evaluate("""() => {
+      const st=document.querySelector('#a-map-state');
+      const btns=[...document.querySelectorAll('#app .a-tools button,#app .a-tools a,#app .a-dock button,#app .a-collect-line')];
+      const tx=TLB.t('mapFail'),rect=e=>{const r=e.getBoundingClientRect();return {
+         x:r.left,y:r.top,right:r.right,bottom:r.bottom,w:r.width,h:r.height}};
+      if(!st||!btns.length)return null;
+      const a=rect(st),hits=btns.filter(e=>{
+        const b=rect(e);return Math.min(a.right,b.right)-Math.max(a.x,b.x)>2&&
+          Math.min(a.bottom,b.bottom)-Math.max(a.y,b.y)>2;
+      }).map(e=>e.className||e.tagName);
+      const floating=[...document.body.children].filter(e=>
+         getComputedStyle(e).position==='fixed'&&e.textContent?.trim()===tx);
+      return {mapLabel:st.textContent,box:a,controls:btns.map(e=>({
+        name:e.className||e.tagName,rect:rect(e)})),overlaps:hits,
+        floatingErrors:floating.length};
+    }""")
+    if not r or not r["mapLabel"].startswith(pg.evaluate("TLB.t('mapFail')")) or r["overlaps"] or r["floatingErrors"]:
+        raise AssertionError("F-09 genuine core map toast still covers mission tools: "+str(r))
+    return r
+
+def NOTIFY(pg,app,w,h):
+    # Core (not a fake button/DOM fixture) creates a fixed bottom:96px toast.
+    # The shared policy must convert it to normal flow in ALL FOUR app shells.
+    if app=="customer":
+        pg.evaluate("() => {go('menu',{store:STORES[0].n});openItem('i1')}")
+        pg.locator("#shn").wait_for(state="visible")
+        pg.locator("#shn").focus()
+    elif app=="merchant":
+        pg.evaluate("() => rjOpen('ord0')")
+    elif app=="driver":
+        pg.evaluate("() => {const o=mine();if(o){o.status='pickedup';o.arrivedCustAt=Date.now();}render()}")
+    pg.evaluate("() => TLB.toast(TLB.t('err_closed'),true)")
+    pg.wait_for_timeout(105)
+    r=pg.evaluate("""() => {
+      const e=document.querySelector('.t15-flow-toast');
+      if(!e)return null;
+      const rect=x=>{const r=x.getBoundingClientRect();return {
+        x:r.left,y:r.top,right:r.right,bottom:r.bottom,w:r.width,h:r.height}};
+      const a=rect(e),visible=n=>{const r=n.getBoundingClientRect(),s=getComputedStyle(n);
+        return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0;
+      };
+      // Strictly inspect EVERY visible button/input and nearby text in the UI.
+      const nodes=[...document.querySelectorAll('#app button,#app a[href],#app input,#app textarea,#app h1,#app h2,#app h3,#app p,#app label,#app .d6-ch,#app .a-collect-line')].filter(n=>
+        n!==e&&!n.contains(e)&&!e.contains(n)&&visible(n));
+      const overlap=nodes.filter(n=>{const b=rect(n);return Math.min(a.right,b.right)-Math.max(a.x,b.x)>2&&
+        Math.min(a.bottom,b.bottom)-Math.max(a.y,b.y)>2;});
+      return {mode:getComputedStyle(e).position,box:a,
+        parent:e.parentElement?.className||e.parentElement?.id||'',
+        overlapped:overlap.map(n=>({name:n.className||n.tagName,text:n.textContent?.slice(0,35)})),
+        checkedNodes:nodes.length};
+    }""")
+    if not r or r["mode"]!="static" or r["overlapped"] or r["checkedNodes"]<3:
+        raise AssertionError("NOTIFY-01 shared core toast obscures controls or text: "+str(r))
+    return r
 
 def F10(pg):
     # Synthetic ids are not production id bugs: they come only from QA fixtures.
@@ -186,6 +272,10 @@ TESTS=[
  ("F-08","merchant",lambda p,w,h:F08(p,w,h)),
  ("F-09","driver",lambda p,w,h:F09(p)),
  ("F-10","admin",lambda p,w,h:F10(p)),
+ ("NOTIFY-01","customer",lambda p,w,h:NOTIFY(p,"customer",w,h)),
+ ("NOTIFY-01","driver",lambda p,w,h:NOTIFY(p,"driver",w,h)),
+ ("NOTIFY-01","merchant",lambda p,w,h:NOTIFY(p,"merchant",w,h)),
+ ("NOTIFY-01","admin",lambda p,w,h:NOTIFY(p,"admin",w,h)),
 ]
 def main():
     global BROWSER
@@ -203,6 +293,14 @@ def main():
                         try:
                             ctx,pg=ready(None,app,w,h,lang)
                             result=fn(pg,w,h)
+                            if case=="F-03":
+                                screenshot(pg,"F-03-top",app,lang,w)
+                                pg.locator(".customer-quick").scroll_into_view_if_needed(timeout=2500)
+                                pg.wait_for_timeout(90)
+                            if case=="F-05":
+                                screenshot(pg,"F-05-payment-top",app,lang,w)
+                                pg.evaluate("window.scrollTo(0,document.body.scrollHeight)")
+                                pg.wait_for_timeout(90)
                             rows.append({"id":case,"app":app,"lang":lang,"width":w,"status":"PASS","geometry":result if isinstance(result,dict) else None})
                         except Exception as err:
                             detail=str(err)
@@ -230,11 +328,13 @@ def main():
     order=["# BRIEF-15 Original App WebKit — BEFORE / AFTER","",
       "These are original source-backed pages with read-only synthetic fixture. Not production auth or physical iPhone.",
       "Each BEFORE reference is pinned to unchanged BRIEF-14 original screenshots in this same isolated branch.",""]
-    refs={"F-01":("customer","home"),"F-02":("customer","home"),"F-03":("customer","track"),"F-04":("customer","item-sheet"),
+    refs={"NOTIFY-01":("customer","home"),"F-01":("customer","home"),"F-02":("customer","home"),"F-03":("customer","track"),"F-04":("customer","item-sheet"),
       "F-05":("customer","pay"),"F-06":("merchant","item-edit"),"F-07":("merchant","reject-sheet"),"F-08":("merchant","profile"),
       "F-09":("driver","step4"),"F-10":("admin","tab0")}
     for row in rows:
         app,sc=refs[row["id"]]
+        if row["id"]=="NOTIFY-01":
+            sc={"customer":"item-sheet","driver":"step4","merchant":"reject-sheet","admin":"tab0"}[app]
         before=f"../full-audit/{app}/{sc}_{row['lang']}_{row['width']}.png"
         after=pathlib.Path(row.get("image","")).name
         order.append(f"- {row['id']} {row['lang']}/{row['width']}: [{row['status']}](REPORT.json) | [BEFORE]({before}) | [AFTER]({after})")
