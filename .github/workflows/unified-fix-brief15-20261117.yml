@@ -75,6 +75,9 @@ jobs:
                   current=undo(current,"""<div class="pill"><span class="dot ${online?'':'off'}"></span>${online?t('online'):t('shOff')}${online?""",
                                """<div class="pill"><span class="dot ${online||a0?'':'off'}"></span>${online?t('online'):a0?t('g04Delivering'):t('shOff')}${online?""")
               else:
+                  # G-06b changes only the heading capitalization of the KPI.
+                  current=undo(current,"kp('box',all.length,g06Orders(all.length))",
+                      "kp('box',all.length,g06Orders(all.length).replace(/^./,x=>x.toLocaleUpperCase(TLB.lang()==='ru'?'ru-RU':'en-US')))")
                   current=undo(current,'',"""/* BRIEF-15b G-06: compact Russian/English count inflection for admin totals. */
           function g06Orders(n){const v=Math.abs(Math.trunc(+n||0));if(TLB.lang()!=='ru')return v===1?'order':'orders';const d=v%10,h=v%100;return d===1&&h!==11?'заказ':d>=2&&d<=4&&(h<12||h>14)?'заказа':'заказов'}
           """)
