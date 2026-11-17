@@ -226,6 +226,7 @@
       "result": {
         "ok": false,
         "mode": "fixed",
+        "navTop": 602,
         "overlapRow": true,
         "overlapBadge": true,
         "badge": "Закрыто",
@@ -486,27 +487,15 @@
       "lang": "ru",
       "width": 375,
       "mode": "before",
-      "geometry": [
-        {
-          "selector": "#app .top select",
-          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
-          "rect": {
-            "x": 30,
-            "y": 51,
-            "width": 315,
-            "height": 38,
-            "right": 345,
-            "bottom": 89
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        }
-      ],
+      "geometry": [],
       "result": {
         "ok": false,
-        "fg": "rgb(255, 255, 255)",
-        "bg": "rgba(255, 255, 255, 0.2)",
-        "width": 315
+        "displayLabel": "",
+        "selected": "",
+        "labelInk": "",
+        "background": "",
+        "width": 0,
+        "height": 0
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -640,7 +629,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 10:31",
+          "text": "Ожидание подтверждения · #ord0 10:52",
           "rect": {
             "x": 10,
             "y": 232,
@@ -668,7 +657,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 09:31",
+          "text": "Принять с 09:52",
           "rect": {
             "x": 22,
             "y": 613,
@@ -683,7 +672,7 @@
       ],
       "result": {
         "ok": false,
-        "heading": "Ожидание подтверждения · #ord0\n 10:31\n",
+        "heading": "Ожидание подтверждения · #ord0\n 10:52\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -704,7 +693,7 @@
             "scroll": 119
           },
           {
-            "txt": "Принять с 09:31",
+            "txt": "Принять с 09:52",
             "width": 202,
             "scroll": 202
           }
@@ -1358,6 +1347,7 @@
       "result": {
         "ok": false,
         "mode": "fixed",
+        "navTop": 779,
         "overlapRow": false,
         "overlapBadge": false,
         "badge": "Closed",
@@ -1618,27 +1608,15 @@
       "lang": "en",
       "width": 390,
       "mode": "before",
-      "geometry": [
-        {
-          "selector": "#app .top select",
-          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
-          "rect": {
-            "x": 30,
-            "y": 51,
-            "width": 330,
-            "height": 38,
-            "right": 360,
-            "bottom": 89
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        }
-      ],
+      "geometry": [],
       "result": {
         "ok": false,
-        "fg": "rgb(255, 255, 255)",
-        "bg": "rgba(255, 255, 255, 0.2)",
-        "width": 330
+        "displayLabel": "",
+        "selected": "",
+        "labelInk": "",
+        "background": "",
+        "width": 0,
+        "height": 0
       },
       "page_errors": [],
       "status": "REFERENCE",
@@ -1772,7 +1750,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 10:31",
+          "text": "Waiting for confirmation · #ord0 10:53",
           "rect": {
             "x": 10,
             "y": 232,
@@ -1800,7 +1778,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 09:31",
+          "text": "Accept from 09:53",
           "rect": {
             "x": 22,
             "y": 598,
@@ -1815,7 +1793,7 @@
       ],
       "result": {
         "ok": false,
-        "heading": "Waiting for confirmation · #ord0\n 10:31\n",
+        "heading": "Waiting for confirmation · #ord0\n 10:53\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -1836,7 +1814,7 @@
             "scroll": 124
           },
           {
-            "txt": "Accept from 09:31",
+            "txt": "Accept from 09:53",
             "width": 212,
             "scroll": 212
           }

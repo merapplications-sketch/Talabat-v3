@@ -185,11 +185,11 @@
           "text": "Текущие заказы · 4Заказ отправлен · Готовим ваш заказ · Заказ по",
           "rect": {
             "x": 14,
-            "y": 98,
+            "y": 54,
             "width": 347,
             "height": 96,
             "right": 361,
-            "bottom": 194
+            "bottom": 150
           },
           "disabled": false,
           "ariaDisabled": null
@@ -199,11 +199,11 @@
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 14,
-            "y": 490,
+            "y": 446,
             "width": 347,
             "height": 132,
             "right": 361,
-            "bottom": 622
+            "bottom": 578
           },
           "disabled": false,
           "ariaDisabled": "true"
@@ -213,11 +213,11 @@
           "text": "Закрыт",
           "rect": {
             "x": 290.48,
-            "y": 588,
+            "y": 544,
             "width": 58.52,
             "height": 22,
             "right": 349,
-            "bottom": 610
+            "bottom": 566
           },
           "disabled": false,
           "ariaDisabled": null
@@ -226,14 +226,15 @@
       "result": {
         "ok": true,
         "mode": "relative",
+        "navTop": 602,
         "overlapRow": false,
         "overlapBadge": false,
         "badge": "Закрыт",
         "badgeRect": {
           "x": 290.484375,
-          "y": 588,
+          "y": 544,
           "right": 349,
-          "bottom": 610
+          "bottom": 566
         }
       },
       "page_errors": [],
@@ -254,9 +255,9 @@
             "x": 0,
             "y": 0,
             "width": 375,
-            "height": 3277.38,
+            "height": 3273.38,
             "right": 375,
-            "bottom": 3277.38
+            "bottom": 3273.38
           },
           "disabled": false,
           "ariaDisabled": null
@@ -266,11 +267,11 @@
           "text": "",
           "rect": {
             "x": 22,
-            "y": 721,
+            "y": 717,
             "width": 44,
             "height": 44,
             "right": 66,
-            "bottom": 765
+            "bottom": 761
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -280,11 +281,11 @@
           "text": "",
           "rect": {
             "x": 22,
-            "y": 1099.13,
+            "y": 1095.13,
             "width": 44,
             "height": 44,
             "right": 66,
-            "bottom": 1143.13
+            "bottom": 1139.13
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -294,11 +295,11 @@
           "text": "",
           "rect": {
             "x": 199.5,
-            "y": 1099.13,
+            "y": 1095.13,
             "width": 44,
             "height": 44,
             "right": 243.5,
-            "bottom": 1143.13
+            "bottom": 1139.13
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -308,11 +309,11 @@
           "text": "",
           "rect": {
             "x": 22,
-            "y": 1321.25,
+            "y": 1317.25,
             "width": 44,
             "height": 44,
             "right": 66,
-            "bottom": 1365.25
+            "bottom": 1361.25
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -322,11 +323,11 @@
           "text": "",
           "rect": {
             "x": 199.5,
-            "y": 1321.25,
+            "y": 1317.25,
             "width": 44,
             "height": 44,
             "right": 243.5,
-            "bottom": 1365.25
+            "bottom": 1361.25
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -336,11 +337,11 @@
           "text": "",
           "rect": {
             "x": 304,
-            "y": 1703.38,
+            "y": 1699.38,
             "width": 44,
             "height": 44,
             "right": 348,
-            "bottom": 1747.38
+            "bottom": 1743.38
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -638,7 +639,21 @@
       "mode": "after",
       "geometry": [
         {
-          "selector": "#app .top select",
+          "selector": "#app .top .g10-store-label",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 42,
+            "y": 51,
+            "width": 269,
+            "height": 28,
+            "right": 311,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .top .g10-store-wrap select",
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 30,
@@ -653,14 +668,16 @@
         }
       ],
       "result": {
-        "ok": false,
-        "fg": "rgba(0, 0, 0, 0)",
-        "bg": "rgb(255, 255, 255)",
-        "width": 315
+        "ok": true,
+        "displayLabel": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "selected": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "labelInk": "rgb(28, 28, 33)",
+        "background": "rgb(255, 255, 255)",
+        "width": 269,
+        "height": 28
       },
       "page_errors": [],
-      "status": "FAIL",
-      "error": "{'result': {'ok': False, 'fg': 'rgba(0, 0, 0, 0)', 'bg': 'rgb(255, 255, 255)', 'width': 315}, 'pageErrors': []}",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/b/after/G-01-merchant-ru-375-main-after.png"
     },
     {
@@ -675,11 +692,11 @@
           "text": "Размер порции (обязательно выбрать)",
           "rect": {
             "x": 26,
-            "y": 292,
+            "y": 244,
             "width": 277,
             "height": 90,
             "right": 303,
-            "bottom": 382
+            "bottom": 334
           },
           "disabled": false,
           "ariaDisabled": null
@@ -689,11 +706,11 @@
           "text": "Добавки",
           "rect": {
             "x": 26,
-            "y": 889,
+            "y": 841,
             "width": 277,
             "height": 90,
             "right": 303,
-            "bottom": 979
+            "bottom": 931
           },
           "disabled": false,
           "ariaDisabled": null
@@ -703,11 +720,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 444,
+            "y": 396,
             "width": 323,
             "height": 117,
             "right": 349,
-            "bottom": 561
+            "bottom": 513
           },
           "disabled": false,
           "ariaDisabled": null
@@ -717,11 +734,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 567,
+            "y": 519,
             "width": 323,
             "height": 117,
             "right": 349,
-            "bottom": 684
+            "bottom": 636
           },
           "disabled": false,
           "ariaDisabled": null
@@ -731,11 +748,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 690,
+            "y": 642,
             "width": 323,
             "height": 117,
             "right": 349,
-            "bottom": 807
+            "bottom": 759
           },
           "disabled": false,
           "ariaDisabled": null
@@ -745,11 +762,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1041,
+            "y": 993,
             "width": 323,
             "height": 117,
             "right": 349,
-            "bottom": 1158
+            "bottom": 1110
           },
           "disabled": false,
           "ariaDisabled": null
@@ -759,11 +776,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1164,
+            "y": 1116,
             "width": 323,
             "height": 117,
             "right": 349,
-            "bottom": 1281
+            "bottom": 1233
           },
           "disabled": false,
           "ariaDisabled": null
@@ -773,11 +790,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1287,
+            "y": 1239,
             "width": 323,
             "height": 117,
             "right": 349,
-            "bottom": 1404
+            "bottom": 1356
           },
           "disabled": false,
           "ariaDisabled": null
@@ -787,11 +804,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 506,
+            "y": 458,
             "width": 323,
             "height": 46,
             "right": 349,
-            "bottom": 552
+            "bottom": 504
           },
           "disabled": false,
           "ariaDisabled": null
@@ -801,11 +818,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 629,
+            "y": 581,
             "width": 323,
             "height": 46,
             "right": 349,
-            "bottom": 675
+            "bottom": 627
           },
           "disabled": false,
           "ariaDisabled": null
@@ -815,11 +832,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 752,
+            "y": 704,
             "width": 323,
             "height": 46,
             "right": 349,
-            "bottom": 798
+            "bottom": 750
           },
           "disabled": false,
           "ariaDisabled": null
@@ -829,11 +846,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1103,
+            "y": 1055,
             "width": 323,
             "height": 46,
             "right": 349,
-            "bottom": 1149
+            "bottom": 1101
           },
           "disabled": false,
           "ariaDisabled": null
@@ -843,11 +860,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1226,
+            "y": 1178,
             "width": 323,
             "height": 46,
             "right": 349,
-            "bottom": 1272
+            "bottom": 1224
           },
           "disabled": false,
           "ariaDisabled": null
@@ -857,11 +874,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1349,
+            "y": 1301,
             "width": 323,
             "height": 46,
             "right": 349,
-            "bottom": 1395
+            "bottom": 1347
           },
           "disabled": false,
           "ariaDisabled": null
@@ -883,78 +900,92 @@
               "name": "Маленький",
               "inputWidth": 323,
               "textWidth": 94.03125,
-              "controlsY": 506,
-              "nameBottom": 498,
+              "controlsY": 458,
+              "nameBottom": 450,
               "rowWidth": 323,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": true,
+              "footerY": 526
             },
             {
               "name": "Средний",
               "inputWidth": 323,
               "textWidth": 73.4921875,
-              "controlsY": 629,
-              "nameBottom": 621,
+              "controlsY": 581,
+              "nameBottom": 573,
               "rowWidth": 323,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
             },
             {
               "name": "Большой",
               "inputWidth": 323,
               "textWidth": 75.25,
-              "controlsY": 752,
-              "nameBottom": 744,
+              "controlsY": 704,
+              "nameBottom": 696,
               "rowWidth": 323,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
             },
             {
               "name": "Сыр",
               "inputWidth": 323,
               "textWidth": 33.9609375,
-              "controlsY": 1103,
-              "nameBottom": 1095,
+              "controlsY": 1055,
+              "nameBottom": 1047,
               "rowWidth": 323,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
             },
             {
               "name": "Бекон",
               "inputWidth": 323,
               "textWidth": 50.734375,
-              "controlsY": 1226,
-              "nameBottom": 1218,
+              "controlsY": 1178,
+              "nameBottom": 1170,
               "rowWidth": 323,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
             },
             {
               "name": "Халапеньо",
               "inputWidth": 323,
               "textWidth": 90.78125,
-              "controlsY": 1349,
-              "nameBottom": 1341,
+              "controlsY": 1301,
+              "nameBottom": 1293,
               "rowWidth": 323,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
             },
             {
               "name": "Соус",
               "inputWidth": 323,
               "textWidth": 39.2265625,
-              "controlsY": 1472,
-              "nameBottom": 1464,
+              "controlsY": 1424,
+              "nameBottom": 1416,
               "rowWidth": 323,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 526
             }
           ]
         }
@@ -1081,7 +1112,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 10:30",
+          "text": "Ожидание подтверждения · #ord0 10:51",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1109,7 +1140,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 09:30",
+          "text": "Принять с 09:51",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1124,7 +1155,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 10:30\n",
+        "heading": "Ожидание подтверждения · #ord0\n 10:51\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1145,7 +1176,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 09:30",
+            "txt": "Принять с 09:51",
             "width": 209,
             "scroll": 209
           }
@@ -2014,6 +2045,7 @@
       "result": {
         "ok": true,
         "mode": "relative",
+        "navTop": 779,
         "overlapRow": false,
         "overlapBadge": false,
         "badge": "Closed",
@@ -2042,9 +2074,9 @@
             "x": 0,
             "y": 0,
             "width": 390,
-            "height": 3291.25,
+            "height": 3287.25,
             "right": 390,
-            "bottom": 3291.25
+            "bottom": 3287.25
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2054,11 +2086,11 @@
           "text": "",
           "rect": {
             "x": 22,
-            "y": 722,
+            "y": 718,
             "width": 44,
             "height": 44,
             "right": 66,
-            "bottom": 766
+            "bottom": 762
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -2068,11 +2100,11 @@
           "text": "",
           "rect": {
             "x": 22,
-            "y": 1105.75,
+            "y": 1101.75,
             "width": 44,
             "height": 44,
             "right": 66,
-            "bottom": 1149.75
+            "bottom": 1145.75
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -2082,11 +2114,11 @@
           "text": "",
           "rect": {
             "x": 207,
-            "y": 1105.75,
+            "y": 1101.75,
             "width": 44,
             "height": 44,
             "right": 251,
-            "bottom": 1149.75
+            "bottom": 1145.75
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -2096,11 +2128,11 @@
           "text": "",
           "rect": {
             "x": 22,
-            "y": 1333.5,
+            "y": 1329.5,
             "width": 44,
             "height": 44,
             "right": 66,
-            "bottom": 1377.5
+            "bottom": 1373.5
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -2110,11 +2142,11 @@
           "text": "",
           "rect": {
             "x": 207,
-            "y": 1333.5,
+            "y": 1329.5,
             "width": 44,
             "height": 44,
             "right": 251,
-            "bottom": 1377.5
+            "bottom": 1373.5
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -2124,11 +2156,11 @@
           "text": "",
           "rect": {
             "x": 319,
-            "y": 1721.25,
+            "y": 1717.25,
             "width": 44,
             "height": 44,
             "right": 363,
-            "bottom": 1765.25
+            "bottom": 1761.25
           },
           "disabled": true,
           "ariaDisabled": "true"
@@ -2426,7 +2458,21 @@
       "mode": "after",
       "geometry": [
         {
-          "selector": "#app .top select",
+          "selector": "#app .top .g10-store-label",
+          "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
+          "rect": {
+            "x": 42,
+            "y": 51,
+            "width": 284,
+            "height": 28,
+            "right": 326,
+            "bottom": 79
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .top .g10-store-wrap select",
           "text": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на прос",
           "rect": {
             "x": 30,
@@ -2441,14 +2487,16 @@
         }
       ],
       "result": {
-        "ok": false,
-        "fg": "rgba(0, 0, 0, 0)",
-        "bg": "rgb(255, 255, 255)",
-        "width": 330
+        "ok": true,
+        "displayLabel": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "selected": "Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на проспекте Рудаки)",
+        "labelInk": "rgb(28, 28, 33)",
+        "background": "rgb(255, 255, 255)",
+        "width": 284,
+        "height": 28
       },
       "page_errors": [],
-      "status": "FAIL",
-      "error": "{'result': {'ok': False, 'fg': 'rgba(0, 0, 0, 0)', 'bg': 'rgb(255, 255, 255)', 'width': 330}, 'pageErrors': []}",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/b/after/G-01-merchant-en-390-main-after.png"
     },
     {
@@ -2463,11 +2511,11 @@
           "text": "Размер порции (обязательно выбрать)",
           "rect": {
             "x": 26,
-            "y": 574.02,
+            "y": 421.02,
             "width": 292,
             "height": 90,
             "right": 318,
-            "bottom": 664.02
+            "bottom": 511.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2477,11 +2525,11 @@
           "text": "Добавки",
           "rect": {
             "x": 26,
-            "y": 1171.02,
+            "y": 1018.02,
             "width": 292,
             "height": 90,
             "right": 318,
-            "bottom": 1261.02
+            "bottom": 1108.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2491,11 +2539,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 726.02,
+            "y": 573.02,
             "width": 338,
             "height": 117,
             "right": 364,
-            "bottom": 843.02
+            "bottom": 690.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2505,11 +2553,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 849.02,
+            "y": 696.02,
             "width": 338,
             "height": 117,
             "right": 364,
-            "bottom": 966.02
+            "bottom": 813.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2519,11 +2567,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 972.02,
+            "y": 819.02,
             "width": 338,
             "height": 117,
             "right": 364,
-            "bottom": 1089.02
+            "bottom": 936.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2533,11 +2581,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1323.02,
+            "y": 1170.02,
             "width": 338,
             "height": 117,
             "right": 364,
-            "bottom": 1440.02
+            "bottom": 1287.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2547,11 +2595,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1446.02,
+            "y": 1293.02,
             "width": 338,
             "height": 117,
             "right": 364,
-            "bottom": 1563.02
+            "bottom": 1410.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2561,11 +2609,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1569.02,
+            "y": 1416.02,
             "width": 338,
             "height": 117,
             "right": 364,
-            "bottom": 1686.02
+            "bottom": 1533.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2575,11 +2623,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 788.02,
+            "y": 635.02,
             "width": 338,
             "height": 46,
             "right": 364,
-            "bottom": 834.02
+            "bottom": 681.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2589,11 +2637,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 911.02,
+            "y": 758.02,
             "width": 338,
             "height": 46,
             "right": 364,
-            "bottom": 957.02
+            "bottom": 804.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2603,11 +2651,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1034.02,
+            "y": 881.02,
             "width": 338,
             "height": 46,
             "right": 364,
-            "bottom": 1080.02
+            "bottom": 927.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2617,11 +2665,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1385.02,
+            "y": 1232.02,
             "width": 338,
             "height": 46,
             "right": 364,
-            "bottom": 1431.02
+            "bottom": 1278.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2631,11 +2679,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1508.02,
+            "y": 1355.02,
             "width": 338,
             "height": 46,
             "right": 364,
-            "bottom": 1554.02
+            "bottom": 1401.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2645,11 +2693,11 @@
           "text": "+",
           "rect": {
             "x": 26,
-            "y": 1631.02,
+            "y": 1478.02,
             "width": 338,
             "height": 46,
             "right": 364,
-            "bottom": 1677.02
+            "bottom": 1524.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2671,78 +2719,92 @@
               "name": "Маленький",
               "inputWidth": 338,
               "textWidth": 94.03125,
-              "controlsY": 788.015625,
-              "nameBottom": 780.015625,
+              "controlsY": 635.015625,
+              "nameBottom": 627.015625,
               "rowWidth": 338,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": true,
+              "footerY": 703
             },
             {
               "name": "Средний",
               "inputWidth": 338,
               "textWidth": 73.4921875,
-              "controlsY": 911.015625,
-              "nameBottom": 903.015625,
+              "controlsY": 758.015625,
+              "nameBottom": 750.015625,
               "rowWidth": 338,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
             },
             {
               "name": "Большой",
               "inputWidth": 338,
               "textWidth": 75.25,
-              "controlsY": 1034.015625,
-              "nameBottom": 1026.015625,
+              "controlsY": 881.015625,
+              "nameBottom": 873.015625,
               "rowWidth": 338,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
             },
             {
               "name": "Сыр",
               "inputWidth": 338,
               "textWidth": 33.9609375,
-              "controlsY": 1385.015625,
-              "nameBottom": 1377.015625,
+              "controlsY": 1232.015625,
+              "nameBottom": 1224.015625,
               "rowWidth": 338,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
             },
             {
               "name": "Бекон",
               "inputWidth": 338,
               "textWidth": 50.734375,
-              "controlsY": 1508.015625,
-              "nameBottom": 1500.015625,
+              "controlsY": 1355.015625,
+              "nameBottom": 1347.015625,
               "rowWidth": 338,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
             },
             {
               "name": "Халапеньо",
               "inputWidth": 338,
               "textWidth": 90.78125,
-              "controlsY": 1631.015625,
-              "nameBottom": 1623.015625,
+              "controlsY": 1478.015625,
+              "nameBottom": 1470.015625,
               "rowWidth": 338,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
             },
             {
               "name": "Соус",
               "inputWidth": 338,
               "textWidth": 39.2265625,
-              "controlsY": 1754.015625,
-              "nameBottom": 1746.015625,
+              "controlsY": 1601.015625,
+              "nameBottom": 1593.015625,
               "rowWidth": 338,
               "full": true,
               "secondRow": true,
-              "controlItems": 4
+              "controlItems": 4,
+              "notCovered": false,
+              "footerY": 703
             }
           ]
         }
@@ -2869,7 +2931,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 10:30",
+          "text": "Waiting for confirmation · #ord0 10:52",
           "rect": {
             "x": 10,
             "y": 222,
@@ -2897,7 +2959,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 09:30",
+          "text": "Accept from 09:52",
           "rect": {
             "x": 22,
             "y": 589,
@@ -2912,7 +2974,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 10:30\n",
+        "heading": "Waiting for confirmation · #ord0\n 10:52\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -2933,7 +2995,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 09:30",
+            "txt": "Accept from 09:52",
             "width": 219,
             "scroll": 219
           }
@@ -3591,20 +3653,5 @@
       "screenshot": "qa-shots/unified-fix/b/after/G-11-merchant-en-390-main-after.png"
     }
   ],
-  "errors": [
-    {
-      "case": "G-01",
-      "app": "merchant",
-      "lang": "ru",
-      "width": 375,
-      "error": "{'result': {'ok': False, 'fg': 'rgba(0, 0, 0, 0)', 'bg': 'rgb(255, 255, 255)', 'width': 315}, 'pageErrors': []}"
-    },
-    {
-      "case": "G-01",
-      "app": "merchant",
-      "lang": "en",
-      "width": 390,
-      "error": "{'result': {'ok': False, 'fg': 'rgba(0, 0, 0, 0)', 'bg': 'rgb(255, 255, 255)', 'width': 330}, 'pageErrors': []}"
-    }
-  ]
+  "errors": []
 }
