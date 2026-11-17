@@ -84,8 +84,14 @@ def F04(pg,w,h):
         sc=sh?.querySelector('.osh'),ft=sh?.querySelector('.oshf');
       if(!sh||!f||!sc||!ft)return null;
       const a=f.getBoundingClientRect(),c=sc.getBoundingClientRect(),b=ft.getBoundingClientRect();
+      const cs=getComputedStyle(sc),before=sc.scrollTop,bound=sc.scrollHeight-sc.clientHeight;
+      const post={before,scrollHeight:sc.scrollHeight,clientHeight:sc.clientHeight,scrollMax:bound,
+          overflow:cs.overflowY,snap:cs.scrollSnapType,textareaOffset:f.offsetTop,visibleHeight:c.height};
+      sc.scrollTop=999999;post.after=sc.scrollTop;
+      const fr=f.getBoundingClientRect();post.newTop=fr.top;post.newBottom=fr.bottom;
+      sc.scrollTop=before;post.restored=sc.scrollTop;
       return {kbd:sh.classList.contains('d6-keyboard'),top:a.top,bottom:a.bottom,
-        scrollTop:c.top,scrollBottom:c.bottom,footerTop:b.top,active:document.activeElement===f};
+        scrollTop:c.top,scrollBottom:c.bottom,footerTop:b.top,active:document.activeElement===f,debug:post};
     }""")
     if not r or not r["kbd"] or not r["active"] or r["top"]<r["scrollTop"]-2 or r["bottom"]>min(r["scrollBottom"],r["footerTop"])+3:
         raise AssertionError("F-04 focused dish note hidden/partly clipped: "+str(r))
@@ -180,9 +186,12 @@ def main():
     try:
         with sync_playwright() as pw:
             BROWSER=pw.webkit.launch(headless=True)
-            for w,h in SIZES:
-                for lang in LANGS:
-                    for case,app,fn in TESTS:
+            dims=[x for x in SIZES if not os.environ.get("BRIEF15_WIDTHS") or x[0] in [int(v) for v in os.environ["BRIEF15_WIDTHS"].split(",")]]
+            langs=[x for x in LANGS if not os.environ.get("BRIEF15_LANGS") or x in os.environ["BRIEF15_LANGS"].split(",")]
+            tests=[x for x in TESTS if not os.environ.get("BRIEF15_CASES") or x[0] in os.environ["BRIEF15_CASES"].split(",")]
+            for w,h in dims:
+                for lang in langs:
+                    for case,app,fn in tests:
                         ctx=pg=None
                         try:
                             ctx,pg=ready(None,app,w,h,lang)
@@ -213,5 +222,5 @@ def main():
     (OUT/"INDEX.md").write_text("\n".join(order)+"\n")
     print("BRIEF15_WEBKIT_COVERAGE",len(rows),"PASS",len(rows)-len(errors),"FAIL",len(errors))
     for err in errors[:12]:print("BRIEF15_WEBKIT_FAIL",json.dumps(err,ensure_ascii=False))
-    return 1 if errors or len(rows)!=len(SIZES)*len(LANGS)*len(TESTS) else 0
+    return 1 if errors or len(rows)!=len(dims)*len(langs)*len(tests) else 0
 if __name__=="__main__":sys.exit(main())
