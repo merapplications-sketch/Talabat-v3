@@ -155,7 +155,7 @@ def inspect(pg,case,lang,w):
             saved,overlap:!!overlap,bandBottom:b?.bottom||0,sliderTop:s?.top||0,
             dockPosition:dock&&getComputedStyle(dock).position};
         }""")
-        shot(pg,case,"customer",lang,w,"pay")
+        shot(pg,case,lang,w,"pay")
         pg.evaluate("""() => go('cart')""")
         pg.wait_for_timeout(90)
         cart=assert_result(pg,"""() => {
@@ -167,7 +167,7 @@ def inspect(pg,case,lang,w):
               !!first&&b.bottom<=first.top&&buttons.length>=2,
               saved,bandBottom:b?.bottom||0,buttons:buttons.length,firstTop:first?.top||0};
         }""")
-        shot(pg,case,"customer",lang,w,"cart")
+        shot(pg,case,lang,w,"cart")
         return {"ok":pay["ok"] and cart["ok"],"pay":pay,"cart":cart},[
           ".d70-dock .u18-saving",".d70-dock button"]
     if case=="U-05":
@@ -249,7 +249,7 @@ def main():
                                 for part,screen in (("pay","pay"),("cart","cart")):
                                     if screen=="cart":page.evaluate("() => go('cart')")
                                     else:page.locator(".d67-checkout .sv").scroll_into_view_if_needed(timeout=1800)
-                                    shot(page,case,app,lang,w,part)
+                                    shot(page,case,lang,w,part)
                                 page.evaluate("() => go('pay')")
                             elif case=="U-05":
                                 page.locator(".f15c-option-row").first.scroll_into_view_if_needed(timeout=2500)
@@ -268,7 +268,7 @@ def main():
                             errors.append({k:row.get(k) for k in ("id","app","lang","width","error")})
                     finally:
                         if page:
-                            try:row["screenshot"]=shot(page,case,app,lang,w)
+                            try:row["screenshot"]=shot(page,case,lang,w)
                             except Exception as exc:
                                 row["screenshot_error"]=str(exc)[:300]
                                 if MODE=="after":errors.append({"id":case,"app":app,"lang":lang,"width":w,
