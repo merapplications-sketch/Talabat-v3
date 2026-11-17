@@ -14,10 +14,12 @@ OUT=ROOT/"qa-shots"/"unified-fix"/"b"/MODE
 OUT.mkdir(parents=True,exist_ok=True)
 VIEWPORTS=(("ru",375,667),("en",390,844))
 CASES=(
-    ("C-01","customer"),("C-02","customer"),("C-02","merchant"),("C-02","driver"),
+    ("C-01","customer"),("C-01a","customer"),("C-01b","customer"),("C-01c","customer"),("C-01d","customer"),
+    ("C-02","customer"),("C-02","merchant"),("C-02","driver"),
     ("G-01","merchant"),("G-02","merchant"),("G-03","customer"),
     ("G-04","driver"),("G-05","merchant"),("G-06","merchant"),("G-06","admin"),
-    ("G-07","admin"),("G-08","customer"),("G-09","customer")
+    ("G-06b","admin"),("G-07","admin"),("G-08","customer"),("G-09","customer"),
+    ("G-10","merchant"),("G-11","merchant")
 )
 rows=[];errors=[]
 
@@ -43,6 +45,14 @@ def geometry(pg,selectors):
         selector:sel,text:(e.textContent||'').trim().slice(0,64),
         rect:rect(e),disabled:!!e.disabled,ariaDisabled:e.getAttribute('aria-disabled')})));
     }""",selectors)
+
+def close_store_for_visual(pg):
+    # Isolated synthetic fixture: alter availability only inside this new page.
+    pg.evaluate("""() => {
+      window.__bClosed=STORES[0].n;
+      const open=TLB.isOpen.bind(TLB);
+      TLB.isOpen=n=>n===window.__bClosed?false:open(n);
+    }""")
 
 def run_case(pg,case,app,lang,w):
     if case=="C-01":
@@ -93,6 +103,93 @@ def run_case(pg,case,app,lang,w):
         }""")
         shot(pg,case,app,lang,w,"closed-cart")
         return {"ok":a["ok"] and b["ok"] and c["ok"],"category":a,"dish":b,"cart":c},["#app .d70-dock button","#app .closedb"]
+    if case=="C-01a":
+        close_store_for_visual(pg)
+        pg.evaluate("""() => {S.v='home';S.q='';S.hf=null;render()}""")
+        pg.locator("#app .d6-sc.closed").first.scroll_into_view_if_needed(timeout=3000)
+        r=invoke(pg,"""() => {
+          const e=[...document.querySelectorAll('#app .d6-sc.closed')].find(x=>x.textContent.includes(window.__bClosed)),
+                badge=e?.querySelector('.hb.k'),rect=badge?.getBoundingClientRect(),
+                photo=e?.querySelector('.d6-ph')?.getBoundingClientRect(),before=S.v;
+          if(e)e.click();
+          return {ok:!!e&&!!badge&&badge.innerText.includes(TLB.t('closedStoreBadge'))&&
+            e.getAttribute('onclick')===null&&getComputedStyle(e).filter.includes('grayscale')&&
+            S.v===before&&rect.width>20&&photo&&rect.right<=photo.right+1,
+            home:before,view:S.v,closed:badge?.innerText||'',badgeRect:rect&&{x:rect.x,y:rect.y,width:rect.width},
+            photoRight:photo?.right||0};
+        }""")
+        shot(pg,case,app,lang,w,"home")
+        pg.evaluate("""() => {S.v='home';S.q=window.__bClosed.slice(0,12);render()}""")
+        pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
+        search=invoke(pg,"""() => {
+          const e=document.querySelector('#app .d6-sr.closed'),t=e?.querySelector('.or'),v=S.v;
+          if(e)e.click();
+          return {ok:!!e&&!!t&&t.innerText.includes(TLB.t('closedStoreBadge'))&&
+             !e.getAttribute('onclick')&&v===S.v,screen:S.v,visibleBadge:t?.innerText||''};
+        }""")
+        shot(pg,case,app,lang,w,"search")
+        r["search"]=search
+        return {"ok":r["ok"] and search["ok"],"home":r,"search":search},["#app .d6-sr.closed .or","#app .d6-sr.closed"]
+    if case=="C-01b":
+        close_store_for_visual(pg)
+        pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';S.srt='';S.fo=false;render()}""")
+        pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
+        r=invoke(pg,"""() => {
+          const e=document.querySelector('#app .d6-sr.closed'),card=document.querySelector('#app .c-current'),
+                badge=e?.querySelector('.or'),row=e?.getBoundingClientRect(),
+                a=card?.getBoundingClientRect(),b=badge?.getBoundingClientRect();
+          const overlap=x=>a&&x&&Math.min(a.right,x.right)-Math.max(a.left,x.left)>2&&
+            Math.min(a.bottom,x.bottom)-Math.max(a.top,x.top)>2;
+          return {ok:!!e&&!!card&&!!badge&&getComputedStyle(card).position!=='fixed'&&
+             !overlap(row)&&!overlap(b)&&!!b&&b.width>25&&b.height>10,
+             mode:getComputedStyle(card).position,overlapRow:!!overlap(row),
+             overlapBadge:!!overlap(b),badge:badge?.innerText||'',
+             badgeRect:b&&{x:b.x,y:b.y,right:b.right,bottom:b.bottom}};
+        }""")
+        shot(pg,case,app,lang,w,"category")
+        return r,["#app .c-current","#app .d6-sr.closed","#app .d6-sr.closed .or"]
+    if case=="C-01c":
+        close_store_for_visual(pg)
+        pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';render()}""")
+        before=invoke(pg,"""() => {
+          const e=document.querySelector('#app .d6-sr.closed'),v=S.v;
+          if(e)e.click();
+          return {ok:!!e&&S.v===v&&e.getAttribute('onclick')===null,
+            before:v,after:S.v};
+        }""")
+        pg.evaluate("""() => {S.v='menu';S.store=window.__bClosed;S.sh=null;render()}""")
+        pg.wait_for_timeout(90)
+        after=invoke(pg,"""() => {
+          const view=document.querySelector('#app .c01-closed-menu'),
+            adds=[...document.querySelectorAll('#app .d6-add')],
+            r=view?.getBoundingClientRect();
+          openItem('i1');
+          return {ok:!!view&&!!r&&r.width>250&&adds.length>0&&
+             adds.every(x=>x.disabled)&&!S.sh&&!view.querySelector('.d6-mi[onclick],.d6-pv[onclick]'),
+             grey:!!view,buttons:adds.map(x=>({disabled:x.disabled,aria:x.getAttribute('aria-disabled')})),
+             sheetOpen:!!S.sh};
+        }""")
+        shot(pg,case,app,lang,w,"direct-link-grey")
+        return {"ok":before["ok"] and after["ok"],"tap":before,"direct":after},["#app .c01-closed-menu","#app .d6-add"]
+    if case=="C-01d":
+        close_store_for_visual(pg)
+        pg.evaluate("""() => {
+          S.cart={i1:1};S.cartStore=window.__bClosed;S.v='cart';S.sh=null;S.gCheckout=false;render();
+        }""")
+        r=invoke(pg,"""() => {
+          const group=document.querySelector('#app .grpe'),
+            more=document.querySelector('#app .d70-dock .btn.s'),
+            pay=document.querySelector('#app .d70-dock .btn:last-child'),
+            notice=document.querySelector('#app #c01-cart-closed'),
+            v=S.v;
+          group?.click();more?.click();
+          return {ok:!!group&&group.disabled&&!!more&&more.disabled&&!!pay&&pay.disabled&&
+            !!notice&&notice.innerText.includes(TLB.t('closedBanner'))&&S.v===v,
+            groupDisabled:!!group?.disabled,moreDisabled:!!more?.disabled,
+            payDisabled:!!pay?.disabled,reason:notice?.innerText||'',after:S.v};
+        }""")
+        shot(pg,case,app,lang,w,"closed-cart-actions")
+        return r,["#app .grpe","#app .d70-dock button","#app #c01-cart-closed"]
     if case=="C-02":
         pg.evaluate("""() => TLB.toast('BRIEF15B_TOAST_PROBE',true)""")
         pg.wait_for_timeout(110)
@@ -129,37 +226,57 @@ def run_case(pg,case,app,lang,w):
     if case=="G-02":
         pg.evaluate("""() => {setTab('m');openSheet('i1')}""")
         pg.wait_for_timeout(90)
-        pg.locator(".f06-option-name").first.scroll_into_view_if_needed(timeout=3000)
-        r=invoke(pg,"""() => {
-          const els=[...document.querySelectorAll('.f06-option-name')];
-          return {ok:els.length>0 && els.every(e=>e.tagName==='INPUT'&&
-            getComputedStyle(e).whiteSpace==='nowrap'&&e.getBoundingClientRect().height<=51),
-            options:els.map(e=>({type:e.tagName,h:e.getBoundingClientRect().height,
-              text:e.value.slice(0,40),whiteSpace:getComputedStyle(e).whiteSpace}))};
+        pg.locator(".f15c-group-name").first.scroll_into_view_if_needed(timeout=3000)
+        top=invoke(pg,"""() => {
+          const e=document.querySelector('.f15c-group-name'),r=e?.getBoundingClientRect(),
+            complete=!!e&&e.tagName==='TEXTAREA'&&e.scrollHeight<=e.clientHeight+3&&
+              getComputedStyle(e).whiteSpace==='pre-wrap';
+          return {ok:complete,value:e?.value||'',height:r?.height||0,
+            scroll:e?.scrollHeight||0,client:e?.clientHeight||0};
         }""")
-        return r,[".f06-item-editor",".f06-option-name"]
+        shot(pg,case,app,lang,w,"group-title")
+        pg.locator(".f15c-option-row").first.scroll_into_view_if_needed(timeout=3000)
+        opt=invoke(pg,"""() => {
+          const a=[...document.querySelectorAll('.f15c-option-row')].filter(e=>e.querySelector('.f06-option-name')),
+           metrics=a.map(row=>{
+             const inp=row.querySelector('.f06-option-name'),actions=row.querySelector('.f15c-option-controls'),
+               i=inp.getBoundingClientRect(),act=actions.getBoundingClientRect(),r=row.getBoundingClientRect(),
+               canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),cs=getComputedStyle(inp);
+             ctx.font=cs.font;
+             const textW=ctx.measureText(inp.value).width;
+             return {name:inp.value,inputWidth:i.width,textWidth:textW,controlsY:act.y,
+               nameBottom:i.bottom,rowWidth:r.width,full:textW+30<=i.width,
+               secondRow:act.y>=i.bottom-1,controlItems:actions.children.length};
+           });
+          return {ok:metrics.length>0&&metrics.every(x=>x.full&&x.secondRow&&x.controlItems===4),
+             metrics};
+        }""")
+        shot(pg,case,app,lang,w,"option-controls")
+        return {"ok":top["ok"] and opt["ok"],"group":top,"options":opt},[".f15c-group-name",".f15c-option-row",".f15c-option-controls"]
     if case=="G-03":
         pg.evaluate("""() => {go('menu',{store:STORES[0].n});openItem('i1')}""")
         pg.wait_for_timeout(90)
         r=invoke(pg,"""() => {
-          const e=document.querySelector('.d6s .oshf .btn .px6'),b=e?.getBoundingClientRect(),
-                bt=e?.closest('button'),q=bt?.getBoundingClientRect();
-          return {ok:!!e&&getComputedStyle(e).whiteSpace==='nowrap'&&
-            e.scrollWidth<=e.clientWidth+2&&b.width>30&&q.width>70&&
-            b.left>=q.left-2&&b.right<=q.right+2,
-            value:e?.textContent||'',whiteSpace:e?getComputedStyle(e).whiteSpace:'',
-            width:b?.width||0,buttonWidth:q?.width||0};
+          const bt=document.querySelector('.d6s .oshf .btn'),caption=bt?.querySelector('span:first-child'),
+                price=bt?.querySelector('.px6'),l=caption?.getBoundingClientRect(),
+                p=price?.getBoundingClientRect(),b=bt?.getBoundingClientRect();
+          const gap=l&&p?p.left-l.right:0;
+          return {ok:!!bt&&!!caption&&!!price&&getComputedStyle(price).whiteSpace==='nowrap'&&
+             price.scrollWidth<=price.clientWidth+2&&gap>=7&&
+             p.right<=b.right-6&&l.left>=b.left+6,
+             gap,price:price?.innerText||'',priceWidth:p?.width||0,
+             buttonRight:b?.right||0,captionRight:l?.right||0};
         }""")
-        return r,[".d6s .oshf .btn",".d6s .oshf .px6"]
+        return r,[".d6s .oshf .btn",".d6s .oshf .btn span:first-child",".d6s .oshf .px6"]
     if case=="G-04":
         r=invoke(pg,"""() => {
           online=false;const active=mine();render();
-          const e=document.querySelector('.hd .pill'),b=e?.getBoundingClientRect();
+          const e=document.querySelector('.hd .a-shift-dot'),b=e?.getBoundingClientRect();
           return {ok:!!active&&!!e&&e.innerText.includes(TLB.t('g04Delivering'))&&
             !e.innerText.includes(TLB.t('shOff'))&&!online&&b.width>60,
             active:!!active,online,pill:e?.innerText||'',width:b?.width||0};
         }""")
-        return r,[".hd .pill","#app .card.act"]
+        return r,[".hd .a-shift-dot","#app .a-sheet"]
     if case=="G-05":
         pg.evaluate("""() => {setTab('o');OF='pending';render()}""")
         pg.wait_for_timeout(85)
@@ -200,6 +317,16 @@ def run_case(pg,case,app,lang,w):
            return {ok:got.every((v,i)=>v===exp[i]),numbers:nums,got,expected:exp};
         }""")
         return r,["#app .k"]
+    if case=="G-06b":
+        r=invoke(pg,"""() => {
+          const n=TLB.orders().length,card=document.querySelector('#app .grid .k'),
+                label=card?.querySelector('span'),expected=g06Orders(n),
+                title=expected.charAt(0).toLocaleUpperCase(TLB.lang()==='ru'?'ru-RU':'en-US')+expected.slice(1),
+                actual=label?.textContent?.trim()||'';
+          return {ok:!!label&&actual===title&&/^[A-ZА-ЯЁ]/.test(actual),
+             expected:title,actual,n};
+        }""")
+        return r,["#app .grid .k","#app .grid .k span"]
     if case=="G-07":
         r=invoke(pg,"""() => {
           const original=TLB.drivers.bind(TLB);
@@ -232,12 +359,40 @@ def run_case(pg,case,app,lang,w):
     if case=="G-09":
         r=invoke(pg,"""() => {
           TLB.addresses=()=>[];S.useTmp=false;S.v='home';S.q='';render();
-          const e=document.querySelector('#app .d6-loc b'),r=e?.getBoundingClientRect();
-          const wanted=TLB.t('addrAdd');
-          return {ok:!!e&&e.innerText===wanted&&e.scrollWidth<=e.clientWidth+2&&r.width>60,
-            label:e?.innerText||'',expected:wanted,width:r?.width||0,scroll:e?.scrollWidth||0};
+          const e=document.querySelector('#app .d6-loc b'),box=e?.getBoundingClientRect(),
+                parent=e?.closest('.d6-loc')?.getBoundingClientRect(),
+                wanted=TLB.t('addrAdd'),css=e&&getComputedStyle(e);
+          return {ok:!!e&&e.innerText===wanted&&css.whiteSpace==='normal'&&
+             css.textOverflow!=='ellipsis'&&e.scrollHeight<=e.clientHeight+3&&
+             box.width>40&&box.bottom<=parent.bottom+2,
+            label:e?.innerText||'',expected:wanted,whiteSpace:css?.whiteSpace||'',
+            overflow:css?.textOverflow||'',width:box?.width||0,height:box?.height||0,
+            parentHeight:parent?.height||0};
         }""")
-        return r,["#app .d6-loc b","#app .d6-hh"]
+        return r,["#app .d6-loc b","#app .d6-loc","#app .d6-hh"]
+    if case=="G-10":
+        r=invoke(pg,"""() => {
+          const sel=document.querySelector('#app .top .g10-store-wrap select'),
+             label=document.querySelector('#app .g10-store-label'),v=label?.getBoundingClientRect();
+          return {ok:!!sel&&!!label&&sel.value===STORE&&label.innerText===STORE&&
+             getComputedStyle(label).textOverflow==='ellipsis'&&
+             label.scrollWidth>label.clientWidth&&v.width>60&&
+             getComputedStyle(label).pointerEvents==='none',
+             value:sel?.value||'',label:label?.innerText||'',width:v?.width||0,
+             scroll:label?.scrollWidth||0,overflow:label&&getComputedStyle(label).textOverflow};
+        }""")
+        return r,["#app .top .g10-store-label","#app .top select"]
+    if case=="G-11":
+        pg.evaluate("""() => setTab('p')""")
+        r=invoke(pg,"""() => {
+          const e=document.querySelector('#app textarea#sdesc'),r=e?.getBoundingClientRect(),
+            s=TLB.myStores().find(x=>x.name===STORE);
+          return {ok:!!e&&e.tagName==='TEXTAREA'&&e.maxLength===300&&
+             e.value===String(s?.description||'')&&r.height>=92&&
+             getComputedStyle(e).whiteSpace==='pre-wrap',
+             content:e?.value?.slice(0,90)||'',height:r?.height||0,tag:e?.tagName||''};
+        }""")
+        return r,["#app textarea#sdesc","#app .fld2"]
     raise RuntimeError("Unregistered case "+case)
 
 def main():
@@ -283,7 +438,7 @@ def main():
     data={"browser":"WebKit Linux, original HTML/JS, synthetic read-only","mode":MODE,
           "viewports":VIEWPORTS,"cases":rows,"errors":errors}
     (OUT/"REPORT.json").write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding="utf-8")
-    index=["# BRIEF-15b "+MODE.upper()+" WebKit", "",
+    index=["# BRIEF-15c "+MODE.upper()+" WebKit", "",
       "Original TALABOT app HTML/JS; synthetic read-only fixture. Not physical Safari or production.",""]
     for row in rows:
         name=pathlib.Path(row.get("screenshot","")).name
