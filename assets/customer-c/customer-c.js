@@ -42,17 +42,26 @@
   // F-01: on Home, place the SAME current-order card in document flow directly
   // after the banner. A fixed card otherwise obscures real banner/section text.
   const homeBanner=S.v==='home'&&document.querySelector('#app .d6h .d6-bento');
-  if(homeBanner){b.classList.add('c-current-inline');homeBanner.insertAdjacentElement('afterend',b)}
+  // C-01b: on every restaurant/list view, keep the order card in document flow.
+  // Bottom padding alone cannot stop a fixed card hiding list rows mid-scroll.
+  const listAnchor=!homeBanner&&(
+    S.v==='cat'?document.querySelector('#app .d6-lh'):
+    S.v==='menu'?document.querySelector('#app .d6m .d6-cover'):
+    S.v==='home'?document.querySelector('#app .d6-hh'):
+    document.querySelector('#app .top, #app .d6-head')
+  );
+  const inlineAnchor=homeBanner||listAnchor;
+  if(inlineAnchor){b.classList.add('c-current-inline');inlineAnchor.insertAdjacentElement('afterend',b)}
   else document.getElementById('app').appendChild(b);
   const base=basePadding||'0px';
   const layout=()=>{if(!b.isConnected)return;
-    if(homeBanner){b.style.bottom='auto';document.body.style.paddingBottom=base;return}
+    if(inlineAnchor){b.style.bottom='auto';document.body.style.paddingBottom=base;return}
     const nav=document.querySelector('.nav'),bar=document.querySelector('.bar');let edge=nav?nav.getBoundingClientRect().top:innerHeight;
     if(bar)edge=Math.min(edge,bar.getBoundingClientRect().top);
     b.style.bottom=Math.max(8,innerHeight-edge+8)+'px';
     document.body.style.paddingBottom='calc('+base+' + '+(b.getBoundingClientRect().height+16)+'px)'
   };
-  layout();if(window.ResizeObserver&&!homeBanner){layoutObserver=new ResizeObserver(layout);layoutObserver.observe(b);for(const el of document.querySelectorAll('.nav,.bar'))layoutObserver.observe(el)}
+  layout();if(window.ResizeObserver&&!inlineAnchor){layoutObserver=new ResizeObserver(layout);layoutObserver.observe(b);for(const el of document.querySelectorAll('.nav,.bar'))layoutObserver.observe(el)}
  }
  function sync(){current();const wanted=eligible();if(!wanted){if(id||root)reset();return}if(wanted!==id){reset();id=wanted;create();ageTimer=setInterval(()=>{if(eligible()!==id){reset();return}if(point)draw()},60000)}
   const host=document.getElementById('p1-courier-map');if(host&&root){host.appendChild(root);map?.invalidateSize({pan:false})}draw();if(!busy&&!lastCall)request();
