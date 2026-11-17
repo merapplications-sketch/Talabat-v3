@@ -692,11 +692,11 @@
           "text": "Размер порции (обязательно выбрать)",
           "rect": {
             "x": 26,
-            "y": 244,
+            "y": 292,
             "width": 277,
             "height": 90,
             "right": 303,
-            "bottom": 334
+            "bottom": 382
           },
           "disabled": false,
           "ariaDisabled": null
@@ -706,95 +706,95 @@
           "text": "Добавки",
           "rect": {
             "x": 26,
-            "y": 841,
+            "y": 721,
             "width": 277,
             "height": 90,
             "right": 303,
-            "bottom": 931
+            "bottom": 811
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Маленький+",
           "rect": {
             "x": 26,
-            "y": 396,
+            "y": 444,
             "width": 323,
-            "height": 117,
+            "height": 67,
             "right": 349,
-            "bottom": 513
+            "bottom": 511
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Средний+",
           "rect": {
             "x": 26,
-            "y": 519,
+            "y": 511,
             "width": 323,
-            "height": 117,
+            "height": 67,
             "right": 349,
-            "bottom": 636
+            "bottom": 578
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Большой+",
           "rect": {
             "x": 26,
-            "y": 642,
+            "y": 578,
             "width": 323,
-            "height": 117,
+            "height": 67,
             "right": 349,
-            "bottom": 759
+            "bottom": 645
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Сыр+",
           "rect": {
             "x": 26,
-            "y": 993,
+            "y": 873,
             "width": 323,
-            "height": 117,
+            "height": 67,
             "right": 349,
-            "bottom": 1110
+            "bottom": 940
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Бекон+",
           "rect": {
             "x": 26,
-            "y": 1116,
+            "y": 940,
             "width": 323,
-            "height": 117,
+            "height": 67,
             "right": 349,
-            "bottom": 1233
+            "bottom": 1007
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Халапеньо+",
           "rect": {
             "x": 26,
-            "y": 1239,
+            "y": 1007,
             "width": 323,
-            "height": 117,
+            "height": 67,
             "right": 349,
-            "bottom": 1356
+            "bottom": 1074
           },
           "disabled": false,
           "ariaDisabled": null
@@ -803,12 +803,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 458,
-            "width": 323,
-            "height": 46,
-            "right": 349,
-            "bottom": 504
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -817,12 +817,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 581,
-            "width": 323,
-            "height": 46,
-            "right": 349,
-            "bottom": 627
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -831,12 +831,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 704,
-            "width": 323,
-            "height": 46,
-            "right": 349,
-            "bottom": 750
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -845,12 +845,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 1055,
-            "width": 323,
-            "height": 46,
-            "right": 349,
-            "bottom": 1101
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -859,12 +859,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 1178,
-            "width": 323,
-            "height": 46,
-            "right": 349,
-            "bottom": 1224
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -873,19 +873,19 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 1301,
-            "width": 323,
-            "height": 46,
-            "right": 349,
-            "bottom": 1347
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "group": {
           "ok": true,
           "value": "Размер порции (обязательно выбрать)",
@@ -894,95 +894,95 @@
           "client": 87
         },
         "options": {
-          "ok": true,
+          "ok": false,
           "metrics": [
             {
               "name": "Маленький",
-              "inputWidth": 323,
-              "textWidth": 94.03125,
-              "controlsY": 458,
-              "nameBottom": 450,
+              "inputWidth": 153,
+              "textWidth": 77.135009765625,
+              "controlsY": 0,
+              "nameBottom": 500,
               "rowWidth": 323,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
-              "notCovered": true,
+              "notCovered": false,
               "footerY": 526
             },
             {
               "name": "Средний",
-              "inputWidth": 323,
-              "textWidth": 73.4921875,
-              "controlsY": 581,
-              "nameBottom": 573,
+              "inputWidth": 153,
+              "textWidth": 60.28656005859375,
+              "controlsY": 0,
+              "nameBottom": 567,
               "rowWidth": 323,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 526
             },
             {
               "name": "Большой",
-              "inputWidth": 323,
-              "textWidth": 75.25,
-              "controlsY": 704,
-              "nameBottom": 696,
+              "inputWidth": 153,
+              "textWidth": 61.728515625,
+              "controlsY": 0,
+              "nameBottom": 634,
               "rowWidth": 323,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 526
             },
             {
               "name": "Сыр",
-              "inputWidth": 323,
-              "textWidth": 33.9609375,
-              "controlsY": 1055,
-              "nameBottom": 1047,
+              "inputWidth": 153,
+              "textWidth": 27.85858154296875,
+              "controlsY": 0,
+              "nameBottom": 929,
               "rowWidth": 323,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 526
             },
             {
               "name": "Бекон",
-              "inputWidth": 323,
-              "textWidth": 50.734375,
-              "controlsY": 1178,
-              "nameBottom": 1170,
+              "inputWidth": 153,
+              "textWidth": 41.6180419921875,
+              "controlsY": 0,
+              "nameBottom": 996,
               "rowWidth": 323,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 526
             },
             {
               "name": "Халапеньо",
-              "inputWidth": 323,
-              "textWidth": 90.78125,
-              "controlsY": 1301,
-              "nameBottom": 1293,
+              "inputWidth": 153,
+              "textWidth": 74.468994140625,
+              "controlsY": 0,
+              "nameBottom": 1063,
               "rowWidth": 323,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 526
             },
             {
               "name": "Соус",
-              "inputWidth": 323,
-              "textWidth": 39.2265625,
-              "controlsY": 1424,
-              "nameBottom": 1416,
+              "inputWidth": 153,
+              "textWidth": 32.17803955078125,
+              "controlsY": 0,
+              "nameBottom": 1130,
               "rowWidth": 323,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 526
@@ -991,7 +991,8 @@
         }
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'group': {'ok': True, 'value': 'Размер порции (обязательно выбрать)', 'height': 90, 'scroll': 87, 'client': 87}, 'options': {'ok': False, 'metrics': [{'name': 'Маленький', 'inputWidth': 153, 'textWidth': 77.135009765625, 'controlsY': 0, 'nameBottom': 500, 'rowWidth': 323, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 526}, {'name': 'Средний', 'inputWidth': 153, 'textWidth': 60.28656005859375, 'controlsY': 0, 'nameBottom': 567, 'rowWidth': 323, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 526}, {'name': 'Большой', 'inputWidth': 153, 'textWidth': 61.728515625, 'controlsY': 0, 'nameBottom': 634, 'rowWidth': 323, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 526}, {'name': 'Сыр', 'inputWidth': 153, 'textWidth': 27.85858154296875, 'controlsY': 0, 'name",
       "screenshot": "qa-shots/unified-fix/b/after/G-02-merchant-ru-375-main-after.png"
     },
     {
@@ -1112,7 +1113,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 13:34",
+          "text": "Ожидание подтверждения · #ord0 14:27",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1140,7 +1141,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 12:34",
+          "text": "Принять с 13:27",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1155,7 +1156,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 13:34\n",
+        "heading": "Ожидание подтверждения · #ord0\n 14:27\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1176,7 +1177,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 12:34",
+            "txt": "Принять с 13:27",
             "width": 209,
             "scroll": 209
           }
@@ -2473,7 +2474,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 8:2",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 7:3",
           "rect": {
             "x": 0,
             "y": 8,
@@ -2646,11 +2647,11 @@
           "text": "Размер порции (обязательно выбрать)",
           "rect": {
             "x": 26,
-            "y": 421.02,
+            "y": 624.02,
             "width": 292,
             "height": 90,
             "right": 318,
-            "bottom": 511.02
+            "bottom": 714.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2660,95 +2661,95 @@
           "text": "Добавки",
           "rect": {
             "x": 26,
-            "y": 1018.02,
+            "y": 1053.02,
             "width": 292,
             "height": 90,
             "right": 318,
-            "bottom": 1108.02
+            "bottom": 1143.02
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Маленький+",
           "rect": {
             "x": 26,
-            "y": 573.02,
+            "y": 776.02,
             "width": 338,
-            "height": 117,
+            "height": 67,
             "right": 364,
-            "bottom": 690.02
+            "bottom": 843.02
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Средний+",
           "rect": {
             "x": 26,
-            "y": 696.02,
+            "y": 843.02,
             "width": 338,
-            "height": 117,
+            "height": 67,
             "right": 364,
-            "bottom": 813.02
+            "bottom": 910.02
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Большой+",
           "rect": {
             "x": 26,
-            "y": 819.02,
+            "y": 910.02,
             "width": 338,
-            "height": 117,
+            "height": 67,
             "right": 364,
-            "bottom": 936.02
+            "bottom": 977.02
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Сыр+",
           "rect": {
             "x": 26,
-            "y": 1170.02,
+            "y": 1205.02,
             "width": 338,
-            "height": 117,
+            "height": 67,
             "right": 364,
-            "bottom": 1287.02
+            "bottom": 1272.02
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Бекон+",
           "rect": {
             "x": 26,
-            "y": 1293.02,
+            "y": 1272.02,
             "width": 338,
-            "height": 117,
+            "height": 67,
             "right": 364,
-            "bottom": 1410.02
+            "bottom": 1339.02
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": ".f15c-option-row",
-          "text": "+",
+          "text": "Халапеньо+",
           "rect": {
             "x": 26,
-            "y": 1416.02,
+            "y": 1339.02,
             "width": 338,
-            "height": 117,
+            "height": 67,
             "right": 364,
-            "bottom": 1533.02
+            "bottom": 1406.02
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2757,12 +2758,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 635.02,
-            "width": 338,
-            "height": 46,
-            "right": 364,
-            "bottom": 681.02
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2771,12 +2772,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 758.02,
-            "width": 338,
-            "height": 46,
-            "right": 364,
-            "bottom": 804.02
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2785,12 +2786,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 881.02,
-            "width": 338,
-            "height": 46,
-            "right": 364,
-            "bottom": 927.02
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2799,12 +2800,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 1232.02,
-            "width": 338,
-            "height": 46,
-            "right": 364,
-            "bottom": 1278.02
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2813,12 +2814,12 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 1355.02,
-            "width": 338,
-            "height": 46,
-            "right": 364,
-            "bottom": 1401.02
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2827,19 +2828,19 @@
           "selector": ".f15c-option-controls",
           "text": "+",
           "rect": {
-            "x": 26,
-            "y": 1478.02,
-            "width": 338,
-            "height": 46,
-            "right": 364,
-            "bottom": 1524.02
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
           },
           "disabled": false,
           "ariaDisabled": null
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "group": {
           "ok": true,
           "value": "Размер порции (обязательно выбрать)",
@@ -2848,95 +2849,95 @@
           "client": 87
         },
         "options": {
-          "ok": true,
+          "ok": false,
           "metrics": [
             {
               "name": "Маленький",
-              "inputWidth": 338,
-              "textWidth": 94.03125,
-              "controlsY": 635.015625,
-              "nameBottom": 627.015625,
+              "inputWidth": 168,
+              "textWidth": 80.16537475585938,
+              "controlsY": 0,
+              "nameBottom": 832.015625,
               "rowWidth": 338,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
-              "notCovered": true,
+              "notCovered": false,
               "footerY": 703
             },
             {
               "name": "Средний",
-              "inputWidth": 338,
-              "textWidth": 73.4921875,
-              "controlsY": 758.015625,
-              "nameBottom": 750.015625,
+              "inputWidth": 168,
+              "textWidth": 62.65498352050781,
+              "controlsY": 0,
+              "nameBottom": 899.015625,
               "rowWidth": 338,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 703
             },
             {
               "name": "Большой",
-              "inputWidth": 338,
-              "textWidth": 75.25,
-              "controlsY": 881.015625,
-              "nameBottom": 873.015625,
+              "inputWidth": 168,
+              "textWidth": 64.15361022949219,
+              "controlsY": 0,
+              "nameBottom": 966.015625,
               "rowWidth": 338,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 703
             },
             {
               "name": "Сыр",
-              "inputWidth": 338,
-              "textWidth": 33.9609375,
-              "controlsY": 1232.015625,
-              "nameBottom": 1224.015625,
+              "inputWidth": 168,
+              "textWidth": 28.953033447265625,
+              "controlsY": 0,
+              "nameBottom": 1261.015625,
               "rowWidth": 338,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 703
             },
             {
               "name": "Бекон",
-              "inputWidth": 338,
-              "textWidth": 50.734375,
-              "controlsY": 1355.015625,
-              "nameBottom": 1347.015625,
+              "inputWidth": 168,
+              "textWidth": 43.25306701660156,
+              "controlsY": 0,
+              "nameBottom": 1328.015625,
               "rowWidth": 338,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 703
             },
             {
               "name": "Халапеньо",
-              "inputWidth": 338,
-              "textWidth": 90.78125,
-              "controlsY": 1478.015625,
-              "nameBottom": 1470.015625,
+              "inputWidth": 168,
+              "textWidth": 77.39462280273438,
+              "controlsY": 0,
+              "nameBottom": 1395.015625,
               "rowWidth": 338,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 703
             },
             {
               "name": "Соус",
-              "inputWidth": 338,
-              "textWidth": 39.2265625,
-              "controlsY": 1601.015625,
-              "nameBottom": 1593.015625,
+              "inputWidth": 168,
+              "textWidth": 33.44218444824219,
+              "controlsY": 0,
+              "nameBottom": 1462.015625,
               "rowWidth": 338,
               "full": true,
-              "secondRow": true,
+              "secondRow": false,
               "controlItems": 4,
               "notCovered": false,
               "footerY": 703
@@ -2945,7 +2946,8 @@
         }
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'group': {'ok': True, 'value': 'Размер порции (обязательно выбрать)', 'height': 90, 'scroll': 87, 'client': 87}, 'options': {'ok': False, 'metrics': [{'name': 'Маленький', 'inputWidth': 168, 'textWidth': 80.16537475585938, 'controlsY': 0, 'nameBottom': 832.015625, 'rowWidth': 338, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 703}, {'name': 'Средний', 'inputWidth': 168, 'textWidth': 62.65498352050781, 'controlsY': 0, 'nameBottom': 899.015625, 'rowWidth': 338, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 703}, {'name': 'Большой', 'inputWidth': 168, 'textWidth': 64.15361022949219, 'controlsY': 0, 'nameBottom': 966.015625, 'rowWidth': 338, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 703}, {'name': 'Сыр', 'inputWidth': 168, 'textWidth': 28.953033447",
       "screenshot": "qa-shots/unified-fix/b/after/G-02-merchant-en-390-main-after.png"
     },
     {
@@ -3066,7 +3068,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 13:34",
+          "text": "Waiting for confirmation · #ord0 14:28",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3094,7 +3096,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 12:34",
+          "text": "Accept from 13:28",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3109,7 +3111,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 13:34\n",
+        "heading": "Waiting for confirmation · #ord0\n 14:28\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3130,7 +3132,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 12:34",
+            "txt": "Accept from 13:28",
             "width": 219,
             "scroll": 219
           }
@@ -3923,5 +3925,20 @@
       "screenshot": "qa-shots/unified-fix/b/after/G-12-customer-en-390-main-after.png"
     }
   ],
-  "errors": []
+  "errors": [
+    {
+      "case": "G-02",
+      "app": "merchant",
+      "lang": "ru",
+      "width": 375,
+      "error": "{'result': {'ok': False, 'group': {'ok': True, 'value': 'Размер порции (обязательно выбрать)', 'height': 90, 'scroll': 87, 'client': 87}, 'options': {'ok': False, 'metrics': [{'name': 'Маленький', 'inputWidth': 153, 'textWidth': 77.135009765625, 'controlsY': 0, 'nameBottom': 500, 'rowWidth': 323, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 526}, {'name': 'Средний', 'inputWidth': 153, 'textWidth': 60.28656005859375, 'controlsY': 0, 'nameBottom': 567, 'rowWidth': 323, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 526}, {'name': 'Большой', 'inputWidth': 153, 'textWidth': 61.728515625, 'controlsY': 0, 'nameBottom': 634, 'rowWidth': 323, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 526}, {'name': 'Сыр', 'inputWidth': 153, 'textWidth': 27.85858154296875, 'controlsY': 0, 'name"
+    },
+    {
+      "case": "G-02",
+      "app": "merchant",
+      "lang": "en",
+      "width": 390,
+      "error": "{'result': {'ok': False, 'group': {'ok': True, 'value': 'Размер порции (обязательно выбрать)', 'height': 90, 'scroll': 87, 'client': 87}, 'options': {'ok': False, 'metrics': [{'name': 'Маленький', 'inputWidth': 168, 'textWidth': 80.16537475585938, 'controlsY': 0, 'nameBottom': 832.015625, 'rowWidth': 338, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 703}, {'name': 'Средний', 'inputWidth': 168, 'textWidth': 62.65498352050781, 'controlsY': 0, 'nameBottom': 899.015625, 'rowWidth': 338, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 703}, {'name': 'Большой', 'inputWidth': 168, 'textWidth': 64.15361022949219, 'controlsY': 0, 'nameBottom': 966.015625, 'rowWidth': 338, 'full': True, 'secondRow': False, 'controlItems': 4, 'notCovered': False, 'footerY': 703}, {'name': 'Сыр', 'inputWidth': 168, 'textWidth': 28.953033447"
+    }
+  ]
 }
