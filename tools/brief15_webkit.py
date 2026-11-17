@@ -198,7 +198,13 @@ def main():
                             result=fn(pg,w,h)
                             rows.append({"id":case,"app":app,"lang":lang,"width":w,"status":"PASS","geometry":result if isinstance(result,dict) else None})
                         except Exception as err:
-                            errors.append({"id":case,"app":app,"lang":lang,"width":w,"type":type(err).__name__,"message":str(err)[:240]})
+                            detail=str(err)
+                            if case=="F-02" and pg:
+                                detail+=" | category_metrics="+str(pg.evaluate("""() =>
+                                [...document.querySelectorAll('#app .d6-ct b')].map(e=>({
+                                txt:e.textContent,sw:e.scrollWidth,cw:e.clientWidth,
+                                fs:getComputedStyle(e).fontSize,ws:getComputedStyle(e).whiteSpace}))"""))
+                            errors.append({"id":case,"app":app,"lang":lang,"width":w,"type":type(err).__name__,"message":detail[:1400]})
                             rows.append({"id":case,"app":app,"lang":lang,"width":w,"status":"FAIL"})
                         finally:
                             if pg:
