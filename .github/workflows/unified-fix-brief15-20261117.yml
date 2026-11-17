@@ -75,6 +75,7 @@ jobs:
           GATE1_QR_DEPS: ${{ runner.temp }}/gate1-qr
           FULL_AUDIT_SUPABASE_UMD: ${{ runner.temp }}/full-audit-npm/node_modules/@supabase/supabase-js/dist/umd/supabase.js
           FULL_AUDIT_MODE: auth_only
+          FULL_AUDIT_FAIL_FAST: '1'
         run: |
           set -euo pipefail
           test "$SUPABASE_LOCAL_URL" = http://127.0.0.1:54321
