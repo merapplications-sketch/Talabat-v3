@@ -131,6 +131,15 @@ jobs:
           set -euo pipefail
           python3 -m pip install --disable-pip-version-check playwright==1.57.0
           python3 -m playwright install --with-deps webkit
+      - name: Diagnose the formerly failing 375px RU dish keyboard before the full visual suite
+        shell: bash
+        run: |
+          set +e
+          BRIEF15_CASES=F-04 BRIEF15_WIDTHS=375 BRIEF15_LANGS=ru python3 tools/brief15_webkit.py > "$RUNNER_TEMP/f04-probe.log" 2>&1
+          rc=$?
+          grep -E 'BRIEF15_WEBKIT_(COVERAGE|FAIL)' "$RUNNER_TEMP/f04-probe.log" | tail -8 || true
+          if test "$rc" -ne 0; then echo 'F04_DIAGNOSTIC_ONLY: failing focus geometry, full-suite still runs'; fi
+          exit 0
       - name: Run F-01..F-10 tests on original four-app HTML/JS, not synthetic DOM
         shell: bash
         run: |
