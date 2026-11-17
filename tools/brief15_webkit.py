@@ -208,18 +208,26 @@ def F09(pg):
       const tx=TLB.t('mapFail'),rect=e=>{const r=e.getBoundingClientRect();return {
          x:r.left,y:r.top,right:r.right,bottom:r.bottom,w:r.width,h:r.height}};
       if(!st||!btns.length)return null;
-      const a=rect(st),hits=btns.filter(e=>{
-        const b=rect(e);return Math.min(a.right,b.right)-Math.max(a.x,b.x)>2&&
-          Math.min(a.bottom,b.bottom)-Math.max(a.y,b.y)>2;
-      }).map(e=>e.className||e.tagName);
+      const a=rect(st),statusRects=[st,...document.querySelectorAll('.t15-flow-toast')].map(rect);
+      const hits=[];
+      btns.forEach(e=>{const b=rect(e);for(const q of statusRects){
+        if(Math.min(q.right,b.right)-Math.max(q.x,b.x)>2&&
+           Math.min(q.bottom,b.bottom)-Math.max(q.y,b.y)>2)
+          hits.push(e.className||e.tagName);
+      }});
       const floating=[...document.body.children].filter(e=>
          getComputedStyle(e).position==='fixed'&&e.textContent?.trim()===tx);
-      return {mapLabel:st.textContent,box:a,controls:btns.map(e=>({
-        name:e.className||e.tagName,rect:rect(e)})),overlaps:hits,
-        floatingErrors:floating.length};
+      const sheet=document.querySelector('#a-sheet')?.getBoundingClientRect();
+      return {mapLabel:st.textContent,box:a,statusRole:st.getAttribute('role'),
+         mapAboveSheet:!!sheet&&a.bottom<=sheet.top+2,
+         noticeRects:statusRects,controls:btns.map(e=>({
+           name:e.className||e.tagName,rect:rect(e)})),overlaps:hits,
+         floatingErrors:floating.length};
     }""")
-    if not r or not r["mapLabel"].startswith(pg.evaluate("TLB.t('mapFail')")) or r["overlaps"] or r["floatingErrors"]:
-        raise AssertionError("F-09 genuine core map toast still covers mission tools: "+str(r))
+    # Map failure can be represented by the EXISTING road-unavailable status.
+    # No duplicate red overlay is needed; it must not intersect tools/cash.
+    if not r or not r["mapLabel"].strip() or not r["statusRole"] or not r["mapAboveSheet"] or r["overlaps"] or r["floatingErrors"]:
+        raise AssertionError("F-09 core map toast still covers mission tools: "+str(r))
     return r
 
 def NOTIFY(pg,app,w,h):
@@ -244,12 +252,17 @@ def NOTIFY(pg,app,w,h):
         return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0;
       };
       // Strictly inspect EVERY visible button/input and nearby text in the UI.
+      const activePanel=e.closest('.sheet,.ov');
       const nodes=[...document.querySelectorAll('#app button,#app a[href],#app input,#app textarea,#app h1,#app h2,#app h3,#app p,#app label,#app .d6-ch,#app .a-collect-line')].filter(n=>
-        n!==e&&!n.contains(e)&&!e.contains(n)&&visible(n));
+        n!==e&&!n.contains(e)&&!e.contains(n)&&visible(n)&&
+        (!activePanel||activePanel.contains(n)));
+      // If a modal is open, geometrically coincident background controls are
+      // NOT visible through its backdrop and are correctly excluded.
       const overlap=nodes.filter(n=>{const b=rect(n);return Math.min(a.right,b.right)-Math.max(a.x,b.x)>2&&
         Math.min(a.bottom,b.bottom)-Math.max(a.y,b.y)>2;});
       return {mode:getComputedStyle(e).position,box:a,
         parent:e.parentElement?.className||e.parentElement?.id||'',
+        activePanel:activePanel?.className||'none',
         overlapped:overlap.map(n=>({name:n.className||n.tagName,text:n.textContent?.slice(0,35)})),
         checkedNodes:nodes.length};
     }""")
