@@ -1211,6 +1211,27 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .sr.d6-sr .dl{min-width:0;display:flex;align-items:center;gap:4px;overflow:hidden}
 #app .sr.d6-sr .dl>svg{flex:0 0 auto}
 #app .sr.d6-sr .g12-delivery-text{display:block;flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* BRIEF-18 U-01: flat option rows. Original shPick/shOps/shOk and option prices are unchanged. */
+#app .d6s .osh>.og.u18-options{border:0;padding:0;margin-top:16px;border-radius:0}
+#app .d6s .osh>.og.u18-options+.og.u18-options:before{content:"";display:block;height:8px;background:var(--form);margin:10px -16px 16px}
+#app .d6s .u18-options .d6-gh{display:flex;align-items:center;min-height:30px;gap:8px;margin:0}
+#app .d6s .u18-options .d6-gh h3{font-size:16px;line-height:22px;font-weight:600;min-width:0;flex:1;overflow-wrap:break-word}
+#app .d6s .u18-options .d6-pill{flex:none}
+#app .d6s .u18-opt-hint{color:var(--mut2);font-size:12px;line-height:18px;min-height:18px;margin:2px 0 8px}
+#app .d6s .u18-options-list{display:flex;flex-direction:column;gap:0;margin:0;min-width:0}
+#app .d6s .u18-options-list .d6-ch,
+#app .d6s .u18-options-list .d6-g1 .d6-ch,
+#app .d6s .u18-options-list .d6-gm .d6-ch{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;box-sizing:border-box;width:100%;min-height:48px;padding:12px 2px;border:0;border-bottom:1px solid var(--line2);border-radius:0;background:#fff;box-shadow:none}
+#app .d6s .u18-options-list .d6-ch.on{border:0;border-bottom:1px solid var(--line2);background:#fff;padding:12px 2px}
+#app .d6s .u18-options-list .d6-ch .nm{display:block;flex:1 1 auto;min-width:0;color:var(--ink);font-size:15px;line-height:20px;font-weight:400;word-break:normal;overflow-wrap:break-word}
+#app .d6s .u18-options-list .d6-ch .pr{display:block;flex:0 0 auto;color:var(--mut2);font-size:13px;line-height:18px;font-weight:400;white-space:nowrap;margin-left:auto}
+#app .d6s .u18-options-list .d6-ch .mk{position:static;flex:0 0 22px;width:22px;height:22px;margin:0;inset:auto;box-sizing:border-box;border:1.5px solid #c9cbd2;background:#fff}
+#app .d6s .u18-options-list.d6-g1 .d6-ch .mk{border-radius:50%}
+#app .d6s .u18-options-list.d6-g1 .d6-ch.on .mk{background:#fff;border:7px solid var(--o)}
+#app .d6s .u18-options-list.d6-g1 .d6-ch .mk svg{display:none}
+#app .d6s .u18-options-list.d6-gm .d6-ch .mk{border-radius:6px}
+#app .d6s .u18-options-list.d6-gm .d6-ch.on .mk{background:var(--o);border-color:var(--o)}
+#app .d6s .u18-options-list .d6-ch:last-child{border-bottom:1px solid var(--line2)}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -1546,12 +1567,13 @@ function shQ(d){S.sh.q=Math.max(1,Math.min(50,S.sh.q+d));render()}
 const shOps=()=>Object.values(S.sh.sel).flat();
 const shOk=()=>{const gs=TLB.optionsOf(S.sh.id);return gs.every(g=>{const n=(S.sh.sel[g.id]||[]).length;return n<=g.max&&(!g.required||n>=1)})};
 function shAdd(){if(!S.sh)return;if(!shOk()){const g=TLB.optionsOf(S.sh.id).find(g=>{const n=(S.sh.sel[g.id]||[]).length;return n>g.max||(g.required&&n<1)});if(g){S.sh.miss=g.id;render();const e=$('og-'+g.id);if(e)e.scrollIntoView({block:'center',behavior:'smooth'})}return}if(closedNow(S.store))return;if(S.sh.editKey&&S.cartStore!==S.sh.editStore){alert(t('v70Changed'));return}if(!ensureStore())return;const key=lk(S.sh.id,shOps(),S.sh.note);if(S.sh.editKey){if(S.cartStore!==S.sh.editStore||S.cart[S.sh.editKey]!==S.sh.editQty){alert(t('v70Changed'));return}const combined=(key===S.sh.editKey?0:(S.cart[key]||0))+S.sh.q;if(combined>50){alert(t('v70Limit'));return}delete S.cart[S.sh.editKey];S.cart[key]=combined}else S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.cartUndo=null;S.sh=null;afterCart()}
+TLB.addDict({u18ChooseOne:'Выберите 1',u18UpTo:'до {n}'},{u18ChooseOne:'Choose 1',u18UpTo:'up to {n}'});
 /* v06.1 dish sheet: photo above, panel max min(560px,66dvh); title / price and quantity / add stay outside the options scroll (.osh) */
 function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S.sh.id);if(!it){S.sh=null;return ''}const gs=TLB.optionsOf(it.id),sd=sdOf(S.store),ops=shOps(),base=baseOf(it,ops),u=unit(it,sd,base),ok=shOk(),e=eff(it,sd),q=S.sh.q;
   const grp=g=>{const sel=S.sh.sel[g.id]||[],multi=g.max>1;
-    const pill=multi?`${sel.length}/${g.max}${g.required?' · '+t('optReq'):''}`:(g.required?t('optReq'):t('optPick'));
-    return `<div class="og ${S.sh.miss==g.id?'miss':''}" id="og-${g.id}" role="${multi?'group':'radiogroup'}" aria-labelledby="ogh-${g.id}"><div class="d6-gh"><h3 id="ogh-${g.id}">${esc(g.name)}</h3><span class="d6-pill ${g.required?'rq':''}">${pill}</span></div>
-    <div class="${multi?'d6-gm':'d6-g1'}">${g.options.map(o=>{const on=sel.includes(o.id),dis=!on&&multi&&sel.length>=g.max;
+    const pill=g.required?t('optReq'):(multi?t('u18UpTo').replace('{n}',g.max):t('optPick'));
+    return `<div class="og u18-options ${S.sh.miss==g.id?'miss':''}" id="og-${g.id}" role="${multi?'group':'radiogroup'}" aria-labelledby="ogh-${g.id}"><div class="d6-gh"><h3 id="ogh-${g.id}">${esc(g.name.replace(/\s*\((?:обязательно выбрать|required)\)\s*$/i,''))}</h3><span class="d6-pill ${g.required?'rq':''}">${pill}</span></div><div class="u18-opt-hint">${multi?t('u18UpTo').replace('{n}',g.max):t('u18ChooseOne')}</div>
+    <div class="${multi?'d6-gm':'d6-g1'} u18-options-list">${g.options.map(o=>{const on=sel.includes(o.id),dis=!on&&multi&&sel.length>=g.max;
       return `<button type="button" class="d6-ch ${on?'on':''} ${dis?'dis':''}" role="${multi?'checkbox':'radio'}" aria-checked="${on}" ${dis?'aria-disabled="true"':''} onclick="${dis?'':`shPick('${g.id}','${o.id}',${g.max})`}"><span class="nm">${esc(o.name)}</span>${o.price>0?`<span class="pr">+${o.price} TJS</span>`:''}<span class="mk">${on?ico('check'):''}</span></button>`}).join('')}</div></div>`};
   return `<div class="sheet d6 d6s" onclick="shClose()"><div class="d6s-top">${it.image?`<img src="${esc(it.image)}" alt="" onerror="const p=this.parentNode;p.querySelectorAll('.d6-bdg').forEach(x=>x.remove());p.classList.add('nop');this.remove()">`:''}<button class="d6-circ d6s-x" aria-label="${t('d6Close')}" onclick="event.stopPropagation();shClose()">${ico('x')}</button>${it.image&&isBest(it.id)?`<span class="d6-bdg hot">${t('hotB')}</span>`:''}</div>
   <div class="d6s-p" role="dialog" aria-modal="true" aria-labelledby="shT" onclick="event.stopPropagation()"><div class="d6s-hd"></div>
