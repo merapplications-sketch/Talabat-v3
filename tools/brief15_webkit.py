@@ -18,7 +18,7 @@ def assert_js(pg,script,name):
     if isinstance(r,dict): return r
     # Explicit postcondition geometry. A passing Boolean alone is NOT an
     # inspectable visual contract; no accepted case may store geometry:null.
-    key=(re.search(r'F-\\d\\d|NOTIFY-01',name) or [None])[0]
+    key=(re.search(r'F-\d\d|NOTIFY-01',name) or [None])[0]
     selectors={
       "F-01":["#app .c-current-inline","#app .d6-bento"],
       "F-02":["#app .d6-ct b","#app .d6-bt.d6tp .tt","#app input[placeholder]"],
@@ -153,7 +153,21 @@ def F06(pg):
     # Two independent views: option-name group and TOP of edit form.
     ed=pg.locator(".f06-item-editor")
     if pg.locator(".f06-option-name").count():
-        pg.locator(".f06-option-name").first.scroll_into_view_if_needed()
+        # Scroll the ACTUAL .md container rather than the text input itself.
+        # scrollIntoViewIfNeeded() can incorrectly count options covered by the
+        # sticky Save/Delete strip as visible; force the group header above it.
+        ed.evaluate("""e => {
+          const g=e.querySelector('.ogc');if(!g)return;
+          e.scrollTop+=g.getBoundingClientRect().top-e.getBoundingClientRect().top-18;
+        }""")
+        pg.wait_for_timeout(100)
+        opts=pg.evaluate("""() => {
+          const md=document.querySelector('.f06-item-editor'),g=md?.querySelector('.ogc'),
+            foot=md?.querySelector('.f06-actions');if(!g||!foot)return null;
+          const a=g.getBoundingClientRect(),f=foot.getBoundingClientRect(),b=md.getBoundingClientRect();
+          return {top:a.top,clipTop:b.top,footerTop:f.top,visible:a.top>=b.top-3&&a.top<f.top-10};
+        }""")
+        if not opts or not opts["visible"]:raise AssertionError("F-06 option-group header not visible above Save strip: "+str(opts))
         screenshot(pg,"F-06-options","merchant",pg.evaluate("TLB.lang()"),
                    pg.evaluate("window.innerWidth"))
     ed.evaluate("e=>e.scrollTop=e.scrollHeight")
@@ -162,8 +176,10 @@ def F06(pg):
         num=ed?.querySelector('#sp'),act=ed?.querySelector('.f06-actions');
       if(!name||!num||!act||act.querySelectorAll('button').length<1)return false;
       const t=name.getBoundingClientRect(),b=ed.getBoundingClientRect();
-      return name.rows>=2&&name.value.length>0&&getComputedStyle(num).appearance==='textfield'
-        &&getComputedStyle(act).position==='sticky'&&t.width<=b.width;
+      return name.rows>=4&&name.value.length>0&&
+        name.scrollHeight<=name.clientHeight+3&&
+        getComputedStyle(num).appearance==='textfield'&&
+        getComputedStyle(act).position==='sticky'&&t.width<=b.width;
     }""","F-06 merchant editable name, no steppers and safe actions")
     ed.evaluate("e=>e.scrollTop=0")  # final screenshot MUST show heading/name/price
     return r
