@@ -1272,9 +1272,11 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 
 /* BRIEF-18b P-04: 320px-only single-line payment labels; swipe interaction untouched. */
 @media(max-width:340px){
-  #app .d69-slide-label{font-size:11px;line-height:17px;letter-spacing:-.015em;padding-inline:62px 8px}
+  #app .d69-slide-label{font-size:14px!important;line-height:20px;letter-spacing:-.01em;padding-inline:62px 8px;white-space:nowrap}
   #app .p1-schedule .tipr{display:flex;flex-wrap:nowrap;gap:6px}
-  #app .p1-schedule .tipr .tip{min-width:0;flex:1 1 0;white-space:nowrap;font-size:10.5px;line-height:17px;padding-inline:3px;gap:3px}
+  #app .p1-schedule .tipr .tip{min-width:0;white-space:nowrap;font-size:13px!important;line-height:18px;gap:3px}
+  #app .p1-schedule .tipr .tip:first-child{flex:0 0 auto;padding-inline:11px}
+  #app .p1-schedule .tipr .tip:nth-child(2){flex:1 1 auto;padding-inline:5px}
 }
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"></head><body>
 <div id="app"></div>
@@ -1644,10 +1646,10 @@ const payAmt=()=>{const c=calc();return t('v66Total')+' '+c.total+' TJS'+(c.w>0?
 const paySig=()=>{const c=calc();return JSON.stringify([c.due,c.total,c.sub,S.cart,S.tip,S.promo&&S.promo.code,S.pay,S.at,c.w,c.pts,S.cartStore])};
 function holdBar(off,saved){
   if(S.hcf&&!off&&!S.busy)return `<div class="fbar col"><div class="hcf"><b id="hcfq">${t('holdAskT').replace('{a}',esc(S.hcf.amt))}</b></div><div class="hcf"><button class="btn s" style="flex:1" onclick="S.hcf=null;render()">${t('holdNo')}</button><button class="btn" id="hcfok" style="flex:2" onclick="holdOk()">${t('holdOk')}</button></div></div>`;
-  return `<div class="fbar col d68-pay-dock">${u18SavingBand(saved)}<div class="d68-pay-meta">${esc(payAmt())}</div>${S.hmsg?`<div class="hmsg" id="hmsg" role="alert">${esc(S.hmsg)}</div>`:''}<div class="d69-slide ${off?'off':''}" id="hbtn" dir="ltr"><span class="d69-slide-label">${S.busy?t('placing'):t('v69Slide')}</span><button class="d69-slide-thumb" ${off?'disabled':''} aria-label="${t('v69Slide')}" aria-describedby="hhint" onpointerdown="holdStart(event)" onlostpointercapture="if(HOLD&&HOLD.id===event.pointerId)holdStop('early')" onclick="holdClick(event)" oncontextmenu="return false">${ico('arr',22)}</button></div>
+  return `<div class="fbar col d68-pay-dock">${u18SavingBand(saved)}<div class="d68-pay-meta">${esc(payAmt())}</div>${S.hmsg?`<div class="hmsg" id="hmsg" role="alert">${esc(S.hmsg)}</div>`:''}<div class="d69-slide ${off?'off':''}" id="hbtn" dir="ltr"><span class="d69-slide-label">${S.busy?t('placing'):(innerWidth<=340?t('p18bSlideShort'):t('v69Slide'))}</span><button class="d69-slide-thumb" ${off?'disabled':''} aria-label="${t('v69Slide')}" aria-describedby="hhint" onpointerdown="holdStart(event)" onlostpointercapture="if(HOLD&&HOLD.id===event.pointerId)holdStop('early')" onclick="holdClick(event)" oncontextmenu="return false">${ico('arr',22)}</button></div>
   <button class="vh sk" id="hsk" ${off?'disabled':''} onclick="holdAsk()">${t('holdSk')}</button><span class="vh" id="hhint">${t('holdHint')}</span><span class="vh" id="hlive" aria-live="polite"></span></div>`}
 const holdLive=m=>{const e=$('hlive');if(e)e.textContent=m};
-function holdStart(e){if(S.busy||HOLD||S.v!='pay'||document.hidden||e.isPrimary===false||(e.button!=null&&e.button!==0))return;const node=$('hbtn'),thumb=e.currentTarget;if(!node||thumb.disabled)return;e.preventDefault();S.hmsg='';node.querySelector('.d69-slide-label').textContent=t('v69Slide');
+function holdStart(e){if(S.busy||HOLD||S.v!='pay'||document.hidden||e.isPrimary===false||(e.button!=null&&e.button!==0))return;const node=$('hbtn'),thumb=e.currentTarget;if(!node||thumb.disabled)return;e.preventDefault();S.hmsg='';node.querySelector('.d69-slide-label').textContent=innerWidth<=340?t('p18bSlideShort'):t('v69Slide');
  HOLD={node,thumb,id:e.pointerId,x:e.clientX,y:e.clientY,p:0,max:Math.max(1,node.clientWidth-thumb.offsetWidth-8),sig:paySig(),amt:payAmt()};
  try{thumb.setPointerCapture(e.pointerId)}catch(_){}document.addEventListener('pointermove',slideMove,true);document.addEventListener('pointerup',slideEnd,true);document.addEventListener('pointercancel',slideCancel,true);HOLD.frame=requestAnimationFrame(holdTick)}
 function holdTick(){if(!HOLD)return;if(S.v!='pay'||document.hidden||S.busy||!HOLD.node.isConnected){holdStop('left');return}if(paySig()!==HOLD.sig){holdStop('chg');return}HOLD.frame=requestAnimationFrame(holdTick)}
@@ -2053,7 +2055,7 @@ function whenSet(on){if(!on){S.at=null;render();return}const a=slotsAll();S.at=a
 function whenDay(k){const a=slotsAll().filter(x=>dayKey(x)==k);if(a.length)S.at=a[0];render()}
 function whenCard(){const a=S.at?slotsAll():[];if(S.at&&!a.includes(S.at))S.at=a.find(x=>x>=S.at)||a[0]||null;
   const days=[...new Set(a.map(dayKey))],cur=S.at?dayKey(S.at):null;
-  return `<div class="card p1-schedule"><h3 style="margin-bottom:8px">${t('whenT')}</h3><div class="tipr sub2"><button class="tip ${S.at?'':'on'}" aria-pressed="${!S.at}" onclick="whenSet(false)">${t('whenNow')}</button><button class="tip ${S.at?'on':''}" aria-pressed="${!!S.at}" onclick="whenSet(true)">${ico('clock',14)} ${t('whenLater')}</button></div>
+  return `<div class="card p1-schedule"><h3 style="margin-bottom:8px">${t('whenT')}</h3><div class="tipr sub2"><button class="tip ${S.at?'':'on'}" aria-pressed="${!S.at}" onclick="whenSet(false)">${innerWidth<=340?t('p18bWhenShort'):t('whenNow')}</button><button class="tip ${S.at?'on':''}" aria-pressed="${!!S.at}" onclick="whenSet(true)">${ico('clock',14)} ${t('whenLater')}</button></div>
   ${S.at?`<label for="wday">${t('p1Day')}</label><select class="fld" id="wday" onchange="whenDay(+this.value)">${days.map(k=>`<option value="${k}" ${k==cur?'selected':''}>${dayLbl(a.find(x=>dayKey(x)==k))}</option>`).join('')}</select>
   <label for="wsel">${t('p1Time')}</label><select class="fld" id="wsel" onchange="S.at=+this.value;render()">${a.filter(x=>dayKey(x)==cur).map(x=>`<option value="${x}" ${x==S.at?'selected':''}>${fmtHM(x)}</option>`).join('')}</select>
   <div class="xs mut" style="margin-top:8px;line-height:1.45">${t('whenHint')}</div>`:''}</div>`}
