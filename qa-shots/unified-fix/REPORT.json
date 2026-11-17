@@ -16,7 +16,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:57:41Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:52:25Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -46,7 +46,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:57:40Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:52:23Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -248,7 +248,100 @@
       "app": "driver",
       "lang": "ru",
       "width": 375,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mapLabel": "Маршрут недоступен · Только отслеживание · время прибытия недоступно",
+        "box": {
+          "x": 12,
+          "y": 56,
+          "right": 355,
+          "bottom": 90,
+          "w": 343,
+          "h": 34
+        },
+        "statusRole": "alert",
+        "mapAboveSheet": true,
+        "noticeRects": [
+          {
+            "x": 12,
+            "y": 56,
+            "right": 355,
+            "bottom": 90,
+            "w": 343,
+            "h": 34
+          }
+        ],
+        "controls": [
+          {
+            "name": "a-collect-line",
+            "rect": {
+              "x": 16,
+              "y": 503,
+              "right": 359,
+              "bottom": 535,
+              "w": 343,
+              "h": 32
+            }
+          },
+          {
+            "name": "a-navigation",
+            "rect": {
+              "x": 16,
+              "y": 538,
+              "right": 97.25,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-call",
+            "rect": {
+              "x": 103.25,
+              "y": 538,
+              "right": 184.5,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "round a-chat",
+            "rect": {
+              "x": 190.5,
+              "y": 538,
+              "right": 271.75,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-details-button",
+            "rect": {
+              "x": 277.75,
+              "y": 538,
+              "right": 359,
+              "bottom": 590,
+              "w": 81.25,
+              "h": 52
+            }
+          },
+          {
+            "name": "b a-step-button",
+            "rect": {
+              "x": 16,
+              "y": 603,
+              "right": 359,
+              "bottom": 655,
+              "w": 343,
+              "h": 52
+            }
+          }
+        ],
+        "overlaps": [],
+        "floatingErrors": 0
+      },
       "image": "qa-shots/unified-fix/F-09-driver-ru-375-after.png"
     },
     {
@@ -387,7 +480,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:57:21Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:52:04Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -417,7 +510,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:57:19Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:52:03Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -851,7 +944,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:57:00Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:44Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -881,7 +974,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:56:59Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:43Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1315,7 +1408,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:56:40Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:51:24Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1345,7 +1438,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:56:38Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:51:22Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1547,7 +1640,100 @@
       "app": "driver",
       "lang": "en",
       "width": 390,
-      "status": "FAIL",
+      "status": "PASS",
+      "geometry": {
+        "mapLabel": "Route unavailable · Tracking only · arrival time unavailable",
+        "box": {
+          "x": 12,
+          "y": 56,
+          "right": 280.375,
+          "bottom": 76,
+          "w": 268.375,
+          "h": 20
+        },
+        "statusRole": "alert",
+        "mapAboveSheet": true,
+        "noticeRects": [
+          {
+            "x": 12,
+            "y": 56,
+            "right": 280.375,
+            "bottom": 76,
+            "w": 268.375,
+            "h": 20
+          }
+        ],
+        "controls": [
+          {
+            "name": "a-collect-line",
+            "rect": {
+              "x": 16,
+              "y": 680,
+              "right": 374,
+              "bottom": 712,
+              "w": 358,
+              "h": 32
+            }
+          },
+          {
+            "name": "a-navigation",
+            "rect": {
+              "x": 16,
+              "y": 715,
+              "right": 101,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-call",
+            "rect": {
+              "x": 107,
+              "y": 715,
+              "right": 192,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "round a-chat",
+            "rect": {
+              "x": 198,
+              "y": 715,
+              "right": 283,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "a-details-button",
+            "rect": {
+              "x": 289,
+              "y": 715,
+              "right": 374,
+              "bottom": 767,
+              "w": 85,
+              "h": 52
+            }
+          },
+          {
+            "name": "b a-step-button",
+            "rect": {
+              "x": 16,
+              "y": 780,
+              "right": 374,
+              "bottom": 832,
+              "w": 358,
+              "h": 52
+            }
+          }
+        ],
+        "overlaps": [],
+        "floatingErrors": 0
+      },
       "image": "qa-shots/unified-fix/F-09-driver-en-390-after.png"
     },
     {
@@ -1686,7 +1872,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:56:19Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:03Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -1716,7 +1902,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:56:17Заказать се",
+            "text": "пр. Рудаки 100\n  Счастливые часыскидка до 25% 12:51:01Заказать се",
             "rect": {
               "x": 0,
               "y": 0,
@@ -2150,7 +2336,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:55:58Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:50:42Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -2180,7 +2366,7 @@
         "positions": [
           {
             "selector": "#app",
-            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:55:56Order now Favour",
+            "text": "пр. Рудаки 100\n  Happy hourup to 25% off 12:50:41Order now Favour",
             "rect": {
               "x": 0,
               "y": 0,
@@ -2601,22 +2787,5 @@
       "image": "qa-shots/unified-fix/NOTIFY-01-admin-en-430-after.png"
     }
   ],
-  "errors": [
-    {
-      "id": "F-09",
-      "app": "driver",
-      "lang": "ru",
-      "width": 375,
-      "type": "AssertionError",
-      "message": "F-09 core map toast still covers mission tools: {'mapLabel': 'Маршрут недоступен · Только отслеживание · время прибытия недоступно', 'box': {'x': 12, 'y': 56, 'right': 355, 'bottom': 90, 'w': 343, 'h': 34}, 'statusRole': 'alert', 'mapAboveSheet': True, 'noticeRects': [{'x': 12, 'y': 56, 'right': 355, 'bottom': 90, 'w': 343, 'h': 34}], 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 503, 'right': 359, 'bottom': 535, 'w': 343, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 538, 'right': 97.25, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 103.25, 'y': 538, 'right': 184.5, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 190.5, 'y': 538, 'right': 271.75, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 277.75, 'y': 538, 'right': 359, 'bottom': 590, 'w': 81.25, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 603, 'right': 359, 'bottom': 655, 'w': 343, 'h': 52}}], 'overlaps': [], 'floatingErrors': 1}"
-    },
-    {
-      "id": "F-09",
-      "app": "driver",
-      "lang": "en",
-      "width": 390,
-      "type": "AssertionError",
-      "message": "F-09 core map toast still covers mission tools: {'mapLabel': 'Route unavailable · Tracking only · arrival time unavailable', 'box': {'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}, 'statusRole': 'alert', 'mapAboveSheet': True, 'noticeRects': [{'x': 12, 'y': 56, 'right': 280.375, 'bottom': 76, 'w': 268.375, 'h': 20}], 'controls': [{'name': 'a-collect-line', 'rect': {'x': 16, 'y': 680, 'right': 374, 'bottom': 712, 'w': 358, 'h': 32}}, {'name': 'a-navigation', 'rect': {'x': 16, 'y': 715, 'right': 101, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-call', 'rect': {'x': 107, 'y': 715, 'right': 192, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'round a-chat', 'rect': {'x': 198, 'y': 715, 'right': 283, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'a-details-button', 'rect': {'x': 289, 'y': 715, 'right': 374, 'bottom': 767, 'w': 85, 'h': 52}}, {'name': 'b a-step-button', 'rect': {'x': 16, 'y': 780, 'right': 374, 'bottom': 832, 'w': 358, 'h': 52}}], 'overlaps': [], 'floatingErrors': 1}"
-    }
-  ]
+  "errors": []
 }
