@@ -59,6 +59,13 @@
   '.b8-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;min-width:0;gap:8px}',
   '.b8-actions .b{max-width:100%;min-width:0!important;overflow-wrap:anywhere;white-space:normal;font-size:13px}',
   '.b8-sheet #b8-full,.b8-sheet #b8-confirm{background:var(--o,#FF5A12)!important;color:#fff!important}',
+  // O-13: 'Received full amount' immediately executes the existing one-step
+  // confirmDeliver() handler. The second confirmation belongs ONLY to
+  // 'Different amount'; hide it in full mode instead of showing a disabled
+  // lookalike action. Full-mode finance/RPC semantics remain unchanged.
+  '.b8-sheet:has(#b8-reserved[aria-hidden="true"]) #b8-confirm{display:none!important}',
+  '.b8-sheet:has(#b8-reserved[aria-hidden="true"]) .b8-footer .b8-actions{grid-template-columns:1fr!important}',
+
   '.b8-amt,.b8-other-input{max-width:100%;min-width:0;scroll-margin:12px 0 90px;box-sizing:border-box}',
   '.b11-inline-alert{display:none;border-radius:10px;padding:8px 10px;background:#fff4f1;color:#8c2924;font-size:12px;line-height:17px;font-weight:600;overflow-wrap:anywhere}',
   '.b11-inline-alert:not(:empty){display:block;margin:6px 0 10px!important}',
