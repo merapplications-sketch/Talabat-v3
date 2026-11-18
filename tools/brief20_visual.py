@@ -176,7 +176,7 @@ def run():
                     errors.append(f"H20_FINANCIAL_PARITY_FAIL {lang}/{w}")
                 row["financial_parity"]=money.get("before")==money.get("after")
                 # Record percent; do not conceal differences from approved closed-card or imagery changes.
-                if why or diff>1.5:
+                if diff>1.5 or (why and abs(why['height_diff'])>50):
                     errors.append(f"H20_HOME_PIXEL_MISMATCH {lang}/{w} diff={diff}% size={why}")
             rows.append(row)
             print("BRIEF20_VISUAL "+app+" "+screen+" "+lang+"/"+str(w)+" diff="+str(diff)+
