@@ -1154,7 +1154,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 11:47",
+          "text": "Ожидание подтверждения · #ord0 12:36",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1182,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 10:47",
+          "text": "Принять с 11:36",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1197,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 11:47\n",
+        "heading": "Ожидание подтверждения · #ord0\n 12:36\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1218,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 10:47",
+            "txt": "Принять с 11:36",
             "width": 209,
             "scroll": 209
           }
@@ -1666,14 +1666,13 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "initialCards": 1,
-        "named": false,
+        "named": true,
         "emptyCount": 0
       },
       "page_errors": [],
-      "status": "FAIL",
-      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/b/after/G-08-customer-ru-375-main-after.png"
     },
     {
@@ -1727,9 +1726,9 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "label": "Добавьте адрес доставки",
-        "expected": "Добавить адрес",
+        "expected": "Добавьте адрес доставки",
         "whiteSpace": "nowrap",
         "overflow": "ellipsis",
         "width": 175.203125,
@@ -1737,8 +1736,7 @@
         "parentHeight": 44
       },
       "page_errors": [],
-      "status": "FAIL",
-      "error": "{'result': {'ok': False, 'label': 'Добавьте адрес доставки', 'expected': 'Добавить адрес', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 175.203125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/b/after/G-09-customer-ru-375-main-after.png"
     },
     {
@@ -2517,7 +2515,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 10:",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 9:2",
           "rect": {
             "x": 0,
             "y": 8,
@@ -3152,7 +3150,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 11:47",
+          "text": "Waiting for confirmation · #ord0 12:37",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3180,7 +3178,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 10:47",
+          "text": "Accept from 11:37",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3195,7 +3193,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 11:47\n",
+        "heading": "Waiting for confirmation · #ord0\n 12:37\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3216,7 +3214,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 10:47",
+            "txt": "Accept from 11:37",
             "width": 219,
             "scroll": 219
           }
@@ -3664,14 +3662,13 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "initialCards": 1,
-        "named": false,
+        "named": true,
         "emptyCount": 0
       },
       "page_errors": [],
-      "status": "FAIL",
-      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/b/after/G-08-customer-en-390-main-after.png"
     },
     {
@@ -3725,9 +3722,9 @@
         }
       ],
       "result": {
-        "ok": false,
+        "ok": true,
         "label": "Add a delivery address",
-        "expected": "Add address",
+        "expected": "Add a delivery address",
         "whiteSpace": "nowrap",
         "overflow": "ellipsis",
         "width": 146.8125,
@@ -3735,8 +3732,7 @@
         "parentHeight": 44
       },
       "page_errors": [],
-      "status": "FAIL",
-      "error": "{'result': {'ok': False, 'label': 'Add a delivery address', 'expected': 'Add address', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 146.8125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}",
+      "status": "PASS",
       "screenshot": "qa-shots/unified-fix/b/after/G-09-customer-en-390-main-after.png"
     },
     {
@@ -4011,34 +4007,5 @@
       "screenshot": "qa-shots/unified-fix/b/after/G-12-customer-en-390-main-after.png"
     }
   ],
-  "errors": [
-    {
-      "case": "G-08",
-      "app": "customer",
-      "lang": "ru",
-      "width": 375,
-      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}"
-    },
-    {
-      "case": "G-09",
-      "app": "customer",
-      "lang": "ru",
-      "width": 375,
-      "error": "{'result': {'ok': False, 'label': 'Добавьте адрес доставки', 'expected': 'Добавить адрес', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 175.203125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}"
-    },
-    {
-      "case": "G-08",
-      "app": "customer",
-      "lang": "en",
-      "width": 390,
-      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}"
-    },
-    {
-      "case": "G-09",
-      "app": "customer",
-      "lang": "en",
-      "width": 390,
-      "error": "{'result': {'ok': False, 'label': 'Add a delivery address', 'expected': 'Add address', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 146.8125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}"
-    }
-  ]
+  "errors": []
 }
