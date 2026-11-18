@@ -1820,6 +1820,7 @@ TLB.addDict(
 function homeHeading(kind, all) {
   const art=name=>`<img src="${A3(name)}" alt="" width="28" height="28">`;
   const titles={
+    discover:()=>art('gem-stone')+`<b>${t('discoverTitle')}</b>`,
     flash:()=>art('high-voltage')+`<b>${t('flashTitle')}</b>`,
     advert:()=>art('party-popper')+`<b>${t('dontMiss')}</b>`,
     meals:()=>art('hamburger')+`<b>${t('lunchA')}</b><b>${t('lunchB')}</b><b>${t('lunchC')}</b>`,
@@ -1981,6 +1982,22 @@ function flashH(products,expanded=false){
   const cards=expanded?deals:deals.slice(0,12);
   return `<section class="home-flash">${homeHeading('flash',deals.length>1&&!expanded?"go('flashAll')":'')}<p class="home-picks-summary">${t('flashSub')}</p><div class="flash-grid">${cards.map(({it,st,sd,discount})=>`<button class="flash-item" onclick="openN(${esc(JSON.stringify(st.n))});openItem(${esc(JSON.stringify(it.id))})">${d6Ph(it.image,`<span>−${discount}%</span>`)}<span class="flash-description"><b>${esc(it.name)}</b>${pxH(it,sd)}</span></button>`).join('')}</div></section>`;
 }
+TLB.addDict(
+  {discoverTitle:'Откройте новое',discoverNew:'Новый',discoverUpTo:'Скидка до {n}% на первый заказ',discoverFirst:'Первый заказ: −{n}%'},
+  {discoverTitle:'Discover new places',discoverNew:'New',discoverUpTo:'Up to {n}% off your first order',discoverFirst:'First order: −{n}%'}
+);
+function discoverH(expanded=false){
+  const now=Date.now(),raw=TLB.stores();
+  const fresh=STORES.filter(st=>st.c==='rest'&&Date.parse(st.cr)<=now&&now-Date.parse(st.cr)<30*864e5)
+    .sort((a,b)=>Date.parse(b.cr)-Date.parse(a.cr));
+  if(!fresh.length)return '';
+  const cards=(expanded?fresh:fresh.slice(0,3)).map(st=>{
+    const pct=Number(raw.find(r=>r.id===st.id)?.first_order_discount_pct);
+    return {st,first:Number.isFinite(pct)&&pct>0&&pct<=100?pct:0};
+  });
+  const max=Math.max(...cards.map(c=>c.first));
+  return `<section class="home-discover">${homeHeading('discover',fresh.length>1&&!expanded?"go('discoverAll')":'')}${max?`<p class="home-picks-summary">${t('discoverUpTo').replace('{n}',max)}</p>`:''}${cards.map(({st,first})=>`<button class="discover-row" ${TLB.isOpen(st.n)?storeTap(st):'disabled'}>${st.i||st.lg?d6Ph(st.i||st.lg):''}<span><b>${esc(st.n)}</b><small>★ ${t('discoverNew')}${etaOf(st)?' · '+etaOf(st):''}</small>${first?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`).join('')}</section>`;
+}
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.image&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
   if(!out.length)return '';
@@ -2011,7 +2028,7 @@ function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf
   const products=homeProducts();
   return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+bestH()+mealsH(products)
   +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
-  +adH(products)+recH()+flashH(products)+nearH()+walH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
+  +adH(products)+recH()+flashH(products)+nearH()+walH()+dineH()+bottomBn()+discoverH()+`<div style="height:12px"></div>`}
 if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{document.querySelectorAll('.hcd[data-end]').forEach(e=>{const end=+e.dataset.end;if(end)e.textContent=cdTxt(end-Date.now())})},1000);
 /* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
 function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
@@ -2689,7 +2706,7 @@ function render(){
   if(TLB.me().banned&&!['support','ticket'].includes(S.v)){S.v='support';TLB.wantSupport(true)}
   if(S.v=='menu'&&!TLB.isOpen(S.store)){S.sh=null}
   if(S.v=='track'&&TLB.unread(S.tid))setTimeout(()=>TLB.markRead(S.tid),0);
-  const V={flashAll:()=>topbar(t('flashTitle'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+flashH(homeProducts(),true)+'</div>',mealsAll:()=>topbar(t('lunchA'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+mealsH(homeProducts(),true)+'</div>',nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
+  const V={discoverAll:()=>topbar(t('discoverTitle'),'', "go('home')")+'<div class="d6 d6h">'+discoverH(true)+'</div>',flashAll:()=>topbar(t('flashTitle'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+flashH(homeProducts(),true)+'</div>',mealsAll:()=>topbar(t('lunchA'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+mealsH(homeProducts(),true)+'</div>',nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
   const full=['cart','pay','group','addr','addrForm','ticket'].includes(S.v),nav=['home','orders','wallet','promo','me'],ni={home:'home',orders:'receipt',wallet:'card',promo:'tag',me:'user'},un=TLB.totalUnread();
   const n=cartCount(),cc=n?calc():null,bar=n&&['home','menu','cat','fav','promo'].includes(S.v)&&!S.sh?`<div class="bar" onclick="goCart()" role="button" aria-label="${t('cartBarL')}"><span class="n">${n}</span><span class="l">${t('cartBarL')}</span><span class="p">${Math.round((cc.sub-cc.d-cc.h)*100)/100} TJS</span></div>`:'';
   const on=k=>S.v==k||(k=='home'&&['cat','menu'].includes(S.v))||(k=='orders'&&S.v=='track')||(k=='me'&&['support','settings','about','privacy'].includes(S.v))||(k=='promo'&&S.v=='offer');
