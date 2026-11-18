@@ -2000,17 +2000,52 @@ TLB.addDict(
   {discoverTitle:'Откройте новое',discoverNew:'Новый',discoverUpTo:'Скидка до {n}% на первый заказ',discoverFirst:'Первый заказ: −{n}%'},
   {discoverTitle:'Discover new places',discoverNew:'New',discoverUpTo:'Up to {n}% off your first order',discoverFirst:'First order: −{n}%'}
 );
+TLB.addDict({discoverUntried:'Вы ещё не пробовали'},{discoverUntried:"You haven't tried these yet"});
+// The regular customer feed contains only the latest 60 orders.
+let discoveryHistory=null;
+function triedRestaurants(){
+  const orders=TLB.orders(),counts=o=>o.status!=='cancelled'&&o.status!=='rejected';
+  const tried=new Set(orders.filter(counts).map(o=>o.store));
+  if(orders.length<60)return tried;
+  const user=TLB.me()?.id;
+  if(!user)return null;
+  const key=JSON.stringify([user,orders[orders.length-1].id]);
+  if(discoveryHistory?.key!==key||Date.now()>discoveryHistory.retryAfter){
+    const state=discoveryHistory={key,names:null,retryAfter:Infinity};
+    (async()=>{
+      const names=new Set();
+      for(let from=0;;from+=50){
+        const page=await TLB.customerOrders(user,from);
+        if(state!==discoveryHistory)return;
+        if(page.failed){state.retryAfter=Date.now()+30000;return}
+        page.filter(counts).forEach(o=>names.add(o.store));
+        if(page.length<50||(page.total!=null&&from+page.length>=page.total))break;
+      }
+      state.names=names;
+      if(S.v==='home'||S.v==='discoverAll')render();
+    })();
+  }
+  if(!discoveryHistory.names)return null;
+  for(const name of discoveryHistory.names)tried.add(name);
+  return tried;
+}
 function discoverH(expanded=false){
-  const now=Date.now(),raw=TLB.stores();
-  const fresh=STORES.filter(st=>st.c==='rest'&&Date.parse(st.cr)<=now&&now-Date.parse(st.cr)<30*864e5)
+  const now=Date.now(),raw=TLB.stores(),restaurants=STORES.filter(st=>st.c==='rest');
+  const fresh=restaurants.filter(st=>Date.parse(st.cr)<=now&&now-Date.parse(st.cr)<=30*864e5)
     .sort((a,b)=>Date.parse(b.cr)-Date.parse(a.cr));
-  if(!fresh.length)return '';
-  const cards=(expanded?fresh:fresh.slice(0,3)).map(st=>{
+  const tried=triedRestaurants();
+  const eligible=fresh.length?fresh:restaurants.filter(st=>TLB.isOpen(st.n)&&tried&&!tried.has(st.n));
+  if(!eligible.length)return '';
+  const cards=(expanded?eligible:eligible.slice(0,3)).map(st=>{
     const pct=Number(raw.find(r=>r.id===st.id)?.first_order_discount_pct);
-    return {st,first:Number.isFinite(pct)&&pct>0&&pct<=100?pct:0};
+    return {st,first:tried&&!tried.has(st.n)&&pct>0&&pct<=100?pct:0};
   });
   const max=Math.max(...cards.map(c=>c.first));
-  return `<section class="home-discover">${homeHeading('discover',fresh.length>1&&!expanded?"go('discoverAll')":'')}${max?`<p class="home-picks-summary">${t('discoverUpTo').replace('{n}',max)}</p>`:''}${cards.map(({st,first})=>`<button class="discover-row" ${TLB.isOpen(st.n)?storeTap(st):'disabled'}>${st.i||st.lg?d6Ph(st.i||st.lg):''}<span><b>${esc(st.n)}</b><small>★ ${t('discoverNew')}${etaOf(st)?' · '+etaOf(st):''}</small>${first?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`).join('')}</section>`;
+  const sub=!fresh.length?t('discoverUntried'):max?t('discoverUpTo').replace('{n}',max):'';
+  return `<section class="home-discover">${homeHeading('discover',eligible.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}${cards.map(({st,first})=>{
+    const meta=[fresh.length?'★ '+t('discoverNew'):'',etaOf(st)].filter(Boolean).join(' · ');
+    return `<button class="discover-row" ${TLB.isOpen(st.n)?storeTap(st):'disabled'}>${st.i||st.lg?d6Ph(st.i||st.lg):''}<span><b>${esc(st.n)}</b>${meta?`<small>${meta}</small>`:''}${first?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
+  }).join('')}</section>`;
 }
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.image&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
