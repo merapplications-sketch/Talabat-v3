@@ -1784,6 +1784,23 @@ const kmOf=st=>{const a=curAddr();return a&&a.lat!=null&&st.la!=null&&isFinite(s
 function etaOf(st){const sp=TLB.speed&&TLB.speed(st.id);if(!sp||!(sp.min>0))return '';const km=kmOf(st),a=Math.max(10,Math.round((sp.min+(km!=null?km*3+5:10))/5)*5);return t('hMin').replace('{a}',a).replace('{b}',a+10)}
 const ofCat=(cs,limit)=>STORES.filter(x=>cs.includes(x.c)).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||((b.rt*Math.log(2+b.rc))-(a.rt*Math.log(2+a.rc)))||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,limit||10);
 /* v06.1 Home B / list helpers: section title (icon + title + «Все»), photo = the store's own picture or the «no photo» slot */
+TLB.addDict(
+  {homeOrder:'Заказать',homeAgain:'снова',homePicks:'Рекомендуем',homeForYou:'для вас',homeWeek:'Топ недели'},
+  {homeOrder:'Order',homeAgain:'again',homePicks:'Recommended',homeForYou:'for you',homeWeek:'Top of the week'}
+);
+function homeHeading(kind, all) {
+  const art=name=>`<img src="${A3(name)}" alt="" width="28" height="28">`;
+  const titles={
+    again:()=>`<i aria-hidden="true">↻</i><span>${t('homeOrder')} <b>${t('homeAgain')}</b></span>`,
+    offers:()=>art('fire')+`<b>${t('hBestT')}</b>`,
+    popular:()=>`<small>${t('homeWeek')}</small><span>${art('star')}${t('d6PopR')}<em aria-hidden="true">///</em></span>`,
+    picks:()=>art('sparkles')+`<b>${t('homePicks')}</b><b>${t('homeForYou')}</b>`,
+    near:()=>art('round-pushpin')+`<b>${t('d6Near')}</b>`,
+    rewards:()=>art('wrapped-gift')+`<b>${t('d6CpT')}</b>`,
+    dine:()=>`<i aria-hidden="true">−%</i><span>${t('hDineT')}</span>`+art('coin')
+  };
+  return `<div class="d6-sh home-heading" data-section="${kind}"><h2>${titles[kind]()}</h2>${all?`<button onclick="${all}">${t('d6All')} ${ico('chev',14)}</button>`:''}</div>`;
+}
 const secH=(icon,title,all,sub)=>`<div class="d6-sh"><h2>${icon?ico(icon,20):({[t('d6FavAgain')]:'❤️',[t('hBestT')]:'🏷️',[t('d6PopR')]:'🍽️',[t('hRecT')]:'✨'}[title]?`<span class="d80-section-emoji" aria-hidden="true">${{[t('d6FavAgain')]:'❤️',[t('hBestT')]:'🏷️',[t('d6PopR')]:'🍽️',[t('hRecT')]:'✨'}[title]}</span>`:'')}<span>${title}</span></h2>${all?`<button onclick="${all}">${t('d6All')} ${ico('chev',14)}</button>`:''}</div>${sub?`<p class="d6-shs">${sub}</p>`:''}`;
 const d6Meta=st=>{const eta=etaOf(st),km=kmOf(st);return eta||(km!=null?t('hKm').replace('{n}',km):'')};
 const d6Rt=st=>st.rt>0?`<b class="rt">${ico('star',13,1)} ${st.rt.toFixed(1)}${st.rc?` <i>(${cnt(st.rc)})</i>`:''}</b>`:'';
@@ -1849,28 +1866,28 @@ function lastH(){
     const it=o.items[0], id=JSON.stringify(o.id).replace(/"/g,'&quot;');
     return `<div class="d6-lo">${favouritePhoto(store,index)}<b class="nm">${esc(o.store)}</b><span class="it">${esc(it.name)}${o.items.length>1?` +${o.items.length-1}`:''}</span><span class="it">${d6Ago(o.doneAt||o.createdAt)} · ${o.total} TJS</span><button class="d6-ob" onclick="reorder(${id})">${t('d6Ord')}</button></div>`;
   });
-  return secH('',t('d6FavAgain'),"go('orders')")+`<div class="d6-rl">${cards.join('')}</div>`;
+  return homeHeading('again',"go('orders')")+`<div class="d6-rl">${cards.join('')}</div>`;
 }
 /* best offers: flash sale = a real happy hour with its real end, or the biggest store discount; free delivery = stores that really offer it */
 function bestH(){const hh=hhStores(),maxD=STORES.filter(x=>TLB.isOpen(x.n)&&x.disc>0).reduce((m,x)=>Math.max(m,x.disc),0),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
   const fl=hh.length?{n:hh[0].p,end:hh[0].end}:maxD>0?{n:maxD,end:null}:null;if(!fl&&!fr.length)return '';
-  return secH('',t('hBestT'),"go('promo')")+`<div class="d6-of d75-offers ${fl&&fr.length?'':'one'}">${fl?`<div class="d6-ot f" role="button" tabindex="0" onclick="go('promo')"><b>${ico('bolt',16)} ${t('hFlashD').replace('{n}',fl.n)}</b>${fl.end?`<span class="s">${ico('clock',12)} <span class="hcd" data-end="${fl.end}">${cdTxt(fl.end-Date.now())}</span></span>`:`<span class="s">${t('hFlashS')}</span>`}<span class="ar">${ico('arr',16)}</span><img src="${A3('hamburger')}" alt="" width="72" height="72" loading="lazy"></div>`:''}${fr.length?`<div class="d6-ot g" role="button" tabindex="0" onclick="openCat('*');S.srt='free'"><b>${t('hFreeT')}</b><span class="s">${t('hFreeD').replace('{n}',fr.length)}</span><span class="ar">${ico('arr',16)}</span><img src="${A3('motor-scooter')}" alt="" width="72" height="72" loading="lazy"></div>`:''}</div>`}
+  return homeHeading('offers',"go('promo')")+`<div class="d6-of d75-offers ${fl&&fr.length?'':'one'}">${fl?`<div class="d6-ot f" role="button" tabindex="0" onclick="go('promo')"><b>${ico('bolt',16)} ${t('hFlashD').replace('{n}',fl.n)}</b>${fl.end?`<span class="s">${ico('clock',12)} <span class="hcd" data-end="${fl.end}">${cdTxt(fl.end-Date.now())}</span></span>`:`<span class="s">${t('hFlashS')}</span>`}<span class="ar">${ico('arr',16)}</span><img src="${A3('hamburger')}" alt="" width="72" height="72" loading="lazy"></div>`:''}${fr.length?`<div class="d6-ot g" role="button" tabindex="0" onclick="openCat('*');S.srt='free'"><b>${t('hFreeT')}</b><span class="s">${t('hFreeD').replace('{n}',fr.length)}</span><span class="ar">${ico('arr',16)}</span><img src="${A3('motor-scooter')}" alt="" width="72" height="72" loading="lazy"></div>`:''}</div>`}
 /* recommended products: the app's real best sellers, else dishes marked popular by restaurants */
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
   if(!out.length)return '';
-  return secH('',t('hRecT'))+`<div class="d6-rl">${out.slice(0,12).map(({it,st})=>{const e=eff(it,sdOf(st.n)),sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b>${pxH(it,sdOf(st.n))}<span class="st">${esc(st.n)}</span></div>`}).join('')}</div>`}
+  return homeHeading('picks')+`<div class="d6-rl">${out.slice(0,12).map(({it,st})=>{const e=eff(it,sdOf(st.n)),sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b>${pxH(it,sdOf(st.n))}<span class="st">${esc(st.n)}</span></div>`}).join('')}</div>`}
 /* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
 function nearH(){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b))).slice(0,8);if(!l.length)return '';
-  return secH('pin',t('d6Near'))+`<div class="d6-nr">${l.map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${d6Ph(st.i||st.lg)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closedStoreBadge')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
+  return homeHeading('near')+`<div class="d6-nr">${l.map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${d6Ph(st.i||st.lg)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closedStoreBadge')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
 /* wallet + points: the user's own numbers */
 /* coupons and rewards: both open the wallet (vouchers, points, balance are there) */
 function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0);
-  return secH('tag',t('d6CpT'))+`<div class="d6-cp"><div class="c1" role="button" onclick="go('wallet')"><span class="ic">${ico('tag',24)}</span><b>${t('d6Cp')}</b><span class="go">${t('d6CpGo')} ${ico('chev',14)}</span></div><div class="c2" role="button" onclick="go('wallet')"><span class="ic">${ico('star',24)}</span><b>${t(pts?'d6Rw':'d6WalT')}</b><span class="go">${t(pts?'d6RwGo':'hWalGo')} ${ico('chev',14)}</span></div></div>`}
+  return homeHeading('rewards')+`<div class="d6-cp"><div class="c1" role="button" onclick="go('wallet')"><span class="ic">${ico('tag',24)}</span><b>${t('d6Cp')}</b><span class="go">${t('d6CpGo')} ${ico('chev',14)}</span></div><div class="c2" role="button" onclick="go('wallet')"><span class="ic">${ico('star',24)}</span><b>${t(pts?'d6Rw':'d6WalT')}</b><span class="go">${t(pts?'d6RwGo':'hWalGo')} ${ico('chev',14)}</span></div></div>`}
 /* DineOut: a banner + the restaurants that have a real discount now (only real offers; no table booking yet) */
 const areaOf=st=>{const a=String(st.ad||'').split(',').map(x=>x.trim()).filter(Boolean);return a[0]||''};
 function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0).sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,12);if(!l.length)return '';const mx=l[0].disc;
-  return secH('',t('hDineT'),"openCat('rest');S.srt='disc'")+`<div class="d6-dn" role="button" onclick="openCat('rest');S.srt='disc'"><b class="dlg">DineOut</b><p>${t('hDineS')}</p><span class="go">${t('hDineGo')} ${ico('arr',14)}</span><img class="art" src="${A3('pizza')}" alt="" width="120" height="120" loading="lazy"><span class="pct">${t('hDineP').replace('{n}',mx)}</span></div>
+  return homeHeading('dine',"openCat('rest');S.srt='disc'")+`<div class="d6-dn" role="button" onclick="openCat('rest');S.srt='disc'"><b class="dlg">DineOut</b><p>${t('hDineS')}</p><span class="go">${t('hDineGo')} ${ico('arr',14)}</span><img class="art" src="${A3('pizza')}" alt="" width="120" height="120" loading="lazy"><span class="pct">${t('hDineP').replace('{n}',mx)}</span></div>
   <div class="d6-rl">${l.map(st=>{const km=kmOf(st),ar=areaOf(st);return `<div class="d6-dc" role="button" ${storeTap(st)}>${d6Ph(st.i||st.lg,`<span class="hb r">−${st.disc}%</span>`+heart(st))}<b class="nm"><span>${esc(st.n)}</span>${ico('chev',14)}</b><div class="mt">${[d6Rt(st),ar||km!=null?`<span>${esc(ar||t('hKm').replace('{n}',km))}${ar&&km!=null?` · ${t('hKm').replace('{n}',km)}`:''}</span>`:''].filter(Boolean).join('<span>·</span>')}</div></div>`}).join('')}</div>`}
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
@@ -1880,7 +1897,7 @@ function d6Mine(){const m={};TLB.orders().forEach(o=>{if(o.status!='delivered')r
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf||Object.assign({},HF0);const head=hHead();
   if(q||hfOn()){const list=hfApply(matches(M,q));return head+`<div class="pg d6-res">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h})=>d6SRow(s,h)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
   return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+bestH()
-  +(()=>{const l=ofCat(['rest']);return l.length?secH('',t('d6PopR'),"openCat('rest')")+rail(l):''})()
+  +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
   +recH()+nearH()+walH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
 if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{document.querySelectorAll('.hcd[data-end]').forEach(e=>{const end=+e.dataset.end;if(end)e.textContent=cdTxt(end-Date.now())})},1000);
 /* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
