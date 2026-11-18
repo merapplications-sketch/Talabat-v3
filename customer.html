@@ -1858,15 +1858,19 @@ function favouritePhoto(store, index){
   return `<div class="d6-ph"><img src="${esc(logo||cover)}" alt="" loading="${index<3?'eager':'lazy'}"${fallback} onerror="if(this.dataset.cover){this.src=this.dataset.cover;delete this.dataset.cover}else{this.parentNode.classList.add('none');this.remove()}"></div>`;
 }
 function lastH(){
-  const orders=TLB.orders().filter(o=>o.status==='delivered'&&o.items?.length).slice(0,10);
-  if(!orders.length)return '';
-  const catalogue=TLB.stores(true);
-  const cards=orders.map((o,index)=>{
+  const catalogue=TLB.stores(true), seen=new Set(), cards=[];
+  for(const o of TLB.orders()){
+    if(o.status!=='delivered'||!o.items?.length)continue;
     const store=o.storeId?catalogue.find(s=>s.id===o.storeId):catalogue.find(s=>s.name===o.store);
-    const it=o.items[0], id=JSON.stringify(o.id).replace(/"/g,'&quot;');
-    return `<div class="d6-lo">${favouritePhoto(store,index)}<b class="nm">${esc(o.store)}</b><span class="it">${esc(it.name)}${o.items.length>1?` +${o.items.length-1}`:''}</span><span class="it">${d6Ago(o.doneAt||o.createdAt)} · ${o.total} TJS</span><button class="d6-ob" onclick="reorder(${id})">${t('d6Ord')}</button></div>`;
-  });
-  return homeHeading('again',"go('orders')")+`<div class="d6-rl">${cards.join('')}</div>`;
+    if(!store||seen.has(store.id)||!(store.logo_url||store.cover_url))continue;
+    seen.add(store.id);
+    const current=ALLS.find(s=>s.id===store.id), closed=!current||!TLB.isOpen(current.n);
+    const discount=!closed&&current.disc>0?`<span class="home-deal">−${current.disc}%</span>`:'';
+    const action=closed?'disabled':`onclick="reorder(${esc(JSON.stringify(o.id))})"`;
+    cards.push(`<button type="button" class="d6-lo ${closed?'closed':''}" ${action}>${favouritePhoto(store,cards.length)}${discount}<b class="nm">${esc(store.name)}</b></button>`);
+    if(cards.length===10)break;
+  }
+  return cards.length?homeHeading('again',"go('orders')")+`<div class="d6-rl home-again">${cards.join('')}</div>`:'';
 }
 /* best offers: flash sale = a real happy hour with its real end, or the biggest store discount; free delivery = stores that really offer it */
 function bestH(){const hh=hhStores(),maxD=STORES.filter(x=>TLB.isOpen(x.n)&&x.disc>0).reduce((m,x)=>Math.max(m,x.disc),0),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
