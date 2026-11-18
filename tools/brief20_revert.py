@@ -127,8 +127,25 @@ def main():
         git("commit","--allow-empty","-m","Revert \""+title+"\" (BRIEF-20 Home B owner)",
             "-m","This reverts commit "+sha+".\n\nConflict resolution preserves subsequently approved non-Home code.")
         print("BRIEF20_REVERTED "+sha+" actions="+repr(actions),flush=True)
+    # BRIEF-20 owner override of F-01 ONLY on Home. C-01b keeps the later
+    # intentionally inline card in category/restaurant; do not alter those.
+    card=pathlib.Path("assets/customer-c/customer-c.js")
+    card_src=card.read_text("utf-8")
+    a="const homeBanner=S.v==='home'&&document.querySelector('#app .d6h .d6-bento');"
+    b="const homeBanner=null; // BRIEF-20 owner original fixed Home order card; all other views unchanged."
+    c="const listAnchor=!homeBanner&&("
+    d="const listAnchor=S.v!=='home'&&!homeBanner&&("
+    if card_src.count(a)!=1 or card_src.count(c)!=1:
+        raise RuntimeError("F-01 original source uniqueness failure, refusing unsafe card restoration")
+    card_src=card_src.replace(a,b,1).replace(c,d,1)
+    card.write_text(card_src,"utf-8")
+    git("add","--","assets/customer-c/customer-c.js")
+    git("commit","-m","Revert F-01 Home-only current-order inline position (BRIEF-20 owner)",
+        "-m","Scoped partial revert of f69d9da4; approved category/restaurant C-01b stays unchanged.")
+    print("BRIEF20_F01_HOME_ONLY_RESTORED",flush=True)
     delta=git("diff","--name-only",runner_head,"HEAD").stdout.splitlines()
-    if delta!=["customer.html"]:raise RuntimeError("out-of-scope diff: "+repr(delta))
+    if delta!=["assets/customer-c/customer-c.js","customer.html"]:
+        raise RuntimeError("out-of-scope diff: "+repr(delta))
     print("BRIEF20_NINE_INDIVIDUAL_GIT_REVERTS_OK",flush=True)
     print("BRIEF20_DIFF_STAT "+git("diff","--stat",runner_head,"HEAD").stdout.strip(),flush=True)
     # Check stable owner branding and mandatory protected flows still exist.
