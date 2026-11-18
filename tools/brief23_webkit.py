@@ -7,14 +7,13 @@ import sys
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from PIL import Image, ImageDraw
+from PIL import Image
 from playwright.sync_api import sync_playwright
 
 import brief22_webkit as previous
 from brief22_webkit import qa
 
 BASE='343fe0807819f46c97895b14290eae81a19e472c'
-PROPOSAL='1d13286e0c00b471a93e52471cfbb1fc38f5fd10'
 PREVIEW='https://talabot-gate1-preview-20261116.pages.dev'
 
 
@@ -131,6 +130,13 @@ def geometry(page,width,full):
     if page.evaluate("TLB.lang()")== 'ru':assert row['badge'][0]=='Бесплатно от 350 TJS'
     assert row['yellow']=='assets/3d/motor-scooter-yellow.png' and not row['extra']
     if full:
+        styles=page.locator('.flash-description .px').evaluate_all("""prices=>prices.map(p=>{
+          const current=getComputedStyle(p),old=getComputedStyle(p.querySelector('s'));
+          return [current.color,current.fontWeight,current.textDecorationLine,current.textDecorationColor,
+                  old.color,old.textDecorationLine,old.display]})""")
+        gray=page.locator('.flash-description').first.evaluate("""e=>{const probe=document.createElement('span');
+          probe.style.color='var(--mut)';e.append(probe);const color=getComputedStyle(probe).color;probe.remove();return color}""")
+        assert styles and all(v==['rgb(28, 28, 33)','800','underline','rgb(217, 249, 157)',gray,'line-through','inline-block'] for v in styles),styles
         assert row['bolt']
         assert page.evaluate("document.querySelector('.home-meals .home-picks-summary').textContent.includes(t('lunchFree'))")
         assert page.locator('.home-meals .d6-pt .d6-pa').count()>0
@@ -195,8 +201,6 @@ def cart_spacing(page):
 
 def main():
     baseline,out=map(Path,sys.argv[1:3]);out.mkdir(parents=True,exist_ok=True)
-    ref=Image.open(io.BytesIO(subprocess.check_output(['git','show',PROPOSAL+':docs/management/mockups-20261118/HOME-FULL-PROPOSAL-3.png']))).convert('RGB')
-    ref=ref.resize((375,round(375*ref.height/ref.width)),Image.Resampling.LANCZOS)
     wide=Image.new('RGB',(450,110),'#fdebd8')
     asset=Image.open('assets/3d/pizza.webp').convert('RGBA');asset.thumbnail((105,100));wide.paste(asset,(177,5),asset)
     stream=io.BytesIO();wide.save(stream,'JPEG');photos={'wide':stream.getvalue()}
@@ -207,7 +211,6 @@ def main():
             if os.environ.get('CHECK_PUBLISHED_TOP')=='1':
                 report.append({'published430WithQaCatalogue':published_top(browser)})
             for lang,width in [('ru',375),('en',390),('ru',430),('ru',320)]:
-                shots=[]
                 for full in (True,False):
                     qa.SDK=FULL_SDK if full else EMPTY_SDK
                     pairs=[qa.page_at(browser,s,photos,lang,width) for s in servers]
@@ -217,7 +220,8 @@ def main():
                     row=geometry(new,width,full)
                     old_prices=dict(old.locator('.home-picks .d6-pt').evaluate_all("a=>a.map(e=>[e.querySelector('.nm').textContent,e.querySelector('.px').outerHTML])"))
                     assert all(old_prices[n]==price for n,price in row['price'])
-                    if width!=320:shots.append(display(new))
+                    if lang=='ru' and width==375 and full:
+                        display(new).save(out/'ru-375.webp',quality=83,method=6)
                     new.locator('[data-section=near] button').evaluate('b=>b.click()')
                     assert new.locator('.d6-nc').count()==4
                     new.evaluate("go('home')")
@@ -228,27 +232,12 @@ def main():
                         new.locator('.flash-item').first.evaluate('b=>b.click()')
                         assert new.evaluate("S.v==='menu'&&!!S.sh")
                         new.evaluate("()=>{shClose();go('home')}")
-                        if width!=320:
-                            new.evaluate("quickAdd('Лимон','i6')")
-                            modal_image=Image.open(io.BytesIO(new.screenshot(animations='disabled'))).convert('RGB')
-                            new.locator('dialog [value=cancel]').click()
                     row['cartClearance']=cart_spacing(new)
-                    if full and width!=320:
-                        dock_image=Image.open(io.BytesIO(new.screenshot(animations='disabled'))).convert('RGB')
                     assert row['cartClearance']>=15,row['cartClearance']
                     assert not errors,errors
                     report.append(dict(lang=lang,width=width,full=full,**{k:v for k,v in row.items() if k!='width'}))
                     pairs[1][0].close()
                     print('PASS',lang,width,'populated' if full else 'empty',flush=True)
-                if shots:
-                    cols=[(f'{lang.upper()} {width} | populated',shots[0]),('Owner reference',ref),(f'{lang.upper()} {width} | optional rows empty',shots[1])]
-                    canvas=Image.new('RGB',(sum(im.width+6 for _,im in cols),32+max(im.height for _,im in cols)+modal_image.height+30),'#eeece8')
-                    draw=ImageDraw.Draw(canvas);x=0
-                    for title,im in cols:
-                        draw.text((x+4,8),title,fill='black');canvas.paste(im,(x,28));x+=im.width+6
-                    y=30+max(im.height for _,im in cols);draw.text((6,y),'Cart switch in WebKit',fill='black')
-                    canvas.paste(modal_image,(0,y+20));draw.text((width+10,y),'Cart bar at end of content',fill='black')
-                    canvas.paste(dock_image,(width+6,y+20));canvas.save(out/f'{lang}-{width}.webp',quality=76,method=5)
             browser.close()
         (out/'results.json').write_text(json.dumps(report,indent=2,ensure_ascii=False))
     finally:
