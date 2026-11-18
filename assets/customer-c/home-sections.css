@@ -1,0 +1,19 @@
+/* Home categories use the available column width on compact phones. */
+#app .d6h .d6-cats {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 2px;
+  padding: 12px 6px 10px;
+}
+#app .d6h .d6-ct { min-width: 0; gap: 6px; }
+#app .d6h .d6-ct span {
+  width: min(100%, 56px);
+  height: auto;
+  aspect-ratio: 1;
+}
+#app .d6h .d6-ct img { width: min(80%, 44px); height: auto; }
+#app .d6h .d6-ct b {
+  font-size: clamp(10px, 2.7vw, 11px);
+  font-weight: 600;
+  overflow: visible;
+  text-overflow: clip;
+}
