@@ -120,11 +120,11 @@
           "text": "Закрыт",
           "rect": {
             "x": 33,
-            "y": 213,
+            "y": 21,
             "width": 58.91,
             "height": 22,
             "right": 91.91,
-            "bottom": 235
+            "bottom": 43
           },
           "disabled": false,
           "ariaDisabled": null
@@ -134,11 +134,11 @@
           "text": "ЗакрытРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
           "rect": {
             "x": 14,
-            "y": 192,
+            "y": 0,
             "width": 347,
             "height": 118,
             "right": 361,
-            "bottom": 310
+            "bottom": 118
           },
           "disabled": false,
           "ariaDisabled": "true"
@@ -524,9 +524,9 @@
             "x": 0,
             "y": 8,
             "width": 375,
-            "height": 2333,
+            "height": 2275,
             "right": 375,
-            "bottom": 2341
+            "bottom": 2283
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1154,7 +1154,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 00:37",
+          "text": "Ожидание подтверждения · #ord0 11:47",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1182,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 23:37",
+          "text": "Принять с 10:47",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1197,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 00:37\n",
+        "heading": "Ожидание подтверждения · #ord0\n 11:47\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1218,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 23:37",
+            "txt": "Принять с 10:47",
             "width": 209,
             "scroll": 209
           }
@@ -1613,11 +1613,11 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 710,
+            "y": 712,
             "width": 375,
             "height": 164,
             "right": 375,
-            "bottom": 874
+            "bottom": 876
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1627,11 +1627,11 @@
           "text": "−25%Очень длинное название блюда с несколькими ингредиентами и с",
           "rect": {
             "x": 0,
-            "y": 912,
+            "y": 914,
             "width": 375,
             "height": 194,
             "right": 375,
-            "bottom": 1106
+            "bottom": 1108
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1641,11 +1641,11 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1766,
+            "y": 1768,
             "width": 375,
             "height": 157,
             "right": 375,
-            "bottom": 1923
+            "bottom": 1925
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1666,13 +1666,14 @@
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "initialCards": 1,
-        "named": true,
+        "named": false,
         "emptyCount": 0
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/G-08-customer-ru-375-main-after.png"
     },
     {
@@ -1684,27 +1685,27 @@
       "geometry": [
         {
           "selector": "#app .d6-loc b",
-          "text": "Добавить адрес",
+          "text": "Добавьте адрес доставки",
           "rect": {
             "x": 36,
-            "y": 34,
-            "width": 99.47,
-            "height": 32,
-            "right": 135.47,
-            "bottom": 66
+            "y": 41,
+            "width": 175.2,
+            "height": 18,
+            "right": 211.2,
+            "bottom": 59
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-loc",
-          "text": "Добавить адрес",
+          "text": "Добавьте адрес доставки",
           "rect": {
             "x": 16,
             "y": 28,
-            "width": 141.47,
+            "width": 217.2,
             "height": 44,
-            "right": 157.47,
+            "right": 233.2,
             "bottom": 72
           },
           "disabled": false,
@@ -1712,7 +1713,7 @@
         },
         {
           "selector": "#app .d6-hh",
-          "text": "Добавить адрес",
+          "text": "Добавьте адрес доставки",
           "rect": {
             "x": 0,
             "y": 0,
@@ -1726,17 +1727,18 @@
         }
       ],
       "result": {
-        "ok": true,
-        "label": "Добавить адрес",
+        "ok": false,
+        "label": "Добавьте адрес доставки",
         "expected": "Добавить адрес",
-        "whiteSpace": "normal",
-        "overflow": "clip",
-        "width": 99.46875,
-        "height": 32,
+        "whiteSpace": "nowrap",
+        "overflow": "ellipsis",
+        "width": 175.203125,
+        "height": 18,
         "parentHeight": 44
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'label': 'Добавьте адрес доставки', 'expected': 'Добавить адрес', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 175.203125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/G-09-customer-ru-375-main-after.png"
     },
     {
@@ -1939,14 +1941,14 @@
             "badgeRect": {
               "left": 33,
               "right": 91.90625,
-              "top": 213,
-              "bottom": 235
+              "top": 166,
+              "bottom": 188
             },
             "photoRect": {
               "left": 27,
               "right": 107,
-              "top": 207,
-              "bottom": 287
+              "top": 160,
+              "bottom": 240
             },
             "offer": "Первый заказ — бесплатно",
             "offerScroll": 177,
@@ -2116,11 +2118,11 @@
           "text": "Closed",
           "rect": {
             "x": 33,
-            "y": 195,
+            "y": 21,
             "width": 53.3,
             "height": 22,
             "right": 86.3,
-            "bottom": 217
+            "bottom": 43
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2130,11 +2132,11 @@
           "text": "ClosedРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал н",
           "rect": {
             "x": 14,
-            "y": 174,
+            "y": 0,
             "width": 362,
             "height": 118,
             "right": 376,
-            "bottom": 292
+            "bottom": 118
           },
           "disabled": false,
           "ariaDisabled": "true"
@@ -2515,14 +2517,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 21:",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 10:",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 390,
-            "height": 2298,
+            "height": 2275,
             "right": 390,
-            "bottom": 2306
+            "bottom": 2283
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3150,7 +3152,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 00:38",
+          "text": "Waiting for confirmation · #ord0 11:47",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3178,7 +3180,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 23:38",
+          "text": "Accept from 10:47",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3193,7 +3195,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 00:38\n",
+        "heading": "Waiting for confirmation · #ord0\n 11:47\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3214,7 +3216,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 23:38",
+            "txt": "Accept from 10:47",
             "width": 219,
             "scroll": 219
           }
@@ -3609,11 +3611,11 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 693,
+            "y": 712,
             "width": 390,
             "height": 164,
             "right": 390,
-            "bottom": 857
+            "bottom": 876
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3623,11 +3625,11 @@
           "text": "−25%Очень длинное название блюда с несколькими ингредиентами и с",
           "rect": {
             "x": 0,
-            "y": 895,
+            "y": 914,
             "width": 390,
             "height": 194,
             "right": 390,
-            "bottom": 1089
+            "bottom": 1108
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3637,11 +3639,11 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1749,
+            "y": 1768,
             "width": 390,
             "height": 157,
             "right": 390,
-            "bottom": 1906
+            "bottom": 1925
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3662,13 +3664,14 @@
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "initialCards": 1,
-        "named": true,
+        "named": false,
         "emptyCount": 0
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/G-08-customer-en-390-main-after.png"
     },
     {
@@ -3680,27 +3683,27 @@
       "geometry": [
         {
           "selector": "#app .d6-loc b",
-          "text": "Add address",
+          "text": "Add a delivery address",
           "rect": {
             "x": 36,
-            "y": 34,
-            "width": 72.2,
-            "height": 32,
-            "right": 108.2,
-            "bottom": 66
+            "y": 41,
+            "width": 146.81,
+            "height": 18,
+            "right": 182.81,
+            "bottom": 59
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-loc",
-          "text": "Add address",
+          "text": "Add a delivery address",
           "rect": {
             "x": 16,
             "y": 28,
-            "width": 114.2,
+            "width": 188.81,
             "height": 44,
-            "right": 130.2,
+            "right": 204.81,
             "bottom": 72
           },
           "disabled": false,
@@ -3708,7 +3711,7 @@
         },
         {
           "selector": "#app .d6-hh",
-          "text": "Add address",
+          "text": "Add a delivery address",
           "rect": {
             "x": 0,
             "y": 0,
@@ -3722,17 +3725,18 @@
         }
       ],
       "result": {
-        "ok": true,
-        "label": "Add address",
+        "ok": false,
+        "label": "Add a delivery address",
         "expected": "Add address",
-        "whiteSpace": "normal",
-        "overflow": "clip",
-        "width": 72.203125,
-        "height": 32,
+        "whiteSpace": "nowrap",
+        "overflow": "ellipsis",
+        "width": 146.8125,
+        "height": 18,
         "parentHeight": 44
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'label': 'Add a delivery address', 'expected': 'Add address', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 146.8125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/G-09-customer-en-390-main-after.png"
     },
     {
@@ -3935,14 +3939,14 @@
             "badgeRect": {
               "left": 33,
               "right": 86.296875,
-              "top": 195,
-              "bottom": 217
+              "top": 166,
+              "bottom": 188
             },
             "photoRect": {
               "left": 27,
               "right": 107,
-              "top": 189,
-              "bottom": 269
+              "top": 160,
+              "bottom": 240
             },
             "offer": "Free on your first order",
             "offerScroll": 192,
@@ -4007,5 +4011,34 @@
       "screenshot": "qa-shots/unified-fix/b/after/G-12-customer-en-390-main-after.png"
     }
   ],
-  "errors": []
+  "errors": [
+    {
+      "case": "G-08",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}"
+    },
+    {
+      "case": "G-09",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "error": "{'result': {'ok': False, 'label': 'Добавьте адрес доставки', 'expected': 'Добавить адрес', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 175.203125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}"
+    },
+    {
+      "case": "G-08",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}"
+    },
+    {
+      "case": "G-09",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "error": "{'result': {'ok': False, 'label': 'Add a delivery address', 'expected': 'Add address', 'whiteSpace': 'nowrap', 'overflow': 'ellipsis', 'width': 146.8125, 'height': 18, 'parentHeight': 44}, 'pageErrors': []}"
+    }
+  ]
 }
