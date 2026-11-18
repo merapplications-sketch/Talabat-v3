@@ -90,6 +90,8 @@ def verify(page, width):
       return {order:heads.map(h=>h.dataset.section),width:document.documentElement.scrollWidth,
         category:cats.map(e=>{const r=e.getBoundingClientRect(),t=e.querySelector('b');
           return [r.left,r.right,t.scrollWidth,t.clientWidth,e.querySelector('span').offsetWidth,e.querySelector('img').offsetWidth]}),
+        titleStyles:heads.map(e=>[...e.querySelectorAll('h2,h2 b,h2 span')].map(node=>{
+          const s=getComputedStyle(node);return [s.fontWeight,s.fontSize,s.lineHeight]})),
         headings:heads.map(e=>{const h=e.querySelector('h2'),r=h.getBoundingClientRect(),b=e.querySelector('button');
           return [h.scrollWidth,h.clientWidth,r.right,b?.getBoundingClientRect().left??innerWidth]}),
         favourites:dims('.home-again .d6-ph'),picks:dims('.home-picks .d6-ph'),dine:dims('.home-dine .d6-ph'),
@@ -102,6 +104,7 @@ def verify(page, width):
     assert row['order']==SECTIONS and row['width']==width,row
     assert len(row['category'])==6 and all(left>=0 and right<=width and scroll<=client+1 for left,right,scroll,client,_,_ in row['category']),row
     assert all(scroll<=client+1 and right<=edge+1 for scroll,client,right,edge in row['headings']),row
+    assert all(style==['900','18px','22px'] for title in row['titleStyles'] for style in title),row['titleStyles']
     if width>=375:
         assert all(abs(icon-44)<=1 and abs(circle-56)<=1 for *_,circle,icon in row['category'])
     for key,dim in [('favourites',[84,84]),('picks',[150,150]),('dine',[250,130])]:
