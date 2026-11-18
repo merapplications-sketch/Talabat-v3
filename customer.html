@@ -865,8 +865,6 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app :where(.d6-of b,.d6-rw,.d6-rw span,.d6-loc b,.d6-cp b,.d6-nc .tx b,.d6-ob,.d6-lo .nm,.d6-ot b){font-size:var(--type-body);line-height:20px;font-weight:var(--weight-medium);letter-spacing:0}
 #app :where(.d6-of span,.d6-bt p,.d6-lo .it,.d6-cp span,.d6-nc .tx span){font-size:var(--type-caption);line-height:18px;font-weight:var(--weight-regular)}
 #app :where(.d6-bt .tt,.d6-bt.d6tm .tt){font-size:var(--type-page);line-height:26px;font-weight:var(--weight-heading)}
-/* F-02: last density rule also affects promo side-tile. Keep the approved tile geometry, fit the entire Russian 'Бесплатная доставка' title inside its pink panel. */
-@media(max-width:430px){#app .d6h .d6-bt.d6tp .tt{font-size:clamp(15px,3.95vw,17px);line-height:19px;word-break:normal;overflow-wrap:normal;hyphens:none;white-space:normal;max-width:100%}}
 #app .d6-stat b{font-size:var(--type-label);line-height:21px;font-weight:var(--weight-medium)}
 #app .d6-ct b{font-size:11px;line-height:16px;font-weight:var(--weight-regular);letter-spacing:0}
 /* F-02: higher-specificity small-phone exception after the original density rule. */
