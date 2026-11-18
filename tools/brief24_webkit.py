@@ -1,0 +1,163 @@
+"""Verify Home with the three businesses and displayed prices reported by the owner."""
+import json
+import os
+import sys
+from pathlib import Path
+
+from playwright.sync_api import sync_playwright
+
+from brief22_webkit import qa
+from brief23_webkit import display
+from qa_all import FIX
+
+
+CATALOG = json.loads(Path('qa-fixtures/home-brief24.json').read_text())
+BASE = 'c5a8ff8a2d3a74301a3f35130a8f84316528449c'
+SEED = """
+stores.splice(0,stores.length,...catalog.stores);
+items.splice(0,items.length,...catalog.menu_items);
+stores.forEach(s=>s.created_at=iso(90*24*60));
+const past=orders.find(o=>o.status==='delivered');
+orders.splice(0,orders.length,{...past,store_id:'s1'});
+oitems.splice(0,oitems.length,{...oitems[0],order_id:past.id,item_id:'hot',name:'Hot honey'});
+T.happy_hours=[];T.item_options=[];T.item_option_groups=[];T.banners=[];
+"""
+
+
+def page_for(browser, server, photos, extra=''):
+    qa.SDK = FIX.replace(qa.FINISH_SEED, 'const catalog='+json.dumps(CATALOG)+';'+SEED+extra+';\n'+qa.FINISH_SEED)
+    return qa.page_at(browser, server, photos, 'ru', 375)
+
+
+def layout(rail):
+    return rail.evaluate("""e=>{const boxes=[...e.children].map(c=>{const r=c.getBoundingClientRect();return [r.x,r.y,r.width,r.height]});
+      e.scrollLeft=e.scrollWidth; const scroll=e.scrollLeft; e.scrollLeft=0;
+      return {boxes,scroll,rows:getComputedStyle(e).gridTemplateRows.split(' ').length}}""")
+
+
+def money(page):
+    return page.evaluate("""()=>{let rows=[];for(const [store,cart] of [['KFC',{combo:1,hot:1}],
+       ['Romant Restaurant',{plov:1}],['Romant Restaurant',{steak:2}]]) {
+      S.cartStore=store;S.cart=cart;S.tip=0;
+      for(const wallet of [false,true]){S.usePts=wallet;S.useWallet=wallet;const v=calc();
+        rows.push(Object.fromEntries(['sub','d','h','p','fee0','fee','fw','total','due','w','pv','earn','cb'].map(k=>[k,v[k]])))}
+    }return rows}""")
+
+
+def current_home(page, out):
+    for section in ['meals','advert','discover','flash']:
+        assert page.locator(f'[data-section="{section}"]').is_visible(), section
+    meals=page.locator('.home-meals')
+    assert meals.locator('.home-picks-summary').inner_text()=='от 60 TJS'
+    assert meals.locator('.nm').all_inner_texts()==['Плов','Hot honey']
+    assert meals.locator('.d6-pt:visible').count()==2
+    assert page.locator('.home-ad-card b').inner_text()=='Скидка 20% в Romant Restaurant'
+    disc=page.locator('.home-discover')
+    assert disc.locator('.home-picks-summary').inner_text()=='Вы ещё не пробовали'
+    assert disc.locator('.discover-row b').all_inner_texts()==['Romant Restaurant']
+    assert 'Новый' not in disc.inner_text() and disc.locator('em').count()==0
+    flash=page.locator('.flash-grid')
+    prices=flash.locator('.flash-description').evaluate_all("""es=>Object.fromEntries(es.map(e=>[
+      e.querySelector('b').textContent,[parseFloat(e.querySelector('.px').firstChild.textContent),+e.querySelector('s').textContent]]))""")
+    assert prices=={'Combo':[161.5,170],'Hot honey':[85.5,90]},prices
+    store_prices=page.evaluate("()=>Object.fromEntries(homeProducts().map(c=>[c.it.name,c.price]))")
+    assert store_prices=={'Combo':161.5,'Hot honey':85.5,'Стейк':180,'Плов':60}
+    data={key:layout(page.locator(sel)) for key,sel in {
+        'flash':'.flash-grid','popular':'[data-section=popular] + .d6-rl','near':'.d6-nr'}.items()}
+    a,b=data['flash']['boxes']
+    assert a[1]==b[1] and a[0]<b[0] and a[2]==b[2]==250 and data['flash']['scroll']>0
+    a,b=data['popular']['boxes']
+    assert a[1]<b[1] and a[0]==b[0] and a[2]==b[2]==meals.locator('.d6-pt').first.bounding_box()['width']
+    a,b,c=data['near']['boxes']
+    assert a[1]==c[1]<b[1] and a[0]==b[0]<c[0] and data['near']['scroll']>0
+    assert page.locator('[data-section=near] b').evaluate("e=>getComputedStyle(e).textDecorationLine")=='none'
+    gap=page.evaluate("""()=>{const bounds=s=>document.querySelector(s).getBoundingClientRect();
+      return bounds('[data-section=near] h2').top-bounds('.flash-item').bottom}""")
+    assert 0<gap<=32,gap
+    assert page.evaluate("document.documentElement.scrollWidth")==375
+    display(page).save(out/'ru-375.webp',quality=86,method=6)
+    page.locator('.home-ad-card').click()
+    assert page.evaluate("S.v==='menu' && S.store==='Romant Restaurant'")
+    page.evaluate("go('home')")
+    return {'geometry':data,'gap':gap,'prices':store_prices}
+
+
+def variants(browser, server, photos):
+    def check(extra, test):
+        ctx,page=page_for(browser,server,photos,extra)
+        try:test(page)
+        finally:ctx.close()
+
+    def curated(p):
+        assert p.locator('.home-meals .nm').all_inner_texts()==['Стейк']
+        assert p.locator('.flash-description b').all_inner_texts()==['Hot honey']
+        assert p.locator('.home-ad-card b').inner_text()=='Объявление KFC'
+        assert p.locator('.home-discover .discover-row b').all_inner_texts()==['Romant Restaurant']
+        assert 'Новый' in p.locator('.home-discover').inner_text()
+        assert '12%' in p.locator('.discover-row em').inner_text()
+    check("""items.find(i=>i.id==='steak').meal_for_one=true;items.find(i=>i.id==='hot').flash_sale=true;
+        stores[1].created_at=iso(24*60);stores[1].first_order_discount_pct=12;
+        T.banners.push({id:'campaign',placement:'dont_miss',title:'Объявление KFC',link_type:'store',link_value:'s1',is_active:true});""",curated)
+
+    def large(p):
+        prices=p.locator('.home-meals .d6-pt').evaluate_all("a=>a.map(e=>+e.dataset.price)")
+        assert prices==list(range(1,11)),prices
+        assert layout(p.locator('.flash-grid'))['rows']==2
+        assert layout(p.locator('[data-section=popular] + .d6-rl'))['scroll']>0
+        p.locator('[data-section=meals] button').click()
+        assert p.locator('.home-meals .d6-pt').count()==10
+    check("""for(let i=15;i>=1;i--)items.push({...items[1],id:'p'+i,name:'Meal '+i,price:i,discount_pct:0});
+        for(let i=0;i<5;i++)stores.push({...stores[0],id:'other'+i,name:'Test '+i});
+        items.push({...items[0],id:'fourth'},{...items[0],id:'fifth'});
+        T.app_settings.push({key:'home_meal_price_cap',value:12});""",large)
+
+    def three_deals(p):
+        boxes=layout(p.locator('.flash-grid'))
+        assert boxes['rows']==1 and len(boxes['boxes'])==3 and boxes['scroll']>0
+    check("items.push({...items[0],id:'third',name:'Third offer'})",three_deals)
+
+    def empty(p):
+        assert all(p.locator('[data-section='+s+']').count()==0 for s in ['meals','flash','advert','discover'])
+    check("stores.forEach(s=>s.is_open=false)",empty)
+
+    def no_paid_delivery(p):
+        assert p.locator('.home-meals .home-picks-summary').inner_text()=='от 60 TJS + бесплатная доставка'
+        assert p.locator('.flash-item').count()==1 and layout(p.locator('.flash-grid'))['rows']==1
+    check("""stores[0].is_open=false;stores[1].free_delivery_min=50;
+        items.find(i=>i.id==='plov').flash_sale=true;""",no_paid_delivery)
+
+    def long_history(p):
+        p.wait_for_function("discoveryHistory?.names instanceof Set")
+        assert p.locator('.home-discover').count()==0
+    check("""for(let i=1;i<60;i++)orders.push({...orders[0],id:'recent'+i});
+        orders.push({...orders[0],id:'older',store_id:'s2',_hist:true});""",long_history)
+
+
+def main():
+    baseline,out=map(Path,sys.argv[1:3]);out.mkdir(parents=True,exist_ok=True)
+    # No financial, permission or shared runtime changes beyond two optional read-only menu flags.
+    flags=b' meal_for_one: i.meal_for_one === true, flash_sale: i.flash_sale === true,'
+    core=Path('talabat-core.js').read_bytes()
+    assert core.count(flags)==1 and core.replace(flags,b'')==(baseline/'talabat-core.js').read_bytes()
+    servers=[qa.serve(root.resolve()) for root in (baseline,Path.cwd())]
+    try:
+        with sync_playwright() as pw:
+            browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
+            photos=qa.source_photos()
+            old,ref=page_for(browser,servers[0],photos)
+            new,page=page_for(browser,servers[1],photos)
+            result=current_home(page,out)
+            result['money']=money(page)
+            assert result['money']==money(ref)
+            assert result['money'][2]['fee']>0 and result['money'][4]['fw']>0 and result['money'][4]['fee']==0
+            old.close();new.close()
+            variants(browser,servers[1],photos)
+            browser.close()
+        (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
+        print('PASS R-01..R-08, three-store RU/375, admin precedence, history, zero-data rules and six financial comparisons')
+    finally:
+        for s in servers:s.shutdown()
+
+
+if __name__=='__main__':
+    main()

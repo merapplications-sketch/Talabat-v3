@@ -1,4 +1,4 @@
-name: TALABOT BRIEF-23 customer Home and cart
+name: TALABOT BRIEF-24 customer Home and cart
 on:
   push:
     branches: [review/unified-fix-brief15-20261117]
@@ -8,6 +8,9 @@ on:
       - assets/customer-c/customer-c.css
       - assets/size-brief7/customer.css
       - qa-fixtures/home-brief22.json
+      - talabat-core.js
+      - qa-fixtures/home-brief24.json
+      - tools/brief24_webkit.py
       - tools/brief23_webkit.py
       - tools/brief22_webkit.py
       - .github/workflows/brief22-home.yml
@@ -24,18 +27,19 @@ jobs:
     container: mcr.microsoft.com/playwright/python:v1.57.0-noble
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Load the approved customer app and proposal
+      - name: Load the approved customer app and reference photos
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git fetch --depth=1 --no-tags origin 343fe0807819f46c97895b14290eae81a19e472c 1d13286e0c00b471a93e52471cfbb1fc38f5fd10
-          git worktree add --detach "$RUNNER_TEMP/home-approved" 343fe0807819f46c97895b14290eae81a19e472c
-          git diff --exit-code 343fe080 HEAD -- sql supabase talabat-core.js admin.html driver.html merchant.html
+          git fetch --depth=1 --no-tags origin c5a8ff8a2d3a74301a3f35130a8f84316528449c 83e94496141375d6e6f1e99ed735cccb70254c32
+          git worktree add --detach "$RUNNER_TEMP/home-approved" c5a8ff8a2d3a74301a3f35130a8f84316528449c
+          git diff --exit-code c5a8ff8a HEAD -- sql supabase admin.html driver.html merchant.html
       - name: Run offline WebKit geometry, image, action and financial checks
         run: |
           python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
-          CHECK_PUBLISHED_TOP=1 python tools/brief23_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-evidence"
+          CHECK_PUBLISHED_TOP=1 python tools/brief23_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-regression"
+          python tools/brief24_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-evidence"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: brief23-home-cart
+          name: brief24-home-cart
           path: ${{ runner.temp }}/home-evidence/
           retention-days: 7

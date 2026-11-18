@@ -34,7 +34,6 @@
 [data-section="popular"] em { color: var(--o); letter-spacing: -2px; }
 [data-section="picks"] b { background: #3b1d14; color: white; border-radius: 4px; padding: 3px 7px; transform: rotate(-2deg); }
 [data-section="picks"] b:last-child { background: #d9f99d; color: #3b1d14; transform: rotate(2deg); }
-[data-section="near"] b { text-decoration: underline wavy var(--o); text-underline-offset: 4px; }
 [data-section="rewards"] b { padding: 4px 12px; color: white; background: #1e2433; mask: radial-gradient(circle 5px at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 5px at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat; }
 [data-section="dine"] h2 b { color: var(--o); }
 [data-section="dine"] i { border: 2px dashed var(--o); color: var(--o); width: 34px; height: 34px; border-radius: 50%; transform: rotate(-12deg); font-size: 13px; }
@@ -104,7 +103,6 @@
 #app .d6h .d6-sc > .mt, #app .d6h .d6-sc > .pk { margin-inline: 0; }
 .dish-store-logo { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: white; color: var(--ink); font-weight: 700; }
 .dish-store-logo > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: white; }
-#app .d6h .d6-nr { display: grid; grid-auto-flow: row; grid-template-columns: minmax(0,1fr); grid-template-rows: none; grid-auto-rows: auto; padding: 4px 16px 6px; gap: 10px; overflow: visible; }
 
 [data-section="meals"] h2 b { background: var(--o); color: white; padding: 2px 6px; border-radius: 6px; }
 [data-section="meals"] h2 b:nth-of-type(2) { background: #3b1d14; }

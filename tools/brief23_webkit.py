@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright
 import brief22_webkit as previous
 from brief22_webkit import qa
 
-BASE='343fe0807819f46c97895b14290eae81a19e472c'
+BASE='c5a8ff8a2d3a74301a3f35130a8f84316528449c'
 PREVIEW='https://talabot-gate1-preview-20261116.pages.dev'
 
 
@@ -79,7 +79,7 @@ stores.forEach(s=>{s.discount_pct=0;s.created_at=iso(42*24*60)});
 items.forEach(i=>i.discount_pct=0);T.happy_hours=[];
 """+qa.FINISH_SEED)
 ORDER=['again','offers','meals','popular','advert','picks','flash','near','rewards','dine','discover']
-OPTIONAL={'meals','advert','flash','discover'}
+OPTIONAL={'advert','flash','discover'}
 
 
 def display(page):
@@ -123,8 +123,8 @@ def geometry(page,width,full):
         links:all('.home-heading button').map(e=>e.parentNode.dataset.section),
         nearAll:!!q('[data-section=near] button'),price:all('.home-picks:not(.home-meals) .d6-pt').map(e=>[e.querySelector('.nm').textContent,e.querySelector('.px').outerHTML])}}""")
     assert row['width']==width and row['meta'] and row['initials'] and row['gap'],row
-    assert len(row['near'])==3 and all(x==16 and y==width-16 for x,y,_,_ in row['near'])
-    assert all(a[3]<=b[2] for a,b in zip(row['near'],row['near'][1:]))
+    a,b,c,d=row['near']
+    assert a[0]==b[0]<c[0]==d[0] and a[2]==c[2]<b[2]==d[2]
     assert row['nearAll'] and 'picks' in row['links']
     assert row['badge'][1]=='nowrap' and row['badge'][2]>=row['badge'][3]
     if page.evaluate("TLB.lang()")== 'ru':assert row['badge'][0]=='Бесплатно от 350 TJS'
@@ -140,11 +140,11 @@ def geometry(page,width,full):
         assert row['bolt']
         assert page.evaluate("document.querySelector('.home-meals .home-picks-summary').textContent.includes(t('lunchFree'))")
         assert page.locator('.home-meals .d6-pt .d6-pa').count()>0
-        assert page.locator('.flash-item').count()>2
+        assert page.locator('.flash-item').count()==1
         assert page.locator('.home-ad-card .ad-art').count()==1
-        assert page.locator('.discover-row em').first.inner_text().endswith('15%')
-        assert page.locator('.flash-grid').evaluate("e=>getComputedStyle(e).gridTemplateRows.split(' ').length")==2
-        for section in ('meals','flash','discover'):
+        assert page.locator('.discover-row em').count()==0
+        assert page.locator('.flash-grid').evaluate("e=>getComputedStyle(e).gridTemplateRows.split(' ').length")==1
+        for section in ('meals','discover'):
             assert section in row['links']
     return row
 
