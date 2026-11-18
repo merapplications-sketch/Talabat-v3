@@ -1820,6 +1820,7 @@ TLB.addDict(
 function homeHeading(kind, all) {
   const art=name=>`<img src="${A3(name)}" alt="" width="28" height="28">`;
   const titles={
+    meals:()=>art('hamburger')+`<b>${t('lunchA')}</b><b>${t('lunchB')}</b><b>${t('lunchC')}</b>`,
     again:()=>`<i aria-hidden="true">↻</i><span>${t('homeOrder')} <b>${t('homeAgain')}</b></span>`,
     offers:()=>art('fire')+`<b>${t('hBestT')}</b>`,
     popular:()=>`<small>${t('homeWeek')}</small><span>${art('star')}${t('d6PopR')}<em aria-hidden="true">///</em></span>`,
@@ -1929,11 +1930,36 @@ function pickSummary(cards){
 // A failed dish photo hides its card. Exclude its price even when the load fails after render.
 document.addEventListener('error',event=>{
   const img=event.target;
-  if(!(img instanceof HTMLImageElement)||!img.matches('.home-picks .d6-pt .d6-ph > img:first-child:not(.home-store-logo)'))return;
+  if(!(img instanceof HTMLImageElement)||!img.matches('.home-picks:not(.home-meals) .d6-pt .d6-ph > img:first-child:not(.home-store-logo)'))return;
   const section=img.closest('.home-picks'),card=img.closest('.d6-pt');
   const remaining=[...section.querySelectorAll('.d6-pt')].filter(c=>c!==card&&!c.querySelector('.d6-ph.none'));
   section.querySelector('.home-picks-summary').innerHTML=pickSummary(remaining.map(c=>({price:+c.dataset.price,discount:+c.dataset.discount})));
 },true);
+function homeDishCard({it,st,sd,price,discount:e}){
+  const sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" data-price="${price}" data-discount="${e}" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,dishStoreLogo(st)+(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b><span class="st">${esc(st.n)}</span>${pxH(it,sd)}</div>`
+}
+function homeProducts(){
+  const menus=TLB.allMenus(true),cards=[];
+  for(const st of STORES){
+    if(!TLB.isOpen(st.n))continue;
+    const sd=sdOf(st.n);
+    for(const it of menus[st.n]||[]){
+      if(it.approved&&it.available&&!it.optsBlocked&&it.image)cards.push({st,it,sd,price:unit(it,sd),discount:eff(it,sd)});
+    }
+  }
+  return cards;
+}
+TLB.addDict({lunchA:'Обеды',lunchB:'на твой',lunchC:'вкус',lunchFree:'бесплатная доставка'},
+            {lunchA:'Lunch',lunchB:'your',lunchC:'way',lunchFree:'free delivery'});
+function mealsH(products,expanded=false){
+  const cap=Number(TLB.settings()?.home_meal_price_cap);
+  const eligible=products.filter(c=>c.st.c==='rest'&&(c.it.meal_for_one===true||(cap>0&&c.price<=cap)));
+  if(!eligible.length)return '';
+  const cards=expanded?eligible:eligible.slice(0,12);
+  const price=Math.min(...cards.map(c=>c.price));
+  const free=cards.every(c=>c.st.ft==='free')?' + '+t('lunchFree'):'';
+  return `<section class="home-meals home-picks">${homeHeading('meals',eligible.length>1&&!expanded?"go('mealsAll')":'')}<p class="home-picks-summary">${t('homeFromPrice').replace('{price}',price)}${free}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`;
+}
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.image&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
   if(!out.length)return '';
@@ -1941,7 +1967,7 @@ function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes
     const sd=sdOf(st.n);
     return {it,st,sd,price:unit(it,sd),discount:eff(it,sd)};
   });
-  return '<section class="home-picks">'+homeHeading('picks',"go('promo')")+`<p class="home-picks-summary">${pickSummary(cards)}</p><div class="d6-rl">${cards.map(({it,st,sd,price,discount:e})=>{const sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" data-price="${price}" data-discount="${e}" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,dishStoreLogo(st)+(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b><span class="st">${esc(st.n)}</span>${pxH(it,sd)}</div>`}).join('')}</div></section>`}
+  return '<section class="home-picks">'+homeHeading('picks',"go('promo')")+`<p class="home-picks-summary">${pickSummary(cards)}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`}
 /* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
 function nearH(expanded=false){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b)));if(!l.length)return '';
   return homeHeading('near',l.length>3&&!expanded?"go('nearby')":'')+`<div class="d6-nr">${(expanded?l:l.slice(0,3)).map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${d6Ph(st.i||st.lg)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closedStoreBadge')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
@@ -1961,7 +1987,8 @@ const d6SRow=(s,h,last)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);return `<div clas
 function d6Mine(){const m={};TLB.orders().forEach(o=>{if(o.status!='delivered')return;const d=+new Date(o.doneAt||o.createdAt)||0;if(!(o.store in m)||d>m[o.store])m[o.store]=d});return m}
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf||Object.assign({},HF0);const head=hHead();
   if(q||hfOn()){const list=hfApply(matches(M,q));return head+`<div class="pg d6-res">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h})=>d6SRow(s,h)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
-  return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+bestH()
+  const products=homeProducts();
+  return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+bestH()+mealsH(products)
   +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
   +recH()+nearH()+walH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
 if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{document.querySelectorAll('.hcd[data-end]').forEach(e=>{const end=+e.dataset.end;if(end)e.textContent=cdTxt(end-Date.now())})},1000);
@@ -2641,7 +2668,7 @@ function render(){
   if(TLB.me().banned&&!['support','ticket'].includes(S.v)){S.v='support';TLB.wantSupport(true)}
   if(S.v=='menu'&&!TLB.isOpen(S.store)){S.sh=null}
   if(S.v=='track'&&TLB.unread(S.tid))setTimeout(()=>TLB.markRead(S.tid),0);
-  const V={nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
+  const V={mealsAll:()=>topbar(t('lunchA'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+mealsH(homeProducts(),true)+'</div>',nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
   const full=['cart','pay','group','addr','addrForm','ticket'].includes(S.v),nav=['home','orders','wallet','promo','me'],ni={home:'home',orders:'receipt',wallet:'card',promo:'tag',me:'user'},un=TLB.totalUnread();
   const n=cartCount(),cc=n?calc():null,bar=n&&['home','menu','cat','fav','promo'].includes(S.v)&&!S.sh?`<div class="bar" onclick="goCart()" role="button" aria-label="${t('cartBarL')}"><span class="n">${n}</span><span class="l">${t('cartBarL')}</span><span class="p">${Math.round((cc.sub-cc.d-cc.h)*100)/100} TJS</span></div>`:'';
   const on=k=>S.v==k||(k=='home'&&['cat','menu'].includes(S.v))||(k=='orders'&&S.v=='track')||(k=='me'&&['support','settings','about','privacy'].includes(S.v))||(k=='promo'&&S.v=='offer');
