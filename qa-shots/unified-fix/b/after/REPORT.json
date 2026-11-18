@@ -145,18 +145,18 @@
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "home": {
-          "ok": true,
+          "ok": false,
           "home": "home",
           "view": "home",
           "closed": "Закрыт",
           "badgeRect": {
-            "x": 22,
-            "y": 264,
-            "width": 62.390625
+            "x": 0,
+            "y": 0,
+            "width": 0
           },
-          "photoRight": 164,
+          "photoRight": 0,
           "search": {
             "ok": true,
             "screen": "home",
@@ -170,7 +170,8 @@
         }
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'home': {'ok': False, 'home': 'home', 'view': 'home', 'closed': 'Закрыт', 'badgeRect': {'x': 0, 'y': 0, 'width': 0}, 'photoRight': 0, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Закрыт'}}, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Закрыт'}}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/C-01a-customer-ru-375-main-after.png"
     },
     {
@@ -524,9 +525,9 @@
             "x": 0,
             "y": 8,
             "width": 375,
-            "height": 2275,
+            "height": 2947,
             "right": 375,
-            "bottom": 2283
+            "bottom": 2955
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1154,7 +1155,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 12:36",
+          "text": "Ожидание подтверждения · #ord0 16:48",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1183,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 11:36",
+          "text": "Принять с 15:48",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1198,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 12:36\n",
+        "heading": "Ожидание подтверждения · #ord0\n 16:48\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1219,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 11:36",
+            "txt": "Принять с 15:48",
             "width": 209,
             "scroll": 209
           }
@@ -1610,28 +1611,14 @@
       "geometry": [
         {
           "selector": "#app .d6-rl",
-          "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+          "text": "Р−25%Очень длинное название блюда с несколькими ингредиентами и ",
           "rect": {
             "x": 0,
-            "y": 712,
+            "y": 782,
             "width": 375,
-            "height": 164,
+            "height": 288,
             "right": 375,
-            "bottom": 876
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        },
-        {
-          "selector": "#app .d6-rl",
-          "text": "−25%Очень длинное название блюда с несколькими ингредиентами и с",
-          "rect": {
-            "x": 0,
-            "y": 914,
-            "width": 375,
-            "height": 194,
-            "right": 375,
-            "bottom": 1108
+            "bottom": 1070
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1641,11 +1628,25 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1768,
+            "y": 1149,
             "width": 375,
-            "height": 157,
+            "height": 95,
             "right": 375,
-            "bottom": 1925
+            "bottom": 1244
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-rl",
+          "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+          "rect": {
+            "x": 0,
+            "y": 2348,
+            "width": 375,
+            "height": 97,
+            "right": 375,
+            "bottom": 2445
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1666,13 +1667,14 @@
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "initialCards": 1,
-        "named": true,
+        "named": false,
         "emptyCount": 0
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/G-08-customer-ru-375-main-after.png"
     },
     {
@@ -2141,18 +2143,18 @@
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "home": {
-          "ok": true,
+          "ok": false,
           "home": "home",
           "view": "home",
           "closed": "Closed",
           "badgeRect": {
-            "x": 22,
-            "y": 353,
-            "width": 56.3125
+            "x": 0,
+            "y": 0,
+            "width": 0
           },
-          "photoRight": 164,
+          "photoRight": 0,
           "search": {
             "ok": true,
             "screen": "home",
@@ -2166,7 +2168,8 @@
         }
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'home': {'ok': False, 'home': 'home', 'view': 'home', 'closed': 'Closed', 'badgeRect': {'x': 0, 'y': 0, 'width': 0}, 'photoRight': 0, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Closed'}}, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Closed'}}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/C-01a-customer-en-390-main-after.png"
     },
     {
@@ -2515,14 +2518,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 9:2",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 5:0",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 390,
-            "height": 2275,
+            "height": 2947,
             "right": 390,
-            "bottom": 2283
+            "bottom": 2955
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3150,7 +3153,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 12:37",
+          "text": "Waiting for confirmation · #ord0 16:49",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3178,7 +3181,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 11:37",
+          "text": "Accept from 15:49",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3193,7 +3196,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 12:37\n",
+        "heading": "Waiting for confirmation · #ord0\n 16:49\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3214,7 +3217,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 11:37",
+            "txt": "Accept from 15:49",
             "width": 219,
             "scroll": 219
           }
@@ -3606,28 +3609,14 @@
       "geometry": [
         {
           "selector": "#app .d6-rl",
-          "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+          "text": "Р−25%Очень длинное название блюда с несколькими ингредиентами и ",
           "rect": {
             "x": 0,
-            "y": 712,
+            "y": 782,
             "width": 390,
-            "height": 164,
+            "height": 288,
             "right": 390,
-            "bottom": 876
-          },
-          "disabled": false,
-          "ariaDisabled": null
-        },
-        {
-          "selector": "#app .d6-rl",
-          "text": "−25%Очень длинное название блюда с несколькими ингредиентами и с",
-          "rect": {
-            "x": 0,
-            "y": 914,
-            "width": 390,
-            "height": 194,
-            "right": 390,
-            "bottom": 1108
+            "bottom": 1070
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3637,11 +3626,25 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1768,
+            "y": 1149,
             "width": 390,
-            "height": 157,
+            "height": 95,
             "right": 390,
-            "bottom": 1925
+            "bottom": 1244
+          },
+          "disabled": false,
+          "ariaDisabled": null
+        },
+        {
+          "selector": "#app .d6-rl",
+          "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+          "rect": {
+            "x": 0,
+            "y": 2348,
+            "width": 390,
+            "height": 97,
+            "right": 390,
+            "bottom": 2445
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3662,13 +3665,14 @@
         }
       ],
       "result": {
-        "ok": true,
+        "ok": false,
         "initialCards": 1,
-        "named": true,
+        "named": false,
         "emptyCount": 0
       },
       "page_errors": [],
-      "status": "PASS",
+      "status": "FAIL",
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}",
       "screenshot": "qa-shots/unified-fix/b/after/G-08-customer-en-390-main-after.png"
     },
     {
@@ -4007,5 +4011,34 @@
       "screenshot": "qa-shots/unified-fix/b/after/G-12-customer-en-390-main-after.png"
     }
   ],
-  "errors": []
+  "errors": [
+    {
+      "case": "C-01a",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "error": "{'result': {'ok': False, 'home': {'ok': False, 'home': 'home', 'view': 'home', 'closed': 'Закрыт', 'badgeRect': {'x': 0, 'y': 0, 'width': 0}, 'photoRight': 0, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Закрыт'}}, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Закрыт'}}, 'pageErrors': []}"
+    },
+    {
+      "case": "G-08",
+      "app": "customer",
+      "lang": "ru",
+      "width": 375,
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}"
+    },
+    {
+      "case": "C-01a",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "error": "{'result': {'ok': False, 'home': {'ok': False, 'home': 'home', 'view': 'home', 'closed': 'Closed', 'badgeRect': {'x': 0, 'y': 0, 'width': 0}, 'photoRight': 0, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Closed'}}, 'search': {'ok': True, 'screen': 'home', 'visibleBadge': 'Closed'}}, 'pageErrors': []}"
+    },
+    {
+      "case": "G-08",
+      "app": "customer",
+      "lang": "en",
+      "width": 390,
+      "error": "{'result': {'ok': False, 'initialCards': 1, 'named': False, 'emptyCount': 0}, 'pageErrors': []}"
+    }
+  ]
 }

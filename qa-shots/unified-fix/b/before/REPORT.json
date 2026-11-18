@@ -775,7 +775,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 12:37",
+          "text": "Ожидание подтверждения · #ord0 16:50",
           "rect": {
             "x": 10,
             "y": 222,
@@ -803,7 +803,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 11:37",
+          "text": "Принять с 15:50",
           "rect": {
             "x": 22,
             "y": 604,
@@ -818,7 +818,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 12:37\n",
+        "heading": "Ожидание подтверждения · #ord0\n 16:50\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -839,7 +839,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 11:37",
+            "txt": "Принять с 15:50",
             "width": 209,
             "scroll": 209
           }
@@ -2081,7 +2081,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 9:2",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 5:0",
           "rect": {
             "x": 0,
             "y": 8,
@@ -2370,7 +2370,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 12:38",
+          "text": "Waiting for confirmation · #ord0 16:50",
           "rect": {
             "x": 10,
             "y": 222,
@@ -2398,7 +2398,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 11:38",
+          "text": "Accept from 15:50",
           "rect": {
             "x": 22,
             "y": 589,
@@ -2413,7 +2413,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 12:38\n",
+        "heading": "Waiting for confirmation · #ord0\n 16:50\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -2434,7 +2434,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 11:38",
+            "txt": "Accept from 15:50",
             "width": 219,
             "scroll": 219
           }
