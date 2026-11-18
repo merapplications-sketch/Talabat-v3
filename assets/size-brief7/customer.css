@@ -20,12 +20,6 @@
  #app .d6h .d6-ct img{width:34px;height:34px}
  #app .d6h .d6-sh{padding:10px 12px 4px}
  #app .d6h .d6-sh h2{font-size:16px;line-height:22px}
- /* Effective late v75 rules were 152px/100px; old 122px/60px are overridden. */
- #app .d6h .d6-lo{width:112px;padding-bottom:6px}
- #app .d6h .d6-lo>.d6-ph{width:112px;height:52px}
- #app .d6h .d6-lo>.nm{font-size:12px;line-height:16px;margin-top:6px}
- #app .d6h .d6-lo .it{font-size:12px;line-height:16px;margin-top:2px}
- #app .d6h .d6-lo .d6-ob{min-height:44px}
  #app .d6h .d6-sc{width:150px;padding-bottom:8px}
  #app .d6h .d6-sc>.d6-ph{width:150px;height:80px}
  #app .d6h .d6-sc>.nm{font-size:13px;line-height:18px}
