@@ -51,6 +51,8 @@
 .home-deal { position: absolute; top: 66px; left: 50%; transform: translateX(-50%); padding: 2px 7px; border-radius: 6px; background: #d9f99d; color: #26371b; font-size: 11px; font-weight: 700; line-height: 15px; white-space: nowrap; }
 .home-again .closed { filter: grayscale(1); cursor: default; }
 
+.home-picks-summary { margin: 0 16px 8px; color: var(--mut2); font-size: 13px; line-height: 20px; }
+.home-picks-summary b { color: var(--ink); font-size: 17px; font-weight: 700; }
 .home-picks { background: #f7f3ee; padding-bottom: 12px; }
 #app .d6h .home-picks .d6-pt, #app .d6h .home-picks .d6-ph { width: 150px; }
 #app .d6h .home-picks .d6-ph { height: 150px; border-radius: 16px; border: 1px solid var(--line); background: white; }

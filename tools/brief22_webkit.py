@@ -48,6 +48,8 @@ def compare(page, reference, out, lang, width):
     for name in SECTIONS:
         heading=page.locator(f'[data-section="{name}"]')
         blocks.extend([heading,heading.locator('xpath=following-sibling::*[1]')])
+        if name=='picks':
+            blocks.append(page.locator('.home-picks .d6-rl'))
         if name=='dine':
             blocks.append(page.locator('.home-dine'))
     shots=[]
@@ -77,6 +79,21 @@ def compare(page, reference, out, lang, width):
     draw.text((6,y),'Original first viewport with navigation',fill='black')
     canvas.paste(viewport,(0,y+20))
     canvas.save(out/f'{lang}-{width}.webp',quality=79,method=6)
+
+
+def check_pick_summary(page, lang):
+    cards=page.locator('.home-picks .d6-pt:visible').evaluate_all("""cards=>cards.map(c=>[
+      parseFloat(c.querySelector('.px').firstChild.textContent),
+      Number(c.querySelector('.d6-bdg')?.textContent.match(/[0-9.]+/)?.[0]||0)])""")
+    minimum=min(price for price,_ in cards)
+    maximum=max(discount for _,discount in cards)
+    prefix='от' if lang=='ru' else 'from'
+    phrase='скидки до' if lang=='ru' else 'discounts up to'
+    expected=f'{prefix} {minimum:g} TJS'
+    if maximum:
+        expected+=f' · {phrase} {maximum:g}%'
+    assert page.locator('.home-picks-summary').inner_text()==expected,expected
+    return expected
 
 
 def verify(page, width):
@@ -149,6 +166,7 @@ def main():
                 for dish,price in zip(new.locator('.home-picks .nm').all_text_contents(),row['prices']):
                     assert baseline_prices[dish]==price,(dish,price)
                 assert any('<s>' in p for p in row['prices']) and any('<s>' not in p for p in row['prices'])
+                row['summary']=check_pick_summary(new,lang)
                 compare(new,ref,opt.out,lang,width)
                 row['financial']=financial(new)
                 assert row['financial']==financial(old) and all(m['sub']>0 for m in row['financial'])
@@ -160,6 +178,10 @@ def main():
                 new.evaluate("""()=>{const box=document.createElement('div');box.id='qa-retry';
                   box.innerHTML=favouritePhoto({logo_url:'/missing-logo.webp',cover_url:'assets/3d/bread.webp'},0);document.body.append(box);return true}""")
                 new.wait_for_function("()=>{const i=document.querySelector('#qa-retry img');return i?.naturalWidth>0&&i.src.endsWith('bread.webp')}")
+                # Remove discounted cards through their normal image-error path.
+                new.locator('.home-picks .d6-pt:has(.d6-bdg) .d6-ph > img:first-child').evaluate_all(
+                    "images=>images.forEach(i=>i.dispatchEvent(new Event('error')))")
+                row['summaryWithoutDiscount']=check_pick_summary(new,lang)
                 empty=new.evaluate("""()=>{TLB.orders=()=>[];TLB.bestDishes=()=>[];TLB.allMenus=()=>({});TLB.loyalty=()=>null;TLB.wallet=()=>({balance:0});TLB.promos=()=>[];STORES=[];ALLS=[];
                   return [lastH(),bestH(),recH(),nearH(),walH(),dineH()]}""")
                 assert all(not html for html in empty),empty
