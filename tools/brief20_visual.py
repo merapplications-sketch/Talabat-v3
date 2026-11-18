@@ -93,12 +93,19 @@ def audit(page,app,screen,lang,w):
     return result
 
 def pixel_delta(before,after):
+    # A 2px high bottom footer on only one side must NOT become fictitious 100% diff.
+    # Record full heights as objective evidence; compare aligned common top area.
+    geometry=None
     if before.size!=after.size:
-        return 100.0,dict(before=before.size,after=after.size)
+        geometry=dict(before=before.size,after=after.size,
+                      width_diff=after.width-before.width,
+                      height_diff=after.height-before.height)
+        w=min(before.width,after.width);h=min(before.height,after.height)
+        before=before.crop((0,0,w,h));after=after.crop((0,0,w,h))
     diff=ImageChops.difference(before.convert("RGB"),after.convert("RGB")).convert("L")
     hist=diff.histogram()
     changed=sum(hist[16:])
-    return round(100*changed/(before.width*before.height),3),None
+    return round(100*changed/(before.width*before.height),3),geometry
 
 def masking(page):
     page.evaluate("""() => {
