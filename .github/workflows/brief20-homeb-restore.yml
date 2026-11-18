@@ -1,0 +1,23 @@
+name: TALABOT BRIEF20 Home B isolated revert probe (NO PROD)
+on:
+  push:
+    branches: [review/unified-fix-brief15-20261117]
+    paths: ['.github/workflows/brief20-homeb-restore.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: talabot-brief20-probe
+  cancel-in-progress: true
+jobs:
+  git_revert_probe:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout isolated branch full history
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 0}
+      - name: Inspect exact per-commit reverts, no push and no deployment
+        shell: bash
+        run: bash tools/brief20_restore_probe.sh
