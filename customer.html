@@ -1962,16 +1962,31 @@ function mealsH(products,expanded=false){
   const free=cards.every(c=>c.st.ft==='free'||(c.st.fdm>0&&c.price>=c.st.fdm))?' + '+t('lunchFree'):'';
   return `<section class="home-meals home-picks">${homeHeading('meals',cards.length>1&&!expanded?"go('mealsAll')":'')}<p class="home-picks-summary">${t('homeFromPrice').replace('{price}',price)}${free}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`;
 }
-TLB.addDict({dontMiss:'Не пропустите'},{dontMiss:"Don't miss"});
+TLB.addDict({dontMiss:'Не пропустите',homeDealAt:'Скидка {pct}% в {name}'},
+            {dontMiss:"Don't miss",homeDealAt:'{pct}% off at {name}'});
 function adH(products){
-  for(const ad of inB('dont_miss')){
-    if(ad.link_type!=='store'||!ad.image_url||!ad.title)continue;
-    const items=products.filter(c=>c.st.id===ad.link_value);
-    if(!items.length)continue;
-    const st=items[0].st,price=Math.min(...items.map(c=>c.price));
-    return homeHeading('advert')+`<button class="home-ad-card" onclick="bannerGo(${esc(JSON.stringify(ad.id))})"><span class="ad-copy">${dishStoreLogo(st)}<b>${esc(ad.title)}</b><small>${t('homeFromPrice').replace('{price}',price)}</small></span><img class="ad-art" src="${esc(ad.image_url)}" alt=""></button>`;
+  function banner(st,title,art,action,detail=''){
+    return homeHeading('advert')+`<button class="home-ad-card" ${action}><span class="ad-copy">${st?dishStoreLogo(st):''}<b>${esc(title)}</b>${detail?`<small>${esc(detail)}</small>`:''}</span>${art?`<img class="ad-art" src="${esc(art)}" alt="">`:''}</button>`;
   }
-  return '';
+  for(const ad of inB('dont_miss')){
+    if(!ad.title||!['store','category','partner'].includes(ad.link_type))continue;
+    const st=ALLS.find(s=>s.id===ad.link_value);
+    if(ad.link_type==='store'&&(!st||!TLB.isOpen(st.n)))continue;
+    const prices=st?products.filter(c=>c.st===st).map(c=>c.price):[];
+    const detail=prices.length?t('homeFromPrice').replace('{price}',Math.min(...prices)):'';
+    return banner(st,ad.title,ad.image_url||st?.i||st?.lg,`onclick="bannerGo(${esc(JSON.stringify(ad.id))})"`,detail);
+  }
+  const offers=new Map();
+  for(const st of STORES){
+    if(st.c==='rest'&&TLB.isOpen(st.n)&&st.disc>0)offers.set(st,st.disc);
+  }
+  for(const {st,discount} of products){
+    if(st.c==='rest'&&discount>(offers.get(st)||0))offers.set(st,discount);
+  }
+  const best=[...offers].sort((a,b)=>b[1]-a[1])[0];
+  if(!best)return '';
+  const [st,pct]=best;
+  return banner(st,t('homeDealAt').replace('{pct}',pct).replace('{name}',()=>st.n),st.i||st.lg,storeTap(st));
 }
 TLB.addDict({flashTitle:'Быстрая распродажа',flashSub:'Только для вас, один раз на товар'},
             {flashTitle:'Flash sale',flashSub:'Just for you, once per item'});
