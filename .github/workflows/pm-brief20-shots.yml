@@ -1,0 +1,24 @@
+name: PM BRIEF20 screenshots (NO PROD)
+on:
+  push:
+    branches: [qa/pm-brief20-shots-20261118]
+permissions:
+  contents: write
+jobs:
+  shots:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {fetch-depth: 0}
+      - name: Render baseline vs candidate
+        run: |
+          set -euo pipefail
+          docker run --rm --network host -v "$PWD:/work" -w /work mcr.microsoft.com/playwright/python:v1.57.0-noble \
+            bash -c 'set -euo pipefail; python -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0; git config --global --add safe.directory /work; python tools/brief20_visual.py' || echo VISUAL_RC=$?
+      - name: Commit images to this QA branch
+        if: always()
+        run: |
+          sudo chown -R "$(id -u)" qa-shots || true
+          git config user.name pm-bot; git config user.email noreply@anthropic.com
+          git add -f qa-shots/unified-fix/brief20 && git commit -qm "qa: brief20 shots" && git push origin HEAD || echo nothing
