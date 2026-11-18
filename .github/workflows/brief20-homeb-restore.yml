@@ -26,7 +26,8 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
-          python3 -m playwright install --with-deps webkit
+          # Runner system libraries are preinstalled; do not run apt update for every visual QA.
+          python3 -m playwright install webkit
       - name: WebKit paired original app screenshots and Home B acceptance
         shell: bash
         run: |
