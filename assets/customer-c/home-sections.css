@@ -58,7 +58,6 @@
 #app .d6h .home-picks .nm { min-height: 0; line-height: 18px; font-weight: 600; }
 #app .d6h .home-picks .st { margin-top: 4px; white-space: normal; }
 .home-picks .d6-pa { left: 2px; right: auto; color: var(--o); }
-#app .d6h .d6-ph img.home-store-logo { position: absolute; inset: 8px 8px auto auto; width: 36px; height: 36px; border-radius: 10px; background: white; object-fit: contain; border: 1px solid var(--line); }
 #app .d6h .home-picks .px { display: inline; box-shadow: inset 0 -4px #d9f99d; }
 .home-picks .px s { background: #f7f3ee; padding-inline-start: 4px; margin: 0; }
 
@@ -68,7 +67,6 @@
 #app .d6h .home-dine .d6-ph { height: 130px; border-radius: 16px; }
 #app .d6h .home-dine .hb { top: 8px; right: 8px; left: auto; color: #26371b; background: #d9f99d; }
 #app .d6h .home-dine .hrt { top: 2px; right: auto; left: 2px; }
-#app .d6h .home-dine .d6-ph img.home-store-logo { inset: auto 8px 8px auto; width: 44px; height: 44px; }
 #app .d6h .home-dine .nm span { white-space: normal; }
 
 /* An undecodable primary photo has the same state as a missing catalogue photo. */
@@ -129,3 +127,5 @@
 .discover-row .d6-ph { width: 84px; height: 84px; border-radius: 14px; flex: none; }
 .discover-row small,.discover-row em { display: block; margin-top: 4px; }
 .discover-row em { background: #d9f99d; border-radius: 6px; padding: 2px 7px; font-style: normal; width: fit-content; }
+
+#app img.home-brand-image { object-fit: contain; background: #fafafa; }

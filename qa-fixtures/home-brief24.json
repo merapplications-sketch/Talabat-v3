@@ -1,6 +1,6 @@
 {
   "stores": [
-    {"id":"s1","name":"KFC","category":"rest","is_active":true,"is_open":true,"logo_url":"/qa-image/kfc","fee_type":"fixed","fee_base":12,"discount_pct":0,"lat":38.56,"lng":68.78},
+    {"id":"s1","name":"KFC","category":"rest","is_active":true,"is_open":true,"logo_url":"/qa-image/kfc","cover_url":"assets/3d/hamburger.webp","fee_type":"fixed","fee_base":12,"discount_pct":0,"lat":38.56,"lng":68.78},
     {"id":"s2","name":"Romant Restaurant","category":"rest","is_active":true,"is_open":true,"cover_url":"/qa-image/romant","fee_type":"distance","fee_base":10,"free_delivery_min":350,"discount_pct":20,"lat":38.568181,"lng":68.783962},
     {"id":"s3","name":"Gulistan Flowers","category":"flowers","is_active":true,"is_open":true,"cover_url":"assets/3d/bouquet.webp","fee_type":"fixed","fee_base":12,"discount_pct":0,"lat":38.57,"lng":68.79}
   ],

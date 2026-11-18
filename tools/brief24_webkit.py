@@ -44,6 +44,21 @@ def money(page):
     }return rows}""")
 
 
+def assert_image(img, source, fit):
+    assert img.count()==1, img
+    img.evaluate("i=>i.loading='eager'")
+    img.evaluate("i=>i.decode()")
+    info=img.evaluate("""i=>({src:i.getAttribute('src'),fit:getComputedStyle(i).objectFit,
+        background:getComputedStyle(i).backgroundColor})""")
+    assert (info['src'],info['fit'])==(source,fit),info
+    if fit=='contain':
+        assert info['background']=='rgb(250, 250, 250)',info
+
+
+def card_photo(page, selector, restaurant):
+    return page.locator(selector).filter(has_text=restaurant).locator('.d6-ph > img').first
+
+
 def current_home(page, out):
     for section in ['meals','advert','discover','flash']:
         assert page.locator(f'[data-section="{section}"]').is_visible(), section
@@ -75,10 +90,21 @@ def current_home(page, out):
       return bounds('[data-section=near] h2').top-bounds('.flash-item').bottom}""")
     assert 0<gap<=32,gap
     assert page.evaluate("document.documentElement.scrollWidth")==375
+    for selector in ('.d6-sc','.d6-nc'):
+        assert_image(card_photo(page,selector,'KFC'),'/qa-image/kfc','contain')
+        assert_image(card_photo(page,selector,'Romant'),'/qa-image/romant','cover')
+    for selector in ('.discover-row','.home-dine .d6-dc'):
+        assert_image(card_photo(page,selector,'Romant'),'/qa-image/romant','cover')
+    assert_image(page.locator('.home-ad-card .ad-art'),'/qa-image/romant','cover')
     display(page).save(out/'ru-375.webp',quality=86,method=6)
     page.locator('.home-ad-card').click()
     assert page.evaluate("S.v==='menu' && S.store==='Romant Restaurant'")
     page.evaluate("go('home')")
+    page.evaluate("()=>{S.q='KFC';render()}")
+    assert_image(card_photo(page,'.d6-res .d6-sr','KFC'),'/qa-image/kfc','contain')
+    page.evaluate("openN('KFC')")
+    assert_image(page.locator('.d6-cover > img'),'assets/3d/hamburger.webp','cover')
+    page.evaluate("()=>{S.q='';go('home')}")
     return {'geometry':data,'gap':gap,'prices':store_prices}
 
 
@@ -98,6 +124,19 @@ def variants(browser, server, photos):
     check("""items.find(i=>i.id==='steak').meal_for_one=true;items.find(i=>i.id==='hot').flash_sale=true;
         stores[1].created_at=iso(24*60);stores[1].first_order_discount_pct=12;
         T.banners.push({id:'campaign',placement:'dont_miss',title:'Объявление KFC',link_type:'store',link_value:'s1',is_active:true});""",curated)
+
+    def branded(p):
+        for selector in ('.d6-sc','.d6-nc','.discover-row','.home-dine .d6-dc'):
+            assert_image(card_photo(p,selector,'Romant'),'/qa-image/kfc','contain')
+        assert_image(p.locator('.home-ad-card .ad-art'),'/qa-image/kfc','contain')
+    check("stores[1].logo_url='/qa-image/kfc'",branded)
+
+    def unavailable_logo(p):
+        img=card_photo(p,'.d6-sc','KFC')
+        img.evaluate("i=>i.loading='eager'")
+        p.wait_for_function("document.querySelector('.d6-sc img[src$=\"hamburger.webp\"]')?.naturalWidth>0")
+        assert_image(img,'assets/3d/hamburger.webp','cover')
+    check("stores[0].logo_url='/qa-image/broken'",unavailable_logo)
 
     def large(p):
         prices=p.locator('.home-meals .d6-pt').evaluate_all("a=>a.map(e=>+e.dataset.price)")
@@ -154,7 +193,7 @@ def main():
             variants(browser,servers[1],photos)
             browser.close()
         (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
-        print('PASS R-01..R-08, three-store RU/375, admin precedence, history, zero-data rules and six financial comparisons')
+        print('PASS R-01..R-09, logo/cover fallback, three-store RU/375, admin precedence, history, zero-data rules and six financial comparisons')
     finally:
         for s in servers:s.shutdown()
 
