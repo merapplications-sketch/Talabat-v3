@@ -55,6 +55,10 @@ def reverse_missing(current, sha):
             current = current.replace(new,old,1)
             actions.append("reversed")
             continue
+        if not old and new and current.count(new)==0:
+            # An insertion moved/removed by a later commit that we already reverted.
+            actions.append("already-removed-by-later-revert")
+            continue
         if not new and old:
             # A deleted block needs re-insertion at the original cut; anchor it
             # to three unchanged lines in the later commit, never guess layout.
