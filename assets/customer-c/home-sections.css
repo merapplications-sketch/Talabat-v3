@@ -115,7 +115,7 @@
 .ad-copy .dish-store-logo { position: relative; inset: auto; }
 .ad-copy b { font-size: 18px; }
 .home-ad-card .ad-art { width: 42%; object-fit: cover; border-radius: 48px 0 0 48px; }
-.home-flash { background: #fdece4; padding-bottom: 12px; }
+.home-flash { background: #fdece4; padding-bottom: 6px; }
 [data-section="flash"] h2 b { font-style: italic; color: #bb3716; background: linear-gradient(90deg,#e14719,#cc344d); background-clip: text; -webkit-text-fill-color: transparent; }
 .flash-grid { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2,auto); grid-auto-columns: min(250px,85%); overflow-x: auto; gap: 10px; padding: 0 16px; }
 .flash-grid.flash-short { grid-template-rows: auto; }
