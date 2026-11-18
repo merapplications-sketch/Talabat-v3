@@ -1,13 +1,14 @@
-name: TALABOT BRIEF-21 customer review
+name: TALABOT BRIEF-21 accepted source regression
 on:
   push:
     branches: [review/unified-fix-brief15-20261117]
     paths:
-      - customer.html
-      - assets/size-brief7/customer.css
       - tools/brief21_webkit.py
-      - .github/workflows/brief21-customer-review.yml
   workflow_dispatch:
+
+concurrency:
+  group: talabot-brief21-customer-review
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -24,15 +25,18 @@ jobs:
       - name: Load exact baseline trees and owner image
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git fetch --no-tags --depth=1 origin 7c7e66094c10614c01ad7359cda7bc3740e8fcfd d8538a26846491343f4d7d9d3df276ac5095182f 83e94496141375d6e6f1e99ed735cccb70254c32
+          git fetch --no-tags --depth=1 origin 95bb10a471763904cd2555e9fc45b571e61dce0f 7c7e66094c10614c01ad7359cda7bc3740e8fcfd d8538a26846491343f4d7d9d3df276ac5095182f 83e94496141375d6e6f1e99ed735cccb70254c32
           git worktree add --detach "$RUNNER_TEMP/approved" 7c7e66094c10614c01ad7359cda7bc3740e8fcfd
           git worktree add --detach "$RUNNER_TEMP/before" d8538a26846491343f4d7d9d3df276ac5095182f
-          git diff --exit-code d8538a26 HEAD -- sql supabase talabat-core.js driver.html merchant.html admin.html
+          git worktree add --detach "$RUNNER_TEMP/accepted21" 95bb10a471763904cd2555e9fc45b571e61dce0f
+          git diff --exit-code d8538a26 95bb10a4 -- sql supabase talabat-core.js driver.html merchant.html admin.html
       - name: Use the project's pinned WebKit image
         run: python -m pip install --disable-pip-version-check --retries 2 --timeout 30 playwright==1.57.0 Pillow==11.3.0
       - name: Render Home and tracking, check status history, labels and financial parity
         id: measure
         run: |
+          cp tools/brief21_webkit.py "$RUNNER_TEMP/accepted21/tools/brief21_webkit.py"
+          cd "$RUNNER_TEMP/accepted21"
           python3 tools/brief21_webkit.py "$RUNNER_TEMP/approved" "$RUNNER_TEMP/before"
           python3 - <<'PY'
           import json, os

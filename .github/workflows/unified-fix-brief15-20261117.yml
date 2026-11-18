@@ -3,32 +3,14 @@ on:
   push:
     branches: [review/unified-fix-brief15-20261117]
     paths:
+      - 'talabat-core.js'
+      - 'supabase/migrations/*auth*.sql'
+      - 'supabase/migrations/*role*.sql'
+      - 'supabase/migrations/*permission*.sql'
       - 'tools/gate1_local_seed.py'
+      - 'tools/gate1_local_env.py'
       - 'tools/full_audit_seed.py'
       - 'tools/full_audit.py'
-      - 'tools/brief15_webkit.py'
-      - 'tools/brief15b_webkit.py'
-      - 'tools/brief18_webkit.py'
-      - 'tools/brief18b_webkit.py'
-      - 'tools/brief18c_webkit.py'
-      - 'tools/brief18d_webkit.py'
-      - 'talabat-core.js'
-      - 'assets/3d/motor-scooter-yellow.png'
-      - 'tools/brief11_webkit_layout.py'
-      - 'tools/check_all.sh'
-      - 'tools/brief19_sec18_local.py'
-      - 'sql/proposed/brief18_delivery_instructions*.sql'
-      - 'customer.html'
-      - 'merchant.html'
-      - 'assets/customer-c/customer-c.js'
-      - 'assets/customer-c/customer-c.css'
-      - 'assets/driver-tech/map-view.js'
-      - 'assets/driver-a/driver-a.js'
-      - 'assets/driver-tech/cash-sheet-polish-brief11.js'
-      - 'assets/shared/safe-toast.js'
-      - 'driver.html'
-      - 'admin.html'
-      - '.github/workflows/unified-fix-brief15-20261117.yml'
   workflow_dispatch:
 permissions:
   contents: read
