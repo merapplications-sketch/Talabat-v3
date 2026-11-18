@@ -13,7 +13,7 @@ jobs:
   git_revert_probe:
     if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - name: Checkout isolated branch full history
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -21,18 +21,15 @@ jobs:
       - name: Inspect exact per-commit reverts, no push and no deployment
         shell: bash
         run: python3 tools/brief20_revert.py
-      - name: Install isolated WebKit and image diff dependencies
+      - name: WebKit owner baseline acceptance in isolated Playwright image
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
-          # Runner system libraries are preinstalled; do not run apt update for every visual QA.
-          python3 -m playwright install webkit
-      - name: WebKit paired original app screenshots and Home B acceptance
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 tools/brief20_visual.py
+          test "$GITHUB_REPOSITORY" = merapplications-sketch/Talabat-v3
+          test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
+          docker run --rm --network host -v "$PWD:/work" -w /work \
+            mcr.microsoft.com/playwright/python:v1.57.0-noble \
+            bash -c 'set -euo pipefail; python -m pip install --disable-pip-version-check pillow==11.3.0; git config --global --add safe.directory /work; python tools/brief20_visual.py'
       - name: Preserve side-by-side original HTML WebKit images
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
