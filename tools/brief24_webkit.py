@@ -115,8 +115,16 @@ def variants(browser, server, photos):
         finally:ctx.close()
 
     def curated(p):
-        assert p.locator('.home-meals .nm').all_inner_texts()==['Стейк']
-        assert p.locator('.flash-description b').all_inner_texts()==['Hot honey']
+        # Stored flags stay dormant until the shared public menu model exposes them.
+        assert set(p.locator('.home-meals .nm').all_inner_texts())=={'Плов','Hot honey'}
+        assert set(p.locator('.flash-description b').all_inner_texts())=={'Combo','Hot honey'}
+        # Explicit customer-component contract for a future mapped catalogue.
+        marked=p.evaluate("""()=>{const products=homeProducts().map(c=>({...c,it:{...c.it,
+          meal_for_one:c.it.id==='steak',flash_sale:c.it.id==='hot'}}));
+          function names(html,selector){const node=document.createElement('template');
+            node.innerHTML=html;return [...node.content.querySelectorAll(selector)].map(e=>e.textContent)}
+          return [names(mealsH(products),'.nm'),names(flashH(products),'.flash-description b')]}""")
+        assert marked==[['Стейк'],['Hot honey']]
         assert p.locator('.home-ad-card b').inner_text()=='Объявление KFC'
         assert p.locator('.home-discover .discover-row b').all_inner_texts()==['Romant Restaurant']
         assert 'Новый' in p.locator('.home-discover').inner_text()
@@ -163,7 +171,7 @@ def variants(browser, server, photos):
         assert p.locator('.home-meals .home-picks-summary').inner_text()=='от 60 TJS + бесплатная доставка'
         assert p.locator('.flash-item').count()==1 and layout(p.locator('.flash-grid'))['rows']==1
     check("""stores[0].is_open=false;stores[1].free_delivery_min=50;
-        items.find(i=>i.id==='plov').flash_sale=true;""",no_paid_delivery)
+        items.find(i=>i.id==='steak').available=false;""",no_paid_delivery)
 
     def long_history(p):
         p.wait_for_function("discoveryHistory?.names instanceof Set")
@@ -174,10 +182,7 @@ def variants(browser, server, photos):
 
 def main():
     baseline,out=map(Path,sys.argv[1:3]);out.mkdir(parents=True,exist_ok=True)
-    # No financial, permission or shared runtime changes beyond two optional read-only menu flags.
-    flags=b' meal_for_one: i.meal_for_one === true, flash_sale: i.flash_sale === true,'
-    core=Path('talabat-core.js').read_bytes()
-    assert core.count(flags)==1 and core.replace(flags,b'')==(baseline/'talabat-core.js').read_bytes()
+    assert Path('talabat-core.js').read_bytes()==(baseline/'talabat-core.js').read_bytes(), 'Frozen shared core changed'
     servers=[qa.serve(root.resolve()) for root in (baseline,Path.cwd())]
     try:
         with sync_playwright() as pw:
