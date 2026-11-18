@@ -1945,7 +1945,7 @@ function homeProducts(){
     if(!TLB.isOpen(st.n))continue;
     const sd=sdOf(st.n);
     for(const it of menus[st.n]||[]){
-      if(it.approved&&it.available&&!it.optsBlocked&&it.image)cards.push({st,it,sd,price:unit(it,sd),discount:eff(it,sd)});
+      if(it.approved&&it.available&&!it.optsBlocked)cards.push({st,it,sd,price:unit(it,sd),discount:eff(it,sd)});
     }
   }
   return cards;
@@ -1953,13 +1953,14 @@ function homeProducts(){
 TLB.addDict({lunchA:'Обеды',lunchB:'на твой',lunchC:'вкус',lunchFree:'бесплатная доставка'},
             {lunchA:'Lunch',lunchB:'your',lunchC:'way',lunchFree:'free delivery'});
 function mealsH(products,expanded=false){
-  const cap=Number(TLB.settings()?.home_meal_price_cap);
-  const eligible=products.filter(c=>c.st.c==='rest'&&(c.it.meal_for_one===true||(cap>0&&c.price<=cap)));
-  if(!eligible.length)return '';
-  const cards=expanded?eligible:eligible.slice(0,12);
-  const price=Math.min(...cards.map(c=>c.price));
-  const free=cards.every(c=>c.st.ft==='free')?' + '+t('lunchFree'):'';
-  return `<section class="home-meals home-picks">${homeHeading('meals',eligible.length>1&&!expanded?"go('mealsAll')":'')}<p class="home-picks-summary">${t('homeFromPrice').replace('{price}',price)}${free}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`;
+  const setting=Number(TLB.settings()?.home_meal_price_cap);
+  const cap=Number.isFinite(setting)&&setting>0?setting:100;
+  const cards=products.filter(c=>c.st.c==='rest'&&c.price<=cap)
+    .sort((a,b)=>a.price-b.price).slice(0,10);
+  if(!cards.length)return '';
+  const price=cards[0].price;
+  const free=cards.every(c=>c.st.ft==='free'||(c.st.fdm>0&&c.price>=c.st.fdm))?' + '+t('lunchFree'):'';
+  return `<section class="home-meals home-picks">${homeHeading('meals',cards.length>1&&!expanded?"go('mealsAll')":'')}<p class="home-picks-summary">${t('homeFromPrice').replace('{price}',price)}${free}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`;
 }
 TLB.addDict({dontMiss:'Не пропустите'},{dontMiss:"Don't miss"});
 function adH(products){

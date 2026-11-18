@@ -74,10 +74,10 @@
 
 /* An undecodable primary photo has the same state as a missing catalogue photo. */
 .home-again .d6-lo:has(.d6-ph.none),
-.home-picks .d6-pt:has(.d6-ph.none),
+.home-picks:not(.home-meals) .d6-pt:has(.d6-ph.none),
 .home-heading[data-section="again"]:not(:has(+ .home-again .d6-ph:not(.none))),
 .home-again:not(:has(.d6-ph:not(.none))),
-.home-picks:not(:has(.d6-ph:not(.none))) { display: none; }
+.home-picks:not(.home-meals):not(:has(.d6-ph:not(.none))) { display: none; }
 #app .d6h :is(.d6-nc,.d6-sc,.d6-dc) > .d6-ph.none { display: none; }
 #app .d6h .d6-sc.closed, #app .d6h .d6-nc.closed { filter: grayscale(1); }
 
