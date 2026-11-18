@@ -104,3 +104,12 @@
 .ad-copy .dish-store-logo { position: relative; inset: auto; }
 .ad-copy b { font-size: 18px; }
 .home-ad-card .ad-art { width: 42%; object-fit: cover; border-radius: 48px 0 0 48px; }
+.home-flash { background: #fdece4; padding-bottom: 12px; }
+[data-section="flash"] h2 b { font-style: italic; color: #bb3716; background: linear-gradient(90deg,#e14719,#cc344d); background-clip: text; -webkit-text-fill-color: transparent; }
+.flash-grid { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2,auto); grid-auto-columns: min(250px,85%); overflow-x: auto; gap: 10px; padding: 0 16px; }
+.home-expanded .flash-grid { grid-auto-flow: row; grid-template-columns: 1fr; }
+.flash-item { display: flex; align-items: stretch; padding: 0; background: white; color: var(--ink); border: 1px solid var(--line); border-radius: 16px; min-height: 96px; overflow: hidden; text-align: start; font: inherit; }
+.flash-item .d6-ph { width: 86px; flex: none; border-radius: 0; }
+.flash-item .d6-ph span { position: absolute; bottom: 6px; left: 6px; border-radius: 6px; background: #d9f99d; padding: 2px 6px; font-size: 12px; }
+.flash-description { display: grid; align-content: center; gap: 4px; padding: 9px; }
+.flash-description s { color: var(--mut); margin-left: 4px; }
