@@ -82,9 +82,10 @@ def current_home(page, out):
     a,b=data['flash']['boxes']
     assert a[1]==b[1] and a[0]<b[0] and a[2]==b[2]==250 and data['flash']['scroll']>0
     a,b=data['popular']['boxes']
-    assert a[1]<b[1] and a[0]==b[0] and a[2]==b[2]==meals.locator('.d6-pt').first.bounding_box()['width']
+    assert data['popular']['rows']==1 and a[1]==b[1] and a[0]<b[0]
+    assert a[2]==b[2]==meals.locator('.d6-pt').first.bounding_box()['width']==150
     a,b,c=data['near']['boxes']
-    assert a[1]==c[1]<b[1] and a[0]==b[0]<c[0] and data['near']['scroll']>0
+    assert data['near']['rows']==1 and a[1]==b[1]==c[1] and a[0]<b[0]<c[0] and data['near']['scroll']>0
     assert page.locator('[data-section=near] b').evaluate("e=>getComputedStyle(e).textDecorationLine")=='none'
     gap=page.evaluate("""()=>{const bounds=s=>document.querySelector(s).getBoundingClientRect();
       return bounds('[data-section=near] h2').top-bounds('.flash-item').bottom}""")
@@ -106,6 +107,37 @@ def current_home(page, out):
     assert_image(page.locator('.d6-cover > img'),'assets/3d/hamburger.webp','cover')
     page.evaluate("()=>{S.q='';go('home')}")
     return {'geometry':data,'gap':gap,'prices':store_prices}
+
+
+def catalogue_sizes(browser, server, photos, out):
+    # This second fixture contains only restaurants. The owner's fixture keeps the flower shop.
+    reports={}
+    for count in range(1,6):
+        seed="""stores.splice(2);
+          for(let i=2;i<count;i++)stores.push({...stores[i%2],id:'fixture-'+i,name:'Кафе QA '+(i+1)});
+          stores.splice(count);""".replace('count',str(count))
+        ctx,page=page_for(browser,server,photos,seed)
+        try:
+            report={}
+            for section,selector,width in [('popular','[data-section=popular] + .d6-rl',150),('near','.d6-nr',292)]:
+                grid=layout(page.locator(selector))
+                boxes=grid['boxes']
+                assert len(boxes)==count and all(b[2]==width for b in boxes),(section,count,grid)
+                rows=1 if count<=3 else 2
+                assert grid['rows']==rows and len({b[1] for b in boxes})==rows,(section,count,grid)
+                for i,box in enumerate(boxes):
+                    assert box[1]==boxes[i%rows][1]
+                    if i>=rows:assert box[0]>boxes[i-rows][0]
+                if count>=4:
+                    assert boxes[0][0]==boxes[1][0] and boxes[0][1]<boxes[1][1]
+                    if count==5 or section=='near':assert grid['scroll']>0
+                report[section]=grid
+            reports[count]=report
+            if count==5:
+                display(page).save(out/'ru-375-five-restaurants.webp',quality=86,method=6)
+        finally:
+            ctx.close()
+    return reports
 
 
 def variants(browser, server, photos):
@@ -195,6 +227,7 @@ def main():
             assert result['money']==money(ref)
             assert result['money'][2]['fee']>0 and result['money'][4]['fw']>0 and result['money'][4]['fee']==0
             old.close();new.close()
+            result['catalogueSizes']=catalogue_sizes(browser,servers[1],photos,out)
             variants(browser,servers[1],photos)
             browser.close()
         (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))

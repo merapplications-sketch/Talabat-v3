@@ -93,6 +93,9 @@
   grid-auto-columns: 150px;
   align-items: start;
 }
+#app .d6h :is([data-section="popular"] + .d6-rl, .d6-nr):not(:has(> :nth-child(4))) {
+  grid-template-rows: auto;
+}
 #app .d6h [data-section="popular"] + .d6-rl .d6-sc,
 #app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { width: 150px; }
 #app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { height: 150px; }
