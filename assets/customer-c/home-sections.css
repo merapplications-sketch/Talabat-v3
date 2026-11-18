@@ -36,6 +36,7 @@
 [data-section="picks"] b:last-child { background: #d9f99d; color: #3b1d14; transform: rotate(2deg); }
 [data-section="near"] b { text-decoration: underline wavy var(--o); text-underline-offset: 4px; }
 [data-section="rewards"] b { padding: 4px 12px; color: white; background: #1e2433; mask: radial-gradient(circle 5px at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 5px at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat; }
+[data-section="dine"] h2 b { color: var(--o); }
 [data-section="dine"] i { border: 2px dashed var(--o); color: var(--o); width: 34px; height: 34px; border-radius: 50%; transform: rotate(-12deg); font-size: 13px; }
 @media(max-width:374px){
   #app .d6h .home-heading { padding-inline: 8px; gap: 2px; }

@@ -95,6 +95,8 @@ def verify(page, width):
         headings:heads.map(e=>{const h=e.querySelector('h2'),r=h.getBoundingClientRect(),b=e.querySelector('button');
           return [h.scrollWidth,h.clientWidth,r.right,b?.getBoundingClientRect().left??innerWidth]}),
         favourites:dims('.home-again .d6-ph'),picks:dims('.home-picks .d6-ph'),dine:dims('.home-dine .d6-ph'),
+        discountAccent:getComputedStyle(document.querySelector('[data-section="dine"] h2 b')).color,
+        accentReference:getComputedStyle(document.querySelector('[data-section="dine"] i')).color,
         pictures:list('.d6h img').length,missingDish:list('.home-picks .nm').some(e=>e.textContent==='Суп дня'),
         closed:!!document.querySelector('.d6-sc.closed[aria-disabled=true]')&&!!document.querySelector('.home-again .closed:disabled'),
         headers:list('.home-heading img').map(i=>i.getAttribute('src')),
@@ -109,6 +111,7 @@ def verify(page, width):
         assert all(abs(icon-44)<=1 and abs(circle-56)<=1 for *_,circle,icon in row['category'])
     for key,dim in [('favourites',[84,84]),('picks',[150,150]),('dine',[250,130])]:
         assert row[key] and all(x==dim for x in row[key]),(key,row[key])
+    assert row['discountAccent']==row['accentReference']
     assert row['pictures']>15 and row['closed'] and not row['missingDish'],row
     return row
 

@@ -1785,8 +1785,8 @@ function etaOf(st){const sp=TLB.speed&&TLB.speed(st.id);if(!sp||!(sp.min>0))retu
 const ofCat=(cs,limit)=>STORES.filter(x=>cs.includes(x.c)).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||((b.rt*Math.log(2+b.rc))-(a.rt*Math.log(2+a.rc)))||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,limit||10);
 /* v06.1 Home B / list helpers: section title (icon + title + «Все»), photo = the store's own picture or the «no photo» slot */
 TLB.addDict(
-  {homeOrder:'Заказать',homeAgain:'снова',homePicks:'Рекомендуем',homeForYou:'для вас',homeWeek:'Топ недели'},
-  {homeOrder:'Order',homeAgain:'again',homePicks:'Recommended',homeForYou:'for you',homeWeek:'Top of the week'}
+  {homeOrder:'Заказать',homeAgain:'снова',homePicks:'Рекомендуем',homeForYou:'для вас',homeWeek:'Топ недели',homeRestaurants:'Рестораны',homeDiscounted:'со скидкой'},
+  {homeOrder:'Order',homeAgain:'again',homePicks:'Recommended',homeForYou:'for you',homeWeek:'Top of the week',homeRestaurants:'Restaurants',homeDiscounted:'with a discount'}
 );
 function homeHeading(kind, all) {
   const art=name=>`<img src="${A3(name)}" alt="" width="28" height="28">`;
@@ -1797,7 +1797,7 @@ function homeHeading(kind, all) {
     picks:()=>art('sparkles')+`<b>${t('homePicks')}</b><b>${t('homeForYou')}</b>`,
     near:()=>art('round-pushpin')+`<b>${t('d6Near')}</b>`,
     rewards:()=>art('wrapped-gift')+`<b>${t('d6CpT')}</b>`,
-    dine:()=>`<i aria-hidden="true">−%</i><span>${t('hDineT')}</span>`+art('coin')
+    dine:()=>`<i aria-hidden="true">−%</i><span>${t('homeRestaurants')} <b>${t('homeDiscounted')}</b></span>`+art('coin')
   };
   return `<div class="d6-sh home-heading" data-section="${kind}"><h2>${titles[kind]()}</h2>${all?`<button onclick="${all}">${t('d6All')} ${ico('chev',14)}</button>`:''}</div>`;
 }
