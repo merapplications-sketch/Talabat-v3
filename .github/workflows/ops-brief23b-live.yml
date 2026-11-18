@@ -1,0 +1,33 @@
+name: TALABOT OPS live WebKit RU 375 BRIEF-23b
+on:
+  push:
+    branches: [qa/ops-brief23b-live-c5a8ff8a]
+    paths: ['.github/workflows/ops-brief23b-live.yml', 'ops/brief23b_live.py']
+permissions: {contents: write}
+concurrency: {group: ops-brief23b-live-ru375, cancel-in-progress: true}
+jobs:
+  visual:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    container: mcr.microsoft.com/playwright/python:v1.57.0-noble
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: c5a8ff8a2d3a74301a3f35130a8f84316528449c
+          path: candidate
+          persist-credentials: false
+      - name: Verify deployed customer with and without discounted restaurants
+        working-directory: candidate
+        run: |
+          python -m pip -q install playwright==1.57.0 Pillow==11.3.0
+          python ../ops/brief23b_live.py ../qa-shots/ops-brief23b-live
+      - name: Save one compressed screenshot on this evidence branch
+        run: |
+          test "$GITHUB_REF_NAME" = "qa/ops-brief23b-live-c5a8ff8a"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name talabot-qa
+          git config user.email talabot-qa@users.noreply.github.com
+          git add -f -- qa-shots/ops-brief23b-live/ru-375.webp
+          git commit -m "qa: record live RU 375 BRIEF-23b preview"
+          git push origin "HEAD:refs/heads/$GITHUB_REF_NAME"
