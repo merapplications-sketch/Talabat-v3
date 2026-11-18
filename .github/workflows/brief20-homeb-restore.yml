@@ -29,7 +29,7 @@ jobs:
           test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
           docker run --rm --network host -v "$PWD:/work" -w /work \
             mcr.microsoft.com/playwright/python:v1.57.0-noble \
-            bash -c 'set -euo pipefail; python -m pip install --disable-pip-version-check pillow==11.3.0; git config --global --add safe.directory /work; python tools/brief20_visual.py'
+            bash -c 'set -euo pipefail; python -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0; git config --global --add safe.directory /work; python tools/brief20_visual.py'
       - name: Preserve side-by-side original HTML WebKit images
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
