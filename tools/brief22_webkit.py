@@ -63,12 +63,13 @@ def compare(page, reference, out, lang, width):
               e.setAttribute('data-qa-overlay','');
           })}""")
         shot=node.screenshot(animations='disabled', style='[data-qa-overlay]{visibility:hidden!important}')
-        shots.append(Image.open(io.BytesIO(shot)).convert('RGB'))
+        x=round(node.bounding_box()['x'])
+        shots.append((x,Image.open(io.BytesIO(shot)).convert('RGB')))
     page.evaluate("document.querySelectorAll('[data-qa-overlay]').forEach(e=>e.removeAttribute('data-qa-overlay'))")
-    actual=Image.new('RGB',(width,sum(i.height for i in shots)),'white')
+    actual=Image.new('RGB',(width,sum(i.height for _,i in shots)),'white')
     y=0
-    for img in shots:
-        actual.paste(img,(0,y));y+=img.height
+    for x,img in shots:
+        actual.paste(img,(x,y));y+=img.height
     ref=reference.resize((375,round(reference.height*375/reference.width)),Image.Resampling.LANCZOS)
     canvas=Image.new('RGB',(width+ref.width+8,max(ref.height,actual.height)+viewport.height+58),'#edeae5')
     draw=ImageDraw.Draw(canvas)
@@ -112,6 +113,8 @@ def verify(page, width):
         headings:heads.map(e=>{const h=e.querySelector('h2'),r=h.getBoundingClientRect(),b=e.querySelector('button');
           return [h.scrollWidth,h.clientWidth,r.right,b?.getBoundingClientRect().left??innerWidth]}),
         favourites:dims('.home-again .d6-ph'),picks:dims('.home-picks .d6-ph'),dine:dims('.home-dine .d6-ph'),
+        dineBounds:['.d6-dn','.home-dine .d6-dc'].map(selector=>{
+          const r=document.querySelector(selector).getBoundingClientRect();return [r.left,r.right]}),
         discountAccent:getComputedStyle(document.querySelector('[data-section="dine"] h2 b')).color,
         accentReference:getComputedStyle(document.querySelector('[data-section="dine"] i')).color,
         pictures:list('.d6h img').length,missingDish:list('.home-picks .nm').some(e=>e.textContent==='Суп дня'),
@@ -128,6 +131,8 @@ def verify(page, width):
         assert all(abs(icon-44)<=1 and abs(circle-56)<=1 for *_,circle,icon in row['category'])
     for key,dim in [('favourites',[84,84]),('picks',[150,150]),('dine',[250,130])]:
         assert row[key] and all(x==dim for x in row[key]),(key,row[key])
+    banner,first=row['dineBounds']
+    assert abs(banner[0]-16)<=1 and abs(width-banner[1]-16)<=1 and abs(first[0]-16)<=1,row['dineBounds']
     assert row['discountAccent']==row['accentReference']
     assert row['pictures']>15 and row['closed'] and not row['missingDish'],row
     return row
