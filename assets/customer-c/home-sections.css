@@ -48,3 +48,13 @@
 #app .d6h .home-again .nm { font-size: 12px; line-height: 16px; margin: 6px 0 0; white-space: normal; overflow-wrap: anywhere; text-align: center; color: var(--mut2); }
 .home-deal { position: absolute; top: 66px; left: 50%; transform: translateX(-50%); padding: 2px 7px; border-radius: 6px; background: #d9f99d; color: #26371b; font-size: 11px; font-weight: 700; line-height: 15px; white-space: nowrap; }
 .home-again .closed { filter: grayscale(1); cursor: default; }
+
+.home-picks { background: #f7f3ee; padding-bottom: 12px; }
+#app .d6h .home-picks .d6-pt, #app .d6h .home-picks .d6-ph { width: 150px; }
+#app .d6h .home-picks .d6-ph { height: 150px; border-radius: 16px; border: 1px solid var(--line); background: white; }
+#app .d6h .home-picks .nm { min-height: 36px; line-height: 18px; font-weight: 600; }
+#app .d6h .home-picks .st { white-space: normal; }
+.home-picks .d6-pa { left: 2px; right: auto; color: var(--o); }
+#app .d6h .d6-ph img.home-store-logo { position: absolute; inset: 8px 8px auto auto; width: 36px; height: 36px; border-radius: 10px; background: white; object-fit: contain; border: 1px solid var(--line); }
+#app .d6h .home-picks .px { display: inline; box-shadow: inset 0 -4px #d9f99d; }
+.home-picks .px s { background: #f7f3ee; padding-inline-start: 4px; margin: 0; }
