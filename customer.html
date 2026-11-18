@@ -1955,11 +1955,15 @@ TLB.addDict({lunchA:'Обеды',lunchB:'на твой',lunchC:'вкус',lunchF
 function mealsH(products,expanded=false){
   const setting=Number(TLB.settings()?.home_meal_price_cap);
   const cap=Number.isFinite(setting)&&setting>0?setting:100;
-  const cards=products.filter(c=>c.st.c==='rest'&&c.price<=cap)
+  const restaurants=products.filter(c=>c.st.c==='rest');
+  const selected=restaurants.filter(c=>c.it.meal_for_one);
+  const cards=(selected.length?selected:restaurants.filter(c=>c.price<=cap))
     .sort((a,b)=>a.price-b.price).slice(0,10);
   if(!cards.length)return '';
   const price=cards[0].price;
-  const free=cards.every(c=>c.st.ft==='free'||(c.st.fdm>0&&c.price>=c.st.fdm))?' + '+t('lunchFree'):'';
+  const tried=cards.some(c=>c.st.ffd)?triedRestaurants():null;
+  const free=cards.every(c=>c.st.ft==='free'||(c.st.ffd&&tried&&!tried.has(c.st.n))||
+    (c.st.fdm>0&&c.price>=c.st.fdm))?' + '+t('lunchFree'):'';
   return `<section class="home-meals home-picks">${homeHeading('meals',cards.length>1&&!expanded?"go('mealsAll')":'')}<p class="home-picks-summary">${t('homeFromPrice').replace('{price}',price)}${free}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`;
 }
 TLB.addDict({dontMiss:'Не пропустите',homeDealAt:'Скидка {pct}% в {name}'},
@@ -1991,7 +1995,10 @@ function adH(products){
 TLB.addDict({flashTitle:'Быстрая распродажа',flashSub:'Только для вас, один раз на товар'},
             {flashTitle:'Flash sale',flashSub:'Just for you, once per item'});
 function flashH(products,expanded=false){
-  const deals=products.filter(c=>c.discount>0).sort((a,b)=>b.discount-a.discount);
+  const actual=products.filter(c=>c.discount>0);
+  const selected=actual.filter(c=>c.it.flash_sale);
+  const itemOffers=actual.filter(c=>c.it.discount>0);
+  const deals=(selected.length?selected:itemOffers.length?itemOffers:actual).sort((a,b)=>b.discount-a.discount);
   if(!deals.length)return '';
   const cards=expanded?deals:deals.slice(0,12);
   return `<section class="home-flash">${homeHeading('flash',deals.length>1&&!expanded?"go('flashAll')":'')}<p class="home-picks-summary">${t('flashSub')}</p><div class="flash-grid${cards.length<=3?' flash-short':''}">${cards.map(({it,st,sd,discount})=>`<button class="flash-item" onclick="openN(${esc(JSON.stringify(st.n))});openItem(${esc(JSON.stringify(it.id))})">${d6Ph(it.image,`<span>−${discount}%</span>`)}<span class="flash-description"><b>${esc(it.name)}</b>${pxH(it,sd)}</span></button>`).join('')}</div></section>`;
