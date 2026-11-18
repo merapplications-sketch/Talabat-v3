@@ -98,3 +98,9 @@
 [data-section="meals"] h2 b { background: var(--o); color: white; padding: 2px 6px; border-radius: 6px; }
 [data-section="meals"] h2 b:nth-of-type(2) { background: #3b1d14; }
 .home-expanded .d6-rl { flex-wrap: wrap; justify-content: center; }
+[data-section="advert"] h2 b { border: 2px solid #3b1d14; padding: 2px 10px; border-radius: 999px; transform: rotate(-3deg); }
+.home-ad-card { margin: 0 16px; width: calc(100% - 32px); display: flex; align-items: stretch; min-height: 142px; text-align: start; background: #f7f3ee; border: 0; border-radius: 18px; overflow: hidden; color: #3b1d14; padding: 0; font: inherit; }
+.home-ad-card .ad-copy { flex: 1; display: grid; align-content: center; gap: 6px; padding: 14px; }
+.ad-copy .dish-store-logo { position: relative; inset: auto; }
+.ad-copy b { font-size: 18px; }
+.home-ad-card .ad-art { width: 42%; object-fit: cover; border-radius: 48px 0 0 48px; }

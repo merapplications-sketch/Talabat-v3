@@ -1820,6 +1820,7 @@ TLB.addDict(
 function homeHeading(kind, all) {
   const art=name=>`<img src="${A3(name)}" alt="" width="28" height="28">`;
   const titles={
+    advert:()=>art('party-popper')+`<b>${t('dontMiss')}</b>`,
     meals:()=>art('hamburger')+`<b>${t('lunchA')}</b><b>${t('lunchB')}</b><b>${t('lunchC')}</b>`,
     again:()=>`<i aria-hidden="true">↻</i><span>${t('homeOrder')} <b>${t('homeAgain')}</b></span>`,
     offers:()=>art('fire')+`<b>${t('hBestT')}</b>`,
@@ -1960,6 +1961,17 @@ function mealsH(products,expanded=false){
   const free=cards.every(c=>c.st.ft==='free')?' + '+t('lunchFree'):'';
   return `<section class="home-meals home-picks">${homeHeading('meals',eligible.length>1&&!expanded?"go('mealsAll')":'')}<p class="home-picks-summary">${t('homeFromPrice').replace('{price}',price)}${free}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`;
 }
+TLB.addDict({dontMiss:'Не пропустите'},{dontMiss:"Don't miss"});
+function adH(products){
+  for(const ad of inB('dont_miss')){
+    if(ad.link_type!=='store'||!ad.image_url||!ad.title)continue;
+    const items=products.filter(c=>c.st.id===ad.link_value);
+    if(!items.length)continue;
+    const st=items[0].st,price=Math.min(...items.map(c=>c.price));
+    return homeHeading('advert')+`<button class="home-ad-card" onclick="bannerGo(${esc(JSON.stringify(ad.id))})"><span class="ad-copy">${dishStoreLogo(st)}<b>${esc(ad.title)}</b><small>${t('homeFromPrice').replace('{price}',price)}</small></span><img class="ad-art" src="${esc(ad.image_url)}" alt=""></button>`;
+  }
+  return '';
+}
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.image&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
   if(!out.length)return '';
@@ -1990,7 +2002,7 @@ function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf
   const products=homeProducts();
   return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+bestH()+mealsH(products)
   +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
-  +recH()+nearH()+walH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
+  +adH(products)+recH()+nearH()+walH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
 if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{document.querySelectorAll('.hcd[data-end]').forEach(e=>{const end=+e.dataset.end;if(end)e.textContent=cdTxt(end-Date.now())})},1000);
 /* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
 function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
