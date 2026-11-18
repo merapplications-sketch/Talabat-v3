@@ -103,6 +103,7 @@ def main():
     git("config","user.name","talabot-brief20-qa")
     git("config","user.email","talabot-brief20-qa@users.noreply.github.com")
     full_original=HOME.read_text("utf-8")
+    runner_head=git("rev-parse","HEAD").stdout.strip()
     print("BRIEF20_REVERT_START "+git("rev-parse","HEAD").stdout.strip(),flush=True)
     for sha in TARGETS:
         files=git("diff-tree","--no-commit-id","--name-only","-r",sha).stdout.splitlines()
@@ -126,10 +127,10 @@ def main():
         git("commit","--allow-empty","-m","Revert \""+title+"\" (BRIEF-20 Home B owner)",
             "-m","This reverts commit "+sha+".\n\nConflict resolution preserves subsequently approved non-Home code.")
         print("BRIEF20_REVERTED "+sha+" actions="+repr(actions),flush=True)
-    delta=git("diff","--name-only",START,"HEAD").stdout.splitlines()
+    delta=git("diff","--name-only",runner_head,"HEAD").stdout.splitlines()
     if delta!=["customer.html"]:raise RuntimeError("out-of-scope diff: "+repr(delta))
     print("BRIEF20_NINE_INDIVIDUAL_GIT_REVERTS_OK",flush=True)
-    print("BRIEF20_DIFF_STAT "+git("diff","--stat",START,"HEAD").stdout.strip(),flush=True)
+    print("BRIEF20_DIFF_STAT "+git("diff","--stat",runner_head,"HEAD").stdout.strip(),flush=True)
     # Check stable owner branding and mandatory protected flows still exist.
     source=HOME.read_text("utf-8")
     base=git("show",BASE+":customer.html").stdout
