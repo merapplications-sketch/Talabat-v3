@@ -1,0 +1,37 @@
+name: TALABOT BRIEF20 owner Home B offline source evidence (NO PROD)
+on:
+  push:
+    branches: [review/unified-fix-brief15-20261117]
+    paths: ['.github/workflows/brief20-source-evidence.yml']
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  source:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Exact isolated source checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: false, fetch-depth: 0}
+      - name: Perform individual local git reverts, no remote push
+        run: python3 tools/brief20_revert.py
+      - name: Package reviewable static source only with original diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-artifacts
+          git archive --format=tar HEAD customer.html driver.html merchant.html talabat-core.js assets tools/qa_all.py tools/full_audit.py tools/brief20_visual.py | gzip -6 > qa-artifacts/brief20-source.tar.gz
+          git show 7c7e66094c10614c01ad7359cda7bc3740e8fcfd:customer.html > qa-artifacts/owner-homeb-original.html
+          git show 7c7e66094c10614c01ad7359cda7bc3740e8fcfd:assets/customer-c/customer-c.js > qa-artifacts/owner-c-card-original.js
+          git diff "${GITHUB_SHA}" HEAD -- customer.html assets/customer-c/customer-c.js > qa-artifacts/brief20-review.patch
+          git log -11 --format='%H %s' > qa-artifacts/revert-commits.txt
+          test -s qa-artifacts/brief20-source.tar.gz
+          echo "BRIEF20_CANDIDATE_SOURCE_PACKAGE_READY"
+      - name: Upload source for offline pixel inspection
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-brief20-verified-source
+          path: qa-artifacts/
+          if-no-files-found: error
+          retention-days: 5
