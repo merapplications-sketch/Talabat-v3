@@ -40,45 +40,33 @@ def financial(page):
 
 
 def compare(page, reference, out, lang, width):
-    # Keep the first screen exactly as the user sees it. In the adjacent stitched
-    # view, repeatable fixed controls would otherwise cover every element capture.
+    # Capture the document as one surface so both page margins and the grid gap
+    # are visible at their actual coordinates. Preserve the normal viewport too.
     page.evaluate("window.scrollTo(0,0)")
-    viewport=Image.open(io.BytesIO(page.screenshot(animations='disabled'))).convert('RGB')
-    blocks=[page.locator('.d6-hh'),page.locator('.d6-bento'),page.locator('.d6-cats')]
-    for name in SECTIONS:
-        heading=page.locator(f'[data-section="{name}"]')
-        blocks.extend([heading,heading.locator('xpath=following-sibling::*[1]')])
-        if name=='picks':
-            blocks.append(page.locator('.home-picks .d6-rl'))
-        if name=='dine':
-            blocks.append(page.locator('.home-dine'))
-    shots=[]
-    for block in blocks:
-        node=block.first
-        if not block.count() or not node.is_visible():
-            continue
-        node.evaluate("""node=>{document.querySelectorAll('[data-qa-overlay]').forEach(e=>e.removeAttribute('data-qa-overlay'));
-          document.querySelectorAll('#app *').forEach(e=>{
-            if(!e.contains(node)&&!node.contains(e)&&['fixed','sticky'].includes(getComputedStyle(e).position))
-              e.setAttribute('data-qa-overlay','');
-          })}""")
-        shot=node.screenshot(animations='disabled', style='[data-qa-overlay]{visibility:hidden!important}')
-        x=round(node.bounding_box()['x'])
-        shots.append((x,Image.open(io.BytesIO(shot)).convert('RGB')))
-    page.evaluate("document.querySelectorAll('[data-qa-overlay]').forEach(e=>e.removeAttribute('data-qa-overlay'))")
-    actual=Image.new('RGB',(width,sum(i.height for _,i in shots)),'white')
-    y=0
-    for x,img in shots:
-        actual.paste(img,(x,y));y+=img.height
+    def snapshot(**kwargs):
+        return Image.open(io.BytesIO(page.screenshot(animations='disabled',**kwargs))).convert('RGB')
+    viewport=snapshot()
+    page.evaluate("""()=>document.querySelectorAll('#app *').forEach(e=>{
+      if(getComputedStyle(e).position==='fixed')e.setAttribute('data-qa-fixed','')})""")
+    try:
+        actual=snapshot(full_page=True,style='[data-qa-fixed]{visibility:hidden!important}')
+    finally:
+        page.evaluate("document.querySelectorAll('[data-qa-fixed]').forEach(e=>e.removeAttribute('data-qa-fixed'))")
+    rail=page.locator('.d6-nr')
+    rail.locator('.d6-nc').nth(2).evaluate("e=>e.scrollIntoView({block:'center',inline:'center',behavior:'instant'})")
+    nearby=Image.open(io.BytesIO(rail.screenshot(animations='disabled'))).convert('RGB')
+    rail.evaluate("e=>e.scrollTo({left:0,behavior:'instant'})")
     ref=reference.resize((375,round(reference.height*375/reference.width)),Image.Resampling.LANCZOS)
-    canvas=Image.new('RGB',(width+ref.width+8,max(ref.height,actual.height)+viewport.height+58),'#edeae5')
+    top=26
+    bottom=top+max(actual.height,ref.height)+26
+    canvas=Image.new('RGB',(width+8+max(ref.width,nearby.width),bottom+viewport.height),'#edeae5')
     draw=ImageDraw.Draw(canvas)
-    draw.text((6,7),f'Home sections | WebKit {lang.upper()} {width} | QA catalogue',fill='black')
-    draw.text((width+14,7),'Owner reference',fill='black')
-    canvas.paste(actual,(0,26));canvas.paste(ref,(width+8,26))
-    y=max(ref.height,actual.height)+34
-    draw.text((6,y),'Original first viewport with navigation',fill='black')
-    canvas.paste(viewport,(0,y+20))
+    for x,y,title,im in [(0,top,f'WebKit {lang.upper()} {width} | page content',actual),
+                         (width+8,top,'Owner reference',ref),
+                         (0,bottom,'Original viewport including fixed controls',viewport),
+                         (width+8,bottom,'Nearby after swiping to the third card',nearby)]:
+        draw.text((x+6,y-20),title,fill='black')
+        canvas.paste(im,(x,y))
     canvas.save(out/f'{lang}-{width}.webp',quality=79,method=6)
 
 
@@ -95,6 +83,26 @@ def check_pick_summary(page, lang):
         expected+=f' · {phrase} {maximum:g}%'
     assert page.locator('.home-picks-summary').inner_text()==expected,expected
     return expected
+
+
+def check_nearby(page):
+    rail=page.locator('.d6-nr')
+    third=rail.locator('.d6-nc').nth(2)
+    layout=rail.evaluate("""e=>{const css=getComputedStyle(e),r=e.getBoundingClientRect();
+      return [css.gridAutoFlow,css.gridTemplateRows,css.gridAutoColumns,...[...e.children].map(c=>{
+        const box=c.getBoundingClientRect();return [box.left-r.left+e.scrollLeft,box.top-r.top,box.width,box.height]})]}""")
+    # The next column peeks out initially in Home B. Bring the third card fully
+    # into view before checking whether anything can intercept its arrow.
+    third.evaluate("e=>e.scrollIntoView({block:'center',inline:'center',behavior:'instant'})")
+    arrow=third.locator('.go')
+    arrow.wait_for()
+    result=arrow.evaluate("""e=>{const r=e.getBoundingClientRect(),c=e.closest('.d6-nc').getBoundingClientRect();
+      return {width:r.width,height:r.height,inside:r.left>=c.left&&r.right<=c.right&&r.top>=c.top&&r.bottom<=c.bottom&&
+        r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight,
+        clear:[.25,.5,.75].every(x=>[.25,.5,.75].every(y=>e.contains(document.elementFromPoint(r.left+x*r.width,r.top+y*r.height))))}}""")
+    assert result['inside'] and result['clear'] and min(result['width'],result['height'])>=44,result
+    rail.evaluate("e=>e.scrollTo({left:0,behavior:'instant'})")
+    return layout,result
 
 
 def verify(page, width):
@@ -173,6 +181,9 @@ def main():
                 assert any('<s>' in p for p in row['prices']) and any('<s>' not in p for p in row['prices'])
                 row['summary']=check_pick_summary(new,lang)
                 compare(new,ref,opt.out,lang,width)
+                old_grid,_=check_nearby(old)
+                new_grid,row['thirdNearbyArrow']=check_nearby(new)
+                assert new_grid==old_grid,(new_grid,old_grid)
                 row['financial']=financial(new)
                 assert row['financial']==financial(old) and all(m['sub']>0 for m in row['financial'])
                 new.evaluate("""()=>{const c=document.querySelector('.d6-lo:not(:disabled)');window.reorder=id=>window.qaReorder=id;c.click()}""")
