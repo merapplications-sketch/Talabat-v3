@@ -16,20 +16,20 @@ jobs:
   webkit:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    container: mcr.microsoft.com/playwright/python:v1.57.0-noble
     outputs:
       pinned_width_pass: ${{ steps.measure.outputs.pinned_width_pass }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Load exact baseline trees and owner image
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --no-tags --depth=1 origin 7c7e66094c10614c01ad7359cda7bc3740e8fcfd d8538a26846491343f4d7d9d3df276ac5095182f 83e94496141375d6e6f1e99ed735cccb70254c32
           git worktree add --detach "$RUNNER_TEMP/approved" 7c7e66094c10614c01ad7359cda7bc3740e8fcfd
           git worktree add --detach "$RUNNER_TEMP/before" d8538a26846491343f4d7d9d3df276ac5095182f
           git diff --exit-code d8538a26 HEAD -- sql supabase talabat-core.js driver.html merchant.html admin.html
-      - name: Install WebKit runner
-        run: |
-          python3 -m pip install playwright==1.57.0 Pillow==11.3.0
-          python3 -m playwright install --with-deps webkit
+      - name: Use the project's pinned WebKit image
+        run: python -m pip install --disable-pip-version-check --retries 2 --timeout 30 playwright==1.57.0 Pillow==11.3.0
       - name: Render Home and tracking, check status history, labels and financial parity
         id: measure
         run: |
