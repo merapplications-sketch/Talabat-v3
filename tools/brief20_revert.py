@@ -96,6 +96,8 @@ def main():
         print("BRIEF20_PINNED_START "+git("rev-parse","HEAD").stdout.strip(),flush=True)
     check = git("status","--porcelain").stdout
     if check: raise RuntimeError("dirty checkout: "+check[:200])
+    git("config","user.name","talabot-brief20-qa")
+    git("config","user.email","talabot-brief20-qa@users.noreply.github.com")
     full_original=HOME.read_text("utf-8")
     print("BRIEF20_REVERT_START "+git("rev-parse","HEAD").stdout.strip(),flush=True)
     for sha in TARGETS:
