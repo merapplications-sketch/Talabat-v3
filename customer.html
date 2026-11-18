@@ -1911,6 +1911,11 @@ function bestH(){const hh=hhStores(),maxD=STORES.filter(x=>TLB.isOpen(x.n)&&x.di
   return homeHeading('offers',"go('promo')")+`<div class="d6-of d75-offers ${fl&&fr.length?'':'one'}">${fl?`<div class="d6-ot f" role="button" tabindex="0" onclick="go('promo')"><b>${ico('bolt',16)} ${t('hFlashD').replace('{n}',fl.n)}</b><span class="ar">${ico('arr',16)}</span><img src="${A3('hamburger')}" alt="" width="72" height="72" loading="lazy"></div>`:''}${fr.length?`<div class="d6-ot g" role="button" tabindex="0" onclick="openCat('*');S.srt='free'"><b>${t('hFreeT')}</b><span class="ar">${ico('arr',16)}</span><img src="assets/3d/motor-scooter-yellow.png" alt="" width="72" height="72" loading="lazy"></div>`:''}</div>`}
 /* recommended products: the app's real best sellers, else dishes marked popular by restaurants */
 const homeLogo=st=>st.lg?`<img class="home-store-logo" src="${esc(st.lg)}" alt="" onerror="this.remove()">`:'';
+function dishStoreLogo(st){
+  const initial=esc(Array.from(st.n.trim())[0]||'');
+  const img=st.lg&&st.lg!==st.i?`<img src="${esc(st.lg)}" alt="" onerror="this.remove()">`:'';
+  return `<span class="dish-store-logo" aria-label="${esc(st.n)}">${initial}${img}</span>`;
+}
 TLB.addDict(
   {homeFromPrice:'от {price} TJS',homeDiscountsUpTo:'скидки до {percent}%'},
   {homeFromPrice:'from {price} TJS',homeDiscountsUpTo:'discounts up to {percent}%'}
@@ -1936,7 +1941,7 @@ function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes
     const sd=sdOf(st.n);
     return {it,st,sd,price:unit(it,sd),discount:eff(it,sd)};
   });
-  return '<section class="home-picks">'+homeHeading('picks',"go('promo')")+`<p class="home-picks-summary">${pickSummary(cards)}</p><div class="d6-rl">${cards.map(({it,st,sd,price,discount:e})=>{const sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" data-price="${price}" data-discount="${e}" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,homeLogo(st)+(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b><span class="st">${esc(st.n)}</span>${pxH(it,sd)}</div>`}).join('')}</div></section>`}
+  return '<section class="home-picks">'+homeHeading('picks',"go('promo')")+`<p class="home-picks-summary">${pickSummary(cards)}</p><div class="d6-rl">${cards.map(({it,st,sd,price,discount:e})=>{const sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" data-price="${price}" data-discount="${e}" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,dishStoreLogo(st)+(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b><span class="st">${esc(st.n)}</span>${pxH(it,sd)}</div>`}).join('')}</div></section>`}
 /* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
 function nearH(){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b))).slice(0,8);if(!l.length)return '';
   return homeHeading('near')+`<div class="d6-nr">${l.map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${d6Ph(st.i||st.lg)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closedStoreBadge')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
