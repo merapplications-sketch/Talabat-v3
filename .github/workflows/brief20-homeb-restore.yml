@@ -2,7 +2,7 @@ name: TALABOT BRIEF20 Home B isolated revert probe (NO PROD)
 on:
   push:
     branches: [review/unified-fix-brief15-20261117]
-    paths: ['.github/workflows/brief20-homeb-restore.yml', 'tools/brief20_revert.py']
+    paths: ['.github/workflows/brief20-homeb-restore.yml', 'tools/brief20_revert.py', 'tools/brief20_visual.py']
   workflow_dispatch:
 permissions:
   contents: read
@@ -13,7 +13,7 @@ jobs:
   git_revert_probe:
     if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 45
     steps:
       - name: Checkout isolated branch full history
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -21,3 +21,22 @@ jobs:
       - name: Inspect exact per-commit reverts, no push and no deployment
         shell: bash
         run: python3 tools/brief20_revert.py
+      - name: Install isolated WebKit and image diff dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0 pillow==11.3.0
+          python3 -m playwright install --with-deps webkit
+      - name: WebKit paired original app screenshots and Home B acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/brief20_visual.py
+      - name: Preserve side-by-side original HTML WebKit images
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-brief20-owner-homeb-compare
+          path: qa-shots/unified-fix/brief20/
+          if-no-files-found: warn
+          retention-days: 7
