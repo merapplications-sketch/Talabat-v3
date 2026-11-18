@@ -1,0 +1,34 @@
+name: TALABOT OPS compare live Home B with approved RU 375
+on:
+  push:
+    branches: [qa/ops-live-homeb-d8538a26-20261118]
+    paths: ['.github/workflows/ops-live-homeb.yml', 'tools/ops_live_homeb.py']
+permissions: {contents: write}
+jobs:
+  visual:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Obtain approved source for read-only byte comparison
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: d8538a26846491343f4d7d9d3df276ac5095182f
+          path: .ops-source
+          persist-credentials: false
+      - name: Render the live preview using the manager's WebKit and fixtures
+        run: |
+          docker run --rm -v "$PWD:/work" -w /work mcr.microsoft.com/playwright/python:v1.57.0-noble \
+            bash -ec 'python -m pip -q install playwright==1.57.0 pillow==11.3.0 && python tools/ops_live_homeb.py'
+      - name: Save captured images and measurements on this evidence branch
+        if: always()
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "qa/ops-live-homeb-d8538a26-20261118"
+          test -s qa-shots/ops-live-homeb-d8538a26/reference-and-live.png
+          sudo chown -R "$(id -u):$(id -g)" qa-shots/ops-live-homeb-d8538a26
+          git config user.name talabot-qa
+          git config user.email talabot-qa@users.noreply.github.com
+          git add -f -- qa-shots/ops-live-homeb-d8538a26
+          git commit -m "qa: record live device preview comparison for deployment ec0a2582"
+          git push origin "HEAD:refs/heads/$GITHUB_REF_NAME"
