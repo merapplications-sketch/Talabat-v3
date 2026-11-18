@@ -1889,17 +1889,15 @@ function heroSync(e){const i=Math.round(e.scrollLeft/Math.max(1,e.clientWidth));
 if(!window.__heroTick)window.__heroTick=setInterval(()=>{const e=$('hsc');if(!e||S.v!='home'||document.hidden||Date.now()-HROT.t<8000||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;const n=e.children.length;if(n<2)return;const i=(HROT.i+1)%n;e.scrollTo({left:i*e.clientWidth,behavior:'smooth'})},5000);
 /* the last delivered order, one tap to repeat (the re-order sheet checks today's prices and availability) */
 function favouritePhoto(store, index){
-  const logo=store?.logo_url, cover=store?.cover_url;
-  if(!logo&&!cover)return d6Ph('');
-  const fallback=logo&&cover&&logo!==cover?` data-cover="${esc(cover)}"`:'';
-  return `<div class="d6-ph"><img src="${esc(logo||cover)}" alt="" loading="${index<3?'eager':'lazy'}"${fallback} onerror="if(this.dataset.cover){this.src=this.dataset.cover;delete this.dataset.cover}else{this.parentNode.classList.add('none');this.remove()}"></div>`;
+  const brand={n:store.name,lg:store.logo_url,i:store.cover_url};
+  return `<span class="d6-ph" aria-hidden="true">${dishStoreLogo(brand,index>=3)}</span>`;
 }
 function lastH(){
   const catalogue=TLB.stores(true), seen=new Set(), cards=[];
   for(const o of TLB.orders()){
     if(o.status!=='delivered'||!o.items?.length)continue;
     const store=o.storeId?catalogue.find(s=>s.id===o.storeId):catalogue.find(s=>s.name===o.store);
-    if(!store||seen.has(store.id)||!(store.logo_url||store.cover_url))continue;
+    if(!store||seen.has(store.id))continue;
     seen.add(store.id);
     const current=ALLS.find(s=>s.id===store.id), closed=!current||!TLB.isOpen(current.n);
     const discount=!closed&&current.disc>0?`<span class="home-deal">−${current.disc}%</span>`:'';
@@ -1915,9 +1913,9 @@ function bestH(){const hh=hhStores(),maxD=STORES.filter(x=>TLB.isOpen(x.n)&&x.di
   return homeHeading('offers',"go('promo')")+`<div class="d6-of d75-offers ${fl&&fr.length?'':'one'}">${fl?`<div class="d6-ot f" role="button" tabindex="0" onclick="go('promo')"><b>${ico('bolt',16)} ${t('hFlashD').replace('{n}',fl.n)}</b><span class="ar">${ico('arr',16)}</span><img src="${A3('hamburger')}" alt="" width="72" height="72" loading="lazy"></div>`:''}${fr.length?`<div class="d6-ot g" role="button" tabindex="0" onclick="openCat('*');S.srt='free'"><b>${t('hFreeT')}</b><span class="ar">${ico('arr',16)}</span><img src="assets/3d/motor-scooter-yellow.png" alt="" width="72" height="72" loading="lazy"></div>`:''}</div>`}
 /* recommended products: the app's real best sellers, else dishes marked popular by restaurants */
 const homeLogo=st=>st.lg?`<img class="home-store-logo" src="${esc(st.lg)}" alt="" onerror="this.remove()">`:'';
-function dishStoreLogo(st){
+function dishStoreLogo(st,lazy=false){
   const initial=esc(Array.from(st.n.trim())[0]||'');
-  const img=st.lg&&st.lg!==st.i?`<img src="${esc(st.lg)}" alt="" onerror="this.remove()">`:'';
+  const img=st.lg&&st.lg!==st.i?`<img src="${esc(st.lg)}" alt=""${lazy?' loading="lazy"':''} onerror="this.remove()">`:'';
   return `<span class="dish-store-logo" aria-label="${esc(st.n)}">${initial}${img}</span>`;
 }
 TLB.addDict(

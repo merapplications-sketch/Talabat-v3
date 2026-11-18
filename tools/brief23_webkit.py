@@ -73,6 +73,7 @@ T.app_settings.push({key:'home_meal_price_cap',value:16});
 banners.push({id:'home-sponsor',placement:'dont_miss',is_active:true,link_type:'store',link_value:'s1',title:'Обед в «Мяте»',image_url:'assets/3d/sushi.webp'});
 """+qa.FINISH_SEED)
 EMPTY_SDK=FULL_SDK.replace(qa.FINISH_SEED,"""
+stores[2].cover_url='';
 T.app_settings=T.app_settings.filter(x=>x.key!=='home_meal_price_cap');
 T.banners=T.banners.filter(x=>x.placement!=='dont_miss');
 stores.forEach(s=>{s.discount_pct=0;s.created_at=iso(42*24*60)});
@@ -92,8 +93,21 @@ def display(page):
         page.evaluate("document.querySelectorAll('.qa-fixed').forEach(e=>e.classList.remove('qa-fixed'))")
 
 
+def repeat_logos(page):
+    tiles=page.locator('.home-again .d6-lo')
+    for name,initial in [('Лимон','Л'),('Сад','С')]:
+        logo=tiles.filter(has_text=name).locator('.dish-store-logo')
+        assert logo.inner_text()==initial and logo.locator('img').count()==0
+        assert logo.evaluate("""e=>getComputedStyle(e).backgroundColor==='rgb(255, 255, 255)'&&
+          parseFloat(getComputedStyle(e).fontSize)>=32&&e.getBoundingClientRect().width>=80""")
+    brand=tiles.filter(has_text='Мята').locator('.dish-store-logo img')
+    brand.evaluate("i=>i.loading='eager'")
+    page.wait_for_function("""()=>document.querySelector('.home-again img[src$="leafy-green.webp"]')?.naturalWidth>0""")
+
+
 def geometry(page,width,full):
     top_geometry(page)
+    repeat_logos(page)
     order=page.locator('.home-heading').evaluate_all("a=>a.map(e=>e.dataset.section)")
     assert order==[x for x in ORDER if full or x not in OPTIONAL],order
     assert page.locator('.d6-dn').count()==1 and bool(page.locator('.home-dine .d6-dc').count())==full
