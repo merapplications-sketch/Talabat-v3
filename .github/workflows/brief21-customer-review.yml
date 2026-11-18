@@ -1,0 +1,57 @@
+name: TALABOT BRIEF-21 customer review
+on:
+  push:
+    branches: [review/unified-fix-brief15-20261117]
+    paths:
+      - customer.html
+      - assets/size-brief7/customer.css
+      - tools/brief21_webkit.py
+      - .github/workflows/brief21-customer-review.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  webkit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      pinned_width_pass: ${{ steps.measure.outputs.pinned_width_pass }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Load exact baseline trees and owner image
+        run: |
+          git fetch --no-tags --depth=1 origin 7c7e66094c10614c01ad7359cda7bc3740e8fcfd d8538a26846491343f4d7d9d3df276ac5095182f 83e94496141375d6e6f1e99ed735cccb70254c32
+          git worktree add --detach "$RUNNER_TEMP/approved" 7c7e66094c10614c01ad7359cda7bc3740e8fcfd
+          git worktree add --detach "$RUNNER_TEMP/before" d8538a26846491343f4d7d9d3df276ac5095182f
+          git diff --exit-code d8538a26 HEAD -- sql supabase talabat-core.js driver.html merchant.html admin.html
+      - name: Install WebKit runner
+        run: |
+          python3 -m pip install playwright==1.57.0 Pillow==11.3.0
+          python3 -m playwright install --with-deps webkit
+      - name: Render Home and tracking, check status history, labels and financial parity
+        id: measure
+        run: |
+          python3 tools/brief21_webkit.py "$RUNNER_TEMP/approved" "$RUNNER_TEMP/before"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report=json.loads(Path('qa-shots/unified-fix/brief21/measurements.json').read_text())
+          passed=all(case['withinRequestedTwoPixels'] for case in report['home'])
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              print(f'pinned_width_pass={str(passed).lower()}',file=out)
+          PY
+  pinned-width:
+    name: Card width within 2 px of the pinned 7c7e6609 mobile source
+    needs: webkit
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check measured width against the assignment
+        env:
+          WIDTH_PARITY: ${{ needs.webkit.outputs.pinned_width_pass }}
+        run: |
+          if [ "$WIDTH_PARITY" != true ]; then
+            echo '::error::Measured favourite card width differs from the pinned mobile build by more than 2 CSS pixels. See the comparison with the owner screenshot on issue 48.'
+            exit 1
+          fi

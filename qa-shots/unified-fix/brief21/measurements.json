@@ -1,0 +1,2771 @@
+{
+  "fixture": "Offline. Identical order/catalogue rows across sources. Images are cropped from the owner's approved screenshot.",
+  "reference": "83e94496141375d6e6f1e99ed735cccb70254c32",
+  "approvedSource": "7c7e66094c10614c01ad7359cda7bc3740e8fcfd",
+  "before": "d8538a26846491343f4d7d9d3df276ac5095182f",
+  "home": [
+    {
+      "lang": "ru",
+      "width": 375,
+      "brokenLogo": false,
+      "sources": {
+        "7c7e6609": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "d8538a26": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "BRIEF-21": [
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ]
+      },
+      "financial": [
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 0,
+          "fee": 10,
+          "total": 68.75,
+          "due": 68.75,
+          "w": 0,
+          "earn": 975,
+          "cb": 0,
+          "tip": 10
+        },
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 20,
+          "fee": 10,
+          "total": 48.75,
+          "due": 0,
+          "w": 48.75,
+          "earn": 575,
+          "cb": 0,
+          "tip": 10
+        }
+      ],
+      "financialParity": true,
+      "withinRequestedTwoPixels": false,
+      "deltaToPinnedSource": 40,
+      "comparison": "home-ru-375-valid.webp"
+    },
+    {
+      "lang": "ru",
+      "width": 375,
+      "brokenLogo": true,
+      "sources": {
+        "7c7e6609": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 0,
+            "src": null
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "d8538a26": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 0,
+            "src": null
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "BRIEF-21": [
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ]
+      },
+      "financial": [
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 0,
+          "fee": 10,
+          "total": 68.75,
+          "due": 68.75,
+          "w": 0,
+          "earn": 975,
+          "cb": 0,
+          "tip": 10
+        },
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 20,
+          "fee": 10,
+          "total": 48.75,
+          "due": 0,
+          "w": 48.75,
+          "earn": 575,
+          "cb": 0,
+          "tip": 10
+        }
+      ],
+      "financialParity": true,
+      "withinRequestedTwoPixels": false,
+      "deltaToPinnedSource": 40,
+      "comparison": "home-ru-375-retry.webp"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "brokenLogo": false,
+      "sources": {
+        "7c7e6609": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "d8538a26": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "BRIEF-21": [
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ]
+      },
+      "financial": [
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 0,
+          "fee": 10,
+          "total": 68.75,
+          "due": 68.75,
+          "w": 0,
+          "earn": 975,
+          "cb": 0,
+          "tip": 10
+        },
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 20,
+          "fee": 10,
+          "total": 48.75,
+          "due": 0,
+          "w": 48.75,
+          "earn": 575,
+          "cb": 0,
+          "tip": 10
+        }
+      ],
+      "financialParity": true,
+      "withinRequestedTwoPixels": false,
+      "deltaToPinnedSource": 40,
+      "comparison": "home-en-390-valid.webp"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "brokenLogo": true,
+      "sources": {
+        "7c7e6609": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 0,
+            "src": null
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "d8538a26": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 0,
+            "src": null
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "BRIEF-21": [
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ]
+      },
+      "financial": [
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 0,
+          "fee": 10,
+          "total": 68.75,
+          "due": 68.75,
+          "w": 0,
+          "earn": 975,
+          "cb": 0,
+          "tip": 10
+        },
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 20,
+          "fee": 10,
+          "total": 48.75,
+          "due": 0,
+          "w": 48.75,
+          "earn": 575,
+          "cb": 0,
+          "tip": 10
+        }
+      ],
+      "financialParity": true,
+      "withinRequestedTwoPixels": false,
+      "deltaToPinnedSource": 40,
+      "comparison": "home-en-390-retry.webp"
+    },
+    {
+      "lang": "en",
+      "width": 430,
+      "brokenLogo": false,
+      "sources": {
+        "7c7e6609": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "d8538a26": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "BRIEF-21": [
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ]
+      },
+      "financial": [
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 0,
+          "fee": 10,
+          "total": 68.75,
+          "due": 68.75,
+          "w": 0,
+          "earn": 975,
+          "cb": 0,
+          "tip": 10
+        },
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 20,
+          "fee": 10,
+          "total": 48.75,
+          "due": 0,
+          "w": 48.75,
+          "earn": 575,
+          "cb": 0,
+          "tip": 10
+        }
+      ],
+      "financialParity": true,
+      "withinRequestedTwoPixels": false,
+      "deltaToPinnedSource": 40,
+      "comparison": "home-en-430-valid.webp"
+    },
+    {
+      "lang": "en",
+      "width": 430,
+      "brokenLogo": true,
+      "sources": {
+        "7c7e6609": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 0,
+            "src": null
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "d8538a26": [
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 0,
+            "src": null
+          },
+          {
+            "store": "KFC",
+            "card": 112,
+            "photo": [
+              112,
+              52
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ],
+        "BRIEF-21": [
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          },
+          {
+            "store": "Romant Restaurant",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/romant"
+          },
+          {
+            "store": "KFC",
+            "card": 152,
+            "photo": [
+              152,
+              100
+            ],
+            "naturalWidth": 474,
+            "src": "/qa-image/kfc"
+          }
+        ]
+      },
+      "financial": [
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 0,
+          "fee": 10,
+          "total": 68.75,
+          "due": 68.75,
+          "w": 0,
+          "earn": 975,
+          "cb": 0,
+          "tip": 10
+        },
+        {
+          "sub": 65,
+          "d": 9.75,
+          "h": 6.5,
+          "p": 0,
+          "pv": 20,
+          "fee": 10,
+          "total": 48.75,
+          "due": 0,
+          "w": 48.75,
+          "earn": 575,
+          "cb": 0,
+          "tip": 10
+        }
+      ],
+      "financialParity": true,
+      "withinRequestedTwoPixels": false,
+      "deltaToPinnedSource": 40,
+      "comparison": "home-en-430-retry.webp"
+    }
+  ],
+  "tracking": [
+    {
+      "status": "pending",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-pending.webp",
+      "heading": "Заказ отправлен",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готовится",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nЖдёт подтверждения\n\nСтатус заказа: 12:30",
+      "courier": null,
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "preparing",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-preparing.webp",
+      "heading": "Готовим ваш заказ",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nГотовится\n\nСтатус заказа: 10:01",
+      "courier": "Курьер\nНазначен",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "ready",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-ready.webp",
+      "heading": "Заказ почти готов",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nГотов\n\nСтатус заказа: время неизвестно",
+      "courier": "Курьер\nНазначен",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "pickedup",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-pickedup.webp",
+      "heading": "Курьер в пути",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "В пути",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nПередан курьеру\n\nСтатус заказа: время неизвестно",
+      "courier": "Курьер\nВезёт заказ\nМестоположение курьера недоступно\n\nГеопозиция курьера: время неизвестно",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "delivered",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-delivered.webp",
+      "heading": "Заказ доставлен",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "В пути",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Доставлен",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nПередан курьеру\n\nСтатус заказа: 10:21",
+      "courier": "Курьер\nДоставил",
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "cancelled",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-cancelled.webp",
+      "heading": "Заказ отменён",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nЗаказ завершён\n\nСтатус заказа: 12:48",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "rejected",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-rejected.webp",
+      "heading": "Заказ отклонён",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готовится",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nЗаказ завершён\n\nСтатус заказа: время неизвестно",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "q14",
+      "lang": "ru",
+      "width": 375,
+      "comparison": "track-ru-375-q14.webp",
+      "heading": "Курьер в пути",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "done",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "В пути",
+          "cls": "current",
+          "current": "step",
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 59,
+          "scroll": 59,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nПередан курьеру\n\nСтатус заказа: время неизвестно",
+      "courier": "Курьер\nВезёт заказ\nМестоположение курьера недоступно\n\nГеопозиция курьера: время неизвестно",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "pending",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-pending.webp",
+      "heading": "Order sent",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Preparing",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nAwaiting confirmation\n\nOrder status: 12:30",
+      "courier": null,
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "preparing",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-preparing.webp",
+      "heading": "Preparing your order",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nPreparing\n\nOrder status: 10:01",
+      "courier": "Courier\nAssigned",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "ready",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-ready.webp",
+      "heading": "Almost ready",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nReady\n\nOrder status: time unknown",
+      "courier": "Courier\nAssigned",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "pickedup",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-pickedup.webp",
+      "heading": "Courier on the way",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "On the way",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nHanded to the courier\n\nOrder status: time unknown",
+      "courier": "Courier\nOn the way\nCourier location unavailable\n\nCourier location: time unknown",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "delivered",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-delivered.webp",
+      "heading": "Order delivered",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "On the way",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Delivered",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nHanded to the courier\n\nOrder status: 10:21",
+      "courier": "Courier\nDelivered",
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "cancelled",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-cancelled.webp",
+      "heading": "Order cancelled",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nOrder closed\n\nOrder status: 12:48",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "rejected",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-rejected.webp",
+      "heading": "Order declined",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Preparing",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nOrder closed\n\nOrder status: time unknown",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "q14",
+      "lang": "en",
+      "width": 390,
+      "comparison": "track-en-390-q14.webp",
+      "heading": "Courier on the way",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "done",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "On the way",
+          "cls": "current",
+          "current": "step",
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 62,
+          "scroll": 62,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nHanded to the courier\n\nOrder status: time unknown",
+      "courier": "Courier\nOn the way\nCourier location unavailable\n\nCourier location: time unknown",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "pending",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-pending.webp",
+      "heading": "Заказ отправлен",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готовится",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nЖдёт подтверждения\n\nСтатус заказа: 12:30",
+      "courier": null,
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "preparing",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-preparing.webp",
+      "heading": "Готовим ваш заказ",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nГотовится\n\nСтатус заказа: 10:01",
+      "courier": "Курьер\nНазначен",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "ready",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-ready.webp",
+      "heading": "Заказ почти готов",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nГотов\n\nСтатус заказа: время неизвестно",
+      "courier": "Курьер\nНазначен",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "pickedup",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-pickedup.webp",
+      "heading": "Курьер в пути",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "В пути",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nПередан курьеру\n\nСтатус заказа: время неизвестно",
+      "courier": "Курьер\nВезёт заказ\nМестоположение курьера недоступно\n\nГеопозиция курьера: время неизвестно",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "delivered",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-delivered.webp",
+      "heading": "Заказ доставлен",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "В пути",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Доставлен",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nПередан курьеру\n\nСтатус заказа: 10:21",
+      "courier": "Курьер\nДоставил",
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "cancelled",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-cancelled.webp",
+      "heading": "Заказ отменён",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nЗаказ завершён\n\nСтатус заказа: 12:48",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "rejected",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-rejected.webp",
+      "heading": "Заказ отклонён",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готовится",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Готов",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "В пути",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nЗаказ завершён\n\nСтатус заказа: время неизвестно",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "q14",
+      "lang": "ru",
+      "width": 320,
+      "comparison": "track-ru-320-q14.webp",
+      "heading": "Курьер в пути",
+      "steps": [
+        {
+          "label": "Оформлен",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готовится",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Готов",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "В пути",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Доставлен",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Ресторан\nПередан курьеру\n\nСтатус заказа: время неизвестно",
+      "courier": "Курьер\nВезёт заказ\nМестоположение курьера недоступно\n\nГеопозиция курьера: время неизвестно",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "pending",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-pending.webp",
+      "heading": "Order sent",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Preparing",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nAwaiting confirmation\n\nOrder status: 12:30",
+      "courier": null,
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "preparing",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-preparing.webp",
+      "heading": "Preparing your order",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nPreparing\n\nOrder status: 10:01",
+      "courier": "Courier\nAssigned",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "ready",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-ready.webp",
+      "heading": "Almost ready",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nReady\n\nOrder status: time unknown",
+      "courier": "Courier\nAssigned",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "pickedup",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-pickedup.webp",
+      "heading": "Courier on the way",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "On the way",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nHanded to the courier\n\nOrder status: time unknown",
+      "courier": "Courier\nOn the way\nCourier location unavailable\n\nCourier location: time unknown",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "delivered",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-delivered.webp",
+      "heading": "Order delivered",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "On the way",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Delivered",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nHanded to the courier\n\nOrder status: 10:21",
+      "courier": "Courier\nDelivered",
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "cancelled",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-cancelled.webp",
+      "heading": "Order cancelled",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nOrder closed\n\nOrder status: 12:48",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "rejected",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-rejected.webp",
+      "heading": "Order declined",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Preparing",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Ready",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "On the way",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nOrder closed\n\nOrder status: time unknown",
+      "courier": null,
+      "chat": false,
+      "support": false,
+      "viewportFits": true
+    },
+    {
+      "status": "q14",
+      "lang": "en",
+      "width": 320,
+      "comparison": "track-en-320-q14.webp",
+      "heading": "Courier on the way",
+      "steps": [
+        {
+          "label": "Placed",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Preparing",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "Ready",
+          "cls": "done",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": true
+        },
+        {
+          "label": "On the way",
+          "cls": "current",
+          "current": "step",
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        },
+        {
+          "label": "Delivered",
+          "cls": "",
+          "current": null,
+          "width": 52,
+          "scroll": 52,
+          "textFits": true,
+          "checked": false
+        }
+      ],
+      "directlyBelowHeading": true,
+      "restaurant": "Restaurant\nHanded to the courier\n\nOrder status: time unknown",
+      "courier": "Courier\nOn the way\nCourier location unavailable\n\nCourier location: time unknown",
+      "chat": true,
+      "support": false,
+      "viewportFits": true
+    }
+  ],
+  "firstScreens": [
+    "first-customer-home-ru-375.webp",
+    "first-customer-restaurant-ru-375.webp",
+    "first-driver-first-ru-375.webp",
+    "first-merchant-first-ru-375.webp",
+    "first-customer-home-en-390.webp",
+    "first-customer-restaurant-en-390.webp",
+    "first-driver-first-en-390.webp",
+    "first-merchant-first-en-390.webp",
+    "first-customer-home-en-430.webp",
+    "first-customer-restaurant-en-430.webp",
+    "first-driver-first-en-430.webp",
+    "first-merchant-first-en-430.webp",
+    "first-customer-home-ru-320.webp",
+    "first-customer-restaurant-ru-320.webp",
+    "first-driver-first-ru-320.webp",
+    "first-merchant-first-ru-320.webp"
+  ],
+  "webkit": "26.5"
+}

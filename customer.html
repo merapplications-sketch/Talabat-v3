@@ -905,7 +905,9 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 .d6-order-progress{display:flex;gap:4px;list-style:none;margin:18px 0;padding:0}.d6-order-progress li{flex:1;min-width:0;text-align:center;position:relative;font-size:10px;line-height:14px;color:var(--mut)}
 .d6-order-progress li i{display:flex;align-items:center;justify-content:center;width:22px;height:22px;border:1px solid var(--line);background:#fff;border-radius:50%;margin:0 auto 6px;position:relative;z-index:1}
 .d6-order-progress li:not(:last-child)::after{content:'';position:absolute;top:10px;left:50%;width:calc(100% + 4px);height:2px;background:var(--line)}
-.d6-order-progress .done i,.d6-order-progress .current i{border-color:var(--o);color:var(--o);background:var(--tint)}.d6-order-progress .done::after{background:var(--o)!important}.d6-order-progress .current{color:var(--ink)}
+.d6-order-progress .done i,.d6-order-progress .current i{border-color:var(--o);color:var(--o);background:var(--tint)}.d6-order-progress .done::after{background:var(--o)!important}.d6-order-progress .current{color:var(--ink);font-weight:600}
+.d6-order-progress li span{display:block;overflow-wrap:anywhere}
+@media(max-width:340px){.p1-summary .d6-order-progress{margin-inline:-6px;gap:2px}.p1-summary .d6-order-progress li:not(:last-child)::after{width:calc(100% + 2px)}}
 .d6-order-items{display:flex;flex-direction:column;gap:6px;padding:12px 0;border-top:1px solid var(--line2);font-size:14px;line-height:20px}.d6-order-total{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;font-size:16px}
 
 /* v67 — consistent comfortable density; no page scaling, financial or state changes. */
@@ -2412,8 +2414,30 @@ TLB.addDict({uiReadyPrep:'Готовится, ~{n} мин',uiReadyRewardRate:'З
 function uiReadyCustomerPrep(o){const n=o.prepTime;if(o.status!=='preparing'||n==null||n===''||!Number.isFinite(+n)||+n<0)return '';return `<p class="ui-ready-prep" data-ready="H13">${esc(t('uiReadyPrep').replace('{n}',String(n)))}</p>`}
 TLB.addDict({p1Restaurant:'Ресторан',p1Receipt:'Состав и чек',p1Contact:'Связаться по заказу',p1GroupBill:'Один счёт и одна доставка. Оплачивает организатор.',p1CollectUntil:'Приём до',p1Close:'Закрыть сбор',p1GroupOpen:'Сбор открыт',p1GroupClosed:'Сбор закрыт',p1Day:'День',p1Time:'Время',p1InviteHint:'Участники выбирают блюда из меню. Организатор проверяет общий заказ.'},
  {p1Restaurant:'Restaurant',p1Receipt:'Items and receipt',p1Contact:'Contact about the order',p1GroupBill:'One bill and one delivery. The organiser pays.',p1CollectUntil:'Collecting until',p1Close:'Close collection',p1GroupOpen:'Collection open',p1GroupClosed:'Collection closed',p1Day:'Day',p1Time:'Time',p1InviteHint:'Participants choose from the menu. The organiser reviews the shared order.'});
-function orderSummary(o){return `<section class="card d6-order-summary p1-summary"><div class="d6-order-top"><strong>#${esc(o.id)}</strong><span>${fmtD(o.createdAt)}</span></div><h2>${esc(o.store)}</h2><p class="p1-address">${esc(o.address||'—')}</p><div class="d6-order-total"><span>${t('total')}</span><strong>${o.total==null?'—':esc(o.total)+' TJS'}</strong></div><div class="xs mut">${esc(t(o.payment))}</div></section>`}
-function trackCards(o){const st=TLB.trackStatus(o),event=TLB.statusAt(o.id),at=event.at==null?t('timeUnknown'):fmtHM(event.at),n=['pending','preparing','ready','pickedup','delivered'].indexOf(o.status);
+const trackingStages=[...actSt,'delivered'];
+const stageLabels=['v66Placed','preparing','v66Ready','v66OnWay','v66Delivered'];
+function trackingStage(o){
+  const active=trackingStages.indexOf(o.status);
+  if(active>=0)return active;
+  // A cancelled order still proves placement. Only its own status events prove later steps.
+  const history=TLB.events(o.id);
+  const stop=history.filter(e=>e.kind===o.status).reduce((first,e)=>Math.min(first,Date.parse(e.at)||Infinity),Infinity);
+  let lastAt=-Infinity, stage=0;
+  for(const event of history){
+    const at=Date.parse(event.at), index=actSt.indexOf(event.kind);
+    if(index>=0&&at<=stop&&at>=lastAt){stage=index;lastAt=at}
+  }
+  return stage;
+}
+function trackingProgress(o){
+  const current=trackingStage(o);
+  return `<ol class="d6-order-progress" aria-labelledby="order-status-title">${stageLabels.map((key,i)=>{
+    const state=i<current?'done':i===current?'current':'';
+    return `<li class="${state}"${i===current?' aria-current="step"':''}><i aria-hidden="true">${i<current?ico('check',12):''}</i><span>${esc(t(key))}</span></li>`;
+  }).join('')}</ol>`;
+}
+function orderSummary(o){return `<section class="card d6-order-summary p1-summary"><div class="d6-order-top"><strong>#${esc(o.id)}</strong><span>${fmtD(o.createdAt)}</span></div><h1 class="p1-track-heading" id="order-status-title">${t('trk_'+o.status)}</h1>${trackingProgress(o)}<h2>${esc(o.store)}</h2><p class="p1-address">${esc(o.address||'—')}</p><div class="d6-order-total"><span>${t('total')}</span><strong>${o.total==null?'—':esc(o.total)+' TJS'}</strong></div><div class="xs mut">${esc(t(o.payment))}</div></section>`}
+function trackCards(o){const st=TLB.trackStatus(o),event=TLB.statusAt(o.id),at=event.at==null?t('timeUnknown'):fmtHM(event.at),n=trackingStages.indexOf(o.status);
  return `${TLB.ordersHealth().failing?`<p class="p1-stale" role="status">${t('ordersStale')}</p>`:''}<section class="card p1-restaurant"><div class="p1-track-title"><h3>${t('p1Restaurant')}</h3><span class="p1-status">${esc(st.restaurant.label)}</span></div><div class="p1-progress" aria-hidden="true">${[0,1,2].map(i=>`<i class="${n>i?'done':n===i?'current':''}"></i>`).join('')}</div><p class="p1-time">${t('statusAtL')}: ${esc(at)}</p>${uiReadyCustomerPrep(o)}</section>${st.courier?`<section class="card p1-courier"><div class="p1-track-title"><h3>${t('courier')}</h3><span class="p1-status courier">${esc(st.courier.label)}</span></div>${o.driverName?`<p class="p1-driver-name">${esc(o.driverName)}</p>`:''}${o.status==='pickedup'?'<div id="p1-courier-map"></div>':''}</section>`:''}`}
 function trackReceipt(o,done){return `<details class="card p1-receipt"><summary>${t('p1Receipt')} ${ico('down',16)}</summary>${receipt(o,done)}</details>`}
 
@@ -2422,10 +2446,10 @@ function trackChat(o){const groups=[];for(const m of o.chat||[]){const g=groups[
 function vTrack(){const o=TLB.order(S.tid);if(!o)return vOrders();const banner=S.fresh==o.id&&o.status=='pending'?`<div class="placed" onclick="S.fresh=null;render()"><span>${ico('check',20)}</span><b>${t('placedBanner')}</b></div>`:'';
   const dead=o.status=='rejected'||o.status=='cancelled',done=o.status=='delivered';
   if((done||dead)&&S.owl!==o.id&&TLB.orderWallet){S.owl=o.id;S.ow=null;const id=o.id;TLB.orderWallet(id).then(l=>{if(S.owl===id){S.ow=l===null?'err':l;render()}})}
-  if(done||dead)return `<div class="d6 d6p">`+topbar(`${t('orderN')} #${o.id}`,esc(o.store),"go('orders')")+`<div class="pg"><h1 class="p1-track-heading">${t('trk_'+o.status)}</h1>${orderSummary(o)}${trackCards(o)}${cxCard(o)}${done?rateCard(o):''}${done&&o.deliveryPhoto?proofCard(o):''}${receipt(o,done)}<button class="btn big" style="width:100%;margin:4px 0 12px" onclick="reorder(${esc(JSON.stringify(o.id))})">${t('reorder')}</button>${reportBtn(o)}</div></div>`;
+  if(done||dead)return `<div class="d6 d6p">`+topbar(`${t('orderN')} #${o.id}`,esc(o.store),"go('orders')")+`<div class="pg">${orderSummary(o)}${trackCards(o)}${cxCard(o)}${done?rateCard(o):''}${done&&o.deliveryPhoto?proofCard(o):''}${receipt(o,done)}<button class="btn big" style="width:100%;margin:4px 0 12px" onclick="reorder(${esc(JSON.stringify(o.id))})">${t('reorder')}</button>${reportBtn(o)}</div></div>`;
   const n={pending:0,preparing:1,ready:1,pickedup:2}[o.status],live=['preparing','ready','pickedup'].includes(o.status),steps=['stp1','stp2','stp3','stp4'];
   return `<div class="d6 d6p">`+topbar(`${t('orderN')} #${o.id}`,esc(o.store),"S.fresh=null;go('orders')")+`<div class="pg">${banner}${o.scheduledFor?`<div class="okb sch" style="margin:0 0 12px">${ico('clock',18)}<b>${t('schedAt').replace('{t}',fmtWhen(o.scheduledFor))}</b></div>`:''}${o.status=='pickedup'&&o.arrivedCustAt?`<div class="okb sch" style="margin:0 0 12px">${ico('bike',18)}<b>${t('courAtYou')}</b></div>`:['preparing','ready'].includes(o.status)&&o.arrivedStoreAt&&o.driver?`<div class="okb sch" style="margin:0 0 12px;background:#eef2ff;color:#3730a3">${ico('bike',18)}<b>${t('courAtRest')}</b></div>`:''}
-  <h1 class="p1-track-heading">${t('trk_'+o.status)}</h1>${orderSummary(o)}${trackCards(o)}${trackReceipt(o,false)}
+  ${orderSummary(o)}${trackCards(o)}${trackReceipt(o,false)}
   ${o.driver?`<section class="card p1-contact"><h3>${t('p1Contact')}</h3><div class="cur-card"><div class="av">${o.driverName?esc(String(o.driverName).charAt(0).toUpperCase()):ico('bike',22)}</div><div style="flex:1;min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${o.driverName?esc(o.driverName):t('drvAssigned')}</b><div class="xs mut">${t('courier')}</div></div>${o.driverPhone&&live?`<a class="cbt call" style="width:44px;height:44px" href="${telH(o.driverPhone)}" aria-label="${t('callCourier')}" title="${t('callCourier')}">${ico('phone',20)}</a>`:''}</div>
   <div class="chat" id="ch">${trackChat(o)}</div>
   ${live?`${customerQuickRow(o)}<div class="rg"><input class="fld" type="text" id="ci" maxlength="200" placeholder="${t('chatH')}" value="${esc(CD[o.id]||'')}" oninput="CD[S.tid]=this.value;CE[S.tid]=false"><button class="ib" style="box-shadow:none;background:#f1f1f4" onclick="sendLoc()" ${locShareBusy(o.id)?'disabled aria-busy="true"':''} aria-label="${t('sendLoc')}">${ico('pin',18)}</button><button class="btn sm" id="cisend" ${CS[o.id]?'disabled aria-busy="true"':''} onclick="sendChat()">${CS[o.id]?'…':t('send')}</button></div>${locShareFeedback(o.id)}${CE[o.id]?`<div class="xs" id="cierr" role="alert" style="color:var(--bad);font-weight:600;margin-top:6px">${t('chatFail')}</div>`:''}`:''}</section>`:`<button class="btn s big p1-contact-help" onclick="openRep(${esc(JSON.stringify(o.id))})">${ico('chat',18)} ${t('p1Contact')}</button>`}
