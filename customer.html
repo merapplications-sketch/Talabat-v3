@@ -1869,8 +1869,12 @@ function heroSlides(){const out=[];inB('top').forEach(b=>out.push({k:'bn',b}));
   if(hh.length)out.push({k:'hap',p:hh[0].p,end:hh[0].end});if(maxD>0)out.push({k:'disc',n:maxD});if(fr.length)out.push({k:'free',n:fr.length});out.push({k:'brand'});return out}
 /* Bento (Home B): the same slides — admin banners first, then real offers. Big tile = first slide (+ the slides after the
    third, swipeable), two small tiles = slides 2 and 3. Fewer than 3 slides → one wide tile. */
+function freePlaces(count){
+  if(TLB.lang()==='ru')return (count%10===1&&count%100!==11?'в {n} месте рядом':'в {n} местах рядом').replace('{n}',count);
+  return count===1?'at 1 place nearby':t('hFreeD').replace('{n}',count);
+}
 const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?`<span data-end="${x.end}" class="hcd">${cdTxt(x.end-Date.now())}</span>`:'',t('hHeroGo'),"go('promo')",'hamburger'],
-  disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),"go('promo')",'hamburger'],free:[t('hFreeT'),t('hFreeD').replace('{n}',x.n),'',t('hFreeGo'),"openCat('*');S.srt='free'",'motor-scooter'],
+  disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),"go('promo')",'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"openCat('*');S.srt='free'",'motor-scooter'],
   brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza']})[x.k];
 function d6Tile(x,cls){if(x.k=='bn')return `<div class="d6-bt img ${cls}" role="button" onclick="bannerGo('${x.b.id}')">${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}</div>`;
   const d=heroD(x);return `<div class="d6-bt ${cls} k-${x.k}" role="button" onclick="${d[4]}"><b class="tt">${d[0]}</b><span class="su">${d[1]}</span>${d[2]?`<span class="cd">${ico('clock',13)} ${d[2]}</span>`:''}${cls=='d6tm'?`<span class="cta">${d[3]} ${ico('arr',15)}</span>`:`<span class="ar">${ico('arr',18)}</span>`}<img class="art" src="${A3(d[5])}" alt="" width="120" height="120"></div>`}
@@ -1904,7 +1908,7 @@ function lastH(){
 /* best offers: flash sale = a real happy hour with its real end, or the biggest store discount; free delivery = stores that really offer it */
 function bestH(){const hh=hhStores(),maxD=STORES.filter(x=>TLB.isOpen(x.n)&&x.disc>0).reduce((m,x)=>Math.max(m,x.disc),0),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
   const fl=hh.length?{n:hh[0].p,end:hh[0].end}:maxD>0?{n:maxD,end:null}:null;if(!fl&&!fr.length)return '';
-  return homeHeading('offers',"go('promo')")+`<div class="d6-of d75-offers ${fl&&fr.length?'':'one'}">${fl?`<div class="d6-ot f" role="button" tabindex="0" onclick="go('promo')"><b>${ico('bolt',16)} ${t('hFlashD').replace('{n}',fl.n)}</b>${fl.end?`<span class="s">${ico('clock',12)} <span class="hcd" data-end="${fl.end}">${cdTxt(fl.end-Date.now())}</span></span>`:`<span class="s">${t('hFlashS')}</span>`}<span class="ar">${ico('arr',16)}</span><img src="${A3('hamburger')}" alt="" width="72" height="72" loading="lazy"></div>`:''}${fr.length?`<div class="d6-ot g" role="button" tabindex="0" onclick="openCat('*');S.srt='free'"><b>${t('hFreeT')}</b><span class="s">${t('hFreeD').replace('{n}',fr.length)}</span><span class="ar">${ico('arr',16)}</span><img src="${A3('motor-scooter')}" alt="" width="72" height="72" loading="lazy"></div>`:''}</div>`}
+  return homeHeading('offers',"go('promo')")+`<div class="d6-of d75-offers ${fl&&fr.length?'':'one'}">${fl?`<div class="d6-ot f" role="button" tabindex="0" onclick="go('promo')"><b>${ico('bolt',16)} ${t('hFlashD').replace('{n}',fl.n)}</b><span class="ar">${ico('arr',16)}</span><img src="${A3('hamburger')}" alt="" width="72" height="72" loading="lazy"></div>`:''}${fr.length?`<div class="d6-ot g" role="button" tabindex="0" onclick="openCat('*');S.srt='free'"><b>${t('hFreeT')}</b><span class="ar">${ico('arr',16)}</span><img src="assets/3d/motor-scooter-yellow.png" alt="" width="72" height="72" loading="lazy"></div>`:''}</div>`}
 /* recommended products: the app's real best sellers, else dishes marked popular by restaurants */
 const homeLogo=st=>st.lg?`<img class="home-store-logo" src="${esc(st.lg)}" alt="" onerror="this.remove()">`:'';
 TLB.addDict(
