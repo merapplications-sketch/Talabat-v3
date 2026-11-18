@@ -2,7 +2,7 @@ name: TALABOT BRIEF20 Home B isolated revert probe (NO PROD)
 on:
   push:
     branches: [review/unified-fix-brief15-20261117]
-    paths: ['.github/workflows/brief20-homeb-restore.yml']
+    paths: ['.github/workflows/brief20-homeb-restore.yml', 'tools/brief20_revert.py']
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,4 +20,4 @@ jobs:
         with: {persist-credentials: false, fetch-depth: 0}
       - name: Inspect exact per-commit reverts, no push and no deployment
         shell: bash
-        run: bash tools/brief20_restore_probe.sh
+        run: python3 tools/brief20_revert.py
