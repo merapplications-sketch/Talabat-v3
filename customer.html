@@ -1493,8 +1493,8 @@ function reorder(id){const o=TLB.order(id);if(!o)return;const closed=!TLB.isOpen
   S.ro={id,store:o.store,closed,lines};render()}
 const roOK=()=>S.ro?S.ro.lines.filter(l=>l.st=='ok'||l.st=='price'):[];
 function roGo(){const r=S.ro;if(!r||r.closed)return;const ok=roOK();if(!ok.length)return;const cart={};ok.forEach(l=>{cart[l.key]=(cart[l.key]||0)+l.qty});
-  if(Object.keys(S.cart).length&&S.cartStore!==r.store&&!confirm(t('clear_cart')))return;
-  S.cart=cart;S.cartUndo=null;S.cartStore=r.store;S.promo=null;S.perr='';S.pm=null;S.quote=null;S.quoteErr=null;S.ro=null;goCart()}
+  chooseCart(r.store,()=>{if(S.ro!==r)return;
+  S.cart=cart;S.cartUndo=null;S.cartStore=r.store;S.promo=null;S.perr='';S.pm=null;S.quote=null;S.quoteErr=null;S.ro=null;goCart()})}
 function roClose(){S.ro=null;render()}
 function roSheet(){const r=S.ro;if(!r)return '';const ok=roOK(),bad=r.lines.length-ok.length,tot=Math.round(ok.reduce((a,l)=>a+l.nu*l.qty,0)*100)/100;
   const st={ok:['\u2713','#1fa05a'],price:['\u2713','#1fa05a'],gone:['\u2715','#d92d20'],opts:['!','#c2410c']};
@@ -1540,8 +1540,37 @@ function goMore(){if(!TLB.isOpen(S.cartStore)){go('home');return}go('menu',{stor
 function goCart(){S.perr='';S.pm=null;go('cart')}
 function add(id,d){if(d>0&&closedNow(S.cartStore))return;S.cartUndo=null;S.cart[id]=Math.min(50,(S.cart[id]||0)+d);if(S.cart[id]<=0)delete S.cart[id];afterCart()}
 function closedNow(n){return !TLB.isOpen(n)}
-function ensureStore(){if(Object.keys(S.cart).length&&S.cartStore!==S.store){if(!confirm(t('clear_cart')))return false;S.cart={};S.cartUndo=null;S.promo=null;S.perr='';S.pm=null;S.okey=null}S.cartStore=S.store;return true}
-function addFrom(id){if(closedNow(S.store))return;const it=menuOf(S.store).find(x=>x.id==id);if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}if(it&&it.hasOpts){openItem(id);return}if(!ensureStore())return;add(id,1)}
+TLB.addDict(
+  {newCartTitle:'Начать новую корзину?',newCartBody:'Корзина из «{store}» будет очищена.',newCartStart:'Начать заново'},
+  {newCartTitle:'Start a new cart?',newCartBody:'Your cart from “{store}” will be cleared.',newCartStart:'Start again'}
+);
+function chooseCart(store, proceed){
+  const previous=S.cartStore;
+  if(!cartCount()||previous===store){proceed();return}
+  if(document.querySelector('.cart-choice'))return;
+  const view=S.v,sheet=S.sh,reorder=S.ro,cart=JSON.stringify(S.cart),dialog=document.createElement('dialog');
+  dialog.className='cart-choice';dialog.setAttribute('aria-labelledby','cart-choice-title');
+  dialog.setAttribute('aria-describedby','cart-choice-body');
+  dialog.innerHTML=`<form method="dialog"><h2 id="cart-choice-title">${t('newCartTitle')}</h2><p id="cart-choice-body">${esc(t('newCartBody').replace('{store}',()=>previous))}</p><div><button autofocus class="btn s" value="cancel">${t('roCancel')}</button><button class="btn" value="start">${t('newCartStart')}</button></div></form>`;
+  dialog.addEventListener('close',()=>{
+    dialog.remove();
+    if(dialog.returnValue==='start'&&S.v===view&&S.sh===sheet&&S.ro===reorder&&S.cartStore===previous&&JSON.stringify(S.cart)===cart&&TLB.isOpen(store))proceed();
+  },{once:true});
+  document.body.append(dialog);dialog.showModal();
+}
+function ensureStore(store, apply){
+  chooseCart(store,()=>{
+    if(S.cartStore!==store){S.cart={};S.cartUndo=null;S.promo=null;S.perr='';S.pm=null;S.okey=null}
+    S.cartStore=store;apply();
+  });
+}
+function addFrom(id,store=S.store,fromHome=false){
+  if(closedNow(store))return;
+  const it=menuOf(store).find(x=>x.id==id);
+  if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}
+  if(it.hasOpts){if(fromHome)go('menu',{store,back:'home'});openItem(id);return}
+  ensureStore(store,()=>{S.store=store;if(fromHome)S.back='home';add(id,1);if(fromHome)TLB.toast&&TLB.toast(t('addedT'))});
+}
 /* ---------- item sheet (choose size / drink / extras) ---------- */
 function openItem(id){const st=S.v=='cart'?S.cartStore:S.store;if(closedNow(st))return;const it=menuOf(st).find(x=>x.id==id);if(!it||!it.available||!it.approved||it.optsBlocked){alert(t('cartGoneL'));return}S.store=st;S.sh={id,sel:{},q:1,note:'',keep:false};render();S.sh&&(S.sh.keep=true)}
 TLB.addDict({v70Edit:'Изменить',v70Save:'Сохранить',v70Changed:'Корзина изменилась. Откройте блюдо заново.',v70Limit:'Не более 50 одинаковых блюд.'},{v70Edit:'Edit',v70Save:'Save changes',v70Changed:'The cart changed. Please reopen this item.',v70Limit:'Maximum 50 identical items.'});
@@ -1619,7 +1648,7 @@ function shPick(gid,oid,max){S.sh.miss='';const sel=S.sh.sel[gid]||(S.sh.sel[gid
 function shQ(d){S.sh.q=Math.max(1,Math.min(50,S.sh.q+d));render()}
 const shOps=()=>Object.values(S.sh.sel).flat();
 const shOk=()=>{const gs=TLB.optionsOf(S.sh.id);return gs.every(g=>{const n=(S.sh.sel[g.id]||[]).length;return n<=g.max&&(!g.required||n>=1)})};
-function shAdd(){if(!S.sh)return;if(!shOk()){const g=TLB.optionsOf(S.sh.id).find(g=>{const n=(S.sh.sel[g.id]||[]).length;return n>g.max||(g.required&&n<1)});if(g){S.sh.miss=g.id;render();const e=$('og-'+g.id);if(e)e.scrollIntoView({block:'center',behavior:'smooth'})}return}if(closedNow(S.store))return;if(S.sh.editKey&&S.cartStore!==S.sh.editStore){alert(t('v70Changed'));return}if(!ensureStore())return;const key=lk(S.sh.id,shOps(),S.sh.note);if(S.sh.editKey){if(S.cartStore!==S.sh.editStore||S.cart[S.sh.editKey]!==S.sh.editQty){alert(t('v70Changed'));return}const combined=(key===S.sh.editKey?0:(S.cart[key]||0))+S.sh.q;if(combined>50){alert(t('v70Limit'));return}delete S.cart[S.sh.editKey];S.cart[key]=combined}else S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.cartUndo=null;S.sh=null;afterCart()}
+function shAdd(){if(!S.sh)return;if(!shOk()){const g=TLB.optionsOf(S.sh.id).find(g=>{const n=(S.sh.sel[g.id]||[]).length;return n>g.max||(g.required&&n<1)});if(g){S.sh.miss=g.id;render();const e=$('og-'+g.id);if(e)e.scrollIntoView({block:'center',behavior:'smooth'})}return}if(closedNow(S.store))return;if(S.sh.editKey&&S.cartStore!==S.sh.editStore){alert(t('v70Changed'));return}const sheet=S.sh;ensureStore(S.store,()=>{if(S.sh!==sheet)return;const key=lk(S.sh.id,shOps(),S.sh.note);if(S.sh.editKey){if(S.cartStore!==S.sh.editStore||S.cart[S.sh.editKey]!==S.sh.editQty){alert(t('v70Changed'));return}const combined=(key===S.sh.editKey?0:(S.cart[key]||0))+S.sh.q;if(combined>50){alert(t('v70Limit'));return}delete S.cart[S.sh.editKey];S.cart[key]=combined}else S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.cartUndo=null;S.sh=null;afterCart()})}
 TLB.addDict({u18ChooseOne:'Выберите 1',u18UpTo:'до {n}'},{u18ChooseOne:'Choose 1',u18UpTo:'up to {n}'});
 /* v06.1 dish sheet: photo above, panel max min(560px,66dvh); title / price and quantity / add stay outside the options scroll (.osh) */
 function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S.sh.id);if(!it){S.sh=null;return ''}const gs=TLB.optionsOf(it.id),sd=sdOf(S.store),ops=shOps(),base=baseOf(it,ops),u=unit(it,sd,base),ok=shOk(),e=eff(it,sd),q=S.sh.q;
@@ -1774,7 +1803,7 @@ const cdTxt=ms=>{if(!ms||ms<=0)return '';const x=Math.floor(ms/1000),h=Math.floo
 if(!window.__cdTick)window.__cdTick=setInterval(()=>{document.querySelectorAll('.hht[data-end]').forEach(e=>{const end=+e.dataset.end;const sp=e.querySelector('span');if(end&&sp)sp.textContent=cdTxt(end-Date.now())})},1000);
 /* best-selling dishes of the whole app, with a quick + */
 const isBest=id=>(TLB.bestDishes?TLB.bestDishes():[]).some(b=>b.item_id==id);
-function quickAdd(n,id){S.store=n;S.back='home';const it=menuOf(n).find(x=>x.id==id);if(it&&it.hasOpts){go('menu',{store:n,back:'home'});openItem(id);return}addFrom(id);if(cartCount())TLB.toast&&TLB.toast(t('addedT'))}
+function quickAdd(n,id){addFrom(id,n,true)}
 /* cart left behind (in-app reminder; a push notification needs the push setup) */
 function cartNudge(){if(!cartCount()||S.nudgeOff)return '';const at=S.cartAt||0;if(!at||Date.now()-at<15*60000)return '';
   return `<div class="ndg"><span>${ico('store',18)}</span><div style="flex:1;min-width:0"><b>${t('ndgT')}</b><div class="xs">${t('ndgS').replace('{n}',cartCount()).replace('{s}',esc(S.cartStore))}</div></div><button class="btn t2" onclick="goCart()">${t('ndgGo')}</button><button class="ndx" aria-label="${t('roCancel')}" onclick="S.nudgeOff=1;render()">${ico('x',14)}</button></div>`}
@@ -2352,7 +2381,7 @@ async function grpCheckout(){const g=S.grp;if(!g||!g.is_host||!g.items.length)re
   S.gKeep={cart:S.cart,store:S.cartStore};const c={},nt={};S.grp.items.forEach(i=>{const k=lk(i.item_id,i.options||[]);c[k]=Math.min(50,(c[k]||0)+i.qty);(nt[k]=nt[k]||[]).push((i.user_name||'')+' ×'+i.qty+(i.note?' ('+i.note+')':''))});
   Object.keys(nt).forEach(k=>nt[k]=nt[k].join('; '));S.cart=c;S.gNotes=nt;S.cartStore=grpStore();S.gCheckout=true;S.promo=null;S.okey=null;go('pay');quoteNow()}
 function grpBackPay(){S.gCheckout=false;S.cart=S.gKeep?S.gKeep.cart:{};S.cartStore=S.gKeep?S.gKeep.store:S.cartStore;S.gKeep=null;S.gNotes=null;S.okey=null;go('group')}
-function grpAddMore(){const n=grpStore();if(!n)return;if(Object.keys(S.cart).length&&S.cartStore!==n){if(!confirm(t('clear_cart')))return;S.cart={}}S.cartStore=n;openN(n)}
+function grpAddMore(){const n=grpStore();if(n)ensureStore(n,()=>openN(n))}
 const grpLink=()=>location.origin+location.pathname+'?g='+S.gid;
 async function grpShare(){const u=grpLink();try{if(navigator.share){await navigator.share({title:t('grpT'),text:t('grpT')+' · '+(grpStore()||''),url:u});return}}catch(e){if(e&&e.name=='AbortError')return}
   try{await navigator.clipboard.writeText(u);TLB.toast&&TLB.toast(t('grpCopied'))}catch(e){prompt(t('grpShare'),u)}}

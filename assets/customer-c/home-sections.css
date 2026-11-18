@@ -80,3 +80,11 @@
 .home-picks:not(:has(.d6-ph:not(.none))) { display: none; }
 #app .d6h :is(.d6-nc,.d6-sc,.d6-dc) > .d6-ph.none { display: none; }
 #app .d6h .d6-sc.closed, #app .d6h .d6-nc.closed { filter: grayscale(1); }
+
+.cart-choice { width: min(360px,calc(100% - 32px)); margin: auto; padding: 20px; color: var(--ink); border: 0; border-radius: 18px; }
+.cart-choice::backdrop { background: rgb(0 0 0 / 48%); }
+.cart-choice h2 { font-size: 20px; margin: 0 0 8px; }
+.cart-choice p { margin: 0 0 20px; overflow-wrap: anywhere; }
+.cart-choice form > div { display: flex; gap: 10px; }
+.cart-choice .btn { flex: 1; }
+.cart-choice .btn.s { border: 1px solid var(--line); background: white; }
