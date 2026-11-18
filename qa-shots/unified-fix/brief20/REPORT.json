@@ -1,0 +1,772 @@
+{
+  "source": {
+    "before": "7c7e66094c10614c01ad7359cda7bc3740e8fcfd",
+    "after": "b2daf1499b094b85de31d5b5753d5064a649c3bf"
+  },
+  "mode": "isolated LOCAL read-only WebKit synthetic fixture, not physical iPhone",
+  "screenshots": 48,
+  "cases": 16,
+  "errors": [],
+  "blocked_external_urls": [
+    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css",
+    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+  ],
+  "rows": [
+    {
+      "app": "customer",
+      "screen": "home",
+      "lang": "ru",
+      "width": 375,
+      "baseline": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 359,
+          "top": 8,
+          "bottom": 72,
+          "width": 343,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Рестораны",
+          "Продукты",
+          "Аптеки",
+          "Красота",
+          "Цветы",
+          "Сладости"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1819
+      },
+      "after": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 359,
+          "top": 8,
+          "bottom": 72,
+          "width": 343,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Рестораны",
+          "Продукты",
+          "Аптеки",
+          "Красота",
+          "Цветы",
+          "Сладости"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1818
+      },
+      "pixels_changed_pct": 0.008,
+      "size_note": null,
+      "side_by_side": "compare/customer-home-ru-375-side-by-side.png",
+      "financial_parity": true
+    },
+    {
+      "app": "customer",
+      "screen": "home",
+      "lang": "en",
+      "width": 390,
+      "baseline": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 374,
+          "top": 8,
+          "bottom": 72,
+          "width": 358,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Food",
+          "Grocery",
+          "Pharmacy",
+          "Beauty",
+          "Flowers",
+          "Sweets"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1786
+      },
+      "after": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 374,
+          "top": 8,
+          "bottom": 72,
+          "width": 358,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Food",
+          "Grocery",
+          "Pharmacy",
+          "Beauty",
+          "Flowers",
+          "Sweets"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1786
+      },
+      "pixels_changed_pct": 0.002,
+      "size_note": null,
+      "side_by_side": "compare/customer-home-en-390-side-by-side.png",
+      "financial_parity": true
+    },
+    {
+      "app": "customer",
+      "screen": "home",
+      "lang": "ru",
+      "width": 430,
+      "baseline": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 414,
+          "top": 8,
+          "bottom": 72,
+          "width": 398,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Рестораны",
+          "Продукты",
+          "Аптеки",
+          "Красота",
+          "Цветы",
+          "Сладости"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1819
+      },
+      "after": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 414,
+          "top": 8,
+          "bottom": 72,
+          "width": 398,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Рестораны",
+          "Продукты",
+          "Аптеки",
+          "Красота",
+          "Цветы",
+          "Сладости"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1818
+      },
+      "pixels_changed_pct": 0.007,
+      "size_note": null,
+      "side_by_side": "compare/customer-home-ru-430-side-by-side.png",
+      "financial_parity": true
+    },
+    {
+      "app": "customer",
+      "screen": "home",
+      "lang": "ru",
+      "width": 320,
+      "baseline": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 304,
+          "top": 8,
+          "bottom": 72,
+          "width": 288,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Рестораны",
+          "Продукты",
+          "Аптеки",
+          "Красота",
+          "Цветы",
+          "Сладости"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1819
+      },
+      "after": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 16,
+          "right": 304,
+          "top": 8,
+          "bottom": 72,
+          "width": 288,
+          "height": 64
+        },
+        "dineout": true,
+        "categories": [
+          "assets/3d/hamburger.webp",
+          "assets/3d/basket.webp",
+          "assets/3d/pill.webp",
+          "assets/3d/lotion-bottle.webp",
+          "assets/3d/flowers-gifts.webp",
+          "assets/3d/shortcake.webp"
+        ],
+        "bento": true,
+        "categoryTexts": [
+          "Рестораны",
+          "Продукты",
+          "Аптеки",
+          "Красота",
+          "Цветы",
+          "Сладости"
+        ],
+        "closedCount": 1,
+        "htmlRendered": 1818
+      },
+      "pixels_changed_pct": 0.01,
+      "size_note": null,
+      "side_by_side": "compare/customer-home-ru-320-side-by-side.png",
+      "financial_parity": true
+    },
+    {
+      "app": "customer",
+      "screen": "restaurant",
+      "lang": "ru",
+      "width": 375,
+      "baseline": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1626
+      },
+      "after": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1626
+      },
+      "pixels_changed_pct": 14.171,
+      "size_note": null,
+      "side_by_side": "compare/customer-restaurant-ru-375-side-by-side.png"
+    },
+    {
+      "app": "customer",
+      "screen": "restaurant",
+      "lang": "en",
+      "width": 390,
+      "baseline": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1587
+      },
+      "after": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1587
+      },
+      "pixels_changed_pct": 13.112,
+      "size_note": null,
+      "side_by_side": "compare/customer-restaurant-en-390-side-by-side.png"
+    },
+    {
+      "app": "customer",
+      "screen": "restaurant",
+      "lang": "ru",
+      "width": 430,
+      "baseline": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1626
+      },
+      "after": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1626
+      },
+      "pixels_changed_pct": 12.829,
+      "size_note": null,
+      "side_by_side": "compare/customer-restaurant-ru-430-side-by-side.png"
+    },
+    {
+      "app": "customer",
+      "screen": "restaurant",
+      "lang": "ru",
+      "width": 320,
+      "baseline": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1626
+      },
+      "after": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1626
+      },
+      "pixels_changed_pct": 15.452,
+      "size_note": null,
+      "side_by_side": "compare/customer-restaurant-ru-320-side-by-side.png"
+    },
+    {
+      "app": "driver",
+      "screen": "first",
+      "lang": "ru",
+      "width": 375,
+      "baseline": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 375,
+          "top": 0,
+          "bottom": 52,
+          "width": 375,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 315
+      },
+      "after": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 375,
+          "top": 0,
+          "bottom": 52,
+          "width": 375,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 320
+      },
+      "pixels_changed_pct": 3.972,
+      "size_note": null,
+      "side_by_side": "compare/driver-first-ru-375-side-by-side.png"
+    },
+    {
+      "app": "driver",
+      "screen": "first",
+      "lang": "en",
+      "width": 390,
+      "baseline": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 52,
+          "width": 390,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 316
+      },
+      "after": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 52,
+          "width": 390,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 327
+      },
+      "pixels_changed_pct": 2.435,
+      "size_note": null,
+      "side_by_side": "compare/driver-first-en-390-side-by-side.png"
+    },
+    {
+      "app": "driver",
+      "screen": "first",
+      "lang": "ru",
+      "width": 430,
+      "baseline": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 430,
+          "top": 0,
+          "bottom": 52,
+          "width": 430,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 315
+      },
+      "after": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 430,
+          "top": 0,
+          "bottom": 52,
+          "width": 430,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 320
+      },
+      "pixels_changed_pct": 2.419,
+      "size_note": null,
+      "side_by_side": "compare/driver-first-ru-430-side-by-side.png"
+    },
+    {
+      "app": "driver",
+      "screen": "first",
+      "lang": "ru",
+      "width": 320,
+      "baseline": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 52,
+          "width": 320,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 315
+      },
+      "after": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 52,
+          "width": 320,
+          "height": 52
+        },
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 320
+      },
+      "pixels_changed_pct": 5.058,
+      "size_note": null,
+      "side_by_side": "compare/driver-first-ru-320-side-by-side.png"
+    },
+    {
+      "app": "merchant",
+      "screen": "first",
+      "lang": "ru",
+      "width": 375,
+      "baseline": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1499
+      },
+      "after": {
+        "width": 375,
+        "scrollWidth": 375,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1575
+      },
+      "pixels_changed_pct": 16.848,
+      "size_note": null,
+      "side_by_side": "compare/merchant-first-ru-375-side-by-side.png"
+    },
+    {
+      "app": "merchant",
+      "screen": "first",
+      "lang": "en",
+      "width": 390,
+      "baseline": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1497
+      },
+      "after": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1573
+      },
+      "pixels_changed_pct": 16.271,
+      "size_note": null,
+      "side_by_side": "compare/merchant-first-en-390-side-by-side.png"
+    },
+    {
+      "app": "merchant",
+      "screen": "first",
+      "lang": "ru",
+      "width": 430,
+      "baseline": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1499
+      },
+      "after": {
+        "width": 430,
+        "scrollWidth": 430,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1575
+      },
+      "pixels_changed_pct": 16.004,
+      "size_note": null,
+      "side_by_side": "compare/merchant-first-ru-430-side-by-side.png"
+    },
+    {
+      "app": "merchant",
+      "screen": "first",
+      "lang": "ru",
+      "width": 320,
+      "baseline": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1498
+      },
+      "after": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+        "header": null,
+        "dineout": false,
+        "categories": [],
+        "bento": false,
+        "categoryTexts": [],
+        "closedCount": 0,
+        "htmlRendered": 1575
+      },
+      "pixels_changed_pct": 16.595,
+      "size_note": null,
+      "side_by_side": "compare/merchant-first-ru-320-side-by-side.png"
+    }
+  ]
+}
