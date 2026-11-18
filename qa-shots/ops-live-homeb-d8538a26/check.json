@@ -1,0 +1,62 @@
+{
+  "url": "https://talabot-gate1-preview-20261116.pages.dev/customer",
+  "browser": "Linux WebKit",
+  "fixture": "PM BRIEF-20 synthetic RU",
+  "source": "d8538a26846491343f4d7d9d3df276ac5095182f",
+  "deployment": "ec0a2582-39c1-442a-959c-548327c8c247",
+  "metrics": {
+    "width": 375,
+    "scrollWidth": 375,
+    "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+    "header": {
+      "left": 16,
+      "right": 359,
+      "top": 8,
+      "bottom": 72,
+      "width": 343,
+      "height": 64
+    },
+    "dineout": true,
+    "categories": [
+      "assets/3d/hamburger.webp",
+      "assets/3d/basket.webp",
+      "assets/3d/pill.webp",
+      "assets/3d/lotion-bottle.webp",
+      "assets/3d/flowers-gifts.webp",
+      "assets/3d/shortcake.webp"
+    ],
+    "bento": true,
+    "categoryTexts": [
+      "Рестораны",
+      "Продукты",
+      "Аптеки",
+      "Красота",
+      "Цветы",
+      "Сладости"
+    ],
+    "closedCount": 1,
+    "htmlRendered": 1818
+  },
+  "pixel_difference_pct": 0.007,
+  "geometry": null,
+  "verified_asset_count": 15,
+  "live_sha256": {
+    "customer.html": "fb95129f8f0bf57d483a6b4768a8a58206a1dfc8bfc71b972beb56b7717c7577",
+    "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+    "assets/customer-c/customer-c.js": "4a2bbf7def802b0d741bfe3153ea3e8d55b498670565ef26e8904509222363ff",
+    "assets/shared/safe-toast.js": "e79becd5afdd9156d4b332ba4e61d9d90e2583804fd4872426b5690496ad044c",
+    "assets/customer-c/customer-c.css": "70958d338d75b443c6a0868aefdc4797bd59852adf819a63e2630bd24a9a16d3",
+    "assets/size-brief7/customer.css": "ebb9369b98eb652d24d08bf4b455164764cfb908f7d080f4a66a24fb7d89e538",
+    "assets/3d/hamburger.webp": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+    "assets/brand/talabot-ru.png": "e05393ddc1b94bd27dba52f40e11d670b8b5a3a0e8bbc740cf2aea46f2851e36",
+    "assets/3d/pizza.webp": "d1afc0f4e56ccfa1e236c0e9ce4b66d77aae57cd04ab4f62c6fc99a152c7b3ea",
+    "assets/3d/motor-scooter.webp": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+    "assets/3d/shortcake.webp": "1ea3239c313253cbcb2a7dbc5808498bbe14461846cca653874f516735d3386e",
+    "assets/3d/lotion-bottle.webp": "9cb30aafd93e7c332b22ddb8a8b9b45466cb99c1892830ab953cd9dc21381549",
+    "assets/3d/basket.webp": "53efb0407ea95f11dbcbc8cff5b4f97b55af65e354e9b8d045da530cebd94e95",
+    "assets/3d/flowers-gifts.webp": "c273f84d187b51c438f79ffa72cbf976d06646dacaed0baaf4e14761d534a2ca",
+    "assets/3d/pill.webp": "55ea52fa52e7070cca23d9f9570ad471ace8d46805b3ccc08d9cd8c6a58c441a"
+  },
+  "errors": [],
+  "blocked_external_hosts": []
+}
