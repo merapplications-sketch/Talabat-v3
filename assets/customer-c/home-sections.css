@@ -90,3 +90,4 @@
 .cart-choice .btn.s { border: 1px solid var(--line); background: white; }
 
 #app .d6h .d6-sc .pk { display: inline-block; max-width: 100%; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; vertical-align: top; box-sizing: border-box; }
+#app .d6h .d6-sc > .mt, #app .d6h .d6-sc > .pk { margin-inline: 0; }
