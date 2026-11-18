@@ -1888,6 +1888,7 @@ function nearH(){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen
 /* wallet + points: the user's own numbers */
 /* coupons and rewards: both open the wallet (vouchers, points, balance are there) */
 function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0);
+  if(!pts&&!L?.balance&&!TLB.wallet()?.balance&&!TLB.promos().some(p=>p.active))return '';
   return homeHeading('rewards')+`<div class="d6-cp"><div class="c1" role="button" onclick="go('wallet')"><span class="ic">${ico('tag',24)}</span><b>${t('d6Cp')}</b><span class="go">${t('d6CpGo')} ${ico('chev',14)}</span></div><div class="c2" role="button" onclick="go('wallet')"><span class="ic">${ico('star',24)}</span><b>${t(pts?'d6Rw':'d6WalT')}</b><span class="go">${t(pts?'d6RwGo':'hWalGo')} ${ico('chev',14)}</span></div></div>`}
 /* DineOut: a banner + the restaurants that have a real discount now (only real offers; no table booking yet) */
 const areaOf=st=>{const a=String(st.ad||'').split(',').map(x=>x.trim()).filter(Boolean);return a[0]||''};

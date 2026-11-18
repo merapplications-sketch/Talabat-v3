@@ -65,3 +65,12 @@
 #app .d6h .home-dine .hrt { top: 2px; right: auto; left: 2px; }
 #app .d6h .home-dine .d6-ph img.home-store-logo { inset: auto 8px 8px auto; width: 44px; height: 44px; }
 #app .d6h .home-dine .nm span { white-space: normal; }
+
+/* An undecodable primary photo has the same state as a missing catalogue photo. */
+.home-again .d6-lo:has(.d6-ph.none),
+.home-picks .d6-pt:has(.d6-ph.none),
+.home-heading[data-section="again"]:not(:has(+ .home-again .d6-ph:not(.none))),
+.home-again:not(:has(.d6-ph:not(.none))),
+.home-picks:not(:has(.d6-ph:not(.none))) { display: none; }
+#app .d6h :is(.d6-nc,.d6-sc,.d6-dc) > .d6-ph.none { display: none; }
+#app .d6h .d6-sc.closed, #app .d6h .d6-nc.closed { filter: grayscale(1); }
