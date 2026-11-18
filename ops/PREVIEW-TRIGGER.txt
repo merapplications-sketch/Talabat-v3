@@ -3,3 +3,4 @@ preview update 2026-11-16T19:10+05: N-v3 23087ed1 + size c20fdd8a (owner-approve
 preview update 2026-11-16T20:00+05: brief8 3e6c27fc
 preview update 2026-11-16T23:15+05: size round2 7c7e6609
 preview update 2026-11-18T09:55+05: BRIEF-15..18d (+19 SQL files, not applied) 71912aa6 — owner approved «رفاع لنشوف», revertible per commit
+preview ROLLBACK 2026-11-18T09:58+05: back to 7c7e6609 — owner reported home screen squeezed / icons + DineOut missing
