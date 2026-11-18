@@ -41,10 +41,10 @@
   b.onclick=()=>orders.length===1?go('track',{tid:o.id}):go('orders',{ofl:'act'});
   // F-01: on Home, place the SAME current-order card in document flow directly
   // after the banner. A fixed card otherwise obscures real banner/section text.
-  const homeBanner=S.v==='home'&&document.querySelector('#app .d6h .d6-bento');
+  const homeBanner=null; // BRIEF-20 owner original fixed Home order card; all other views unchanged.
   // C-01b: on every restaurant/list view, keep the order card in document flow.
   // Bottom padding alone cannot stop a fixed card hiding list rows mid-scroll.
-  const listAnchor=!homeBanner&&(
+  const listAnchor=S.v!=='home'&&!homeBanner&&(
     S.v==='cat'?document.querySelector('#app .d6-lh'):
     S.v==='menu'?document.querySelector('#app .d6m .d6-stats'):
     S.v==='home'?document.querySelector('#app .d6-hh'):
