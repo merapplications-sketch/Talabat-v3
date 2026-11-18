@@ -89,6 +89,17 @@
 .cart-choice .btn { flex: 1; }
 .cart-choice .btn.s { border: 1px solid var(--line); background: white; }
 
+#app .d6h [data-section="popular"] + .d6-rl {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, max-content);
+  grid-auto-columns: 150px;
+  align-items: start;
+}
+#app .d6h [data-section="popular"] + .d6-rl .d6-sc,
+#app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { width: 150px; }
+#app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { height: 150px; }
+
 #app .d6h .d6-sc .pk { display: inline-block; max-width: 100%; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; vertical-align: top; box-sizing: border-box; }
 #app .d6h .d6-sc > .mt, #app .d6h .d6-sc > .pk { margin-inline: 0; }
 .dish-store-logo { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: white; color: var(--ink); font-weight: 700; }
