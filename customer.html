@@ -1191,8 +1191,6 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .d6p .p1-contact #ci{flex:1 1 165px;max-width:100%;box-sizing:border-box}
 #app .d6p .p1-contact .chat{position:relative;display:flex;flex-direction:column;min-width:0;overflow-x:hidden;overflow-y:auto}
 
-/* BRIEF-15b G-08: a real store initial replaces image-less blank tiles. */
-.d6-lo .d6-name-ph{background:#fff1e9;display:flex;align-items:center;justify-content:center;color:#b44820;font-weight:700;font-size:25px}
 /* BRIEF-15c G-03: narrow mobile CTA uses a real gap and hard no-wrap price. */
 #app .d6s .oshf{min-width:0;padding-inline:12px;gap:8px}
 #app .d6s .oshf .d6-q{flex:0 0 118px;min-width:0}
@@ -1841,6 +1839,8 @@ function heroH(){const sl=heroSlides(),side=sl.length>=3?sl.slice(1,3):[],main=s
 const HROT={i:0,t:0};
 function heroSync(e){const i=Math.round(e.scrollLeft/Math.max(1,e.clientWidth));if(i!==HROT.i){HROT.i=i;e.parentNode.querySelectorAll('.hdt i').forEach((d,k)=>d.classList.toggle('on',k==i))}}
 if(!window.__heroTick)window.__heroTick=setInterval(()=>{const e=$('hsc');if(!e||S.v!='home'||document.hidden||Date.now()-HROT.t<8000||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;const n=e.children.length;if(n<2)return;const i=(HROT.i+1)%n;e.scrollTo({left:i*e.clientWidth,behavior:'smooth'})},5000);
+/* BRIEF-15b G-08: no blank grey tiles if a delivered restaurant has no image. */
+.d6-lo .d6-name-ph{background:#fff1e9;display:flex;align-items:center;justify-content:center;color:#b44820;font-weight:700;font-size:25px}
 /* the last delivered order, one tap to repeat (the re-order sheet checks today's prices and availability) */
 function lastH(){const l=TLB.orders().filter(x=>x.status=='delivered'&&String(x.store||'').trim()&&Array.isArray(x.items)&&x.items.some(i=>i&&String(i.name||'').trim())).slice(0,10);if(!l.length)return '';
   return secH('',t('d6FavAgain'),"go('orders')")+`<div class="d6-rl">${l.map(o=>{const st=storeOf(o.store),it=o.items.find(i=>i&&String(i.name||'').trim()),id=JSON.stringify(o.id).replace(/"/g,'&quot;'),photo=st.lg||st.i;return `<div class="d6-lo">${photo?d6Ph(photo):`<div class="d6-ph d6-name-ph" aria-hidden="true"><span>${esc(String(o.store).trim().charAt(0).toUpperCase())}</span></div>`}<b class="nm">${esc(o.store)}</b><span class="it">${esc(it.name)}${o.items.length>1?` +${o.items.length-1}`:''}</span><span class="it">${d6Ago(o.doneAt||o.createdAt)} · ${o.total} TJS</span><button class="d6-ob" onclick="reorder(${id})">${t('d6Ord')}</button></div>`}).join('')}</div>`}
