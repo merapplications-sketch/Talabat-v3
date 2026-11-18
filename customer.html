@@ -2647,7 +2647,7 @@ function render(){
   m01Observe();
   dishViewport();const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();menuAfter();
   cartSave();if(['home','wallet','track'].includes(S.v))milestone();
-  if(document.body&&document.body.style)document.body.style.paddingBottom=full?'0px':bar?'calc(150px + env(safe-area-inset-bottom,0px))':'calc(84px + env(safe-area-inset-bottom,0px))'}
+  if(document.body&&document.body.style)document.body.style.paddingBottom=full?'0px':bar?'max('+Math.ceil(innerHeight-document.querySelector('.bar').getBoundingClientRect().top+16)+'px, calc(84px + env(safe-area-inset-bottom,0px) + '+(document.querySelector('.bar').offsetHeight+16)+'px))':'calc(84px + env(safe-area-inset-bottom,0px))'}
 /* a happy hour starts or ends with no data event: refresh prices once a minute while any is scheduled */
 if(!window.__hhTick)window.__hhTick=setInterval(()=>{if(ME.phone&&TLB.happyHours&&TLB.happyHours().length&&!S.busy){syncStores();render()}},60000);
 {const previewLang=new URLSearchParams(location.search).get('lang');if(previewLang==='ru'||previewLang==='en')TLB.setLang(previewLang)}
