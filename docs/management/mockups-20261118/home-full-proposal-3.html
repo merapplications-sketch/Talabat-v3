@@ -1,0 +1,140 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+:root{--o:#f1511b;--ink:#1c1c21;--mut:#8b8f98;--line:#eeeef1;--lime:#d9f99d;--cream:#f7f3ee;--br:#3b1d14}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"SF Pro Text",Roboto,Arial,sans-serif;background:#fff;width:375px;color:var(--ink)}
+img.top{width:375px;display:block}
+.sec{padding:16px 0 18px}.cr{background:var(--cream)}.pk{background:#fdece4}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;padding:0 16px 12px;gap:8px}
+.t{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.t span{font-size:19px;font-weight:900;line-height:24px;padding:2px 8px;border-radius:6px;color:#fff;background:var(--o)}
+.t span.d{background:var(--br)}.t span.p{background:none;color:var(--ink);padding:2px 0}
+.sub{font-size:13px;color:var(--mut);margin-top:6px}.sub b{font-size:17px;color:var(--ink)}
+.all{color:var(--o);font-size:14px;font-weight:600;white-space:nowrap;padding-bottom:4px}
+.hs{display:flex;gap:10px;overflow:hidden;padding:0 16px}
+.ph{background:#eef0f3;display:flex;align-items:center;justify-content:center;color:#b6bac3;font-size:26px}
+.lg{flex:none;width:84px}.lg .b0{width:84px;height:84px;border-radius:16px;border:1px solid var(--line);position:relative;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;text-align:center}
+.lg .bd{position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);background:var(--lime);font-size:11px;font-weight:700;padding:2px 7px;border-radius:7px;white-space:nowrap}
+.lg .n{font-size:12px;color:var(--mut);margin-top:6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.of{flex:none;width:165px;height:120px;border-radius:16px;padding:12px;position:relative;overflow:hidden}
+.of b{font-size:15px}.of img{position:absolute;right:-6px;bottom:-6px;width:64px}
+.of .a{position:absolute;left:12px;bottom:12px;width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.pc{flex:none;width:150px}.pc .im{height:110px;border-radius:14px;position:relative}
+.pc .im .disc{position:absolute;top:8px;left:8px;background:#e5484d;color:#fff;font-size:12px;font-weight:700;padding:2px 7px;border-radius:7px}
+.pc .im .hr{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:8px;background:#fff;color:var(--o);display:flex;align-items:center;justify-content:center;font-size:15px}
+.pc .nm{font-size:14px;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pc .mt{font-size:12px;color:var(--mut);margin-top:3px}
+.dl{flex:none;width:150px}.dl .im{height:150px;border-radius:16px;border:1px solid var(--line);background:#fff;position:relative;display:flex;align-items:center;justify-content:center}
+.dl .im img{width:92px}.dl .lo{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;text-align:center;line-height:10px}
+.dl .pl{position:absolute;bottom:8px;left:8px;width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 2px 8px #0002;color:var(--o);font-size:21px;display:flex;align-items:center;justify-content:center}
+.dl .nm{font-size:14px;font-weight:600;margin-top:8px;line-height:18px;height:36px;overflow:hidden}.dl .mt{font-size:12px;color:var(--mut);margin-top:2px}
+.pr{font-size:15px;font-weight:800;margin-top:4px}.pr u{text-decoration:none;box-shadow:inset 0 -5px 0 var(--lime)}.pr s{font-size:12px;color:var(--mut);font-weight:500;margin-left:6px}
+.nr{display:flex;border:1px solid var(--line);border-radius:16px;margin:0 16px 10px;overflow:hidden;height:92px}
+.nr .ph{width:96px}.nr .tx{flex:1;padding:12px;font-size:14px}.nr .tx div{font-size:12px;color:var(--mut);margin-top:4px}
+.nr .go{width:40px;height:40px;border-radius:12px;background:#fff0ea;color:var(--o);align-self:center;margin-right:12px;display:flex;align-items:center;justify-content:center}
+.cp{display:flex;gap:10px;padding:0 16px}.cp div{flex:1;height:110px;border-radius:16px;padding:12px;font-size:15px;font-weight:600}
+.dob{margin:0 16px 12px;border-radius:18px;height:150px;background:linear-gradient(135deg,#1e2433,#3b2a1c);padding:16px;position:relative;overflow:hidden;color:#fff}
+.dob .g{font:400 34px Georgia,serif;color:#f3e3b8}.dob .c{position:absolute;top:12px;right:12px;background:#fff0ea;color:var(--o);font-size:12px;font-weight:700;padding:4px 10px;border-radius:10px}
+.dob img{position:absolute;right:8px;bottom:-4px;width:84px}.dob .bt{display:inline-block;margin-top:10px;background:var(--o);padding:7px 14px;border-radius:18px;font-weight:700;font-size:13px}
+.do{flex:none;width:250px}.do .im{height:130px;border-radius:16px;position:relative;overflow:hidden;background:linear-gradient(135deg,#3a2a22,#7a4f35)}
+.do .im .c{position:absolute;top:8px;right:8px;background:var(--lime);font-size:12px;font-weight:800;padding:3px 8px;border-radius:7px}
+.do .im .lo{position:absolute;bottom:8px;right:8px;width:44px;height:44px;border-radius:12px;background:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.do .im img{position:absolute;left:14px;bottom:10px;width:64px}.do .nm{font-size:14px;font-weight:600;margin-top:8px}.do .mt{font-size:12px;color:var(--mut);margin-top:2px}
+.nav{display:flex;justify-content:space-around;border-top:1px solid var(--line);padding:10px 0 24px;font-size:11px;color:var(--mut);text-align:center}.nav b{color:var(--o)}
+.chg{outline:3px dashed #16a34a;outline-offset:-3px}
+.lab{position:absolute;margin:-14px 0 0 12px;background:#16a34a;color:#fff;font:700 10px Arial;padding:2px 6px;border-radius:6px;z-index:2}
+
+.cats{display:flex;justify-content:space-between;padding:12px 8px 20px}
+.ct{flex:none;width:56px;text-align:center;font-size:10px;letter-spacing:-.2px;font-weight:600;white-space:nowrap}
+.ct i{display:flex;width:56px;height:56px;margin:0 auto 6px;border-radius:50%;align-items:center;justify-content:center;margin-bottom:6px}
+.ct img{width:44px;height:44px}
+/* unique headings */
+.h{display:flex;align-items:center;gap:7px;font-weight:900;font-size:18px;line-height:22px;white-space:nowrap}
+.h img{width:30px;height:30px}
+.h1 .w{position:relative}.h1 .w:after{content:"";position:absolute;left:-2px;right:-2px;bottom:1px;height:9px;background:var(--lime);z-index:-1;border-radius:3px}
+.h1 .ic{width:34px;height:34px;border-radius:50%;background:var(--o);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;transform:rotate(-20deg)}
+.h2 .tg{background:var(--o);color:#fff;padding:3px 12px 3px 18px;clip-path:polygon(10px 0,100% 0,100% 100%,10px 100%,0 50%);position:relative}
+.h2 .tg:before{content:"";position:absolute;left:8px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:#fff}
+.h3{flex-direction:column;align-items:flex-start;gap:0}.h3 small{font:700 12px Arial;letter-spacing:3px;color:var(--o);text-transform:uppercase}
+.h3 .r{display:flex;align-items:center;gap:6px}.h3 .burst{color:var(--o);font-size:18px;letter-spacing:-3px;transform:rotate(-12deg)}
+.h4 .rb{background:var(--br);color:#fff;padding:3px 10px;transform:rotate(-2deg);border-radius:4px}.h4 .rb2{background:var(--lime);color:var(--br);padding:3px 10px;transform:rotate(2deg);border-radius:4px;margin-left:-4px}
+.h5 .wv{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='6'%3E%3Cpath d='M0 3 Q5 0 10 3 T20 3' fill='none' stroke='%23f1511b' stroke-width='2.5'/%3E%3C/svg%3E") repeat-x bottom;padding-bottom:7px}
+.h6 .tk{background:#1e2433;color:#fff;padding:4px 16px;position:relative;-webkit-mask:radial-gradient(circle 7px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 7px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat}
+.h7 .st{width:44px;height:44px;border-radius:50%;border:2px dashed var(--o);color:var(--o);display:flex;align-items:center;justify-content:center;font-size:15px;transform:rotate(-14deg)}
+.h7 .tx{line-height:22px}.h7 .tx b{color:var(--o)}
+
+.dl2{flex:none;width:150px}.dl2 .dp{height:150px;border-radius:16px;border:1px solid var(--line);background:#fff;position:relative;display:flex;align-items:center;justify-content:center}
+.dl2 .dp img.f{width:92px}.dl2 .lo{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;text-align:center;line-height:10px}
+.dl2 .pl{position:absolute;bottom:8px;left:8px;width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 2px 8px #0002;color:var(--o);font-size:21px;display:flex;align-items:center;justify-content:center}
+.dl2 .dn{font-size:14px;font-weight:600;margin-top:8px;line-height:18px;height:36px;overflow:hidden}.dl2 .dm{font-size:12px;color:var(--mut);margin-top:3px}
+.fr{display:grid;grid-template-rows:1fr 1fr;grid-auto-flow:column;grid-auto-columns:250px;gap:10px;overflow:hidden;padding:0 16px}
+.fi{display:flex;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;height:96px}
+.fi .im{width:86px;border-right:1px solid var(--line);position:relative;display:flex;align-items:center;justify-content:center}
+.fi .im img{width:54px}.fi .im .b{position:absolute;bottom:6px;left:6px;background:var(--lime);font-size:11px;font-weight:700;padding:2px 6px;border-radius:6px}
+.fi .tx{padding:10px 12px;font-size:13px;font-weight:600;line-height:17px}
+.bb{margin:0 16px;border-radius:18px;background:var(--cream);height:150px;display:flex;overflow:hidden}
+.bb .l{flex:1;padding:16px}.bb .l b{display:block;font-size:20px;line-height:24px;color:var(--br);font-weight:800;margin-top:6px}.bb .l span{font-size:13px;color:var(--br);display:block;margin-top:8px}
+.bb .r{width:150px;background:#fff;border-radius:60px 0 0 60px;border-left:5px solid var(--br);display:flex;align-items:center;justify-content:center}.bb .r img{width:96px}
+.lgo{width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#c8102e}
+.nw{display:flex;gap:12px;align-items:center;padding:8px 16px}.nw .dp{width:84px;height:84px;border-radius:14px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}.nw .dp img{width:56px}
+.nw b{font-size:15px}.nw .dm{font-size:12px;color:var(--mut);margin-top:3px}.nw .fb{display:inline-block;margin-top:6px;background:var(--lime);font-size:12px;font-weight:700;padding:3px 8px;border-radius:7px}
+/* new headings */
+.n1 .a{background:var(--o);color:#fff;padding:2px 8px;border-radius:6px}.n1 .b{background:var(--br);color:#fff;padding:2px 8px;border-radius:6px}
+.n2 .bx{border:2.5px solid var(--br);padding:1px 10px;border-radius:999px;transform:rotate(-3deg)}
+.n3 .fl{font-style:italic;letter-spacing:.5px;background:linear-gradient(90deg,var(--o),#e5484d);-webkit-background-clip:text;color:transparent}
+.n4 .nb{background:var(--lime);color:var(--br);padding:2px 10px;border-radius:8px 8px 8px 0}
+.sec.pk{background:#fdece4}.nsub{font-size:13px;color:var(--mut);margin-top:4px}.nsub b{font-size:17px;color:var(--ink)}
+</style></head><body>
+<img class="top" src="top2.png">
+<div class="lab">أكبر</div>
+<div class="cats chg"><div class="ct"><i style="background:#fff1e8"><img src="hamburger.webp"></i>Рестораны</div><div class="ct"><i style="background:#eaf6ee"><img src="basket.webp"></i>Продукты</div><div class="ct"><i style="background:#e9f0fe"><img src="pill.webp"></i>Аптеки</div><div class="ct"><i style="background:#fdeef3"><img src="lotion-bottle.webp"></i>Красота</div><div class="ct"><i style="background:#f1ecfd"><img src="flowers-gifts.webp"></i>Цветы</div><div class="ct"><i style="background:#fdeeee"><img src="shortcake.webp"></i>Сладости</div></div>
+
+<div class="lab">جديد</div>
+<div class="sec chg"><div class="sh"><div class="h h1"><span class="ic">↻</span><span>Заказать <span class="w">снова</span></span></div><span class="all">Все ›</span></div>
+ <div class="hs">
+  <div class="lg"><div class="b0" style="color:#c8102e">KFC<span class="bd">Акция</span></div><div class="n">KFC</div></div>
+  <div class="lg"><div class="b0" style="background:#1d1d1f;color:#f5c542">ROMANT</div><div class="n">Romant</div></div>
+  <div class="lg"><div class="b0" style="color:#0c6b3a">Дар-ул-<br>Хилоф<span class="bd">−25%</span></div><div class="n">Дар-ул-Хилоф</div></div>
+  <div class="lg"><div class="b0" style="color:#7a2e8e">Аптека</div><div class="n">Аптека</div></div>
+ </div></div>
+
+<div class="sec"><div class="sh"><div class="h h2"><img src="fire.webp"><span class="tg">Лучшие предложения</span></div><span class="all">Все ›</span></div>
+ <div class="hs"><div class="of" style="background:#fdece4"><b>До 25%</b><img src="hamburger.webp"><span class="a">→</span></div><div class="of" style="background:#e7f5ec"><b>Бесплатная доставка</b><img src="motor-scooter-yellow.png"><span class="a">→</span></div></div></div>
+
+<div class="lab">جديد</div><div class="sec cr chg"><div class="sh"><div><div class="h n1"><img src="hamburger.webp"><span class="a">Обеды</span><span class="b">на твой</span><span class="a">вкус</span></div><div class="nsub">от <b>29</b> TJS + бесплатная доставка</div></div><span class="all">Все ›</span></div>
+<div class="hs"><div class="dl2"><div class="dp"><img class="f" src="hamburger.webp"><span class="lo">KFC</span><span class="pl">+</span></div><div class="dn">Комбо бургер с картофелем</div><div class="dm">★ 4.6 · 30–40 мин</div><div class="pr"><u>29 TJS</u><s>42</s></div></div>
+<div class="dl2"><div class="dp"><img class="f" src="pizza.webp"><span class="lo">ROM<br>ANT</span><span class="pl">+</span></div><div class="dn">Пицца на одного</div><div class="dm">★ 3.4 · 65–75 мин</div><div class="pr"><u>35 TJS</u><s>50</s></div></div>
+<div class="dl2"><div class="dp"><img class="f" src="sushi.webp"><span class="lo">SUSHI</span><span class="pl">+</span></div><div class="dn">Сет роллов</div><div class="dm">★ 4.8</div><div class="pr"><u>39 TJS</u></div></div></div></div><div class="sec"><div class="sh"><div class="h h3"><small>топ недели</small><span class="r"><img src="star.webp">Популярные рестораны<span class="burst">///</span></span></div><span class="all">Все ›</span></div>
+ <div class="hs"><div class="pc"><div class="im ph">🖼<span class="disc">−25%</span><span class="hr">♥</span></div><div class="nm">Ресторан «Дар-ул-Хилоф»</div><div class="mt">★ 4.7 (40) · 15–25 мин</div></div>
+ <div class="pc"><div class="im ph">🖼<span class="hr">♡</span></div><div class="nm">KFC</div><div class="mt">30–40 мин</div></div></div></div>
+
+<div class="lab">جديد</div><div class="sec chg"><div class="sh"><div class="h n2"><img src="party-popper.webp"><span class="bx">Не пропустите</span></div></div>
+<div class="bb"><div class="l"><div class="lgo">KFC</div><b>Собери свой микс</b><span>от 25 TJS</span></div><div class="r"><img src="french-fries.webp"></div></div></div><div class="lab">جديد</div>
+<div class="sec cr chg"><div class="sh"><div><div class="h h4"><img src="sparkles.webp"><span class="rb">Рекомендуем</span><span class="rb2">для вас</span></div><div class="sub">от <b>11</b> TJS · скидки до 25%</div></div><span class="all">Все ›</span></div>
+ <div class="hs">
+  <div class="dl"><div class="im"><img src="hamburger.webp"><span class="lo">Дар-ул<br>Хилоф</span><span class="pl">+</span></div><div class="nm">Очень длинное название блюда</div><div class="mt">Дар-ул-Хилоф</div><div class="pr"><u>11.25 TJS</u><s>15</s></div></div>
+  <div class="dl"><div class="im"><img src="pizza.webp"><span class="lo">Дар-ул<br>Хилоф</span><span class="pl">+</span></div><div class="nm">Блюдо 2</div><div class="mt">Дар-ул-Хилоф</div><div class="pr"><u>16.88 TJS</u><s>22.5</s></div></div>
+  <div class="dl"><div class="im"><img src="sushi.webp"><span class="lo">KFC</span><span class="pl">+</span></div><div class="nm">Блюдо 3</div><div class="mt">KFC</div><div class="pr"><u>16.88</u></div></div>
+ </div></div>
+
+<div class="lab">جديد</div><div class="sec pk chg"><div class="sh"><div><div class="h n3"><img src="high-voltage.webp"><span class="fl">Быстрая распродажа</span></div><div class="nsub">Только для вас, один раз на товар</div></div><span class="all">Все ›</span></div>
+<div class="fr"><div class="fi"><div class="im"><img src="red-apple.webp"><span class="b">−50%</span></div><div class="tx">Яблоки, 1 кг<div class="pr"><u>9 TJS</u><s>18</s></div></div></div>
+<div class="fi"><div class="im"><img src="croissant.webp"><span class="b">−50%</span></div><div class="tx">Круассан масляный<div class="pr"><u>6 TJS</u><s>12</s></div></div></div>
+<div class="fi"><div class="im"><img src="birthday-cake.webp"><span class="b">−30%</span></div><div class="tx">Торт ягодный<div class="pr"><u>70 TJS</u><s>100</s></div></div></div>
+<div class="fi"><div class="im"><img src="basket.webp"><span class="b">−20%</span></div><div class="tx">Набор продуктов<div class="pr"><u>80 TJS</u><s>100</s></div></div></div></div></div><div class="sec"><div class="sh"><div class="h h5"><img src="round-pushpin.webp"><span class="wv">Рядом с вами</span></div></div>
+ <div class="nr"><div class="ph">🖼</div><div class="tx">Ресторан «Дар-ул-Хилоф»<div>15–25 мин · 0 км</div></div><span class="go">›</span></div>
+ <div class="nr" style="opacity:.55"><div class="ph">🖼</div><div class="tx">Аптека<div>60–70 мин · 9.6 км · Закрыт</div></div><span class="go">›</span></div></div>
+
+<div class="sec"><div class="sh"><div class="h h6"><img src="wrapped-gift.webp"><span class="tk">Купоны и награды</span></div></div>
+ <div class="cp"><div style="background:#fdf6ef;border:1px solid #f3dccb">🏷<br>Купоны<br><small style="font-weight:400">Открыть купоны ›</small></div><div style="background:#1e2433;color:#fff">☆<br>Баллы и награды<br><small style="font-weight:400">Мои награды ›</small></div></div></div>
+
+<div class="lab">جديد</div>
+<div class="sec cr chg"><div class="sh"><div class="h h7"><span class="st">−%</span><span class="tx">Рестораны <b>со скидкой</b></span><img src="coin.webp"></div><span class="all">Все ›</span></div>
+ <div class="dob"><span class="c">До 25% на меню</span><div class="g">DineOut</div><div style="font-size:14px">Рестораны с атмосферой рядом с вами</div><span class="bt">Смотреть →</span><img src="pizza.webp"></div>
+ <div class="hs">
+  <div class="do"><div class="im"><img src="pizza.webp"><span class="c">−25%</span><span class="lo">ДАР-УЛ</span></div><div class="nm">Ресторан «Дар-ул-Хилоф»</div><div class="mt">★ 4.7 (40) · ~100 TJS на двоих · пр. Рудаки</div></div>
+  <div class="do"><div class="im" style="background:linear-gradient(135deg,#2b3a32,#557a5f)"><img src="sushi.webp"><span class="c">−10%</span><span class="lo">ROMANT</span></div><div class="nm">Romant</div><div class="mt">★ 4.4 · ~150 TJS</div></div>
+ </div></div>
+
+<div class="lab">جديد</div><div class="sec chg"><div class="sh"><div><div class="h n4"><img src="gem-stone.webp"><span class="nb">Откройте новое</span></div><div class="nsub">Скидка до 30% на первый заказ</div></div><span class="all">Все ›</span></div>
+<div class="nw"><div class="dp"><img src="hamburger.webp"></div><div><b>Новый бургер-бар</b><div class="dm">★ Новый · 25–40 мин · Бесплатно</div><span class="fb">Первый заказ: −20%</span></div></div>
+<div class="nw"><div class="dp"><img src="sushi.webp"></div><div><b>Суши-хаус</b><div class="dm">★ Новый · 30–45 мин</div><span class="fb">Первый заказ: −30%</span></div></div></div><div class="nav"><div><b>⌂<br>Главная</b></div><div>▤<br>Заказы</div><div>▭<br>Кошелёк</div><div>🏷<br>Акции</div><div>👤<br>Профиль</div></div>
+</body></html>
