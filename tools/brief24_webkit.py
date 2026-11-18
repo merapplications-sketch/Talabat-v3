@@ -64,7 +64,7 @@ def current_home(page, out):
         assert page.locator(f'[data-section="{section}"]').is_visible(), section
     meals=page.locator('.home-meals')
     assert meals.locator('.home-picks-summary').inner_text()=='от 60 TJS'
-    assert meals.locator('.nm').all_inner_texts()==['Плов','Hot honey']
+    assert meals.locator('.nm').all_inner_texts()==['Hot honey','Плов']
     assert meals.locator('.d6-pt:visible').count()==2
     assert page.locator('.home-ad-card b').inner_text()=='Скидка 20% в Romant Restaurant'
     disc=page.locator('.home-discover')
@@ -189,6 +189,15 @@ def variants(browser, server, photos):
         for(let i=0;i<5;i++)stores.push({...stores[0],id:'other'+i,name:'Test '+i});
         items.push({...items[0],id:'fourth'},{...items[0],id:'fifth'});
         T.app_settings.push({key:'home_meal_price_cap',value:12});""",large)
+
+    def mixed_photos(p):
+        meals=p.locator('.home-meals')
+        assert meals.locator('.nm').all_inner_texts()==['Фото 70','Hot honey','Без фото 20','Плов']
+        assert meals.locator('.home-picks-summary').inner_text()=='от 20 TJS'
+        meals.locator('[data-section=meals] button').click()
+        assert p.locator('.home-meals .nm').all_inner_texts()==['Фото 70','Hot honey','Без фото 20','Плов']
+    check("""items.push({...items[1],id:'photo70',name:'Фото 70',price:70,discount_pct:0},
+        {...items[1],id:'plain20',name:'Без фото 20',price:20,discount_pct:0,image_url:''});""",mixed_photos)
 
     def three_deals(p):
         boxes=layout(p.locator('.flash-grid'))

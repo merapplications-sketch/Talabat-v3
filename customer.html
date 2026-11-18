@@ -1979,9 +1979,9 @@ function mealsH(products,expanded=false){
   const restaurants=products.filter(c=>c.st.c==='rest');
   const selected=restaurants.filter(c=>c.it.meal_for_one);
   const cards=(selected.length?selected:restaurants.filter(c=>c.price<=cap))
-    .sort((a,b)=>a.price-b.price).slice(0,10);
+    .sort((a,b)=>Number(Boolean(b.it.image))-Number(Boolean(a.it.image))||a.price-b.price).slice(0,10);
   if(!cards.length)return '';
-  const price=cards[0].price;
+  const price=Math.min(...cards.map(c=>c.price));
   const tried=cards.some(c=>c.st.ffd)?triedRestaurants():null;
   const free=cards.every(c=>c.st.ft==='free'||(c.st.ffd&&tried&&!tried.has(c.st.n))||
     (c.st.fdm>0&&c.price>=c.st.fdm))?' + '+t('lunchFree'):'';
