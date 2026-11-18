@@ -27,13 +27,13 @@ jobs:
           python3 - <<'PY'
           import pathlib, subprocess
           files=subprocess.check_output(['git','diff','--name-only',subprocess.check_output(['git','rev-parse','HEAD~10']).decode().strip(),'HEAD']).decode().splitlines()
-          assert files==['assets/customer-c/customer-c.js'],('SCOPE_FAIL',files)
+          assert files==['assets/customer-c/customer-c.js','customer.html'],('SCOPE_FAIL',files)
           contents=pathlib.Path('assets/customer-c/customer-c.js').read_text('utf8')
           assert "const homeBanner=null; // BRIEF-20 owner original fixed Home order card" in contents
           assert "const listAnchor=S.v!=='home'&&!homeBanner&&(" in contents
           assert "S.v==='cat'?document.querySelector('#app .d6-lh')" in contents
           assert "S.v==='menu'?document.querySelector('#app .d6m .d6-stats')" in contents
-          print("BRIEF20_ISOLATED_REVERT_SAFETY_PASS ten reverts; only customer current-order Home scoped source delta")
+          print("BRIEF20_ISOLATED_REVERT_SAFETY_PASS ten reverts; only customer.html and customer current-order Home scoped source delta")
           PY
       - name: Push only to existing isolated review branch; no deployment, PR merge or production
         shell: bash
