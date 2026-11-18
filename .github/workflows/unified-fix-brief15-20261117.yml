@@ -73,6 +73,9 @@ jobs:
           while IFS= read -r changed; do
             case "$changed" in
               tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief18_webkit.py|tools/brief18b_webkit.py|tools/brief18c_webkit.py|tools/brief18d_webkit.py|talabat-core.js|assets/3d/motor-scooter-yellow.png|sql/proposed/brief18_delivery_instructions.sql|sql/proposed/brief18_delivery_instructions_rollback.sql|sql/proposed/brief18_delivery_instructions_owner_purge.sql|tools/brief19_sec18_local.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
+              .github/workflows/brief20-homeb-restore.yml|.github/workflows/brief20-owner-commit.yml|.github/workflows/brief20-source-evidence.yml|tools/brief20_restore_probe.sh|tools/brief20_revert.py|tools/brief20_visual.py|assets/size-brief7/customer.css)
+                git diff --exit-code 78c4551b193d4a877a93727ccabda10df9059cb3 HEAD -- "$changed" ;;
+              .github/workflows/brief21-customer-review.yml|tools/brief21_webkit.py) ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"

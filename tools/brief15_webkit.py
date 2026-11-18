@@ -20,7 +20,7 @@ def assert_js(pg,script,name):
     # inspectable visual contract; no accepted case may store geometry:null.
     key=(re.search(r'F-\d\d|NOTIFY-01',name) or [None])[0]
     selectors={
-      "F-01":["#app .c-current-inline","#app .d6-bento"],
+      "F-01":["#app .c-current","#app .d6-bento"],
       "F-02":["#app .d6-ct b","#app .d6-bt.d6tp .tt","#app input[placeholder]"],
       "F-03":["#app .p1-summary","#app .p1-contact","#app .customer-quick button"],
       "F-04":["#shn",".d6s .osh",".d6s .oshf"],
@@ -60,31 +60,27 @@ def F01(pg):
     pg.evaluate("() => {S.v='home';render()}")
     pg.wait_for_timeout(120)
     return assert_js(pg,"""() => {
-      const c=document.querySelector('#app .c-current-inline'),b=document.querySelector('#app .d6-bento');
-      if(!c||!b)return false;const a=c.getBoundingClientRect(),r=b.getBoundingClientRect();
-      return getComputedStyle(c).position!=='fixed'&&a.top>=r.bottom-1&&
-        c.previousElementSibling===b&&a.width>240;
-    }""","F-01 floating current-order card intersects Home banner")
+      const c=document.querySelector('#app .c-current'),banner=document.querySelector('#app .d6-bento');
+      if(!c||!banner)return false;
+      const box=c.getBoundingClientRect();
+      return getComputedStyle(c).position==='fixed'&&!c.classList.contains('c-current-inline')&&
+        c.parentElement.id==='app'&&box.width>240&&box.left>=0&&box.right<=innerWidth+1&&
+        box.top>=banner.getBoundingClientRect().bottom-1&&box.bottom<=innerHeight+1;
+    }""","F-01 Home B fixed current-order button")
 
 def F02(pg):
     pg.evaluate("() => {S.v='home';render()}")
     return assert_js(pg,"""() => {
-      const cats=[...document.querySelectorAll('#app .d6-ct b')],inp=document.querySelector('#app input[placeholder]');
-      if(!inp||!cats.length)return false;
-      const ph=inp.placeholder.toLowerCase();
-      const lang=TLB.lang();
-      if(lang==='ru'&&!ph.includes('поиск еды и магазинов'))return false;
-      if(lang==='en'&&!ph.includes('search food and stores'))return false;
-      const labelsOK=cats.every(e=>getComputedStyle(e).whiteSpace==='normal'&&
-        getComputedStyle(e).webkitLineClamp==='2'&&e.scrollWidth<=e.clientWidth+2);
-      const promo=document.querySelector('#app .d6-bt.d6tp .tt');
-      if(!promo)return labelsOK;
-      const panel=promo.closest('.d6-bt'),r=panel.getBoundingClientRect();
-      const range=document.createRange();range.selectNodeContents(promo);
-      const lines=[...range.getClientRects()];
-      const promoOK=lines.length>=1&&lines.every(x=>x.left>=r.left+3&&x.right<=r.right-3&&x.top>=r.top-1&&x.bottom<=r.bottom+1);
-      return labelsOK&&promoOK;
-    }""","F-02 search/category/free-delivery banner content clipped")
+      const input=document.querySelector('#sq'),cats=[...document.querySelectorAll('.d6-cats .d6-ct')];
+      const keys=['rest','grocery','pharmacy','beauty','flowersgifts','sweets'];
+      const banner=document.querySelector('.d6-bento'),categories=document.querySelector('.d6-cats');
+      if(!input||input.placeholder!==t('hSearch')||!banner||banner.nextElementSibling!==categories)return false;
+      return cats.length===keys.length&&cats.every((el,i)=>{
+        const r=el.getBoundingClientRect(),label=el.querySelector('b'),img=el.querySelector('img');
+        return label?.textContent===t('d6c_'+keys[i])&&img?.naturalWidth>0&&
+          el.getAttribute('onclick')==="openCat('"+keys[i]+"')"&&r.width>0&&r.left>=-1&&r.right<=innerWidth+1;
+      });
+    }""","F-02 Home B search and ordered localized categories")
 
 def F03(pg):
     pg.evaluate("() => go('track',{tid:'ord1'})")

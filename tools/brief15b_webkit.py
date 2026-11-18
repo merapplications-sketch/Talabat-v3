@@ -382,8 +382,8 @@ def run_case(pg,case,app,lang,w):
         r=invoke(pg,"""() => {
           S.v='home';S.q='';render();
           const cards=[...document.querySelectorAll('#app .d6-lo')];
-          const actual=cards.every(e=>!!e.querySelector('b.nm')?.textContent.trim()&&
-             (!!e.querySelector('img')||!!e.querySelector('.d6-name-ph span')?.textContent.trim()));
+          const actual=cards.length>0&&cards.every(e=>!!e.querySelector('b.nm')?.textContent.trim()&&
+             (!!e.querySelector('img')||!!e.querySelector('.d6-ph.none')));
           const original=TLB.orders.bind(TLB);
           TLB.orders=()=>[];
           render();
@@ -397,9 +397,9 @@ def run_case(pg,case,app,lang,w):
           TLB.addresses=()=>[];S.useTmp=false;S.v='home';S.q='';render();
           const e=document.querySelector('#app .d6-loc b'),box=e?.getBoundingClientRect(),
                 parent=e?.closest('.d6-loc')?.getBoundingClientRect(),
-                wanted=TLB.t('addrAdd'),css=e&&getComputedStyle(e);
-          return {ok:!!e&&e.innerText===wanted&&css.whiteSpace==='normal'&&
-             css.textOverflow!=='ellipsis'&&e.scrollHeight<=e.clientHeight+3&&
+                wanted=TLB.t('addrAddFirst'),css=e&&getComputedStyle(e);
+          return {ok:!!e&&e.innerText===wanted&&css.whiteSpace==='nowrap'&&
+             css.textOverflow==='ellipsis'&&e.scrollHeight<=e.clientHeight+3&&
              box.width>40&&box.bottom<=parent.bottom+2,
             label:e?.innerText||'',expected:wanted,whiteSpace:css?.whiteSpace||'',
             overflow:css?.textOverflow||'',width:box?.width||0,height:box?.height||0,

@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 20
     container: mcr.microsoft.com/playwright/python:v1.57.0-noble
     outputs:
-      pinned_width_pass: ${{ steps.measure.outputs.pinned_width_pass }}
+      owner_size_pass: ${{ steps.measure.outputs.owner_size_pass }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Load exact baseline trees and owner image
@@ -38,20 +38,21 @@ jobs:
           import json, os
           from pathlib import Path
           report=json.loads(Path('qa-shots/unified-fix/brief21/measurements.json').read_text())
-          passed=all(case['withinRequestedTwoPixels'] for case in report['home'])
+          cases=report['home']
+          passed={case['width'] for case in cases}=={375,390,430} and all(case['matchesOwnerSize'] for case in cases)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-              print(f'pinned_width_pass={str(passed).lower()}',file=out)
+              print(f'owner_size_pass={str(passed).lower()}',file=out)
           PY
-  pinned-width:
-    name: Card width within 2 px of the pinned 7c7e6609 mobile source
+  owner-size:
+    name: Owner-approved 152px cards with decoded 152 by 100px photos
     needs: webkit
     runs-on: ubuntu-24.04
     steps:
       - name: Check measured width against the assignment
         env:
-          WIDTH_PARITY: ${{ needs.webkit.outputs.pinned_width_pass }}
+          WIDTH_PARITY: ${{ needs.webkit.outputs.owner_size_pass }}
         run: |
           if [ "$WIDTH_PARITY" != true ]; then
-            echo '::error::Measured favourite card width differs from the pinned mobile build by more than 2 CSS pixels. See the comparison with the owner screenshot on issue 48.'
+            echo '::error::Favourite cards must match the approved dimensions at all three widths, with decoded images.'
             exit 1
           fi

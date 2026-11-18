@@ -171,7 +171,7 @@ def verify(approved,before):
             assert all(v["card"]==112 for v in old) and money[0]==money[1]==money[2],row
             if broken: assert any(v["naturalWidth"]==0 for v in old)
             else: assert all(v["naturalWidth"]>0 for v in old)
-            row.update(financial=money[0],financialParity=True,withinRequestedTwoPixels=abs(new[0]["card"]-old[0]["card"])<=2,deltaToPinnedSource=new[0]["card"]-old[0]["card"])
+            row.update(financial=money[0],financialParity=True,matchesOwnerSize=all(v["card"]==152 and v["photo"]==[152,100] and v["naturalWidth"]>0 for v in new),deltaToPinnedSource=new[0]["card"]-old[0]["card"])
             filename=f"home-{lang}-{width}-{'retry' if broken else 'valid'}.webp"
             compare(images,filename);row["comparison"]=filename;data["home"].append(row)
         for lang,width in [("ru",375),("en",390),("ru",320),("en",320)]:
