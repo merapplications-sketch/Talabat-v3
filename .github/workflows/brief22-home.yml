@@ -35,7 +35,8 @@ jobs:
       - name: Run offline WebKit geometry, image, action and financial checks
         run: |
           python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
-          CHECK_PUBLISHED_TOP=1 python tools/brief23_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-regression"
+          # BRIEF-25 reviews the candidate offline; the live preview is checked by Ops.
+          python tools/brief23_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-regression"
           python tools/brief24_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-evidence"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

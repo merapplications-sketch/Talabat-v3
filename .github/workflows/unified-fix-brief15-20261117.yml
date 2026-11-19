@@ -13,6 +13,7 @@ on:
       - 'tools/full_audit_seed.py'
       - 'tools/full_audit.py'
       - 'tools/brief24_webkit.py'
+      - '.github/workflows/brief22-home.yml'
   workflow_dispatch:
 permissions:
   contents: read
