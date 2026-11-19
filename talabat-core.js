@@ -1605,3 +1605,5 @@
   };
   TLBref = window.TLB;
 })();
+
+// BRIEF-24c isolated frozen-core sentinel (no executable change).

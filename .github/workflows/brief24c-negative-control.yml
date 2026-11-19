@@ -1,0 +1,38 @@
+name: BRIEF-24c negative control
+on:
+  push:
+    branches: ['test/brief24c-frozen-core-negative-20261119']
+permissions:
+  contents: read
+jobs:
+  guards:
+    name: ${{ matrix.guard }} rejects the core sentinel
+    strategy:
+      fail-fast: false
+      matrix:
+        guard: [home, h01]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify the negative fixture
+        run: |
+          git diff --exit-code 1b96e5e987646628f9dbbd897b5e7d1ed5fb9124 HEAD -- .github/workflows/brief22-home.yml .github/workflows/unified-fix-brief15-20261117.yml
+          git show 1b96e5e987646628f9dbbd897b5e7d1ed5fb9124:talabat-core.js > "$RUNNER_TEMP/expected-core"
+          printf '\n// BRIEF-24c isolated frozen-core sentinel (no executable change).\n' >> "$RUNNER_TEMP/expected-core"
+          cmp "$RUNNER_TEMP/expected-core" talabat-core.js
+      - name: Execute the reviewed guard verbatim
+        env:
+          GUARD: ${{ matrix.guard }}
+        run: |
+          ruby -ryaml -e '
+            workflow, job, title = ENV.fetch("GUARD") == "home" ?
+              [".github/workflows/brief22-home.yml", "home", "Load the approved customer app and reference photos"] :
+              [".github/workflows/unified-fix-brief15-20261117.yml", "h01", "Guard immutable backend/finance and strictly scoped owner F/O app repairs"]
+            step = YAML.load_file(workflow).fetch("jobs").fetch(job).fetch("steps").find { |s| s["name"] == title }
+            File.write(ENV.fetch("RUNNER_TEMP") + "/reviewed-guard.sh", step.fetch("run"))
+          '
+          bash -eo pipefail "$RUNNER_TEMP/reviewed-guard.sh"
