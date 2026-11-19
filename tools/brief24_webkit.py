@@ -68,7 +68,7 @@ def current_home(page, out):
     assert meals.locator('.d6-pt:visible').count()==2
     assert page.locator('.home-ad-card b').inner_text()=='Скидка 20% в Romant Restaurant'
     disc=page.locator('.home-discover')
-    assert disc.locator('.home-picks-summary').inner_text()=='Вы ещё не пробовали'
+    assert disc.locator('.home-picks-summary').inner_text()=='Новые рестораны, блюда и акции'
     assert disc.locator('.discover-row .reel-copy > b:first-child').all_inner_texts()==['Romant Restaurant']
     assert 'Новый' not in disc.inner_text() and disc.locator('em').count()==0
     flash=page.locator('.flash-grid')

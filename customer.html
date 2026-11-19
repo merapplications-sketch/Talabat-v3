@@ -2093,7 +2093,7 @@ TLB.addDict(
   {discoverTitle:'Откройте новое',discoverNew:'Новый',discoverUpTo:'Скидка до {n}% на первый заказ',discoverFirst:'Первый заказ: −{n}%'},
   {discoverTitle:'Discover new places',discoverNew:'New',discoverUpTo:'Up to {n}% off your first order',discoverFirst:'First order: −{n}%'}
 );
-TLB.addDict({discoverUntried:'Вы ещё не пробовали'},{discoverUntried:"You haven't tried these yet"});
+TLB.addDict({discoverUntried:'Новые рестораны, блюда и акции'},{discoverUntried:'New restaurants, dishes and offers'});
 // The regular customer feed contains only the latest 60 orders.
 let discoveryHistory=null;
 function triedRestaurants(){
@@ -2152,7 +2152,7 @@ function discoverH(expanded=false){
   homeReels=expanded?cards:cards.slice(0,12);
   if(!cards.length)return '';
   const max=Math.max(...cards.map(c=>c.first));
-  const sub=!fresh?t('discoverUntried'):max?t('discoverUpTo').replace('{n}',max):'';
+  const sub=t('discoverUntried');
   return `<section class="home-discover">${homeHeading('discover',cards.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}<div class="discovery-rail">${homeReels.map(discoveryTile).join('')}</div></section>`;
 }
 function discoveryTile(card,index){
