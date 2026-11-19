@@ -206,3 +206,8 @@
 #app .d6h .home-dine .dine-brand-cover .dine-fallback-initial { position:relative; z-index:0; color:#fff; font-size:42px; font-weight:800; line-height:1; }
 #app .d6h .home-dine .dine-brand-cover .dish-store-logo { top:6px; right:6px; left:auto; width:28px; height:28px; z-index:4; background:#fff; border:1px solid #fff; box-shadow:0 1px 5px #0003; }
 #app .d6h .home-dine .dine-brand-cover .hb { z-index:4; }
+
+/* BRIEF-25c Y-03 — actual discount/offer pills in the upper-left of a reel viewer. */
+.reel-pane .reel-badges { position:absolute; z-index:3; top:calc(66px + env(safe-area-inset-top)); left:12px; display:flex; flex-wrap:wrap; gap:6px; max-width:calc(100% - 24px); pointer-events:none; }
+.reel-pane .reel-badges:empty { display:none; }
+.reel-pane .reel-badges .reel-deal, .reel-pane .reel-badges .reel-offer { position:static; display:inline-flex; align-items:center; width:max-content; padding:4px 8px; color:white; font-size:12px; font-weight:700; line-height:17px; background:#c93423; border-radius:10px; white-space:nowrap; }

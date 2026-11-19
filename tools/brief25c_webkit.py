@@ -78,6 +78,33 @@ def test_dineout(browser,server,photos,out):
     finally:
         ctx.close()
 
+
+def test_reel_badges(browser,server,photos,out):
+    ctx,page=prior.page_for(browser,server,photos)
+    try:
+        page.locator('.reel-card').nth(1).click()
+        viewer=page.locator('.reel-viewer[open]')
+        page.wait_for_function("()=>{const e=document.querySelector('.reel-feed');return !!e&&e.scrollTop>=e.clientHeight*.75}")
+        hot=viewer.locator('.reel-pane').nth(1)
+        assert hot.locator('.reel-title-row strong').inner_text()=='Hot honey'
+        deal=hot.locator('.reel-badges .reel-deal')
+        assert deal.inner_text()=='−5%',deal.inner_text()
+        dealbox=deal.bounding_box()
+        back=viewer.locator('.reel-back').bounding_box()
+        assert dealbox and back and dealbox['x']<40 and dealbox['y']>back['y']+back['height']-1,(dealbox,back)
+        assert hot.locator('.reel-social>*').count()==0, 'No synthetic stats without fixture API'
+        prior.shot(page,out,'ru-375-reel-dish-discount-fixture.webp')
+        # The offer reel has both red pills in the same top-left horizontal band.
+        viewer.locator('.reel-pages button').last.click()
+        offer=viewer.locator('.reel-pane').last
+        page.wait_for_function("()=>{const e=document.querySelector('.reel-feed');return e.scrollTop>=e.clientHeight*(e.children.length-1)-3}")
+        assert offer.locator('.reel-badges .reel-deal').inner_text()=='−20%'
+        assert offer.locator('.reel-badges .reel-offer').inner_text()=='Акция'
+        prior.shot(page,out,'ru-375-reel-offer-badges-fixture.webp')
+        viewer.locator('.reel-back').click()
+    finally:
+        ctx.close()
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -87,9 +114,10 @@ def main():
             browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
             photos=prior.fixture_logos(prior.qa.source_photos())
             test_dineout(browser,server,photos,out)
+            test_reel_badges(browser,server,photos,out)
             ctx,page=prior.page_for(browser,server,photos)
             try:
-                result={'Y-01':test_flash(page,out),'Y-02':'PASS'}
+                result={'Y-01':test_flash(page,out),'Y-02':'PASS','Y-03':'PASS'}
             finally:
                 ctx.close();browser.close()
     finally:

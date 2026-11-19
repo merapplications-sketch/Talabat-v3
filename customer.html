@@ -2205,6 +2205,9 @@ function reelDestination(dialog,card){
   openN(card.st.n);
   if(card.item)openItem(card.item.id);
 }
+/* BRIEF-25c Y-03: the same actual effective discount as its dish/store card. */
+const reelDiscountPct=card=>Math.max(0,Number(card.first)||0,Number(card.st.disc)||0,
+  card.item?eff(card.item,sdOf(card.st.n)):0);
 function openReel(index,trigger){
   const cards=homeReels.filter(c=>TLB.isOpen(c.st.n));
   const start=cards.indexOf(homeReels[index]);
@@ -2214,8 +2217,10 @@ function openReel(index,trigger){
   dialog.setAttribute('aria-label',t('reelsTitle'));
   dialog.innerHTML=`<div class="reel-feed">${cards.map((card,i)=>`<article class="reel-pane" data-reel-key="${esc(card.id)}">
     ${discoveryMedia(card)}
-    ${Math.max(card.first,card.st.disc||0)>0?`<span class="reel-deal">−${Math.max(card.first,card.st.disc||0)}%</span>`:''}
-    ${card.type==='offer'?`<span class="reel-offer">${t('reelOffer')}</span>`:''}
+    <div class="reel-badges">
+      ${reelDiscountPct(card)>0?`<span class="reel-deal">−${reelDiscountPct(card)}%</span>`:''}
+      ${card.type==='offer'?`<span class="reel-offer">${t('reelOffer')}</span>`:''}
+    </div>
     <div class="reel-info"><span class="reel-avatar">${dishStoreLogo(card.st)}</span>
     <div class="reel-caption"><div class="reel-title-row"><strong>${esc(card.title||card.st.n)}</strong>
     <button type="button" class="reel-open-arrow" data-reel-open="${i}" aria-label="${t('reelOpen')}">${ico('arr',18)}</button></div>
