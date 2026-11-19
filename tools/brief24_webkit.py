@@ -80,12 +80,12 @@ def current_home(page, out):
     data={key:layout(page.locator(sel)) for key,sel in {
         'flash':'.flash-grid','popular':'[data-section=popular] + .d6-rl','near':'.home-l-near'}.items()}
     a,b=data['flash']['boxes']
-    assert a[1]<b[1] and a[0]==b[0] and a[2]==b[2]==250
+    assert a[1]==b[1] and a[0]<b[0] and abs(a[2]-b[2])<1 and a[2]>=160
     a,b=data['popular']['boxes']
     assert data['popular']['rows']==1 and a[1]==b[1] and a[0]<b[0]
     assert a[2]==b[2] and 130<a[2]<140
     a,b,c=data['near']['boxes']
-    assert data['near']['rows']==2 and a[1]==c[1]<b[1] and a[0]==b[0]<c[0] and data['near']['scroll']>0
+    assert data['near']['rows']==2 and a[1]==b[1]<c[1] and a[0]==c[0]<b[0] and data['near']['scroll']>0
     assert page.locator('[data-section=near] b').evaluate("e=>getComputedStyle(e).textDecorationLine")=='none'
     assert page.locator('.home-heading').evaluate_all("nodes=>nodes.map(n=>n.dataset.section)")==[
         'again','meals','offers','flash','rewards','popular','advert','picks','near','discover','dine']
@@ -126,14 +126,20 @@ def catalogue_sizes(browser, server, photos, out):
                 grid=layout(page.locator(selector))
                 boxes=grid['boxes']
                 assert len(boxes)==count and all(abs(b[2]-width)<1 for b in boxes),(section,count,grid)
-                rows=1 if count<(4 if section=='popular' else 2) else 2
+                rows=1 if count<(4 if section=='popular' else 3) else 2
                 assert grid['rows']==rows and len({b[1] for b in boxes})==rows,(section,count,grid)
-                for i,box in enumerate(boxes):
-                    assert box[1]==boxes[i%rows][1]
-                    if i>=rows:assert box[0]>boxes[i-rows][0]
-                if count>=4:
-                    assert boxes[0][0]==boxes[1][0] and boxes[0][1]<boxes[1][1]
-                    if count==6 or section=='near':assert grid['scroll']>0
+                if section=='near' and rows==2:
+                    cols=(count+1)//2
+                    assert all(boxes[i][1]==boxes[0][1] for i in range(cols))
+                    assert all(boxes[i][1]>boxes[0][1] for i in range(cols,count))
+                    assert boxes[0][0]<boxes[1][0] and grid['scroll']>0
+                else:
+                    for i,box in enumerate(boxes):
+                        assert box[1]==boxes[i%rows][1]
+                        if i>=rows:assert box[0]>boxes[i-rows][0]
+                    if count>=4:
+                        assert boxes[0][0]==boxes[1][0] and boxes[0][1]<boxes[1][1]
+                if count>=4 and (count==6 or section=='near'):assert grid['scroll']>0
                 report[section]=grid
             reports[count]=report
             if count==6:

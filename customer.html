@@ -1968,7 +1968,10 @@ function lastH(){
   return cards.length?homeHeading('again',"go('orders')")+`<div class="d6-rl home-again">${cards.join('')}</div>`:'';
 }
 function homeRestaurantRail(stores, css, offers = new Map()){
-  return `<div class="home-l-rail ${css}${stores.length===1?' single':''}">${stores.map(st=>{
+  const nearby=css==='home-l-near',few=stores.length<=2;
+  const className=`${css}${stores.length===1?' single':''}${nearby?(few?' near-few':' near-rows'):''}`;
+  const style=nearby?` style="--near-cols:${few?stores.length:Math.ceil(stores.length/2)}"`:'';
+  return `<div class="home-l-rail ${className}"${style}>${stores.map(st=>{
     const open=TLB.isOpen(st.n),discount=Math.max(offers.get(st)||0,st.disc||0);
     return `<button type="button" class="home-l-card${open?'':' closed'}" ${open?storeTap(st):'disabled'}>
       <span class="home-l-brand">${dishStoreLogo(st,true)}${!open?homeClosedBadge():discount>0?`<span class="hb r">−${discount}%</span>`:''}</span>
@@ -2084,7 +2087,7 @@ function flashH(products,expanded=false){
   const deals=(selected.length?selected:itemOffers.length?itemOffers:actual).sort((a,b)=>b.discount-a.discount);
   if(!deals.length)return '';
   const cards=expanded?deals:deals.slice(0,12);
-  return `<section class="home-flash">${homeHeading('flash',deals.length>1&&!expanded?"go('flashAll')":'')}<p class="home-picks-summary">${t('flashSub')}</p><div class="flash-grid${cards.length===1?' flash-short':''}">${cards.map(({it,st,sd,discount})=>`<button class="flash-item" onclick="openN(${esc(JSON.stringify(st.n))});openItem(${esc(JSON.stringify(it.id))})">${d6Ph(it.image,`<span>−${discount}%</span>`)}<span class="flash-description"><b>${esc(it.name)}</b>${pxH(it,sd)}</span></button>`).join('')}</div></section>`;
+  return `<section class="home-flash">${homeHeading('flash',deals.length>1&&!expanded?"go('flashAll')":'')}<p class="home-picks-summary">${t('flashSub')}</p><div class="flash-grid${cards.length<=2?' flash-few':' flash-many'}${cards.length===1?' flash-short':''}" style="--flash-cols:${cards.length<=2?cards.length:Math.ceil(cards.length/2)}">${cards.map(({it,st,sd,discount})=>`<button class="flash-item" onclick="openN(${esc(JSON.stringify(st.n))});openItem(${esc(JSON.stringify(it.id))})">${d6Ph(it.image,`<span>−${discount}%</span>`)}<span class="flash-description"><b>${esc(it.name)}</b>${pxH(it,sd)}</span></button>`).join('')}</div></section>`;
 }
 TLB.addDict(
   {discoverTitle:'Откройте новое',discoverNew:'Новый',discoverUpTo:'Скидка до {n}% на первый заказ',discoverFirst:'Первый заказ: −{n}%'},

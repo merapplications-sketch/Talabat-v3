@@ -116,7 +116,8 @@
 .home-ad-card .ad-art { width: 42%; object-fit: cover; border-radius: 48px 0 0 48px; }
 .home-flash { background: #fdece4; padding-bottom: 6px; }
 [data-section="flash"] h2 b { font-style: italic; color: #bb3716; background: linear-gradient(90deg,#e14719,#cc344d); background-clip: text; -webkit-text-fill-color: transparent; }
-.flash-grid { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2,auto); grid-auto-columns: min(250px,85%); overflow-x: auto; gap: 10px; padding: 0 16px; }
+.flash-grid { display: grid; grid-auto-flow: row; grid-template-rows: repeat(2,auto); grid-template-columns: repeat(var(--flash-cols), min(250px, 85vw)); overflow-x: auto; gap: 10px; padding: 0 16px; }
+.flash-grid.flash-few { grid-template-rows: auto; grid-template-columns: repeat(var(--flash-cols), minmax(160px, 1fr)); }
 .flash-grid.flash-short { grid-template-rows: auto; }
 .flash-item { display: flex; align-items: stretch; padding: 0; background: white; color: var(--ink); border: 1px solid var(--line); border-radius: 16px; min-height: 96px; overflow: hidden; text-align: start; font: inherit; }
 .flash-item .d6-ph { width: 86px; flex: none; border-radius: 0; }
@@ -135,6 +136,9 @@
 
 .home-l-rail { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, max-content); grid-auto-columns: min(280px, 84%); gap: 10px; padding: 0 16px; overflow-x: auto; }
 .home-l-rail.single { grid-template-rows: auto; }
+.home-l-near { grid-auto-flow: row; grid-template-rows: repeat(2, max-content); grid-template-columns: repeat(var(--near-cols), min(280px, 84vw)); }
+.home-l-near.near-few { grid-template-rows: auto; grid-template-columns: repeat(var(--near-cols), minmax(165px, 1fr)); }
+.home-l-near.near-few.single { grid-template-columns: minmax(0, min(280px, 100%)); }
 .home-l-card { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--card, white); color: var(--ink); text-align: start; font: inherit; }
 .home-l-card:disabled { filter: grayscale(1); }
 .home-l-brand { position: relative; flex: 0 0 68px; height: 68px; }
