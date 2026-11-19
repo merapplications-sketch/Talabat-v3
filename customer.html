@@ -624,6 +624,7 @@ body.f04-inline-keyboard{padding-bottom:calc(310px + env(safe-area-inset-bottom,
 .d6-rl{display:flex;gap:10px;overflow-x:auto;padding:4px 14px 6px;scroll-snap-type:x proximity;scrollbar-width:none;scroll-padding:0 14px}
 .d6-rl::-webkit-scrollbar{display:none}
 .d6-rl>*{flex:none;scroll-snap-align:start}
+#app .d6h :is(.d6-sc,.d6-nc).closed > .d6-ph.none{display:block}
 .d6h .d6-ph .hb{position:absolute;top:8px;left:8px;z-index:1}
 .d6h .hrt,.d6l .hrt{position:absolute;top:2px;right:2px;width:44px;height:44px;border:0;background:none;display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;padding:0;box-shadow:none}
 .d6h .hrt::before,.d6l .hrt::before{content:'';position:absolute;inset:5px;border-radius:10px;background:#fff;box-shadow:0 1px 4px #17243C22;z-index:-1}
@@ -1779,7 +1780,10 @@ const rate=s=>s.rt>0?`<span class="rt">${ico('star',13,1)}${s.rt.toFixed(1)}${s.
 const delTxt=s=>s.ft=='free'?t('free'):s.ffd?t('freeFirst'):s.fee+' TJS';
 const pic=u=>u?`<img src="${esc(u)}" alt="" loading="lazy">`:`<div class="ph"></div>`;
 const isFavS=s=>TLB.isFav(s.id);
-const heart=s=>`<button class="hrt" aria-label="${t('favs')}" onclick="event.stopPropagation();TLB.toggleFav('${s.id}')" style="color:${isFavS(s)?'#f1511b':'#1c1c21'}">${ico('heart',18,isFavS(s))}</button>`;
+const heart=s=>{
+  const action=S.v==='home'&&!TLB.isOpen(s.n)?'disabled':`onclick="event.stopPropagation();TLB.toggleFav('${s.id}')"`;
+  return `<button class="hrt" aria-label="${t('favs')}" ${action} style="color:${isFavS(s)?'#f1511b':'#1c1c21'}">${ico('heart',18,isFavS(s))}</button>`;
+};
 const isNew=s=>s.cr&&Date.now()-Date.parse(s.cr)<30*864e5;
 const mini=s=>`<div class="mini ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="mi-i">${pic(s.i)}${TLB.isOpen(s.n)?'':`<span class="cl-tag">${t('closedStoreBadge')}</span>`}${heart(s)}${s.disc>0?`<span class="tg">−${s.disc}%</span>`:''}${isNew(s)?`<span class="tg n">${t('newTag')}</span>`:''}</div><div class="mi-t"><b>${esc(s.n)}</b><div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span></div></div></div>`;
 const storeRow=(s,h)=>`<div class="sr ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="th">${pic(s.i)}</div><div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p style="color:var(--o);font-weight:600">${esc(h.name)} — ${h.price} TJS</p>`:''}<div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span>${TLB.isOpen(s.n)?'':`<span class="or">${t('closedStoreBadge')}</span>`}</div></div>${heart(s)}</div>`;
@@ -1862,8 +1866,9 @@ function homeRestaurantPhoto(st,badges='',cls=''){
   const image=homeRestaurantImage(st);
   return `<div class="d6-ph ${image?'':'none'} ${cls}">${image}${badges}</div>`;
 }
+const homeClosedBadge=()=>`<span class="hb k">${t('closedStoreBadge')}</span>`;
 /* one store card for the Home rails */
-const sCard=st=>{const op=TLB.isOpen(st.n),m=d6Meta(st);return `<div class="d6-sc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${homeRestaurantPhoto(st,(op?badge(st):`<span class="hb k">${t('closedStoreBadge')}</span>`)+heart(st))}<b class="nm">${esc(st.n)}</b><div class="mt">${[d6Rt(st),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>${perk(st)}</div>`};
+const sCard=st=>{const op=TLB.isOpen(st.n),m=d6Meta(st);return `<div class="d6-sc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${homeRestaurantPhoto(st,(op?badge(st):homeClosedBadge())+heart(st))}<b class="nm">${esc(st.n)}</b><div class="mt">${[d6Rt(st),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>${perk(st)}</div>`};
 const rail=list=>`<div class="d6-rl">${list.map(sCard).join('')}</div>`;
 function perk(st){if(st.disc>0)return `<span class="pk r">${t('hDiscL').replace('{n}',st.disc)}</span>`;if(st.ft=='free')return `<span class="pk g">${t('hFreeL')}</span>`;if(st.fdm>0)return `<span class="pk g">${t('hFreeFromL').replace('{n}',st.fdm)}</span>`;if(st.ffd)return `<span class="pk g">${t('hFreeFirstL')}</span>`;return ''}
 function badge(st){if(st.disc>0)return `<span class="hb r">−${st.disc}%</span>`;if(TLB.isExpress&&TLB.isExpress(st.id))return `<span class="hb d">⚡ ${t('hExpL')}</span>`;if(isNew(st))return `<span class="hb b">${t('hNewL')}</span>`;return ''}
@@ -1924,7 +1929,7 @@ function lastH(){
     const current=ALLS.find(s=>s.id===store.id), closed=!current||!TLB.isOpen(current.n);
     const discount=!closed&&current.disc>0?`<span class="home-deal">−${current.disc}%</span>`:'';
     const action=closed?'disabled':`onclick="reorder(${esc(JSON.stringify(o.id))})"`;
-    cards.push(`<button type="button" class="d6-lo ${closed?'closed':''}" ${action}>${favouritePhoto(store,cards.length)}${discount}<b class="nm">${esc(store.name)}</b></button>`);
+    cards.push(`<button type="button" class="d6-lo ${closed?'closed':''}" ${action}>${favouritePhoto(store,cards.length)}${closed?homeClosedBadge():discount}<b class="nm">${esc(store.name)}</b></button>`);
     if(cards.length===10)break;
   }
   return cards.length?homeHeading('again',"go('orders')")+`<div class="d6-rl home-again">${cards.join('')}</div>`:'';
@@ -2073,7 +2078,8 @@ function discoverH(expanded=false){
   const sub=!fresh.length?t('discoverUntried'):max?t('discoverUpTo').replace('{n}',max):'';
   return `<section class="home-discover">${homeHeading('discover',eligible.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}${cards.map(({st,first})=>{
     const meta=[fresh.length?'★ '+t('discoverNew'):'',etaOf(st)].filter(Boolean).join(' · ');
-    return `<button class="discover-row" ${TLB.isOpen(st.n)?storeTap(st):'disabled'}>${st.i||st.lg?homeRestaurantPhoto(st):''}<span><b>${esc(st.n)}</b>${meta?`<small>${meta}</small>`:''}${first?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
+    const open=TLB.isOpen(st.n);
+    return `<button class="discover-row" ${open?storeTap(st):'disabled'}>${!open||st.i||st.lg?homeRestaurantPhoto(st,open?'':homeClosedBadge()):''}<span><b>${esc(st.n)}</b>${meta?`<small>${meta}</small>`:''}${first?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
   }).join('')}</section>`;
 }
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
@@ -2086,7 +2092,7 @@ function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes
   return '<section class="home-picks">'+homeHeading('picks',"go('promo')")+`<p class="home-picks-summary">${pickSummary(cards)}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`}
 /* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
 function nearH(expanded=false){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b)));if(!l.length)return '';
-  return homeHeading('near',l.length>3&&!expanded?"go('nearby')":'')+`<div class="d6-nr">${(expanded?l:l.slice(0,8)).map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${homeRestaurantPhoto(st)}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}${op?'':' · '+t('closedStoreBadge')}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
+  return homeHeading('near',l.length>3&&!expanded?"go('nearby')":'')+`<div class="d6-nr">${(expanded?l:l.slice(0,8)).map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${homeRestaurantPhoto(st,op?'':homeClosedBadge())}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
 /* wallet + points: the user's own numbers */
 /* coupons and rewards: both open the wallet (vouchers, points, balance are there) */
 function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0);

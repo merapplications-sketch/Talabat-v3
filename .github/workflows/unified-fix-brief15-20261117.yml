@@ -12,6 +12,7 @@ on:
       - 'tools/gate1_local_env.py'
       - 'tools/full_audit_seed.py'
       - 'tools/full_audit.py'
+      - 'tools/brief24_webkit.py'
   workflow_dispatch:
 permissions:
   contents: read

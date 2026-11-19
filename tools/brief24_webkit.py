@@ -221,6 +221,59 @@ def variants(browser, server, photos):
         orders.push({...orders[0],id:'older',store_id:'s2',_hist:true});""",long_history)
 
 
+
+def closed_home_cards(browser, server, photos, out):
+    views=[('ru',375),('en',390)]
+    results={}
+    for lang,width in views:
+        # The G-08 fixture has a delivered order from a store without a logo.
+        qa.SDK=FIX
+        ctx,page=qa.page_at(browser,server,photos,lang,width)
+        try:
+            repeat=page.locator('.home-again .d6-lo').first
+            repeat.wait_for()
+            probe=repeat.evaluate("""e=>({name:e.querySelector('.nm').textContent.trim(),
+                initial:e.querySelector('.dish-store-logo')?.textContent.trim(),
+                image:!!e.querySelector('img'),emptySlot:!!e.querySelector('.d6-ph.none')})""")
+            print('G08_FIXTURE_DOM',lang,width,json.dumps(probe,ensure_ascii=False),flush=True)
+        finally:
+            ctx.close()
+
+        # Exercise both the logo-backed and empty photo slots with the new Home rails.
+        seed="stores[0].is_open=false;stores[0].created_at=iso(24*60);"
+        if lang=='ru':
+            seed+="stores[0].logo_url=stores[0].cover_url='';"
+        qa.SDK=FIX.replace(qa.FINISH_SEED,'const catalog='+json.dumps(CATALOG)+';'+SEED+seed+';\n'+qa.FINISH_SEED)
+        ctx,page=qa.page_at(browser,server,photos,lang,width)
+        try:
+            label='Закрыт' if lang=='ru' else 'Closed'
+            def verify(selector):
+                card=page.locator(selector).filter(has_text='KFC')
+                card.scroll_into_view_if_needed()
+                badge=card.locator('.hb.k')
+                assert badge.inner_text()==label,(selector,lang)
+                bounds=badge.bounding_box()
+                assert bounds and bounds['width']>20 and bounds['height']>0,(selector,bounds)
+                assert card.evaluate("""e=>{
+                  const blocked=e.disabled||e.getAttribute('aria-disabled')==='true';
+                  const active=e.querySelector('button:not(:disabled),a[href],[onclick]');
+                  e.click();
+                  return blocked&&!e.onclick&&!active&&S.v==='home'&&
+                    getComputedStyle(e).filter.includes('grayscale');
+                }"""),selector
+                return round(bounds['width'],1)
+
+            widths={sel:verify(sel) for sel in ('.d6-sc','.d6-nc','.discover-row','.d6-lo')}
+            page.locator('.d6-sc.closed').filter(has_text='KFC').screenshot(path=str(out/f'closed-{lang}-{width}.png'))
+            page.evaluate("()=>{S.q='KFC';render()}")
+            widths['.d6-sr']=verify('.d6-sr')
+            results[lang]=widths
+            print('V01_CLOSED_CARDS',lang,width,widths,flush=True)
+        finally:
+            ctx.close()
+    return results
+
+
 def main():
     baseline,out=map(Path,sys.argv[1:3]);out.mkdir(parents=True,exist_ok=True)
     assert Path('talabat-core.js').read_bytes()==(baseline/'talabat-core.js').read_bytes(), 'Frozen shared core changed'
@@ -238,6 +291,7 @@ def main():
             old.close();new.close()
             result['catalogueSizes']=catalogue_sizes(browser,servers[1],photos,out)
             variants(browser,servers[1],photos)
+            result['closedHomeCards']=closed_home_cards(browser,servers[1],photos,out)
             browser.close()
         (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
         print('PASS R-01..R-09, logo/cover fallback, three-store RU/375, admin precedence, history, zero-data rules and six financial comparisons')
