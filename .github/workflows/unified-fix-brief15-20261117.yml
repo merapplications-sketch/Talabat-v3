@@ -4,6 +4,7 @@ on:
     branches: [review/unified-fix-brief15-20261117]
     paths:
       - 'talabat-core.js'
+      - '.github/workflows/unified-fix-brief15-20261117.yml'
       - 'supabase/migrations/*auth*.sql'
       - 'supabase/migrations/*role*.sql'
       - 'supabase/migrations/*permission*.sql'
@@ -58,6 +59,10 @@ jobs:
               .github/workflows/brief20-homeb-restore.yml|.github/workflows/brief20-owner-commit.yml|.github/workflows/brief20-source-evidence.yml|tools/brief20_restore_probe.sh|tools/brief20_revert.py|tools/brief20_visual.py|assets/size-brief7/customer.css)
                 git diff --exit-code 78c4551b193d4a877a93727ccabda10df9059cb3 HEAD -- "$changed" ;;
               .github/workflows/brief21-customer-review.yml|tools/brief21_webkit.py) ;;
+              .github/workflows/brief22-home.yml|tools/brief22_webkit.py|tools/brief23_webkit.py|tools/brief24_webkit.py|qa-fixtures/home-brief2*.json|qa-shots/*) ;;
+              assets/customer-c/home-sections.css)
+                # The manager accepted this exact BRIEF-24b stylesheet. Stop on any later change.
+                git diff --exit-code a9b632088b0466149953fdccfd72c7ee380a3881 HEAD -- "$changed" || { echo "STOP: changed approved stylesheet: $changed" >&2; exit 1; } ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"
