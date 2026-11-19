@@ -22,3 +22,5 @@ The production UI hides reel social actions when the optional stats provider is 
 - Source owner assignment: [Issue #48 / BRIEF-25b](https://github.com/merapplications-sketch/Talabat-v3/issues/48#issuecomment-7015238650), with X-05…X-11 in the next two comments.
 
 Full test definitions are inspectable in the repository; CI must be checked on the eventual delivery SHA rather than inferred from screenshots.
+
+**Evidence freeze:** the CI screenshot persistence step copies only missing files. Existing owner-review WebKit captures are not silently overwritten by repeated runs. Any new screenshot version must be separately reviewed and explicitly committed.
