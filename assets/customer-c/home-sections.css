@@ -190,3 +190,11 @@
 #app .d6h .home-dine .d6-dc .dine-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 3px 2px 0; white-space: normal; }
 #app .d6h .home-dine .d6-dc .dine-meta .rt { color: var(--ink); }
 
+
+/* BRIEF-25c Y-01 — preserve row-major Flash, display 1.5 cards at 375. */
+.flash-grid.flash-few { grid-template-columns: repeat(var(--flash-cols), clamp(192px,60vw,230px)); }
+.flash-item .d6-ph { width: 88px; }
+.flash-description { min-width: 0; max-width: 100%; gap: 3px; padding: 8px 7px; }
+.flash-description > b { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; white-space: normal; overflow-wrap: anywhere; line-height: 1.25; }
+.flash-description .px { white-space: nowrap; font-size: 14px; letter-spacing: -.02em; }
+.flash-description .px s { white-space: nowrap; font-size: 11px; margin-left: 3px; }
