@@ -25,7 +25,12 @@ def fixture_logos(photos):
         brush.text((37,59),'PRO.',font=big,fill='white')
         brush.text((46,132),'хинкали',font=small,fill='white')
     else:
-        brush.text((71,82),'PRO.',fill='white')
+        # Pillow's scalable default is available in pinned Pillow 11.3; avoid
+        # an illegible ten-pixel label in the 130px QA card and advert preview.
+        big=ImageFont.load_default(size=58)
+        small=ImageFont.load_default(size=25)
+        brush.text((30,54),'PRO.',font=big,fill='white')
+        brush.text((40,133),'Khinkali',font=small,fill='white')
     buf=io.BytesIO();logo.save(buf,format='JPEG',quality=95)
     photos['pro-khinkali']=buf.getvalue()
     return photos
@@ -43,7 +48,10 @@ def test_owner_fixture(page):
 def page_for(browser,server,photos,extra=''):
     seed='const catalog='+json.dumps(CATALOG,ensure_ascii=False)+';\n'+SEED+extra+'\n'
     qa.SDK=FIX.replace(qa.FINISH_SEED,seed+qa.FINISH_SEED)
-    return qa.page_at(browser,server,photos,'ru',375)
+    ctx,page=qa.page_at(browser,server,photos,'ru',375)
+    # The 20-minute preparation time is QA-only, to exercise the time + fee row.
+    page.evaluate("()=>{TLB.speed=()=>({min:20});render()}")
+    return ctx,page
 
 def shot(page,out,name):
     assert name.endswith('.webp')
