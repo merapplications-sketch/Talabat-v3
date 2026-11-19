@@ -109,7 +109,10 @@ def geometry(page,width,full):
     repeat_logos(page)
     order=page.locator('.home-heading').evaluate_all("a=>a.map(e=>e.dataset.section)")
     assert order==[x for x in ORDER if full or x not in OPTIONAL],order
-    assert page.locator('.d6-dn').count()==1 and bool(page.locator('.home-dine .d6-dc').count())==full
+    # Y-07 supersedes the separate DineOut hero: the section heading is the banner.
+    assert page.locator('.dine-head[data-section="dine"]').count()==1
+    assert page.locator('.d6-dn').count()==0
+    assert bool(page.locator('.home-dine .d6-dc').count())==full
     row=page.evaluate("""()=>{const q=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
       const R=e=>e.getBoundingClientRect();
       const badge=all('.d6-sc .pk').find(e=>/350 TJS/.test(e.textContent));

@@ -47,6 +47,14 @@ def test_dineout(browser,server,photos,out):
     try:
         cards=page.locator('.home-dine .d6-dc')
         assert cards.count()>=4
+        assert page.locator('.dine-head h2').inner_text()=='DineOut'
+        assert page.locator('.dine-head .dine-bill-ribbon').inner_text()=='Скидка до 20% на счёт'
+        assert page.locator('.dine-head .dine-heading-icon').get_attribute('src')=='assets/3d/sushi.webp'
+        assert page.locator('.d6-dn').count()==0
+        widths=cards.evaluate_all("nodes=>nodes.slice(0,3).map(n=>n.getBoundingClientRect().width)")
+        assert all(208<=w<=260 for w in widths),widths
+        rail=page.locator('.home-dine')
+        assert rail.evaluate("e=>e.scrollWidth>e.clientWidth")
         assert cards.first.locator('.dine-cover-photo').count()==1
         assert cards.first.locator('.dish-store-logo img').count()==1
         missing=cards.filter(has_text='Cafe fixture 6')
@@ -60,11 +68,21 @@ def test_dineout(browser,server,photos,out):
             cover=card.locator('.dine-brand-cover').bounding_box()
             assert corner and cover and corner['x']+corner['width']<=cover['x']+cover['width']+1
             assert abs((corner['x']+corner['width'])-(cover['x']+cover['width']))<14
+            assert abs((corner['y']+corner['height'])-(cover['y']+cover['height']))<14
+            badge=card.locator('.dine-brand-cover .hb').bounding_box()
+            assert badge and badge['x']+badge['width']<corner['x'],(badge,corner)
+            assert badge['y']+badge['height']<corner['y'],(badge,corner)
+        first=cards.first
+        assert first.locator('.dine-meta .rt').count()==1
+        assert first.locator('.dine-bill-distance').count()==1
+        assert 'на двоих' not in first.locator('.dine-bill-distance').inner_text()
+        a,b=cards.nth(0).bounding_box(),cards.nth(1).bounding_box()
+        assert a and b and a['x']<b['x']<375<b['x']+b['width'],(a,b)
         cards.first.locator('.dine-cover-photo').evaluate("e=>e.loading='eager'")
         missing.locator('.dine-fallback-mark').evaluate("e=>e.loading='eager'")
         page.wait_for_function("()=>[...document.querySelectorAll('.home-dine .d6-dc .dine-fallback-mark')].some(e=>e.complete&&e.naturalWidth>0)")
-        page.locator('.home-dine').scroll_into_view_if_needed()
-        prior.shot(page,out,'ru-375-dineout-branded-fallback-fixture.webp')
+        page.locator('.dine-head').scroll_into_view_if_needed()
+        prior.shot(page,out,'ru-375-dineout-integrated-banner-fixture.webp')
     finally:
         ctx.close()
     # Also verify a broken nonempty cover URL falls back after an actual load failure.
@@ -77,6 +95,18 @@ def test_dineout(browser,server,photos,out):
         assert missing.locator('.dish-store-logo img').count()==1
     finally:
         ctx.close()
+
+
+    # Optional future frontend binding: show an amount only if fixture explicitly provides it.
+    ctx,page=prior.page_for(browser,server,photos,extra+";stores[1].dineout_price_for_two_tjs=270;")
+    try:
+        card=page.locator('.home-dine .d6-dc').filter(has_text='Romant Restaurant')
+        assert '≈ 270 TJS на двоих' in card.locator('.dine-bill-distance').inner_text()
+        card.click()
+        assert page.evaluate("S.v==='menu' && S.store==='Romant Restaurant'")
+    finally:
+        ctx.close()
+
 
 
 def test_reel_badges(browser,server,photos,out):

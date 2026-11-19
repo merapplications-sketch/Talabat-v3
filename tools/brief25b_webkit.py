@@ -118,14 +118,16 @@ def test_dineout(browser,server,photos,out):
         cards=page.locator('.home-dine .d6-dc')
         assert cards.count()>=4
         widths=cards.evaluate_all("els=>els.slice(0,3).map(e=>e.getBoundingClientRect().width)")
-        assert all(116<=w<=180 for w in widths),widths
+        assert all(208<=w<=260 for w in widths),widths
         assert cards.first.locator('.dish-store-logo').count()==1
         assert cards.first.locator('.d6-ph > img[src="/qa-image/romant"]').count()==1
         assert cards.first.locator('.dish-store-logo img[src="/qa-image/pro-khinkali"]').count()==1
         cards.first.locator('.dine-cover-photo').evaluate("e=>e.loading='eager'")
         page.wait_for_function("()=>document.querySelector('.home-dine .d6-dc .dine-cover-photo')?.naturalWidth>0")
         assert cards.first.locator('.dine-meta .rt').count()==1
-        assert cards.first.locator('.dine-meta span').count()==1
+        assert cards.first.locator('.dine-meta .rt').count()==1
+        assert page.locator('.dine-head h2').inner_text()=='DineOut'
+        assert page.locator('.d6-dn').count()==0
         rail=page.locator('.home-dine')
         assert rail.evaluate("e=>e.scrollWidth>e.clientWidth")
         rail.scroll_into_view_if_needed()
