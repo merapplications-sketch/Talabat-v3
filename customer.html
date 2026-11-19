@@ -2172,6 +2172,26 @@ TLB.addDict({reelsTitle:'Что нового',reelOpen:'Открыть рест�
             {reelsTitle:"What's new",reelOpen:'Open restaurant',reelComment:'Comments',reelSend:'Send',reelLike:'Like',reelViews:'Views'});
 let homeReels=[],reelObserver;
 const reelStats=()=>globalThis.TalabotReelStats;
+const reelViews=new Set(),reelTaps=new Set(),reelTimers=new Map();
+function reelMetric(name,id){
+  const api=reelStats(),method=api?.[name],sent=name==='views'?reelViews:reelTaps;
+  if(typeof method!=='function'||sent.has(id))return;
+  sent.add(id);
+  Promise.resolve().then(()=>method.call(api,id)).catch(()=>sent.delete(id));
+}
+function clearReelTimers(){
+  reelTimers.forEach(clearTimeout);
+  reelTimers.clear();
+}
+function watchReelView(el,visible){
+  const id=el.dataset.reelKey;
+  if(!visible){clearTimeout(reelTimers.get(el));reelTimers.delete(el);return}
+  if(!id||reelViews.has(id)||reelTimers.has(el)||typeof reelStats()?.views!=='function')return;
+  reelTimers.set(el,setTimeout(()=>{
+    reelTimers.delete(el);
+    if(el.isConnected&&!document.hidden)reelMetric('views',id);
+  },el.matches('.reel-pane')?2000:1000));
+}
 function reelDestination(dialog,card){
   if(!TLB.isOpen(card.st.n))return;
   dialog.close();
@@ -2204,6 +2224,7 @@ function openReel(index,trigger){
   dots.forEach((dot,i)=>dot.onclick=()=>move(i));
   dialog.querySelectorAll('[data-reel-open]').forEach((btn,i)=>btn.onclick=()=>reelDestination(dialog,cards[i]));
   dialog.addEventListener('close',()=>{dialog.remove();observeReelMedia();if(trigger.isConnected)trigger.focus({preventScroll:true})},{once:true});
+  if(S.v==='home')reelMetric('taps',cards[start].id);
   dialog.showModal();
   move(start);sync();observeReelMedia();
   const api=reelStats();
@@ -2235,12 +2256,14 @@ function openReelComments(dialog,pane,card,api,comments){
 
 const reelLowData=()=>matchMedia('(prefers-reduced-motion: reduce)').matches||navigator.connection?.saveData;
 function observeReelMedia(){
+  clearReelTimers();
   reelObserver?.disconnect();
   if(document.querySelector('.reel-viewer[open]'))document.querySelectorAll('.reel-card video').forEach(video=>video.pause());
   reelObserver=new IntersectionObserver(entries=>{
     for(const entry of entries){
       const video=entry.target.querySelector('video');
       const visible=entry.intersectionRatio>=.5&&!document.hidden&&(!document.querySelector('.reel-viewer[open]')||entry.target.matches('.reel-pane'));
+      watchReelView(entry.target,visible);
       if(video){
         if(visible&&!reelLowData()){
           if(!video.hasAttribute('src'))video.src=video.dataset.reelSrc;
@@ -2252,7 +2275,7 @@ function observeReelMedia(){
   document.querySelectorAll('.reel-card,.reel-pane').forEach(el=>reelObserver.observe(el));
 }
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden)document.querySelectorAll('video.reel-video').forEach(video=>video.pause());
+  if(document.hidden){clearReelTimers();document.querySelectorAll('video.reel-video').forEach(video=>video.pause())}
   else observeReelMedia();
 });
 TLB.addDict({homeAd:'Реклама'},{homeAd:'Ad'});

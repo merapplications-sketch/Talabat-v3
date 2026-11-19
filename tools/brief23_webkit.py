@@ -78,7 +78,7 @@ T.banners=T.banners.filter(x=>x.placement!=='dont_miss');
 stores.forEach(s=>{s.discount_pct=0;s.created_at=iso(42*24*60)});
 items.forEach(i=>i.discount_pct=0);T.happy_hours=[];
 """+qa.FINISH_SEED)
-ORDER=['again','offers','meals','popular','advert','picks','flash','near','rewards','discover','dine']
+ORDER=['again','meals','offers','flash','rewards','popular','advert','picks','near','discover','dine']
 OPTIONAL={'advert','flash','discover'}
 
 

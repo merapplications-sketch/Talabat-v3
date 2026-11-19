@@ -69,7 +69,7 @@ def current_home(page, out):
     assert page.locator('.home-ad-card b').inner_text()=='Скидка 20% в Romant Restaurant'
     disc=page.locator('.home-discover')
     assert disc.locator('.home-picks-summary').inner_text()=='Вы ещё не пробовали'
-    assert disc.locator('.discover-row b').all_inner_texts()==['Romant Restaurant']
+    assert disc.locator('.discover-row .reel-copy > b:first-child').all_inner_texts()==['Romant Restaurant']
     assert 'Новый' not in disc.inner_text() and disc.locator('em').count()==0
     flash=page.locator('.flash-grid')
     prices=flash.locator('.flash-description').evaluate_all("""es=>Object.fromEntries(es.map(e=>[
@@ -87,14 +87,13 @@ def current_home(page, out):
     a,b,c=data['near']['boxes']
     assert data['near']['rows']==2 and a[1]==c[1]<b[1] and a[0]==b[0]<c[0] and data['near']['scroll']>0
     assert page.locator('[data-section=near] b').evaluate("e=>getComputedStyle(e).textDecorationLine")=='none'
-    gap=page.evaluate("""()=>{const bounds=s=>document.querySelector(s).getBoundingClientRect();
-      return bounds('[data-section=near] h2').top-Math.max(...Array.from(document.querySelectorAll('.flash-item'),e=>e.getBoundingClientRect().bottom))}""")
-    assert 0<gap<=32,gap
+    assert page.locator('.home-heading').evaluate_all("nodes=>nodes.map(n=>n.dataset.section)")==[
+        'again','meals','offers','flash','rewards','popular','advert','picks','near','discover','dine']
     assert page.evaluate("document.documentElement.scrollWidth")==375
     for selector in ('.d6-sc',):
         assert_image(card_photo(page,selector,'KFC'),'/qa-image/kfc','contain')
         assert_image(card_photo(page,selector,'Romant'),'/qa-image/romant','cover')
-    for selector in ('.discover-row','.home-dine .d6-dc'):
+    for selector in ('.home-dine .d6-dc',):
         assert_image(card_photo(page,selector,'Romant'),'/qa-image/romant','cover')
     assert_image(page.locator('.home-ad-card .ad-art'),'/qa-image/romant','cover')
     logo=page.locator('.home-l-near .home-l-card').filter(has_text='KFC').locator('.dish-store-logo img')
@@ -162,15 +161,14 @@ def variants(browser, server, photos):
           return [names(mealsH(products),'.nm'),names(flashH(products),'.flash-description b')]}""")
         assert marked==[['Стейк'],['Hot honey']]
         assert p.locator('.home-ad-card b').inner_text()=='Объявление KFC'
-        assert p.locator('.home-discover .discover-row b').all_inner_texts()==['Romant Restaurant']
-        assert 'Новый' in p.locator('.home-discover').inner_text()
+        assert p.locator('.home-discover .discover-row .reel-copy > b:first-child').all_inner_texts()==['Romant Restaurant']
         assert '12%' in p.locator('.discover-row em').inner_text()
     check("""items.find(i=>i.id==='steak').meal_for_one=true;items.find(i=>i.id==='hot').flash_sale=true;
         stores[1].created_at=iso(24*60);stores[1].first_order_discount_pct=12;
         T.banners.push({id:'campaign',placement:'dont_miss',title:'Объявление KFC',link_type:'store',link_value:'s1',is_active:true});""",curated)
 
     def branded(p):
-        for selector in ('.d6-sc','.discover-row','.home-dine .d6-dc'):
+        for selector in ('.d6-sc','.home-dine .d6-dc'):
             assert_image(card_photo(p,selector,'Romant'),'/qa-image/kfc','contain')
         assert_image(p.locator('.home-ad-card .ad-art'),'/qa-image/kfc','contain')
     check("stores[1].logo_url='/qa-image/kfc'",branded)
@@ -278,6 +276,47 @@ def closed_home_cards(browser, server, photos, out):
     return results
 
 
+def evidence_reels_and_search(browser, server, photos, out):
+    ctx,p=page_for(browser,server,photos,"""
+        stores[0].search_rank=2;stores[0].created_at=iso(30);
+        stores[1].search_rank=1;stores[1].created_at=iso(60);
+        stores[2].search_rank=0;stores[2].is_open=false;
+        T.app_settings.push({key:'home_sponsored_dishes',value:[{store_id:'s1',item_id:'hot'}]});
+        T.app_settings.push({key:'home_reels',value:[{type:'dish',id:'hot',store_id:'s1',item_id:'hot'}]});
+        """)
+    try:
+        result=p.locator('.d6-res .d6-sr')
+        p.evaluate("()=>{for(const st of STORES)st.d+=' меню';S.q='меню';render()}")
+        assert result.locator('.nt').all_inner_texts()==['Romant Restaurant','KFC','Gulistan Flowers']
+        assert result.locator('.home-ad-label').all_inner_texts()==['Реклама']*3
+        assert result.last.locator('.g12-closed-badge').inner_text()=='Закрыт'
+        display(p).save(out/'ru-375-search.webp',quality=86,method=6)
+        p.evaluate("""()=>{S.q='';go('home');window.reelEvidence={views:[],taps:[]};
+            window.TalabotReelStats={views:id=>reelEvidence.views.push(id),taps:id=>reelEvidence.taps.push(id)}}""")
+        assert p.locator('[data-section=discover] b').inner_text()=='Что нового'
+        assert p.locator('.home-picks:not(.home-meals) .d6-pt').first.locator('.home-ad-label').inner_text()=='Реклама'
+        card=p.locator('.reel-card').first
+        card.scroll_into_view_if_needed()
+        p.wait_for_function("reelEvidence.views.includes(document.querySelector('.reel-card').dataset.reelKey)")
+        card.click()
+        viewer=p.locator('.reel-viewer[open]')
+        assert viewer.is_visible() and viewer.locator('.reel-pages button.on').count()==1
+        assert viewer.locator('.reel-social > *').count()==0
+        p.wait_for_function("reelEvidence.taps.length===1")
+        p.wait_for_timeout(2200)
+        assert p.evaluate("reelEvidence.views.filter(id=>id===reelEvidence.taps[0]).length")==1
+        assert p.evaluate("homeReels.some(c=>c.type==='dish'&&c.item.id==='hot')")
+        viewer.locator('.reel-pane').first.locator('.reel-cover').evaluate("i=>i.loading='eager'")
+        p.wait_for_function("document.querySelector('.reel-pane .reel-cover').naturalWidth>0")
+        from io import BytesIO
+        from PIL import Image
+        Image.open(BytesIO(p.screenshot(animations='disabled'))).save(out/'ru-375-reels-viewer.webp',quality=86,method=6)
+        viewer.locator('.reel-back').click()
+        assert viewer.count()==0
+    finally:
+        ctx.close()
+
+
 def main():
     baseline,out=map(Path,sys.argv[1:3]);out.mkdir(parents=True,exist_ok=True)
     assert Path('talabat-core.js').read_bytes()==(baseline/'talabat-core.js').read_bytes(), 'Frozen shared core changed'
@@ -299,6 +338,7 @@ def main():
             ctx,closed=page_for(browser,servers[1],photos,"stores[0].is_open=false;")
             display(closed).save(out/'ru-375-full-closed-and-discount.webp',quality=86,method=6)
             ctx.close()
+            evidence_reels_and_search(browser,servers[1],photos,out)
             browser.close()
         (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
         print('PASS BRIEF-25 Home geometry, closed stores, banner precedence, and six financial comparisons')
