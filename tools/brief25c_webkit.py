@@ -130,13 +130,15 @@ def test_comment_sheet(browser,server,photos,out):
         assert rows.nth(0).locator('.reel-chat-byline time').count()==1
         assert rows.nth(0).locator('.reel-chat-text').inner_text()=='Тестовый комментарий · fixture'
         assert sheet.locator('.reel-chat-grip').count()==1
+        assert sheet.evaluate("e=>e.querySelector('.reel-chat-heading h2')===document.activeElement")
+        assert sheet.locator('.reel-chat-close').evaluate("e=>document.activeElement!==e")
         assert sheet.locator('.reel-chat-close svg').count()==1
         assert sheet.locator('.reel-comment-form .reel-chat-send svg').count()==1
         assert sheet.locator('.reel-chat-list').evaluate("e=>getComputedStyle(e).listStyleType")=='none'
         assert sheet.locator('.reel-chat-close').evaluate("e=>getComputedStyle(e).borderTopStyle")=='none'
         assert sheet.locator('.reel-comment-form input').evaluate("e=>parseFloat(getComputedStyle(e).borderTopLeftRadius)")>=14
         assert sheet.evaluate("e=>parseFloat(getComputedStyle(e).borderTopLeftRadius)")>=20
-        prior.shot(page,out,'ru-375-reel-comments-designed-fixture.webp')
+        prior.shot(page,out,'ru-375-reel-comments-designed-final-fixture.webp')
         sheet.locator('.reel-chat-close').click()
         assert page.locator('.reel-comments[open]').count()==0
         viewer.locator('.reel-back').click()

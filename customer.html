@@ -2274,7 +2274,7 @@ function openReelComments(dialog,pane,card,api,comments){
   sheet.className='reel-comments';
   const rows=Array.isArray(comments)?comments:[];
   sheet.innerHTML=`<div class="reel-chat-grip" aria-hidden="true"></div>
-    <header class="reel-chat-heading"><h2>${t('reelComment')}</h2>
+    <header class="reel-chat-heading"><h2 tabindex="-1" style="outline:none">${t('reelComment')}</h2>
     <form method="dialog"><button type="submit" class="reel-chat-close" aria-label="${t('reelCommentClose')}">${ico('x',20)}</button></form></header>
     <ul class="reel-chat-list">${rows.map(c=>{
       const name=String(c.author_name||c.author||c.user_name||c.name||t('reelCommentGuest')).trim().slice(0,70);
@@ -2287,7 +2287,10 @@ function openReelComments(dialog,pane,card,api,comments){
     <form class="reel-comment-form"><input type="text" required maxlength="500"
       placeholder="${t('reelCommentWrite')}" aria-label="${t('reelComment')}" autocomplete="off">
       <button type="submit" class="reel-chat-send" aria-label="${t('reelSend')}">${ico('nav',20)}</button></form>`;
-  dialog.append(sheet);sheet.showModal();sheet.addEventListener('close',()=>sheet.remove(),{once:true});
+  dialog.append(sheet);sheet.showModal();
+  // Focus the sheet heading, not the close control, to avoid a misleading default ring on first paint.
+  sheet.querySelector('.reel-chat-heading h2')?.focus({preventScroll:true});
+  sheet.addEventListener('close',()=>sheet.remove(),{once:true});
   const form=sheet.querySelector('.reel-comment-form'),input=form.querySelector('input'),send=form.querySelector('button');
   form.onsubmit=async event=>{event.preventDefault();const value=input.value.trim();if(!value||send.disabled)return;
     send.disabled=true;try{await api.comment(card.id,value);sheet.close();await paintReelSocial(dialog,pane,card,api)}catch{}finally{send.disabled=false}};
