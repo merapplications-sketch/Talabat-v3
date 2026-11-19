@@ -111,6 +111,9 @@ def test_reels(page,out):
     assert pane.locator('.reel-comment').count()==1
     assert '37' in pane.inner_text() and '215' in pane.inner_text()
     assert viewer.locator('.reel-pages button').count()>=2
+    assert pane.locator('.reel-avatar .reel-like').count()==1
+    assert pane.locator('.reel-open-arrow').count()==1
+    assert pane.locator('.reel-social .reel-like').count()==0
     shot(page,out,'ru-375-reels-second-linked-fixture.webp')
     pane.locator('.reel-comment').click()
     page.locator('.reel-comments[open]').wait_for()

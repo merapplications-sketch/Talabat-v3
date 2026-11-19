@@ -131,6 +131,16 @@
 .discover-row .d6-ph { width: 84px; height: 84px; border-radius: 14px; flex: none; }
 .home-discover .reel-card-rating { display: block; }
 .home-discover .reel-card-rating .rt { color: #fff; font-size: 11px; line-height: 15px; }
+.reel-pane .reel-offer { position: absolute; top: calc(17px + env(safe-area-inset-top)); right: 15px; z-index: 2; padding: 4px 9px; border-radius: 10px; color: #fff; background: #d94e1f; font-size: 12px; font-weight: 700; }
+.reel-info .reel-avatar { position: relative; display: block; width: 48px; height: 48px; }
+.reel-info .reel-avatar .dish-store-logo { position: relative; inset: auto; width: 48px; height: 48px; }
+.reel-info .reel-avatar .reel-like { position: absolute; right: -7px; bottom: -11px; z-index: 3; border: 0; border-radius: 12px; padding: 3px 6px; background: #251711e6; color: white; display: flex; align-items: center; font-size: 11px; gap: 2px; }
+.reel-info .reel-caption { min-width: 0; }
+.reel-info .reel-title-row { display: flex; align-items: center; gap: 7px; }
+.reel-info .reel-title-row strong { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.reel-info button.reel-open-arrow { display: inline-flex; align-items: center; justify-content: center; grid-column: auto; flex: 0 0 36px; width: 36px; height: 36px; border: 0; border-radius: 50%; padding: 0; background: #ed551c; color: white; }
+.reel-info .reel-details { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.reel-info .reel-details .rt, .reel-info .reel-details span { color: white; font-size: 12px; }
 .discover-row small,.discover-row em { display: block; margin-top: 4px; }
 .discover-row em { background: #d9f99d; border-radius: 6px; padding: 2px 7px; font-style: normal; width: fit-content; }
 

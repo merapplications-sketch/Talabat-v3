@@ -2172,8 +2172,8 @@ function validReelURL(value){
   if(typeof value!=='string'||!value.trim())return '';
   try{const url=new URL(value,location.href);return ['https:','http:'].includes(url.protocol)?url.href:''}catch{return ''}
 }
-TLB.addDict({reelsTitle:'Что нового',reelOpen:'Открыть ресторан',reelComment:'Комментарии',reelSend:'Отправить',reelLike:'Нравится',reelViews:'Просмотры'},
-            {reelsTitle:"What's new",reelOpen:'Open restaurant',reelComment:'Comments',reelSend:'Send',reelLike:'Like',reelViews:'Views'});
+TLB.addDict({reelsTitle:'Что нового',reelOpen:'Открыть ресторан',reelComment:'Комментарии',reelSend:'Отправить',reelLike:'Нравится',reelViews:'Просмотры',reelOffer:'Акция'},
+            {reelsTitle:"What's new",reelOpen:'Open restaurant',reelComment:'Comments',reelSend:'Send',reelLike:'Like',reelViews:'Views',reelOffer:'Offer'});
 let homeReels=[],reelObserver;
 const reelStats=()=>globalThis.TalabotReelStats;
 const reelViews=new Set(),reelTaps=new Set(),reelTimers=new Map();
@@ -2213,9 +2213,11 @@ function openReel(index,trigger){
   dialog.innerHTML=`<div class="reel-feed">${cards.map((card,i)=>`<article class="reel-pane" data-reel-key="${esc(card.id)}">
     ${discoveryMedia(card)}
     ${Math.max(card.first,card.st.disc||0)>0?`<span class="reel-deal">−${Math.max(card.first,card.st.disc||0)}%</span>`:''}
-    <div class="reel-info">${dishStoreLogo(card.st)}<div><strong>${esc(card.title||card.st.n)}</strong>
-    ${d6Rt(card.st)}<span>${[etaOf(card.st),delTxt(card.st)].filter(Boolean).join(' · ')}</span></div>
-    <button type="button" data-reel-open="${i}">${t('reelOpen')}</button></div>
+    ${card.type==='offer'?`<span class="reel-offer">${t('reelOffer')}</span>`:''}
+    <div class="reel-info"><span class="reel-avatar">${dishStoreLogo(card.st)}</span>
+    <div class="reel-caption"><div class="reel-title-row"><strong>${esc(card.title||card.st.n)}</strong>
+    <button type="button" class="reel-open-arrow" data-reel-open="${i}" aria-label="${t('reelOpen')}">${ico('arr',18)}</button></div>
+    <div class="reel-details">${d6Rt(card.st)}<span>${[etaOf(card.st),delTxt(card.st)].filter(Boolean).join(' · ')}</span></div></div></div>
     <div class="reel-social"></div></article>`).join('')}</div>
     <button type="button" class="reel-back" aria-label="${t('back')}">${ico('back',22)}</button>
     <nav class="reel-pages">${cards.map((_,i)=>`<button type="button" data-reel-page="${i}" aria-label="${i+1}"></button>`).join('')}</nav>`;
@@ -2242,6 +2244,9 @@ async function paintReelSocial(dialog,pane,card,api){
       ${Array.isArray(stats.comments)&&typeof api.comment==='function'?`<button type="button" class="reel-comment" aria-label="${t('reelComment')}">${ico('chat',22)} ${stats.comments.length}</button>`:''}
       ${Number.isFinite(stats.views)?`<span aria-label="${t('reelViews')}">${stats.views}</span>`:''}`;
     const like=root.querySelector('.reel-like'),comment=root.querySelector('.reel-comment');
+    const avatar=pane.querySelector('.reel-avatar');
+    avatar?.querySelector('.reel-like')?.remove();
+    if(like&&avatar)avatar.append(like);
     if(like)like.onclick=async()=>{like.disabled=true;try{await api.toggleLike(card.id);await paintReelSocial(dialog,pane,card,api)}catch{}finally{like.disabled=false}};
     if(comment)comment.onclick=()=>openReelComments(dialog,pane,card,api,stats.comments);
   }catch{}
