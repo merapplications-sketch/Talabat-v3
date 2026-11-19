@@ -524,9 +524,9 @@
             "x": 0,
             "y": 8,
             "width": 375,
-            "height": 3049,
+            "height": 3161,
             "right": 375,
-            "bottom": 3057
+            "bottom": 3169
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1154,7 +1154,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 20:38",
+          "text": "Ожидание подтверждения · #ord0 21:02",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1182,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 19:38",
+          "text": "Принять с 20:02",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1197,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 20:38\n",
+        "heading": "Ожидание подтверждения · #ord0\n 21:02\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1218,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 19:38",
+            "txt": "Принять с 20:02",
             "width": 209,
             "scroll": 209
           }
@@ -1638,14 +1638,14 @@
         },
         {
           "selector": "#app .d6-rl",
-          "text": "−25%РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на",
+          "text": "Р\n    −25%РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фил",
           "rect": {
             "x": 0,
             "y": 2619,
             "width": 375,
-            "height": 54,
+            "height": 166,
             "right": 375,
-            "bottom": 2673
+            "bottom": 2785
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2515,14 +2515,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 1:1",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 55:",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 390,
-            "height": 3029,
+            "height": 3141,
             "right": 390,
-            "bottom": 3037
+            "bottom": 3149
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3150,7 +3150,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 20:39",
+          "text": "Waiting for confirmation · #ord0 21:03",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3178,7 +3178,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 19:39",
+          "text": "Accept from 20:03",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3193,7 +3193,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 20:39\n",
+        "heading": "Waiting for confirmation · #ord0\n 21:03\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3214,7 +3214,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 19:39",
+            "txt": "Accept from 20:03",
             "width": 219,
             "scroll": 219
           }
@@ -3634,14 +3634,14 @@
         },
         {
           "selector": "#app .d6-rl",
-          "text": "−25%РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на",
+          "text": "Р\n    −25%РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный фил",
           "rect": {
             "x": 0,
             "y": 2599,
             "width": 390,
-            "height": 54,
+            "height": 166,
             "right": 390,
-            "bottom": 2653
+            "bottom": 2765
           },
           "disabled": false,
           "ariaDisabled": null
