@@ -122,8 +122,8 @@ def test_dineout(browser,server,photos,out):
         assert cards.first.locator('.dish-store-logo').count()==1
         assert cards.first.locator('.d6-ph > img[src="/qa-image/romant"]').count()==1
         assert cards.first.locator('.dish-store-logo img[src="/qa-image/pro-khinkali"]').count()==1
-        cards.first.locator('.d6-ph > img').evaluate("e=>e.loading='eager'")
-        page.wait_for_function("()=>document.querySelector('.home-dine .d6-dc .d6-ph > img')?.naturalWidth>0")
+        cards.first.locator('.dine-cover-photo').evaluate("e=>e.loading='eager'")
+        page.wait_for_function("()=>document.querySelector('.home-dine .d6-dc .dine-cover-photo')?.naturalWidth>0")
         assert cards.first.locator('.dine-meta .rt').count()==1
         assert cards.first.locator('.dine-meta span').count()==1
         rail=page.locator('.home-dine')
