@@ -108,6 +108,10 @@ def test_dineout(browser,server,photos,out):
         widths=cards.evaluate_all("els=>els.slice(0,3).map(e=>e.getBoundingClientRect().width)")
         assert all(116<=w<=180 for w in widths),widths
         assert cards.first.locator('.dish-store-logo').count()==1
+        assert cards.first.locator('.d6-ph > img[src="/qa-image/romant"]').count()==1
+        assert cards.first.locator('.dish-store-logo img[src="/qa-image/pro-khinkali"]').count()==1
+        cards.first.locator('.d6-ph > img').evaluate("e=>e.loading='eager'")
+        page.wait_for_function("()=>document.querySelector('.home-dine .d6-dc .d6-ph > img')?.naturalWidth>0")
         assert cards.first.locator('.dine-meta .rt').count()==1
         assert cards.first.locator('.dine-meta span').count()==1
         rail=page.locator('.home-dine')
@@ -162,7 +166,9 @@ def test_reels(page,out):
     cards=page.locator('.reel-card')
     cards.nth(1).click()
     viewer=page.locator('.reel-viewer[open]')
+    page.wait_for_function("()=>{const e=document.querySelector('.reel-feed');return !!e && e.scrollTop>=e.clientHeight*0.75}")
     pane=viewer.locator('.reel-pane').nth(1)
+    assert pane.locator('.reel-title-row strong').inner_text()=='Hot honey'
     pane.locator('.reel-like').wait_for()
     assert pane.locator('.reel-comment').count()==1
     assert '37' in pane.inner_text() and '215' in pane.inner_text()

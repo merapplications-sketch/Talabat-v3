@@ -2224,7 +2224,7 @@ function openReel(index,trigger){
     <nav class="reel-pages">${cards.map((_,i)=>`<button type="button" data-reel-page="${i}" aria-label="${i+1}"></button>`).join('')}</nav>`;
   document.body.append(dialog);
   const feed=dialog.querySelector('.reel-feed'),panes=[...feed.children],dots=[...dialog.querySelector('.reel-pages').children];
-  const move=i=>{feed.scrollTop=panes[i].offsetTop};
+  const move=i=>{feed.scrollTop=Math.max(0,Math.min(panes.length-1,i))*feed.clientHeight};
   const sync=()=>dots.forEach((dot,i)=>dot.classList.toggle('on',i===Math.round(feed.scrollTop/feed.clientHeight)));
   feed.addEventListener('scroll',sync,{passive:true});
   dialog.querySelector('.reel-back').onclick=()=>dialog.close();
@@ -2234,6 +2234,8 @@ function openReel(index,trigger){
   if(S.v==='home')reelMetric('taps',cards[start].id);
   dialog.showModal();
   move(start);sync();observeReelMedia();
+  // WebKit may reset dialog scroll-snap when its first layout is committed.
+  requestAnimationFrame(()=>{if(dialog.open){move(start);sync();observeReelMedia()}});
   const api=reelStats();
   if(typeof api?.read==='function')cards.forEach((card,i)=>paintReelSocial(dialog,panes[i],card,api));
 }
@@ -2324,7 +2326,7 @@ function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0
   return homeHeading('dine',"openCat('rest');S.srt='disc'")+`<div class="d6-dn" role="button" onclick="openCat('rest');S.srt='disc'"><b class="dlg">DineOut</b><p>${t('hDineS')}</p><span class="go">${t('hDineGo')} ${ico('arr',14)}</span><img class="art" src="${A3('pizza')}" alt="" width="120" height="120" loading="lazy">${mx?`<span class="pct">${t('hDineP').replace('{n}',mx)}</span>`:''}</div>
   `+(l.length?`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
     const km=kmOf(st);
-    return `<button type="button" class="d6-dc" ${storeTap(st)}>${homeRestaurantPhoto(st,`<span class="hb r">−${st.disc}%</span>`+dishStoreLogo(st,true))}<b class="nm">${esc(st.n)}</b>
+    return `<button type="button" class="d6-dc" ${storeTap(st)}>${d6Ph(st.i||st.lg,`<span class="hb r">−${st.disc}%</span>`+dishStoreLogo(st,true))}<b class="nm">${esc(st.n)}</b>
       <span class="mt dine-meta">${d6Rt(st)}${km==null?'':`<span>${t('hKm').replace('{n}',km)}</span>`}</span></button>`;
   }).join('')}</div>`:'')}
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
