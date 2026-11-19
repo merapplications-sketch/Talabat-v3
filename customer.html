@@ -2011,27 +2011,36 @@ TLB.addDict({dontMiss:'Не пропустите',homeDealAt:'Скидка {pct}
 function adH(products){
   function banner(st,title,art,action,detail=''){
     const image=art?`<img class="ad-art" src="${esc(art)}" alt="">`:st?homeRestaurantImage(st,'ad-art'):'';
-    return homeHeading('advert')+`<button class="home-ad-card" ${action}><span class="ad-copy">${st?dishStoreLogo(st):''}<b>${esc(title)}</b>${detail?`<small>${esc(detail)}</small>`:''}</span>${image}</button>`;
+    return `<button class="home-ad-card" ${action}><span class="ad-copy">${st?dishStoreLogo(st):''}<b>${esc(title)}</b>${detail?`<small>${esc(detail)}</small>`:''}</span>${image}</button>`;
   }
+  const slides=[];
   for(const ad of inB('dont_miss')){
     if(!ad.title||!['store','category','partner'].includes(ad.link_type))continue;
     const st=ALLS.find(s=>s.id===ad.link_value);
     if(ad.link_type==='store'&&(!st||!TLB.isOpen(st.n)))continue;
     const prices=st?products.filter(c=>c.st===st).map(c=>c.price):[];
     const detail=prices.length?t('homeFromPrice').replace('{price}',Math.min(...prices)):'';
-    return banner(st,ad.title,ad.image_url,`onclick="bannerGo(${esc(JSON.stringify(ad.id))})"`,detail);
+    slides.push(banner(st,ad.title,ad.image_url,`onclick="bannerGo(${esc(JSON.stringify(ad.id))})"`,detail));
   }
-  const offers=new Map();
-  for(const st of STORES){
-    if(st.c==='rest'&&TLB.isOpen(st.n)&&st.disc>0)offers.set(st,st.disc);
+  if(!slides.length){
+    const offers=new Map();
+    for(const st of STORES){
+      if(st.c==='rest'&&TLB.isOpen(st.n)&&st.disc>0)offers.set(st,st.disc);
+    }
+    for(const {st,discount} of products){
+      if(st.c==='rest'&&discount>(offers.get(st)||0))offers.set(st,discount);
+    }
+    const best=[...offers].sort((a,b)=>b[1]-a[1])[0];
+    if(!best)return '';
+    const [st,pct]=best;
+    slides.push(banner(st,t('homeDealAt').replace('{pct}',pct).replace('{name}',()=>st.n),'',storeTap(st)));
   }
-  for(const {st,discount} of products){
-    if(st.c==='rest'&&discount>(offers.get(st)||0))offers.set(st,discount);
-  }
-  const best=[...offers].sort((a,b)=>b[1]-a[1])[0];
-  if(!best)return '';
-  const [st,pct]=best;
-  return banner(st,t('homeDealAt').replace('{pct}',pct).replace('{name}',()=>st.n),'',storeTap(st));
+  return homeHeading('advert')+`<div class="home-ad-rail" onscroll="syncHomeAd(this)">${slides.join('')}</div>
+    <div class="home-ad-dots" aria-hidden="true">${slides.map((_,i)=>`<i${i===0?' class="on"':''}></i>`).join('')}</div>`;
+}
+function syncHomeAd(rail){
+  const current=Math.round(rail.scrollLeft/Math.max(1,rail.clientWidth));
+  [...rail.nextElementSibling.children].forEach((dot,i)=>dot.classList.toggle('on',i===current));
 }
 TLB.addDict({flashTitle:'Быстрая распродажа',flashSub:'Только для вас, один раз на товар'},
             {flashTitle:'Flash sale',flashSub:'Just for you, once per item'});

@@ -148,3 +148,9 @@
 #app .d6h [data-section="popular"] + .d6-rl .d6-sc,
 #app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { width: 100%; }
 #app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { height: auto; aspect-ratio: 1; }
+
+.home-ad-rail { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }
+.home-ad-rail > .home-ad-card { flex: 0 0 100%; margin: 0; scroll-snap-align: start; }
+.home-ad-dots { display: flex; justify-content: center; gap: 6px; padding-top: 6px; }
+.home-ad-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--mut); }
+.home-ad-dots i.on { background: var(--o); }
