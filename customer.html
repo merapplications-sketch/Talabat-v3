@@ -2133,7 +2133,7 @@ function discoveryCards(){
 }
 function discoverH(expanded=false){
   const {cards:restaurants,fresh}=discoveryCards();
-  const extras=TLB.settings()?.home_reels;
+  const extras=TLB.stores().flatMap(store=>Array.isArray(store.home_reels)?store.home_reels.map(reel=>({...reel,store_id:store.id})):[]);
   const cards=restaurants.slice(),keys=new Set(cards.map(c=>c.id));
   for(const entry of Array.isArray(extras)?extras:[]){
     if(!entry||!['restaurant','dish','offer'].includes(entry.type)||entry.id==null)continue;
@@ -2281,8 +2281,10 @@ document.addEventListener('visibilitychange',()=>{
 TLB.addDict({homeAd:'Реклама'},{homeAd:'Ad'});
 const homeAdBadge=()=>`<span class="home-ad-label">${t('homeAd')}</span>`;
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();
-  const pins=TLB.settings()?.home_sponsored_dishes;
-  for(const pin of Array.isArray(pins)?pins:[]){
+  const pins=TLB.stores().flatMap(store=>Array.isArray(store.home_sponsored_dishes)?
+    store.home_sponsored_dishes.map(pin=>({...pin,store_id:store.id})):[]);
+  pins.sort((a,b)=>(a.rank??Infinity)-(b.rank??Infinity));
+  for(const pin of pins){
     const st=STORES.find(s=>s.id===pin?.store_id);
     if(!st||!TLB.isOpen(st.n))continue;
     const it=(M[st.n]||[]).find(i=>i.id===pin.item_id&&i.available&&i.approved&&!i.optsBlocked&&i.image);

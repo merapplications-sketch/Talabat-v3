@@ -281,8 +281,8 @@ def evidence_reels_and_search(browser, server, photos, out):
         stores[0].search_rank=2;stores[0].created_at=iso(30);
         stores[1].search_rank=1;stores[1].created_at=iso(60);
         stores[2].search_rank=0;stores[2].is_open=false;
-        T.app_settings.push({key:'home_sponsored_dishes',value:[{store_id:'s1',item_id:'hot'}]});
-        T.app_settings.push({key:'home_reels',value:[{type:'dish',id:'hot',store_id:'s1',item_id:'hot'}]});
+        stores[0].home_sponsored_dishes=[{item_id:'hot',rank:1}];
+        stores[0].home_reels=[{type:'dish',id:'hot',item_id:'hot'}];
         """)
     try:
         result=p.locator('.d6-res .d6-sr')
@@ -294,7 +294,7 @@ def evidence_reels_and_search(browser, server, photos, out):
         p.evaluate("""()=>{S.q='';go('home');window.reelEvidence={views:[],taps:[]};
             window.TalabotReelStats={views:id=>reelEvidence.views.push(id),taps:id=>reelEvidence.taps.push(id)}}""")
         assert p.locator('[data-section=discover] b').inner_text()=='Что нового'
-        assert p.locator('.home-picks:not(.home-meals) .d6-pt').first.locator('.home-ad-label').inner_text()=='Реклама'
+        assert p.locator('.home-picks:not(.home-meals) .d6-pt').first.locator('.home-ad-label').inner_text(timeout=5000)=='Реклама'
         card=p.locator('.reel-card').first
         card.scroll_into_view_if_needed()
         p.wait_for_function("reelEvidence.views.includes(document.querySelector('.reel-card').dataset.reelKey)")
