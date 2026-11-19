@@ -47,23 +47,21 @@ def test_dineout(browser,server,photos,out):
     try:
         cards=page.locator('.home-dine .d6-dc')
         assert cards.count()>=4
-        assert page.locator('.dine-head h2').inner_text()=='DineOut'
-        assert page.locator('.dine-head .dine-bill-ribbon').inner_text()=='Скидка до 20% на счёт'
-        assert page.locator('.dine-head .dine-heading-icon').get_attribute('src')=='assets/3d/sushi.webp'
         heading=page.locator('.dine-head')
+        image=heading.get_by_role('img',name='DineOut — Скидка до 50% на счёт')
+        action=heading.get_by_role('button',name='Все')
+        assert image.get_attribute('src')=='assets/customer-c/dineout-header.webp'
+        page.wait_for_function("()=>document.querySelector('.dine-head img').naturalWidth===750")
+        assert image.evaluate("i=>i.naturalHeight===250")
+        assert action.is_visible()
         assert heading.evaluate("""e=>{
-          const style=getComputedStyle(e), title=e.querySelector('h2'), link=e.querySelector('button');
-          const art=e.querySelector('.dine-heading-art').getBoundingClientRect();
-          const t=title.getBoundingClientRect(), b=link.getBoundingClientRect();
-          const cover=e.nextElementSibling.querySelector('.dine-brand-cover').getBoundingClientRect();
-          return style.backgroundImage==='none' && style.backgroundColor==='rgba(0, 0, 0, 0)'
-            && style.paddingTop==='16px' && getComputedStyle(title).fontSize==='34px'
-            && art.width===56 && art.right<t.left && t.right<b.left
-            && Math.abs((t.top+t.bottom-b.top-b.bottom)/2)<=1
-            && Math.abs(cover.top-e.getBoundingClientRect().bottom-12)<1;
+          const section=e.getBoundingClientRect();
+          const art=e.querySelector('img').getBoundingClientRect();
+          const link=e.querySelector('button').getBoundingClientRect();
+          return Math.abs(art.width-section.width)<1
+            && Math.abs(art.height-art.width/3)<1
+            && link.bottom<=art.top && Math.abs(link.right-art.right)<1;
         }""")
-        assert heading.get_by_role('button',name='Все').is_visible()
-        assert heading.locator('.dine-sparkle').count()==2
         assert page.locator('.d6-dn').count()==0
         widths=cards.evaluate_all("nodes=>nodes.slice(0,3).map(n=>n.getBoundingClientRect().width)")
         assert all(208<=w<=260 for w in widths),widths
@@ -81,10 +79,10 @@ def test_dineout(browser,server,photos,out):
             corner=card.locator('.dish-store-logo').bounding_box()
             cover=card.locator('.dine-brand-cover').bounding_box()
             assert corner and cover and corner['x']+corner['width']<=cover['x']+cover['width']+1
-            assert abs((corner['x']+corner['width'])-(cover['x']+cover['width']))<14
+            assert abs(corner['x']-cover['x']-8)<1
             assert abs((corner['y']+corner['height'])-(cover['y']+cover['height']))<14
             badge=card.locator('.dine-brand-cover .hb').bounding_box()
-            assert badge and badge['x']+badge['width']<corner['x'],(badge,corner)
+            assert badge and abs(badge['y']-cover['y']-9)<1
             assert badge['y']+badge['height']<corner['y'],(badge,corner)
         first=cards.first
         assert first.locator('.dine-meta .rt').count()==1
@@ -96,8 +94,7 @@ def test_dineout(browser,server,photos,out):
         missing.locator('.dine-fallback-mark').evaluate("e=>e.loading='eager'")
         page.wait_for_function("()=>[...document.querySelectorAll('.home-dine .d6-dc .dine-fallback-mark')].some(e=>e.complete&&e.naturalWidth>0)")
         page.locator('.dine-head').scroll_into_view_if_needed()
-        page.wait_for_function("()=>{const i=document.querySelector('.dine-head .dine-heading-icon');return !!i&&i.complete&&i.naturalWidth>0}")
-        prior.shot(page,out,'ru-375-dineout-y09-fixture.webp')
+        prior.shot(page,out,'ru-375-dineout-y10-fixture.webp')
         heading.get_by_role('button',name='Все').click()
         assert page.locator('.dine-head').count()==0
         assert page.locator('.home-dine .d6-dc').count()>=4

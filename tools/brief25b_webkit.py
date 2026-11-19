@@ -126,7 +126,7 @@ def test_dineout(browser,server,photos,out):
         page.wait_for_function("()=>document.querySelector('.home-dine .d6-dc .dine-cover-photo')?.naturalWidth>0")
         assert cards.first.locator('.dine-meta .rt').count()==1
         assert cards.first.locator('.dine-meta .rt').count()==1
-        assert page.locator('.dine-head h2').inner_text()=='DineOut'
+        assert page.locator('.dine-head h2 img').get_attribute('alt')=='DineOut — Скидка до 50% на счёт'
         assert page.locator('.d6-dn').count()==0
         rail=page.locator('.home-dine')
         assert rail.evaluate("e=>e.scrollWidth>e.clientWidth")

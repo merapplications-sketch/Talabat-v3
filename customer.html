@@ -2470,23 +2470,17 @@ function dineCardPhoto(st,badges=''){
     <span class="dine-fallback-initial" aria-hidden="true">${letter}</span>${main}${fallback}
     ${badges}${dishStoreLogo(st,true)}</div>`;
 }
-/* BRIEF-25c Y-09: DineOut heading on the Home background. */
-TLB.addDict({dineBillDiscount:'Скидка до {n}% на счёт',dinePriceTwo:'≈ {n} TJS на двоих'},
-            {dineBillDiscount:'Up to {n}% off the bill',dinePriceTwo:'≈ {n} TJS for two'});
+/* BRIEF-25c Y-10: owner-supplied DineOut heading artwork. */
+TLB.addDict({dinePriceTwo:'≈ {n} TJS на двоих'},
+            {dinePriceTwo:'≈ {n} TJS for two'});
 function dineH(expanded=false){
   const eligible=STORES.filter(x=>x.c==='rest'&&TLB.isOpen(x.n)&&x.disc>0)
     .sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99)));
   const l=expanded?eligible:eligible.slice(0,12);
-  const mx=l[0]?.disc;
   const heading=expanded?'':`<div class="d6-sh home-heading dine-head" data-section="dine">
-    <span class="dine-heading-art" aria-hidden="true">
-      <img class="dine-heading-icon" src="${A3('sushi')}" alt="" width="56" height="56" loading="eager">
-      <span class="dine-sparkle">✦</span><span class="dine-sparkle">✦</span>
-    </span>
-    <div class="dine-heading-copy"><h2>DineOut</h2>
-      ${mx?`<span class="dine-bill-ribbon">${t('dineBillDiscount').replace('{n}',mx)}</span>`:''}
-    </div>
-    ${l.length?`<button type="button" onclick="go('dineAll')">${t('d6All')} ${ico('chev',14)}</button>`:''}</div>`;
+    ${l.length?`<button type="button" onclick="go('dineAll')">${t('d6All')} ${ico('chev',14)}</button>`:''}
+    <h2><img src="assets/customer-c/dineout-header.webp" alt="DineOut — Скидка до 50% на счёт" width="750" height="250"></h2>
+  </div>`;
   if(!l.length)return heading;
   return heading+`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
     const km=kmOf(st),rawPrice=st.dine2;
