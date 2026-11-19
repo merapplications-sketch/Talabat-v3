@@ -1,0 +1,107 @@
+{
+  "stores": [
+    {
+      "id": "s1",
+      "name": "KFC",
+      "category": "rest",
+      "is_active": true,
+      "is_open": true,
+      "logo_url": "/qa-image/kfc",
+      "cover_url": "assets/3d/hamburger.webp",
+      "fee_type": "fixed",
+      "fee_base": 12,
+      "discount_pct": 0,
+      "lat": 38.56,
+      "lng": 68.78,
+      "home_sponsored_dishes": [
+        {
+          "item_id": "hot",
+          "rank": 1
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Romant Restaurant",
+      "category": "rest",
+      "is_active": true,
+      "is_open": true,
+      "cover_url": "/qa-image/romant",
+      "fee_type": "distance",
+      "fee_base": 10,
+      "free_delivery_min": 350,
+      "discount_pct": 20,
+      "lat": 38.568181,
+      "lng": 68.783962
+    },
+    {
+      "id": "s3",
+      "name": "Gulistan Flowers",
+      "category": "flowers",
+      "is_active": true,
+      "is_open": true,
+      "cover_url": "assets/3d/bouquet.webp",
+      "fee_type": "fixed",
+      "fee_base": 12,
+      "discount_pct": 0,
+      "lat": 38.57,
+      "lng": 68.79
+    }
+  ],
+  "menu_items": [
+    {
+      "id": "combo",
+      "store_id": "s1",
+      "name": "Combo",
+      "price": 170,
+      "discount_pct": 5,
+      "image_url": "assets/3d/hamburger.webp",
+      "available": true,
+      "approved": true,
+      "popular": true
+    },
+    {
+      "id": "hot",
+      "store_id": "s1",
+      "name": "Hot honey",
+      "price": 90,
+      "discount_pct": 5,
+      "image_url": "assets/3d/french-fries.webp",
+      "available": true,
+      "approved": true,
+      "popular": true
+    },
+    {
+      "id": "steak",
+      "store_id": "s2",
+      "name": "Стейк",
+      "price": 225,
+      "discount_pct": 0,
+      "image_url": "",
+      "available": true,
+      "approved": true,
+      "popular": true
+    },
+    {
+      "id": "plov",
+      "store_id": "s2",
+      "name": "Плов",
+      "price": 75,
+      "discount_pct": 0,
+      "image_url": "",
+      "available": true,
+      "approved": true,
+      "popular": true
+    }
+  ],
+  "best_dishes": [
+    {
+      "store_id": "s1",
+      "item_id": "combo"
+    },
+    {
+      "store_id": "s1",
+      "item_id": "hot"
+    }
+  ]
+}

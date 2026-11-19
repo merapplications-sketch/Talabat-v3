@@ -37,6 +37,17 @@ def linked_reel_fixture(page):
       };
     }""")
 
+def test_recommended(page,out):
+    # Best dishes and sponsorship exist only in the QA catalogue, not product defaults.
+    page.evaluate("data=>{TLB.bestDishes=()=>data;render()}",CATALOG['best_dishes'])
+    recommended=page.locator('section.home-picks:not(.home-meals)')
+    assert recommended.count()==1 and recommended.locator('.d6-pt').count()>=2
+    assert recommended.locator('.home-ad-label').first.inner_text()=='Реклама'
+    headings=page.locator('.home-heading').evaluate_all("nodes=>nodes.map(n=>n.dataset.section)")
+    assert headings.index('advert')<headings.index('picks'),headings
+    page.locator('[data-section="advert"]').evaluate("e=>window.scrollTo(0,window.scrollY+e.getBoundingClientRect().top-10)")
+    shot(page,out,'ru-375-recommended-after-ad-fixture.webp')
+
 def test_reels(page,out):
     cards=page.locator('.reel-card')
     assert cards.count()>=2,'Needs a second sample reel'
@@ -72,6 +83,7 @@ def main():
             photos=qa.source_photos()
             ctx,page=page_for(browser,server,photos)
             try:
+                test_recommended(page,out)
                 test_reels(page,out)
             finally:
                 ctx.close()
