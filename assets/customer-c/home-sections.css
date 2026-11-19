@@ -132,3 +132,14 @@
 .discover-row em { background: #d9f99d; border-radius: 6px; padding: 2px 7px; font-style: normal; width: fit-content; }
 
 #app img.home-brand-image { object-fit: contain; background: #fafafa; }
+
+.home-l-rail { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, max-content); grid-auto-columns: min(280px, 84%); gap: 10px; padding: 0 16px; overflow-x: auto; }
+.home-l-rail.single { grid-template-rows: auto; }
+.home-l-card { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--card, white); color: var(--ink); text-align: start; font: inherit; }
+.home-l-card:disabled { filter: grayscale(1); }
+.home-l-brand { position: relative; flex: 0 0 68px; height: 68px; }
+.home-l-brand .dish-store-logo { inset: 0; width: 100%; height: 100%; }
+.home-l-brand .hb { position: absolute; z-index: 1; top: 0; left: 0; }
+.home-l-info { display: grid; gap: 4px; min-width: 0; }
+.home-l-info > b:first-child, .home-l-info > span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.home-l-info > span { color: var(--mut); font-size: 12px; }
