@@ -82,7 +82,8 @@ def test_dineout(browser,server,photos,out):
         missing.locator('.dine-fallback-mark').evaluate("e=>e.loading='eager'")
         page.wait_for_function("()=>[...document.querySelectorAll('.home-dine .d6-dc .dine-fallback-mark')].some(e=>e.complete&&e.naturalWidth>0)")
         page.locator('.dine-head').scroll_into_view_if_needed()
-        prior.shot(page,out,'ru-375-dineout-integrated-banner-fixture.webp')
+        page.wait_for_function("()=>{const i=document.querySelector('.dine-head .dine-heading-icon');return !!i&&i.complete&&i.naturalWidth>0}")
+        prior.shot(page,out,'ru-375-dineout-integrated-banner-visible-icon-fixture.webp')
     finally:
         ctx.close()
     # Also verify a broken nonempty cover URL falls back after an actual load failure.

@@ -2374,7 +2374,7 @@ function dineH(){
   const heading=`<div class="d6-sh home-heading dine-head" data-section="dine">
     <div class="dine-heading-copy"><h2>DineOut</h2>
       ${mx?`<span class="dine-bill-ribbon">${t('dineBillDiscount').replace('{n}',mx)}</span>`:''}
-    </div><img class="dine-heading-icon" src="${A3('sushi')}" alt="" width="78" height="78" loading="lazy"></div>`;
+    </div><img class="dine-heading-icon" src="${A3('sushi')}" alt="" width="78" height="78" loading="eager"></div>`;
   if(!l.length)return heading;
   return heading+`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
     const km=kmOf(st),rawPrice=st.dine2;
