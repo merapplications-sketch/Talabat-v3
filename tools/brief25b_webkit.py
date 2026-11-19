@@ -85,6 +85,9 @@ def test_l_card_metadata(page):
         metadata=romant.locator('.home-l-meta').inner_text()
         assert ' · ' in metadata and 'TJS' in metadata,metadata
 
+def test_best_subtitle(page):
+    assert page.locator('[data-section="offers"] + .home-picks-summary').inner_text()=='Открывайте больше — экономьте больше'
+
 def test_reel_ratings(page):
     romant=page.locator('.reel-card').filter(has_text='Romant')
     assert romant.count()>=1
@@ -156,6 +159,7 @@ def main():
                 test_owner_fixture(page)
                 test_l_card_metadata(page)
                 test_recommended(page,out)
+                test_best_subtitle(page)
                 test_reel_ratings(page)
                 test_reels(page,out)
             finally:

@@ -1980,6 +1980,7 @@ function homeRestaurantRail(stores, css, offers = new Map()){
     </button>`;
   }).join('')}</div>`;
 }
+TLB.addDict({homeOffersSubtitle:'Открывайте больше — экономьте больше'},{homeOffersSubtitle:'Discover more, save more'});
 function bestH(products){
   const discounts=new Map(hhStores().map(({s,p})=>[s,p]));
   for(const {st,discount} of products){
@@ -1987,7 +1988,7 @@ function bestH(products){
   }
   const offers=STORES.filter(st=>st.c==='rest'&&TLB.isOpen(st.n)&&
     (st.disc>0||discounts.has(st)||st.ft==='free'||st.ffd||st.fdm>0));
-  return offers.length?homeHeading('offers',"go('promo')")+homeRestaurantRail(offers,'home-l-offers',discounts):'';
+  return offers.length?homeHeading('offers',"go('promo')")+ `<p class="home-picks-summary">${t('homeOffersSubtitle')}</p>` +homeRestaurantRail(offers,'home-l-offers',discounts):'';
 }
 /* recommended products: the app's real best sellers, else dishes marked popular by restaurants */
 function dishStoreLogo(st,lazy=false){
