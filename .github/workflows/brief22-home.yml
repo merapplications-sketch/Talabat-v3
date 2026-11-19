@@ -44,6 +44,7 @@ jobs:
           python tools/brief24_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-evidence"
           python tools/brief25b_webkit.py "$RUNNER_TEMP/home-evidence/brief25b"
       - name: Persist only BRIEF-25b fixture-labelled WebKit captures on isolated review branch
+        shell: bash
         if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
         run: |
           set -euo pipefail
