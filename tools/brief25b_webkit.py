@@ -13,6 +13,33 @@ from brief24_webkit import qa, SEED
 ROOT=Path.cwd()
 CATALOG=json.loads((ROOT/'qa-fixtures/home-brief25b.json').read_text(encoding='utf8'))
 
+def fixture_logos(photos):
+    # PRO.хинкали fixture branding is deliberately synthesized; not a production asset.
+    logo=Image.new('RGB',(220,220),(247,241,232))
+    brush=ImageDraw.Draw(logo)
+    brush.rounded_rectangle((8,8,212,212),radius=30,fill=(159,54,31))
+    path='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+    if Path(path).exists():
+        big=ImageFont.truetype(path,58)
+        small=ImageFont.truetype(path,23)
+        brush.text((37,59),'PRO.',font=big,fill='white')
+        brush.text((46,132),'хинкали',font=small,fill='white')
+    else:
+        brush.text((71,82),'PRO.',fill='white')
+    buf=io.BytesIO();logo.save(buf,format='JPEG',quality=95)
+    photos['pro-khinkali']=buf.getvalue()
+    return photos
+
+def test_owner_fixture(page):
+    assert len(CATALOG['stores'])==4
+    assert page.locator('.home-l-near .home-l-card').count()==4
+    assert page.locator('.home-l-near .home-l-card.closed').count()==1
+    romant=page.locator('.home-l-near .home-l-card').filter(has_text='Romant')
+    assert romant.locator('img[src="/qa-image/pro-khinkali"]').count()==1
+    assert '3.4' in romant.inner_text() and '(11)' in romant.inner_text()
+    kfc=page.locator('.home-l-near .home-l-card').filter(has_text='KFC')
+    assert kfc.count()==1 and not kfc.is_disabled() and kfc.locator('img[src="/qa-image/kfc"]').count()==1
+
 def page_for(browser,server,photos,extra=''):
     seed='const catalog='+json.dumps(CATALOG,ensure_ascii=False)+';\n'+SEED+extra+'\n'
     qa.SDK=FIX.replace(qa.FINISH_SEED,seed+qa.FINISH_SEED)
@@ -80,9 +107,10 @@ def main():
     try:
         with sync_playwright() as pw:
             browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
-            photos=qa.source_photos()
+            photos=fixture_logos(qa.source_photos())
             ctx,page=page_for(browser,server,photos)
             try:
+                test_owner_fixture(page)
                 test_recommended(page,out)
                 test_reels(page,out)
             finally:

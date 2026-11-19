@@ -18,7 +18,9 @@
           "item_id": "hot",
           "rank": 1
         }
-      ]
+      ],
+      "rating": 4.7,
+      "rating_count": 293
     },
     {
       "id": "s2",
@@ -32,7 +34,10 @@
       "free_delivery_min": 350,
       "discount_pct": 20,
       "lat": 38.568181,
-      "lng": 68.783962
+      "lng": 68.783962,
+      "logo_url": "/qa-image/pro-khinkali",
+      "rating": 3.4,
+      "rating_count": 11
     },
     {
       "id": "s3",
@@ -46,6 +51,22 @@
       "discount_pct": 0,
       "lat": 38.57,
       "lng": 68.79
+    },
+    {
+      "id": "s4",
+      "name": "Закрытый ресторан QA",
+      "category": "rest",
+      "is_active": true,
+      "is_open": false,
+      "logo_url": "assets/3d/bread.webp",
+      "cover_url": "assets/3d/croissant.webp",
+      "fee_type": "fixed",
+      "fee_base": 15,
+      "discount_pct": 0,
+      "lat": 38.58,
+      "lng": 68.8,
+      "rating": 4.2,
+      "rating_count": 9
     }
   ],
   "menu_items": [
