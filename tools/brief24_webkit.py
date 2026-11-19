@@ -301,7 +301,7 @@ def main():
             ctx.close()
             browser.close()
         (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
-        print('PASS R-01..R-09, logo/cover fallback, three-store RU/375, admin precedence, history, zero-data rules and six financial comparisons')
+        print('PASS BRIEF-25 Home geometry, closed stores, banner precedence, and six financial comparisons')
     finally:
         for s in servers:s.shutdown()
 
