@@ -1300,6 +1300,25 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 .reel-deal{position:absolute;top:8px;left:7px;border-radius:12px;padding:3px 6px;background:#c93423;color:white;font-size:11px;font-weight:700}
 
 .home-ad-label{display:inline-block;width:max-content;border-radius:6px;background:#f3e7d9;color:#593322;padding:2px 5px;font-size:10px;font-weight:700}.d6-pt .home-ad-label{position:absolute;bottom:6px;left:6px}
+
+.reel-viewer{position:fixed;inset:0;margin:0 auto;padding:0;border:0;width:100%;height:100%;max-width:100%;max-height:100%;color:white;background:#251711}
+.reel-viewer::backdrop{background:#251711}
+.reel-feed{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain}
+.reel-pane{height:100%;position:relative;isolation:isolate;overflow:hidden;scroll-snap-align:start;scroll-snap-stop:always}
+.reel-pane .reel-deal{top:calc(17px + env(safe-area-inset-top));left:65px}
+.reel-back,.reel-pages,.reel-social{position:absolute;z-index:2}
+.reel-back{top:calc(12px + env(safe-area-inset-top));left:12px;border:0;border-radius:50%;width:44px;height:44px;background:#231713b8;color:white}
+.reel-pages{right:8px;top:50%;transform:translateY(-50%);display:grid}
+.reel-pages button{width:28px;height:22px;background:none;border:0}
+.reel-pages button::after{content:"";display:block;margin:auto;width:7px;height:7px;border-radius:50%;background:#ffffff80}
+.reel-pages button.on::after{background:white}
+.reel-info{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:16px;right:16px;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:10px}
+.reel-info .dish-store-logo{position:relative;inset:auto}
+.reel-info span:not(.dish-store-logo),.reel-info .rt{display:block;color:white;font-size:12px}
+.reel-info button{grid-column:1/-1;border:0;border-radius:14px;background:#ed551c;color:white;font:inherit;font-weight:700;padding:12px}
+.reel-social{right:16px;bottom:calc(140px + env(safe-area-inset-bottom));display:grid;gap:8px;color:white}
+.reel-social button{color:white;background:#231713b8;border:0;border-radius:12px;padding:8px}
+.reel-comments{margin:auto auto 0;width:min(100%,540px);max-height:65%;border:0;border-radius:18px 18px 0 0;padding:16px}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -1838,7 +1857,7 @@ TLB.addDict(
 function homeHeading(kind, all) {
   const art=name=>`<img src="${A3(name)}" alt="" width="28" height="28">`;
   const titles={
-    discover:()=>art('gem-stone')+`<b>${t('discoverTitle')}</b>`,
+    discover:()=>art('gem-stone')+`<b>${t('reelsTitle')}</b>`,
     flash:()=>art('high-voltage')+`<b>${t('flashTitle')}</b>`,
     advert:()=>art('party-popper')+`<b>${t('dontMiss')}</b>`,
     meals:()=>art('hamburger')+`<b>${t('lunchA')}</b><b>${t('lunchB')}</b><b>${t('lunchC')}</b>`,
@@ -2113,15 +2132,29 @@ function discoveryCards(){
   return {cards,fresh:fresh.length>0};
 }
 function discoverH(expanded=false){
-  const {cards,fresh}=discoveryCards();
+  const {cards:restaurants,fresh}=discoveryCards();
+  const extras=TLB.settings()?.home_reels;
+  const cards=restaurants.slice(),keys=new Set(cards.map(c=>c.id));
+  for(const entry of Array.isArray(extras)?extras:[]){
+    if(!entry||!['restaurant','dish','offer'].includes(entry.type)||entry.id==null)continue;
+    const st=STORES.find(store=>store.id===entry.store_id);
+    if(!st)continue;
+    const item=entry.type==='dish'?menuOf(st.n).find(it=>it.id===entry.item_id&&it.available&&it.approved&&!it.optsBlocked):null;
+    if((entry.type==='dish'&&!item)||(entry.type==='offer'&&!(st.disc>0)))continue;
+    const id=entry.type+':'+entry.id;
+    if(keys.has(id))continue;
+    keys.add(id);
+    cards.push({id,st,type:entry.type,item,first:0,title:item?.name||entry.title,cover:entry.cover_url||item?.image||st.i,video:entry.reel_url});
+  }
+  homeReels=expanded?cards:cards.slice(0,12);
   if(!cards.length)return '';
   const max=Math.max(...cards.map(c=>c.first));
   const sub=!fresh?t('discoverUntried'):max?t('discoverUpTo').replace('{n}',max):'';
-  return `<section class="home-discover">${homeHeading('discover',cards.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}<div class="discovery-rail">${(expanded?cards:cards.slice(0,12)).map(discoveryTile).join('')}</div></section>`;
+  return `<section class="home-discover">${homeHeading('discover',cards.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}<div class="discovery-rail">${homeReels.map(discoveryTile).join('')}</div></section>`;
 }
 function discoveryTile(card,index){
   const {st,first}=card,open=TLB.isOpen(st.n),discount=Math.max(st.disc||0,first);
-  return `<button class="discover-row reel-card" type="button" ${open?storeTap(st):'disabled'}>${discoveryMedia(card)}${dishStoreLogo(st,true)}
+  return `<button class="discover-row reel-card" type="button" data-reel-key="${esc(card.id)}" ${open?`onclick="openReel(${index},this)"`:'disabled'}>${discoveryMedia(card)}${dishStoreLogo(st,true)}
     ${!open?homeClosedBadge():discount>0?`<span class="reel-deal">−${discount}%</span>`:''}
     <span class="reel-copy"><b>${esc(card.title||st.n)}</b>${d6Rt(st)}${first&&open?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
 }
@@ -2135,14 +2168,79 @@ function validReelURL(value){
   if(typeof value!=='string'||!value.trim())return '';
   try{const url=new URL(value,location.href);return ['https:','http:'].includes(url.protocol)?url.href:''}catch{return ''}
 }
-let reelObserver;
+TLB.addDict({reelsTitle:'Что нового',reelOpen:'Открыть ресторан',reelComment:'Комментарии',reelSend:'Отправить',reelLike:'Нравится',reelViews:'Просмотры'},
+            {reelsTitle:"What's new",reelOpen:'Open restaurant',reelComment:'Comments',reelSend:'Send',reelLike:'Like',reelViews:'Views'});
+let homeReels=[],reelObserver;
+const reelStats=()=>globalThis.TalabotReelStats;
+function reelDestination(dialog,card){
+  if(!TLB.isOpen(card.st.n))return;
+  dialog.close();
+  if(card.type==='offer'){go('offer',{oid:card.st.id});return}
+  openN(card.st.n);
+  if(card.item)openItem(card.item.id);
+}
+function openReel(index,trigger){
+  const cards=homeReels.filter(c=>TLB.isOpen(c.st.n));
+  const start=cards.indexOf(homeReels[index]);
+  if(start<0||document.querySelector('.reel-viewer'))return;
+  const dialog=document.createElement('dialog');
+  dialog.className='reel-viewer';
+  dialog.setAttribute('aria-label',t('reelsTitle'));
+  dialog.innerHTML=`<div class="reel-feed">${cards.map((card,i)=>`<article class="reel-pane" data-reel-key="${esc(card.id)}">
+    ${discoveryMedia(card)}
+    ${Math.max(card.first,card.st.disc||0)>0?`<span class="reel-deal">−${Math.max(card.first,card.st.disc||0)}%</span>`:''}
+    <div class="reel-info">${dishStoreLogo(card.st)}<div><strong>${esc(card.title||card.st.n)}</strong>
+    ${d6Rt(card.st)}<span>${[etaOf(card.st),delTxt(card.st)].filter(Boolean).join(' · ')}</span></div>
+    <button type="button" data-reel-open="${i}">${t('reelOpen')}</button></div>
+    <div class="reel-social"></div></article>`).join('')}</div>
+    <button type="button" class="reel-back" aria-label="${t('back')}">${ico('back',22)}</button>
+    <nav class="reel-pages">${cards.map((_,i)=>`<button type="button" data-reel-page="${i}" aria-label="${i+1}"></button>`).join('')}</nav>`;
+  document.body.append(dialog);
+  const feed=dialog.querySelector('.reel-feed'),panes=[...feed.children],dots=[...dialog.querySelector('.reel-pages').children];
+  const move=i=>{feed.scrollTop=panes[i].offsetTop};
+  const sync=()=>dots.forEach((dot,i)=>dot.classList.toggle('on',i===Math.round(feed.scrollTop/feed.clientHeight)));
+  feed.addEventListener('scroll',sync,{passive:true});
+  dialog.querySelector('.reel-back').onclick=()=>dialog.close();
+  dots.forEach((dot,i)=>dot.onclick=()=>move(i));
+  dialog.querySelectorAll('[data-reel-open]').forEach((btn,i)=>btn.onclick=()=>reelDestination(dialog,cards[i]));
+  dialog.addEventListener('close',()=>{dialog.remove();observeReelMedia();if(trigger.isConnected)trigger.focus({preventScroll:true})},{once:true});
+  dialog.showModal();
+  move(start);sync();observeReelMedia();
+  const api=reelStats();
+  if(typeof api?.read==='function')cards.forEach((card,i)=>paintReelSocial(dialog,panes[i],card,api));
+}
+async function paintReelSocial(dialog,pane,card,api){
+  try{
+    const stats=await api.read(card.id),root=pane.querySelector('.reel-social');
+    if(!stats||!dialog.open)return;
+    root.innerHTML=`${Number.isFinite(stats.likes)&&typeof api.toggleLike==='function'?`<button type="button" class="reel-like" aria-label="${t('reelLike')}" aria-pressed="${Boolean(stats.liked)}">${ico('heart',22)} <span>${stats.likes}</span></button>`:''}
+      ${Array.isArray(stats.comments)&&typeof api.comment==='function'?`<button type="button" class="reel-comment" aria-label="${t('reelComment')}">${ico('chat',22)} ${stats.comments.length}</button>`:''}
+      ${Number.isFinite(stats.views)?`<span aria-label="${t('reelViews')}">${stats.views}</span>`:''}`;
+    const like=root.querySelector('.reel-like'),comment=root.querySelector('.reel-comment');
+    if(like)like.onclick=async()=>{like.disabled=true;try{await api.toggleLike(card.id);await paintReelSocial(dialog,pane,card,api)}catch{}finally{like.disabled=false}};
+    if(comment)comment.onclick=()=>openReelComments(dialog,pane,card,api,stats.comments);
+  }catch{}
+}
+function openReelComments(dialog,pane,card,api,comments){
+  const sheet=document.createElement('dialog');
+  sheet.className='reel-comments';
+  sheet.innerHTML=`<form method="dialog"><button type="submit" aria-label="${t('back')}">×</button></form><h2>${t('reelComment')}</h2>
+  <ul>${comments.map(c=>`<li>${esc(c.text||'')}</li>`).join('')}</ul>
+  <form class="reel-comment-form"><input required maxlength="500" aria-label="${t('reelComment')}"><button>${t('reelSend')}</button></form>`;
+  dialog.append(sheet);sheet.showModal();sheet.addEventListener('close',()=>sheet.remove(),{once:true});
+  const form=sheet.querySelector('.reel-comment-form'),input=form.querySelector('input'),send=form.querySelector('button');
+  form.onsubmit=async event=>{event.preventDefault();const value=input.value.trim();if(!value||send.disabled)return;
+    send.disabled=true;try{await api.comment(card.id,value);sheet.close();await paintReelSocial(dialog,pane,card,api)}catch{}finally{send.disabled=false}};
+}
+
 const reelLowData=()=>matchMedia('(prefers-reduced-motion: reduce)').matches||navigator.connection?.saveData;
 function observeReelMedia(){
   reelObserver?.disconnect();
+  if(document.querySelector('.reel-viewer[open]'))document.querySelectorAll('.reel-card video').forEach(video=>video.pause());
   reelObserver=new IntersectionObserver(entries=>{
     for(const entry of entries){
       const video=entry.target.querySelector('video');
-      const visible=entry.intersectionRatio>=.5&&!document.hidden;
+      const visible=entry.intersectionRatio>=.5&&!document.hidden&&(!document.querySelector('.reel-viewer[open]')||entry.target.matches('.reel-pane'));
       if(video){
         if(visible&&!reelLowData()){
           if(!video.hasAttribute('src'))video.src=video.dataset.reelSrc;
@@ -2892,7 +2990,7 @@ function render(){
   if(TLB.me().banned&&!['support','ticket'].includes(S.v)){S.v='support';TLB.wantSupport(true)}
   if(S.v=='menu'&&!TLB.isOpen(S.store)){S.sh=null}
   if(S.v=='track'&&TLB.unread(S.tid))setTimeout(()=>TLB.markRead(S.tid),0);
-  const V={discoverAll:()=>topbar(t('discoverTitle'),'', "go('home')")+'<div class="d6 d6h">'+discoverH(true)+'</div>',flashAll:()=>topbar(t('flashTitle'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+flashH(homeProducts(),true)+'</div>',mealsAll:()=>topbar(t('lunchA'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+mealsH(homeProducts(),true)+'</div>',nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
+  const V={discoverAll:()=>topbar(t('reelsTitle'),'', "go('home')")+'<div class="d6 d6h">'+discoverH(true)+'</div>',flashAll:()=>topbar(t('flashTitle'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+flashH(homeProducts(),true)+'</div>',mealsAll:()=>topbar(t('lunchA'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+mealsH(homeProducts(),true)+'</div>',nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
   const full=['cart','pay','group','addr','addrForm','ticket'].includes(S.v),nav=['home','orders','wallet','promo','me'],ni={home:'home',orders:'receipt',wallet:'card',promo:'tag',me:'user'},un=TLB.totalUnread();
   const n=cartCount(),cc=n?calc():null,bar=n&&['home','menu','cat','fav','promo'].includes(S.v)&&!S.sh?`<div class="bar" onclick="goCart()" role="button" aria-label="${t('cartBarL')}"><span class="n">${n}</span><span class="l">${t('cartBarL')}</span><span class="p">${Math.round((cc.sub-cc.d-cc.h)*100)/100} TJS</span></div>`:'';
   const on=k=>S.v==k||(k=='home'&&['cat','menu'].includes(S.v))||(k=='orders'&&S.v=='track')||(k=='me'&&['support','settings','about','privacy'].includes(S.v))||(k=='promo'&&S.v=='offer');
