@@ -37,6 +37,47 @@ def test_flash(page,out):
     prior.shot(page,out,'ru-375-flash-one-and-half-fixture.webp')
     return measurements
 
+
+def test_dineout(browser,server,photos,out):
+    # A missing cover must reveal the actual supplied store brand, not a white blank.
+    extra="""stores[0].discount_pct=7;
+      stores.push({...stores[0],id:'s5',name:'Cafe fixture 5',discount_pct:10},
+                  {...stores[1],id:'s6',name:'Cafe fixture 6',discount_pct:12,cover_url:''});"""
+    ctx,page=prior.page_for(browser,server,photos,extra)
+    try:
+        cards=page.locator('.home-dine .d6-dc')
+        assert cards.count()>=4
+        assert cards.first.locator('.dine-cover-photo').count()==1
+        assert cards.first.locator('.dish-store-logo img').count()==1
+        missing=cards.filter(has_text='Cafe fixture 6')
+        assert missing.count()==1
+        assert missing.locator('.dine-cover-photo').count()==0
+        assert missing.locator('.dine-fallback-mark').count()==1
+        assert missing.locator('.dish-store-logo img').count()==1
+        assert missing.locator('.dine-brand-cover').evaluate("e=>getComputedStyle(e).backgroundColor")!='rgb(255, 255, 255)'
+        for card in cards.all():
+            corner=card.locator('.dish-store-logo').bounding_box()
+            cover=card.locator('.dine-brand-cover').bounding_box()
+            assert corner and cover and corner['x']+corner['width']<=cover['x']+cover['width']+1
+            assert abs((corner['x']+corner['width'])-(cover['x']+cover['width']))<14
+        cards.first.locator('.dine-cover-photo').evaluate("e=>e.loading='eager'")
+        missing.locator('.dine-fallback-mark').evaluate("e=>e.loading='eager'")
+        page.wait_for_function("()=>[...document.querySelectorAll('.home-dine .d6-dc .dine-fallback-mark')].some(e=>e.complete&&e.naturalWidth>0)")
+        page.locator('.home-dine').scroll_into_view_if_needed()
+        prior.shot(page,out,'ru-375-dineout-branded-fallback-fixture.webp')
+    finally:
+        ctx.close()
+    # Also verify a broken nonempty cover URL falls back after an actual load failure.
+    ctx,page=prior.page_for(browser,server,photos,extra.replace("cover_url:''","cover_url:'/qa-image/broken'"))
+    try:
+        missing=page.locator('.home-dine .d6-dc').filter(has_text='Cafe fixture 6')
+        missing.locator('.dine-cover-photo').evaluate("e=>e.loading='eager'")
+        page.wait_for_function("()=>![...document.querySelectorAll('.home-dine .d6-dc')].some(e=>e.textContent.includes('Cafe fixture 6')&&e.querySelector('.dine-cover-photo'))")
+        assert missing.locator('.dine-fallback-mark').count()==1
+        assert missing.locator('.dish-store-logo img').count()==1
+    finally:
+        ctx.close()
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -45,9 +86,10 @@ def main():
         with sync_playwright() as pw:
             browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
             photos=prior.fixture_logos(prior.qa.source_photos())
+            test_dineout(browser,server,photos,out)
             ctx,page=prior.page_for(browser,server,photos)
             try:
-                result={'Y-01':test_flash(page,out)}
+                result={'Y-01':test_flash(page,out),'Y-02':'PASS'}
             finally:
                 ctx.close();browser.close()
     finally:

@@ -198,3 +198,11 @@
 .flash-description > b { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; white-space: normal; overflow-wrap: anywhere; line-height: 1.25; }
 .flash-description .px { white-space: nowrap; font-size: 14px; letter-spacing: -.02em; }
 .flash-description .px s { white-space: nowrap; font-size: 11px; margin-left: 3px; }
+
+/* BRIEF-25c Y-02 — all DineOut cards keep a corner brand mark; missing covers have a branded fill. */
+#app .d6h .home-dine .dine-brand-cover { position: relative; display: grid; place-items: center; isolation: isolate; background: var(--dine-mark-bg,#813c2d); }
+#app .d6h .home-dine .dine-brand-cover > img.dine-fallback-mark { position:absolute; inset:12%; width:76%; height:76%; object-fit:contain; z-index:1; border-radius:12px; }
+#app .d6h .home-dine .dine-brand-cover > img.dine-cover-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:2; }
+#app .d6h .home-dine .dine-brand-cover .dine-fallback-initial { position:relative; z-index:0; color:#fff; font-size:42px; font-weight:800; line-height:1; }
+#app .d6h .home-dine .dine-brand-cover .dish-store-logo { top:6px; right:6px; left:auto; width:28px; height:28px; z-index:4; background:#fff; border:1px solid #fff; box-shadow:0 1px 5px #0003; }
+#app .d6h .home-dine .dine-brand-cover .hb { z-index:4; }
