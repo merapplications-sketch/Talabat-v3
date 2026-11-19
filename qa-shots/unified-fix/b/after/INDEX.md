@@ -3,7 +3,7 @@
 Original TALABOT app HTML/JS; synthetic read-only fixture. Not physical Safari or production.
 
 - C-01 customer ru/375: PASS — [C-01-customer-ru-375-main-after.png](C-01-customer-ru-375-main-after.png)
-- C-01a customer ru/375: FAIL — [C-01a-customer-ru-375-main-after.png](C-01a-customer-ru-375-main-after.png)
+- C-01a customer ru/375: PASS — [C-01a-customer-ru-375-main-after.png](C-01a-customer-ru-375-main-after.png)
 - C-01b customer ru/375: PASS — [C-01b-customer-ru-375-main-after.png](C-01b-customer-ru-375-main-after.png)
 - C-01c customer ru/375: PASS — [C-01c-customer-ru-375-main-after.png](C-01c-customer-ru-375-main-after.png)
 - C-01d customer ru/375: PASS — [C-01d-customer-ru-375-main-after.png](C-01d-customer-ru-375-main-after.png)
@@ -25,7 +25,7 @@ Original TALABOT app HTML/JS; synthetic read-only fixture. Not physical Safari o
 - G-11 merchant ru/375: PASS — [G-11-merchant-ru-375-main-after.png](G-11-merchant-ru-375-main-after.png)
 - G-12 customer ru/375: PASS — [G-12-customer-ru-375-main-after.png](G-12-customer-ru-375-main-after.png)
 - C-01 customer en/390: PASS — [C-01-customer-en-390-main-after.png](C-01-customer-en-390-main-after.png)
-- C-01a customer en/390: FAIL — [C-01a-customer-en-390-main-after.png](C-01a-customer-en-390-main-after.png)
+- C-01a customer en/390: PASS — [C-01a-customer-en-390-main-after.png](C-01a-customer-en-390-main-after.png)
 - C-01b customer en/390: PASS — [C-01b-customer-en-390-main-after.png](C-01b-customer-en-390-main-after.png)
 - C-01c customer en/390: PASS — [C-01c-customer-en-390-main-after.png](C-01c-customer-en-390-main-after.png)
 - C-01d customer en/390: PASS — [C-01d-customer-en-390-main-after.png](C-01d-customer-en-390-main-after.png)
