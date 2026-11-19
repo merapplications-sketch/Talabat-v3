@@ -2124,10 +2124,38 @@ function discoveryTile(card,index){
     ${!open?homeClosedBadge():discount>0?`<span class="reel-deal">−${discount}%</span>`:''}
     <span class="reel-copy"><b>${esc(card.title||st.n)}</b>${d6Rt(st)}${first&&open?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
 }
-function discoveryMedia({st,cover=st.i}){
+function discoveryMedia({st,cover=st.i,data,video=data?.reel_url}){
+  const src=validReelURL(video);
+  if(src&&TLB.isOpen(st.n))return `<video class="reel-video" data-reel-src="${esc(src)}" poster="${esc(cover||st.lg||'')}" playsinline muted loop preload="none"></video>`;
   if(cover&&cover!==st.lg)return `<img class="reel-cover" src="${esc(cover)}" alt="" loading="lazy" onerror="this.remove()">`;
   return st.lg?`<img class="reel-cover reel-logo-fallback" src="${esc(st.lg)}" alt="" loading="lazy" onerror="this.remove()">`:'';
 }
+function validReelURL(value){
+  if(typeof value!=='string'||!value.trim())return '';
+  try{const url=new URL(value,location.href);return ['https:','http:'].includes(url.protocol)?url.href:''}catch{return ''}
+}
+let reelObserver;
+const reelLowData=()=>matchMedia('(prefers-reduced-motion: reduce)').matches||navigator.connection?.saveData;
+function observeReelMedia(){
+  reelObserver?.disconnect();
+  reelObserver=new IntersectionObserver(entries=>{
+    for(const entry of entries){
+      const video=entry.target.querySelector('video');
+      const visible=entry.intersectionRatio>=.5&&!document.hidden;
+      if(video){
+        if(visible&&!reelLowData()){
+          if(!video.hasAttribute('src'))video.src=video.dataset.reelSrc;
+          video.muted=true;video.play().catch(()=>{});
+        }else video.pause();
+      }
+    }
+  },{threshold:[0,.5]});
+  document.querySelectorAll('.reel-card,.reel-pane').forEach(el=>reelObserver.observe(el));
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)document.querySelectorAll('video.reel-video').forEach(video=>video.pause());
+  else observeReelMedia();
+});
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.image&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
   if(!out.length)return '';
@@ -2858,6 +2886,7 @@ function render(){
   if(kid&&$(kid)){const e=$(kid);if(kid!=='ci')e.value=keep;e.focus();e.setSelectionRange(e.value.length,e.value.length)}   /* the chat field takes its text from the per-order draft (never another order's text) */
   if(walletFocus)$(walletFocus)?.focus({preventScroll:true});
   m01Observe();
+  observeReelMedia();
   dishViewport();const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();menuAfter();
   cartSave();if(['home','wallet','track'].includes(S.v))milestone();
   if(document.body&&document.body.style)document.body.style.paddingBottom=full?'0px':bar?'max('+Math.ceil(innerHeight-document.querySelector('.bar').getBoundingClientRect().top+16)+'px, calc(84px + env(safe-area-inset-bottom,0px) + '+(document.querySelector('.bar').offsetHeight+16)+'px))':'calc(84px + env(safe-area-inset-bottom,0px))'}
