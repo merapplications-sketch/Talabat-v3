@@ -2143,9 +2143,9 @@ function d6Mine(){const m={};TLB.orders().forEach(o=>{if(o.status!='delivered')r
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf||Object.assign({},HF0);const head=hHead();
   if(q||hfOn()){const list=hfApply(matches(M,q));return head+`<div class="pg d6-res">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h})=>d6SRow(s,h)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
   const products=homeProducts();
-  return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+bestH(products)+mealsH(products)
+  return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+mealsH(products)+bestH(products)+flashH(products)+walH()
   +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
-  +adH(products)+recH()+flashH(products)+nearH()+walH()+discoverH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
+  +adH(products)+recH()+nearH()+discoverH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
 if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{document.querySelectorAll('.hcd[data-end]').forEach(e=>{const end=+e.dataset.end;if(end)e.textContent=cdTxt(end-Date.now())})},1000);
 /* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
 function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
