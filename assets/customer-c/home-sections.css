@@ -154,3 +154,6 @@
 .home-ad-dots { display: flex; justify-content: center; gap: 6px; padding-top: 6px; }
 .home-ad-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--mut); }
 .home-ad-dots i.on { background: var(--o); }
+
+.home-dine-proposal .d6-dc { flex: none; border: 0; padding: 0; text-align: start; color: var(--ink); background: transparent; font: inherit; }
+.home-dine-proposal .d6-dc .hb { right: auto; left: 8px; }

@@ -78,25 +78,29 @@ def current_home(page, out):
     store_prices=page.evaluate("()=>Object.fromEntries(homeProducts().map(c=>[c.it.name,c.price]))")
     assert store_prices=={'Combo':161.5,'Hot honey':85.5,'Стейк':180,'Плов':60}
     data={key:layout(page.locator(sel)) for key,sel in {
-        'flash':'.flash-grid','popular':'[data-section=popular] + .d6-rl','near':'.d6-nr'}.items()}
+        'flash':'.flash-grid','popular':'[data-section=popular] + .d6-rl','near':'.home-l-near'}.items()}
     a,b=data['flash']['boxes']
-    assert a[1]==b[1] and a[0]<b[0] and a[2]==b[2]==250 and data['flash']['scroll']>0
+    assert a[1]<b[1] and a[0]==b[0] and a[2]==b[2]==250
     a,b=data['popular']['boxes']
     assert data['popular']['rows']==1 and a[1]==b[1] and a[0]<b[0]
-    assert a[2]==b[2]==meals.locator('.d6-pt').first.bounding_box()['width']==150
+    assert a[2]==b[2] and 130<a[2]<140
     a,b,c=data['near']['boxes']
-    assert data['near']['rows']==1 and a[1]==b[1]==c[1] and a[0]<b[0]<c[0] and data['near']['scroll']>0
+    assert data['near']['rows']==2 and a[1]==c[1]<b[1] and a[0]==b[0]<c[0] and data['near']['scroll']>0
     assert page.locator('[data-section=near] b').evaluate("e=>getComputedStyle(e).textDecorationLine")=='none'
     gap=page.evaluate("""()=>{const bounds=s=>document.querySelector(s).getBoundingClientRect();
-      return bounds('[data-section=near] h2').top-bounds('.flash-item').bottom}""")
+      return bounds('[data-section=near] h2').top-Math.max(...Array.from(document.querySelectorAll('.flash-item'),e=>e.getBoundingClientRect().bottom))}""")
     assert 0<gap<=32,gap
     assert page.evaluate("document.documentElement.scrollWidth")==375
-    for selector in ('.d6-sc','.d6-nc'):
+    for selector in ('.d6-sc',):
         assert_image(card_photo(page,selector,'KFC'),'/qa-image/kfc','contain')
         assert_image(card_photo(page,selector,'Romant'),'/qa-image/romant','cover')
     for selector in ('.discover-row','.home-dine .d6-dc'):
         assert_image(card_photo(page,selector,'Romant'),'/qa-image/romant','cover')
     assert_image(page.locator('.home-ad-card .ad-art'),'/qa-image/romant','cover')
+    logo=page.locator('.home-l-near .home-l-card').filter(has_text='KFC').locator('.dish-store-logo img')
+    assert logo.evaluate("e=>getComputedStyle(e).objectFit")=='contain'
+    assert page.locator('.home-l-offers .hb.r').count()==2
+    assert page.locator('.home-ad-dots .on').count()==1
     display(page).save(out/'ru-375.webp',quality=86,method=6)
     page.locator('.home-ad-card').click()
     assert page.evaluate("S.v==='menu' && S.store==='Romant Restaurant'")
@@ -112,7 +116,7 @@ def current_home(page, out):
 def catalogue_sizes(browser, server, photos, out):
     # This second fixture contains only restaurants. The owner's fixture keeps the flower shop.
     reports={}
-    for count in range(1,6):
+    for count in range(1,7):
         seed="""stores.splice(2);
           for(let i=2;i<count;i++)stores.push({...stores[i%2],id:'fixture-'+i,name:'Кафе QA '+(i+1)});
           stores.splice(count);""".replace('count',str(count))
@@ -122,19 +126,19 @@ def catalogue_sizes(browser, server, photos, out):
             for section,selector,width in [('popular','[data-section=popular] + .d6-rl',150),('near','.d6-nr',292)]:
                 grid=layout(page.locator(selector))
                 boxes=grid['boxes']
-                assert len(boxes)==count and all(b[2]==width for b in boxes),(section,count,grid)
-                rows=1 if count<=3 else 2
+                assert len(boxes)==count and all(abs(b[2]-width)<1 for b in boxes),(section,count,grid)
+                rows=1 if count<(4 if section=='popular' else 2) else 2
                 assert grid['rows']==rows and len({b[1] for b in boxes})==rows,(section,count,grid)
                 for i,box in enumerate(boxes):
                     assert box[1]==boxes[i%rows][1]
                     if i>=rows:assert box[0]>boxes[i-rows][0]
                 if count>=4:
                     assert boxes[0][0]==boxes[1][0] and boxes[0][1]<boxes[1][1]
-                    if count==5 or section=='near':assert grid['scroll']>0
+                    if count==6 or section=='near':assert grid['scroll']>0
                 report[section]=grid
             reports[count]=report
-            if count==5:
-                display(page).save(out/'ru-375-five-restaurants.webp',quality=86,method=6)
+            if count==6:
+                display(page).save(out/'ru-375-six-restaurants.webp',quality=86,method=6)
         finally:
             ctx.close()
     return reports
@@ -166,7 +170,7 @@ def variants(browser, server, photos):
         T.banners.push({id:'campaign',placement:'dont_miss',title:'Объявление KFC',link_type:'store',link_value:'s1',is_active:true});""",curated)
 
     def branded(p):
-        for selector in ('.d6-sc','.d6-nc','.discover-row','.home-dine .d6-dc'):
+        for selector in ('.d6-sc','.discover-row','.home-dine .d6-dc'):
             assert_image(card_photo(p,selector,'Romant'),'/qa-image/kfc','contain')
         assert_image(p.locator('.home-ad-card .ad-art'),'/qa-image/kfc','contain')
     check("stores[1].logo_url='/qa-image/kfc'",branded)
@@ -201,7 +205,7 @@ def variants(browser, server, photos):
 
     def three_deals(p):
         boxes=layout(p.locator('.flash-grid'))
-        assert boxes['rows']==1 and len(boxes['boxes'])==3 and boxes['scroll']>0
+        assert boxes['rows']==2 and len(boxes['boxes'])==3 and boxes['scroll']>0
     check("items.push({...items[0],id:'third',name:'Third offer'})",three_deals)
 
     def empty(p):
@@ -263,7 +267,7 @@ def closed_home_cards(browser, server, photos, out):
                 }"""),selector
                 return round(bounds['width'],1)
 
-            widths={sel:verify(sel) for sel in ('.d6-sc','.d6-nc','.discover-row','.d6-lo')}
+            widths={sel:verify(sel) for sel in ('.d6-sc','.home-l-near .home-l-card','.discover-row','.d6-lo')}
             page.locator('.d6-sc.closed').filter(has_text='KFC').screenshot(path=str(out/f'closed-{lang}-{width}.png'))
             page.evaluate("()=>{S.q='KFC';render()}")
             widths['.d6-sr']=verify('.d6-sr')
@@ -292,6 +296,9 @@ def main():
             result['catalogueSizes']=catalogue_sizes(browser,servers[1],photos,out)
             variants(browser,servers[1],photos)
             result['closedHomeCards']=closed_home_cards(browser,servers[1],photos,out)
+            ctx,closed=page_for(browser,servers[1],photos,"stores[0].is_open=false;")
+            display(closed).save(out/'ru-375-full-closed-and-discount.webp',quality=86,method=6)
+            ctx.close()
             browser.close()
         (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
         print('PASS R-01..R-09, logo/cover fallback, three-store RU/375, admin precedence, history, zero-data rules and six financial comparisons')

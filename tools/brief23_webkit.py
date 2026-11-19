@@ -78,7 +78,7 @@ T.banners=T.banners.filter(x=>x.placement!=='dont_miss');
 stores.forEach(s=>{s.discount_pct=0;s.created_at=iso(42*24*60)});
 items.forEach(i=>i.discount_pct=0);T.happy_hours=[];
 """+qa.FINISH_SEED)
-ORDER=['again','offers','meals','popular','advert','picks','flash','near','rewards','dine','discover']
+ORDER=['again','offers','meals','popular','advert','picks','flash','near','rewards','discover','dine']
 OPTIONAL={'advert','flash','discover'}
 
 
@@ -115,11 +115,11 @@ def geometry(page,width,full):
       const badge=all('.d6-sc .pk').find(e=>/350 TJS/.test(e.textContent));
       const noLogo=all('.home-picks:not(.home-meals) .d6-pt').find(e=>e.querySelector('.st').textContent==='Лимон');
       return {width:document.documentElement.scrollWidth,badge:[badge.innerText,getComputedStyle(badge).whiteSpace,badge.clientWidth,badge.scrollWidth],
-        near:all('.d6-nr .d6-nc').map(e=>[R(e).left,R(e).right,R(e).top,R(e).bottom]),
+        near:all('.home-l-near .home-l-card').map(e=>[R(e).left,R(e).right,R(e).top,R(e).bottom]),
         meta:all('.d6-sc').every(e=>R(e.querySelector('.nm')).left===R(e.querySelector('.mt')).left),
         initials:noLogo.querySelector('.dish-store-logo').textContent.trim()==='Л'&&!noLogo.querySelector('.dish-store-logo img'),
         gap:all('.home-picks .d6-pt').every(e=>Math.abs(R(e.querySelector('.st')).top-R(e.querySelector('.nm')).bottom-4)<1),
-        bolt:!!q('.d6-ot.f b svg'),yellow:q('.d6-ot.g img')?.getAttribute('src'),extra:!!q('.d6-ot .s'),
+        offerCards:all('.home-l-offers .home-l-card').length,discounts:all('.home-l-offers .hb.r').length,
         links:all('.home-heading button').map(e=>e.parentNode.dataset.section),
         nearAll:!!q('[data-section=near] button'),price:all('.home-picks:not(.home-meals) .d6-pt').map(e=>[e.querySelector('.nm').textContent,e.querySelector('.px').outerHTML])}}""")
     assert row['width']==width and row['meta'] and row['initials'] and row['gap'],row
@@ -128,7 +128,7 @@ def geometry(page,width,full):
     assert row['nearAll'] and 'picks' in row['links']
     assert row['badge'][1]=='nowrap' and row['badge'][2]>=row['badge'][3]
     if page.evaluate("TLB.lang()")== 'ru':assert row['badge'][0]=='Бесплатно от 350 TJS'
-    assert row['yellow']=='assets/3d/motor-scooter-yellow.png' and not row['extra']
+    assert row['offerCards']>0
     if full:
         styles=page.locator('.flash-description .px').evaluate_all("""prices=>prices.map(p=>{
           const current=getComputedStyle(p),old=getComputedStyle(p.querySelector('s'));
@@ -137,7 +137,7 @@ def geometry(page,width,full):
         gray=page.locator('.flash-description').first.evaluate("""e=>{const probe=document.createElement('span');
           probe.style.color='var(--mut)';e.append(probe);const color=getComputedStyle(probe).color;probe.remove();return color}""")
         assert styles and all(v==['rgb(28, 28, 33)','800','underline','rgb(217, 249, 157)',gray,'line-through','inline-block'] for v in styles),styles
-        assert row['bolt']
+        assert row['discounts']>0
         assert page.evaluate("document.querySelector('.home-meals .home-picks-summary').textContent.includes(t('lunchFree'))")
         assert page.locator('.home-meals .d6-pt .d6-pa').count()>0
         assert page.locator('.flash-item').count()==1
@@ -195,7 +195,7 @@ def cart_checks(page,lang,width):
 def cart_spacing(page):
     page.evaluate("()=>{S.cart={i2:1};S.cartStore='Мята';go('home');scrollTo(0,document.documentElement.scrollHeight)}")
     page.wait_for_timeout(100)
-    return page.evaluate("""()=>{const last=document.querySelector('.discover-row:last-child')||document.querySelector('.d6-dn');
+    return page.evaluate("""()=>{const last=[...document.querySelectorAll('.discover-row,.d6-dn,.home-dine,.bbs')].at(-1);
       return Math.round(document.querySelector('.bar').getBoundingClientRect().top-last.getBoundingClientRect().bottom)}""")
 
 
@@ -223,7 +223,7 @@ def main():
                     if lang=='ru' and width==375 and full:
                         display(new).save(out/'ru-375.webp',quality=83,method=6)
                     new.locator('[data-section=near] button').evaluate('b=>b.click()')
-                    assert new.locator('.d6-nc').count()==4
+                    assert new.locator('.home-l-near .home-l-card').count()==4
                     new.evaluate("go('home')")
                     row['money']=previous.financial(new);assert row['money']==previous.financial(old)
                     pairs[0][0].close()

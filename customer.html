@@ -2127,7 +2127,11 @@ function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0
 const areaOf=st=>{const a=String(st.ad||'').split(',').map(x=>x.trim()).filter(Boolean);return a[0]||''};
 function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0).sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,12);const mx=l[0]?.disc;
   return homeHeading('dine',"openCat('rest');S.srt='disc'")+`<div class="d6-dn" role="button" onclick="openCat('rest');S.srt='disc'"><b class="dlg">DineOut</b><p>${t('hDineS')}</p><span class="go">${t('hDineGo')} ${ico('arr',14)}</span><img class="art" src="${A3('pizza')}" alt="" width="120" height="120" loading="lazy">${mx?`<span class="pct">${t('hDineP').replace('{n}',mx)}</span>`:''}</div>
-  `+(l.length?`<div class="d6-rl home-dine">${l.map(st=>{const km=kmOf(st),ar=areaOf(st);return `<div class="d6-dc" role="button" ${storeTap(st)}>${homeRestaurantPhoto(st,`<span class="hb r">−${st.disc}%</span>`+heart(st))}<b class="nm"><span>${esc(st.n)}</span>${ico('chev',14)}</b><div class="mt">${[d6Rt(st),ar||km!=null?`<span>${esc(ar||t('hKm').replace('{n}',km))}${ar&&km!=null?` · ${t('hKm').replace('{n}',km)}`:''}</span>`:''].filter(Boolean).join('<span>·</span>')}</div></div>`}).join('')}</div>`:'')}
+  `+(l.length?`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
+    const km=kmOf(st);
+    return `<button type="button" class="d6-dc" ${storeTap(st)}>${homeRestaurantPhoto(st,`<span class="hb r">−${st.disc}%</span>`+dishStoreLogo(st,true))}<b class="nm">${esc(st.n)}</b>
+      ${km==null?'':`<span class="mt">${t('hKm').replace('{n}',km)}</span>`}</button>`;
+  }).join('')}</div>`:'')}
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
 const d6SRow=(s,h,last)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);
