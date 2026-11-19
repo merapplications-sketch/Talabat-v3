@@ -145,6 +145,35 @@ def test_comment_sheet(browser,server,photos,out):
     finally:
         ctx.close()
 
+
+def test_reel_linked_badges(browser,server,photos,out):
+    """Y-06: one genuine original-app WebKit screenshot of badges AND optional linked stats."""
+    ctx,page=prior.page_for(browser,server,photos)
+    try:
+        # The adapter below is injected only in this disposable QA page, NEVER product HTML.
+        prior.linked_reel_fixture(page)
+        page.locator('.reel-card').nth(1).click()
+        viewer=page.locator('.reel-viewer[open]')
+        page.wait_for_function("()=>{const f=document.querySelector('.reel-feed');return f&&f.scrollTop>=f.clientHeight*.75}")
+        pane=viewer.locator('.reel-pane').nth(1)
+        deal=pane.locator('.reel-badges .reel-deal')
+        assert deal.inner_text()=='−5%'
+        like=pane.locator('.reel-avatar .reel-like')
+        comment=pane.locator('.reel-social .reel-comment')
+        views=pane.locator('.reel-social > span[aria-label]')
+        like.wait_for()
+        assert comment.count()==1 and views.count()==1
+        assert '37' in like.inner_text() and '2' in comment.inner_text() and views.inner_text()=='215'
+        assert pane.locator('.reel-title-row strong').inner_text()=='Hot honey'
+        for loc in (deal,like,comment,views):
+            assert loc.is_visible()
+            bounds=loc.bounding_box()
+            assert bounds and 0<=bounds['x']<375 and 0<=bounds['y']<812,bounds
+        prior.shot(page,out,'ru-375-reel-badges-and-social-linked-fixture.webp')
+        viewer.locator('.reel-back').click()
+    finally:
+        ctx.close()
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -155,6 +184,7 @@ def main():
             photos=prior.fixture_logos(prior.qa.source_photos())
             test_dineout(browser,server,photos,out)
             test_reel_badges(browser,server,photos,out)
+            test_reel_linked_badges(browser,server,photos,out)
             test_comment_sheet(browser,server,photos,out)
             ctx,page=prior.page_for(browser,server,photos)
             try:
