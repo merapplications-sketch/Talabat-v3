@@ -2196,14 +2196,21 @@ function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0
   }).join('')}</div>`:'')}
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
-const d6SRow=(s,h,last)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);
+const d6SRow=(s,h,last,sponsored)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);
   const closedBadge=op?'':`<span class="hb k g12-closed-badge">${t('closedStoreBadge')}</span>`;
   const photo=S.v==='home'?homeRestaurantPhoto(s,closedBadge,'th'):d6Ph(s.i||s.lg,closedBadge,'th');
-  return `<div class="sr d6-sr ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(s)}>${photo}<div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p class="hit">${esc(h.name)} — ${h.price} TJS</p>`:''}${last?`<p>${t('d6LastO').replace('{d}',d6Ago(last))}</p>`:''}${d6Rt(s)||m?`<div class="mt">${[d6Rt(s),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>`:''}<div class="dl">${ico('bike',14)} <span class="g12-delivery-text">${delTxt(s)}</span></div></div>${heart(s)}</div>`};
+  return `<div class="sr d6-sr ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(s)}>${photo}<div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${sponsored?homeAdBadge():''}${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p class="hit">${esc(h.name)} — ${h.price} TJS</p>`:''}${last?`<p>${t('d6LastO').replace('{d}',d6Ago(last))}</p>`:''}${d6Rt(s)||m?`<div class="mt">${[d6Rt(s),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>`:''}<div class="dl">${ico('bike',14)} <span class="g12-delivery-text">${delTxt(s)}</span></div></div>${heart(s)}</div>`};
 /* stores of the user's delivered orders → date of the last one */
 function d6Mine(){const m={};TLB.orders().forEach(o=>{if(o.status!='delivered')return;const d=+new Date(o.doneAt||o.createdAt)||0;if(!(o.store in m)||d>m[o.store])m[o.store]=d});return m}
+function rankedSearch(list){
+  const ranks=new Map(TLB.stores().filter(st=>typeof st.search_rank==='number'&&Number.isFinite(st.search_rank)).map(st=>[st.id,st.search_rank]));
+  if(!list.some(({s})=>ranks.has(s.id)))return list;
+  const priority=list.filter(({s})=>ranks.has(s.id)&&TLB.isOpen(s.n)).sort((a,b)=>ranks.get(a.s.id)-ranks.get(b.s.id));
+  const selected=new Set(priority);
+  return [...priority,...list.filter(row=>!selected.has(row))].map(row=>({...row,sponsored:ranks.has(row.s.id)}));
+}
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf||Object.assign({},HF0);const head=hHead();
-  if(q||hfOn()){const list=hfApply(matches(M,q));return head+`<div class="pg d6-res">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h})=>d6SRow(s,h)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
+  if(q||hfOn()){const list=rankedSearch(hfApply(matches(M,q)));return head+`<div class="pg d6-res">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h,sponsored})=>d6SRow(s,h,null,sponsored)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
   const products=homeProducts();
   return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+mealsH(products)+bestH(products)+flashH(products)+walH()
   +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
