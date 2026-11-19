@@ -198,7 +198,7 @@ def cart_checks(page,lang,width):
 def cart_spacing(page):
     page.evaluate("()=>{S.cart={i2:1};S.cartStore='Мята';go('home');scrollTo(0,document.documentElement.scrollHeight)}")
     page.wait_for_timeout(100)
-    return page.evaluate("""()=>{const last=[...document.querySelectorAll('.discover-row,.d6-dn,.home-dine,.bbs')].at(-1);
+    return page.evaluate("""()=>{const last=[...document.querySelectorAll('.discover-row,.dine-head,.home-dine,.bbs')].at(-1);
       return Math.round(document.querySelector('.bar').getBoundingClientRect().top-last.getBoundingClientRect().bottom)}""")
 
 
