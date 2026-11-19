@@ -49,7 +49,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p qa-shots/unified-fix/brief25b
-          cp "$RUNNER_TEMP/home-evidence/brief25b/"*.webp qa-shots/unified-fix/brief25b/
+          # Evidence is immutable once captured for owner review; never churn screenshots on CI reruns.
+          cp -n "$RUNNER_TEMP/home-evidence/brief25b/"*.webp qa-shots/unified-fix/brief25b/
           git config user.name "talabot-brief25b-webkit"
           git config user.email "talabot-brief25b-webkit@users.noreply.github.com"
           git add -- qa-shots/unified-fix/brief25b/
