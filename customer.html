@@ -1973,9 +1973,10 @@ function homeRestaurantRail(stores, css, offers = new Map()){
   const style=nearby?` style="--near-cols:${few?stores.length:Math.ceil(stores.length/2)}"`:'';
   return `<div class="home-l-rail ${className}"${style}>${stores.map(st=>{
     const open=TLB.isOpen(st.n),discount=Math.max(offers.get(st)||0,st.disc||0);
+    const rating=d6Rt(st),meta=[etaOf(st),delTxt(st)].filter(Boolean).join(' · ');
     return `<button type="button" class="home-l-card${open?'':' closed'}" ${open?storeTap(st):'disabled'}>
       <span class="home-l-brand">${dishStoreLogo(st,true)}${!open?homeClosedBadge():discount>0?`<span class="hb r">−${discount}%</span>`:''}</span>
-      <span class="home-l-info"><b title="${esc(st.n)}">${esc(st.n)}</b>${d6Rt(st)}<span>${[etaOf(st),delTxt(st)].filter(Boolean).join(' · ')}</span></span>
+      <span class="home-l-info"><b title="${esc(st.n)}">${esc(st.n)}</b>${rating?`<span class="home-l-rating">${rating}</span>`:''}${meta?`<span class="home-l-meta">${meta}</span>`:''}</span>
     </button>`;
   }).join('')}</div>`;
 }

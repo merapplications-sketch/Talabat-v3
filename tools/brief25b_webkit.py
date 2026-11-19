@@ -75,6 +75,16 @@ def test_recommended(page,out):
     page.locator('[data-section="advert"]').evaluate("e=>window.scrollTo(0,window.scrollY+e.getBoundingClientRect().top-10)")
     shot(page,out,'ru-375-recommended-after-ad-fixture.webp')
 
+def test_l_card_metadata(page):
+    # Supply known synthetic measured prep time only inside the disposable browser fixture.
+    page.evaluate("()=>{TLB.speed=()=>({min:20});render()}")
+    for section in ('.home-l-offers','.home-l-near'):
+        romant=page.locator(section+' .home-l-card').filter(has_text='Romant')
+        assert '3.4' in romant.locator('.home-l-rating').inner_text()
+        assert '(11)' in romant.locator('.home-l-rating').inner_text()
+        metadata=romant.locator('.home-l-meta').inner_text()
+        assert ' · ' in metadata and 'TJS' in metadata,metadata
+
 def test_reels(page,out):
     cards=page.locator('.reel-card')
     assert cards.count()>=2,'Needs a second sample reel'
@@ -111,6 +121,7 @@ def main():
             ctx,page=page_for(browser,server,photos)
             try:
                 test_owner_fixture(page)
+                test_l_card_metadata(page)
                 test_recommended(page,out)
                 test_reels(page,out)
             finally:
