@@ -1403,7 +1403,9 @@ const catIn=(c,x)=>c=='flowersgifts'?(x=='flowers'||x=='gifts'):x==c;
 const PGV='customer-55';
 let STORES=[],ALLS=[],ME={name:'',phone:''};
 let S={useWallet:false,usePts:false,subst:'call',door:false,u18Choices:[],u18Remember:false,u18Address:null,gift:null,cartAt:0,tmp:null,useTmp:false,rep:null,tkid:null,tmsg:'',tseen:'',sheetAddr:false,hereBusy:false,quoteErr:null,ro:null,deepDone:false,af:null,addrId:null,addrBack:'home',quote:null,fresh:null,sh:null,promo:null,perr:'',pm:null,pcode:'',note:'',busy:false,msq:'',msearch:false,sheet:false,v:'home',q:'',store:'',back:'home',cart:{},cartStore:'',tip:0,pay:'apple',tid:null,catKey:'',cq:'',srt:'',ofl:'all',fo:false};
-const syncStores=()=>{ALLS=TLB.stores().map(x=>({bid:x.brand_id||'',bn:x.branch_name||'',id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,rd:+x.discount_pct,hh:TLB.hhPct?TLB.hhPct(x.id):0,pmo:x.points_min_order==null?null:+x.points_min_order,cb:x.cashback_pct==null?null:+x.cashback_pct,disc:Math.max(+x.discount_pct||0,TLB.hhPct?TLB.hhPct(x.id):0),cr:x.created_at||'',ffd:!!x.free_first_delivery,fdm:+x.free_delivery_min||0,er:x.earn_per_tjs==null?null:+x.earn_per_tjs,lg:x.logo_url||'',ad:x.address||'',ph:x.phone||'',la:x.lat==null?null:+x.lat,lo:x.lng==null?null:+x.lng,po:x.accept_online!==false,aw:x.allow_wallet!==false,ap:x.allow_points!==false,rt:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating:+x.rating)||0,rc:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating_count:+x.rating_count)||0}));;
+const syncStores=()=>{ALLS=TLB.stores().map(x=>({bid:x.brand_id||'',bn:x.branch_name||'',id:x.id,n:x.name,c:x.category,d:x.description||'',i:x.cover_url||'',ft:x.fee_type,fee:x.fee_type=='free'?0:+x.fee_base,rd:+x.discount_pct,hh:TLB.hhPct?TLB.hhPct(x.id):0,pmo:x.points_min_order==null?null:+x.points_min_order,cb:x.cashback_pct==null?null:+x.cashback_pct,disc:Math.max(+x.discount_pct||0,TLB.hhPct?TLB.hhPct(x.id):0),cr:x.created_at||'',ffd:!!x.free_first_delivery,fdm:+x.free_delivery_min||0,er:x.earn_per_tjs==null?null:+x.earn_per_tjs,lg:x.logo_url||'',ad:x.address||'',ph:x.phone||'',la:x.lat==null?null:+x.lat,lo:x.lng==null?null:+x.lng,po:x.accept_online!==false,aw:x.allow_wallet!==false,ap:x.allow_points!==false,rt:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating:+x.rating)||0,rc:((+x.app_rating_count>=5&&+x.app_rating>0)?+x.app_rating_count:+x.rating_count)||0,
+    dine2:x.dineout_price_for_two_tjs==null?null:+x.dineout_price_for_two_tjs,
+    bc:x.brand_color||''}));;
   /* one card per brand: an open branch first, then the nearest to the chosen address */
   const a=curAddr(),dist=s=>a&&a.lat!=null&&s.la!=null?(s.la-a.lat)**2+(s.lo-a.lng)**2:0,seen={};STORES=[];
   ALLS.forEach(s=>{if(!s.bid){STORES.push(s);return}if(seen[s.bid])return;const g=ALLS.filter(x=>x.bid==s.bid).sort((x,y)=>(TLB.isOpen(y.n)?1:0)-(TLB.isOpen(x.n)?1:0)||dist(x)-dist(y));seen[s.bid]=1;STORES.push(g[0])})};
@@ -2356,19 +2358,38 @@ const areaOf=st=>{const a=String(st.ad||'').split(',').map(x=>x.trim()).filter(B
 function dineCardPhoto(st,badges=''){
   const main=st.i&&st.i!==st.lg?`<img class="dine-cover-photo" src="${esc(st.i)}" alt="" loading="lazy" onerror="this.remove()">`:'';
   const fallback=st.lg?`<img class="dine-fallback-mark" src="${esc(st.lg)}" alt="" loading="lazy" onerror="this.remove()">`:'';
-  const tone=/^#[0-9a-f]{6}$/i.test(st.brand_color||'')?st.brand_color:'#813c2d';
+  const tone=/^#[0-9a-f]{6}$/i.test(st.bc||'')?st.bc:'#813c2d';
   const letter=esc(Array.from(st.n||'')[0]||'');
   return `<div class="d6-ph dine-brand-cover" style="--dine-mark-bg:${tone}">
     <span class="dine-fallback-initial" aria-hidden="true">${letter}</span>${main}${fallback}
     ${badges}${dishStoreLogo(st,true)}</div>`;
 }
-function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0).sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,12);const mx=l[0]?.disc;
-  return homeHeading('dine',"openCat('rest');S.srt='disc'")+`<div class="d6-dn" role="button" onclick="openCat('rest');S.srt='disc'"><b class="dlg">DineOut</b><p>${t('hDineS')}</p><span class="go">${t('hDineGo')} ${ico('arr',14)}</span><img class="art" src="${A3('pizza')}" alt="" width="120" height="120" loading="lazy">${mx?`<span class="pct">${t('hDineP').replace('{n}',mx)}</span>`:''}</div>
-  `+(l.length?`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
-    const km=kmOf(st);
-    return `<button type="button" class="d6-dc" ${storeTap(st)}>${dineCardPhoto(st,`<span class="hb r">−${st.disc}%</span>`)}<b class="nm">${esc(st.n)}</b>
-      <span class="mt dine-meta">${d6Rt(st)}${km==null?'':`<span>${t('hKm').replace('{n}',km)}</span>`}</span></button>`;
-  }).join('')}</div>`:'')}
+/* BRIEF-25c Y-07 (latest owner decision): the heading IS the banner, not a separate hero. */
+TLB.addDict({dineBillDiscount:'Скидка до {n}% на счёт',dinePriceTwo:'≈ {n} TJS на двоих'},
+            {dineBillDiscount:'Up to {n}% off the bill',dinePriceTwo:'≈ {n} TJS for two'});
+function dineH(){
+  const l=STORES.filter(x=>x.c==='rest'&&TLB.isOpen(x.n)&&x.disc>0)
+    .sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,12);
+  const mx=l[0]?.disc;
+  const heading=`<div class="d6-sh home-heading dine-head" data-section="dine">
+    <div class="dine-heading-copy"><h2>DineOut</h2>
+      ${mx?`<span class="dine-bill-ribbon">${t('dineBillDiscount').replace('{n}',mx)}</span>`:''}
+    </div><img class="dine-heading-icon" src="${A3('sushi')}" alt="" width="78" height="78" loading="lazy"></div>`;
+  if(!l.length)return heading;
+  return heading+`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
+    const km=kmOf(st),rawPrice=st.dine2;
+    const two=rawPrice!=null&&Number.isFinite(rawPrice)&&rawPrice>0&&rawPrice<10000000?
+      t('dinePriceTwo').replace('{n}',rawPrice):'';
+    const distance=km==null?'':t('hKm').replace('{n}',km);
+    const details=[two,distance].filter(Boolean).join(' · ');
+    return `<button type="button" class="d6-dc" ${storeTap(st)}>
+      ${dineCardPhoto(st,`<span class="hb r">−${st.disc}%</span>`)}
+      <b class="nm">${esc(st.n)}</b>
+      ${d6Rt(st)?`<span class="mt dine-meta">${d6Rt(st)}</span>`:''}
+      ${details?`<span class="dine-bill-distance">${details}</span>`:''}
+    </button>`;
+  }).join('')}</div>`;
+}
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
 const d6SRow=(s,h,last,sponsored)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);
