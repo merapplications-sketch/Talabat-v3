@@ -153,10 +153,10 @@
           "closed": "Закрыт",
           "badgeRect": {
             "x": 22,
-            "y": 224,
+            "y": 231,
             "width": 62.390625
           },
-          "photoRight": 164,
+          "photoRight": 149.59375,
           "search": {
             "ok": true,
             "screen": "home",
@@ -524,9 +524,9 @@
             "x": 0,
             "y": 8,
             "width": 375,
-            "height": 2947,
+            "height": 2951,
             "right": 375,
-            "bottom": 2955
+            "bottom": 2959
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1154,7 +1154,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 16:35",
+          "text": "Ожидание подтверждения · #ord0 18:21",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1182,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 15:35",
+          "text": "Принять с 17:21",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1197,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 16:35\n",
+        "heading": "Ожидание подтверждения · #ord0\n 18:21\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1218,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 15:35",
+            "txt": "Принять с 17:21",
             "width": 209,
             "scroll": 209
           }
@@ -1613,11 +1613,11 @@
           "text": "Р−25%Очень длинное название блюда с несколькими ингредиентами и ",
           "rect": {
             "x": 0,
-            "y": 782,
+            "y": 716,
             "width": 375,
             "height": 288,
             "right": 375,
-            "bottom": 1070
+            "bottom": 1004
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1627,25 +1627,25 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1149,
+            "y": 1083,
             "width": 375,
             "height": 95,
             "right": 375,
-            "bottom": 1244
+            "bottom": 1178
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-rl",
-          "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+          "text": "−25%РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на",
           "rect": {
             "x": 0,
-            "y": 2348,
+            "y": 2518,
             "width": 375,
-            "height": 97,
+            "height": 57,
             "right": 375,
-            "bottom": 2445
+            "bottom": 2575
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2149,10 +2149,10 @@
           "closed": "Closed",
           "badgeRect": {
             "x": 22,
-            "y": 312,
+            "y": 316,
             "width": 56.3125
           },
-          "photoRight": 164,
+          "photoRight": 155.59375,
           "search": {
             "ok": true,
             "screen": "home",
@@ -2515,14 +2515,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 5:2",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 3:3",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 390,
-            "height": 2947,
+            "height": 2943,
             "right": 390,
-            "bottom": 2955
+            "bottom": 2951
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3150,7 +3150,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 16:36",
+          "text": "Waiting for confirmation · #ord0 18:22",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3178,7 +3178,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 15:36",
+          "text": "Accept from 17:22",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3193,7 +3193,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 16:36\n",
+        "heading": "Waiting for confirmation · #ord0\n 18:22\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3214,7 +3214,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 15:36",
+            "txt": "Accept from 17:22",
             "width": 219,
             "scroll": 219
           }
@@ -3609,11 +3609,11 @@
           "text": "Р−25%Очень длинное название блюда с несколькими ингредиентами и ",
           "rect": {
             "x": 0,
-            "y": 782,
+            "y": 716,
             "width": 390,
             "height": 288,
             "right": 390,
-            "bottom": 1070
+            "bottom": 1004
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3623,25 +3623,25 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1149,
+            "y": 1083,
             "width": 390,
             "height": 95,
             "right": 390,
-            "bottom": 1244
+            "bottom": 1178
           },
           "disabled": false,
           "ariaDisabled": null
         },
         {
           "selector": "#app .d6-rl",
-          "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
+          "text": "−25%РРесторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на",
           "rect": {
             "x": 0,
-            "y": 2348,
+            "y": 2510,
             "width": 390,
-            "height": 97,
+            "height": 57,
             "right": 390,
-            "bottom": 2445
+            "bottom": 2567
           },
           "disabled": false,
           "ariaDisabled": null
