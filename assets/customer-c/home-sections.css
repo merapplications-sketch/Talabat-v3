@@ -157,3 +157,7 @@
 
 .home-dine-proposal .d6-dc { flex: none; border: 0; padding: 0; text-align: start; color: var(--ink); background: transparent; font: inherit; }
 .home-dine-proposal .d6-dc .hb { right: auto; left: 8px; }
+
+@media (max-width: 359px) {
+  #app .d6h [data-section="popular"] + .d6-rl { grid-auto-columns: 150px; }
+}
