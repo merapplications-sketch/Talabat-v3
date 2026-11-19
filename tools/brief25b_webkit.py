@@ -78,6 +78,10 @@ def test_recommended(page,out):
     recommended=page.locator('section.home-picks:not(.home-meals)')
     assert recommended.count()==1 and recommended.locator('.d6-pt').count()>=2
     assert recommended.locator('.home-ad-label').first.inner_text()=='Реклама'
+    ad=recommended.locator('.d6-pt').first
+    badge=ad.locator('.home-ad-label').bounding_box()
+    plus=ad.locator('.d6-pa').bounding_box()
+    assert badge and plus and badge['y']+badge['height']<plus['y'],(badge,plus)
     headings=page.locator('.home-heading').evaluate_all("nodes=>nodes.map(n=>n.dataset.section)")
     assert headings.index('advert')<headings.index('picks'),headings
     page.locator('[data-section="advert"]').evaluate("e=>window.scrollTo(0,window.scrollY+e.getBoundingClientRect().top-10)")
@@ -137,6 +141,11 @@ def test_compact_rails(browser,server,photos,out):
             boxes=rail.evaluate("e=>[...e.children].map(c=>{const r=c.getBoundingClientRect();return [r.x,r.y,r.width]})")
             assert len(boxes)==2 and boxes[0][0]<boxes[1][0] and boxes[0][1]==boxes[1][1],(selector,boxes)
             assert rail.evaluate("e=>getComputedStyle(e).gridAutoFlow")=='row'
+            if selector=='.home-l-near':
+                meta=rail.locator('.home-l-card').filter(has_text='Romant').locator('.home-l-meta')
+                assert 'TJS' in meta.inner_text() and 'мин' in meta.inner_text()
+                assert meta.evaluate("e=>getComputedStyle(e).whiteSpace")=='normal'
+                assert meta.evaluate("e=>e.scrollWidth<=e.clientWidth+1")
             rail.scroll_into_view_if_needed()
             shot(page,out,'ru-375-'+name+'-fixture.webp')
     finally:
