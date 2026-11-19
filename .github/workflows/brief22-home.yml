@@ -12,6 +12,7 @@ on:
       - qa-fixtures/home-brief25b.json
       - tools/brief25b_webkit.py
       - tools/brief25c_webkit.py
+      - tools/brief25c_y08_webkit.py
       - 'qa-shots/unified-fix/brief25c/**'
       - 'qa-shots/unified-fix/brief25b/**'
       - tools/brief24_webkit.py
@@ -46,6 +47,7 @@ jobs:
           python tools/brief24_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-evidence"
           python tools/brief25b_webkit.py "$RUNNER_TEMP/home-evidence/brief25b"
           python tools/brief25c_webkit.py "$RUNNER_TEMP/home-evidence/brief25c"
+          python tools/brief25c_y08_webkit.py "$RUNNER_TEMP/home-evidence/brief25c-y08"
       - name: Persist frozen BRIEF-25b and new BRIEF-25c synthetic WebKit captures on isolated review branch
         shell: bash
         if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
@@ -56,6 +58,7 @@ jobs:
           cp -n "$RUNNER_TEMP/home-evidence/brief25b/"*.webp qa-shots/unified-fix/brief25b/
           mkdir -p qa-shots/unified-fix/brief25c
           cp -n "$RUNNER_TEMP/home-evidence/brief25c/"*.webp qa-shots/unified-fix/brief25c/
+          cp -n "$RUNNER_TEMP/home-evidence/brief25c-y08/"*.webp qa-shots/unified-fix/brief25c/
           git config user.name "talabot-brief25c-webkit"
           git config user.email "talabot-brief25c-webkit@users.noreply.github.com"
           git add -- qa-shots/unified-fix/brief25b/ qa-shots/unified-fix/brief25c/
