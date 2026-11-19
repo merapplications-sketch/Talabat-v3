@@ -65,10 +65,10 @@ jobs:
               .github/workflows/brief21-customer-review.yml|tools/brief21_webkit.py) ;;
               .github/workflows/brief22-home.yml|tools/brief22_webkit.py|tools/brief23_webkit.py|tools/brief24_webkit.py|tools/brief25b_webkit.py|tools/brief25c_webkit.py|tools/brief25c_y08_webkit.py|qa-fixtures/home-brief2*.json|qa-shots/*) ;;
               assets/customer-c/home-sections.css)
-                # Keep the previous stylesheet as an exact prefix and pin the BRIEF-25 append.
+                # Keep the previous stylesheet as an exact prefix and pin the BRIEF-25c Y-09 stylesheet.
                 git show a9b632088b0466149953fdccfd72c7ee380a3881:"$changed" > "$RUNNER_TEMP/approved-home-css"
                 cmp -s -n "$(wc -c < "$RUNNER_TEMP/approved-home-css")" "$RUNNER_TEMP/approved-home-css" "$changed"
-                test "$(git rev-parse HEAD:"$changed")" = "09c0900d845b2e8e73e4ab7091daf8d38ef17bad" || { echo "STOP: Home stylesheet differs from BRIEF-25 preview" >&2; exit 1; } ;;
+                test "$(git rev-parse HEAD:"$changed")" = "8a3688b2e6f93b198c2da221cd0d0413685ba09c" || { echo "STOP: Home stylesheet differs from BRIEF-25c Y-09" >&2; exit 1; } ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"
