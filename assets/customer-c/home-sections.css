@@ -251,3 +251,16 @@
 #app .d6h .home-dine .d6-dc .dine-meta { display:block; margin:0 2px 1px; min-height:18px; white-space:nowrap; }
 #app .d6h .home-dine .d6-dc .dine-meta .rt { display:inline-flex; align-items:center; color:var(--ink); font-weight:600; font-size:12px; }
 #app .d6h .home-dine .d6-dc .dine-bill-distance { display:block; margin:0 2px; color:var(--mut2); font-size:12px; line-height:18px; white-space:normal; overflow-wrap:break-word; }
+
+/* BRIEF-25c Y-08: sibling control surface avoids nested buttons; optional stats only. */
+.home-discover .reel-tile{position:relative;flex:0 0 calc((100% - 12px)/2.5);height:192px;min-width:0;scroll-snap-align:start;}
+.home-discover .reel-tile>.reel-card.discover-row{width:100%;height:100%;flex:none;scroll-snap-align:unset;}
+.home-discover .reel-tile.has-feedback .reel-copy{bottom:43px;}
+.home-discover .reel-feedback[hidden]{display:none!important;}
+.home-discover .reel-feedback{position:absolute;z-index:4;left:6px;bottom:6px;display:inline-flex;align-items:center;gap:1px;max-width:calc(100% - 12px);min-height:31px;box-sizing:border-box;padding:2px 4px;border:1px solid #ffffff52;border-radius:999px;background:#171b24bb;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;}
+.home-discover .reel-feedback button{display:inline-flex;align-items:center;justify-content:center;gap:3px;min-width:31px;min-height:27px;padding:2px 4px;border:0;border-radius:999px;background:transparent;color:#fff;font:600 11px/15px -apple-system,BlinkMacSystemFont,sans-serif;cursor:pointer;}
+.home-discover .reel-feedback button.on{background:#ed551c;color:#fff;}
+.home-discover .reel-feedback button:focus-visible{outline:2px solid white;outline-offset:1px;}
+.home-discover .reel-feedback button:disabled{opacity:.6;cursor:default;}
+.home-discover .reel-feedback button svg{flex:none;}
+.home-discover .reel-feedback-separator{height:18px;width:1px;flex:none;background:#ffffff70;}

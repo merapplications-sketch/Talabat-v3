@@ -2162,9 +2162,11 @@ function discoverH(expanded=false){
 }
 function discoveryTile(card,index){
   const {st,first}=card,open=TLB.isOpen(st.n),discount=Math.max(st.disc||0,first),rating=d6Rt(st);
-  return `<button class="discover-row reel-card" type="button" data-reel-key="${esc(card.id)}" ${open?`onclick="openReel(${index},this)"`:'disabled'}>${discoveryMedia(card)}${dishStoreLogo(st,true)}
-    ${!open?homeClosedBadge():discount>0?`<span class="reel-deal">−${discount}%</span>`:''}
-    <span class="reel-copy"><b>${esc(card.title||st.n)}</b>${rating?`<span class="reel-card-rating">${rating}</span>`:''}${first&&open?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
+  return `<div class="reel-tile" data-reel-key="${esc(card.id)}">
+    <button class="discover-row reel-card" type="button" data-reel-key="${esc(card.id)}" ${open?`onclick="openReel(${index},this)"`:'disabled'}>${discoveryMedia(card)}${dishStoreLogo(st,true)}
+      ${!open?homeClosedBadge():discount>0?`<span class="reel-deal">−${discount}%</span>`:''}
+      <span class="reel-copy"><b>${esc(card.title||st.n)}</b>${rating?`<span class="reel-card-rating">${rating}</span>`:''}${first&&open?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>
+    <div class="reel-feedback" hidden></div></div>`;
 }
 function discoveryMedia({st,cover=st.i,data,video=data?.reel_url}){
   const src=validReelURL(video);
@@ -2180,6 +2182,99 @@ TLB.addDict({reelsTitle:'Что нового',reelOpen:'Открыть рест�
             {reelsTitle:"What's new",reelOpen:'Open restaurant',reelComment:'Comments',reelSend:'Send',reelLike:'Like',reelViews:'Views',reelOffer:'Offer'});
 let homeReels=[],reelObserver;
 const reelStats=()=>globalThis.TalabotReelStats;
+/* BRIEF-25c Y-08: optional client adapter. Server/provider owns durable, per-customer votes. */
+TLB.addDict({reelDislike:'Не нравится'},{reelDislike:'Dislike'});
+Object.assign(P,{
+  reelThumbUp:'<path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/><path d="m7 10 4-7a2 2 0 0 1 3.6 1.7L13 9h6a2 2 0 0 1 2 2l-1 8a2 2 0 0 1-2 2H7z"/>',
+  reelThumbDown:'<path d="M7 14V3H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/><path d="m7 14 4 7a2 2 0 0 0 3.6-1.7L13 15h6a2 2 0 0 0 2-2l-1-8a2 2 0 0 0-2-2H7z"/>'
+});
+const reelFeedbackCache=new Map(),reelFeedbackPending=new Map(),reelFeedbackBusy=new Set();
+let reelFeedbackProvider=null;
+const reelFeedbackAPI=()=>{
+  const api=reelStats();
+  return api&&typeof api.read==='function'&&typeof api.toggleLike==='function'&&
+    typeof api.toggleDislike==='function'?api:null;
+};
+const validReelFeedback=s=>s&&Number.isSafeInteger(s.likes)&&s.likes>=0&&
+  typeof s.liked==='boolean'&&typeof s.disliked==='boolean'&&!(s.liked&&s.disliked);
+function paintReelFeedback(id,stats){
+  document.querySelectorAll('.reel-tile').forEach(tile=>{
+    if(tile.dataset.reelKey!==id)return;
+    const root=tile.querySelector('.reel-feedback');
+    if(!root)return;
+    if(!reelFeedbackAPI()||!validReelFeedback(stats)||reelFeedbackBusy.has(id)){
+      if(!reelFeedbackBusy.has(id)){root.hidden=true;root.replaceChildren();tile.classList.remove('has-feedback')}
+      return;
+    }
+    root.innerHTML=`<button type="button" data-reaction="like" aria-label="${esc(t('reelLike'))}"
+       aria-pressed="${stats.liked}" class="${stats.liked?'on':''}">${ico('reelThumbUp',16)}<span>${stats.likes}</span></button>
+       <i class="reel-feedback-separator" aria-hidden="true"></i>
+       <button type="button" data-reaction="dislike" aria-label="${esc(t('reelDislike'))}"
+       aria-pressed="${stats.disliked}" class="${stats.disliked?'on':''}">${ico('reelThumbDown',16)}</button>`;
+    root.hidden=false;tile.classList.add('has-feedback');
+    root.querySelectorAll('button[data-reaction]').forEach(button=>{
+      button.onclick=event=>{event.preventDefault();event.stopPropagation();
+        void changeReelReaction(id,button.dataset.reaction)};
+    });
+  });
+}
+async function loadReelFeedback(id,api,force=false){
+  if(!api||api!==reelFeedbackProvider)return;
+  if(!force&&reelFeedbackCache.has(id)){paintReelFeedback(id,reelFeedbackCache.get(id));return}
+  if(reelFeedbackPending.has(id))return reelFeedbackPending.get(id);
+  const request=Promise.resolve().then(()=>api.read(id)).then(stats=>{
+    if(api!==reelFeedbackProvider)return;
+    const safe=validReelFeedback(stats)?stats:null;
+    reelFeedbackCache.set(id,safe);paintReelFeedback(id,safe);
+  }).catch(()=>{
+    if(api===reelFeedbackProvider){reelFeedbackCache.set(id,null);paintReelFeedback(id,null)}
+  }).finally(()=>{if(reelFeedbackPending.get(id)===request)reelFeedbackPending.delete(id)});
+  reelFeedbackPending.set(id,request);
+  return request;
+}
+function syncReelFeedback(){
+  const api=reelFeedbackAPI();
+  if(api!==reelFeedbackProvider){
+    reelFeedbackProvider=api;reelFeedbackCache.clear();reelFeedbackPending.clear();
+  }
+  document.querySelectorAll('.reel-tile').forEach(tile=>{
+    const id=tile.dataset.reelKey,root=tile.querySelector('.reel-feedback');
+    if(!api||!reelFeedbackCache.has(id)||!validReelFeedback(reelFeedbackCache.get(id))){
+      if(root){root.hidden=true;root.replaceChildren()}
+      tile.classList.remove('has-feedback');
+    }else paintReelFeedback(id,reelFeedbackCache.get(id));
+  });
+}
+/* Tap a vote without opening the reel. On switching, clear the opposite vote first.
+   The linked provider must enforce one durable vote per authenticated customer. */
+async function changeReelReaction(id,kind){
+  const api=reelFeedbackAPI();
+  if(!api||!['like','dislike'].includes(kind)||reelFeedbackBusy.has(id))return;
+  reelFeedbackBusy.add(id);
+  document.querySelectorAll('.reel-tile').forEach(tile=>{
+    if(tile.dataset.reelKey===id)tile.querySelectorAll('.reel-feedback button').forEach(b=>b.disabled=true);
+  });
+  try{
+    const previous=await api.read(id);
+    if(!validReelFeedback(previous))return;
+    if(kind==='like'){
+      if(previous.disliked)await api.toggleDislike(id);
+      await api.toggleLike(id);
+    }else{
+      if(previous.liked)await api.toggleLike(id);
+      await api.toggleDislike(id);
+    }
+  }catch(_error){
+    /* The authoritative provider is re-read below; never forge likes or dislikes. */
+  }finally{
+    reelFeedbackBusy.delete(id);
+    await loadReelFeedback(id,api,true);
+    const dialog=document.querySelector('.reel-viewer[open]');
+    const pane=[...(dialog?.querySelectorAll('.reel-pane')||[])].find(p=>p.dataset.reelKey===id);
+    const card=homeReels.find(x=>x.id===id);
+    if(dialog&&pane&&card)await paintReelSocial(dialog,pane,card,api);
+  }
+}
 const reelViews=new Set(),reelTaps=new Set(),reelTimers=new Map();
 function reelMetric(name,id){
   const api=reelStats(),method=api?.[name],sent=name==='views'?reelViews:reelTaps;
@@ -2258,7 +2353,10 @@ async function paintReelSocial(dialog,pane,card,api){
     const avatar=pane.querySelector('.reel-avatar');
     avatar?.querySelector('.reel-like')?.remove();
     if(like&&avatar)avatar.append(like);
-    if(like)like.onclick=async()=>{like.disabled=true;try{await api.toggleLike(card.id);await paintReelSocial(dialog,pane,card,api)}catch{}finally{like.disabled=false}};
+    if(like)like.onclick=async()=>{like.disabled=true;try{
+      if(reelFeedbackAPI()===api)await changeReelReaction(card.id,'like');
+      else{await api.toggleLike(card.id);await paintReelSocial(dialog,pane,card,api)}
+    }catch{}finally{like.disabled=false}};
     if(comment)comment.onclick=()=>openReelComments(dialog,pane,card,api,stats.comments);
   }catch{}
 }
@@ -2308,6 +2406,10 @@ function observeReelMedia(){
       const video=entry.target.querySelector('video');
       const visible=entry.intersectionRatio>=.5&&!document.hidden&&(!document.querySelector('.reel-viewer[open]')||entry.target.matches('.reel-pane'));
       watchReelView(entry.target,visible);
+      if(entry.isIntersecting&&entry.target.matches('.reel-card')){
+        const api=reelFeedbackAPI(),id=entry.target.dataset.reelKey;
+        if(api&&id){if(api!==reelFeedbackProvider)syncReelFeedback();void loadReelFeedback(id,api)}
+      }
       if(video){
         if(visible&&!reelLowData()){
           if(!video.hasAttribute('src'))video.src=video.dataset.reelSrc;
@@ -2317,6 +2419,7 @@ function observeReelMedia(){
     }
   },{threshold:[0,.5]});
   document.querySelectorAll('.reel-card,.reel-pane').forEach(el=>reelObserver.observe(el));
+  syncReelFeedback();
 }
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){clearReelTimers();document.querySelectorAll('video.reel-video').forEach(video=>video.pause())}
