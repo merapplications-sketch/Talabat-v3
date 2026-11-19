@@ -2105,8 +2105,11 @@ function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes
   });
   return '<section class="home-picks">'+homeHeading('picks',"go('promo')")+`<p class="home-picks-summary">${pickSummary(cards)}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`}
 /* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
-function nearH(expanded=false){const l=STORES.filter(x=>kmOf(x)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b)));if(!l.length)return '';
-  return homeHeading('near',l.length>3&&!expanded?"go('nearby')":'')+`<div class="d6-nr">${(expanded?l:l.slice(0,8)).map(st=>{const op=TLB.isOpen(st.n);return `<div class="d6-nc ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(st)}>${homeRestaurantPhoto(st,op?'':homeClosedBadge())}<div class="tx"><b>${esc(st.n)}</b><span>${etaOf(st)||t('d6DelTbd')}</span><span>${t('hKm').replace('{n}',kmOf(st))}</span></div><span class="go">${ico('chev',18)}</span></div>`}).join('')}</div>`}
+function nearH(expanded=false){
+  const stores=STORES.filter(st=>kmOf(st)!=null).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||(kmOf(a)-kmOf(b)));
+  if(!stores.length)return '';
+  return homeHeading('near',!expanded?"go('nearby')":'')+homeRestaurantRail(expanded?stores:stores.slice(0,8),'home-l-near');
+}
 /* wallet + points: the user's own numbers */
 /* coupons and rewards: both open the wallet (vouchers, points, balance are there) */
 function walH(){const L=TLB.loyalty&&TLB.loyalty(),pts=!!(L&&+L.points_per_tjs>0);
