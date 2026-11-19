@@ -175,8 +175,13 @@ def variants(browser, server, photos):
         T.banners.push({id:'campaign',placement:'dont_miss',title:'Объявление KFC',link_type:'store',link_value:'s1',is_active:true});""",curated)
 
     def branded(p):
-        for selector in ('.d6-sc','.home-dine .d6-dc'):
-            assert_image(card_photo(p,selector,'Romant'),'/qa-image/kfc','contain')
+        assert_image(card_photo(p,'.d6-sc','Romant'),'/qa-image/kfc','contain')
+        # BRIEF-25b X-09: the DineOut cover remains the full photo; the brand logo
+        # is a small, separate overlay and must not replace the restaurant photo.
+        assert_image(card_photo(p,'.home-dine .d6-dc','Romant'),'/qa-image/romant','cover')
+        small_logo=p.locator('.home-dine .d6-dc').filter(has_text='Romant').locator('.dish-store-logo img')
+        assert small_logo.get_attribute('src')=='/qa-image/kfc'
+        assert small_logo.evaluate("e=>getComputedStyle(e).objectFit")=='contain'
         assert_image(p.locator('.home-ad-card .ad-art'),'/qa-image/kfc','contain')
     check("stores[1].logo_url='/qa-image/kfc'",branded)
 
