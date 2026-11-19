@@ -2189,7 +2189,7 @@ Object.assign(P,{
   reelThumbDown:'<path d="M7 14V3H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/><path d="m7 14 4 7a2 2 0 0 0 3.6-1.7L13 15h6a2 2 0 0 0 2-2l-1-8a2 2 0 0 0-2-2H7z"/>'
 });
 const reelFeedbackCache=new Map(),reelFeedbackPending=new Map(),reelFeedbackBusy=new Set();
-let reelFeedbackProvider=null;
+let reelFeedbackProvider=null,reelFeedbackCustomer=null,reelFeedbackEpoch=0;
 const reelFeedbackAPI=()=>{
   const api=reelStats();
   return api&&typeof api.read==='function'&&typeof api.toggleLike==='function'&&
@@ -2222,20 +2222,22 @@ async function loadReelFeedback(id,api,force=false){
   if(!api||api!==reelFeedbackProvider)return;
   if(!force&&reelFeedbackCache.has(id)){paintReelFeedback(id,reelFeedbackCache.get(id));return}
   if(reelFeedbackPending.has(id))return reelFeedbackPending.get(id);
+  const epoch=reelFeedbackEpoch;
   const request=Promise.resolve().then(()=>api.read(id)).then(stats=>{
-    if(api!==reelFeedbackProvider)return;
+    if(api!==reelFeedbackProvider||epoch!==reelFeedbackEpoch)return;
     const safe=validReelFeedback(stats)?stats:null;
     reelFeedbackCache.set(id,safe);paintReelFeedback(id,safe);
   }).catch(()=>{
-    if(api===reelFeedbackProvider){reelFeedbackCache.set(id,null);paintReelFeedback(id,null)}
+    if(api===reelFeedbackProvider&&epoch===reelFeedbackEpoch){reelFeedbackCache.set(id,null);paintReelFeedback(id,null)}
   }).finally(()=>{if(reelFeedbackPending.get(id)===request)reelFeedbackPending.delete(id)});
   reelFeedbackPending.set(id,request);
   return request;
 }
 function syncReelFeedback(){
-  const api=reelFeedbackAPI();
-  if(api!==reelFeedbackProvider){
-    reelFeedbackProvider=api;reelFeedbackCache.clear();reelFeedbackPending.clear();
+  const api=reelFeedbackAPI(),customer=TLB.me()?.id??null;
+  if(api!==reelFeedbackProvider||customer!==reelFeedbackCustomer){
+    reelFeedbackProvider=api;reelFeedbackCustomer=customer;reelFeedbackEpoch++;
+    reelFeedbackCache.clear();reelFeedbackPending.clear();
   }
   document.querySelectorAll('.reel-tile').forEach(tile=>{
     const id=tile.dataset.reelKey,root=tile.querySelector('.reel-feedback');
@@ -2255,8 +2257,9 @@ async function changeReelReaction(id,kind){
     if(tile.dataset.reelKey===id)tile.querySelectorAll('.reel-feedback button').forEach(b=>b.disabled=true);
   });
   try{
+    const epoch=reelFeedbackEpoch;
     const previous=await api.read(id);
-    if(!validReelFeedback(previous))return;
+    if(epoch!==reelFeedbackEpoch||!validReelFeedback(previous))return;
     if(kind==='like'){
       if(previous.disliked)await api.toggleDislike(id);
       await api.toggleLike(id);
@@ -2408,7 +2411,7 @@ function observeReelMedia(){
       watchReelView(entry.target,visible);
       if(entry.isIntersecting&&entry.target.matches('.reel-card')){
         const api=reelFeedbackAPI(),id=entry.target.dataset.reelKey;
-        if(api&&id){if(api!==reelFeedbackProvider)syncReelFeedback();void loadReelFeedback(id,api)}
+        if(api&&id){syncReelFeedback();void loadReelFeedback(id,api)}
       }
       if(video){
         if(visible&&!reelLowData()){

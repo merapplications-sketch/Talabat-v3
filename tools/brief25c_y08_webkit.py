@@ -97,8 +97,17 @@ def test_cards(page,out):
     assert not state(page,id)['liked'] and state(page,id)['likes']==37
     viewer.locator('.reel-back').click()
     assert tile.locator('button[data-reaction=like] span').inner_text()=='37'
+    # Votes are per authenticated customer: invalidate a previous customer's cached UI.
+    page.evaluate("""()=>{window.__oldMe=TLB.me;window.__oldRead=TalabotReelStats.read;
+      TLB.me=()=>({...__oldMe(),id:'other-fixture-user'});
+      TalabotReelStats.read=async id=>({...await __oldRead(id),likes:35,liked:false,disliked:false});
+      observeReelMedia()}""")
+    page.wait_for_function("()=>document.querySelector('.reel-tile .reel-feedback [data-reaction=like] span')?.textContent==='35'")
+    assert tile.locator('button[data-reaction=like]').get_attribute('aria-pressed')=='false'
+    page.evaluate("""()=>{TLB.me=__oldMe;TalabotReelStats.read=__oldRead;observeReelMedia()}""")
+    page.wait_for_function("()=>document.querySelector('.reel-tile .reel-feedback [data-reaction=like] span')?.textContent==='37'")
     return {'card_count':cards.count(),'like_dislike_undo':'PASS','mutual_exclusion':'PASS',
-            'no_viewer_from_pill':'PASS','viewer_counter_parity':'PASS'}
+            'no_viewer_from_pill':'PASS','viewer_counter_parity':'PASS','account_cache_isolation':'PASS'}
 
 def test_combined_y06(page,out):
     # Fullscreen: top-left source discount + linked likes/comments/views together.
