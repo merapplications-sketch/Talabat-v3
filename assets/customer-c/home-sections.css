@@ -129,6 +129,8 @@
 .discover-row { display: flex; align-items: center; gap: 12px; width: calc(100% - 32px); margin: 8px 16px; background: none; border: 0; padding: 0; color: var(--ink); text-align: start; font: inherit; }
 .discover-row:disabled { filter: grayscale(1); }
 .discover-row .d6-ph { width: 84px; height: 84px; border-radius: 14px; flex: none; }
+.home-discover .reel-card-rating { display: block; }
+.home-discover .reel-card-rating .rt { color: #fff; font-size: 11px; line-height: 15px; }
 .discover-row small,.discover-row em { display: block; margin-top: 4px; }
 .discover-row em { background: #d9f99d; border-radius: 6px; padding: 2px 7px; font-style: normal; width: fit-content; }
 

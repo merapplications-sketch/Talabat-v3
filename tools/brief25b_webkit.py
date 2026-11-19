@@ -85,6 +85,14 @@ def test_l_card_metadata(page):
         metadata=romant.locator('.home-l-meta').inner_text()
         assert ' · ' in metadata and 'TJS' in metadata,metadata
 
+def test_reel_ratings(page):
+    romant=page.locator('.reel-card').filter(has_text='Romant')
+    assert romant.count()>=1
+    title=romant.first.locator('.reel-copy>b').bounding_box()
+    rating=romant.first.locator('.reel-card-rating').bounding_box()
+    assert title and rating and rating['y']>=title['y']+title['height']-1
+    assert '3.4' in romant.first.locator('.reel-card-rating').inner_text()
+
 def test_reels(page,out):
     cards=page.locator('.reel-card')
     assert cards.count()>=2,'Needs a second sample reel'
@@ -123,6 +131,7 @@ def main():
                 test_owner_fixture(page)
                 test_l_card_metadata(page)
                 test_recommended(page,out)
+                test_reel_ratings(page)
                 test_reels(page,out)
             finally:
                 ctx.close()

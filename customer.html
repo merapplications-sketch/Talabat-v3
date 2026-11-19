@@ -2157,10 +2157,10 @@ function discoverH(expanded=false){
   return `<section class="home-discover">${homeHeading('discover',cards.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}<div class="discovery-rail">${homeReels.map(discoveryTile).join('')}</div></section>`;
 }
 function discoveryTile(card,index){
-  const {st,first}=card,open=TLB.isOpen(st.n),discount=Math.max(st.disc||0,first);
+  const {st,first}=card,open=TLB.isOpen(st.n),discount=Math.max(st.disc||0,first),rating=d6Rt(st);
   return `<button class="discover-row reel-card" type="button" data-reel-key="${esc(card.id)}" ${open?`onclick="openReel(${index},this)"`:'disabled'}>${discoveryMedia(card)}${dishStoreLogo(st,true)}
     ${!open?homeClosedBadge():discount>0?`<span class="reel-deal">−${discount}%</span>`:''}
-    <span class="reel-copy"><b>${esc(card.title||st.n)}</b>${d6Rt(st)}${first&&open?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
+    <span class="reel-copy"><b>${esc(card.title||st.n)}</b>${rating?`<span class="reel-card-rating">${rating}</span>`:''}${first&&open?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
 }
 function discoveryMedia({st,cover=st.i,data,video=data?.reel_url}){
   const src=validReelURL(video);
