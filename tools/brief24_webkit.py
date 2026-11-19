@@ -297,7 +297,7 @@ def evidence_reels_and_search(browser, server, photos, out):
         assert p.locator('.home-picks:not(.home-meals) .d6-pt').first.locator('.home-ad-label').inner_text(timeout=5000)=='Реклама'
         card=p.locator('.reel-card').first
         card.scroll_into_view_if_needed()
-        p.wait_for_function("reelEvidence.views.includes(document.querySelector('.reel-card').dataset.reelKey)")
+        p.wait_for_function("()=>reelEvidence.views.includes(document.querySelector('.reel-card').dataset.reelKey)")
         card.click()
         viewer=p.locator('.reel-viewer[open]')
         assert viewer.is_visible() and viewer.locator('.reel-pages button.on').count()==1
@@ -307,7 +307,7 @@ def evidence_reels_and_search(browser, server, photos, out):
         assert p.evaluate("reelEvidence.views.filter(id=>id===reelEvidence.taps[0]).length")==1
         assert p.evaluate("homeReels.some(c=>c.type==='dish'&&c.item.id==='hot')")
         viewer.locator('.reel-pane').first.locator('.reel-cover').evaluate("i=>i.loading='eager'")
-        p.wait_for_function("document.querySelector('.reel-pane .reel-cover').naturalWidth>0")
+        p.wait_for_function("()=>document.querySelector('.reel-pane .reel-cover').naturalWidth>0")
         from io import BytesIO
         from PIL import Image
         Image.open(BytesIO(p.screenshot(animations='disabled'))).save(out/'ru-375-reels-viewer.webp',quality=86,method=6)
