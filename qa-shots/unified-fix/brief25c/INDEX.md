@@ -1,6 +1,8 @@
-# TALABOT — BRIEF-25c / owner review: Y-01…Y-04 + Y-06 + Y-07 + Y-08
+# TALABOT — BRIEF-25c / owner review: Y-01…Y-04 + Y-06 + Y-07 + Y-08 + Y-09
 
-**Final owner instruction:** [Y-07](https://github.com/merapplications-sketch/Talabat-v3/issues/48#issuecomment-7019030275) **supersedes W-07, X-09, Y-02, and Y-05**. No separate large DineOut hero remains. All screenshots are original customer-app **offline WebKit RU/375**, with synthetic QA stores and no production accounts or offers.
+**DineOut heading:** [Y-09](https://github.com/merapplications-sketch/Talabat-v3/issues/48#issuecomment-7021025096) supersedes the Y-07 heading.
+
+**Prior layout decision:** [Y-07](https://github.com/merapplications-sketch/Talabat-v3/issues/48#issuecomment-7019030275) **supersedes W-07, X-09, Y-02, and Y-05**. No separate large DineOut hero remains. All screenshots are original customer-app **offline WebKit RU/375**, with synthetic QA stores and no production accounts or offers.
 
 | Decision | Final review screenshot |
 |---|---|
@@ -8,11 +10,11 @@
 | **Y-03** — Reel source-derived red discounts and offer pill (unlinked state) | [Dish discount](ru-375-reel-dish-discount-fixture.webp) · [Offer badge](ru-375-reel-offer-badges-fixture.webp) |
 | **Y-04** — Styled comments with avatar/author, supplied time, icon submit, no default blue close ring | [Final comments](ru-375-reel-comments-designed-final-fixture.webp) |
 | **Y-06** — A SINGLE reel screenshot showing discount badge **and** linked optional likes/comments/views together | [Linked social + badge (fixture)](ru-375-reel-badges-and-social-linked-fixture.webp) |
-| **Y-07** — DineOut heading is the gold/dark banner, orange slanted dynamic discount ribbon, small existing 3D sushi food icon, 1.5 wide cards, cover with coloured centre-logo fallback, **bottom-right brand** and **top-left discount**, rating/count, measured distance | [Final integrated DineOut with visible 3D icon](ru-375-dineout-integrated-banner-visible-icon-fixture.webp) |
+| **Y-07 cards / Y-09 heading** — DineOut title on the page background with 3D icon, dynamic discount ribbon, and all-offers link | [DineOut RU/375](ru-375-dineout-y09-fixture.webp) |
 | **Y-08** — optional provider-bound thumb-up + public count and thumb-down (no count), separate non-nested vote control, reversible and mutually exclusive votes | [Connected Home pills](ru-375-reels-like-dislike-linked-fixture.webp) · [Liked state](ru-375-reels-like-active-fixture.webp) |
 | **Y-06 + Y-08 together** — top reel discount badge, provider-linked like/comment/views, same authoritative like count as Home | [Linked viewer fixture](ru-375-y06-y08-reel-badges-social-linked-fixture.webp) |
 
-**Superseded screenshots (historical only):** [prior DineOut fallback layout](ru-375-dineout-branded-fallback-fixture.webp), [pre-eager-icon Y-07 preview](ru-375-dineout-integrated-banner-fixture.webp), [initial focused comments draft](ru-375-reel-comments-designed-fixture.webp). They are **not** the owner-review final layout.
+**Superseded screenshots (historical only):** [prior DineOut fallback layout](ru-375-dineout-branded-fallback-fixture.webp), [Y-07 dark heading](ru-375-dineout-integrated-banner-visible-icon-fixture.webp), [pre-eager-icon Y-07 preview](ru-375-dineout-integrated-banner-fixture.webp), [initial focused comments draft](ru-375-reel-comments-designed-fixture.webp). They are **not** the owner-review final layout.
 
 **Data contract:** DineOut optionally reads `dineout_price_for_two_tjs` from the existing store object. A positive finite amount displays `≈ X TJS на двоих`; otherwise this part is **hidden** and only genuine measured distance appears. No field is populated or invented in product, and no SQL/core change was introduced. Clicking a DineOut card still uses the original restaurant-opening action.
 

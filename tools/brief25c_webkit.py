@@ -50,6 +50,20 @@ def test_dineout(browser,server,photos,out):
         assert page.locator('.dine-head h2').inner_text()=='DineOut'
         assert page.locator('.dine-head .dine-bill-ribbon').inner_text()=='Скидка до 20% на счёт'
         assert page.locator('.dine-head .dine-heading-icon').get_attribute('src')=='assets/3d/sushi.webp'
+        heading=page.locator('.dine-head')
+        assert heading.evaluate("""e=>{
+          const style=getComputedStyle(e), title=e.querySelector('h2'), link=e.querySelector('button');
+          const art=e.querySelector('.dine-heading-art').getBoundingClientRect();
+          const t=title.getBoundingClientRect(), b=link.getBoundingClientRect();
+          const cover=e.nextElementSibling.querySelector('.dine-brand-cover').getBoundingClientRect();
+          return style.backgroundImage==='none' && style.backgroundColor==='rgba(0, 0, 0, 0)'
+            && style.paddingTop==='16px' && getComputedStyle(title).fontSize==='34px'
+            && art.width===56 && art.right<t.left && t.right<b.left
+            && Math.abs((t.top+t.bottom-b.top-b.bottom)/2)<=1
+            && Math.abs(cover.top-e.getBoundingClientRect().bottom-12)<1;
+        }""")
+        assert heading.get_by_role('button',name='Все').is_visible()
+        assert heading.locator('.dine-sparkle').count()==2
         assert page.locator('.d6-dn').count()==0
         widths=cards.evaluate_all("nodes=>nodes.slice(0,3).map(n=>n.getBoundingClientRect().width)")
         assert all(208<=w<=260 for w in widths),widths
@@ -83,7 +97,10 @@ def test_dineout(browser,server,photos,out):
         page.wait_for_function("()=>[...document.querySelectorAll('.home-dine .d6-dc .dine-fallback-mark')].some(e=>e.complete&&e.naturalWidth>0)")
         page.locator('.dine-head').scroll_into_view_if_needed()
         page.wait_for_function("()=>{const i=document.querySelector('.dine-head .dine-heading-icon');return !!i&&i.complete&&i.naturalWidth>0}")
-        prior.shot(page,out,'ru-375-dineout-integrated-banner-visible-icon-fixture.webp')
+        prior.shot(page,out,'ru-375-dineout-y09-fixture.webp')
+        heading.get_by_role('button',name='Все').click()
+        assert page.locator('.dine-head').count()==0
+        assert page.locator('.home-dine .d6-dc').count()>=4
     finally:
         ctx.close()
     # Also verify a broken nonempty cover URL falls back after an actual load failure.

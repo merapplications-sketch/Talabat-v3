@@ -235,12 +235,64 @@
 .reel-comment-form .reel-chat-send { flex:0 0 44px; width:44px; height:44px; display:grid; place-items:center; border:0; border-radius:50%; background:#ed551c; color:#fff; padding:0; cursor:pointer; }
 .reel-comment-form .reel-chat-send:disabled { opacity:.55; cursor:default; }
 
-/* BRIEF-25c Y-07 — latest owner DineOut: integrated editorial heading, not a hero banner. */
-#app .d6h .dine-head { position:relative; display:flex; justify-content:space-between; align-items:center; box-sizing:border-box; min-height:112px; margin:4px 16px 8px; padding:13px 18px; gap:8px; border:1px solid #4b3a2f; border-radius:17px; overflow:hidden; background:linear-gradient(112deg,#17243c 2%,#2b2728 66%,#5d3e21 100%); color:#f6e2b3; }
-#app .d6h .dine-head .dine-heading-copy { z-index:1; flex:1 1 auto; min-width:0; display:flex; flex-direction:column; align-items:flex-start; gap:9px; }
-#app .d6h .dine-head h2 { display:block; margin:0; font:700 32px/1.08 Georgia,"Times New Roman",serif; letter-spacing:-.5px; color:#f6e2b3; }
-#app .d6h .dine-head .dine-bill-ribbon { display:inline-block; max-width:100%; padding:6px 10px; border-radius:7px; background:#ed551c; color:white; font:700 12px/16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; transform:rotate(-3deg); white-space:normal; overflow-wrap:anywhere; }
-#app .d6h .dine-head .dine-heading-icon { position:relative; z-index:1; flex:0 0 78px; width:78px; height:78px; object-fit:contain; filter:drop-shadow(0 6px 8px #0005); }
+/* BRIEF-25c Y-09 — heading on the page background. */
+#app .d6h .dine-head {
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 16px 10px;
+  padding: 16px 0 0;
+}
+#app .d6h .dine-head .dine-heading-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+#app .d6h .dine-head h2 {
+  display: block;
+  margin: 0;
+  color: #2a1712;
+  font: 900 34px/42px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -1px;
+}
+#app .d6h .dine-head .dine-bill-ribbon {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: #ed551c;
+  color: #fff;
+  font: 700 10px/14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transform: rotate(-3deg);
+}
+#app .d6h .dine-head .dine-heading-art {
+  position: relative;
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+}
+#app .d6h .dine-head .dine-heading-icon {
+  display: block;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+#app .d6h .dine-head .dine-sparkle {
+  position: absolute;
+  top: 0;
+  right: 1px;
+  color: #b86c16;
+  font-size: 12px;
+  line-height: 1;
+}
+#app .d6h .dine-head .dine-sparkle:last-child {
+  top: 13px;
+  right: auto;
+  left: 0;
+  font-size: 8px;
+}
 #app .d6h .home-dine { display:flex; gap:10px; overflow-x:auto; padding:2px 16px 7px; scroll-padding-inline:16px; scrollbar-width:none; scroll-snap-type:x proximity; }
 #app .d6h .home-dine::-webkit-scrollbar { display:none; }
 #app .d6h .home-dine .d6-dc { flex:0 0 clamp(208px,60vw,260px); width:clamp(208px,60vw,260px); min-width:0; padding:0 0 4px; border:0; text-align:start; background:transparent; scroll-snap-align:start; }
