@@ -2324,7 +2324,7 @@ function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0
   `+(l.length?`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
     const km=kmOf(st);
     return `<button type="button" class="d6-dc" ${storeTap(st)}>${homeRestaurantPhoto(st,`<span class="hb r">−${st.disc}%</span>`+dishStoreLogo(st,true))}<b class="nm">${esc(st.n)}</b>
-      ${km==null?'':`<span class="mt">${t('hKm').replace('{n}',km)}</span>`}</button>`;
+      <span class="mt dine-meta">${d6Rt(st)}${km==null?'':`<span>${t('hKm').replace('{n}',km)}</span>`}</span></button>`;
   }).join('')}</div>`:'')}
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */

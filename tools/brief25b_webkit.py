@@ -93,6 +93,27 @@ def test_reel_ratings(page):
     assert title and rating and rating['y']>=title['y']+title['height']-1
     assert '3.4' in romant.first.locator('.reel-card-rating').inner_text()
 
+def test_dineout(browser,server,photos,out):
+    # Additional discounted restaurants exist only in this variant of the fixture.
+    seed="""stores[0].discount_pct=7;
+      stores.push({...stores[0],id:'s5',name:'Cafe fixture 5',discount_pct:10},
+                  {...stores[1],id:'s6',name:'Cafe fixture 6',discount_pct:12});"""
+    context,page=page_for(browser,server,photos,seed)
+    try:
+        cards=page.locator('.home-dine .d6-dc')
+        assert cards.count()>=4
+        widths=cards.evaluate_all("els=>els.slice(0,3).map(e=>e.getBoundingClientRect().width)")
+        assert all(116<=w<=180 for w in widths),widths
+        assert cards.first.locator('.dish-store-logo').count()==1
+        assert cards.first.locator('.dine-meta .rt').count()==1
+        assert cards.first.locator('.dine-meta span').count()==1
+        rail=page.locator('.home-dine')
+        assert rail.evaluate("e=>e.scrollWidth>e.clientWidth")
+        rail.scroll_into_view_if_needed()
+        shot(page,out,'ru-375-dineout-two-and-half-fixture.webp')
+    finally:
+        context.close()
+
 def test_reels(page,out):
     cards=page.locator('.reel-card')
     assert cards.count()>=2,'Needs a second sample reel'
@@ -129,6 +150,7 @@ def main():
         with sync_playwright() as pw:
             browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
             photos=fixture_logos(qa.source_photos())
+            test_dineout(browser,server,photos,out)
             ctx,page=page_for(browser,server,photos)
             try:
                 test_owner_fixture(page)
