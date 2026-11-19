@@ -1155,7 +1155,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 16:48",
+          "text": "Ожидание подтверждения · #ord0 10:23",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1183,7 +1183,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 15:48",
+          "text": "Принять с 09:23",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1198,7 +1198,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 16:48\n",
+        "heading": "Ожидание подтверждения · #ord0\n 10:23\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1219,7 +1219,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 15:48",
+            "txt": "Принять с 09:23",
             "width": 209,
             "scroll": 209
           }
@@ -2518,7 +2518,7 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 5:0",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off 11:",
           "rect": {
             "x": 0,
             "y": 8,
@@ -3153,7 +3153,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 16:49",
+          "text": "Waiting for confirmation · #ord0 10:24",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3181,7 +3181,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 15:49",
+          "text": "Accept from 09:24",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3196,7 +3196,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 16:49\n",
+        "heading": "Waiting for confirmation · #ord0\n 10:24\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3217,7 +3217,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 15:49",
+            "txt": "Accept from 09:24",
             "width": 219,
             "scroll": 219
           }
