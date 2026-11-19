@@ -2356,7 +2356,7 @@ function dineCardPhoto(st,badges=''){
   const tone=/^#[0-9a-f]{6}$/i.test(st.brand_color||'')?st.brand_color:'#813c2d';
   const letter=esc(Array.from(st.n||'')[0]||'');
   return `<div class="d6-ph dine-brand-cover" style="--dine-mark-bg:${tone}">
-    <span class="dine-fallback-initial" aria-hidden="true">${letter}</span>${fallback}${main}
+    <span class="dine-fallback-initial" aria-hidden="true">${letter}</span>${main}${fallback}
     ${badges}${dishStoreLogo(st,true)}</div>`;
 }
 function dineH(){const l=STORES.filter(x=>x.c=='rest'&&TLB.isOpen(x.n)&&x.disc>0).sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,12);const mx=l[0]?.disc;
