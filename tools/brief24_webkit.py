@@ -123,7 +123,7 @@ def catalogue_sizes(browser, server, photos, out):
         ctx,page=page_for(browser,server,photos,seed)
         try:
             report={}
-            for section,selector,width in [('popular','[data-section=popular] + .d6-rl',150),('near','.d6-nr',292)]:
+            for section,selector,width in [('popular','[data-section=popular] + .d6-rl',135.6),('near','.home-l-near',280)]:
                 grid=layout(page.locator(selector))
                 boxes=grid['boxes']
                 assert len(boxes)==count and all(abs(b[2]-width)<1 for b in boxes),(section,count,grid)
