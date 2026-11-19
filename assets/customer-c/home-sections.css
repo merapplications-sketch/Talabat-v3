@@ -143,3 +143,8 @@
 .home-l-info { display: grid; gap: 4px; min-width: 0; }
 .home-l-info > b:first-child, .home-l-info > span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .home-l-info > span { color: var(--mut); font-size: 12px; }
+
+#app .d6h [data-section="popular"] + .d6-rl { grid-auto-columns: clamp(108px, calc((100vw - 36px) / 2.5), 150px); }
+#app .d6h [data-section="popular"] + .d6-rl .d6-sc,
+#app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { width: 100%; }
+#app .d6h [data-section="popular"] + .d6-rl .d6-sc > .d6-ph { height: auto; aspect-ratio: 1; }
