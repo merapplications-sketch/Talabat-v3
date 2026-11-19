@@ -2260,12 +2260,33 @@ async function paintReelSocial(dialog,pane,card,api){
     if(comment)comment.onclick=()=>openReelComments(dialog,pane,card,api,stats.comments);
   }catch{}
 }
+/* BRIEF-25c Y-04: UI names/time come only from the linked provider; no simulated product data. */
+TLB.addDict({reelCommentWrite:'Написать комментарий…',reelCommentGuest:'Пользователь',reelCommentClose:'Закрыть'},
+            {reelCommentWrite:'Write a comment…',reelCommentGuest:'User',reelCommentClose:'Close'});
+function reelCommentTime(c){
+  const raw=c.created_at??c.createdAt??c.at;
+  if(raw==null||raw==='')return '';
+  const date=new Date(typeof raw==='number'&&raw<1e12?raw*1000:raw);
+  return Number.isFinite(date.getTime())?date.toLocaleTimeString(TLB.lang()==='ru'?'ru-RU':'en-GB',{hour:'2-digit',minute:'2-digit'}):'';
+}
 function openReelComments(dialog,pane,card,api,comments){
   const sheet=document.createElement('dialog');
   sheet.className='reel-comments';
-  sheet.innerHTML=`<form method="dialog"><button type="submit" aria-label="${t('back')}">×</button></form><h2>${t('reelComment')}</h2>
-  <ul>${comments.map(c=>`<li>${esc(c.text||'')}</li>`).join('')}</ul>
-  <form class="reel-comment-form"><input required maxlength="500" aria-label="${t('reelComment')}"><button>${t('reelSend')}</button></form>`;
+  const rows=Array.isArray(comments)?comments:[];
+  sheet.innerHTML=`<div class="reel-chat-grip" aria-hidden="true"></div>
+    <header class="reel-chat-heading"><h2>${t('reelComment')}</h2>
+    <form method="dialog"><button type="submit" class="reel-chat-close" aria-label="${t('reelCommentClose')}">${ico('x',20)}</button></form></header>
+    <ul class="reel-chat-list">${rows.map(c=>{
+      const name=String(c.author_name||c.author||c.user_name||c.name||t('reelCommentGuest')).trim().slice(0,70);
+      const initial=Array.from(name)[0]||'?';
+      const time=reelCommentTime(c);
+      return `<li class="reel-chat-item"><span class="reel-chat-avatar" aria-hidden="true">${esc(initial)}</span>
+        <div class="reel-chat-body"><div class="reel-chat-byline"><strong>${esc(name)}</strong>${time?`<time>${esc(time)}</time>`:''}</div>
+        <p class="reel-chat-text">${esc(String(c.text||''))}</p></div></li>`;
+    }).join('')}</ul>
+    <form class="reel-comment-form"><input type="text" required maxlength="500"
+      placeholder="${t('reelCommentWrite')}" aria-label="${t('reelComment')}" autocomplete="off">
+      <button type="submit" class="reel-chat-send" aria-label="${t('reelSend')}">${ico('nav',20)}</button></form>`;
   dialog.append(sheet);sheet.showModal();sheet.addEventListener('close',()=>sheet.remove(),{once:true});
   const form=sheet.querySelector('.reel-comment-form'),input=form.querySelector('input'),send=form.querySelector('button');
   form.onsubmit=async event=>{event.preventDefault();const value=input.value.trim();if(!value||send.disabled)return;

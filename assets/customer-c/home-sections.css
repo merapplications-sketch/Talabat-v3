@@ -211,3 +211,26 @@
 .reel-pane .reel-badges { position:absolute; z-index:3; top:calc(66px + env(safe-area-inset-top)); left:12px; display:flex; flex-wrap:wrap; gap:6px; max-width:calc(100% - 24px); pointer-events:none; }
 .reel-pane .reel-badges:empty { display:none; }
 .reel-pane .reel-badges .reel-deal, .reel-pane .reel-badges .reel-offer { position:static; display:inline-flex; align-items:center; width:max-content; padding:4px 8px; color:white; font-size:12px; font-weight:700; line-height:17px; background:#c93423; border-radius:10px; white-space:nowrap; }
+
+/* BRIEF-25c Y-04 — mobile comments sheet, no list markers or unstyled controls. */
+.reel-comments { position:fixed; inset:auto 0 0; margin:0 auto; box-sizing:border-box; width:min(100%,540px); max-width:100%; max-height:min(74dvh,600px); height:min(60dvh,495px); padding:8px 16px calc(16px + env(safe-area-inset-bottom,0px)); border:0; border-radius:22px 22px 0 0; background:#fff; color:#17243c; box-shadow:0 -10px 45px #0003; overflow:hidden; }
+.reel-comments[open] { display:flex; flex-direction:column; }
+.reel-comments::backdrop { background:#150d0a66; }
+.reel-chat-grip { align-self:center; flex:none; width:42px; height:5px; margin:0 auto 13px; background:#d5d7da; border-radius:999px; }
+.reel-chat-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:12px; border-bottom:1px solid #eef0f2; }
+.reel-chat-heading h2 { margin:0; color:#17243c; font-size:18px; font-weight:700; line-height:24px; }
+.reel-chat-heading form { margin:0; }
+.reel-chat-heading .reel-chat-close { display:grid; place-items:center; width:40px; height:40px; padding:0; border:0; border-radius:50%; background:#f3f3f5; color:#24303d; cursor:pointer; }
+.reel-chat-list { flex:1 1 auto; min-height:0; display:flex; flex-direction:column; gap:15px; overflow-y:auto; list-style:none; margin:0; padding:17px 0; }
+.reel-chat-list .reel-chat-item { display:grid; grid-template-columns:38px minmax(0,1fr); gap:10px; align-items:start; list-style:none; margin:0; padding:0; }
+.reel-chat-avatar { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:#ffebde; color:#c3501d; font-size:16px; font-weight:700; }
+.reel-chat-body { min-width:0; }
+.reel-chat-byline { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+.reel-chat-byline strong { color:#17243c; font-size:13px; font-weight:700; }
+.reel-chat-byline time { color:#7c818a; font-size:11px; font-weight:500; white-space:nowrap; }
+.reel-chat-text { margin:4px 0 0; color:#354353; font-size:13px; line-height:19px; white-space:pre-wrap; overflow-wrap:anywhere; }
+.reel-comment-form { display:flex; flex:none; gap:9px; align-items:center; margin:0; padding:11px 0 0; border-top:1px solid #eef0f2; }
+.reel-comment-form input { flex:1 1 auto; min-width:0; height:44px; box-sizing:border-box; padding:0 14px; border:1px solid #dce1e7; border-radius:15px; background:#f8f9fa; color:#17243c; font:inherit; font-size:14px; outline:none; }
+.reel-comment-form input:focus { border-color:#ed551c; background:#fff; box-shadow:0 0 0 2px #ed551c22; }
+.reel-comment-form .reel-chat-send { flex:0 0 44px; width:44px; height:44px; display:grid; place-items:center; border:0; border-radius:50%; background:#ed551c; color:#fff; padding:0; cursor:pointer; }
+.reel-comment-form .reel-chat-send:disabled { opacity:.55; cursor:default; }

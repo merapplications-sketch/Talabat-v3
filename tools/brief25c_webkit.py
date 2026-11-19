@@ -105,6 +105,44 @@ def test_reel_badges(browser,server,photos,out):
     finally:
         ctx.close()
 
+
+def test_comment_sheet(browser,server,photos,out):
+    ctx,page=prior.page_for(browser,server,photos)
+    try:
+        prior.linked_reel_fixture(page)
+        # Synthetic QA-only author/time metadata, never inserted into customer defaults.
+        page.evaluate("""()=>{TalabotReelStats.read=async id=>({
+          likes:37,liked:false,views:215,comments:[
+            {author:'Анна QA',text:'Тестовый комментарий · fixture',created_at:'2026-11-19T09:35:00Z'},
+            {author:'Демо Никита',text:'Demo only · fixture',created_at:'2026-11-19T09:42:00Z'}]})}""")
+        page.locator('.reel-card').nth(1).click()
+        viewer=page.locator('.reel-viewer[open]')
+        page.wait_for_function("()=>{const e=document.querySelector('.reel-feed');return !!e&&e.scrollTop>=e.clientHeight*.75}")
+        pane=viewer.locator('.reel-pane').nth(1)
+        pane.locator('.reel-comment').wait_for()
+        pane.locator('.reel-comment').click()
+        sheet=page.locator('.reel-comments[open]')
+        sheet.wait_for()
+        rows=sheet.locator('.reel-chat-list .reel-chat-item')
+        assert rows.count()==2
+        assert rows.nth(0).locator('.reel-chat-avatar').inner_text()=='А'
+        assert rows.nth(0).locator('.reel-chat-byline strong').inner_text()=='Анна QA'
+        assert rows.nth(0).locator('.reel-chat-byline time').count()==1
+        assert rows.nth(0).locator('.reel-chat-text').inner_text()=='Тестовый комментарий · fixture'
+        assert sheet.locator('.reel-chat-grip').count()==1
+        assert sheet.locator('.reel-chat-close svg').count()==1
+        assert sheet.locator('.reel-comment-form .reel-chat-send svg').count()==1
+        assert sheet.locator('.reel-chat-list').evaluate("e=>getComputedStyle(e).listStyleType")=='none'
+        assert sheet.locator('.reel-chat-close').evaluate("e=>getComputedStyle(e).borderTopStyle")=='none'
+        assert sheet.locator('.reel-comment-form input').evaluate("e=>parseFloat(getComputedStyle(e).borderTopLeftRadius)")>=14
+        assert sheet.evaluate("e=>parseFloat(getComputedStyle(e).borderTopLeftRadius)")>=20
+        prior.shot(page,out,'ru-375-reel-comments-designed-fixture.webp')
+        sheet.locator('.reel-chat-close').click()
+        assert page.locator('.reel-comments[open]').count()==0
+        viewer.locator('.reel-back').click()
+    finally:
+        ctx.close()
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -115,15 +153,16 @@ def main():
             photos=prior.fixture_logos(prior.qa.source_photos())
             test_dineout(browser,server,photos,out)
             test_reel_badges(browser,server,photos,out)
+            test_comment_sheet(browser,server,photos,out)
             ctx,page=prior.page_for(browser,server,photos)
             try:
-                result={'Y-01':test_flash(page,out),'Y-02':'PASS','Y-03':'PASS'}
+                result={'Y-01':test_flash(page,out),'Y-02':'PASS','Y-03':'PASS','Y-04':'PASS'}
             finally:
                 ctx.close();browser.close()
     finally:
         server.shutdown()
     (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
-    print('BRIEF-25c Y-01 PASS')
+    print('BRIEF-25c Y-01..Y-04 PASS')
 
 if __name__=='__main__':
     main()
