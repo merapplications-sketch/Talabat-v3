@@ -1286,6 +1286,19 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .m01-pin{position:absolute;left:50%;top:50%;z-index:3;transform:translate(-50%,-50%);width:42px;height:50px;display:block;pointer-events:none;filter:drop-shadow(0 2px 4px #17243c30)}
 #app .m01-pin svg{display:block;width:100%;height:100%}
 #app .m01-osm{position:absolute;right:7px;bottom:6px;z-index:4;background:#ffffffd9;color:#606974;border-radius:4px;padding:2px 5px;font-size:10px;line-height:14px;white-space:nowrap;pointer-events:none}
+
+.discovery-rail{display:flex;overflow:auto;scroll-snap-type:x proximity;gap:8px;padding:0 14px}
+.home-discover .reel-card.discover-row{position:relative;isolation:isolate;display:block;margin:0;flex:0 0 calc((100% - 12px)/2.5);width:auto;height:192px;border-radius:15px;overflow:hidden;background:#4b291f;color:white;scroll-snap-align:start}
+.reel-card::after,.reel-pane::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.88),transparent 64%);z-index:-1;pointer-events:none}
+.reel-cover,.reel-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.reel-logo-fallback{object-fit:contain;padding:20%;background:#fff3e8}
+.home-discover .reel-card .dish-store-logo{top:7px;right:7px;width:30px;height:30px}
+.reel-copy{position:absolute;inset:auto 8px 9px;display:grid;gap:3px}
+.reel-copy>b:first-child{line-height:1.12;overflow-wrap:anywhere}
+.reel-copy .rt{display:flex;align-items:center;gap:3px;color:white;font-size:11px}
+.reel-copy em{color:#302720}
+.reel-deal{position:absolute;top:8px;left:7px;border-radius:12px;padding:3px 6px;background:#c93423;color:white;font-size:11px;font-weight:700}
+
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -2086,24 +2099,34 @@ function triedRestaurants(){
   for(const name of discoveryHistory.names)tried.add(name);
   return tried;
 }
-function discoverH(expanded=false){
+function discoveryCards(){
   const now=Date.now(),raw=TLB.stores(),restaurants=STORES.filter(st=>st.c==='rest');
   const fresh=restaurants.filter(st=>Date.parse(st.cr)<=now&&now-Date.parse(st.cr)<=30*864e5)
     .sort((a,b)=>Date.parse(b.cr)-Date.parse(a.cr));
   const tried=triedRestaurants();
   const eligible=fresh.length?fresh:restaurants.filter(st=>TLB.isOpen(st.n)&&tried&&!tried.has(st.n));
-  if(!eligible.length)return '';
-  const cards=(expanded?eligible:eligible.slice(0,3)).map(st=>{
+  const cards=eligible.map(st=>{
     const pct=Number(raw.find(r=>r.id===st.id)?.first_order_discount_pct);
-    return {st,first:tried&&!tried.has(st.n)&&pct>0&&pct<=100?pct:0};
+    return {st,data:raw.find(r=>r.id===st.id),type:'restaurant',id:'restaurant:'+st.id,first:tried&&!tried.has(st.n)&&pct>0&&pct<=100?pct:0};
   });
+  return {cards,fresh:fresh.length>0};
+}
+function discoverH(expanded=false){
+  const {cards,fresh}=discoveryCards();
+  if(!cards.length)return '';
   const max=Math.max(...cards.map(c=>c.first));
-  const sub=!fresh.length?t('discoverUntried'):max?t('discoverUpTo').replace('{n}',max):'';
-  return `<section class="home-discover">${homeHeading('discover',eligible.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}${cards.map(({st,first})=>{
-    const meta=[fresh.length?'★ '+t('discoverNew'):'',etaOf(st)].filter(Boolean).join(' · ');
-    const open=TLB.isOpen(st.n);
-    return `<button class="discover-row" ${open?storeTap(st):'disabled'}>${!open||st.i||st.lg?homeRestaurantPhoto(st,open?'':homeClosedBadge()):''}<span><b>${esc(st.n)}</b>${meta?`<small>${meta}</small>`:''}${first?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
-  }).join('')}</section>`;
+  const sub=!fresh?t('discoverUntried'):max?t('discoverUpTo').replace('{n}',max):'';
+  return `<section class="home-discover">${homeHeading('discover',cards.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}<div class="discovery-rail">${(expanded?cards:cards.slice(0,12)).map(discoveryTile).join('')}</div></section>`;
+}
+function discoveryTile(card,index){
+  const {st,first}=card,open=TLB.isOpen(st.n),discount=Math.max(st.disc||0,first);
+  return `<button class="discover-row reel-card" type="button" ${open?storeTap(st):'disabled'}>${discoveryMedia(card)}${dishStoreLogo(st,true)}
+    ${!open?homeClosedBadge():discount>0?`<span class="reel-deal">−${discount}%</span>`:''}
+    <span class="reel-copy"><b>${esc(card.title||st.n)}</b>${d6Rt(st)}${first&&open?`<em>${t('discoverFirst').replace('{n}',first)}</em>`:''}</span></button>`;
+}
+function discoveryMedia({st,cover=st.i}){
+  if(cover&&cover!==st.lg)return `<img class="reel-cover" src="${esc(cover)}" alt="" loading="lazy" onerror="this.remove()">`;
+  return st.lg?`<img class="reel-cover reel-logo-fallback" src="${esc(st.lg)}" alt="" loading="lazy" onerror="this.remove()">`:'';
 }
 function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.image&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
