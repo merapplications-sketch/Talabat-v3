@@ -1299,6 +1299,7 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 .reel-copy em{color:#302720}
 .reel-deal{position:absolute;top:8px;left:7px;border-radius:12px;padding:3px 6px;background:#c93423;color:white;font-size:11px;font-weight:700}
 
+.home-ad-label{display:inline-block;width:max-content;border-radius:6px;background:#f3e7d9;color:#593322;padding:2px 5px;font-size:10px;font-weight:700}.d6-pt .home-ad-label{position:absolute;bottom:6px;left:6px}
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -1989,8 +1990,8 @@ document.addEventListener('error',event=>{
   const remaining=[...section.querySelectorAll('.d6-pt')].filter(c=>c!==card&&!c.querySelector('.d6-ph.none'));
   section.querySelector('.home-picks-summary').innerHTML=pickSummary(remaining.map(c=>({price:+c.dataset.price,discount:+c.dataset.discount})));
 },true);
-function homeDishCard({it,st,sd,price,discount:e}){
-  const sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" data-price="${price}" data-discount="${e}" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,dishStoreLogo(st)+(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b><span class="st">${esc(st.n)}</span>${pxH(it,sd)}</div>`
+function homeDishCard({it,st,sd,price,discount:e,sponsored}){
+  const sn=esc(JSON.stringify(st.n));return `<div class="d6-pt" data-price="${price}" data-discount="${e}" role="button" tabindex="0" onclick="openN(${sn})">${d6Ph(it.image,dishStoreLogo(st)+(sponsored?homeAdBadge():'')+(e?`<span class="d6-bdg">−${e}%</span>`:'')+(S.cartStore===st.n&&qtyOf(it.id)?quantityCtl(it,st.n):`<button class="d6-pa" aria-label="${t('addMore')}" onclick="event.stopPropagation();quickAdd(${sn},'${it.id}')">${ico('plus',18)}</button>`))}<b class="nm">${esc(it.name)}</b><span class="st">${esc(st.n)}</span>${pxH(it,sd)}</div>`
 }
 function homeProducts(){
   const menus=TLB.allMenus(true),cards=[];
@@ -2156,12 +2157,22 @@ document.addEventListener('visibilitychange',()=>{
   if(document.hidden)document.querySelectorAll('video.reel-video').forEach(video=>video.pause());
   else observeReelMedia();
 });
-function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();(TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
+TLB.addDict({homeAd:'Реклама'},{homeAd:'Ad'});
+const homeAdBadge=()=>`<span class="home-ad-label">${t('homeAd')}</span>`;
+function recH(){const M=TLB.allMenus(true),out=[],seen=new Set();
+  const pins=TLB.settings()?.home_sponsored_dishes;
+  for(const pin of Array.isArray(pins)?pins:[]){
+    const st=STORES.find(s=>s.id===pin?.store_id);
+    if(!st||!TLB.isOpen(st.n))continue;
+    const it=(M[st.n]||[]).find(i=>i.id===pin.item_id&&i.available&&i.approved&&!i.optsBlocked&&i.image);
+    if(it&&!seen.has(it.id)){seen.add(it.id);out.push({it,st,sponsored:true})}
+  }
+  (TLB.bestDishes?TLB.bestDishes():[]).forEach(b=>{const st=ALLS.find(x=>x.id==b.store_id);if(!st||!TLB.isOpen(st.n))return;const it=(M[st.n]||[]).find(i=>i.id==b.item_id&&i.available);if(it&&it.image&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}});
   if(out.length<6)STORES.filter(x=>TLB.isOpen(x.n)).forEach(st=>(M[st.n]||[]).forEach(it=>{if(out.length<12&&it.image&&it.popular&&it.available&&!it.optsBlocked&&!seen.has(it.id)){seen.add(it.id);out.push({it,st})}}));
   if(!out.length)return '';
-  const cards=out.slice(0,12).map(({it,st})=>{
+  const cards=out.slice(0,12).map(({it,st,sponsored})=>{
     const sd=sdOf(st.n);
-    return {it,st,sd,price:unit(it,sd),discount:eff(it,sd)};
+    return {it,st,sd,sponsored,price:unit(it,sd),discount:eff(it,sd)};
   });
   return '<section class="home-picks">'+homeHeading('picks',"go('promo')")+`<p class="home-picks-summary">${pickSummary(cards)}</p><div class="d6-rl">${cards.map(homeDishCard).join('')}</div></section>`}
 /* nearby: real distance from the chosen address (only stores with a map point); time only when measured */
