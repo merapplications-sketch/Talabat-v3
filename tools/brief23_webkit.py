@@ -124,7 +124,7 @@ def geometry(page,width,full):
         nearAll:!!q('[data-section=near] button'),price:all('.home-picks:not(.home-meals) .d6-pt').map(e=>[e.querySelector('.nm').textContent,e.querySelector('.px').outerHTML])}}""")
     assert row['width']==width and row['meta'] and row['initials'] and row['gap'],row
     a,b,c,d=row['near']
-    assert a[0]==b[0]<c[0]==d[0] and a[2]==c[2]<b[2]==d[2]
+    assert a[0]==c[0]<b[0]==d[0] and a[2]==b[2]<c[2]==d[2]  # BRIEF-25b row-major Nearby
     assert row['nearAll'] and 'picks' in row['links']
     assert row['badge'][1]=='nowrap' and row['badge'][2]>=row['badge'][3]
     if page.evaluate("TLB.lang()")== 'ru':assert row['badge'][0]=='Бесплатно от 350 TJS'
