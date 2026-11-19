@@ -7,3 +7,4 @@ preview ROLLBACK 2026-11-18T09:58+05: back to 7c7e6609 — owner reported home s
 preview update 2026-11-18: BRIEF-15..20 d8538a26, owner-approved Home B restoration (#48, 6970949809)
 preview update 2026-11-18: owner-approved BRIEF-21 + BRIEF-22 + BRIEF-22b 343fe080 (#48, 6976064928); rollback d8538a26
 preview update 2026-11-18: owner-approved BRIEF-23 and BRIEF-23b c5a8ff8a (#48, 6977725174); rollback 343fe080
+preview update 2026-11-19: approved 67279805 (#48, 7010848430); rollback c5a8ff8a
