@@ -109,7 +109,7 @@ def current_home(page, out):
     page.evaluate("openN('KFC')")
     assert_image(page.locator('.d6-cover > img'),'assets/3d/hamburger.webp','cover')
     page.evaluate("()=>{S.q='';go('home')}")
-    return {'geometry':data,'gap':gap,'prices':store_prices}
+    return {'geometry':data,'prices':store_prices}
 
 
 def catalogue_sizes(browser, server, photos, out):
