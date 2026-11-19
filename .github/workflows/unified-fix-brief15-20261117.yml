@@ -14,6 +14,7 @@ on:
       - 'tools/full_audit.py'
       - 'tools/brief24_webkit.py'
       - '.github/workflows/brief22-home.yml'
+      - 'qa-shots/unified-fix/brief25b/**'
   workflow_dispatch:
 permissions:
   contents: read

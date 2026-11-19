@@ -20,7 +20,21 @@
         }
       ],
       "rating": 4.7,
-      "rating_count": 293
+      "rating_count": 293,
+      "home_reels": [
+        {
+          "id": "hot-new",
+          "type": "dish",
+          "item_id": "hot",
+          "title": "Hot honey"
+        },
+        {
+          "id": "combo-new",
+          "type": "dish",
+          "item_id": "combo",
+          "title": "Combo"
+        }
+      ]
     },
     {
       "id": "s2",
@@ -37,7 +51,14 @@
       "lng": 68.783962,
       "logo_url": "/qa-image/pro-khinkali",
       "rating": 3.4,
-      "rating_count": 11
+      "rating_count": 11,
+      "home_reels": [
+        {
+          "id": "romant-offer",
+          "type": "offer",
+          "title": "Акция Romant"
+        }
+      ]
     },
     {
       "id": "s3",

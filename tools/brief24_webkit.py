@@ -125,7 +125,8 @@ def catalogue_sizes(browser, server, photos, out):
             for section,selector,width in [('popular','[data-section=popular] + .d6-rl',135.6),('near','.home-l-near',280)]:
                 grid=layout(page.locator(selector))
                 boxes=grid['boxes']
-                assert len(boxes)==count and all(abs(b[2]-width)<1 for b in boxes),(section,count,grid)
+                expected=width if section=='popular' or count==1 or count>=3 else (375-32-10)/2
+                assert len(boxes)==count and all(abs(b[2]-expected)<1 for b in boxes),(section,count,grid)
                 rows=1 if count<(4 if section=='popular' else 3) else 2
                 assert grid['rows']==rows and len({b[1] for b in boxes})==rows,(section,count,grid)
                 if section=='near' and rows==2:

@@ -117,6 +117,38 @@ def test_dineout(browser,server,photos,out):
     finally:
         context.close()
 
+def test_compact_rails(browser,server,photos,out):
+    context,page=page_for(browser,server,photos,'stores.splice(2);')
+    try:
+        for selector,name in [('.flash-grid','flash-two'),('.home-l-near','nearby-two')]:
+            rail=page.locator(selector)
+            boxes=rail.evaluate("e=>[...e.children].map(c=>{const r=c.getBoundingClientRect();return [r.x,r.y,r.width]})")
+            assert len(boxes)==2 and boxes[0][0]<boxes[1][0] and boxes[0][1]==boxes[1][1],(selector,boxes)
+            assert rail.evaluate("e=>getComputedStyle(e).gridAutoFlow")=='row'
+            rail.scroll_into_view_if_needed()
+            shot(page,out,'ru-375-'+name+'-fixture.webp')
+    finally:
+        context.close()
+    context,page=page_for(browser,server,photos,"items.push({...items[0],id:'third-flash-qa',name:'Third fixture deal'});")
+    try:
+        rail=page.locator('.flash-grid')
+        boxes=rail.evaluate("e=>[...e.children].map(c=>{const r=c.getBoundingClientRect();return [r.x,r.y]})")
+        assert len(boxes)>=3 and boxes[0][1]==boxes[1][1]<boxes[2][1]
+        assert rail.evaluate("e=>e.scrollWidth>e.clientWidth")
+    finally:
+        context.close()
+
+def test_whats_new_cards(page,out):
+    rail=page.locator('.discovery-rail')
+    cards=rail.locator('.reel-card')
+    assert cards.count()>=4, cards.count()
+    assert rail.evaluate("e=>e.scrollWidth>e.clientWidth")
+    assert cards.evaluate_all("nodes=>nodes.slice(0,3).every(n=>n.getBoundingClientRect().width>=130)")
+    types=page.evaluate("homeReels.map(r=>r.type)")
+    assert {'restaurant','dish','offer'}.issubset(set(types)),types
+    rail.scroll_into_view_if_needed()
+    shot(page,out,'ru-375-whats-new-four-reels-fixture.webp')
+
 def test_reels(page,out):
     cards=page.locator('.reel-card')
     assert cards.count()>=2,'Needs a second sample reel'
@@ -138,6 +170,7 @@ def test_reels(page,out):
     assert pane.locator('.reel-avatar .reel-like').count()==1
     assert pane.locator('.reel-open-arrow').count()==1
     assert pane.locator('.reel-social .reel-like').count()==0
+    assert viewer.locator('.reel-pane').last.locator('.reel-offer').count()==1
     shot(page,out,'ru-375-reels-second-linked-fixture.webp')
     pane.locator('.reel-comment').click()
     page.locator('.reel-comments[open]').wait_for()
@@ -156,11 +189,13 @@ def main():
             test_dineout(browser,server,photos,out)
             ctx,page=page_for(browser,server,photos)
             try:
+                test_compact_rails(browser,server,photos,out)
                 test_owner_fixture(page)
                 test_l_card_metadata(page)
                 test_recommended(page,out)
                 test_best_subtitle(page)
                 test_reel_ratings(page)
+                test_whats_new_cards(page,out)
                 test_reels(page,out)
             finally:
                 ctx.close()
