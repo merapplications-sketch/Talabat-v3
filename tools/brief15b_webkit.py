@@ -383,7 +383,8 @@ def run_case(pg,case,app,lang,w):
           S.v='home';S.q='';render();
           const cards=[...document.querySelectorAll('#app .d6-lo')];
           const actual=cards.length>0&&cards.every(e=>!!e.querySelector('b.nm')?.textContent.trim()&&
-             (!!e.querySelector('img')||!!e.querySelector('.d6-ph.none')));
+             (!!e.querySelector('img')||!!e.querySelector('.d6-ph.none')||
+              !!e.querySelector('.dish-store-logo')?.textContent.trim()));
           const original=TLB.orders.bind(TLB);
           TLB.orders=()=>[];
           render();
