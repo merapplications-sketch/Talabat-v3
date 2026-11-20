@@ -2072,6 +2072,7 @@ function mealsH(products,expanded=false){
 }
 TLB.addDict({dontMiss:'Не пропустите',homeDealAt:'Скидка {pct}% в {name}'},
             {dontMiss:"Don't miss",homeDealAt:'{pct}% off at {name}'});
+const homeOfferTitle=(st,pct)=>t('homeDealAt').replace('{pct}',pct).replace('{name}',()=>st.n);
 function adH(products){
   function banner(st,title,art,action,detail=''){
     const image=art?`<img class="ad-art" src="${esc(art)}" alt="">`:st?homeRestaurantImage(st,'ad-art'):'';
@@ -2079,12 +2080,14 @@ function adH(products){
   }
   const slides=[];
   for(const ad of inB('dont_miss')){
-    if(!ad.title||!['store','category','partner'].includes(ad.link_type))continue;
+    if(!['store','category','partner'].includes(ad.link_type))continue;
     const st=ALLS.find(s=>s.id===ad.link_value);
     if(ad.link_type==='store'&&(!st||!TLB.isOpen(st.n)))continue;
+    const title=ad.link_type==='store'&&st.disc>0?homeOfferTitle(st,st.disc):ad.title;
+    if(!title)continue;
     const prices=st?products.filter(c=>c.st===st).map(c=>c.price):[];
     const detail=prices.length?t('homeFromPrice').replace('{price}',Math.min(...prices)):'';
-    slides.push(banner(st,ad.title,ad.image_url,bannerAction(ad),detail));
+    slides.push(banner(st,title,ad.image_url,bannerAction(ad),detail));
   }
   if(!slides.length){
     const offers=new Map();
@@ -2097,7 +2100,7 @@ function adH(products){
     const best=[...offers].sort((a,b)=>b[1]-a[1])[0];
     if(!best)return '';
     const [st,pct]=best;
-    slides.push(banner(st,t('homeDealAt').replace('{pct}',pct).replace('{name}',()=>st.n),'',storeTap(st)));
+    slides.push(banner(st,homeOfferTitle(st,pct),'',storeTap(st)));
   }
   return homeHeading('advert')+`<div class="home-ad-rail" onscroll="syncHomeAd(this)">${slides.join('')}</div>
     <div class="home-ad-dots" aria-hidden="true">${slides.map((_,i)=>`<i${i===0?' class="on"':''}></i>`).join('')}</div>`;
