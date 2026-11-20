@@ -142,3 +142,4 @@
 - 2026-11-20 18:21 المالك حوّل Talabat-v3 إلى **خاص** (تحقق المدير: private=true). talabot-tailadmin-review نسخة fork من TailAdmin/free-nextjs-admin-dashboard ولا تُحوَّل إلا بعد Leave fork network. الـ2000 دقيقة تُحسب من الآن.
 - 2026-11-20 18:32 talabot-tailadmin-review خاص (بعد Leave fork network). BRIEF-CI1: CI-01/03/04/05 مقبولة، وCI-02 عبر ملف trigger على فرع المراجعة بلا لمس main.
 - 2026-11-20 19:00 كل وظائف Actions تفشل قبل runner: «recent account payments have failed or your spending limit needs to be increased». يحتاج المالك مراجعة Billing. أُوقف CI والنشر.
+- 2026-11-20 19:03 المالك أعاد Talabat-v3 عامًا مؤقتًا بسبب فوترة Actions. يُعاد خاصًا بعد تجدد الرصيد أو ترتيب الدفع.
