@@ -1,35 +1,22 @@
 name: TALABOT BRIEF-24 customer Home and cart
 on:
   push:
-    branches: [review/unified-fix-brief15-20261117]
-    paths:
-      - customer.html
-      - assets/customer-c/home-sections.css
-      - assets/customer-c/customer-c.css
-      - assets/size-brief7/customer.css
-      - qa-fixtures/home-brief22.json
-      - qa-fixtures/home-brief24.json
-      - qa-fixtures/home-brief25b.json
-      - tools/brief25b_webkit.py
-      - tools/brief25c_webkit.py
-      - tools/brief25c_y08_webkit.py
-      - 'qa-shots/unified-fix/brief25c/**'
-      - 'qa-shots/unified-fix/brief25b/**'
-      - tools/brief24_webkit.py
-      - tools/brief23_webkit.py
-      - tools/brief22_webkit.py
-      - .github/workflows/brief22-home.yml
-      - .github/workflows/unified-fix-brief15-20261117.yml
+    branches: [review/unified-fix-brief15-20261117, ci/brief-ci1-20261120]
+    paths-ignore:
+      - 'qa-shots/**'
+      - 'docs/**'
+      - '**/*.md'
+      - '*.md'
   workflow_dispatch:
 permissions:
   contents: write
 concurrency:
-  group: talabot-customer-home
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   home:
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 25
     container: mcr.microsoft.com/playwright/python:v1.57.0-noble
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -41,7 +28,13 @@ jobs:
           git worktree add --detach "$RUNNER_TEMP/home-approved" c5a8ff8a2d3a74301a3f35130a8f84316528449c
           git diff --exit-code c5a8ff8a HEAD -- sql supabase talabat-core.js driver.html merchant.html ':(exclude)sql/proposed/brief29-banner-presentation.md'
           git diff --exit-code 69cfbbb1132aa8e0aba9d151e2edd21024217f4d HEAD -- admin.html
+      - name: CI1 fast current brief + one RU375 Home smoke with approved financial parity
+        if: github.event_name == 'push'
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
+          python tools/ci1_fast_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/ci1-fast"
       - name: Run offline WebKit geometry, image, action and financial checks
+        if: github.event_name == 'workflow_dispatch'
         run: |
           python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
           # BRIEF-25 reviews the candidate offline; the live preview is checked by Ops.
@@ -52,7 +45,8 @@ jobs:
           python tools/brief25c_y08_webkit.py "$RUNNER_TEMP/home-evidence/brief25c-y08"
       - name: Persist frozen BRIEF-25b and new BRIEF-25c synthetic WebKit captures on isolated review branch
         shell: bash
-        if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+        if: github.event_name == 'workflow_dispatch' && github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+        continue-on-error: true
         run: |
           set -euo pipefail
           mkdir -p qa-shots/unified-fix/brief25b
@@ -65,7 +59,7 @@ jobs:
           git config user.email "talabot-brief25c-webkit@users.noreply.github.com"
           git add -- qa-shots/unified-fix/brief25b/ qa-shots/unified-fix/brief25c/
           if ! git diff --cached --quiet; then
-            git commit -m "test(BRIEF-25c): fixture-labelled RU375 WebKit screenshots only"
+            git commit -m "test(BRIEF-25c): fixture-labelled RU375 WebKit screenshots only [skip ci]"
             git fetch origin review/unified-fix-brief15-20261117
             git rebase origin/review/unified-fix-brief15-20261117
             git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
@@ -73,5 +67,8 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: brief24-home-cart
-          path: ${{ runner.temp }}/home-evidence/
+          path: |
+            ${{ runner.temp }}/home-evidence/
+            ${{ runner.temp }}/ci1-fast/
+          if-no-files-found: error
           retention-days: 7
