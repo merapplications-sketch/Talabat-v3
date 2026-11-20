@@ -126,6 +126,7 @@ function syncLegacyRoute(){
   const route=S.srt==='disc'||S.srt==='free'?S.srt:'';
   if(legacyRoute===route)return;
   if(route){localFilter={disc:false,rate:false,fast:false,free:false};localFilter[route]=true;}
+  else if(legacyRoute){localFilter={disc:false,rate:false,fast:false,free:false};}
   legacyRoute=route;
 }
 function setSort(mode){
