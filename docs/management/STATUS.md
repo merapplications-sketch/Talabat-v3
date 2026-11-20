@@ -144,3 +144,4 @@
 - 2026-11-20 19:00 كل وظائف Actions تفشل قبل runner: «recent account payments have failed or your spending limit needs to be increased». يحتاج المالك مراجعة Billing. أُوقف CI والنشر.
 - 2026-11-20 19:03 المالك أعاد Talabat-v3 عامًا مؤقتًا بسبب فوترة Actions. يُعاد خاصًا بعد تجدد الرصيد أو ترتيب الدفع.
 - 2026-11-20 23:51 Cloudflare Pages Git: حساب CF (Yaarobalwari) لا يرى merapplications-sketch رغم تثبيت التطبيق. المالك أجّل الربط، والمستودع يبقى عامًا والعمل مستمر بـActions. الحل المقترح لاحقًا: إعادة تثبيت تطبيق CF على merapplications-sketch (انتباه لـsmile-up-auth-test).
+- 2026-11-21 01:30 BRIEF-30/30b (8cd90a8a) مقبول وCI أخضر. OPS ينشر.
