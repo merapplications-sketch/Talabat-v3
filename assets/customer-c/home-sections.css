@@ -164,6 +164,7 @@
 
 /* BRIEF-25b X-01..X-09: scoped overrides. The earlier approved stylesheet is byte-for-byte intact above. */
 .flash-grid { grid-auto-flow: row; grid-template-rows: repeat(2,auto); grid-template-columns: repeat(var(--flash-cols), min(250px,85vw)); }
+#app .d6h .home-flash { margin-top: 16px; border-radius: 20px 20px 0 0; }
 .flash-grid.flash-few { grid-template-rows: auto; grid-template-columns: repeat(var(--flash-cols), minmax(160px,1fr)); }
 .home-l-near { grid-auto-flow: row; grid-template-rows: repeat(2,max-content); grid-template-columns: repeat(var(--near-cols), min(280px,84vw)); }
 .home-l-near.near-few { grid-template-rows: auto; grid-template-columns: repeat(var(--near-cols), minmax(165px,1fr)); }
