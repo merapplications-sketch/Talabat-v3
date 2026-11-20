@@ -13,7 +13,7 @@
 #app .d6l .ad30-search{margin:7px 16px 0}
 #app .d6l .ad30-list{padding:4px 16px 0;min-width:0}
 #app .d6l .ad30-list>h2{font-size:20px;line-height:26px;font-weight:800;margin:16px 0 4px}
-#app .d6l .ad30-list .pg{padding-inline:0}
+#app .d6l .ad30-list .pg{padding-inline:0;padding-bottom:calc(178px + env(safe-area-inset-bottom,0px) + var(--ad30-float-reserve,0px))}
 #app .d6l .ad30-banner:focus-visible{outline:2px solid var(--o);outline-offset:2px}
 
 /* AD-03 repeat-order logos; does not alter Home cards. */
@@ -77,10 +77,11 @@
 #app .d6l .ad30-card:focus-visible{outline:2px solid var(--o);outline-offset:3px;border-radius:12px}
 
 /* AD-07: explicit manager-enabled floating campaign; hidden without data. */
-#app .d6l .ad30-float{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:58;display:flex;align-items:center;justify-content:center;gap:8px;max-width:calc(100% - 40px);min-height:43px;border:0;border-radius:26px;padding:8px 14px;background:#28232d;color:#fff;box-shadow:0 5px 18px #0003;font:inherit;font-size:12px;line-height:18px;font-weight:750;cursor:pointer;transition:opacity .18s,transform .18s;white-space:nowrap}
-#app .d6l .ad30-float span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+#app .d6l .ad30-float{position:fixed;left:50%;bottom:calc(77px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:58;display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:92vw;box-sizing:border-box;min-height:44px;border:0;border-radius:26px;padding:8px 14px;background:#28232d;color:#fff;box-shadow:0 5px 18px #0003;font:inherit;font-size:12px;line-height:18px;font-weight:750;cursor:pointer;transition:opacity .18s;white-space:nowrap;visibility:hidden}
+#app .d6l .ad30-float span{flex:none;white-space:nowrap}
 #app .d6l .ad30-float img{flex:none}
-#app .d6l .ad30-float.with-cart{bottom:calc(146px + env(safe-area-inset-bottom,0px))}
-#app .d6l .ad30-float.hidden{opacity:0;pointer-events:none;transform:translate(-50%,90px)}
+#app .d6l .ad30-float.ready{visibility:visible}
+#app .d6l .ad30-float.hidden,#app .d6l .ad30-float.occluded{visibility:hidden;pointer-events:none}
+#app .d6l .ad30-float.hidden{opacity:0}
 #app .d6l .ad30-float:focus-visible{outline:2px solid var(--o);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){#app .d6l .ad30-float{transition:none}}

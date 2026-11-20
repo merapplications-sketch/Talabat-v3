@@ -233,7 +233,7 @@ function rows(){
 
 /* AD-07: W-10 sponsored ranking is the existing rankedSearch() contract.
    Floating campaign only exists when an explicit manager field is present. */
-let lastFloatScroll=0;
+let lastFloatScroll=0,floatFrame=0,floatObserver=null,floatObserved=null;
 function floatingCampaign(){
   const selected=TLB.banners().find(b=>{
     const cfg=bannerConfig(b);
@@ -244,10 +244,43 @@ function floatingCampaign(){
   const text=selected.presentation?.floating_text?.[TLB.lang()]
     ||selected.title||'';
   if(!text)return '';
-  return '<button type="button" class="ad30-float'+(cartCount()?' with-cart':'')+'" '
+  return '<button type="button" class="ad30-float" '
     +'onclick="TALABOT_RESTAURANTS_BRIEF30.banner('+esc(JSON.stringify(selected.id))+')" '
     +'aria-label="'+esc(text)+'"><img src="'+A3('party-popper')+'" alt="" width="22" height="22">'
     +'<span>'+esc(text)+'</span></button>';
+}
+function layoutFloatingCampaign(){
+  const button=document.querySelector('#app .ad30-float');
+  if(!button){floatObserver?.disconnect();floatObserver=null;floatObserved=null;return;}
+  const nav=document.querySelector('#app .nav'),bar=document.querySelector('#app .bar');
+  if(floatObserved!==button){
+    floatObserver?.disconnect();floatObserved=button;
+    if(window.ResizeObserver){
+      floatObserver=new ResizeObserver(queueFloatingLayout);
+      for(const anchor of [nav,bar])if(anchor)floatObserver.observe(anchor);
+    }
+  }
+  button.classList.remove('ready');button.style.display='';
+  const edge=Math.min(nav?nav.getBoundingClientRect().top:innerHeight,bar?bar.getBoundingClientRect().top:innerHeight);
+  button.style.bottom=Math.max(12,innerHeight-edge+12)+'px';
+  const width=button.offsetWidth,height=button.offsetHeight;
+  // Campaign authors supply the short floating_text. Never cut its copy in UI;
+  // oversized copy remains available in the regular campaign banner instead.
+  if(width>innerWidth*.92+1||button.scrollWidth>button.clientWidth+1){button.style.display='none';return;}
+  const content=document.querySelector('#app .ad30-list .c01-list-content');
+  content?.style.setProperty('--ad30-float-reserve',(height+12)+'px');
+  const box={left:(innerWidth-width)/2,right:(innerWidth+width)/2,bottom:edge-12,top:edge-12-height};
+  // Bottom padding gives scrolling room; this first-paint/scroll gate also
+  // protects text mid-list without changing the accepted window scroll model.
+  const collision=[...document.querySelectorAll('#app .ad30-card-copy,#app .ad30-list .empty')].some(node=>{
+    const r=node.getBoundingClientRect();
+    return box.left<r.right+4&&box.right>r.left-4&&box.top<r.bottom+4&&box.bottom>r.top-4;
+  });
+  button.classList.toggle('occluded',collision);button.classList.add('ready');
+}
+function queueFloatingLayout(){
+  if(floatFrame)return;
+  floatFrame=requestAnimationFrame(()=>{floatFrame=0;layoutFloatingCampaign()});
 }
 function onRestaurantScroll(){
   if(S.v!=='cat'||S.catKey!=='rest'){lastFloatScroll=scrollY||0;return;}
@@ -256,10 +289,15 @@ function onRestaurantScroll(){
   const y=window.scrollY||document.documentElement.scrollTop||0;
   const diff=y-lastFloatScroll;
   if(Math.abs(diff)>8){button.classList.toggle('hidden',diff>0&&y>60);lastFloatScroll=y;}
+  queueFloatingLayout();
 }
 window.addEventListener('scroll',onRestaurantScroll,{passive:true});
+window.addEventListener('resize',queueFloatingLayout,{passive:true});
+window.visualViewport?.addEventListener('resize',queueFloatingLayout,{passive:true});
 
 function renderRestaurants(){
+  lastFloatScroll=window.scrollY||0;
+  queueFloatingLayout();
   return ad30Header(curAddr())+search()+rail()+againRail()
     +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2>'+cuisineRail()+filtersView()+'<div class="pg c01-list-content">'+rows()+'</div></section>'+sortSheet()+floatingCampaign();
 }
