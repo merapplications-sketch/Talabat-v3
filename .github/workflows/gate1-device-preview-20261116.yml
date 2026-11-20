@@ -7,7 +7,7 @@ permissions: {contents: read}
 concurrency: {group: talabot-gate1-preview, cancel-in-progress: false}
 env:
   PROJECT: talabot-gate1-preview-20261116
-  SRC_SHA: 8546cc98550defe8554c443456ee0e0897c15a11
+  SRC_SHA: af466951ce9d1aa71641d10a141b01bce7481168
 jobs:
   preview:
     if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/ops/gate1-device-preview-20261116'
@@ -36,7 +36,7 @@ jobs:
           export CLOUDFLARE_ACCOUNT_ID=$A
           code=$(curl -sS -o p.json -w '%{http_code}' -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT)
           if [ "$code" = 404 ]; then npx --yes wrangler@3 pages project create "$PROJECT" --production-branch=main; fi
-          npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch=main --commit-hash="$SRC_SHA" --commit-message="Approved BRIEF-28 device preview" --commit-dirty=true
+          npx --yes wrangler@3 pages deploy site --project-name="$PROJECT" --branch=main --commit-hash="$SRC_SHA" --commit-message="Approved BRIEF-29 device preview" --commit-dirty=true
           sleep 20
           curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$PROJECT | jq -r '"deployment=" + .result.latest_deployment.id + " " + .result.latest_deployment.latest_stage.status + " url=" + .result.subdomain'
           for p in talabot-pilot-20261106 talabot-safari-demo-20261115; do curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts/$A/pages/projects/$p | jq -r '"untouched '$p' latest=" + .result.latest_deployment.id'; done
