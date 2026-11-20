@@ -1,4 +1,4 @@
-TALABOT CI1 FULL VISUAL — ONE SHOT (BRIEF-29)
-review_head_under_test=e9b1ab14ceb83c51574d999744feeddeabdcbdbb
-requested_by=owner_decision_issue48_comment_7040835178
-execution=push_only_on_exact_path; no schedule; no dispatch; no deployment
+TALABOT CI1 FULL VISUAL — ONE SHOT (BRIEF-29 + BRIEF-30)
+review_head_under_test=8eac71af2259e58357916f9923e0c8acee41d92d
+requested_by=owner_command_20261120_public_repo
+execution=one_exact_path_push; no schedule; no dispatch; no deployment
