@@ -39,3 +39,18 @@
 #app .d6l .ad30-cuisine-label{font-size:12px;line-height:17px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #app .d6l .ad30-cuisine.on .ad30-cuisine-label{color:var(--o)}
 #app .d6l .ad30-cuisine:focus-visible{outline:2px solid var(--o);outline-offset:2px;border-radius:14px}
+
+/* AD-05 combined chip filters, sort sheet; active filters use accepted orange. */
+#app .d6l .ad30-filters{display:flex;align-items:center;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding:6px 0 13px}
+#app .d6l .ad30-filters::-webkit-scrollbar{display:none}
+#app .d6l .ad30-filter,#app .d6l .ad30-sort{flex:0 0 auto;border:1px solid #e4e5e9;border-radius:22px;background:#f7f7f8;color:var(--ink);min-height:36px;padding:6px 12px;font:inherit;font-size:12px;line-height:18px;font-weight:650;display:flex;align-items:center;gap:3px;cursor:pointer}
+#app .d6l .ad30-filter.on{border-color:var(--o);background:var(--o);color:#fff}
+#app .d6l .ad30-current-sort{font-size:11px;color:var(--mut2);flex:none}
+#app .d6l .ad30-sort-overlay{position:fixed;inset:0;z-index:160;background:rgba(0,0,0,.38);display:flex;align-items:flex-end;justify-content:center}
+#app .d6l .ad30-sort-sheet{width:100%;max-width:560px;background:#fff;border-radius:20px 20px 0 0;padding:16px 18px max(24px,env(safe-area-inset-bottom));box-shadow:0 -12px 40px #0002}
+#app .d6l .ad30-sort-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+#app .d6l .ad30-sort-header h2{font-size:18px;line-height:24px;margin:0}
+#app .d6l .ad30-sort-x{width:36px;height:36px;border:0;border-radius:50%;background:#f2f2f2}
+#app .d6l .ad30-sort-choice{width:100%;min-height:47px;border:0;border-top:1px solid #f2f2f2;background:#fff;display:flex;align-items:center;justify-content:space-between;text-align:left;color:var(--ink);font:inherit;font-size:15px;padding:10px}
+#app .d6l .ad30-sort-choice.active{color:var(--o);font-weight:800}
+#app .d6l .ad30-filter:focus-visible,#app .d6l .ad30-sort:focus-visible,#app .d6l .ad30-sort-choice:focus-visible{outline:2px solid var(--o);outline-offset:2px}

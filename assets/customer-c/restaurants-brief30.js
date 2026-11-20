@@ -108,6 +108,81 @@ function toggleCuisine(id){
   chosenCuisine=chosenCuisine===id?'':id;render();
 }
 
+
+/* AD-05: multi-select independent filters and deterministic non-invented data sorting. */
+TLB.addDict({
+  ad30Sort:'Сортировать',ad30Rec:'Рекомендуемые',ad30RateSort:'По рейтингу',
+  ad30FastSort:'Самые быстрые',ad30CheapSort:'Дешёвая доставка',
+  ad30Discount:'Скидки',ad30Rate:'Рейтинг 4.0+',
+  ad30Quick:'Быстрая доставка',ad30NoFee:'Бесплатная доставка'
+},{
+  ad30Sort:'Sort',ad30Rec:'Recommended',ad30RateSort:'By rating',
+  ad30FastSort:'Fastest',ad30CheapSort:'Lowest delivery fee',
+  ad30Discount:'Discounts',ad30Rate:'Rating 4.0+',
+  ad30Quick:'Fast delivery',ad30NoFee:'Free delivery'
+});
+let sortMode='recommended',sortOpen=false,localFilter={disc:false,rate:false,fast:false,free:false},legacyRoute='';
+function syncLegacyRoute(){
+  const route=S.srt==='disc'||S.srt==='free'?S.srt:'';
+  if(legacyRoute===route)return;
+  if(route){localFilter={disc:false,rate:false,fast:false,free:false};localFilter[route]=true;}
+  legacyRoute=route;
+}
+function setSort(mode){
+  if(!['recommended','rating','fastest','cheap'].includes(mode))return;
+  sortMode=mode;sortOpen=false;render();
+}
+function toggleFilter(key){
+  if(!Object.hasOwn(localFilter,key))return;
+  syncLegacyRoute();localFilter[key]=!localFilter[key];
+  S.srt='';S.fo=false;legacyRoute='';render();
+}
+function speedMinutes(s){
+  const measured=TLB.speed?.(s.id);
+  if(!measured||!(+measured.min>0))return null;
+  const km=kmOf(s);
+  return +measured.min+(km==null?10:Math.round(km*10)/10*3+5);
+}
+function sortAndFilter(list){
+  syncLegacyRoute();
+  let result=list.filter(({s})=>(!localFilter.disc||s.disc>0)
+    &&(!localFilter.rate||s.rt>=4)
+    &&(!localFilter.free||hasFreeDelivery(s))
+    &&(!localFilter.fast||(speedMinutes(s)!=null&&speedMinutes(s)<=30)));
+  const openOrder=(a,b)=>Number(TLB.isOpen(b.s.n))-Number(TLB.isOpen(a.s.n));
+  const recommended=(a,b)=>((b.s.rt*Math.log(2+b.s.rc))-(a.s.rt*Math.log(2+a.s.rc)))||((kmOf(a.s)??99)-(kmOf(b.s)??99));
+  const sorters={
+    recommended:recommended,
+    rating:(a,b)=>b.s.rt-a.s.rt||recommended(a,b),
+    fastest:(a,b)=>(speedMinutes(a.s)??Infinity)-(speedMinutes(b.s)??Infinity)||recommended(a,b),
+    cheap:(a,b)=>(Number.isFinite(a.s.fee)?a.s.fee:Infinity)-(Number.isFinite(b.s.fee)?b.s.fee:Infinity)||recommended(a,b)
+  };
+  return result.slice().sort((a,b)=>openOrder(a,b)||(sorters[sortMode]||recommended)(a,b));
+}
+function filtersView(){
+  const button=(key,label)=>'<button type="button" class="ad30-filter'+(localFilter[key]?' on':'')+'" '
+    +'aria-pressed="'+localFilter[key]+'" onclick="TALABOT_RESTAURANTS_BRIEF30.filter(\''+key+'\')">'+esc(t(label))+'</button>';
+  const selected={recommended:'ad30Rec',rating:'ad30RateSort',fastest:'ad30FastSort',cheap:'ad30CheapSort'}[sortMode];
+  return '<div class="ad30-filters"><button class="ad30-sort" type="button" '
+    +'onclick="TALABOT_RESTAURANTS_BRIEF30.sortOpen()" aria-haspopup="dialog">'
+    +esc(t('ad30Sort'))+' '+ico('down',14)+'</button>'
+    +'<span class="ad30-current-sort">'+esc(t(selected))+'</span>'
+    +button('disc','ad30Discount')+button('rate','ad30Rate')
+    +button('fast','ad30Quick')+button('free','ad30NoFee')+'</div>';
+}
+function sortSheet(){
+  if(!sortOpen)return '';
+  const modes=[['recommended','ad30Rec'],['rating','ad30RateSort'],['fastest','ad30FastSort'],['cheap','ad30CheapSort']];
+  return '<div class="ad30-sort-overlay" onclick="TALABOT_RESTAURANTS_BRIEF30.sortClose()" role="presentation">'
+    +'<section class="ad30-sort-sheet" role="dialog" aria-modal="true" aria-labelledby="ad30-sort-title" onclick="event.stopPropagation()">'
+    +'<div class="ad30-sort-header"><h2 id="ad30-sort-title">'+esc(t('ad30Sort'))+'</h2>'
+    +'<button type="button" class="ad30-sort-x" aria-label="'+esc(t('back'))+'" onclick="TALABOT_RESTAURANTS_BRIEF30.sortClose()">'+ico('x',18)+'</button></div>'
+    +modes.map(([id,key])=>'<button type="button" class="ad30-sort-choice'+(sortMode===id?' active':'')+'" '
+        +'aria-pressed="'+(sortMode===id)+'" onclick="TALABOT_RESTAURANTS_BRIEF30.sort('+esc(JSON.stringify(id))+')">'
+        +esc(t(key))+(sortMode===id?ico('check',17):'')+'</button>').join('')
+    +'</section></div>';
+}
+
 function rows(){
   const q=String(S.cq||'').trim().toLowerCase(),mine=d6Mine();
   let list=matches(TLB.allMenus(true),q).filter(({s})=>s.c==='rest');
@@ -118,17 +193,21 @@ function rows(){
   if(S.srt==='disc')list=list.filter(({s})=>s.disc>0);
   if(S.srt==='rate')list=list.slice().sort((a,b)=>b.s.rt-a.s.rt);
   if(S.srt==='mine')list=list.filter(({s})=>s.n in mine).sort((a,b)=>mine[b.s.n]-mine[a.s.n]);
-  list=rankedSearch(list);
+  list=rankedSearch(sortAndFilter(list));
   return list.length?list.map(({s,h,sponsored})=>d6SRow(s,h,mine[s.n]||null,sponsored)).join(''):
     emptyV(t('noRes'),t('emNoResS'),'','search');
 }
 function renderRestaurants(){
   return ad30Header(curAddr())+search()+rail()+againRail()
-    +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2>'+cuisineRail()+'<div class="pg c01-list-content">'+rows()+'</div></section>';
+    +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2>'+cuisineRail()+filtersView()+'<div class="pg c01-list-content">'+rows()+'</div></section>'+sortSheet();
 }
 window.TALABOT_RESTAURANTS_BRIEF30={
   render:renderRestaurants,
   banner:function(id){bannerGo(id)},
-  cuisine:toggleCuisine
+  cuisine:toggleCuisine,
+  filter:toggleFilter,
+  sort:setSort,
+  sortOpen:function(){sortOpen=true;render()},
+  sortClose:function(){sortOpen=false;render()}
 };
 })();
