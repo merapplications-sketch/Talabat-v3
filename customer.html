@@ -1320,6 +1320,18 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 .reel-social{right:16px;bottom:calc(140px + env(safe-area-inset-bottom));display:grid;gap:8px;color:white}
 .reel-social button{color:white;background:#231713b8;border:0;border-radius:12px;padding:8px}
 .reel-comments{margin:auto auto 0;width:min(100%,540px);max-height:65%;border:0;border-radius:18px 18px 0 0;padding:16px}
+
+/* TALABOT BRIEF-30 AD-01: restaurant-category header only. */
+#app .d6l .ad30-head{padding:8px 16px 10px;margin:0;background:var(--bg,#fff)}
+#app .d6l .ad30-bar{display:flex;align-items:center;gap:6px;min-width:0}
+#app .d6l .ad30-icon{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 40px;width:40px;height:40px;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
+#app .d6l .ad30-icon:focus-visible,#app .d6l .ad30-address:focus-visible{outline:2px solid var(--o);outline-offset:2px}
+#app .d6l .ad30-icon .bdg{position:absolute;top:0;right:0;min-width:17px;height:17px;border-radius:10px;background:var(--o);color:#fff;text-align:center;font-size:11px;line-height:17px;font-weight:700}
+#app .d6l .ad30-identity{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px}
+#app .d6l .ad30-identity h1{font-size:19px;line-height:23px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0;color:var(--ink)}
+#app .d6l .ad30-address{display:flex;align-items:center;gap:4px;min-width:0;max-width:100%;padding:0;border:0;background:transparent;color:var(--mut2);font:inherit;font-size:11px;line-height:15px;text-align:left;cursor:pointer}
+#app .d6l .ad30-address>span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -2669,6 +2681,32 @@ if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{
   }
   if(expired&&S.v==='home'){syncStores();render()}
 },1000);
+
+/* BRIEF-30 AD-01 — category "Рестораны" only, without changing Home/other categories. */
+TLB.addDict({ad30Title:'Рестораны'},{ad30Title:'Restaurants'});
+let ad30HintIndex=0;
+const ad30Hint=()=>TLB.lang()==='ru'
+  ?['Поиск: плов…','бургеры…','пицца…'][ad30HintIndex]
+  :['Search: pilaf…','burgers…','pizza…'][ad30HintIndex];
+function ad30Header(a){
+  const n=cartCount(),place=a?(areaOf({ad:addrLine(a)})||addrLine(a)):t('addrAddFirst');
+  const cartAction=n?'goCart()':"TLB.toast&&TLB.toast(t('emptyCartT'))";
+  return '<div class="d6-lh ad30-head"><div class="ad30-bar">'
+    +'<button class="ad30-icon" type="button" aria-label="'+esc(t('back'))+'" onclick="go(\'home\')">'+ico('back',22)+'</button>'
+    +'<div class="ad30-identity"><h1>'+esc(t('ad30Title'))+'</h1>'
+    +'<button class="ad30-address" type="button" onclick="openSheet(\'home\')" title="'+esc(place)+'">'+ico('pin',13)+'<span>'+esc(place)+'</span></button></div>'
+    +'<button class="ad30-icon" type="button" aria-label="'+esc(t('favs'))+'" onclick="go(\'fav\')">'+ico('heart',21)+'</button>'
+    +'<button class="ad30-icon" type="button" aria-label="'+esc(t('cartT'))+' '+n+'" onclick="'+cartAction+'">'+ico('cart',21)+(n?'<span class="bdg">'+n+'</span>':'')+'</button>'
+    +'</div></div>';
+}
+if(!window.__ad30HintTimer)window.__ad30HintTimer=setInterval(()=>{
+  ad30HintIndex=(ad30HintIndex+1)%3;
+  if(S.v==='cat'&&S.catKey==='rest'&&!S.cq){
+    const input=document.getElementById('cq');
+    if(input&&document.activeElement!==input)input.placeholder=ad30Hint();
+  }
+},3600);
+
 /* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
 function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
   if(S.srt=='mine'&&!hasMine)S.srt='';
@@ -2686,9 +2724,10 @@ function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.al
   else{/* sections: high rating (open, 4.5+), order again (your stores), all the others — every store once */
     const hi=list.filter(({s})=>TLB.isOpen(s.n)&&s.rt>=4.5).sort((a,b)=>b.s.rt-a.s.rt).slice(0,3),ag=list.filter(x=>!hi.includes(x)&&x.s.n in mine).sort((a,b)=>mine[b.s.n]-mine[a.s.n]).slice(0,5),rest=list.filter(x=>!hi.includes(x)&&!ag.includes(x));
     body=(hi.length?secH('star',t('d6HiR'),'',t('d6HiRs'))+hi.map(row).join(''):'')+(ag.length?secH('clock',t('hLastGo'),'',t('d6AgainS'))+ag.map(row).join(''):'')+(rest.length?(hi.length||ag.length?secH('store',c=='rest'?t('allStores'):t('d6AllPl'),'',hi.length||ag.length?t('d6Other'):''):'')+rest.map(row).join(''):'')}
-  return `<div class="d6-lh"><div class="d6-hr"><button class="d6-hib" onclick="go('home')" aria-label="${t('back')}">${ico('back',22)}</button>${d6Logo()}<span style="flex:1"></span>${d6Icons()}</div><div class="d6-lt"><h1>${ti}</h1>${a?`<span>${esc(areaOf({ad:addrLine(a)})||addrLine(a))}</span>`:''}</div></div>
+  const catHeader=c==='rest'?ad30Header(a):`<div class="d6-lh"><div class="d6-hr"><button class="d6-hib" onclick="go('home')" aria-label="${t('back')}">${ico('back',22)}</button>${d6Logo()}<span style="flex:1"></span>${d6Icons()}</div><div class="d6-lt"><h1>${ti}</h1>${a?`<span>${esc(areaOf({ad:addrLine(a)})||addrLine(a))}</span>`:''}</div></div>`;
+  return `${catHeader}
   <div class="d6-l3">${tl('disc','a','tag','d6tDisc')}${tl('free','b','bike','d6tFree')}${hasMine?tl('mine','c','heart','d6tMine'):''}</div>
-  <div class="d6-sf" onclick="if(event.target==this)$('cq').focus()">${ico('search',20)}<input type="search" id="cq" placeholder="${t('searchCat')}" value="${esc(S.cq)}" oninput="S.cq=this.value;render()" enterkeyhint="search"></div>
+  <div class="d6-sf" onclick="if(event.target==this)$('cq').focus()">${ico('search',20)}<input type="search" id="cq" placeholder="${c==='rest'?ad30Hint():t('searchCat')}" value="${esc(S.cq)}" oninput="S.cq=this.value;render()" enterkeyhint="search"></div>
   <div class="chips">${ch(S.srt=='rate',"S.srt=S.srt=='rate'?'':'rate'",'fRate')}${ch(S.srt=='disc',"S.srt=S.srt=='disc'?'':'disc'",'fDisc')}${ch(S.srt=='free',"S.srt=S.srt=='free'?'':'free'",'fFree')}${ch(S.fo,'S.fo=!S.fo','fOpen')}</div>
   <div class="pg c01-list-content">${body}</div>`}
 /* ---------- RESTAURANT ---------- */
