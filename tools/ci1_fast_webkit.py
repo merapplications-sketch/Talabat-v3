@@ -23,6 +23,14 @@ def main():
     out = Path(sys.argv[2]).resolve()
     out.mkdir(parents=True, exist_ok=True)
     assert (baseline / "customer.html").is_file(), "Approved baseline is absent"
+    # Fail closed on a category/product delta if BRIEF-30 acceptance is missing.
+    changed = set(subprocess.check_output(
+        ["git", "diff", "--name-only", "af466951", "HEAD"], text=True
+    ).splitlines())
+    if {"customer.html", "admin.html"} & changed:
+        assert (Path("tools") / "brief30_webkit.py").is_file(), (
+            "BRIEF-30 product was changed without its focused acceptance script"
+        )
     assert not os.environ.get("SUPABASE_URL"), "Cloud database context forbidden"
     assert not os.environ.get("SUPABASE_ACCESS_TOKEN"), "Cloud credentials forbidden"
 
