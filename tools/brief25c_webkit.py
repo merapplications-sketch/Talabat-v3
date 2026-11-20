@@ -364,6 +364,85 @@ def test_brief26(browser, server, photos, out):
         ctx.close()
 
 
+def test_brief27(browser,server,photos,out):
+    from io import BytesIO
+    from PIL import Image
+
+    small_photos=dict(photos)
+    for name in ('kfc','romant'):
+        image=Image.open(BytesIO(photos[name])).convert('RGB').resize((300,200))
+        output=BytesIO()
+        image.save(output,format='JPEG',quality=89)
+        small_photos[name]=output.getvalue()
+    seed="""
+      const keepPhoto=(id,title,url)=>({id,title,image_url:url,placement:'top',is_active:true});
+      T.banners.push(keepPhoto('feature','Предложение','/qa-image/romant'),
+        keepPhoto('free-art','Доставка бесплатно','/qa-image/kfc'),
+        keepPhoto('pizza-art','Время пиццы','/qa-image/romant'));
+    """
+    check_image="""i=>{
+      const css=getComputedStyle(i),image=i.getBoundingClientRect(),tile=i.parentNode.getBoundingClientRect();
+      return i.naturalWidth===300 && i.naturalHeight===200 && css.objectFit==='cover' && css.objectPosition==='50% 50%'
+        && ['left','top','right','bottom'].every(edge=>Math.abs(image[edge]-tile[edge])<1);
+    }"""
+    ctx,page=prior.page_for(browser,server,small_photos,seed)
+    try:
+        page.emulate_media(reduced_motion='reduce')
+        for image in page.locator('.d6-bento > .d6-bt.img > img').all():
+            image.evaluate('i=>i.decode()')
+            assert image.evaluate(check_image)
+        assert page.locator('.d6-bento > .d6-bt.img > img').count()==2
+        prior.shot(page,out,'ru-375-side-banners-brief27-fixture.webp')
+    finally:
+        ctx.close()
+
+    happy_seed="""
+      stores[0].fee_type='free';
+      T.happy_hours.push({id:'hh-photo',store_id:'s2',days:[3],start_time:'13:00:00',end_time:'14:12:20',discount_pct:20,active:true});
+      T.banners.push({id:'small-hh',title:'Счастливые часы',image_url:'/qa-image/romant',placement:'top',is_active:true});
+    """
+    ctx,page=prior.page_for(browser,server,small_photos,happy_seed)
+    try:
+        page.emulate_media(reduced_motion='reduce')
+        happy=page.locator('.d6-bento > .d6-bt.k-hap')
+        happy.locator('img').evaluate('i=>i.decode()')
+        assert happy.locator('img').evaluate(check_image)
+        assert happy.locator('.hcd').is_visible() and happy.locator('.hcd').inner_text()=='12:20'
+        prior.shot(page,out,'ru-375-happy-banner-brief27-fixture.webp')
+        block=page.locator('.home-dine-section')
+        geometry=block.evaluate("""e=>{const r=e.getBoundingClientRect(), before=e.previousElementSibling;
+          return {gap:r.top-before.getBoundingClientRect().bottom, radius:getComputedStyle(e).borderTopLeftRadius,
+            followsReels:before.classList.contains('home-discover')};
+        }""")
+        assert geometry['gap']>=24 and geometry['radius']=='20px' and geometry['followsReels'],geometry
+        heading=page.locator('[data-section="discover"]')
+        heading.evaluate("e=>scrollTo(0, scrollY+e.getBoundingClientRect().top-66)")
+        page.evaluate("""()=>document.querySelectorAll('.home-discover img,.home-dine-section img').forEach(i=>i.loading='eager')""")
+        page.wait_for_function("""()=>[...document.querySelectorAll('.home-discover img,.home-dine-section img')].every(i=>i.complete&&i.naturalWidth>0)""")
+        prior.shot(page,out,'ru-375-dineout-separation-brief27-fixture.webp')
+    finally:
+        ctx.close()
+
+    prior.qa.SDK=prior.FIX
+    ctx,page=prior.qa.page_at(browser,server,small_photos,'ru',375,role='admin')
+    try:
+        page.evaluate("""()=>{TLB.uploadImage=async()=>'/qa-image/kfc';tab='b';showAddB=true;render()}""")
+        assert page.get_by_text('1200×1260',exact=False).is_visible()
+        page.locator('input[onchange="pickB(event)"]').set_input_files({
+            'name':'small.jpg','mimeType':'image/jpeg','buffer':small_photos['kfc']})
+        page.wait_for_function("()=>document.getElementById('banner-create-size')?.textContent.includes('300×200')")
+        page.wait_for_function("()=>document.getElementById('bp')?.getAttribute('src')==='/qa-image/kfc'")
+        page.evaluate("openBE(TLB.banners(true)[0].id)")
+        assert page.get_by_text('900×600',exact=False).is_visible()
+        page.locator('input[onchange="bannerImg(event)"]').set_input_files({
+            'name':'small.jpg','mimeType':'image/jpeg','buffer':small_photos['romant']})
+        page.wait_for_function("()=>BD.imageSize?.width===300 && document.getElementById('banner-edit-size').textContent.includes('300×200')")
+        assert page.evaluate("""()=>bannerSizeWarning({width:1200,height:1260})===''
+          && bannerSizeWarning({width:900,height:600}).includes('большого баннера')""")
+    finally:
+        ctx.close()
+
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -373,6 +452,7 @@ def main():
             browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
             photos=prior.fixture_logos(prior.qa.source_photos())
             test_brief26(browser,server,photos,out)
+            test_brief27(browser,server,photos,out)
             test_dineout(browser,server,photos,out)
             test_reel_badges(browser,server,photos,out)
             test_reel_linked_badges(browser,server,photos,out)
@@ -385,7 +465,7 @@ def main():
     finally:
         server.shutdown()
     (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
-    print('BRIEF-25c Y-01..Y-04 and BRIEF-26 Z-01..Z-10 PASS')
+    print('BRIEF-25c Y-01..Y-04 and BRIEF-26 Z-01..Z-10 and BRIEF-27 AA-01..AA-02 PASS')
 
 if __name__=='__main__':
     main()
