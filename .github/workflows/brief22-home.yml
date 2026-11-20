@@ -19,6 +19,7 @@ on:
       - tools/brief23_webkit.py
       - tools/brief22_webkit.py
       - .github/workflows/brief22-home.yml
+      - .github/workflows/unified-fix-brief15-20261117.yml
   workflow_dispatch:
 permissions:
   contents: write
