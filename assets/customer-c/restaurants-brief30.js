@@ -182,9 +182,9 @@ function filtersView(){
     +'aria-pressed="'+localFilter[key]+'" onclick="TALABOT_RESTAURANTS_BRIEF30.filter(\''+key+'\')">'+esc(t(label))+'</button>';
   const selected={recommended:'ad30Rec',rating:'ad30RateSort',fastest:'ad30FastSort',cheap:'ad30CheapSort'}[sortMode];
   return '<div class="ad30-filters"><button class="ad30-sort" type="button" '
-    +'onclick="TALABOT_RESTAURANTS_BRIEF30.sortOpen()" aria-haspopup="dialog">'
-    +esc(t('ad30Sort'))+' '+ico('down',14)+'</button>'
-    +'<span class="ad30-current-sort">'+esc(t(selected))+'</span>'
+    +'onclick="TALABOT_RESTAURANTS_BRIEF30.sortOpen()" aria-haspopup="dialog" aria-expanded="'+sortOpen+'" aria-label="'+esc(t('ad30Sort')+(sortMode==='recommended'?'':': '+t(selected)))+'">'
+    +'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 19V5m-4 4 4-4 4 4M16 5v14m-4-4 4 4 4-4"/></svg>'
+    +(sortMode==='recommended'?'':'<span class="ad30-sort-dot" aria-hidden="true"></span>')+'</button>'
     +button('disc','ad30Discount')+button('rate','ad30Rate')
     +button('fast','ad30Quick')+button('free','ad30NoFee')+'</div>';
 }
