@@ -1810,6 +1810,7 @@ function openBannerList(filter,category='rest'){
   const catKey=filter==='category'&&Object.hasOwn(IC,category)?category:'rest';
   go('cat',{catKey,cq:'',srt:filter==='free'||filter==='disc'?filter:'',fo:filter==='free'||filter==='disc'});
 }
+const isFreeDeliveryBanner=b=>/^(?:доставка бесплатно|бесплатная доставка|free delivery)$/iu.test(String(b.title||'').trim());
 function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
   const cfg=bannerConfig(b);
   if(cfg.action==='campaign'&&['happy','discount','free'].includes(cfg.campaign)){openCampaign(cfg.campaign,b);return}
@@ -1821,6 +1822,7 @@ function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
     if(cfg.action==='order'&&cfg.item_id&&menuOf(store.n).some(item=>item.id===cfg.item_id&&item.approved&&item.available&&!item.optsBlocked))openItem(cfg.item_id);
     return;
   }
+  if(!cfg.action&&isFreeDeliveryBanner(b)){openBannerList('free');return}
   if(b.link_type=='store'){const o=ALLS.find(x=>x.id==b.link_value);if(o)openN(o.n)}
   else if(b.link_type=='category'){S.q='';openCat(b.link_value)}
   else if(b.link_type=='partner')location.href='partner.html'}
@@ -1987,7 +1989,7 @@ function freePlaces(count){
   return count===1?'at 1 place nearby':t('hFreeD').replace('{n}',count);
 }
 const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?happyCountdown(x.end):'',t('hHeroGo'),"openHappyHour()",'hamburger'],
-  disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),`go('offer',{oid:${esc(JSON.stringify(x.id))}})`,'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"go('cat',{catKey:'*',cq:'',srt:'free',fo:true})",'motor-scooter'],
+  disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),`go('offer',{oid:${esc(JSON.stringify(x.id))}})`,'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"openBannerList('free')",'motor-scooter'],
   brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza']})[x.k];
 function d6Tile(x,cls){if(x.k=='bn')return `<button type="button" class="d6-bt img ${cls}" ${bannerAction(x.b)}>${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}${cls==='d6tm'?`<span class="cta">${esc(bannerLabel(x.b))} ${ico('arr',15)}</span>`:''}</button>`;
   const d=heroD(x);
