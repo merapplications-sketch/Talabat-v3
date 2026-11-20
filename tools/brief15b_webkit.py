@@ -133,9 +133,9 @@ def run_case(pg,case,app,lang,w):
     if case=="C-01b":
         close_store_for_visual(pg)
         pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';S.srt='';S.fo=false;render()}""")
-        pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
+        pg.locator("#app .ad30-card.closed,#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
         pg.evaluate("""() => {
-          const badge=document.querySelector('#app .d6-sr.closed .g12-closed-badge'),
+          const badge=document.querySelector('#app .ad30-card.closed .ad30-card-closed,#app .ad30-card.closed,#app .d6-sr.closed .g12-closed-badge'),
                 nav=document.querySelector('#app .nav');
           if(!badge||!nav)return;
           const b=badge.getBoundingClientRect(),n=nav.getBoundingClientRect();
@@ -143,9 +143,9 @@ def run_case(pg,case,app,lang,w):
         }""")
         pg.wait_for_timeout(95)
         r=invoke(pg,"""() => {
-          const e=document.querySelector('#app .d6-sr.closed'),card=document.querySelector('#app .c-current'),
+          const e=document.querySelector('#app .ad30-card.closed,#app .d6-sr.closed'),card=document.querySelector('#app .c-current'),
                 nav=document.querySelector('#app .nav'),navTop=nav?.getBoundingClientRect()?.top||innerHeight,
-                badge=e?.querySelector('.g12-closed-badge'),row=e?.getBoundingClientRect(),
+                badge=e?.querySelector('.ad30-card-closed,.g12-closed-badge'),row=e?.getBoundingClientRect(),
                 a=card?.getBoundingClientRect(),b=badge?.getBoundingClientRect();
           const overlap=x=>a&&x&&Math.min(a.right,x.right)-Math.max(a.left,x.left)>2&&
             Math.min(a.bottom,x.bottom)-Math.max(a.top,x.top)>2;
@@ -157,12 +157,12 @@ def run_case(pg,case,app,lang,w):
              badgeRect:b&&{x:b.x,y:b.y,right:b.right,bottom:b.bottom}};
         }""")
         shot(pg,case,app,lang,w,"category")
-        return r,["#app .c-current","#app .d6-sr.closed","#app .d6-sr.closed .g12-closed-badge"]
+        return r,["#app .c-current","#app .ad30-card.closed,#app .d6-sr.closed","#app .ad30-card.closed .ad30-card-closed,#app .ad30-card.closed,#app .d6-sr.closed .g12-closed-badge"]
     if case=="C-01c":
         close_store_for_visual(pg)
         pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';render()}""")
         before=invoke(pg,"""() => {
-          const e=document.querySelector('#app .d6-sr.closed'),v=S.v;
+          const e=document.querySelector('#app .ad30-card.closed,#app .d6-sr.closed'),v=S.v;
           if(e)e.click();
           return {ok:!!e&&S.v===v&&e.getAttribute('onclick')===null,
             before:v,after:S.v};
@@ -441,18 +441,20 @@ def run_case(pg,case,app,lang,w):
         for scene,script in views:
             pg.evaluate(script)
             pg.wait_for_timeout(85)
-            pg.locator("#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
+            sel="#app .d6-sr.closed" if scene=="search" else "#app .ad30-card.closed,#app .d6-sr.closed"
+            pg.locator(sel).first.scroll_into_view_if_needed(timeout=3000)
             pg.evaluate("""() => {
-              const row=document.querySelector('#app .d6-sr.closed');
+              const row=document.querySelector('#app .ad30-card.closed,#app .d6-sr.closed');
               if(!row)return;const top=row.getBoundingClientRect().top;
               if(top>155)window.scrollBy(0,top-145);
             }""")
             pg.wait_for_timeout(115)
             data=invoke(pg,"""() => {
-              const row=document.querySelector('#app .d6-sr.closed'),
-                badge=row?.querySelector('.g12-closed-badge,.or'),
-                photo=row?.querySelector('.d6-ph.th'),
-                offer=row?.querySelector('.g12-delivery-text'),
+              const row=document.querySelector('#app .ad30-card.closed,#app .d6-sr.closed'),
+                modern=!!row?.classList.contains('ad30-card'),
+                badge=row?.querySelector(modern?'.ad30-card-closed':'.g12-closed-badge,.or'),
+                photo=row?.querySelector(modern?'.ad30-card-logo':'.d6-ph.th'),
+                offer=row?.querySelector(modern?'.ad30-card-meta':'.g12-delivery-text'),
                 b=badge?.getBoundingClientRect(),p=photo?.getBoundingClientRect(),
                 textRects=[],hits=[];
               if(row){
@@ -475,13 +477,18 @@ def run_case(pg,case,app,lang,w):
                   }
                 }
               }
-              const contained=!!badge&&!!photo&&photo.contains(badge)&&!!b&&!!p&&
-                  b.left>=p.left-1&&b.top>=p.top-1&&b.right<=p.right+1&&b.bottom<=p.bottom+1;
-              const style=offer&&getComputedStyle(offer),ellipsis=!!offer&&
-                  style.textOverflow==='ellipsis'&&style.whiteSpace==='nowrap'&&offer.clientWidth>20;
+              const contained=modern?
+                  (!!badge&&!!photo&&!photo.contains(badge)&&!!b&&!!p&&
+                    b.left>=row.getBoundingClientRect().left-1&&b.right<=row.getBoundingClientRect().right+1):
+                  (!!badge&&!!photo&&photo.contains(badge)&&!!b&&!!p&&
+                    b.left>=p.left-1&&b.top>=p.top-1&&b.right<=p.right+1&&b.bottom<=p.bottom+1);
+              const style=offer&&getComputedStyle(offer);
+              const ellipsis=modern?
+                 (!!offer&&offer.clientWidth>20&&style.display==='flex'):
+                 (!!offer&&style.textOverflow==='ellipsis'&&style.whiteSpace==='nowrap'&&offer.clientWidth>20);
               const correct=badge?.textContent?.trim()===TLB.t('closedStoreBadge');
               return {ok:contained&&correct&&hits.length===0&&textRects.length>=3&&ellipsis,
-                scene:S.v,badgeText:badge?.textContent?.trim()||'',
+                scene:S.v,modern,badgeText:badge?.textContent?.trim()||'',
                 badgeParent:badge?.parentElement?.className||'',contained,
                 textNodesMeasured:textRects.length,overlappingTextNodes:hits,
                 badgeRect:b&&{left:b.left,right:b.right,top:b.top,bottom:b.bottom},
@@ -491,15 +498,16 @@ def run_case(pg,case,app,lang,w):
             }""")
             if scene=="reorder":
                 data["reorderSectionPresent"]=pg.evaluate("""() => {
-                  const s=TLB.t('hLastGo');return !!s&&
-                     (document.querySelector('#app')?.innerText||'').includes(s)
+                  const labels=[TLB.t('hLastGo'),TLB.t('ad30Again')].filter(Boolean);
+                  return labels.some(s=>(document.querySelector('#app')?.innerText||'').includes(s))
                 }""")
                 data["ok"]=data["ok"] and data["reorderSectionPresent"]
             evidence[scene]=data
             shot(pg,case,app,lang,w,scene)
         return {"ok":all(v["ok"] for v in evidence.values()),"scenes":evidence},[
-          "#app .d6-sr.closed .g12-closed-badge",
-          "#app .d6-sr.closed .g12-delivery-text","#app .d6-sr.closed .d6-ph"]
+          "#app .ad30-card.closed .ad30-card-closed,#app .d6-sr.closed .g12-closed-badge",
+          "#app .ad30-card.closed .ad30-card-meta,#app .d6-sr.closed .g12-delivery-text",
+          "#app .ad30-card.closed .ad30-card-logo,#app .d6-sr.closed .d6-ph"]
     raise RuntimeError("Unregistered case "+case)
 
 def main():
