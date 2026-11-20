@@ -15,7 +15,7 @@ function bannerItems(){
     {id:'you',label:t('ad30ForYou'),picture:'hamburger',tone:'you',action:"openBannerList('category','rest')"}
   ].map(x=>({...x,fallback:true}));
   const managed=TLB.banners().filter(b=>bannerConfig(b).audience==='restaurants')
-    .sort((a,b)=>(+a.sort||0)-(+b.sort||0)).map(b=>({id:b.id,label:b.title,picture:'',tone:'managed',image:b.image_url,action:'',fallback:false}));
+    .sort((a,b)=>(+a.sort||0)-(+b.sort||0)).map(b=>({id:b.id,label:b.title,picture:'hamburger',tone:'managed',image:b.image_url,action:'',fallback:false}));
   return defaults.concat(managed);
 }
 function rail(){
