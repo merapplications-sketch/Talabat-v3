@@ -73,3 +73,12 @@
 #app .d6l .ad30-card.closed{opacity:.7;cursor:default}
 #app .d6l .ad30-card.closed .ad30-card-logo>img{filter:grayscale(1)}
 #app .d6l .ad30-card:focus-visible{outline:2px solid var(--o);outline-offset:3px;border-radius:12px}
+
+/* AD-07: explicit manager-enabled floating campaign; hidden without data. */
+#app .d6l .ad30-float{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:58;display:flex;align-items:center;justify-content:center;gap:8px;max-width:calc(100% - 40px);min-height:43px;border:0;border-radius:26px;padding:8px 14px;background:#28232d;color:#fff;box-shadow:0 5px 18px #0003;font:inherit;font-size:12px;line-height:18px;font-weight:750;cursor:pointer;transition:opacity .18s,transform .18s;white-space:nowrap}
+#app .d6l .ad30-float span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+#app .d6l .ad30-float img{flex:none}
+#app .d6l .ad30-float.with-cart{bottom:calc(146px + env(safe-area-inset-bottom,0px))}
+#app .d6l .ad30-float.hidden{opacity:0;pointer-events:none;transform:translate(-50%,90px)}
+#app .d6l .ad30-float:focus-visible{outline:2px solid var(--o);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){#app .d6l .ad30-float{transition:none}}

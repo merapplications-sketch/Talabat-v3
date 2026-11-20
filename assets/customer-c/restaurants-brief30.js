@@ -218,9 +218,38 @@ function rows(){
   return list.length?list.map(restaurantCard).join(''):
     emptyV(t('noRes'),t('emNoResS'),'','search');
 }
+
+/* AD-07: W-10 sponsored ranking is the existing rankedSearch() contract.
+   Floating campaign only exists when an explicit manager field is present. */
+let lastFloatScroll=0;
+function floatingCampaign(){
+  const selected=TLB.banners().find(b=>{
+    const cfg=bannerConfig(b);
+    return cfg.audience==='restaurants'&&(cfg.floating===true||b.placement==='restaurants_float')
+      &&(cfg.action==='campaign'||cfg.campaign);
+  });
+  if(!selected)return '';
+  const text=selected.presentation?.floating_text?.[TLB.lang()]
+    ||selected.title||'';
+  if(!text)return '';
+  return '<button type="button" class="ad30-float'+(cartCount()?' with-cart':'')+'" '
+    +'onclick="TALABOT_RESTAURANTS_BRIEF30.banner('+esc(JSON.stringify(selected.id))+')" '
+    +'aria-label="'+esc(text)+'"><img src="'+A3('party-popper')+'" alt="" width="22" height="22">'
+    +'<span>'+esc(text)+'</span></button>';
+}
+function onRestaurantScroll(){
+  if(S.v!=='cat'||S.catKey!=='rest'){lastFloatScroll=scrollY||0;return;}
+  const button=document.querySelector('#app .ad30-float');
+  if(!button)return;
+  const y=window.scrollY||document.documentElement.scrollTop||0;
+  const diff=y-lastFloatScroll;
+  if(Math.abs(diff)>8){button.classList.toggle('hidden',diff>0&&y>60);lastFloatScroll=y;}
+}
+window.addEventListener('scroll',onRestaurantScroll,{passive:true});
+
 function renderRestaurants(){
   return ad30Header(curAddr())+search()+rail()+againRail()
-    +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2>'+cuisineRail()+filtersView()+'<div class="pg c01-list-content">'+rows()+'</div></section>'+sortSheet();
+    +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2>'+cuisineRail()+filtersView()+'<div class="pg c01-list-content">'+rows()+'</div></section>'+sortSheet()+floatingCampaign();
 }
 window.TALABOT_RESTAURANTS_BRIEF30={
   render:renderRestaurants,
