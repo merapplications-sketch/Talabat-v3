@@ -310,3 +310,5 @@
 #app .d6h .d6-bm .hdt i { background: #ed551c40; }
 #app .d6h .d6-bm .hdt i.on { background: #ed551c; }
 #app .d6h .home-ad-dots { padding-top: 8px; }
+
+#app .d6h button.d6-bt { border: 0; font: inherit; text-align: start; }
