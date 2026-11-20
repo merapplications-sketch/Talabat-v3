@@ -89,3 +89,41 @@ function mount(sheet){
 window.TALABOT_DISH_BRIEF31=Object.freeze({mount});
 if(typeof dishViewport==='function')dishViewport();
 })();
+
+/* AG-06: reserve the group's own space and stack above existing fixed app controls. */
+(function(){
+'use strict';
+let observer=null,basePadding='',lastPadding='',scheduled=0;
+function layout(){
+  const pill=document.querySelector('.b31-group-resume');
+  if(!pill)return;
+  const current=document.body.style.paddingBottom;
+  if(current!==lastPadding)basePadding=current;
+  let edge=window.visualViewport?.height||innerHeight;
+  for(const node of document.querySelectorAll('.nav,.bar,.fbar,.c-current:not(.c-current-inline),.ad30-float')){
+    const style=getComputedStyle(node),rect=node.getBoundingClientRect();
+    if(style.position==='fixed'&&style.display!=='none'&&rect.height>0){
+      // Keep a floating campaign's reserved slot while it animates offscreen;
+      // otherwise its return could cover the group's re-entry control.
+      const bottom=parseFloat(style.bottom),top=Number.isFinite(bottom)?innerHeight-bottom-rect.height:rect.top;
+      if(top<innerHeight)edge=Math.min(edge,top);
+    }
+  }
+  pill.style.setProperty('--b31-group-bottom',Math.max(12,innerHeight-edge+10)+'px');
+  lastPadding='calc('+(basePadding||'0px')+' + '+Math.ceil(pill.getBoundingClientRect().height+20)+'px)';
+  document.body.style.paddingBottom=lastPadding;lastPadding=document.body.style.paddingBottom;
+}
+function schedule(){if(!scheduled)scheduled=requestAnimationFrame(()=>{scheduled=0;layout()});}
+function refresh(){
+  observer?.disconnect();observer=null;basePadding=document.body.style.paddingBottom;lastPadding='';
+  const pill=document.querySelector('.b31-group-resume');
+  if(!pill)return;
+  layout();
+  if(window.ResizeObserver){observer=new ResizeObserver(schedule);observer.observe(pill);for(const node of document.querySelectorAll('.nav,.bar,.fbar,.c-current:not(.c-current-inline),.ad30-float'))observer.observe(node);}
+}
+const previous=render;
+render=function(){previous.apply(this,arguments);refresh();};
+window.addEventListener('resize',schedule);
+window.visualViewport?.addEventListener('resize',schedule);
+if(typeof ME!=='undefined'&&ME?.phone)render();
+})();

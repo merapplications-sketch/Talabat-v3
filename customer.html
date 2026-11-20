@@ -1426,7 +1426,7 @@ const syncStores=()=>{ALLS=TLB.stores().map(x=>({bid:x.brand_id||'',bn:x.branch_
   const a=curAddr(),dist=s=>a&&a.lat!=null&&s.la!=null?(s.la-a.lat)**2+(s.lo-a.lng)**2:0,seen={};STORES=[];
   ALLS.forEach(s=>{if(!s.bid){STORES.push(s);return}if(seen[s.bid])return;const g=ALLS.filter(x=>x.bid==s.bid).sort((x,y)=>(TLB.isOpen(y.n)?1:0)-(TLB.isOpen(x.n)?1:0)||dist(x)-dist(y));seen[s.bid]=1;STORES.push(g[0])})};
 const menuOf=n=>TLB.allMenus(false)[n]||[];
-const go=(v,x)=>{if(v!='cart')S.cartUndo=null;if(v!='menu')S.sinfo=false;Object.assign(S,{v,sheetAddr:false,ro:null,rep:null,hcf:null,hmsg:''},v=='track'&&S.v!='track'?{cxe:null}:{},x||{});if(v=='support')TLB.wantSupport(true);if(v=='wallet')TLB.loadWallet(true);if(v=='about'||v=='privacy')TLB.loadPages(true);render();scrollTo(0,0)};
+const go=(v,x,keepGroupReturn=false)=>{if(v==='group'&&S.v!=='group'&&!keepGroupReturn)grpRememberReturn();if(v!='cart')S.cartUndo=null;if(v!='menu')S.sinfo=false;Object.assign(S,{v,sheetAddr:false,ro:null,rep:null,hcf:null,hmsg:''},v=='track'&&S.v!='track'?{cxe:null}:{},x||{});if(v=='support')TLB.wantSupport(true);if(v=='wallet')TLB.loadWallet(true);if(v=='about'||v=='privacy')TLB.loadPages(true);render();scrollTo(0,0)};
 const openStore=i=>{const st=STORES[i];if(st&&TLB.isOpen(st.n))openN(st.n)};
 const openN=n=>{if(!TLB.isOpen(n))return;go('menu',{store:n,back:S.v=='cat'?'cat':S.v=='fav'?'fav':(S.v=='promo'||S.v=='offer')?'promo':'home',msq:'',msearch:false,sheet:false})};
 const openCat=c=>go('cat',{catKey:c,cq:'',srt:'',fo:false});
@@ -2672,7 +2672,7 @@ function rankedSearch(list){
 function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf||Object.assign({},HF0);const head=hHead();
   if(q||hfOn()){const list=rankedSearch(hfApply(matches(M,q)));return head+`<div class="pg d6-res">${list.length?`<div class="xs mut" style="margin:0 2px 10px;font-weight:600">${t('hRes').replace('{n}',list.length)}</div>`+list.map(({s,h,sponsored})=>d6SRow(s,h,null,sponsored)).join(''):emptyV(t('noRes'),t('emNoResS'),hfOn()?`<button class="btn s" onclick="S.hf=Object.assign({},HF0);render()">${t('hFiltReset')}</button>`:'')}</div>`}
   const products=homeProducts();
-  return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+mealsH(products)+bestH(products)+flashH(products)+walH()
+  return head+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+mealsH(products)+bestH(products)+flashH(products)+walH()
   +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
   +adH(products)+recH()+nearH()+discoverH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
 TLB.addDict(
@@ -3170,8 +3170,18 @@ const deepGroup=(()=>{try{const v=new URLSearchParams(location.search).get('g');
 const GK=()=>'tlb-grp-'+((TLB.me&&TLB.me()||{}).id||'x');
 const inGrp=()=>!!(S.gid&&S.grp&&S.grp.status=='open'&&grpStore()==S.cartStore&&!S.gCheckout);
 const grpStore=()=>{const g=S.grp;const st=g&&ALLS.find(x=>x.id==g.store_id);return st?st.n:null};
+/* BRIEF-31 AG-06: return navigation never clears or cancels the active group. */
+function grpRememberReturn(){
+  const fields=['store','back','catKey','cq','srt','fo','q','ofl','tid','msq','msearch','tkid','addrBack'];
+  S.gReturn={view:S.v,params:Object.fromEntries(fields.map(key=>[key,S[key]])),scroll:Math.max(0,scrollY)};
+}
+function grpBack(){
+  const back=S.gReturn,allowed=['home','cat','menu','cart','orders','track','fav','promo','offer','wallet','me','settings','about','privacy','support','ticket','addr','addrForm','dineAll','discoverAll','flashAll','mealsAll','nearby'];
+  if(back&&allowed.includes(back.view)){go(back.view,back.params);requestAnimationFrame(()=>scrollTo(0,back.scroll||0));}
+  else go('home');
+}
 function grpKeep(){try{S.gid?localStorage.setItem(GK(),S.gid):localStorage.removeItem(GK())}catch(e){}}
-function grpEnd(){S.gid=null;S.grp=null;if(S.gCheckout){S.gCheckout=false;S.cart=S.gKeep?S.gKeep.cart:{};S.cartStore=S.gKeep?S.gKeep.store:S.cartStore;S.gKeep=null;S.gNotes=null}grpKeep()}
+function grpEnd(){S.gid=null;S.grp=null;S.gReturn=null;if(S.gCheckout){S.gCheckout=false;S.cart=S.gKeep?S.gKeep.cart:{};S.cartStore=S.gKeep?S.gKeep.store:S.cartStore;S.gKeep=null;S.gNotes=null}grpKeep()}
 function grpSet(r){if(r&&r.group){S.grp=r.group;S.gid=r.group.id;grpKeep();return true}if(r&&r.error)alert(errMsg(r));return false}
 async function grpOpen(id){const r=await TLB.groupGet(id);if(!r||r.error||!r.group){if(r&&r.error)TLB.toast&&TLB.toast(errMsg(r),true);return}
   S.gid=id;S.grp=r.group;grpKeep();if(!grpStore()){TLB.toast&&TLB.toast(t('storeGone'),true);return}go('group')}
@@ -3182,19 +3192,30 @@ async function grpStart(){if(S.busy||badKeys().length||closedNow(S.cartStore))re
 async function grpPush(inner){if(!S.gid||closedNow(S.cartStore)||(!inner&&S.busy))return;S.busy=true;if(!inner)render();
   try{const ks=Object.keys(S.cart),nn=lineNotes(ks);if(nn.some(x=>x.length>120)){alert(t('d6CmtLong'));return}for(let i=0;i<ks.length;i++){const k=ks[i],p=pk(k),r=await TLB.groupAdd(S.gid,p.id,S.cart[k],p.ops,nn[i]||null);if(!grpSet(r))return;delete S.cart[k]}
     S.note='';S.okey=null;go('group')}finally{S.busy=false;if(!inner)render()}}
-async function grpStatus(st){if(st=='cancelled'&&!confirm(t('grpCancelQ')))return;const r=await TLB.groupSet(S.gid,st);if(grpSet(r)&&st=='cancelled'){grpEnd();go('home')}else render()}
+async function grpStatus(st){
+  if(S.gStatusBusy||!S.gid)return;
+  if(st=='cancelled'&&!confirm(t('grpCancelQ')))return;
+  const id=S.gid;S.gStatusBusy=true;render();
+  try{const r=await TLB.groupSet(id,st);if(S.gid!==id)return;if(grpSet(r)&&st=='cancelled'){grpEnd();go('home')}}
+  catch(_e){if(S.gid===id)TLB.toast&&TLB.toast(errMsg({error:'generic'}),true)}
+  finally{S.gStatusBusy=false;render()}
+}
 /* the host checks out: adding stops, the group lines become the cart (same dish + options = one line, names in its note) */
 async function grpCheckout(){const g=S.grp;if(!g||!g.is_host||!g.items.length)return;if(g.status=='open'){const r=await TLB.groupSet(S.gid,'closed');if(!grpSet(r))return}
   S.gKeep={cart:S.cart,store:S.cartStore};const c={},nt={};S.grp.items.forEach(i=>{const k=lk(i.item_id,i.options||[]);c[k]=Math.min(50,(c[k]||0)+i.qty);(nt[k]=nt[k]||[]).push((i.user_name||'')+' ×'+i.qty+(i.note?' ('+i.note+')':''))});
   Object.keys(nt).forEach(k=>nt[k]=nt[k].join('; '));S.cart=c;S.gNotes=nt;S.cartStore=grpStore();S.gCheckout=true;S.promo=null;S.okey=null;go('pay');quoteNow()}
-function grpBackPay(){S.gCheckout=false;S.cart=S.gKeep?S.gKeep.cart:{};S.cartStore=S.gKeep?S.gKeep.store:S.cartStore;S.gKeep=null;S.gNotes=null;S.okey=null;go('group')}
+function grpBackPay(){S.gCheckout=false;S.cart=S.gKeep?S.gKeep.cart:{};S.cartStore=S.gKeep?S.gKeep.store:S.cartStore;S.gKeep=null;S.gNotes=null;S.okey=null;go('group',null,true)}
 function grpAddMore(){const n=grpStore();if(n)ensureStore(n,()=>openN(n))}
 const grpLink=()=>location.origin+location.pathname+'?g='+S.gid;
 async function grpShare(){const u=grpLink();try{if(navigator.share){await navigator.share({title:t('grpT'),text:t('grpT')+' · '+(grpStore()||''),url:u});return}}catch(e){if(e&&e.name=='AbortError')return}
   try{await navigator.clipboard.writeText(u);TLB.toast&&TLB.toast(t('grpCopied'))}catch(e){prompt(t('grpShare'),u)}}
 function grpLeave(){grpEnd();go('home')}
-function grpBanner(){if(!S.gid||!S.grp||!['open','closed'].includes(S.grp.status)||!grpStore())return '';return `<div class="ndg"><span>${ico('user',18)}</span><div style="flex:1;min-width:0"><b>${t('grpBanner')}</b><div class="xs">${esc(grpStore())}</div></div><button class="btn t2" onclick="go('group')">${t('grpOpenB')}</button></div>`}
-function vGroup(){const g=S.grp,sn=grpStore();if(!g||!sn)return topbar(t('grpT'),'',"go('home')")+emptyV(t('grpGone'),t('grpGoneS'),`<button class="btn" onclick="grpLeave()">${t('back')}</button>`,'user');
+function grpBanner(){
+  if(!S.gid||!S.grp||!['open','closed'].includes(S.grp.status)||!grpStore()||
+    ['group','pay'].includes(S.v)||S.sh||S.sheetAddr||S.ro||S.rep||S.hcf||S.ntf||S.hfs||S.sinfo||S.cxn||TLB.me()?.banned)return '';
+  return `<button type="button" class="b31-group-resume" onclick="go('group')" aria-label="${esc(t('grpT'))}">${ico('user',18)}<span>${t('grpT')}</span>${ico('chev',16)}</button>`;
+}
+function vGroup(){const g=S.grp,sn=grpStore();if(!g||!sn)return topbar(t('grpT'),'',"grpBack()")+emptyV(t('grpGone'),t('grpGoneS'),`<button class="btn" onclick="grpLeave()">${t('back')}</button>`,'user');
   const m=menuOf(sn),sd=sdOf(sn),by={},ord=[];g.items.forEach(i=>{const k=i.mine?'~me':i.user_name;if(!by[k]){by[k]=[];ord.push(k)}by[k].push(i)});ord.sort((a,b)=>a=='~me'?-1:b=='~me'?1:0);
   const lp=i=>{const it=m.find(x=>x.id==i.item_id);return it?Math.round(baseOf(it,i.options||[])*i.qty*(100-eff(it,sd)))/100:0},tot=Math.round(g.items.reduce((a,i)=>a+lp(i),0)*100)/100,open=g.status=='open';
   const head=g.status=='placed'?`<div class="okb" style="margin:0 0 12px">${ico('check',18)}<div><b>${t('grpPlaced')}</b><div class="xs" style="margin-top:2px;font-weight:500">${t('grpPlacedS')}</div></div></div>`
@@ -3204,11 +3225,11 @@ function vGroup(){const g=S.grp,sn=grpStore();if(!g||!sn)return topbar(t('grpT')
   const lines=ord.length?ord.map(k=>{const L=by[k];return `<div class="card" style="padding:10px 16px"><div class="b7 sm" style="margin-bottom:4px">${k=='~me'?t('grpYou'):esc(k)}</div>${L.map(i=>{const it=m.find(x=>x.id==i.item_id)||{name:'—'},ot=optTxt(i.item_id,i.options||[]),rm=open&&(i.mine||g.is_host);
     return `<div class="gl"><span class="q">${i.qty}×</span><div style="flex:1;min-width:0"><div class="sm">${esc(it.name)}</div>${ot?`<div class="xs mut">${esc(ot)}</div>`:''}${i.note?`<div class="xs mut">💬 ${esc(i.note)}</div>`:''}</div><b class="sm" style="white-space:nowrap">${lp(i)} TJS</b>${rm?`<button class="ib sm2" aria-label="${t('removeI')}" onclick="grpRm(${+i.id})">${ico('trash',15)}</button>`:''}</div>`}).join('')}</div>`}).join(''):emptyV(t('grpEmpty'),'','','user');
   const live=['open','closed'].includes(g.status);
-  const foot=!live?`<button class="btn big" onclick="grpLeave()">${t('back')}</button>`:g.is_host?`${open?`<button class="btn s" style="flex:0 0 auto" onclick="grpAddMore()">${t('grpAdd')}</button>`:`<button class="btn s" style="flex:0 0 auto" onclick="grpStatus('open')">${t('grpReopen')}</button>`}<button class="btn" ${g.items.length&&!S.busy?'':'disabled'} style="flex-direction:column;gap:1px;line-height:1.2" onclick="grpCheckout()"><span>${t('grpCheckout')}</span><span class="xs" style="opacity:.9">${tot} TJS</span></button>`
+  const foot=!live?`<button class="btn big" onclick="grpLeave()">${t('back')}</button>`:g.is_host?`<button id="b31-group-toggle" class="btn s" style="flex:0 0 auto" ${S.gStatusBusy?'disabled aria-busy="true"':''} onclick="grpStatus('${open?'closed':'open'}')">${t(open?'p1Close':'grpReopen')}</button><button class="btn" ${g.items.length&&!S.busy&&!S.gStatusBusy?'':'disabled'} style="flex-direction:column;gap:1px;line-height:1.2" onclick="grpCheckout()"><span>${t('grpCheckout')}</span><span class="xs" style="opacity:.9">${tot} TJS</span></button>`
     :open?`<button class="btn big" onclick="grpAddMore()">${t('grpAdd')}</button>`:`<button class="btn s big" onclick="grpLeave()">${t('grpLeave')}</button>`;
-  return `<div class="d6 d6p p1-group">`+topbar(t('grpT'),esc(sn),"go('home')")+`<div class="pg"><section class="card p1-group-intro"><div class="p1-track-title"><h2>${esc(sn)}</h2>${live?`<span class="p1-status">${t(open?'p1GroupOpen':'p1GroupClosed')}</span>`:''}</div><p>${t('p1GroupBill')}</p>${live?`<p class="p1-time">${t('p1CollectUntil')}: <strong>${Number.isFinite(Date.parse(g.expires_at))?esc(fmtWhen(Date.parse(g.expires_at))):t('timeUnknown')}</strong></p>`:''}</section>${head}${lines}
+  return `<div class="d6 d6p p1-group">`+topbar(t('grpT'),esc(sn),"grpBack()")+`<div class="pg"><section class="card p1-group-intro"><div class="p1-track-title"><h2>${esc(sn)}</h2>${live?`<span class="p1-status">${t(open?'p1GroupOpen':'p1GroupClosed')}</span>`:''}</div><p>${t('p1GroupBill')}</p>${live?`<p class="p1-time">${t('p1CollectUntil')}: <strong>${Number.isFinite(Date.parse(g.expires_at))?esc(fmtWhen(Date.parse(g.expires_at))):t('timeUnknown')}</strong></p>`:''}</section>${head}${lines}
   ${g.items.length?`<div class="card sum"><div class="row tot"><span>${t('grpTotal')}</span><span>${tot} TJS</span></div></div>`:''}
-  ${live&&g.is_host&&open?`<button class="btn s big" onclick="grpStatus('closed')">${t('p1Close')}</button>`:''}
+  ${live&&g.is_host&&open?`<button class="btn s big" onclick="grpAddMore()">${t('grpAdd')}</button>`:''}
   ${live&&g.is_host?`<button class="btn t" style="width:100%;margin-top:4px;color:var(--bad)" onclick="grpStatus('cancelled')">${t('grpCancel')}</button>`:live&&!g.is_host?`<button class="btn t" style="width:100%;margin-top:4px" onclick="grpLeave()">${t('grpLeave')}</button>`:''}</div>
   <div style="height:160px"></div><div class="fbar p1-group-dock">${foot}</div></div>`}
 async function grpRm(line){const r=await TLB.groupRemove(line);if(grpSet(r))render()}
@@ -3450,7 +3471,7 @@ function render(){
   const navH=full?'':`<div class="nav">${nav.map(k=>`<div class="${on(k)?'on':''}" onclick="${k=='home'?"S.q='';":''}go('${k}')">${ico(ni[k],24)}${t(k=='promo'?'promoTab':k)}${k=='orders'&&un?`<span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
   const a=document.activeElement,walletFocus=a&&/^wallet-tab-(wallet|points)$/.test(a.id)?a.id:null,kid=a&&['ci','sq','cq','ph','pc','mq','nt','shn','rc','afs','afh','afe','aff','afa','afn','rpm','tkm','tmpn','gfn','gfp'].includes(a.id)?a.id:null,keep=kid?a.value:null;
   const _o=document.querySelector('.osh'),_ost=_o?_o.scrollTop:0,_osw=!!_o;
-  const D6P=['pay','wallet','me','addrForm'].includes(S.v),D6W=D6P?'d6p':S.v=='home'?'d6h':S.v=='cat'?'d6l':'';$('app').innerHTML=(D6W?'<div class="d6 '+D6W+'">'+V+'</div>':V)+bar+navH+addrSheet()+roSheet()+repSheet()+cxnSheet()+(S.v=='home'?hfSheet()+ntfSheet():'');
+  const D6P=['pay','wallet','me','addrForm'].includes(S.v),D6W=D6P?'d6p':S.v=='home'?'d6h':S.v=='cat'?'d6l':'';$('app').innerHTML=(D6W?'<div class="d6 '+D6W+'">'+V+'</div>':V)+bar+navH+grpBanner()+addrSheet()+roSheet()+repSheet()+cxnSheet()+(S.v=='home'?hfSheet()+ntfSheet():'');
   const _n=document.querySelector('.osh');if(_n&&_osw&&S.sh&&S.sh.keep)_n.scrollTop=_ost;document.documentElement.classList.toggle('shopen',!!S.sh);
   if(kid&&$(kid)){const e=$(kid);if(kid!=='ci')e.value=keep;e.focus();e.setSelectionRange(e.value.length,e.value.length)}   /* the chat field takes its text from the per-order draft (never another order's text) */
   if(walletFocus)$(walletFocus)?.focus({preventScroll:true});

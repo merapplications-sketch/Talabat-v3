@@ -18,3 +18,11 @@
 #app .d6s [data-dish-handle]:focus-visible{outline:2px solid var(--o);outline-offset:-5px}
 #app .d6s [data-dish-handle]:disabled{display:none}
 #app .d6s .d6s-top:not(:has(>img))+.d6s-p [data-dish-handle]{display:none}
+
+/* AG-06: the active group remains reachable above other fixed controls. */
+#app .b31-group-resume{position:fixed;left:50%;transform:translateX(-50%);bottom:var(--b31-group-bottom,calc(84px + env(safe-area-inset-bottom,0px)));z-index:90;display:flex;align-items:center;justify-content:center;gap:9px;width:max-content;max-width:92vw;min-height:44px;margin:0;padding:10px 16px;border:1px solid #e0e5ec;border-radius:999px;background:#fff;color:var(--ink);box-shadow:0 3px 12px #17243c18;font-family:inherit;font-size:14px;font-weight:600;line-height:20px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#app .b31-group-resume span{min-width:0;overflow-wrap:anywhere}
+#app .b31-group-resume>svg{flex:none}
+#app .b31-group-resume:active{background:#fff1eb}
+#app .b31-group-resume:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+#app #b31-group-toggle{flex:1 1 120px!important;min-width:0}
