@@ -57,6 +57,13 @@
 #app .d6l .ad30-sort-choice.active{color:var(--o);font-weight:800}
 #app .d6l .ad30-filter:focus-visible,#app .d6l .ad30-sort:focus-visible,#app .d6l .ad30-sort-choice:focus-visible{outline:2px solid var(--o);outline-offset:2px}
 
+/* AE-03: an empty filtered list explains the result and can be fully reset. */
+#app .d6l .ad30-empty{padding:24px 12px}
+#app .d6l .ad30-empty .eic{width:40px;height:40px;margin-bottom:12px}
+#app .d6l .ad30-empty p{margin:0 0 16px;color:var(--ink);font-size:15px;line-height:22px;font-weight:600}
+#app .d6l .ad30-empty .ad30-reset{min-height:44px;height:auto;max-width:100%;padding:10px 16px;font-size:14px;line-height:20px;white-space:normal}
+#app .d6l .ad30-reset:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+
 /* AD-06: clear unframed restaurant list with 96x96 brand mark. */
 #app .d6l .ad30-card{display:flex;position:relative;align-items:flex-start;gap:13px;width:100%;padding:12px 0;border-bottom:1px solid #eeeeef;background:#fff;color:var(--ink);text-align:left;cursor:pointer;min-height:118px}
 #app .d6l .ad30-card-logo{display:block;position:relative;flex:0 0 96px;width:96px;height:96px;border-radius:16px;background:#f7f4f0;overflow:hidden}

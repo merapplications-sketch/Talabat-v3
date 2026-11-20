@@ -116,7 +116,7 @@ function cuisineRail(){
     +'</div>';
 }
 function toggleCuisine(id){
-  chosenCuisine=chosenCuisine===id?'':id;render();
+  chosenCuisine=chosenCuisine===id?'':id;render();revealEmptyFilter();
 }
 
 
@@ -125,12 +125,14 @@ TLB.addDict({
   ad30Sort:'Сортировать',ad30Rec:'Рекомендуемые',ad30RateSort:'По рейтингу',
   ad30FastSort:'Самые быстрые',ad30CheapSort:'Дешёвая доставка',
   ad30Discount:'Скидки',ad30Rate:'Рейтинг 4.0+',
-  ad30Quick:'Быстрая доставка',ad30NoFee:'Бесплатная доставка'
+  ad30Quick:'Быстрая доставка',ad30NoFee:'Бесплатная доставка',
+  ad30NoFilterResults:'Нет ресторанов по этому фильтру',ad30ResetFilters:'Сбросить фильтры'
 },{
   ad30Sort:'Sort',ad30Rec:'Recommended',ad30RateSort:'By rating',
   ad30FastSort:'Fastest',ad30CheapSort:'Lowest delivery fee',
   ad30Discount:'Discounts',ad30Rate:'Rating 4.0+',
-  ad30Quick:'Fast delivery',ad30NoFee:'Free delivery'
+  ad30Quick:'Fast delivery',ad30NoFee:'Free delivery',
+  ad30NoFilterResults:'No restaurants match this filter',ad30ResetFilters:'Reset filters'
 });
 let sortMode='recommended',sortOpen=false,localFilter={disc:false,rate:false,fast:false,free:false},legacyRoute='';
 function syncLegacyRoute(){
@@ -147,7 +149,28 @@ function setSort(mode){
 function toggleFilter(key){
   if(!Object.hasOwn(localFilter,key))return;
   syncLegacyRoute();localFilter[key]=!localFilter[key];
-  S.srt='';S.fo=false;legacyRoute='';render();
+  S.srt='';S.fo=false;legacyRoute='';render();revealEmptyFilter();
+}
+function resetFilters(){
+  chosenCuisine='';sortMode='recommended';sortOpen=false;
+  localFilter={disc:false,rate:false,fast:false,free:false};legacyRoute='';
+  S.cq='';S.srt='';S.fo=false;render();
+}
+function emptyFilter(){
+  return '<div class="empty ad30-empty"><span class="eic" aria-hidden="true">'+ico('search',22)+'</span>'
+    +'<p role="status">'+esc(t('ad30NoFilterResults'))+'</p>'
+    +'<button type="button" class="btn s ad30-reset" onclick="TALABOT_RESTAURANTS_BRIEF30.reset()">'
+    +esc(t('ad30ResetFilters'))+'</button></div>';
+}
+function revealEmptyFilter(){
+  requestAnimationFrame(()=>{
+    const empty=document.querySelector('#app .ad30-empty');
+    if(!empty)return;
+    let edge=innerHeight;
+    for(const anchor of document.querySelectorAll('#app .nav,#app .bar'))edge=Math.min(edge,anchor.getBoundingClientRect().top);
+    const covered=empty.getBoundingClientRect().bottom-(edge-12);
+    if(covered>0)window.scrollBy(0,Math.ceil(covered));
+  });
 }
 function speedMinutes(s){
   const measured=TLB.speed?.(s.id);
@@ -227,8 +250,9 @@ function rows(){
   if(S.srt==='rate')list=list.slice().sort((a,b)=>b.s.rt-a.s.rt);
   if(S.srt==='mine')list=list.filter(({s})=>s.n in mine).sort((a,b)=>mine[b.s.n]-mine[a.s.n]);
   list=rankedSearch(sortAndFilter(list));
+  const filtered=q||chosenCuisine||S.fo||['free','disc','mine'].includes(S.srt)||Object.values(localFilter).some(Boolean);
   return list.length?list.map(restaurantCard).join(''):
-    emptyV(t('noRes'),t('emNoResS'),'','search');
+    filtered?emptyFilter():emptyV(t('noRes'),t('emNoResS'),'','search');
 }
 
 /* AD-07: W-10 sponsored ranking is the existing rankedSearch() contract.
@@ -306,6 +330,7 @@ window.TALABOT_RESTAURANTS_BRIEF30={
   banner:function(id){bannerGo(id)},
   cuisine:toggleCuisine,
   filter:toggleFilter,
+  reset:resetFilters,
   sort:setSort,
   sortOpen:function(){sortOpen=true;render()},
   sortClose:function(){sortOpen=false;render()}

@@ -108,8 +108,11 @@ def check_floating_layout(page, lang):
 
 
 def reveal_floating_campaign(page):
-    page.evaluate('window.scrollTo(0,document.documentElement.scrollHeight)')
     settle_layout(page)
+    page.evaluate('window.scrollTo(0,document.documentElement.scrollHeight)')
+    # Wait for the downward-scroll hide before reversing direction; WebKit may
+    # coalesce back-to-back programmatic scroll events after a dialog closes.
+    page.wait_for_function("""()=>scrollY>60&&getComputedStyle(document.querySelector('.ad30-float')).opacity==='0'""")
     assert not page.locator('.ad30-float').is_visible(), 'Campaign must hide on downward scroll'
     page.evaluate('window.scrollBy(0,-24)')
     settle_layout(page)
@@ -136,6 +139,40 @@ def check_floating_cart_and_long_copy(page, lang):
     assert page.locator('.ad30-banner').count() == 4
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
     page.evaluate("text=>{TLB.banners().find(b=>b.id==='ad30-campaign').presentation.floating_text[TLB.lang()]=text;render()}", original)
+
+
+def check_empty_filter_reset(page, lang, width, output):
+    ru = lang == 'ru'
+    page.locator('.ad30-cuisine').filter(has_text='Плов' if ru else 'Pilaf').click()
+    page.locator('.ad30-filter').filter(has_text='Рейтинг 4.0+' if ru else 'Rating 4.0+').click()
+    assert page.locator('.ad30-card').count() == 0
+    empty = page.locator('.ad30-empty')
+    assert empty.count() == 1, 'An empty filter must explain the state and provide a way out'
+    assert empty.get_by_text('Нет ресторанов по этому фильтру' if ru else 'No restaurants match this filter', exact=True).count() == 1
+    assert empty.locator('svg').count() == 1
+    reset = empty.get_by_role('button', name='Сбросить фильтры' if ru else 'Reset filters', exact=True)
+    assert reset.count() == 1
+    settle_layout(page)
+    assert reset.is_visible()
+    clear = reset.evaluate("""b=>{const r=b.getBoundingClientRect(),nav=document.querySelector('.nav').getBoundingClientRect();
+      return {bottom:r.bottom,edge:nav.top-12,hit:document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('button')===b}}""")
+    assert clear['bottom']<=clear['edge']+1 and clear['hit'], ('Reset is obscured by bottom navigation',clear)
+    capture(page, output, f'{lang}-{width}-brief30b-empty-filter-viewport-fixture.webp')
+    reset.click()
+    assert page.locator('.ad30-card').count() == 3
+    assert page.locator('.ad30-empty').count() == 0
+    assert page.locator('.ad30-cuisine[aria-pressed="true"],.ad30-filter[aria-pressed="true"]').count() == 0
+    assert page.locator('.ad30-current-sort').inner_text() == ('Рекомендуемые' if ru else 'Recommended')
+
+    # Reset also removes query and legacy banner/open-only restrictions, not
+    # just the currently selected cuisine/chip that produced the first empty state.
+    page.evaluate("()=>{S.cq='no-matching-restaurant-qa';S.srt='free';S.fo=true;render()}")
+    assert page.locator('.ad30-card').count() == 0
+    page.get_by_role('button', name='Сбросить фильтры' if ru else 'Reset filters', exact=True).click()
+    assert page.evaluate("S.cq===''&&S.srt===''&&S.fo===false&&S.v==='cat'&&S.catKey==='rest'")
+    assert page.locator('input#cq').input_value() == ''
+    assert page.locator('.ad30-card').count() == 3
+    assert page.locator('.ad30-filter[aria-pressed="true"]').count() == 0
 
 
 def enter_restaurants(page):
@@ -213,6 +250,7 @@ def check_restaurants(page, lang, width, output):
     cuisine.click()
     assert cuisine.get_attribute("aria-pressed") == "false"
     assert cards.count() == 3
+    check_empty_filter_reset(page, lang, width, output)
 
     # Multiple active chips combine via logical AND, no fake match for low rating.
     disc = page.locator(".ad30-filter").filter(has_text="Скидки" if ru else "Discounts")
