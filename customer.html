@@ -2112,8 +2112,8 @@ function adH(products){
     const [st,pct]=best;
     slides.push(banner(st,homeOfferTitle(st,pct),'',storeTap(st)));
   }
-  return homeHeading('advert')+`<div class="home-ad-rail" onscroll="syncHomeAd(this)">${slides.join('')}</div>
-    <div class="home-ad-dots" aria-hidden="true">${slides.map((_,i)=>`<i${i===0?' class="on"':''}></i>`).join('')}</div>`;
+  return homeHeading('advert')+`<div class="home-ad-carousel"><div class="home-ad-rail" onscroll="syncHomeAd(this)">${slides.join('')}</div>
+    <div class="home-ad-dots" aria-hidden="true">${slides.map((_,i)=>`<i${i===0?' class="on"':''}></i>`).join('')}</div></div>`;
 }
 function syncHomeAd(rail){
   const current=Math.round(rail.scrollLeft/Math.max(1,rail.clientWidth));
