@@ -183,6 +183,27 @@ function sortSheet(){
     +'</section></div>';
 }
 
+
+/* AD-06: 96px logo-first list cards, with safe cover fallback and closed at end. */
+function restaurantCard({s,h,sponsored}){
+  const open=TLB.isOpen(s.n);
+  const name=esc(s.n),logo=homeRestaurantImage(s);
+  const photo='<span class="ad30-card-logo">'+(logo||'<span class="ad30-card-photo-empty"></span>')+heart(s)+'</span>';
+  const meta=[d6Rt(s),etaOf(s)?'<span>'+esc(etaOf(s))+'</span>':'',
+    '<span>'+esc(delTxt(s))+'</span>'].filter(Boolean).join('<span class="ad30-dot">·</span>');
+  const hasPromo=s.disc>0||s.ft==='free'||s.ffd||s.fdm>0;
+  const offer=hasPromo?'<span class="ad30-card-offer">'
+    +esc(s.disc>0?'−'+s.disc+'%':s.ft==='free'?t('free'):s.ffd?t('freeFirst'):t('hFreeFromL').replace('{n}',s.fdm))
+    +'</span>':'';
+  return '<article class="ad30-card'+(open?'':' closed')+'" role="'+(open?'button':'group')+'" '
+    +(open?'tabindex="0" '+storeTap(s)+' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openN('+esc(JSON.stringify(s.n))+')}"':'aria-disabled="true"')
+    +'>'+photo+'<span class="ad30-card-copy"><strong class="ad30-card-name">'+name+'</strong>'
+    +'<span class="ad30-card-meta">'+meta+'</span>'
+    +(sponsored?homeAdBadge():'')+(h?'<span class="ad30-card-dish">'+esc(h.name)+'</span>':'')
+    +offer+(!open?'<span class="ad30-card-closed">'+esc(t('closedStoreBadge'))+'</span>':'')
+    +'</span></article>';
+}
+
 function rows(){
   const q=String(S.cq||'').trim().toLowerCase(),mine=d6Mine();
   let list=matches(TLB.allMenus(true),q).filter(({s})=>s.c==='rest');
@@ -194,7 +215,7 @@ function rows(){
   if(S.srt==='rate')list=list.slice().sort((a,b)=>b.s.rt-a.s.rt);
   if(S.srt==='mine')list=list.filter(({s})=>s.n in mine).sort((a,b)=>mine[b.s.n]-mine[a.s.n]);
   list=rankedSearch(sortAndFilter(list));
-  return list.length?list.map(({s,h,sponsored})=>d6SRow(s,h,mine[s.n]||null,sponsored)).join(''):
+  return list.length?list.map(restaurantCard).join(''):
     emptyV(t('noRes'),t('emNoResS'),'','search');
 }
 function renderRestaurants(){
