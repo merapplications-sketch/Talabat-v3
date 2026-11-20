@@ -140,3 +140,4 @@
 - 2026-11-20 17:15 BRIEF-29 (af466951) مقبول. OPS ينشر بشرط H-01، ونقطة الرجوع 8546cc98. sql/proposed/brief29-banner-presentation.md اقتراح لحفظ إجراءات البانر ومكانه (يحتاج موافقة المالك). التالي: صفحة المطاعم.
 - 2026-11-20 17:25 BRIEF-30 صفحة المطاعم (AD-01..AD-07) بموافقة المالك.
 - 2026-11-20 18:21 المالك حوّل Talabat-v3 إلى **خاص** (تحقق المدير: private=true). talabot-tailadmin-review نسخة fork من TailAdmin/free-nextjs-admin-dashboard ولا تُحوَّل إلا بعد Leave fork network. الـ2000 دقيقة تُحسب من الآن.
+- 2026-11-20 18:32 talabot-tailadmin-review خاص (بعد Leave fork network). BRIEF-CI1: CI-01/03/04/05 مقبولة، وCI-02 عبر ملف trigger على فرع المراجعة بلا لمس main.
