@@ -1866,7 +1866,7 @@ function rotTick(){if(S.v!='home'||S.q.trim())return;document.querySelectorAll('
 /* AF-05: one lifecycle for every managed placement; wall-clock deadlines remain separate. */
 TLB.addDict({bannerPause:'Остановить смену баннеров',bannerPlay:'Продолжить смену баннеров'},
   {bannerPause:'Pause banner rotation',bannerPlay:'Resume banner rotation'});
-const B31_ROT=new Map();
+const B31_ROT=new Map(),B31_POINTERS=new Map();
 const bannerRotationMs=place=>TALABOT_BANNERS.rotationMs(place,TLB.settings());
 const bannerMotionReduced=()=>window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 function bannerRailStep(rail){const vertical=rail.dataset.bannerRail==='home_side',first=rail.children[0],next=rail.children[1];return next?(vertical?next.offsetTop-first.offsetTop:next.offsetLeft-first.offsetLeft):(vertical?rail.clientHeight:rail.clientWidth)}
@@ -1881,7 +1881,7 @@ function bannerRotationTick(){
   if(document.hidden||bannerMotionReduced())return;
   for(const rail of document.querySelectorAll('[data-banner-rail]')){
     const place=rail.dataset.bannerRail,state=B31_ROT.get(place),vertical=place==='home_side';
-    if(!state||state.paused||rail.children.length<2||rail.contains(document.activeElement))continue;
+    if(!state||state.paused||state.activePointers?.size||state.activeTouches>0||rail.children.length<2||rail.contains(document.activeElement))continue;
     const now=Date.now(),bounds=rail.getBoundingClientRect();if(bounds.bottom<=0||bounds.top>=innerHeight){state.nextAt=now+bannerRotationMs(place);continue;}if(now<state.holdUntil||now<state.nextAt)continue;
     const step=bannerRailStep(rail),max=vertical?rail.scrollHeight-rail.clientHeight:rail.scrollWidth-rail.clientWidth;
     if(step<=0||max<=1)continue;
@@ -1900,7 +1900,8 @@ function bannersAfterRender(){
     if(!rail.dataset.bannerBound){
       rail.dataset.bannerBound='1';
       const hold=()=>{state.holdUntil=Date.now()+8000;state.nextAt=state.holdUntil+bannerRotationMs(place)};
-      rail.addEventListener('pointerdown',hold,{passive:true});rail.addEventListener('touchstart',hold,{passive:true});rail.addEventListener('wheel',hold,{passive:true});
+      rail.addEventListener('pointerdown',event=>{state.activePointers??=new Set();state.activePointers.add(event.pointerId);B31_POINTERS.set(event.pointerId,{state,place});hold()},{passive:true});
+      rail.addEventListener('touchstart',event=>{state.activeTouches=event.touches.length;hold()},{passive:true});rail.addEventListener('wheel',hold,{passive:true});
       rail.addEventListener('scroll',()=>bannerRailSync(rail),{passive:true});
       const offset=index*bannerRailStep(rail);if(place==='home_side')rail.scrollTop=offset;else rail.scrollLeft=offset;
     }
@@ -1909,6 +1910,10 @@ function bannersAfterRender(){
     bannerRailSync(rail);
   }
 }
+function bannerReleasePointer(event){const active=B31_POINTERS.get(event.pointerId);if(!active)return;const {state,place}=active;state.activePointers?.delete(event.pointerId);B31_POINTERS.delete(event.pointerId);state.holdUntil=Date.now()+8000;state.nextAt=state.holdUntil+bannerRotationMs(place)}
+for(const type of ['pointerup','pointercancel'])document.addEventListener(type,bannerReleasePointer,{passive:true,capture:true});
+for(const type of ['touchend','touchcancel'])document.addEventListener(type,event=>{for(const [place,state] of B31_ROT){if(!state.activeTouches)continue;state.activeTouches=event.touches.length;state.holdUntil=Date.now()+8000;state.nextAt=state.holdUntil+bannerRotationMs(place)}},{passive:true,capture:true});
+window.addEventListener('blur',()=>{B31_POINTERS.clear();for(const [place,state] of B31_ROT){state.activePointers?.clear();state.activeTouches=0;state.holdUntil=Date.now()+8000;state.nextAt=state.holdUntil+bannerRotationMs(place)}});
 if(!window.__banner31Rotation)window.__banner31Rotation=setInterval(bannerRotationTick,250);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)for(const [place,state] of B31_ROT)state.nextAt=Date.now()+bannerRotationMs(place)});
 /* ---------- shared view pieces ---------- */
