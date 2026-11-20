@@ -8,26 +8,9 @@ TLB.addDict({
   ad30Offers:'Discounts',ad30Free:'Free delivery',ad30ForYou:'For you',
   ad30All:'All restaurants',ad30Again:'Order again'
 });
-function bannerItems(){
-  const defaults=[
-    {id:'disc',label:t('ad30Offers'),picture:'fire',tone:'disc',action:"openBannerList('disc')"},
-    {id:'free',label:t('ad30Free'),picture:'motor-scooter',tone:'free',action:"openBannerList('free')"},
-    {id:'you',label:t('ad30ForYou'),picture:'hamburger',tone:'you',action:"openBannerList('category','rest')"}
-  ].map(x=>({...x,fallback:true}));
-  const managed=TLB.banners().filter(b=>bannerConfig(b).audience==='restaurants')
-    .sort((a,b)=>(+a.sort||0)-(+b.sort||0)).map(b=>({id:b.id,label:b.title,picture:'hamburger',tone:'managed',image:b.image_url,action:'',fallback:false}));
-  return defaults.concat(managed);
-}
-function rail(){
-  return '<div class="ad30-banner-row" aria-label="'+esc(t('d6Partn'))+'">'+bannerItems().map(b=>{
-    const tap=b.fallback?'onclick="'+b.action+'"':
-      'onclick="TALABOT_RESTAURANTS_BRIEF30.banner('+esc(JSON.stringify(b.id))+')"';
-    const art=b.image
-      ?'<img class="ad30-banner-img" src="'+esc(b.image)+'" alt="" loading="lazy" onerror="this.remove()">'
-      :'<img class="ad30-banner-art" src="'+A3(b.picture)+'" alt="" loading="lazy">';
-    return '<button type="button" class="ad30-banner ad30-tone-'+b.tone+'" '+tap+' aria-label="'+esc(b.label)+'">'+art+'<b>'+esc(b.label)+'</b></button>';
-  }).join('')+'</div>';
-}
+/* AG-03: this rail contains advertisements with their own destinations. */
+function bannerItems(){return bannersAt('restaurants')}
+function rail(){const banners=bannerItems();return banners.length?'<div class="ad30-banner-row" data-banner-rail="restaurants" aria-label="'+esc(t('d6Partn'))+'">'+banners.map(b=>bannerMarkup(b,'ad30-banner ad30-tone-managed','restaurants')).join('')+'</div>':''}
 function search(){
   return '<div class="d6-sf ad30-search" onclick="if(event.target===this)document.getElementById(\'cq\').focus()">'
   +ico('search',20)+'<input type="search" id="cq" value="'+esc(S.cq||'')+'" placeholder="'+esc(ad30Hint())+'" '
@@ -259,9 +242,9 @@ function rows(){
    Floating campaign only exists when an explicit manager field is present. */
 let lastFloatScroll=0,floatFrame=0,floatObserver=null,floatObserved=null;
 function floatingCampaign(){
-  const selected=TLB.banners().find(b=>{
+  const selected=bannersAt('restaurants').find(b=>{
     const cfg=bannerConfig(b);
-    return cfg.audience==='restaurants'&&(cfg.floating===true||b.placement==='restaurants_float')
+    return (cfg.floating===true||b.placement==='restaurants_float')
       &&(cfg.action==='campaign'||cfg.campaign);
   });
   if(!selected)return '';
