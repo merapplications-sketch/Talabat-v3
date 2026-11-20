@@ -314,12 +314,16 @@
 #app .d6h .d6-bt.k-hap.img .tt { color: #fff; padding: 8px 10px 0; font-size: 14px; line-height: 17px; }
 #app .d6h .d6-bt.k-hap.img .cd { position: absolute; bottom: 8px; left: 10px; }
 
-/* Indicators have their own row beneath both Home carousels. */
+/* Keep the main carousel indicators over the image and clear of its CTA. */
 #app .d6h .d6-bm { display: flex; flex-direction: column; overflow: visible; }
 #app .d6h .d6-bsc { flex: 1 1 auto; min-height: 0; height: auto; border-radius: 14px; }
 #app .d6h .d6-bsc > .d6-bt:not(.img) { padding-bottom: 12px; }
-#app .d6h .d6-bm .hdt { position: static; flex: none; margin-top: 8px; }
-#app .d6h .d6-bm .hdt i { background: #ed551c40; }
+#app .d6h .d6-bm:has(.hdt) .d6-bsc > .d6-bt:not(.img) { padding-bottom: 32px; }
+#app .d6h .d6-bm .hdt {
+  z-index: 2; inset: auto 12px 12px auto; padding: 4px 7px;
+  border-radius: 999px; background: rgb(255 255 255 / 82%);
+}
+#app .d6h .d6-bm .hdt i { background: #ed551c66; }
 #app .d6h .d6-bm .hdt i.on { background: #ed551c; }
 #app .d6h .home-ad-dots { padding-top: 8px; }
 

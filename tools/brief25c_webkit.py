@@ -263,7 +263,11 @@ def test_brief26(browser, server, photos, out):
         assert page.locator('.home-dine-section').evaluate("""e=>e.contains(e.querySelector('.dine-head button'))
           && !!e.querySelector('.home-dine .d6-dc') && getComputedStyle(e).backgroundColor==='rgb(247, 243, 238)'
           && getComputedStyle(e.querySelector('.dine-head img')).mixBlendMode==='multiply'""")
-        assert page.locator('.hdt').evaluate("e=>e.getBoundingClientRect().top-e.previousElementSibling.getBoundingClientRect().bottom")>=8
+        assert page.locator('.hdt').evaluate('''e=>{
+          const dots=e.getBoundingClientRect(), rail=e.previousElementSibling.getBoundingClientRect();
+          return Math.abs(rail.bottom-dots.bottom-12)<1 && dots.top>=rail.top &&
+            dots.left>=rail.left && dots.right<=rail.right;
+        }''')
         assert page.locator('.home-ad-dots').evaluate("e=>getComputedStyle(e).paddingTop")=='8px'
         assert page.evaluate("()=>['KFC','Romant Restaurant'].every(n=>triedRestaurants().has(n))")
         assert page.locator('.home-discover .reel-tile[data-reel-key^="restaurant:"]').count()==0
