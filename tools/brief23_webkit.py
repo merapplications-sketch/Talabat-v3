@@ -95,10 +95,14 @@ def display(page):
 def repeat_logos(page):
     tiles=page.locator('.home-again .d6-lo')
     for name,initial in [('Лимон','Л'),('Сад','С')]:
-        logo=tiles.filter(has_text=name).locator('.dish-store-logo')
-        assert logo.inner_text()==initial and logo.locator('img').count()==0
-        assert logo.evaluate("""e=>getComputedStyle(e).backgroundColor==='rgb(255, 255, 255)'&&
-          parseFloat(getComputedStyle(e).fontSize)>=32&&e.getBoundingClientRect().width>=80""")
+        badge=tiles.filter(has_text=name).locator('.dish-store-logo')
+        source=page.evaluate("name=>{const s=TLB.stores(true).find(s=>s.name===name);return s.logo_url||s.cover_url||''}",name)
+        if source:
+            assert badge.locator('img').get_attribute('src')==source
+        else:
+            assert badge.inner_text()==initial and badge.locator('img').count()==0
+            assert badge.evaluate("""e=>getComputedStyle(e).backgroundColor==='rgb(255, 255, 255)'&&
+              parseFloat(getComputedStyle(e).fontSize)>=32&&e.getBoundingClientRect().width>=80""")
     brand=tiles.filter(has_text='Мята').locator('.dish-store-logo img')
     brand.evaluate("i=>i.loading='eager'")
     page.wait_for_function("""()=>document.querySelector('.home-again img[src$="leafy-green.webp"]')?.naturalWidth>0""")

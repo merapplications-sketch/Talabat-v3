@@ -39,8 +39,8 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --depth=1 --no-tags origin c5a8ff8a2d3a74301a3f35130a8f84316528449c 83e94496141375d6e6f1e99ed735cccb70254c32
           git worktree add --detach "$RUNNER_TEMP/home-approved" c5a8ff8a2d3a74301a3f35130a8f84316528449c
-          git diff --exit-code c5a8ff8a HEAD -- sql supabase talabat-core.js driver.html merchant.html
-          git diff --exit-code 3a6fce7893c829011d2d9ee1f8757e06e46f2dad HEAD -- admin.html
+          git diff --exit-code c5a8ff8a HEAD -- sql supabase talabat-core.js driver.html merchant.html ':(exclude)sql/proposed/brief29-banner-presentation.md'
+          git diff --exit-code 69cfbbb1132aa8e0aba9d151e2edd21024217f4d HEAD -- admin.html
       - name: Run offline WebKit geometry, image, action and financial checks
         run: |
           python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0

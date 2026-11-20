@@ -268,7 +268,7 @@ def test_brief26(browser, server, photos, out):
           return Math.abs(rail.bottom-dots.bottom-12)<1 && dots.top>=rail.top &&
             dots.left>=rail.left && dots.right<=rail.right;
         }''')
-        assert page.locator('.home-ad-dots').evaluate("e=>getComputedStyle(e).paddingTop")=='8px'
+        assert page.locator('.home-ad-dots').evaluate("e=>getComputedStyle(e).position")=='absolute'
         assert page.evaluate("()=>['KFC','Romant Restaurant'].every(n=>triedRestaurants().has(n))")
         assert page.locator('.home-discover .reel-tile[data-reel-key^="restaurant:"]').count()==0
         assert {'−20%', '−5%'} <= set(page.locator('.home-discover .reel-deal').all_inner_texts())
@@ -311,6 +311,7 @@ def test_brief26(browser, server, photos, out):
         page.clock.set_fixed_time(datetime(2026,11,18,9,12,20,tzinfo=timezone.utc))
         sheet.wait_for(state='detached')
         tile.wait_for(state='detached')
+        assert page.get_by_alt_text("Счастливые часы",exact=True).count()==0
     finally:
         ctx.close()
 
@@ -447,6 +448,111 @@ def test_brief27(browser,server,photos,out):
         ctx.close()
 
 
+def test_brief29(browser,server,photos,out):
+    seed="""
+      stores[0].fee_type='free';
+      stores[1].logo_url='/qa-image/pro-khinkali';
+      const put=(id,title,target,presentation={},ends_at=null)=>T.banners.push({
+        id,title,link_value:target,link_type:'store',placement:'top',is_active:true,presentation,ends_at,
+        image_url:target==='s1'?'/qa-image/kfc':'/qa-image/romant'
+      });
+      put('cta-dish','KFC · Hot honey','s1',{action:'order',item_id:'hot'});
+      put('side-free','Доставка бесплатно','s1');
+      put('side-discount','Скидки до 20%','s2');
+      put('cta-restaurant','Romant Restaurant','s2',{action:'restaurant'});
+      put('cta-campaign','Скидки сегодня','s2',{action:'campaign',campaign:'discount',label:{ru:'Смотреть акцию'}},'2026-11-18T09:12:20Z');
+      put('cta-filter','Бесплатная доставка','s1',{action:'list',filter:'free',label:{ru:'Смотреть доставку'}});
+      put('orders-private','Только мои заказы','s1',{audience:'orders'});
+    """
+    ctx,page=prior.page_for(browser,server,photos,seed)
+    try:
+        page.emulate_media(reduced_motion='reduce')
+        rail=page.locator('#hsc')
+        def activate(index,text):
+            rail.evaluate("(e,index)=>e.scrollTo(index*e.clientWidth,0)",index)
+            button=rail.locator('button').nth(index)
+            assert button.locator('.cta').inner_text()==text
+            page.wait_for_function("""i=>{const e=document.querySelector('#hsc');return Math.abs(e.scrollLeft-i*e.clientWidth)<=1}""",arg=index)
+            return button
+
+        button=activate(0,'Заказать сейчас')
+        prior.shot(page,out,'ru-375-brief29-slide-order.webp')
+        button.click()
+        assert page.evaluate("S.v==='menu'&&S.store==='KFC'&&S.sh?.id==='hot'")
+        page.evaluate("S.sh=null;go('home')")
+        button=activate(1,'Открыть ресторан')
+        prior.shot(page,out,'ru-375-brief29-slide-restaurant.webp')
+        button.click()
+        assert page.evaluate("S.v==='menu'&&S.store==='Romant Restaurant'&&!S.sh")
+        page.evaluate("go('home')")
+        button=activate(2,'Смотреть акцию')
+        assert button.locator('.hcd').inner_text()=='12:20'
+        prior.shot(page,out,'ru-375-brief29-slide-campaign.webp')
+        button.click()
+        sheet=page.locator('.hh-sheet[open]')
+        assert sheet.locator('.hcd').inner_text()=='12:20'
+        assert sheet.locator('.hh-sheet-store').count()==1
+        assert 'Romant Restaurant' in sheet.locator('.hh-sheet-store').inner_text()
+        prior.shot(page,out,'ru-375-brief29-campaign-sheet.webp')
+        sheet.locator('.hh-sheet-close').click()
+        sheet.wait_for(state='detached')
+
+        page.locator('.d6-bento > button').filter(has=page.get_by_alt_text('Доставка бесплатно',exact=True)).click()
+        assert page.evaluate("S.v==='cat'&&S.catKey==='rest'&&S.srt==='free'")
+        assert page.locator('.d6-sr .nt').all_inner_texts()==['KFC','Romant Restaurant']
+        prior.shot(page,out,'ru-375-brief29-free-delivery.webp')
+        page.evaluate("go('home')")
+        page.locator('.d6-bento > button').filter(has=page.get_by_alt_text('Скидки до 20%',exact=True)).click()
+        assert page.evaluate("S.v==='cat'&&S.catKey==='rest'&&S.srt==='disc'")
+        assert page.locator('.d6-sr .nt').all_inner_texts()==['Romant Restaurant']
+        prior.shot(page,out,'ru-375-brief29-discounts.webp')
+        page.evaluate("go('home')")
+        activate(3,'Смотреть доставку').click()
+        assert page.evaluate("S.v==='cat'&&S.srt==='free'")
+        page.evaluate("go('cat',{catKey:'rest',cq:'',srt:'',fo:false})")
+        row=page.locator('.d6-sr').filter(has_text='Romant Restaurant')
+        assert row.locator('img').first.get_attribute('src')=='/qa-image/pro-khinkali'
+        prior.shot(page,out,'ru-375-brief29-category-logos.webp')
+
+        page.evaluate("go('home')")
+        section=page.locator('.home-ad-carousel')
+        section.scroll_into_view_if_needed()
+        assert section.evaluate("""e=>{
+          const b=e.getBoundingClientRect(), d=e.querySelector('.home-ad-dots').getBoundingClientRect();
+          return Math.abs(b.bottom-d.bottom-12)<1 && d.top>b.top && d.right<=b.right;
+        }""")
+        prior.shot(page,out,'ru-375-brief29-dont-miss-dots.webp')
+        page.evaluate("go('orders')")
+        ads=page.locator('.d76-order-banners button')
+        assert ads.count()>0 and 'Только мои заказы' not in ads.evaluate_all("es=>es.map(e=>e.ariaLabel)")
+        page.evaluate("""()=>{const get=TLB.settings;TLB.settings=()=>({...get(),orders_banner_mode:1});render()}""")
+        assert ads.count()==1 and ads.first.get_attribute('aria-label')=='Только мои заказы'
+
+        page.evaluate("openCampaign('free')")
+        assert page.locator('.hh-sheet[open] .hh-sheet-store').count()==2
+        assert page.locator('.hh-sheet[open] .hcd').count()==0
+    finally:
+        ctx.close()
+
+    prior.qa.SDK=prior.FIX
+    ctx,page=prior.qa.page_at(browser,server,photos,'ru',375,role='admin')
+    try:
+        page.evaluate("()=>{tab='b';showAddB=true;render()}")
+        options=page.locator('#banner-orders-mode')
+        assert options.input_value()=='0'
+        options.select_option('1')
+        assert options.input_value()=='1'
+        assert page.locator('#action option').all_text_contents()==[
+            'По ссылке баннера','Заказать сейчас','Открыть ресторан','Смотреть список','Открыть кампанию']
+        page.locator('#action').select_option('campaign')
+        prior.shot(page,out,'ru-375-brief29-admin-options.webp')
+        assert page.evaluate("Object.keys(bannerPresentation()).length===0")
+        page.evaluate("()=>{const get=TLB.banners;TLB.banners=all=>get(all).map(b=>({...b,presentation:null}))}")
+        assert page.evaluate("bannerPresentation().presentation.action==='campaign'")
+    finally:
+        ctx.close()
+
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -457,6 +563,7 @@ def main():
             photos=prior.fixture_logos(prior.qa.source_photos())
             test_brief26(browser,server,photos,out)
             test_brief27(browser,server,photos,out)
+            test_brief29(browser,server,photos,out)
             test_dineout(browser,server,photos,out)
             test_reel_badges(browser,server,photos,out)
             test_reel_linked_badges(browser,server,photos,out)
@@ -469,7 +576,7 @@ def main():
     finally:
         server.shutdown()
     (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
-    print('BRIEF-25c Y-01..Y-04 and BRIEF-26 Z-01..Z-10 and BRIEF-27 AA-01..AA-02 PASS')
+    print('BRIEF-25c Y-01..Y-04 and BRIEF-26 Z-01..Z-10 BRIEF-27 AA-01..AA-02 and BRIEF-29 AC-01..AC-07 PASS')
 
 if __name__=='__main__':
     main()
