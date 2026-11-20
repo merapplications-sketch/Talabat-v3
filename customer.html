@@ -1418,7 +1418,7 @@ const openCat=c=>go('cat',{catKey:c,cq:'',srt:'',fo:false});
 const storeTap=st=>TLB.isOpen(st.n)?`onclick="openStore(${STORES.indexOf(st)})"`:'aria-disabled="true"';
 TLB.addDict({closedStoreBadge:'Закрыт'},{closedStoreBadge:'Closed'});
 const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
-const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p);
+const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p&&bannerConfig(b).audience!=='orders');
 const isFirst=n=>!TLB.orders().some(o=>o.store==n&&o.status!='rejected'&&o.status!='cancelled');
 const sdOf=n=>(ALLS.find(x=>x.n==n)||{}).disc||0;
 /* prices: an item gets the better of the store discount and its own offer (never stacked) */
@@ -3136,10 +3136,12 @@ function watchOrders(){const l=TLB.orders();if(!prevInit){l.forEach(o=>PREV[o.id
 function cxnSheet(){if(S.cxn==null)return '';const o=TLB.order(S.cxn);if(!o)return '';return `<div class="sheet" onclick="S.cxn=null;render()"><div class="asheet" onclick="event.stopPropagation()"><div class="grab"><i></i></div><div style="padding:4px 2px 6px"><b style="font-size:16px">${t('cxNow').replace('{n}',o.id)}</b><div class="sm" style="margin-top:6px">${o.cancelReason?t('cxS').replace('{r}',esc(t('cr_'+o.cancelReason))):''}</div><div class="rg" style="gap:10px;margin-top:16px"><button class="btn s" style="flex:1" onclick="S.cxn=null;render()">${t('cxClose')}</button><button class="btn" style="flex:2" onclick="S.cxn=null;go('track',{tid:${esc(JSON.stringify(o.id))}})">${t('cxSee')}</button></div></div></div></div>`}
 /* ---------- ORDERS ---------- */
 const actSt=['pending','preparing','ready','pickedup'];
-function ordersAd(){const ads=inB('top');return ads.length?`<div class="d76-order-banners" aria-label="${t('d6Partn')}">${ads.map(b=>`<button onclick="bannerGo('${b.id}')" aria-label="${esc(b.title||t('d6Partn'))}">${b.image_url?`<img src="${esc(b.image_url)}" alt="${esc(b.title||'')}" loading="lazy">`:`<b>${esc(b.title||t('d6Partn'))}</b>`}</button>`).join('')}</div>`:''}
+function ordersAd(useOrdersSet=false){
+  const custom=useOrdersSet&&Number(TLB.settings()?.orders_banner_mode)===1;
+  const ads=custom?TLB.banners().filter(b=>bannerConfig(b).audience==='orders'):inB('top');return ads.length?`<div class="d76-order-banners" aria-label="${t('d6Partn')}">${ads.map(b=>`<button type="button" ${bannerAction(b)} aria-label="${esc(b.title||t('d6Partn'))}">${b.image_url?`<img src="${esc(b.image_url)}" alt="${esc(b.title||'')}" loading="lazy">`:`<b>${esc(b.title||t('d6Partn'))}</b>`}</button>`).join('')}</div>`:''}
 function vOrders(){const all=TLB.orders(),f=S.ofl,l=all.filter(o=>f=='all'||(f=='act'&&actSt.includes(o.status))||(f=='done'&&o.status=='delivered')||(f=='can'&&(o.status=='rejected'||o.status=='cancelled')));
   const fl=[['all','fAll'],['act','fAct'],['done','fDone'],['can','fCan']];
-  return `<div class="d76-orders">`+topbar(t('ordersT'),'',"go('home')")+ordersAd()+`<div class="chips" style="padding-top:2px">${fl.map(([k,l])=>`<button class="chip ${f==k?'on':''}" onclick="S.ofl='${k}';render()">${t(l)}</button>`).join('')}</div>
+  return `<div class="d76-orders">`+topbar(t('ordersT'),'',"go('home')")+ordersAd(true)+`<div class="chips" style="padding-top:2px">${fl.map(([k,l])=>`<button class="chip ${f==k?'on':''}" onclick="S.ofl='${k}';render()">${t(l)}</button>`).join('')}</div>
   <div class="pg">${l.length?l.map(o=>{const st=storeOf(o.store),n=(o.items||[]).reduce((a,i)=>a+i.qty,0),unrated=o.status=='delivered'&&!TLB.ratingOf(o.id);return `<div class="oc2"><div class="oh2"><span class="xs mut">${fmtD(o.createdAt)}</span><span class="pill ${o.status}">${t('trk_'+o.status)}${TLB.unread(o.id)?` · ${TLB.unread(o.id)}`:''}</span></div>
   <div class="ob2" onclick="go('track',{tid:${esc(JSON.stringify(o.id))}})"><div class="th">${homeRestaurantImage(st)}</div><div class="tx" style="flex:1;min-width:0"><b>${esc(o.store)}</b><div class="xs mut" style="margin-top:2px">#${o.id}${n?' · '+n+' '+t('items'):''}${o.scheduledFor&&actSt.includes(o.status)?' · 🕒 '+fmtWhen(o.scheduledFor):''}${o.groupId?' · 👥 '+t('grpTag'):''}</div></div><b>${o.total} TJS</b></div>
   <div class="of2"><button class="btn s" onclick="reorder(${esc(JSON.stringify(o.id))})">${t('reorder')}</button><a onclick="go('track',{tid:${esc(JSON.stringify(o.id))}})">${t('n6Pay')}</a></div>

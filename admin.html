@@ -208,6 +208,22 @@ TLB.addDict({
   bannerFree:'Free delivery',bannerDiscount:'Discounts',bannerCategory:'Category',bannerHappy:'Happy Hours',
   bannerPending:'These fields are ready to connect. The existing banner link applies until then.'
 });
+TLB.addDict({
+  bannerAudience:'Размещение коллекции',bannerHomeAudience:'Главная',bannerOrdersAudience:'Мои заказы',
+  bannerOrdersMode:'Баннеры в «Мои заказы»',bannerCopyHome:'Те же баннеры, что на главной',bannerOwnSet:'Своя подборка'
+},{
+  bannerAudience:'Banner collection',bannerHomeAudience:'Home',bannerOrdersAudience:'My orders',
+  bannerOrdersMode:'Banners in My orders',bannerCopyHome:'Use Home banners',bannerOwnSet:'Use a separate collection'
+});
+function bannerOrdersSettings(){
+  const settings=TLB.settings()||{},ready=Object.hasOwn(settings,'orders_banner_mode');
+  return `<div class="card"><label><small>${t('bannerOrdersMode')}</small>
+    <select id="banner-orders-mode" onchange="saveBannerOrdersMode(this.value)">${bannerOptions([['0','bannerCopyHome'],['1','bannerOwnSet']],String(Number(settings.orders_banner_mode)||0))}</select></label>
+    ${ready?'':`<small>${t('bannerPending')}</small>`}</div>`;
+}
+function saveBannerOrdersMode(value){
+  if(Object.hasOwn(TLB.settings()||{},'orders_banner_mode'))run(TLB.setSetting('orders_banner_mode',Number(value)===1?1:0));
+}
 const bannerSchema=()=>TLB.banners(true).some(b=>Object.hasOwn(b,'presentation'));
 const bannerOptions=(choices,selected)=>choices.map(([id,label])=>`<option value="${id}"${id===selected?' selected':''}>${t(label)}</option>`).join('');
 function bannerActionFields(cfg={}){
@@ -218,11 +234,12 @@ function bannerActionFields(cfg={}){
     +field('item_id','bannerDish',cfg.item_id)
     +select('filter','bannerList',[['category','bannerCategory'],['free','bannerFree'],['disc','bannerDiscount']])
     +select('campaign','bannerCampaign',[['happy','bannerHappy'],['discount','bannerDiscount'],['free','bannerFree']])
+    +select('audience','bannerAudience',[['home','bannerHomeAudience'],['orders','bannerOrdersAudience']])
     +(!bannerSchema()?`<small>${t('bannerPending')}</small>`:'');
 }
 function bannerPresentation(previous={}){
   if(!bannerSchema())return {};
-  const action=v('action'),presentation={...previous,action,label:{ru:v('labelRu').trim(),en:v('labelEn').trim()}};
+  const action=v('action'),presentation={...previous,action,audience:v('audience'),label:{ru:v('labelRu').trim(),en:v('labelEn').trim()}};
   if(action==='order')presentation.item_id=v('item_id').trim();
   if(action==='list')presentation.filter=v('filter');
   if(action==='campaign')presentation.campaign=v('campaign');
@@ -445,7 +462,7 @@ function vBanners(){const bs=TLB.banners(true);
   <small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>
   <small>${t('aBFrom')}</small><input id="bfr" type="date"><small>${t('aBTo')}</small><input id="bto" type="date">
   <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>`;
-  return `${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;render()">${ic('plus')}${t('aAddB')}</button>`}
+  return `${bannerOrdersSettings()}${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;render()">${ic('plus')}${t('aAddB')}</button>`}
   ${bs.length?bs.map(b=>{const st=bState(b);
   return `<div class="card row" style="gap:10px"><div style="display:flex;gap:10px;align-items:center;min-width:0">${b.image_url?`<img src="${esc(b.image_url)}" style="width:64px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0" alt="">`:`<div style="width:64px;height:40px;border-radius:6px;background:#e2e8f0;flex-shrink:0"></div>`}<div style="min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.title)}</b><span class="s ${st[0]}">${st[1]}</span></div></div>
   <button class="b" onclick="openBE('${b.id}')">${ic('edit')} ${t('aEdit')}</button></div>`}).join(''):emptyA(t('aBNo'))}`}
