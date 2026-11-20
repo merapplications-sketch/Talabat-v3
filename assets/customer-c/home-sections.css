@@ -292,3 +292,8 @@
 .home-discover .reel-feedback button:disabled{opacity:.6;cursor:default;}
 .home-discover .reel-feedback button svg{flex:none;}
 .home-discover .reel-feedback-separator{height:18px;width:1px;flex:none;background:#ffffff70;}
+
+/* Happy-hour countdown remains legible on both kinds of artwork. */
+#app .d6h .d6-bt.k-hap .cd { flex: none; width: max-content; background: #fff; color: #37251e; }
+#app .d6h .d6-bt.k-hap .cd > span:first-child { display: inline-flex; }
+#app .d6h .d6-bt.k-hap.img .cd { position: absolute; top: 10px; left: 10px; }
