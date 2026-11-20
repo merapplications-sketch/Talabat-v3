@@ -315,8 +315,10 @@
 #app .d6h .d6-bt.k-hap.img .cd { position: absolute; bottom: 8px; left: 10px; }
 
 /* Keep the main carousel indicators over the image and clear of its CTA. */
-#app .d6h .d6-bm { display: flex; flex-direction: column; overflow: visible; }
-#app .d6h .d6-bsc { flex: 1 1 auto; min-height: 0; height: auto; border-radius: 14px; }
+#app .d6h .d6-bm { overflow: hidden; }
+@media (max-width: 430px) {
+  #app .d6h .d6-bento:not(.one) { grid-template-rows: repeat(2, minmax(82px, 1fr)); }
+}
 #app .d6h .d6-bsc > .d6-bt:not(.img) { padding-bottom: 12px; }
 #app .d6h .d6-bm:has(.hdt) .d6-bsc > .d6-bt:not(.img) { padding-bottom: 32px; }
 #app .d6h .d6-bm .hdt {
