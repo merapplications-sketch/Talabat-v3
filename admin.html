@@ -76,10 +76,19 @@ small{color:var(--mut)}
 .msg .mwho{display:block;color:#8b8f98;margin-bottom:3px;font-size:11px}.msg .mtx{overflow-wrap:anywhere;word-break:break-word;white-space:pre-wrap}.msg .mtx a{display:inline-block;max-width:100%;overflow-wrap:anywhere}
 .rst.neu{background:#f3f4f6;color:#4b5563}
 input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;min-height:48px;text-align:start;line-height:1.2}input[type=date]::-webkit-date-and-time-value,input[type=time]::-webkit-date-and-time-value{text-align:start}.row>div{min-width:0}
+</style><style>
+.banner31-editor fieldset{min-width:0;padding:12px;border:1px solid #e2e8f0;border-radius:12px;margin:10px 0}
+.banner31-editor legend{padding:0 6px;font-weight:700}.banner31-editor input,.banner31-editor select{font-size:16px;max-width:100%;box-sizing:border-box}
+.banner31-placements{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.banner31-placements label{display:flex;align-items:center;gap:8px;min-height:44px;font-size:13px}
+.banner31-placements input{width:18px;height:18px;margin:0;flex:none}.banner31-images{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}.banner31-images>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.banner31-images img{width:100%;height:64px;object-fit:contain;border-radius:8px;background:#f5f5f5}.banner31-images label{font-size:12px;flex-wrap:wrap;overflow-wrap:anywhere}.banner31-images input[type=file]{width:100%;font-size:11px}
+.banner31-editor .banner31-note{font-size:13px;line-height:1.5;padding:10px;border-radius:8px;background:#fff6eb;color:#7a4b00}.banner31-editor p{font-size:13px;line-height:1.5}
+@media(max-width:420px){.banner31-images{grid-template-columns:1fr}.banner31-images>div{display:grid;grid-template-columns:36px minmax(0,1fr);align-items:center}.banner31-images img{height:80px}.banner31-images label,.banner31-images button{grid-column:2}}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="talabat-core.js?v=56"></script>
+<script src="assets/shared/banner-system-brief31.js"></script>
 <script>
 TLB.addDict({uOrdLoad:'Загружаем заказ #{n}…',uOrdMissing:'Заказ #{n} не найден или нет доступа.'},{uOrdLoad:'Loading order #{n}…',uOrdMissing:'Order #{n} was not found or you have no access.'});
 TLB.addDict({uCuShown:'Заказы этого аккаунта: показано {n} из {m}',uCuShown0:'Показано заказов: {n}'},{uCuShown:'Orders of this account: showing {n} of {m}',uCuShown0:'Orders shown: {n}'});
@@ -215,42 +224,73 @@ TLB.addDict({
   bannerAudience:'Banner collection',bannerHomeAudience:'Home',bannerOrdersAudience:'My orders',bannerRestaurantsAudience:'Restaurants',
   bannerOrdersMode:'Banners in My orders',bannerCopyHome:'Use Home banners',bannerOwnSet:'Use a separate collection'
 });
-function bannerOrdersSettings(){
-  const settings=TLB.settings()||{},ready=Object.hasOwn(settings,'orders_banner_mode');
-  return `<div class="card"><label><small>${t('bannerOrdersMode')}</small>
-    <select id="banner-orders-mode" onchange="saveBannerOrdersMode(this.value)">${bannerOptions([['0','bannerCopyHome'],['1','bannerOwnSet']],String(Number(settings.orders_banner_mode)||0))}</select></label>
-    ${ready?'':`<small>${t('bannerPending')}</small>`}</div>`;
-}
-function saveBannerOrdersMode(value){
-  if(Object.hasOwn(TLB.settings()||{},'orders_banner_mode'))run(TLB.setSetting('orders_banner_mode',Number(value)===1?1:0));
-}
-const bannerSchema=()=>TLB.banners(true).some(b=>Object.hasOwn(b,'presentation'));
+TLB.addDict({
+  bannerPlaces:'Места показа',bannerMain:'Главная — большой',bannerSide:'Главная — боковые',
+  bannerMiss:'Не пропустите',bannerBottom:'Главная — нижний',bannerCheckout:'Оформление заказа',
+  bannerImages:'Изображения по языкам',bannerNoImage:'Используется основное изображение',bannerRemoveImage:'Убрать',
+  bannerOptionalCta:'Оставьте текст пустым, чтобы показывать баннер без кнопки.',bannerCtaTg:'Текст кнопки (TG)',
+  bannerLinkAction:'Открыть ссылку',bannerUrl:'Ссылка (https://...)',bannerChoosePlace:'Выберите хотя бы одно место показа.',
+  bannerSchemaNote:'Настройки изображений, мест и действий станут доступны после подключения полей. Основной баннер можно сохранить.'
+},{
+  bannerPlaces:'Display placements',bannerMain:'Home — large',bannerSide:'Home — side',
+  bannerMiss:"Don’t miss",bannerBottom:'Home — bottom',bannerCheckout:'Checkout',
+  bannerImages:'Images by language',bannerNoImage:'Uses the main image',bannerRemoveImage:'Remove',
+  bannerOptionalCta:'Leave the label empty to show the banner without a button.',bannerCtaTg:'Button label (TG)',
+  bannerLinkAction:'Open link',bannerUrl:'Link (https://...)',bannerChoosePlace:'Choose at least one placement.',
+  bannerSchemaNote:'Language images, placements and actions become available when their fields are connected. You can still save the main banner.'
+});
+let bannerCreatePresentation={};
+const bannerSchema=()=>TLB.banners(true).some(b=>Object.hasOwn(b,'presentation'))||Number(TLB.settings()?.banner_presentation_ready)===1;
+const bannerPlaceLabels={home_main:'bannerMain',home_side:'bannerSide',dont_miss:'bannerMiss',home_bottom:'bannerBottom',orders:'bannerOrdersAudience',restaurants:'bannerRestaurantsAudience',checkout:'bannerCheckout'};
 const bannerOptions=(choices,selected)=>choices.map(([id,label])=>`<option value="${id}"${id===selected?' selected':''}>${t(label)}</option>`).join('');
+function bannerDraft(){return BD?BD.presentation:bannerCreatePresentation}
+function bannerCfg(key,value,locale){
+  const draft=bannerDraft();
+  if(locale){draft[key]={...(draft[key]||{}),[locale]:value};}else draft[key]=value;
+}
+function bannerPlaceChanged(){bannerCfg('placements',[...document.querySelectorAll('[name="banner-place"]:checked')].map(e=>e.value))}
+async function bannerLocaleImage(event,locale){
+  const input=event.target,file=input.files[0],draft=bannerDraft();
+  if(!file||!bannerSchema())return;
+  const url=await TLB.uploadImage(file,{maxW:1600,q:.85});
+  if(!url||!input.isConnected||draft!==bannerDraft())return;
+  bannerCfg('images',url,locale);render();
+}
 function bannerActionFields(cfg={}){
-  const select=(id,label,choices)=>`<label><small>${t(label)}</small><select id="${id}">${bannerOptions(choices,cfg[id])}</select></label>`;
-  const field=(id,label,val)=>`<label><small>${t(label)}</small><input id="${id}" maxlength="40" value="${esc(val||'')}"></label>`;
-  return select('action','bannerActionTitle',[['','bannerLegacy'],['order','bannerOrder'],['restaurant','bannerRestaurant'],['list','bannerList'],['campaign','bannerCampaign']])
-    +field('labelRu','bannerCtaRu',cfg.label?.ru)+field('labelEn','bannerCtaEn',cfg.label?.en)
-    +field('item_id','bannerDish',cfg.item_id)
-    +select('filter','bannerList',[['category','bannerCategory'],['free','bannerFree'],['disc','bannerDiscount']])
-    +select('campaign','bannerCampaign',[['happy','bannerHappy'],['discount','bannerDiscount'],['free','bannerFree']])
-    +select('audience','bannerAudience',[['home','bannerHomeAudience'],['orders','bannerOrdersAudience'],['restaurants','bannerRestaurantsAudience']])
-    +(!bannerSchema()?`<small>${t('bannerPending')}</small>`:'');
+  const ready=bannerSchema(),places=Array.isArray(cfg.placements)?cfg.placements:TALABOT_BANNERS.placements(BD||{placement:'top'},TLB.settings());
+  const select=(id,label,choices)=>`<label><small>${t(label)}</small><select id="banner-${id}" onchange="bannerCfg('${id}',this.value)">${bannerOptions(choices,cfg[id]||'')}</select></label>`;
+  const field=(id,label,val)=>`<label><small>${t(label)}</small><input id="banner-${id}" maxlength="${id==='url'?2000:80}" value="${esc(val||'')}" oninput="bannerCfg('${id}',this.value)"></label>`;
+  return `<div class="banner31-editor">${!ready?`<p class="banner31-note" role="status">${t('bannerSchemaNote')}</p>`:''}<fieldset ${ready?'':'disabled'}><legend>${t('bannerPlaces')}</legend>
+    <div class="banner31-placements">${TALABOT_BANNERS.places.map(place=>`<label><input type="checkbox" name="banner-place" value="${place}" ${places.includes(place)?'checked':''} onchange="bannerPlaceChanged()"><span>${t(bannerPlaceLabels[place])}</span></label>`).join('')}</div>
+    <h3>${t('bannerImages')}</h3><div class="banner31-images">${['ru','en','tg'].map(locale=>`<div><b>${locale.toUpperCase()}</b>${cfg.images?.[locale]?`<img src="${esc(cfg.images[locale])}" alt="${locale.toUpperCase()}">`:`<small>${t('bannerNoImage')}</small>`}<label class="b g">${ic('cam')}${t('aBImg')}<input aria-label="${t('aBImg')} ${locale.toUpperCase()}" type="file" accept="image/*" onchange="bannerLocaleImage(event,'${locale}')"></label>${cfg.images?.[locale]?`<button type="button" class="b g" onclick="bannerCfg('images','','${locale}');render()">${t('bannerRemoveImage')}</button>`:''}</div>`).join('')}</div>
+    <p>${t('bannerOptionalCta')}</p>${['ru','en','tg'].map(locale=>`<label><small>${t('bannerCta'+locale[0].toUpperCase()+locale.slice(1))}</small><input id="banner-label-${locale}" maxlength="40" list="banner-label-options-${locale}" value="${esc(cfg.label?.[locale]||'')}" oninput="bannerCfg('label',this.value,'${locale}')"><datalist id="banner-label-options-${locale}">${(locale==='ru'?['Купить сейчас','Смотреть','Открыть']:locale==='en'?['Buy now','View','Open']:['Ҳозир харед','Дидан','Кушодан']).map(label=>`<option value="${esc(label)}"></option>`).join('')}</datalist></label>`).join('')}
+    ${select('action','bannerActionTitle',[['','bannerLegacy'],['order','bannerOrder'],['restaurant','bannerRestaurant'],['list','bannerList'],['campaign','bannerCampaign'],['link','bannerLinkAction']])}
+    ${field('item_id','bannerDish',cfg.item_id)}${field('url','bannerUrl',cfg.url)}
+    ${select('filter','bannerList',[['category','bannerCategory'],['free','bannerFree'],['disc','bannerDiscount']])}
+    ${select('campaign','bannerCampaign',[['happy','bannerHappy'],['discount','bannerDiscount'],['free','bannerFree']])}
+    </fieldset></div>`;
 }
 function bannerPresentation(previous={}){
   if(!bannerSchema())return {};
-  const action=v('action'),presentation={...previous,action,audience:v('audience'),label:{ru:v('labelRu').trim(),en:v('labelEn').trim()}};
-  if(action==='order')presentation.item_id=v('item_id').trim();
-  if(action==='list')presentation.filter=v('filter');
-  if(action==='campaign')presentation.campaign=v('campaign');
+  const draft=bannerDraft(),presentation={...previous,...draft};
+  presentation.placements=[...document.querySelectorAll('[name="banner-place"]:checked')].map(e=>e.value).filter(x=>TALABOT_BANNERS.places.includes(x));
+  presentation.label=Object.fromEntries(['ru','en','tg'].map(locale=>[locale,String(presentation.label?.[locale]||'').trim().slice(0,40)]));
+  delete presentation.audience;
   return {presentation};
 }
-function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').split(':'),lt=p[0]=='cat'?'category':p[0];
-  run(TLB.addBanner({...bannerPresentation(),title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';render()}}));bimg='';bannerCreateSize=null}
+function bannerConfigValid(){
+  if(!bannerSchema())return true;
+  const cfg=bannerPresentation().presentation;
+  if(!cfg.placements.length){alert(t('bannerChoosePlace'));return false;}
+  if(cfg.action==='link'&&!TALABOT_BANNERS.safeLink(cfg.url)){alert(t('err_bad_value'));return false;}
+  return true;
+}
+function addBanner(){if(!bannerConfigValid())return;if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').split(':'),lt=p[0]=='cat'?'category':p[0];
+  run(TLB.addBanner({...bannerPresentation(),title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:bannerSchema()?(bannerPresentation().presentation.placements.includes('home_bottom')?'bottom':'top'):($('bpl').value=='bottom'?'bottom':'top'),starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';bannerCreatePresentation={};render()}}));bimg='';bannerCreateSize=null}
 const dIso=(v,end)=>v?v+(end?'T23:59:59+05:00':'T00:00:00+05:00'):null;
 const dShow=ts=>ts?new Date(ts).toLocaleDateString('sv-SE',{timeZone:'Asia/Dushanbe'}):'';
 let BD=null,lastTk=-1;
-const bdOf=b=>({presentation:b.presentation||{},title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active});
+const bdOf=b=>({presentation:JSON.parse(JSON.stringify(b.presentation||{})),title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active});
 let BD0=null;
 function openBE(id){const b=TLB.banners(true).find(x=>x.id==id);if(!b)return;BE=id;BD=bdOf(b);BD0=bdOf(b);render();window.scrollTo(0,0)}
 /* someone else saved this banner / happy hour while it is open here: the admin's unsaved edits stay, a notice says what changed on the server */
@@ -270,7 +310,7 @@ async function bannerImg(e){
   });
 }
 function bannerLink(val){const p=(val+':').split(':');BD.link_type=p[0]=='cat'?'category':(p[0]=='none'?null:p[0]);BD.link_value=p[1]||null;render()}
-function bannerSave(){const title=String(BD.title||'').trim().slice(0,80);if(!title){alert(t('aFill'));return}
+function bannerSave(){if(!bannerConfigValid())return;const title=String(BD.title||'').trim().slice(0,80);if(!title){alert(t('aFill'));return}
   if(BD.from&&BD.to&&BD.from>BD.to){alert(t('aBDates'));return}
   const sort=Number.isFinite(+BD.sort)?Math.trunc(+BD.sort):0;
   run(TLB.updateBanner(BE,{...bannerPresentation(BD.presentation),title,image_url:BD.image_url,link_type:BD.link_type,link_value:BD.link_value,sort,placement:BD.placement=='bottom'?'bottom':'top',starts_at:dIso(BD.from,false),ends_at:dIso(BD.to,true),is_active:!!BD.is_active}).then(r=>{if(!(r&&r.error)){BE=null;BD=null;render()}}))}
@@ -458,11 +498,11 @@ function vBanners(){const bs=TLB.banners(true);
   <small style="display:block;margin-bottom:6px">${t('aBHint')}</small>${bannerSizeHelp('banner-create-size',bannerCreateSize)}<label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${ic('cam')}${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
   <img id="bp" ${bimg?`src="${bimg}"`:''} style="display:${bimg?'block':'none'};width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" alt="">
   <button id="blb" class="b g" style="width:100%;margin-bottom:8px;padding:11px;text-align:left" onclick="pickLink(v=>{BL=v;$('blb').innerHTML=ic('link')+' '+linkLabel(v)})">${ic('link')} ${linkLabel(BL)}</button>
-  ${bannerActionFields()}
-  <small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>
+  ${bannerActionFields(bannerCreatePresentation)}
+  ${bannerSchema()?'':`<small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>`}
   <small>${t('aBFrom')}</small><input id="bfr" type="date"><small>${t('aBTo')}</small><input id="bto" type="date">
   <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>`;
-  return `${bannerOrdersSettings()}${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;render()">${ic('plus')}${t('aAddB')}</button>`}
+  return `${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;bannerCreatePresentation={};render()">${ic('plus')}${t('aAddB')}</button>`}
   ${bs.length?bs.map(b=>{const st=bState(b);
   return `<div class="card row" style="gap:10px"><div style="display:flex;gap:10px;align-items:center;min-width:0">${b.image_url?`<img src="${esc(b.image_url)}" style="width:64px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0" alt="">`:`<div style="width:64px;height:40px;border-radius:6px;background:#e2e8f0;flex-shrink:0"></div>`}<div style="min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.title)}</b><span class="s ${st[0]}">${st[1]}</span></div></div>
   <button class="b" onclick="openBE('${b.id}')">${ic('edit')} ${t('aEdit')}</button></div>`}).join(''):emptyA(t('aBNo'))}`}
@@ -478,7 +518,7 @@ function vBannerEdit(){if(!BD){BE=null;return vBanners()}const b0=TLB.banners(tr
   <small>${t('aBOrd')}</small><input type="number" inputmode="numeric" value="${+BD.sort}" oninput="bd('sort',this.value)">
   <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink(v))">${ic('link')} ${linkLabel(cur)}</button>
   ${bannerActionFields(BD.presentation)}
-  <small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>
+  ${bannerSchema()?'':`<small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>`}
   <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)"><small>${t('aBTo')}</small><input type="date" value="${esc(BD.to)}" oninput="bd('to',this.value)" onchange="bd('to',this.value)">
   ${bannerSizeHelp('banner-edit-size',BD.imageSize)}
   <div class="btns"><label class="b g" style="margin:0">${ic('cam')} ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event)"></label>

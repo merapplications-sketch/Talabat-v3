@@ -1332,11 +1332,13 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .d6l .ad30-address{display:flex;align-items:center;gap:4px;min-width:0;max-width:100%;padding:0;border:0;background:transparent;color:var(--mut2);font:inherit;font-size:11px;line-height:15px;text-align:left;cursor:pointer}
 #app .d6l .ad30-address>span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
-</style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"><link rel="stylesheet" href="assets/customer-c/restaurants-brief30.css"></head><body>
+</style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"><link rel="stylesheet" href="assets/customer-c/restaurants-brief30.css">
+<link rel="stylesheet" href="assets/customer-c/banners-brief31.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="talabat-core.js?v=56"></script>
+<script src="assets/shared/banner-system-brief31.js"></script>
 <script>
 TLB.addDict({d6DelTo:'Доставить в',d6c_rest:'Рестораны',d6c_grocery:'Продукты',d6c_pharmacy:'Аптеки',d6c_beauty:'Красота',d6c_flowersgifts:'Цветы',d6c_sweets:'Сладости',d6All:'Все',d6FavAgain:'Ваши любимые снова',d6Ord:'Заказать',d6PopR:'Популярные рестораны',d6Near:'Рядом с вами',d6DelTbd:'Доставка уточняется',d6CpT:'Купоны и награды',d6Cp:'Купоны',d6CpGo:'Открыть купоны',d6Rw:'Баллы и награды',d6RwGo:'Мои награды',d6Partn:'Предложения партнёров',d6HiR:'С высоким рейтингом',d6HiRs:'По оценкам клиентов',d6AgainS:'Из ваших прошлых заказов',d6LastO:'Последний заказ: {d}',d6AllPl:'Все места',d6Other:'Другие подходящие места',d6tDisc:'Скидки',d6tFree:'Бесплатная доставка',d6tMine:'Для вас',d6AddrReq:'Улица, дом и точка на карте обязательны.',d6Chk:'Чек',d6WalT:'Кошелёк и баллы',d6BalL:'Доступный баланс',d6PtsT:'Бонусные баллы',d6Vch:'купонов: {n}',d6Rate:'{n} баллов = {v} TJS',d6Rules:'Правила баллов и срок действия',d6Ops:'Операции кошелька',d6CbH:'История кешбэка',d6NoPts:'Начислений и списаний баллов пока нет.',d6NoCb:'Кешбэка пока не было.',d6MeT:'Профиль',d6Acc:'Настройки аккаунта',d6Saved:'Экономия на доставленных заказах',d6LangPh:'Язык и номер телефона — в настройках аккаунта.',d6Close:'Закрыть',d6Info:'Подробнее о ресторане',d6UpTo:'Скидка до {n}%',d6OnDishes:'На отдельные блюда',d6Pop:'Популярные блюда',d6Note:'Особые пожелания',d6NotePh:'Например: без лука, больше соуса',d6NoteHint:'Передаётся ресторану вместе с этим блюдом',d6AddCart:'Добавить в корзину',d6InCart:'в корзине {n}',d6Items:'{n} шт.',d6Removed:'Удалено',d6Undo:'Вернуть',d6Clear:'Очистить корзину',d6CmtCap:'У каждого блюда есть пожелание — комментарий добавится к первому блюду (осталось знаков: {n}).',d6CmtLong:'Комментарий не помещается вместе с пожеланием к первому блюду. Сократите его.',d6Addr:'Адрес',d6Map:'Открыть на карте',home:'Главная',orders:'Заказы',fav:'Избранное',promoTab:'Акции',me:'Профиль',deliverTo:'Адрес доставки',rest:'Рестораны',grocery:'Супер\u00adмаркеты',pharmacy:'Аптеки',beauty:'Красота',flowers:'Цветы',gifts:'Подарки',shops:'Магазины',sweets:'Конди\u00adтерские',
 noMenu:'Меню скоро появится',closed:'Закрыто',cartEmpty:'Корзина пуста',sub:'Подытог',deliv:'Доставка',disc:'Скидка',tip:'Чаевые курьеру',total:'Итого',payM:'Способ оплаты',card:'Карта Alif',cash:'Наличными курьеру',apple:'Apple Pay',place:'Оформить заказ',
@@ -1430,7 +1432,8 @@ const openCat=c=>go('cat',{catKey:c,cq:'',srt:'',fo:false});
 const storeTap=st=>TLB.isOpen(st.n)?`onclick="openStore(${STORES.indexOf(st)})"`:'aria-disabled="true"';
 TLB.addDict({closedStoreBadge:'Закрыт'},{closedStoreBadge:'Closed'});
 const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
-const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p&&!['orders','restaurants'].includes(bannerConfig(b).audience));
+const bannersAt=place=>TALABOT_BANNERS.list(TLB.banners(),place,TLB.settings());
+const inB=p=>bannersAt(({top:'home_main',bottom:'home_bottom',happy_hour:'home_side'})[p]||p);
 const isFirst=n=>!TLB.orders().some(o=>o.store==n&&o.status!='rejected'&&o.status!='cancelled');
 const sdOf=n=>(ALLS.find(x=>x.n==n)||{}).disc||0;
 /* prices: an item gets the better of the store discount and its own offer (never stacked) */
@@ -1812,13 +1815,9 @@ function sendLoc(){
 }
 TLB.addDict({bannerOrder:'Заказать сейчас',bannerRestaurant:'Открыть ресторан',bannerView:'Смотреть'},
   {bannerOrder:'Order now',bannerRestaurant:'Open restaurant',bannerView:'View'});
-const bannerConfig=b=>b.presentation&&typeof b.presentation==='object'?b.presentation:{};
-const bannerLabel=b=>{
-  const cfg=bannerConfig(b),custom=cfg.label?.[TLB.lang()];
-  const legacyStore=!cfg.action&&b.link_type==='store'&&!isHappyHourBanner(b)&&!isFreeDeliveryBanner(b)&&!isDiscountBanner(b);
-  return typeof custom==='string'&&custom.trim()?custom.trim().slice(0,40):
-    t(cfg.action==='order'?'bannerOrder':cfg.action==='restaurant'||legacyStore?'bannerRestaurant':'bannerView');
-};
+const bannerConfig=TALABOT_BANNERS.config;
+const bannerLabel=b=>TALABOT_BANNERS.label(b,TLB.lang());
+const bannerImage=b=>TALABOT_BANNERS.image(b,TLB.lang());
 function openBannerList(filter,category='rest'){
   const catKey=filter==='category'&&Object.hasOwn(IC,category)?category:'rest';
   go('cat',{catKey,cq:'',srt:filter==='free'||filter==='disc'?filter:'',fo:filter==='free'||filter==='disc'});
@@ -1828,6 +1827,7 @@ const isDiscountBanner=b=>/(?:^скидк|^discount|^deals?\b)/iu.test(String(b.
 const isFreeDeliveryBanner=b=>/^(?:доставка бесплатно|бесплатная доставка|free delivery)$/iu.test(String(b.title||'').trim());
 function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
   const cfg=bannerConfig(b);
+  if(cfg.action==='link'){const url=TALABOT_BANNERS.safeLink(cfg.url);if(url)location.assign(url);return}
   if(cfg.action==='campaign'&&['happy','discount','free'].includes(cfg.campaign)){openCampaign(cfg.campaign,b);return}
   if(cfg.action==='list'&&['free','disc','category'].includes(cfg.filter)){openBannerList(cfg.filter,b.link_value);return}
   if(cfg.action==='order'||cfg.action==='restaurant'){
@@ -1997,15 +1997,7 @@ const catTile=c=>`<button class="d6-ct" onclick="openCat('${c}')"><span style="b
 const isHappyHourBanner=b=>b.placement==='happy_hour'||b.link_type==='happy_hour'||
   /^(?:счастливые часы|happy hours?)(?=$|[\s:!—–])/iu.test(String(b.title||'').trim());
 const happyCountdown=end=>`<span class="cd"><span aria-hidden="true">${ico('clock',13)}</span><span class="hcd" data-end="${end}">${cdTxt(end-Date.now())}</span></span>`;
-function heroSlides(){const out=[],hh=hhStores();
-  const top=inB('top'),art=top.find(isHappyHourBanner)||inB('happy_hour')[0];
-  for(const b of top){
-    if(!isHappyHourBanner(b))out.push({k:'bn',b});
-    else if(b===art&&hh.length&&!bannerConfig(b).action)out.push({k:'hap',p:hh[0].p,end:hh[0].end,art:b});
-    else if(bannerConfig(b).action)out.push({k:'bn',b});
-  }
-  const best=STORES.reduce((lead,st)=>TLB.isOpen(st.n)&&st.rd>(lead?.rd||0)?st:lead,null),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
-  if(hh.length&&!out.some(x=>x.k==='hap'))out.push({k:'hap',p:hh[0].p,end:hh[0].end,art});if(best)out.push({k:'disc',n:best.rd});if(fr.length)out.push({k:'free',n:fr.length});out.push({k:'brand'});return out}
+function heroSlides(){return bannersAt('home_main').map(b=>({k:'bn',b}))}
 /* Bento (Home B): the same slides — admin banners first, then real offers. Big tile = first slide (+ the slides after the
    third, swipeable), two small tiles = slides 2 and 3. Fewer than 3 slides → one wide tile. */
 function freePlaces(count){
@@ -2019,19 +2011,18 @@ const bannerCountdown=b=>{
   const cfg=bannerConfig(b),end=bannerDeadline(b);
   return end&&(cfg.action==='campaign'||!cfg.action&&(isDiscountBanner(b)||isFreeDeliveryBanner(b)))?happyCountdown(end):'';
 };
-function d6Tile(x,cls){if(x.k=='bn')return `<button type="button" class="d6-bt ${x.b.image_url?'img':''} ${cls}" ${bannerAction(x.b)}>${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}${bannerCountdown(x.b)}${cls==='d6tm'?`<span class="cta">${esc(bannerLabel(x.b))} ${ico('arr',15)}</span>`:''}</button>`;
-  const d=heroD(x);
-  if(x.k==='hap'&&x.art?.image_url)return `<button type="button" class="d6-bt img k-hap ${cls}" onclick="${d[4]}"><img src="${esc(x.art.image_url)}" alt=""><b class="tt">${d[0]}</b>${d[2]}</button>`;
-  return `<button type="button" class="d6-bt ${cls} k-${x.k}" onclick="${d[4]}"><b class="tt">${d[0]}</b><span class="su">${d[1]}</span>${d[2]}${cls=='d6tm'?`<span class="cta">${d[3]} ${ico('arr',15)}</span>`:`<span class="ar">${ico('arr',18)}</span>`}<img class="art" src="${A3(d[5])}" alt="" width="120" height="120"></button>`}
+function bannerMarkup(b,cls='',place=''){
+  const image=bannerImage(b),label=bannerLabel(b);
+  return `<button type="button" class="${cls} ${image?'img':''}" data-banner-id="${esc(b.id)}" data-banner-place="${esc(place)}" ${bannerAction(b)} aria-label="${esc(b.title||label||t('d6Partn'))}">${image?`<img src="${esc(image)}" alt="${esc(b.title||'')}" loading="lazy">`:`<b class="tt">${esc(b.title||'')}</b>`}${bannerCountdown(b)}${label?`<span class="banner31-cta">${esc(label)} ${ico('arr',15)}</span>`:''}</button>`;
+}
+function d6Tile(x,cls,place='home_main'){return bannerMarkup(x.b,'d6-bt '+cls,place)}
 function heroH(){
-  const sl=heroSlides(),happy=sl.find(x=>x.k==='hap'),free=sl.find(x=>x.k==='free');
-  let side=sl.length>=3?sl.slice(1,3):[];
-  if(happy&&sl.length>=3){
-    const companion=free||sl.filter(x=>x!==happy)[1];
-    side=[companion,happy];
-  }
-  const main=sl.filter(x=>!side.includes(x));
-  return `<div class="d6-bento ${side.length?'':'one'}"><div class="d6-bm"><div class="d6-bsc" id="hsc" onscroll="heroSync(this)" ontouchstart="HROT.t=Date.now()" onpointerdown="HROT.t=Date.now()">${main.map(x=>d6Tile(x,'d6tm')).join('')}</div>${main.length>1?`<div class="hdt">${main.map((_,i)=>`<i class="${i==HROT.i?'on':''}"></i>`).join('')}</div>`:''}</div>${side.map((x,i)=>d6Tile(x,i?'d6tp':'d6tg')).join('')}</div>`}
+  const main=heroSlides(),side=bannersAt('home_side');
+  if(!main.length&&!side.length)return '';
+  const primary=main.length?main:side.map(b=>({k:'bn',b}));
+  const secondary=main.length?side:[];
+  return `<div class="d6-bento ${secondary.length?'':'one'}"><div class="d6-bm"><div class="d6-bsc" id="hsc" data-banner-rail="home_main" onscroll="heroSync(this)" ontouchstart="HROT.t=Date.now()" onpointerdown="HROT.t=Date.now()">${primary.map(x=>d6Tile(x,'d6tm')).join('')}</div>${primary.length>1?`<div class="hdt">${primary.map((_,i)=>`<i class="${i==HROT.i?'on':''}"></i>`).join('')}</div>`:''}</div>${secondary.length?`<div class="banner31-side-rail" data-banner-rail="home_side">${secondary.map(b=>bannerMarkup(b,'d6-bt d6tg','home_side')).join('')}</div>`:''}</div>`;
+}
 const HROT={i:0,t:0};
 function heroSync(e){const i=Math.round(e.scrollLeft/Math.max(1,e.clientWidth));if(i!==HROT.i){HROT.i=i;e.parentNode.querySelectorAll('.hdt i').forEach((d,k)=>d.classList.toggle('on',k==i))}}
 if(!window.__heroTick)window.__heroTick=setInterval(()=>{const e=$('hsc');if(!e||S.v!='home'||document.hidden||Date.now()-HROT.t<8000||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;const n=e.children.length;if(n<2)return;const i=(HROT.i+1)%n;e.scrollTo({left:i*e.clientWidth,behavior:'smooth'})},5000);
@@ -2141,16 +2132,8 @@ function adH(products){
     return `<button class="home-ad-card" ${action}><span class="ad-copy">${st?dishStoreLogo(st):''}<b>${esc(title)}</b>${detail?`<small>${esc(detail)}</small>`:''}</span>${image}</button>`;
   }
   const slides=[];
-  for(const ad of inB('dont_miss')){
-    if(!['store','category','partner'].includes(ad.link_type))continue;
-    const st=ALLS.find(s=>s.id===ad.link_value);
-    if(ad.link_type==='store'&&(!st||!TLB.isOpen(st.n)))continue;
-    const title=ad.link_type==='store'&&st.disc>0?homeOfferTitle(st,st.disc):ad.title;
-    if(!title)continue;
-    const prices=st?products.filter(c=>c.st===st).map(c=>c.price):[];
-    const detail=prices.length?t('homeFromPrice').replace('{price}',Math.min(...prices)):'';
-    slides.push(banner(st,title,ad.image_url,bannerAction(ad),detail));
-  }
+  for(const ad of inB('dont_miss'))slides.push(bannerMarkup(ad,'home-ad-card banner31-managed','dont_miss'));
+  if(!slides.length&&TLB.banners(true).some(b=>Array.isArray(bannerConfig(b).placements)))return '';
   if(!slides.length){
     const offers=new Map();
     for(const st of STORES){
@@ -2164,7 +2147,7 @@ function adH(products){
     const [st,pct]=best;
     slides.push(banner(st,homeOfferTitle(st,pct),'',storeTap(st)));
   }
-  return homeHeading('advert')+`<div class="home-ad-carousel"><div class="home-ad-rail" onscroll="syncHomeAd(this)">${slides.join('')}</div>
+  return homeHeading('advert')+`<div class="home-ad-carousel"><div class="home-ad-rail" data-banner-rail="dont_miss" onscroll="syncHomeAd(this)">${slides.join('')}</div>
     <div class="home-ad-dots" aria-hidden="true">${slides.map((_,i)=>`<i${i===0?' class="on"':''}></i>`).join('')}</div></div>`;
 }
 function syncHomeAd(rail){
@@ -2598,7 +2581,7 @@ function dineH(expanded=false){
     </button>`;
   }).join('')}</div>${expanded?'':'</section>'}`;
 }
-const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
+const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" data-banner-rail="home_bottom" onscroll="rotSync(this)">${bb.map(b=>bannerMarkup(b,'bb','home_bottom')).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
 const d6SRow=(s,h,last,sponsored)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);
   const closedBadge=op?'':`<span class="hb k g12-closed-badge">${t('closedStoreBadge')}</span>`;
@@ -3176,8 +3159,9 @@ function cxnSheet(){if(S.cxn==null)return '';const o=TLB.order(S.cxn);if(!o)retu
 /* ---------- ORDERS ---------- */
 const actSt=['pending','preparing','ready','pickedup'];
 function ordersAd(useOrdersSet=false){
-  const custom=useOrdersSet&&Number(TLB.settings()?.orders_banner_mode)===1;
-  const ads=custom?TLB.banners().filter(b=>bannerConfig(b).audience==='orders'):inB('top');return ads.length?`<div class="d76-order-banners" aria-label="${t('d6Partn')}">${ads.map(b=>`<button type="button" ${bannerAction(b)} aria-label="${esc(b.title||t('d6Partn'))}">${b.image_url?`<img src="${esc(b.image_url)}" alt="${esc(b.title||'')}" loading="lazy">`:`<b>${esc(b.title||t('d6Partn'))}</b>`}</button>`).join('')}</div>`:''}
+  const place=useOrdersSet?'orders':'checkout',ads=bannersAt(place);
+  return ads.length?`<div class="d76-order-banners" data-banner-rail="${place}" aria-label="${t('d6Partn')}">${ads.map(b=>bannerMarkup(b,'banner31-order',place)).join('')}</div>`:'';
+}
 function vOrders(){const all=TLB.orders(),f=S.ofl,l=all.filter(o=>f=='all'||(f=='act'&&actSt.includes(o.status))||(f=='done'&&o.status=='delivered')||(f=='can'&&(o.status=='rejected'||o.status=='cancelled')));
   const fl=[['all','fAll'],['act','fAct'],['done','fDone'],['can','fCan']];
   return `<div class="d76-orders">`+topbar(t('ordersT'),'',"go('home')")+ordersAd(true)+`<div class="chips" style="padding-top:2px">${fl.map(([k,l])=>`<button class="chip ${f==k?'on':''}" onclick="S.ofl='${k}';render()">${t(l)}</button>`).join('')}</div>
