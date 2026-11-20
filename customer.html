@@ -1822,8 +1822,8 @@ const heart=s=>{
   return `<button class="hrt" aria-label="${t('favs')}" ${action} style="color:${isFavS(s)?'#f1511b':'#1c1c21'}">${ico('heart',18,isFavS(s))}</button>`;
 };
 const isNew=s=>s.cr&&Date.now()-Date.parse(s.cr)<30*864e5;
-const mini=s=>`<div class="mini ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="mi-i">${pic(s.i)}${TLB.isOpen(s.n)?'':`<span class="cl-tag">${t('closedStoreBadge')}</span>`}${heart(s)}${s.disc>0?`<span class="tg">−${s.disc}%</span>`:''}${isNew(s)?`<span class="tg n">${t('newTag')}</span>`:''}</div><div class="mi-t"><b>${esc(s.n)}</b><div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span></div></div></div>`;
-const storeRow=(s,h)=>`<div class="sr ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="th">${pic(s.i)}</div><div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p style="color:var(--o);font-weight:600">${esc(h.name)} — ${h.price} TJS</p>`:''}<div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span>${TLB.isOpen(s.n)?'':`<span class="or">${t('closedStoreBadge')}</span>`}</div></div>${heart(s)}</div>`;
+const mini=s=>`<div class="mini ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="mi-i">${homeRestaurantImage(s)}${TLB.isOpen(s.n)?'':`<span class="cl-tag">${t('closedStoreBadge')}</span>`}${heart(s)}${s.disc>0?`<span class="tg">−${s.disc}%</span>`:''}${isNew(s)?`<span class="tg n">${t('newTag')}</span>`:''}</div><div class="mi-t"><b>${esc(s.n)}</b><div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span></div></div></div>`;
+const storeRow=(s,h)=>`<div class="sr ${TLB.isOpen(s.n)?'':'closed'}" ${storeTap(s)}><div class="th">${homeRestaurantImage(s)}</div><div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p style="color:var(--o);font-weight:600">${esc(h.name)} — ${h.price} TJS</p>`:''}<div class="mi-s">${rate(s)}<span>${ico('bike',14)} ${delTxt(s)}</span>${TLB.isOpen(s.n)?'':`<span class="or">${t('closedStoreBadge')}</span>`}</div></div>${heart(s)}</div>`;
 const matches=(M,q)=>STORES.map(s=>({s,h:q&&(M[s.n]||[]).find(i=>i.name.toLowerCase().includes(q))})).filter(({s,h})=>!q||s.n.toLowerCase().includes(q)||s.d.toLowerCase().includes(q)||h);
 const topbar=(ti,su,bk,right)=>`<div class="top"><button class="ib" onclick="${bk}" aria-label="${t('back')}">${ico('back')}</button><div class="tt"><b>${ti}</b>${su?`<span>${su}</span>`:''}</div>${right||''}</div>`;
 /* one empty-state component: icon + title + hint (+ optional action) */
@@ -1944,7 +1944,7 @@ function hfSheet(){const f=S.hfs;if(!f)return '';const ch=(on,fn,l)=>`<button cl
 /* notifications: only real events — active orders and unread courier / support messages */
 function ntfSheet(){if(!S.ntf)return '';const act=TLB.orders().filter(o=>['pending','preparing','ready','pickedup'].includes(o.status)),msg=TLB.orders().filter(o=>TLB.unread(o.id)&&!act.includes(o));const l=act.concat(msg);
   return `<div class="sheet" onclick="S.ntf=false;render()"><div class="asheet" onclick="event.stopPropagation()"><div class="grab"><i></i></div><div class="ash-h"><h3>${t('hNotif')}</h3><button class="ib" style="position:static;box-shadow:none;background:#f1f1f4" aria-label="${t('roCancel')}" onclick="S.ntf=false;render()">${ico('x',16)}</button></div>
-  ${l.length?l.map(o=>{const un=TLB.unread(o.id),st=storeOf(o.store);return `<div class="ntr" onclick="S.ntf=false;go('track',{tid:${JSON.stringify(o.id).replace(/"/g,'&quot;')}})"><span class="nti">${pic(st.lg||st.i)}</span><div style="flex:1;min-width:0"><b class="sm">${esc(o.store)} · #${o.id}</b><div class="xs mut">${un?t('hNotifMsg')+' · '+un:t('trk_'+o.status)}</div></div>${ico('chev',16)}</div>`}).join(''):emptyV(t('hNotifNone'),t('hNotifNoneS'),'','bell')}</div></div>`}
+  ${l.length?l.map(o=>{const un=TLB.unread(o.id),st=storeOf(o.store);return `<div class="ntr" onclick="S.ntf=false;go('track',{tid:${JSON.stringify(o.id).replace(/"/g,'&quot;')}})"><span class="nti">${homeRestaurantImage(st)}</span><div style="flex:1;min-width:0"><b class="sm">${esc(o.store)} · #${o.id}</b><div class="xs mut">${un?t('hNotifMsg')+' · '+un:t('trk_'+o.status)}</div></div>${ico('chev',16)}</div>`}).join(''):emptyV(t('hNotifNone'),t('hNotifNoneS'),'','bell')}</div></div>`}
 const catTile=c=>`<button class="d6-ct" onclick="openCat('${c}')"><span style="background:${CAT3[c][1]}"><img src="${A3(CAT3[c][0])}" alt="" width="40" height="40"></span><b>${t('d6c_'+c)}</b></button>`;
 /* hero carousel: the admin's banners first, then slides made from offers that really exist now */
 const isHappyHourBanner=b=>b.placement==='happy_hour'||b.link_type==='happy_hour'||
@@ -1986,7 +1986,7 @@ if(!window.__heroTick)window.__heroTick=setInterval(()=>{const e=$('hsc');if(!e|
 /* the last delivered order, one tap to repeat (the re-order sheet checks today's prices and availability) */
 function favouritePhoto(store, index){
   const brand={n:store.name,lg:store.logo_url,i:store.cover_url};
-  return `<span class="d6-ph" aria-hidden="true">${dishStoreLogo(brand,index>=3)}</span>`;
+  return `<span class="d6-ph" aria-hidden="true">${dishStoreLogo(brand,index>=3,true)}</span>`;
 }
 function lastH(){
   const catalogue=TLB.stores(true), seen=new Set(), cards=[];
@@ -2011,7 +2011,7 @@ function homeRestaurantRail(stores, css, offers = new Map()){
     const open=TLB.isOpen(st.n),discount=Math.max(offers.get(st)||0,st.disc||0);
     const rating=d6Rt(st),meta=[etaOf(st),delTxt(st)].filter(Boolean).join(' · ');
     return `<button type="button" class="home-l-card${open?'':' closed'}" ${open?storeTap(st):'disabled'}>
-      <span class="home-l-brand">${dishStoreLogo(st,true)}${!open?homeClosedBadge():discount>0?`<span class="hb r">−${discount}%</span>`:''}</span>
+      <span class="home-l-brand">${dishStoreLogo(st,true,true)}${!open?homeClosedBadge():discount>0?`<span class="hb r">−${discount}%</span>`:''}</span>
       <span class="home-l-info"><b title="${esc(st.n)}">${esc(st.n)}</b>${rating?`<span class="home-l-rating">${rating}</span>`:''}${meta?`<span class="home-l-meta">${meta}</span>`:''}</span>
     </button>`;
   }).join('')}</div>`;
@@ -2027,9 +2027,9 @@ function bestH(products){
   return offers.length?homeHeading('offers',"go('promo')")+ `<p class="home-picks-summary">${t('homeOffersSubtitle')}</p>` +homeRestaurantRail(offers,'home-l-offers',discounts):'';
 }
 /* recommended products: the app's real best sellers, else dishes marked popular by restaurants */
-function dishStoreLogo(st,lazy=false){
+function dishStoreLogo(st,lazy=false,coverFallback=false){
   const initial=esc(Array.from(st.n.trim())[0]||'');
-  const img=st.lg&&st.lg!==st.i?`<img src="${esc(st.lg)}" alt=""${lazy?' loading="lazy"':''} onerror="this.remove()">`:'';
+  const img=coverFallback?homeRestaurantImage(st):st.lg&&st.lg!==st.i?`<img src="${esc(st.lg)}" alt=""${lazy?' loading="lazy"':''} onerror="this.remove()">`:'';
   return `<span class="dish-store-logo" aria-label="${esc(st.n)}">${initial}${img}</span>`;
 }
 TLB.addDict(
@@ -2550,7 +2550,7 @@ const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Part
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
 const d6SRow=(s,h,last,sponsored)=>{const op=TLB.isOpen(s.n),m=d6Meta(s);
   const closedBadge=op?'':`<span class="hb k g12-closed-badge">${t('closedStoreBadge')}</span>`;
-  const photo=S.v==='home'?homeRestaurantPhoto(s,closedBadge,'th'):d6Ph(s.i||s.lg,closedBadge,'th');
+  const photo=homeRestaurantPhoto(s,closedBadge,'th');
   return `<div class="sr d6-sr ${op?'':'closed'}" role="${op?'button':'group'}" ${storeTap(s)}>${photo}<div class="tx"><b class="nm"><span class="nt">${esc(s.n)}</span>${s.disc>0?`<span class="dis">−${s.disc}%</span>`:''}</b>${sponsored?homeAdBadge():''}${s.d?`<p>${esc(s.d)}</p>`:''}${h?`<p class="hit">${esc(h.name)} — ${h.price} TJS</p>`:''}${last?`<p>${t('d6LastO').replace('{d}',d6Ago(last))}</p>`:''}${d6Rt(s)||m?`<div class="mt">${[d6Rt(s),m?`<span>${m}</span>`:''].filter(Boolean).join('<span>·</span>')}</div>`:''}<div class="dl">${ico('bike',14)} <span class="g12-delivery-text">${delTxt(s)}</span></div></div>${heart(s)}</div>`};
 /* stores of the user's delivered orders → date of the last one */
 function d6Mine(){const m={};TLB.orders().forEach(o=>{if(o.status!='delivered')return;const d=+new Date(o.doneAt||o.createdAt)||0;if(!(o.store in m)||d>m[o.store])m[o.store]=d});return m}
@@ -3090,7 +3090,7 @@ function vOrders(){const all=TLB.orders(),f=S.ofl,l=all.filter(o=>f=='all'||(f==
   const fl=[['all','fAll'],['act','fAct'],['done','fDone'],['can','fCan']];
   return `<div class="d76-orders">`+topbar(t('ordersT'),'',"go('home')")+ordersAd()+`<div class="chips" style="padding-top:2px">${fl.map(([k,l])=>`<button class="chip ${f==k?'on':''}" onclick="S.ofl='${k}';render()">${t(l)}</button>`).join('')}</div>
   <div class="pg">${l.length?l.map(o=>{const st=storeOf(o.store),n=(o.items||[]).reduce((a,i)=>a+i.qty,0),unrated=o.status=='delivered'&&!TLB.ratingOf(o.id);return `<div class="oc2"><div class="oh2"><span class="xs mut">${fmtD(o.createdAt)}</span><span class="pill ${o.status}">${t('trk_'+o.status)}${TLB.unread(o.id)?` · ${TLB.unread(o.id)}`:''}</span></div>
-  <div class="ob2" onclick="go('track',{tid:${esc(JSON.stringify(o.id))}})"><div class="th">${pic(st.lg||st.i)}</div><div class="tx" style="flex:1;min-width:0"><b>${esc(o.store)}</b><div class="xs mut" style="margin-top:2px">#${o.id}${n?' · '+n+' '+t('items'):''}${o.scheduledFor&&actSt.includes(o.status)?' · 🕒 '+fmtWhen(o.scheduledFor):''}${o.groupId?' · 👥 '+t('grpTag'):''}</div></div><b>${o.total} TJS</b></div>
+  <div class="ob2" onclick="go('track',{tid:${esc(JSON.stringify(o.id))}})"><div class="th">${homeRestaurantImage(st)}</div><div class="tx" style="flex:1;min-width:0"><b>${esc(o.store)}</b><div class="xs mut" style="margin-top:2px">#${o.id}${n?' · '+n+' '+t('items'):''}${o.scheduledFor&&actSt.includes(o.status)?' · 🕒 '+fmtWhen(o.scheduledFor):''}${o.groupId?' · 👥 '+t('grpTag'):''}</div></div><b>${o.total} TJS</b></div>
   <div class="of2"><button class="btn s" onclick="reorder(${esc(JSON.stringify(o.id))})">${t('reorder')}</button><a onclick="go('track',{tid:${esc(JSON.stringify(o.id))}})">${t('n6Pay')}</a></div>
   ${unrated?`<div class="rt2" onclick="go('track',{tid:${esc(JSON.stringify(o.id))}})"><span class="xs mut">${t('n6Rate')}</span><span class="st">★★★★★</span></div>`:''}</div>`}).join(''):emptyV(t('noOrdersT'),t('noOrdersS'),'','receipt')}</div></div>`}
 /* ---------- TRACKING ---------- */
@@ -3255,11 +3255,11 @@ function vTicket(){const k=TLB.tickets().find(x=>x.id==S.tkid);if(!k){S.v='suppo
   :`<div class="fbar"><input class="fld" type="text" id="tkm" maxlength="500" placeholder="${t('supReplyPh')}" style="flex:1" onkeydown="if(event.key=='Enter')tkSend()"><button class="btn" style="flex:0 0 auto;width:auto;padding:0 20px" onclick="tkSend()">${t('supSend')}</button></div>`}</div>`}
 /* ---------- FAVORITES / OFFERS / PROFILE ---------- */
 function vFav(){const l=STORES.filter(isFavS);return topbar(t('fav'),'',"go('home')")+`<div class="pg">${l.length?l.map(s=>storeRow(s)).join(''):emptyV(t('favEmptyT'),t('favEmptyS'),'','heart')}</div>`}
-function vPromo(){const o=STORES.filter(s=>s.disc>0).sort((a,b)=>b.disc-a.disc),f=STORES.filter(s=>s.ft=='free'||s.ffd),card=s=>`<div class="ofc" onclick="go('offer',{oid:'${s.id}'})"><div class="th">${pic(s.lg||s.i)}</div><div class="tx"><b>${esc(s.n)}</b><div style="margin-top:6px">${s.disc>0?`<span class="dis">−${s.disc}%</span> `:''}${s.ft=='free'||s.ffd?`<span class="pill">${t('n6Free')}</span>`:''}</div></div>${ico('chev',18)}</div>`;
+function vPromo(){const o=STORES.filter(s=>s.disc>0).sort((a,b)=>b.disc-a.disc),f=STORES.filter(s=>s.ft=='free'||s.ffd),card=s=>`<div class="ofc" onclick="go('offer',{oid:'${s.id}'})"><div class="th">${homeRestaurantImage(s)}</div><div class="tx"><b>${esc(s.n)}</b><div style="margin-top:6px">${s.disc>0?`<span class="dis">−${s.disc}%</span> `:''}${s.ft=='free'||s.ffd?`<span class="pill">${t('n6Free')}</span>`:''}</div></div>${ico('chev',18)}</div>`;
   return topbar(t('promoTab'),t('promoTabS'),"go('home')")+`<div class="pg">${o.length||f.length?`${o.length?`<h3 style="margin:0 4px 12px">${t('bestOffers')}</h3>${o.map(card).join('')}`:''}${f.length?`<h3 style="margin:18px 4px 12px">${t('freeS')}</h3>${f.map(card).join('')}`:''}`:emptyV(t('noPromoT'),t('promoTabS'),'','tag')}</div>`}
 function vOffer(){const s=STORES.find(x=>x.id==S.oid);if(!s){S.v='promo';return vPromo()}
   const rows=[s.disc>0?[t('n6Disc'),`−${s.disc}%`]:null,s.ft=='free'?[t('n6Fee'),t('n6Free')]:null,s.ffd?[t('n6FreeF'),'✓']:null,(s.ft!='free'&&s.fee>=0)?[t('n6Fee'),`${s.fee} TJS`]:null,s.rt?[t('n6Rt'),`★ ${(+s.rt).toFixed(1)}${s.rc?` (${s.rc})`:''}`]:null].filter(Boolean);
-  return topbar(esc(s.n),'',"go('promo')")+`<div class="pg"><div class="odh">${s.i?`<img src="${esc(s.i)}" alt="">`:''}</div>
+  return topbar(esc(s.n),'',"go('promo')")+`<div class="pg"><div class="odh">${homeRestaurantImage(s)}</div>
   <div class="card"><h3>${t('n6Cond')}</h3>${rows.map(([a,b])=>`<div class="dr"><span>${a}</span><b>${b}</b></div>`).join('')}${s.d?`<div class="xs mut" style="margin-top:8px;line-height:1.45">${esc(s.d)}</div>`:''}</div>
   <div class="card"><h3 style="margin-bottom:4px">${t('n6Cont')}</h3><div class="ctr"><span class="i3">${ico('pin',16)}</span><div class="ctx"><div class="xs mut">${t('n6Addr')}</div><div class="b6">${s.ad?esc(s.ad):'—'}</div></div>${mapH(s)?`<a class="cbt" href="${mapH(s)}" target="_blank" rel="noopener" aria-label="${t('n7Map')}" title="${t('n7Map')}">${ico('nav',18)}</a>`:''}</div><div class="ctr"><span class="i3">${ico('phone',16)}</span><div class="ctx"><div class="xs mut">${t('n6Phone')}</div><div class="b6">${s.ph?esc(s.ph):`<span class="mut">${t('n6NoPh')}</span>`}</div></div>${s.ph?`<a class="cbt call" href="${telH(s.ph)}" aria-label="${t('n6Phone')}" title="${t('n6Phone')}">${ico('phone',18)}</a>`:''}</div></div>
   <button class="btn big" ${TLB.isOpen(s.n)?`onclick="openStore(${STORES.indexOf(s)})"`:'disabled aria-disabled="true"'}>${t('n6Menu')}</button></div>`}
