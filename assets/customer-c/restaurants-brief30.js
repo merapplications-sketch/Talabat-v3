@@ -62,13 +62,13 @@ TLB.addDict({
   ad30Sushi:'Sushi',ad30Desserts:'Desserts',ad30Drinks:'Drinks'
 });
 const CUISINE_MAP=[
-  {id:'plov',test:/плов|pilaf|plov/i,art:'basket',name:'ad30Plov'},
+  {id:'plov',test:/плов|pilaf|plov/i,art:'',name:'ad30Plov'},
   {id:'burger',test:/бургер|burger/i,art:'hamburger',name:'ad30Burgers'},
   {id:'pizza',test:/пицц|pizza/i,art:'pizza',name:'ad30Pizza'},
-  {id:'shawarma',test:/шаурм|shawarma/i,art:'bread',name:'ad30Shawarma'},
+  {id:'shawarma',test:/шаурм|shawarma/i,art:'',name:'ad30Shawarma'},
   {id:'sushi',test:/суши|sushi/i,art:'sushi',name:'ad30Sushi'},
   {id:'dessert',test:/десерт|сладост|торт|dessert|cake/i,art:'shortcake',name:'ad30Desserts'},
-  {id:'drinks',test:/напитк|drink|beverage|сок|juice/i,art:'basket',name:'ad30Drinks'}
+  {id:'drinks',test:/напитк|drink|beverage|сок|juice/i,art:'',name:'ad30Drinks'}
 ];
 let chosenCuisine='';
 function cuisineSource(){
@@ -80,8 +80,11 @@ function cuisineSource(){
       if(!raw)continue;
       const match=CUISINE_MAP.find(c=>c.test.test(raw));
       const id=match?match.id:'section:'+raw.toLocaleLowerCase();
-      if(!seen.has(id))seen.set(id,{id,title:match?t(match.name):raw,art:match?match.art:'basket',image:'',rank:seen.size,stores:new Set()});
-      seen.get(id).stores.add(store.id);
+      if(!seen.has(id))seen.set(id,{id,title:match?t(match.name):raw,art:match?match.art:'',image:'',photos:[],rank:seen.size,stores:new Set()});
+      const cuisine=seen.get(id);
+      cuisine.stores.add(store.id);
+      // allMenus() exposes approved menu image_url values as item.image.
+      if(typeof item.image==='string'&&item.image.trim()&&!cuisine.photos.includes(item.image.trim()))cuisine.photos.push(item.image.trim());
     }
   }
   const configured=typeof TLB.restaurantCuisines==='function'?TLB.restaurantCuisines():[];
@@ -93,14 +96,22 @@ function cuisineSource(){
     if(typeof item.image_url==='string'&&item.image_url)c.image=item.image_url;
     if(Number.isFinite(+item.sort))c.rank=+item.sort;
   }
-  return [...seen.values()].sort((a,b)=>a.rank-b.rank);
+  const used=new Set();
+  return [...seen.values()].sort((a,b)=>a.rank-b.rank).map(c=>{
+    const art=c.art?A3(c.art):'';
+    // Keep configured artwork, otherwise semantic 3D art, then the first dish
+    // photo in this cuisine. Missing/duplicate imagery stays a text filter.
+    const source=[c.image,art,...c.photos].find(src=>src&&!used.has(src)&&!/(^|\/)assets\/3d\/basket\.webp(?:[?#]|$)/i.test(src))||'';
+    if(source)used.add(source);
+    return {...c,image:source,photo:!!source&&source!==art};
+  });
 }
 function cuisineRail(){
   const types=cuisineSource();if(!types.length)return '';
   return '<div class="ad30-cuisines" aria-label="'+esc(t('sections'))+'">'
-    +types.map(c=>'<button type="button" class="ad30-cuisine'+(chosenCuisine===c.id?' on':'')+'" aria-pressed="'+(chosenCuisine===c.id)+'" '
+    +types.map(c=>'<button type="button" class="ad30-cuisine'+(chosenCuisine===c.id?' on':'')+(c.image?'':' no-image')+'" aria-pressed="'+(chosenCuisine===c.id)+'" '
       +'onclick="TALABOT_RESTAURANTS_BRIEF30.cuisine('+esc(JSON.stringify(c.id))+')">'
-      +'<span class="ad30-cuisine-circle"><img src="'+esc(c.image||A3(c.art))+'" alt="" loading="lazy" onerror="this.remove()"></span>'
+      +(c.image?'<span class="ad30-cuisine-circle'+(c.photo?' photo':'')+'"><img src="'+esc(c.image)+'" alt="" loading="lazy" onerror="this.closest(\'button\').classList.add(\'no-image\');this.parentElement.remove()"></span>':'')
       +'<span class="ad30-cuisine-label">'+esc(c.title)+'</span></button>').join('')
     +'</div>';
 }

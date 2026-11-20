@@ -5,7 +5,10 @@ Offline-only synthetic fixture: KFC, Romant, Gulistan Flowers, closed test resta
 and the real discount / last-order dimensions from home-brief25b.json.
 Never touches prod, remote accounts, payment processing or database.
 """
+import base64
+import hashlib
 import io
+import json
 import os
 import sys
 from pathlib import Path
@@ -21,6 +24,7 @@ EXTRA = """
   stores.find(s=>s.id==='s2').search_rank=1;
   for(const item of items){
     item.section=({combo:'Бургеры',hot:'Бургеры',steak:'Стейки',plov:'Плов'})[item.id]||item.section||'';
+    if(item.id==='steak'||item.id==='plov')item.image_url='/qa-image/brief30-'+item.id;
   }
   T.banners.push({
     id:'ad30-campaign',title:'Скидки до 20%',link_value:'s2',
@@ -30,6 +34,36 @@ EXTRA = """
       floating_text:{ru:'Что нового — скидки до 20%',en:'What’s new — up to 20% off'}}
   });
 """
+
+def cuisine_photos(photos):
+    """Licensed sample dishes, used only by the disposable offline catalog."""
+    fixture = json.loads((ROOT / 'qa-fixtures/home-brief30.json').read_text())
+    for photo in fixture['photos']:
+        content = base64.b64decode(photo['content_base64'], validate=True)
+        assert hashlib.sha256(content).hexdigest() == photo['sha256']
+        photos['brief30-' + photo['id']] = content
+    return photos
+
+
+def check_cuisine_images(page):
+    # A missing semantic 3D asset must resolve to this cuisine's real menu image,
+    # never to a shared basket or another cuisine's picture.
+    images = page.locator('.ad30-cuisine-circle img')
+    images.evaluate_all("nodes=>nodes.forEach(i=>i.loading='eager')")
+    page.wait_for_function("""()=>[...document.querySelectorAll('.ad30-cuisine-circle img')]
+      .every(i=>i.complete&&i.naturalWidth>0)""")
+    sources = images.evaluate_all("nodes=>nodes.map(i=>i.getAttribute('src'))")
+    assert set(sources) == {'assets/3d/hamburger.webp', '/qa-image/brief30-steak', '/qa-image/brief30-plov'}, sources
+    assert len(sources) == len(set(sources)), 'Cuisine pictures must be distinct'
+    for source in ('/qa-image/brief30-steak', '/qa-image/brief30-plov'):
+        metrics = page.locator('.ad30-cuisine-circle img[src="' + source + '"]').evaluate("""i=>({
+          fit:getComputedStyle(i).objectFit,
+          radius:getComputedStyle(i.parentElement).borderRadius,
+          overflow:getComputedStyle(i.parentElement).overflow,
+          image:[i.clientWidth,i.clientHeight],circle:[i.parentElement.clientWidth,i.parentElement.clientHeight]
+        })""")
+        assert metrics['fit'] == 'cover' and metrics['radius'] == '50%' and metrics['overflow'] == 'hidden', metrics
+        assert metrics['image'] == metrics['circle'], metrics
 
 def capture(page, output, name):
     raw = page.screenshot(full_page=True, animations="disabled")
@@ -78,6 +112,7 @@ def check_restaurants(page, lang, width, output):
     assert cards.last.locator(".ad30-card-closed").count() == 1, cards.last.inner_text()
     assert cards.last.locator(".ad30-card-closed").inner_text().strip() == ("Закрыт" if ru else "Closed"), cards.last.inner_text()
     assert page.locator(".ad30-float").count() == 1, "Explicit floating field supplied"
+    check_cuisine_images(page)
     capture(page, output, f"{lang}-{width}-brief30-complete-restaurants-fixture.webp")
 
     # Sorting sheet is a real interactive modal, not a decorative screenshot.
@@ -166,7 +201,7 @@ def main():
     try:
         with sync_playwright() as pw:
             browser = pw.webkit.launch(executable_path=os.environ.get("TALABOT_WEBKIT") or None)
-            photos = prior.fixture_logos(prior.qa.source_photos())
+            photos = cuisine_photos(prior.fixture_logos(prior.qa.source_photos()))
             for lang, width in (("ru",375),("en",390)):
                 context, page = prior.page_for(browser, server, photos, EXTRA, lang=lang, width=width)
                 try:

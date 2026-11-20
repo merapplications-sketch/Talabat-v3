@@ -33,8 +33,10 @@
 #app .d6l .ad30-cuisines{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:8px 0 15px}
 #app .d6l .ad30-cuisines::-webkit-scrollbar{display:none}
 #app .d6l .ad30-cuisine{flex:0 0 72px;width:72px;display:flex;align-items:center;flex-direction:column;gap:5px;background:transparent;border:0;padding:0;cursor:pointer;scroll-snap-align:start;font:inherit;color:var(--ink)}
-#app .d6l .ad30-cuisine-circle{width:66px;height:66px;border:2px solid transparent;border-radius:50%;background:#f8f0e8;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+#app .d6l .ad30-cuisine-circle{width:66px;height:66px;border:2px solid transparent;border-radius:50%;background:#f8f0e8;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color .15s}
 #app .d6l .ad30-cuisine-circle img{width:52px;height:52px;object-fit:contain}
+#app .d6l .ad30-cuisine-circle.photo img{width:100%;height:100%;object-fit:cover}
+#app .d6l .ad30-cuisine.no-image{min-height:88px;justify-content:center}
 #app .d6l .ad30-cuisine.on .ad30-cuisine-circle{border-color:var(--o);background:#fff3e7}
 #app .d6l .ad30-cuisine-label{font-size:12px;line-height:17px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #app .d6l .ad30-cuisine.on .ad30-cuisine-label{color:var(--o)}
