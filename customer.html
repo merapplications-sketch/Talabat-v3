@@ -1837,9 +1837,14 @@ const offersN=()=>STORES.filter(s=>s.disc>0||s.ft=='free'||s.ffd).length;
 /* ---------- HOME: sticky search, categories, banners, happy hour, loyalty, re-order, express, best sellers ---------- */
 const PH_EX=['phPlov','phPizza','phPharm','phFlowers','phShawarma'];let phI=0;
 
-function hhStores(){const l=TLB.hhActive?TLB.hhActive():[];if(!l.length)return [];const out=[];
-  STORES.concat(ALLS.filter(a=>!STORES.includes(a))).forEach(s=>{if(!TLB.isOpen(s.n)||out.some(o=>o.s.id==s.id))return;const p=TLB.hhPct(s.id);if(p>0)out.push({s,p,end:TLB.hhEnd(s.id)})});
-  return out.sort((a,b)=>b.p-a.p).slice(0,12)}
+function hhStores(includeClosed=false){
+  if(!TLB.hhActive?.().length)return [];
+  const now=Date.now();
+  return ALLS.filter(st=>st.c==='rest').map(s=>({
+    s,open:TLB.isOpen(s.n),p:TLB.hhPct(s.id,now),end:TLB.hhEnd(s.id,now)
+  })).filter(o=>(o.open||includeClosed)&&o.p>0&&o.end>now)
+    .sort((a,b)=>Number(b.open)-Number(a.open)||b.p-a.p);
+}
 const cdTxt=ms=>{if(!ms||ms<=0)return '';const x=Math.floor(ms/1000),h=Math.floor(x/3600),m=Math.floor(x%3600/60),sc=x%60;return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(sc).padStart(2,'0')};
 if(!window.__cdTick)window.__cdTick=setInterval(()=>{document.querySelectorAll('.hht[data-end]').forEach(e=>{const end=+e.dataset.end;const sp=e.querySelector('span');if(end&&sp)sp.textContent=cdTxt(end-Date.now())})},1000);
 /* best-selling dishes of the whole app, with a quick + */
@@ -1949,7 +1954,7 @@ function freePlaces(count){
   if(TLB.lang()==='ru')return (count%10===1&&count%100!==11?'в {n} месте рядом':'в {n} местах рядом').replace('{n}',count);
   return count===1?'at 1 place nearby':t('hFreeD').replace('{n}',count);
 }
-const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?happyCountdown(x.end):'',t('hHeroGo'),"go('promo')",'hamburger'],
+const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?happyCountdown(x.end):'',t('hHeroGo'),"openHappyHour()",'hamburger'],
   disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),`go('offer',{oid:${esc(JSON.stringify(x.id))}})`,'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"go('cat',{catKey:'*',cq:'',srt:'free',fo:true})",'motor-scooter'],
   brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza']})[x.k];
 function d6Tile(x,cls){if(x.k=='bn')return `<button type="button" class="d6-bt img ${cls}" ${bannerAction(x.b)}>${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}</button>`;
@@ -2543,7 +2548,57 @@ function vHome(){const q=S.q.trim().toLowerCase(),M=TLB.allMenus(true);S.hf=S.hf
   return head+grpBanner()+heroH()+`<div class="d6-cats">${HOME_CATS.map(catTile).join('')}</div>`+lastH()+mealsH(products)+bestH(products)+flashH(products)+walH()
   +(()=>{const l=ofCat(['rest']);return l.length?homeHeading('popular',"openCat('rest')")+rail(l):''})()
   +adH(products)+recH()+nearH()+discoverH()+dineH()+bottomBn()+`<div style="height:12px"></div>`}
-if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{document.querySelectorAll('.hcd[data-end]').forEach(e=>{const end=+e.dataset.end;if(end)e.textContent=cdTxt(end-Date.now())})},1000);
+TLB.addDict(
+  {happyUntil:'−{pct}% до {time}',happyLead:'до −{pct}%',happyHurry:'Успейте до конца акции',happyFree:'Бесплатно'},
+  {happyUntil:'−{pct}% until {time}',happyLead:'up to −{pct}%',happyHurry:'Catch the offer before it ends',happyFree:'Free delivery'}
+);
+function happyHourRow({s,open,p,end},menus){
+  const image=(menus[s.n]||[]).find(item=>item.image&&!item.optsBlocked)?.image||s.i;
+  const time=new Date(end+5*3600000).toISOString().slice(11,16);
+  const meta=[etaOf(s),s.ft==='free'?t('happyFree'):delTxt(s)].filter(Boolean).join(' · ');
+  return `<button type="button" class="hh-sheet-store${open?'':' closed'}" ${open?`onclick="openHappyStore(${esc(JSON.stringify(s.n))})"`:'disabled'}>
+    <span class="hh-sheet-photo">${image?`<img src="${esc(image)}" alt="" onerror="this.remove()">`:''}${dishStoreLogo(s)}</span>
+    <span class="hh-sheet-copy"><b>${esc(s.n)}</b>${d6Rt(s)}<span class="hh-sheet-meta">${esc(meta)}</span>
+      <span class="hh-sheet-deal">${t('happyUntil').replace('{pct}',p).replace('{time}',time)}</span>
+      ${open?'':`<small>${t('closedStoreBadge')}</small>`}</span></button>`;
+}
+function openHappyStore(name){
+  $('happy-hour-sheet')?.close();
+  openN(name);
+}
+function openHappyHour(){
+  if($('happy-hour-sheet'))return;
+  const offers=hhStores(true),lead=offers.find(o=>o.open);
+  if(!lead)return;
+  const menus=TLB.allMenus(true),sheet=document.createElement('dialog');
+  sheet.id='happy-hour-sheet';
+  sheet.className='hh-sheet';
+  sheet.setAttribute('aria-labelledby','hh-sheet-title');
+  sheet.innerHTML=`<header class="hh-sheet-hero">
+    <form method="dialog"><button class="hh-sheet-close" aria-label="${esc(t('roCancel'))}">${ico('x',18)}</button></form>
+    <span class="hh-sheet-clock" aria-hidden="true">${ico('clock',40)}</span>
+    <h2 id="hh-sheet-title">${t('hHhT')}</h2>
+    <strong class="hh-sheet-ribbon">${t('happyLead').replace('{pct}',lead.p)}</strong>
+    ${happyCountdown(lead.end)}
+    <p>${t('happyHurry')}</p>
+  </header><div class="hh-sheet-list">${offers.map(offer=>happyHourRow(offer,menus)).join('')}</div>`;
+  sheet.addEventListener('close',()=>sheet.remove(),{once:true});
+  sheet.addEventListener('click',event=>{if(event.target===sheet)sheet.close()});
+  document.body.append(sheet);
+  sheet.showModal();
+}
+if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{
+  let expired=false;
+  for(const timer of document.querySelectorAll('.hcd[data-end]')){
+    const remaining=Number(timer.dataset.end)-Date.now();
+    if(remaining<=0){
+      const sheet=timer.closest('dialog');
+      if(sheet?.open)sheet.close();
+      expired=true;
+    }else timer.textContent=cdTxt(remaining);
+  }
+  if(expired&&S.v==='home'){syncStores();render()}
+},1000);
 /* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
 function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
   if(S.srt=='mine'&&!hasMine)S.srt='';

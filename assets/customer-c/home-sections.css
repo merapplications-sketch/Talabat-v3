@@ -312,3 +312,62 @@
 #app .d6h .home-ad-dots { padding-top: 8px; }
 
 #app .d6h button.d6-bt { border: 0; font: inherit; text-align: start; }
+
+/* BRIEF-26: Happy Hours sheet. */
+.hh-sheet {
+  position: fixed; inset: auto 0 0; margin: 0 auto; width: min(100%, 540px); max-width: 100%;
+  height: 90dvh; max-height: 90dvh; padding: 0; border: 0; border-radius: 24px 24px 0 0;
+  overflow: hidden; color: #29211e; background: #fff;
+}
+.hh-sheet[open] { display: flex; flex-direction: column; }
+.hh-sheet::backdrop { background: #21181282; }
+.hh-sheet-hero {
+  position: relative; isolation: isolate; flex: none; text-align: center;
+  padding: 18px 50px 26px; background: #f7f0e6; border-radius: 0 0 50% 7% / 0 0 10% 3%;
+}
+.hh-sheet-hero::after {
+  content: ''; position: absolute; z-index: -1; inset: auto 0 -8px; height: 23px;
+  background: inherit; border-radius: 52% 0 65% 28%;
+}
+.hh-sheet-close {
+  position: absolute; top: 12px; right: 12px; display: grid; place-items: center;
+  width: 42px; height: 42px; border: 0; border-radius: 50%; color: #42322a; background: #fff;
+}
+.hh-sheet-clock {
+  display: grid; place-items: center; width: 58px; height: 58px; margin: 0 auto 9px;
+  border: 2px solid #e89d3e; border-radius: 50%; color: #97511b;
+  background: radial-gradient(circle at 34% 23%, #fffdfa, #ffd88d 70%, #ec9f49);
+  box-shadow: inset 0 2px 3px #fff9, 0 4px 0 #a75e26, 0 7px 12px #6a321b39;
+}
+.hh-sheet-hero h2 { margin: 9px 0 7px; font-size: clamp(22px, 7vw, 34px); line-height: 1.1; }
+.hh-sheet-ribbon {
+  display: table; margin: 0 auto 12px; padding: 3px 14px; border-radius: 6px;
+  transform: rotate(-4deg); font-size: 18px; background: #332316; color: #dcfaac;
+}
+.hh-sheet-hero .cd {
+  display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px;
+  background: #fff; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.hh-sheet-hero .cd > span:first-child { display: inline-flex; }
+.hh-sheet-hero p { margin: 5px 0 0; color: #6b5849; font-size: 12px; }
+.hh-sheet-list { overflow-y: auto; overscroll-behavior: contain; padding: 15px 16px max(12px, env(safe-area-inset-bottom)); }
+.hh-sheet-store {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 110px; padding: 10px 0;
+  border: 0; border-bottom: 1px solid #ede8e3; background: #fff; color: inherit; font: inherit; text-align: start;
+}
+.hh-sheet-store.closed { color: #6f6a65; filter: grayscale(1); opacity: .68; }
+.hh-sheet-photo {
+  position: relative; flex: 0 0 92px; height: 92px; overflow: hidden; border-radius: 16px;
+  background: #eee5dc;
+}
+.hh-sheet-photo > img { width: 100%; height: 100%; object-fit: cover; }
+.hh-sheet-photo .dish-store-logo {
+  position: absolute; top: auto; left: 6px; bottom: 6px; width: 32px; height: 32px; border-radius: 8px;
+}
+.hh-sheet-copy { flex: 1; min-width: 0; display: grid; justify-items: start; gap: 3px; }
+.hh-sheet-copy > b:first-child { font-size: 16px; overflow-wrap: anywhere; }
+.hh-sheet-copy .rt { display: inline-flex; align-items: center; gap: 3px; font-size: 13px; }
+.hh-sheet-copy .rt .i { color: #e99b26; }
+.hh-sheet-copy .rt i { font-style: normal; }
+.hh-sheet-meta { color: #665b54; font-size: 12px; }
+.hh-sheet-deal { padding: 2px 7px; border-radius: 7px; color: #273b13; background: #e0f4bd; font-size: 12px; font-weight: 700; }
