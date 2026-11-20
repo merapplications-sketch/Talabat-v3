@@ -135,7 +135,7 @@ def run_case(pg,case,app,lang,w):
         pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';S.srt='';S.fo=false;render()}""")
         pg.locator("#app .ad30-card.closed,#app .d6-sr.closed").first.scroll_into_view_if_needed(timeout=3000)
         pg.evaluate("""() => {
-          const badge=document.querySelector('#app .ad30-card.closed .ad30-card-closed,#app .ad30-card.closed,#app .d6-sr.closed .g12-closed-badge'),
+          const badge=document.querySelector('#app .ad30-card.closed .ad30-card-closed,#app .d6-sr.closed .g12-closed-badge'),
                 nav=document.querySelector('#app .nav');
           if(!badge||!nav)return;
           const b=badge.getBoundingClientRect(),n=nav.getBoundingClientRect();
@@ -157,7 +157,7 @@ def run_case(pg,case,app,lang,w):
              badgeRect:b&&{x:b.x,y:b.y,right:b.right,bottom:b.bottom}};
         }""")
         shot(pg,case,app,lang,w,"category")
-        return r,["#app .c-current","#app .ad30-card.closed,#app .d6-sr.closed","#app .ad30-card.closed .ad30-card-closed,#app .ad30-card.closed,#app .d6-sr.closed .g12-closed-badge"]
+        return r,["#app .c-current","#app .ad30-card.closed,#app .d6-sr.closed","#app .ad30-card.closed .ad30-card-closed,#app .d6-sr.closed .g12-closed-badge"]
     if case=="C-01c":
         close_store_for_visual(pg)
         pg.evaluate("""() => {S.v='cat';S.catKey='rest';S.cq='';render()}""")
