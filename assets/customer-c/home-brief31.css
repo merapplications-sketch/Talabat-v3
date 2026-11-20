@@ -1,3 +1,11 @@
 /* BRIEF-31 AF-03: retain the two remaining title blocks after removing “Lunch”. */
 [data-section="meals"] h2 b:first-of-type { background: #3b1d14; }
 [data-section="meals"] h2 b:nth-of-type(2) { background: var(--o); }
+
+/* AG-01: 16px lead inset + two 12px gaps leave exactly 2.5 cards at 375px. */
+#app .d6h [data-section="popular"] + .d6-rl {
+  padding-inline: 16px;
+  scroll-padding-inline: 16px;
+  column-gap: 12px;
+  grid-auto-columns: clamp(108px, calc((100vw - 40px) / 2.5), 150px);
+}

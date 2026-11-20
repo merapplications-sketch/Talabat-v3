@@ -1978,7 +1978,7 @@ function homeHeading(kind, all) {
     meals:()=>art('hamburger')+homeTasteWords().map(word=>`<b>${esc(word)}</b>`).join(' '),
     again:()=>`<i aria-hidden="true">↻</i><span>${t('homeOrder')} <b>${t('homeAgain')}</b></span>`,
     offers:()=>art('fire')+`<b>${t('hBestT')}</b>`,
-    popular:()=>`<small>${t('homeWeek')}</small><span>${art('star')}${t('d6PopR')}<em aria-hidden="true">///</em></span>`,
+    popular:()=>`<small>${t('homeWeek')}</small><span>${art('star')}${t('d6PopR')}</span>`,
     picks:()=>art('sparkles')+`<b>${t('homePicks')}</b><b>${t('homeForYou')}</b>`,
     near:()=>art('round-pushpin')+`<b>${t('d6Near')}</b>`,
     rewards:()=>art('wrapped-gift')+`<b>${t('d6CpT')}</b>`,
