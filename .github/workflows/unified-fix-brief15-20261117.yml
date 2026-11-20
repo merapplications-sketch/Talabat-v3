@@ -1,30 +1,21 @@
 name: TALABOT BRIEF15 H-01 Real LOCAL Auth QA (NO PROD)
 on:
   push:
-    branches: [review/unified-fix-brief15-20261117]
-    paths:
-      - 'talabat-core.js'
-      - '.github/workflows/unified-fix-brief15-20261117.yml'
-      - 'supabase/migrations/*auth*.sql'
-      - 'supabase/migrations/*role*.sql'
-      - 'supabase/migrations/*permission*.sql'
-      - 'tools/gate1_local_seed.py'
-      - 'tools/gate1_local_env.py'
-      - 'tools/full_audit_seed.py'
-      - 'tools/full_audit.py'
-      - 'tools/brief24_webkit.py'
-      - '.github/workflows/brief22-home.yml'
-      - 'qa-shots/unified-fix/brief25b/**'
-      - 'qa-shots/unified-fix/brief25c/**'
+    branches: [review/unified-fix-brief15-20261117, ci/brief-ci1-20261120]
+    paths-ignore:
+      - 'qa-shots/**'
+      - 'docs/**'
+      - '**/*.md'
+      - '*.md'
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: talabot-brief15-auth
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   h01:
-    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && (github.ref == 'refs/heads/review/unified-fix-brief15-20261117' || github.ref == 'refs/heads/ci/brief-ci1-20261120')
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     permissions:
@@ -62,7 +53,7 @@ jobs:
               tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief18_webkit.py|tools/brief18b_webkit.py|tools/brief18c_webkit.py|tools/brief18d_webkit.py|talabat-core.js|assets/3d/motor-scooter-yellow.png|sql/proposed/brief18_delivery_instructions.sql|sql/proposed/brief18_delivery_instructions_rollback.sql|sql/proposed/brief18_delivery_instructions_owner_purge.sql|tools/brief19_sec18_local.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
               .github/workflows/brief20-homeb-restore.yml|.github/workflows/brief20-owner-commit.yml|.github/workflows/brief20-source-evidence.yml|tools/brief20_restore_probe.sh|tools/brief20_revert.py|tools/brief20_visual.py|assets/size-brief7/customer.css)
                 git diff --exit-code 78c4551b193d4a877a93727ccabda10df9059cb3 HEAD -- "$changed" ;;
-              .github/workflows/brief21-customer-review.yml|tools/brief21_webkit.py) ;;
+              .github/workflows/brief21-customer-review.yml|tools/brief21_webkit.py|tools/ci1_fast_webkit.py) ;;
               .github/workflows/brief22-home.yml|tools/brief22_webkit.py|tools/brief23_webkit.py|tools/brief24_webkit.py|tools/brief25b_webkit.py|tools/brief25c_webkit.py|tools/brief25c_y08_webkit.py|qa-fixtures/home-brief2*.json|qa-shots/*) ;;
               sql/proposed/brief29-banner-presentation.md) ;;
               assets/customer-c/dineout-header.webp)
@@ -189,6 +180,8 @@ jobs:
           assert len(verified)==24 and not errors,'Original local-authenticated UI is NOT verified'
           PY
       - name: Commit H-01 AFTER-login screenshots to isolated review branch (no credentials)
+        if: github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -225,7 +218,7 @@ jobs:
           git add -- qa-shots/unified-fix/h01/
           if git diff --cached --name-only | grep -Ev '^qa-shots/unified-fix/h01/'; then exit 1; fi
           if ! git diff --cached --quiet; then
-            git commit -m "test(H-01): 8 post-auth original-app LOCAL screenshots visible in review branch"
+            git commit -m "test(H-01): 8 post-auth original-app LOCAL screenshots visible in review branch [skip ci]"
             # Clean ONLY temporary BRIEF-14 audit outputs. The verified screenshots
             # have already been copied into h01/ and committed; no user files touched.
             git restore --worktree -- qa-shots/full-audit/
@@ -247,7 +240,7 @@ jobs:
         run: supabase stop --no-backup || true
 
   visual:
-    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'merapplications-sketch/Talabat-v3' && (github.ref == 'refs/heads/review/unified-fix-brief15-20261117' || github.ref == 'refs/heads/ci/brief-ci1-20261120')
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     permissions:
@@ -261,7 +254,7 @@ jobs:
         run: |
           set -euo pipefail
           BASE=f85f927db58280c24773768f4aa5ddc88956a448
-          test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
+          test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117 || test "$GITHUB_REF" = refs/heads/ci/brief-ci1-20261120
           test "$(git merge-base "$BASE" HEAD)" = "$BASE"
           for f in sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
             test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
@@ -639,7 +632,8 @@ jobs:
           exit 0
       - name: Commit only new BRIEF-15c evidence to isolated branch (avoid H01 and legacy PNG conflicts)
         shell: bash
-        if: always()
+        if: always() && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+        continue-on-error: true
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117
@@ -658,7 +652,7 @@ jobs:
               echo 'STOP: outside BRIEF-15c evidence-only staged path' >&2
               exit 1
             fi
-            git commit -m "test(BRIEF-15c): pinned RU375 EN390 BEFORE AFTER WebKit geometry evidence"
+            git commit -m "test(BRIEF-15c): pinned RU375 EN390 BEFORE AFTER WebKit geometry evidence [skip ci]"
             git fetch origin review/unified-fix-brief15-20261117
             git rebase origin/review/unified-fix-brief15-20261117
             if git diff --name-only HEAD~1 HEAD | grep -Ev '^qa-shots/unified-fix/(b|brief18|brief18b|brief18c|brief18d)/'; then
