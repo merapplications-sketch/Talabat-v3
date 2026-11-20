@@ -519,14 +519,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Скидки до 25%Любимые блюдаЗ",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Скидки до 15%Любимые блюдаЗ",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 375,
-            "height": 3202.5,
+            "height": 3188.5,
             "right": 375,
-            "bottom": 3210.5
+            "bottom": 3196.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1154,7 +1154,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 14:17",
+          "text": "Ожидание подтверждения · #ord0 15:27",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1182,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 13:17",
+          "text": "Принять с 14:27",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1197,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 14:17\n",
+        "heading": "Ожидание подтверждения · #ord0\n 15:27\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1218,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 13:17",
+            "txt": "Принять с 14:27",
             "width": 209,
             "scroll": 209
           }
@@ -1641,11 +1641,11 @@
           "text": "Р\n    −25%Р\n      Ресторан «Дар-ул-Хилоф Шарқи Бузург» (централь",
           "rect": {
             "x": 0,
-            "y": 2592,
+            "y": 2578,
             "width": 375,
             "height": 228.5,
             "right": 375,
-            "bottom": 2820.5
+            "bottom": 2806.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2515,14 +2515,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Up to 25% offFavourite dish",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Up to 15% offFavourite dish",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 390,
-            "height": 3187.5,
+            "height": 3173.5,
             "right": 390,
-            "bottom": 3195.5
+            "bottom": 3181.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3150,7 +3150,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 14:18",
+          "text": "Waiting for confirmation · #ord0 15:27",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3178,7 +3178,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 13:18",
+          "text": "Accept from 14:27",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3193,7 +3193,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 14:18\n",
+        "heading": "Waiting for confirmation · #ord0\n 15:27\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3214,7 +3214,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 13:18",
+            "txt": "Accept from 14:27",
             "width": 219,
             "scroll": 219
           }
@@ -3637,11 +3637,11 @@
           "text": "Р\n    −25%Р\n      Ресторан «Дар-ул-Хилоф Шарқи Бузург» (централь",
           "rect": {
             "x": 0,
-            "y": 2577,
+            "y": 2563,
             "width": 390,
             "height": 228.5,
             "right": 390,
-            "bottom": 2805.5
+            "bottom": 2791.5
           },
           "disabled": false,
           "ariaDisabled": null
