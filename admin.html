@@ -209,10 +209,10 @@ TLB.addDict({
   bannerPending:'These fields are ready to connect. The existing banner link applies until then.'
 });
 TLB.addDict({
-  bannerAudience:'Размещение коллекции',bannerHomeAudience:'Главная',bannerOrdersAudience:'Мои заказы',
+  bannerAudience:'Размещение коллекции',bannerHomeAudience:'Главная',bannerOrdersAudience:'Мои заказы',bannerRestaurantsAudience:'Рестораны',
   bannerOrdersMode:'Баннеры в «Мои заказы»',bannerCopyHome:'Те же баннеры, что на главной',bannerOwnSet:'Своя подборка'
 },{
-  bannerAudience:'Banner collection',bannerHomeAudience:'Home',bannerOrdersAudience:'My orders',
+  bannerAudience:'Banner collection',bannerHomeAudience:'Home',bannerOrdersAudience:'My orders',bannerRestaurantsAudience:'Restaurants',
   bannerOrdersMode:'Banners in My orders',bannerCopyHome:'Use Home banners',bannerOwnSet:'Use a separate collection'
 });
 function bannerOrdersSettings(){
@@ -234,7 +234,7 @@ function bannerActionFields(cfg={}){
     +field('item_id','bannerDish',cfg.item_id)
     +select('filter','bannerList',[['category','bannerCategory'],['free','bannerFree'],['disc','bannerDiscount']])
     +select('campaign','bannerCampaign',[['happy','bannerHappy'],['discount','bannerDiscount'],['free','bannerFree']])
-    +select('audience','bannerAudience',[['home','bannerHomeAudience'],['orders','bannerOrdersAudience']])
+    +select('audience','bannerAudience',[['home','bannerHomeAudience'],['orders','bannerOrdersAudience'],['restaurants','bannerRestaurantsAudience']])
     +(!bannerSchema()?`<small>${t('bannerPending')}</small>`:'');
 }
 function bannerPresentation(previous={}){

@@ -1332,7 +1332,7 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .d6l .ad30-address{display:flex;align-items:center;gap:4px;min-width:0;max-width:100%;padding:0;border:0;background:transparent;color:var(--mut2);font:inherit;font-size:11px;line-height:15px;text-align:left;cursor:pointer}
 #app .d6l .ad30-address>span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
-</style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"></head><body>
+</style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"><link rel="stylesheet" href="assets/customer-c/restaurants-brief30.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
@@ -1430,7 +1430,7 @@ const openCat=c=>go('cat',{catKey:c,cq:'',srt:'',fo:false});
 const storeTap=st=>TLB.isOpen(st.n)?`onclick="openStore(${STORES.indexOf(st)})"`:'aria-disabled="true"';
 TLB.addDict({closedStoreBadge:'Закрыт'},{closedStoreBadge:'Closed'});
 const cartCount=()=>Object.values(S.cart).reduce((a,b)=>a+b,0);
-const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p&&bannerConfig(b).audience!=='orders');
+const inB=p=>TLB.banners().filter(b=>(b.placement||'top')==p&&!['orders','restaurants'].includes(bannerConfig(b).audience));
 const isFirst=n=>!TLB.orders().some(o=>o.store==n&&o.status!='rejected'&&o.status!='cancelled');
 const sdOf=n=>(ALLS.find(x=>x.n==n)||{}).disc||0;
 /* prices: an item gets the better of the store discount and its own offer (never stacked) */
@@ -2708,7 +2708,7 @@ if(!window.__ad30HintTimer)window.__ad30HintTimer=setInterval(()=>{
 },3600);
 
 /* ---------- LIST (category or all) — v06.1 restaurants list look for every list ---------- */
-function vCat(){const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
+function vCat(){if(S.catKey==='rest'&&window.TALABOT_RESTAURANTS_BRIEF30)return window.TALABOT_RESTAURANTS_BRIEF30.render();const c=S.catKey,all=c=='*',q=S.cq.trim().toLowerCase(),M=TLB.allMenus(true),mine=d6Mine(),hasMine=Object.keys(mine).length>0;
   if(S.srt=='mine'&&!hasMine)S.srt='';
   let list=matches(M,q).filter(({s})=>all||catIn(c,s.c));
   if(S.fo)list=list.filter(({s})=>TLB.isOpen(s.n));
@@ -3406,5 +3406,5 @@ function render(){
 if(!window.__hhTick)window.__hhTick=setInterval(()=>{if(ME.phone&&TLB.happyHours&&TLB.happyHours().length&&!S.busy){syncStores();render()}},60000);
 {const previewLang=new URLSearchParams(location.search).get('lang');if(previewLang==='ru'||previewLang==='en')TLB.setLang(previewLang)}
 TLB.start('customer',me=>{ME={name:me.name,phone:me.phone};TLB.chrome(false);prefLoad();TLB.wantSupport();syncStores();cartLoad();TLB.on(()=>{syncStores();cartLoad();watchOrders();ptsWatch();render();openDeep();grpDeep()});watchOrders();ptsWatch();render();openDeep();grpDeep()});
-</script><script src="assets/customer-c/customer-c.js"></script>
+</script><script src="assets/customer-c/customer-c.js"></script><script src="assets/customer-c/restaurants-brief30.js"></script>
 <script src="assets/shared/safe-toast.js"></script></body></html>
