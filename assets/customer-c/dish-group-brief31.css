@@ -5,3 +5,16 @@
 #app .d6s .osh>.og.u18-options{min-width:0;margin-inline:0}
 #app .d6s .osh>.og.u18-options+.og.u18-options:before{margin-inline:0}
 #app .d6s .u18-options .d6-gh,#app .d6s .u18-options-list{min-width:0;max-width:100%}
+
+/* AG-05: a visible rounded panel with a dedicated drag/tap target.
+   Only the handle owns dragging; option rows keep native vertical scrolling. */
+#app .sheet.d6s{--b31-safe-top:env(safe-area-inset-top,0px)}
+#app .sheet.d6s:not(.d6-keyboard) .d6s-top:has(>img){flex-basis:var(--b31-photo-height,clamp(112px,22dvh,176px));min-height:56px}
+#app .sheet.d6s:not(.d6-keyboard) .d6s-top:has(>img)+.d6s-p{height:calc(100% - var(--b31-photo-height,clamp(112px,22dvh,176px)) + 24px);max-height:calc(100% - var(--b31-photo-height,clamp(112px,22dvh,176px)) + 24px)}
+#app .sheet.d6s .d6s-p{border-radius:28px 28px 0 0;box-shadow:0 -5px 18px #17243c24}
+#app .d6s [data-dish-handle]{position:relative;display:flex;flex:none;align-items:center;justify-content:center;align-self:stretch;min-width:44px;min-height:44px;margin:-8px -16px 0;padding:0;border:0;border-radius:28px 28px 0 0;background:transparent;color:var(--mut2);cursor:grab;touch-action:pan-x;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+#app .d6s [data-dish-handle] span{display:block;width:44px;height:4px;border-radius:4px;background:#adb5c2;pointer-events:none}
+#app .d6s [data-dish-handle]:active,#app .d6s [data-dish-handle].is-dragging{cursor:grabbing;background:#f8f9fb}
+#app .d6s [data-dish-handle]:focus-visible{outline:2px solid var(--o);outline-offset:-5px}
+#app .d6s [data-dish-handle]:disabled{display:none}
+#app .d6s .d6s-top:not(:has(>img))+.d6s-p [data-dish-handle]{display:none}

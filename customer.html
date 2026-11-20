@@ -1679,6 +1679,7 @@ function dishViewport(){
    if(keyboard){e.style.setProperty('--dish-height',h+'px');e.style.setProperty('--dish-top',Math.max(0,v.offsetTop)+'px')}
    else{e.style.removeProperty('--dish-height');e.style.removeProperty('--dish-top')}
  }
+ window.TALABOT_DISH_BRIEF31?.mount(e);
  const pageEditing=!e&&a&&document.querySelector('#app')?.contains(a)&&/^(INPUT|TEXTAREA)$/.test(a.tagName);
  document.body.classList.toggle('f04-inline-keyboard',!!pageEditing&&h<f04MaxViewport-95);
  f04Schedule();
@@ -1704,6 +1705,8 @@ const shOps=()=>Object.values(S.sh.sel).flat();
 const shOk=()=>{const gs=TLB.optionsOf(S.sh.id);return gs.every(g=>{const n=(S.sh.sel[g.id]||[]).length;return n<=g.max&&(!g.required||n>=1)})};
 function shAdd(){if(!S.sh)return;if(!shOk()){const g=TLB.optionsOf(S.sh.id).find(g=>{const n=(S.sh.sel[g.id]||[]).length;return n>g.max||(g.required&&n<1)});if(g){S.sh.miss=g.id;render();const e=$('og-'+g.id);if(e)e.scrollIntoView({block:'center',behavior:'smooth'})}return}if(closedNow(S.store))return;if(S.sh.editKey&&S.cartStore!==S.sh.editStore){alert(t('v70Changed'));return}const sheet=S.sh;ensureStore(S.store,()=>{if(S.sh!==sheet)return;const key=lk(S.sh.id,shOps(),S.sh.note);if(S.sh.editKey){if(S.cartStore!==S.sh.editStore||S.cart[S.sh.editKey]!==S.sh.editQty){alert(t('v70Changed'));return}const combined=(key===S.sh.editKey?0:(S.cart[key]||0))+S.sh.q;if(combined>50){alert(t('v70Limit'));return}delete S.cart[S.sh.editKey];S.cart[key]=combined}else S.cart[key]=Math.min(50,(S.cart[key]||0)+S.sh.q);S.cartUndo=null;S.sh=null;afterCart()})}
 TLB.addDict({u18ChooseOne:'Выберите 1',u18UpTo:'до {n}'},{u18ChooseOne:'Choose 1',u18UpTo:'up to {n}'});
+TLB.addDict({b31SheetExpand:'Развернуть параметры блюда',b31SheetCollapse:'Свернуть параметры блюда'},
+            {b31SheetExpand:'Expand dish options',b31SheetCollapse:'Collapse dish options'});
 /* v06.1 dish sheet: photo above, panel max min(560px,66dvh); title / price and quantity / add stay outside the options scroll (.osh) */
 function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S.sh.id);if(!it){S.sh=null;return ''}const gs=TLB.optionsOf(it.id),sd=sdOf(S.store),ops=shOps(),base=baseOf(it,ops),u=unit(it,sd,base),ok=shOk(),e=eff(it,sd),q=S.sh.q;
   const grp=g=>{const sel=S.sh.sel[g.id]||[],multi=g.max>1;
@@ -1712,9 +1715,9 @@ function itemSheet(){if(!S.sh)return '';const it=menuOf(S.store).find(x=>x.id==S
     <div class="${multi?'d6-gm':'d6-g1'} u18-options-list">${g.options.map(o=>{const on=sel.includes(o.id),dis=!on&&multi&&sel.length>=g.max;
       return `<button type="button" class="d6-ch ${on?'on':''} ${dis?'dis':''}" role="${multi?'checkbox':'radio'}" aria-checked="${on}" ${dis?'aria-disabled="true"':''} onclick="${dis?'':`shPick('${g.id}','${o.id}',${g.max})`}"><span class="nm">${esc(o.name)}</span>${o.price>0?`<span class="pr">+${o.price} TJS</span>`:''}<span class="mk">${on?ico('check'):''}</span></button>`}).join('')}</div></div>`};
   return `<div class="sheet d6 d6s" onclick="shClose()"><div class="d6s-top">${it.image?`<img src="${esc(it.image)}" alt="" onerror="const p=this.parentNode;p.querySelectorAll('.d6-bdg').forEach(x=>x.remove());p.classList.add('nop');this.remove()">`:''}<button class="d6-circ d6s-x" aria-label="${t('d6Close')}" onclick="event.stopPropagation();shClose()">${ico('x')}</button>${it.image&&isBest(it.id)?`<span class="d6-bdg hot">${t('hotB')}</span>`:''}</div>
-  <div class="d6s-p" role="dialog" aria-modal="true" aria-labelledby="shT" onclick="event.stopPropagation()"><div class="d6s-hd"></div>
+  <div class="d6s-p" role="dialog" aria-modal="true" aria-labelledby="shT" onclick="event.stopPropagation()"><button type="button" data-dish-handle aria-expanded="${Number(S.sh.sheetLift)>=.5}" aria-controls="b31-dish-options" aria-label="${t(Number(S.sh.sheetLift)>=.5?'b31SheetCollapse':'b31SheetExpand')}"><span aria-hidden="true"></span></button>
   <div class="d6s-in">${!it.image&&isBest(it.id)?`<span class="d6-pill hot">${t('hotB')}</span>`:''}<h2 id="shT">${esc(it.name)}</h2><div class="d6s-pr">${e?`${Math.round(base*(100-e))/100} TJS<s>${base} TJS</s>`:`${base} TJS`}</div></div>
-  <div class="osh">${gs.map(grp).join('')}
+  <div class="osh" id="b31-dish-options">${gs.map(grp).join('')}
   <div class="d6-nt"><h3><label for="shn">${t('d6Note')}</label></h3><textarea id="shn" maxlength="120" rows="2" placeholder="${t('d6NotePh')}" oninput="S.sh.note=this.value">${esc(S.sh.note||'')}</textarea><small>${t('d6NoteHint')}</small></div></div>
   ${ok?'':`<div class="d67-choice-hint" role="status">${t('needChoose')}</div>`}<div class="oshf"><div class="d6-q"><button aria-label="−" ${q<=1?'disabled':''} onclick="shQ(-1)">${ico('minus')}</button><span aria-live="polite">${q}</span><button aria-label="+" ${q>=50?'disabled':''} onclick="shQ(1)">${ico('plus')}</button></div>
   <button class="btn ${ok&&!closedNow(S.store)?'':'soft'}" ${closedNow(S.store)?'disabled aria-disabled="true"':''} onclick="shAdd()"><span>${t(S.sh.editKey?'v70Save':innerWidth<=340?'p18bCartShort':'d6AddCart')}</span><span class="px6">${Math.round(u*q*100)/100} TJS</span></button></div></div></div>`}
@@ -3461,4 +3464,5 @@ if(!window.__hhTick)window.__hhTick=setInterval(()=>{if(ME.phone&&TLB.happyHours
 {const previewLang=new URLSearchParams(location.search).get('lang');if(previewLang==='ru'||previewLang==='en')TLB.setLang(previewLang)}
 TLB.start('customer',me=>{ME={name:me.name,phone:me.phone};TLB.chrome(false);prefLoad();TLB.wantSupport();syncStores();cartLoad();TLB.on(()=>{syncStores();cartLoad();watchOrders();ptsWatch();render();openDeep();grpDeep()});watchOrders();ptsWatch();render();openDeep();grpDeep()});
 </script><script src="assets/customer-c/customer-c.js"></script><script src="assets/customer-c/restaurants-brief30.js"></script>
+<script src="assets/customer-c/dish-group-brief31.js"></script>
 <script src="assets/shared/safe-toast.js"></script></body></html>
