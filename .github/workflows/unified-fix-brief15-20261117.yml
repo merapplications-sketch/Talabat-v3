@@ -67,10 +67,10 @@ jobs:
               assets/customer-c/dineout-header.webp)
                 test "$(git rev-parse HEAD:"$changed")" = "a6b2e4569d1eaa00a85106f3d3ed80c1d9378173" || { echo "STOP: DineOut image differs from the owner source" >&2; exit 1; } ;;
               assets/customer-c/home-sections.css)
-                # Keep the previous stylesheet as an exact prefix and pin the BRIEF-25c Y-11 stylesheet.
+                # Keep the previous stylesheet as an exact prefix and pin the BRIEF-26 stylesheet.
                 git show a9b632088b0466149953fdccfd72c7ee380a3881:"$changed" > "$RUNNER_TEMP/approved-home-css"
                 cmp -s -n "$(wc -c < "$RUNNER_TEMP/approved-home-css")" "$RUNNER_TEMP/approved-home-css" "$changed"
-                test "$(git rev-parse HEAD:"$changed")" = "8cc4405ce08cd5b8baf17b7e487cde4b665dcdce" || { echo "STOP: Home stylesheet differs from BRIEF-25c Y-11" >&2; exit 1; } ;;
+                test "$(git rev-parse HEAD:"$changed")" = "3c1dd2a3c82e0f4251110c694934c13e4bf4daa4" || { echo "STOP: Home stylesheet differs from BRIEF-26" >&2; exit 1; } ;;
               *) echo "STOP: out of BRIEF15 scope: $changed" >&2; exit 1 ;;
             esac
           done < "$RUNNER_TEMP/brief15-paths"

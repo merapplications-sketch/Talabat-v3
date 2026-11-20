@@ -46,7 +46,7 @@ def test_owner_fixture(page):
     assert kfc.count()==1 and not kfc.is_disabled() and kfc.locator('img[src="/qa-image/kfc"]').count()==1
 
 def page_for(browser,server,photos,extra=''):
-    seed='const catalog='+json.dumps(CATALOG,ensure_ascii=False)+';\n'+SEED+extra+'\n'
+    seed='const catalog='+json.dumps(CATALOG,ensure_ascii=False)+';\n'+SEED+"stores[1].created_at=iso(24*60);\n"+extra+'\n'
     qa.SDK=FIX.replace(qa.FINISH_SEED,seed+qa.FINISH_SEED)
     ctx,page=qa.page_at(browser,server,photos,'ru',375)
     # The 20-minute preparation time is QA-only, to exercise the time + fee row.

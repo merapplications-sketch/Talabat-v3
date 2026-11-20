@@ -229,6 +229,94 @@ def test_reel_linked_badges(browser,server,photos,out):
     finally:
         ctx.close()
 
+def test_brief26(browser, server, photos, out):
+    from datetime import datetime, timezone
+    from io import BytesIO
+    from PIL import Image
+
+    seed = """
+      orders.push({...orders[0],id:'romant-previous',store_id:'s2'});
+      stores.forEach(s=>{delete s.home_reels;s.created_at=iso(90*24*60)});
+      stores[0].fee_type='free';
+      T.happy_hours=[
+        {id:'hh-r',store_id:'s2',days:[3],start_time:'13:00:00',end_time:'14:12:20',discount_pct:20,active:true},
+        {id:'hh-k',store_id:'s1',days:[3],start_time:'13:00:00',end_time:'14:12:20',discount_pct:5,active:true},
+        {id:'hh-c',store_id:'s4',days:[3],start_time:'13:00:00',end_time:'14:12:20',discount_pct:30,active:true}
+      ];
+      for(const [id,placement,title,link_value,image_url] of [
+        ['hh-art','top','Счастливые часы','s2','/qa-image/romant'],
+        ['ad-r','top','Top Romant','s2','/qa-image/romant'],
+        ['ad-k','top','Top KFC','s1','/qa-image/kfc'],
+        ['ad-next','top','Top KFC next','s1','/qa-image/kfc'],
+        ['miss-r','dont_miss','Romant offer','s2','/qa-image/romant'],
+        ['miss-k','dont_miss','KFC offer','s1','/qa-image/kfc']
+      ])T.banners.push({id,placement,title,link_value,image_url,link_type:'store',is_active:true});
+    """
+    ctx,page=prior.page_for(browser,server,photos,seed)
+    try:
+        page.emulate_media(reduced_motion='reduce')
+        tile=page.locator('.d6-bt.k-hap')
+        assert tile.locator('img').get_attribute('src')=='/qa-image/romant'
+        assert tile.locator('.hcd').inner_text()=='12:20'
+        assert tile.locator('.cd').evaluate("e=>getComputedStyle(e).backgroundColor")=='rgb(255, 255, 255)'
+        assert page.locator('.home-flash').evaluate("e=>e.getBoundingClientRect().top-e.previousElementSibling.getBoundingClientRect().bottom")>=16
+        assert page.locator('.home-dine-section').evaluate("""e=>e.contains(e.querySelector('.dine-head button'))
+          && !!e.querySelector('.home-dine .d6-dc') && getComputedStyle(e).backgroundColor==='rgb(247, 243, 238)'
+          && getComputedStyle(e.querySelector('.dine-head img')).mixBlendMode==='multiply'""")
+        assert page.locator('.hdt').evaluate("e=>e.getBoundingClientRect().top-e.previousElementSibling.getBoundingClientRect().bottom")>=8
+        assert page.locator('.home-ad-dots').evaluate("e=>getComputedStyle(e).paddingTop")=='8px'
+        assert page.evaluate("()=>['KFC','Romant Restaurant'].every(n=>triedRestaurants().has(n))")
+        assert page.locator('.home-discover .reel-tile[data-reel-key^="restaurant:"]').count()==0
+        assert {'−20%', '−5%'} <= set(page.locator('.home-discover .reel-deal').all_inner_texts())
+        page.evaluate("""()=>{document.querySelectorAll('.d6h img').forEach(i=>i.loading='eager');scrollTo(0,0)}""")
+        page.wait_for_function("()=>[...document.querySelectorAll('.d6h img')].every(i=>i.complete&&i.naturalWidth>0)")
+        full=page.screenshot(full_page=True,animations='disabled',style='body{position:relative}#app .nav{position:absolute}')
+        Image.open(BytesIO(full)).convert('RGB').save(out/'ru-375-home-brief26-fixture.webp',quality=90,method=6)
+
+        page.locator('#hsc button').filter(has=page.get_by_alt_text('Top KFC next')).click()
+        assert page.evaluate("S.v==='menu'&&S.store==='KFC'")
+        page.evaluate("go('home')")
+        page.locator('.d6-bt').filter(has=page.get_by_alt_text('Top Romant',exact=True)).click()
+        assert page.evaluate("S.v==='menu'&&S.store==='Romant Restaurant'")
+        page.evaluate("go('home')")
+        for title,store in [('KFC offer','KFC'),('Romant offer','Romant Restaurant')]:
+            page.locator('.home-ad-card').filter(has=page.get_by_text(title,exact=True)).click()
+            assert page.evaluate("name=>S.v==='menu'&&S.store===name",store)
+            page.evaluate("go('home')")
+
+        tile.click()
+        sheet=page.get_by_role('dialog',name='Счастливые часы')
+        assert sheet.is_visible() and sheet.locator('.hcd').inner_text()=='12:20'
+        stores=sheet.locator('.hh-sheet-store')
+        assert stores.count()==3 and stores.last.is_disabled()
+        assert stores.last.locator('.hh-sheet-copy > b').first.inner_text()=='Закрытый ресторан QA'
+        assert '−20% до 14:12' in stores.first.inner_text()
+        assert '−5% до 14:12' in stores.nth(1).inner_text()
+        page.evaluate("document.activeElement.blur()")
+        prior.shot(page,out,'ru-375-happy-hours-brief26-fixture.webp')
+        sheet.locator('.hh-sheet-close').click()
+        sheet.wait_for(state='detached')
+        tile.click()
+        sheet.locator('.hh-sheet-store').first.click()
+        assert page.evaluate("S.v==='menu'&&S.store==='Romant Restaurant'")
+        page.evaluate("go('home')")
+        tile.click()
+        page.clock.set_fixed_time(datetime(2026,11,18,9,0,1,tzinfo=timezone.utc))
+        page.wait_for_function("""()=>[...document.querySelectorAll('.hcd')].length===2
+          && [...document.querySelectorAll('.hcd')].every(e=>e.textContent==='12:19')""")
+        page.clock.set_fixed_time(datetime(2026,11,18,9,12,20,tzinfo=timezone.utc))
+        sheet.wait_for(state='detached')
+        tile.wait_for(state='detached')
+    finally:
+        ctx.close()
+
+    ctx,page=prior.page_for(browser,server,photos,seed.replace("'/qa-image/romant'],\n        ['ad-r'","null],\n        ['ad-r'",1))
+    try:
+        assert page.locator('.d6-bt.k-hap:not(.img) .hcd').inner_text()=='12:20'
+    finally:
+        ctx.close()
+
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -237,6 +325,7 @@ def main():
         with sync_playwright() as pw:
             browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
             photos=prior.fixture_logos(prior.qa.source_photos())
+            test_brief26(browser,server,photos,out)
             test_dineout(browser,server,photos,out)
             test_reel_badges(browser,server,photos,out)
             test_reel_linked_badges(browser,server,photos,out)
@@ -249,7 +338,7 @@ def main():
     finally:
         server.shutdown()
     (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
-    print('BRIEF-25c Y-01..Y-04 PASS')
+    print('BRIEF-25c Y-01..Y-04 and BRIEF-26 Z-01..Z-07 PASS')
 
 if __name__=='__main__':
     main()

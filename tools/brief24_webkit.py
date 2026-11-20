@@ -69,7 +69,7 @@ def current_home(page, out):
     assert page.locator('.home-ad-card b').inner_text()=='Скидка 20% в Romant Restaurant'
     disc=page.locator('.home-discover')
     assert disc.locator('.home-picks-summary').inner_text()=='Новые рестораны, блюда и акции'
-    assert disc.locator('.discover-row .reel-copy > b:first-child').all_inner_texts()==['Romant Restaurant']
+    assert set(disc.locator('.discover-row .reel-copy > b:first-child').all_inner_texts())=={'Romant Restaurant','Combo','Hot honey'}
     assert 'Новый' not in disc.inner_text() and disc.locator('em').count()==0
     flash=page.locator('.flash-grid')
     prices=flash.locator('.flash-description').evaluate_all("""es=>Object.fromEntries(es.map(e=>[
@@ -168,7 +168,7 @@ def variants(browser, server, photos):
           return [names(mealsH(products),'.nm'),names(flashH(products),'.flash-description b')]}""")
         assert marked==[['Стейк'],['Hot honey']]
         assert p.locator('.home-ad-card b').inner_text()=='Объявление KFC'
-        assert p.locator('.home-discover .discover-row .reel-copy > b:first-child').all_inner_texts()==['Romant Restaurant']
+        assert p.locator('.home-discover .discover-row .reel-copy > b:first-child').first.inner_text()=='Romant Restaurant'
         assert '12%' in p.locator('.discover-row em').inner_text()
     check("""items.find(i=>i.id==='steak').meal_for_one=true;items.find(i=>i.id==='hot').flash_sale=true;
         stores[1].created_at=iso(24*60);stores[1].first_order_discount_pct=12;
@@ -230,9 +230,12 @@ def variants(browser, server, photos):
 
     def long_history(p):
         p.wait_for_function("discoveryHistory?.names instanceof Set")
-        assert p.locator('.home-discover').count()==0
+        assert p.locator('.home-discover .reel-tile[data-reel-key^="restaurant:"]').count()==0
+        assert p.locator('.home-discover .reel-tile').count()>=3
     check("""for(let i=1;i<60;i++)orders.push({...orders[0],id:'recent'+i});
         orders.push({...orders[0],id:'older',store_id:'s2',_hist:true});""",long_history)
+    check("stores.forEach(s=>s.discount_pct=0);items.forEach(i=>i.discount_pct=0);",
+          lambda p: p.locator('.home-discover').wait_for(state='detached'))
 
 
 
@@ -277,7 +280,8 @@ def closed_home_cards(browser, server, photos, out):
                 }"""),selector
                 return round(bounds['width'],1)
 
-            widths={sel:verify(sel) for sel in ('.d6-sc','.home-l-near .home-l-card','.discover-row','.d6-lo')}
+            widths={sel:verify(sel) for sel in ('.d6-sc','.home-l-near .home-l-card','.d6-lo')}
+            assert page.locator('.discover-row').filter(has_text='KFC').count()==0
             page.locator('.d6-sc.closed').filter(has_text='KFC').screenshot(path=str(out/f'closed-{lang}-{width}.png'))
             page.evaluate("()=>{S.q='KFC';render()}")
             widths['.d6-sr']=verify('.d6-sr')
