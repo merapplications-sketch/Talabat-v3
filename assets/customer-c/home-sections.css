@@ -300,7 +300,13 @@
 /* Happy-hour countdown remains legible on both kinds of artwork. */
 #app .d6h .d6-bt.k-hap .cd { flex: none; width: max-content; background: #fff; color: #37251e; }
 #app .d6h .d6-bt.k-hap .cd > span:first-child { display: inline-flex; }
-#app .d6h .d6-bt.k-hap.img .cd { position: absolute; top: 10px; left: 10px; }
+#app .d6h .d6-bt.k-hap.img > img { position: absolute; inset: 0; object-fit: cover; }
+#app .d6h .d6-bt.k-hap.img::after {
+  content: ''; position: absolute; inset: 0; background: linear-gradient(#1a100dcc, transparent 70%);
+  pointer-events: none;
+}
+#app .d6h .d6-bt.k-hap.img .tt { color: #fff; padding: 8px 10px 0; font-size: 14px; line-height: 17px; }
+#app .d6h .d6-bt.k-hap.img .cd { position: absolute; bottom: 8px; left: 10px; }
 
 /* Indicators have their own row beneath both Home carousels. */
 #app .d6h .d6-bm { display: flex; flex-direction: column; overflow: visible; }
