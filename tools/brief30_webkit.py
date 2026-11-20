@@ -75,7 +75,8 @@ def check_restaurants(page, lang, width, output):
     assert cards.first.locator(".ad30-card-logo .hrt").count() == 1
     assert cards.first.locator(".ad30-card-logo img").get_attribute("src") == '/qa-image/pro-khinkali'
     assert cards.first.locator(".ad30-card-offer").count() == 1
-    assert cards.last.get_by_text("Закрыт" if ru else "Closed").count() == 1
+    assert cards.last.locator(".ad30-card-closed").count() == 1, cards.last.inner_text()
+    assert cards.last.locator(".ad30-card-closed").inner_text().strip() == ("Закрыт" if ru else "Closed"), cards.last.inner_text()
     assert page.locator(".ad30-float").count() == 1, "Explicit floating field supplied"
     capture(page, output, f"{lang}-{width}-brief30-complete-restaurants-fixture.webp")
 
