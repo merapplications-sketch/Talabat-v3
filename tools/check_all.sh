@@ -24,8 +24,14 @@ if [ "${BRIEF19_SEC18_LOCAL:-0}" = "1" ]; then
   echo "BRIEF19 SEC-18 LOCAL migration, real PostgreSQL authorization and non-destructive rollback"
   python3 tools/brief19_sec18_local.py || fail=1
 fi
-echo "BRIEF-11 mandatory offline Playwright WebKit iPhone-layout C01..C07"
-python3 tools/brief11_webkit_layout.py || fail=1
+# The full BRIEF-11 visual remains mandatory outside CI1 push mode.
+# Only the current brief + RU375 Home smoke runs on push (see ci1_fast_webkit.py).
+if [ "${CI1_FAST_PUSH:-0}" != "1" ]; then
+  echo "BRIEF-11 mandatory offline Playwright WebKit iPhone-layout C01..C07"
+  python3 tools/brief11_webkit_layout.py || fail=1
+else
+  echo "CI1_FAST_PUSH: previous BRIEF-11 visual deferred to manual full suite"
+fi
 # BRIEF-14 is an EXPLICIT opt-in on its source-pinned isolated QA branch only.
 # Gate1 F/core/16 LOCAL scenarios above run FIRST against untouched original seed;
 # only then add more local-only identities/records for the four ORIGINAL app views.

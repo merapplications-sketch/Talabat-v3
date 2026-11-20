@@ -156,6 +156,7 @@ jobs:
           FULL_AUDIT_SUPABASE_UMD: ${{ runner.temp }}/full-audit-npm/node_modules/@supabase/supabase-js/dist/umd/supabase.js
           FULL_AUDIT_MODE: auth_only
           FULL_AUDIT_FAIL_FAST: '1'
+          CI1_FAST_PUSH: ${{ github.event_name == 'push' && '1' || '0' }}
           BRIEF19_SEC18_LOCAL: '1'
         run: |
           set -euo pipefail
