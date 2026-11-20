@@ -51,9 +51,68 @@ function againRail(){
     }).join('')+'</div></section>';
 }
 
+
+/* AD-04: cuisine categories derive from existing menu sections and optional admin imagery.
+   No fabricated categories: only categories attached to actual menu items appear. */
+TLB.addDict({
+  ad30Plov:'Плов',ad30Burgers:'Бургеры',ad30Pizza:'Пицца',ad30Shawarma:'Шаурма',
+  ad30Sushi:'Суши',ad30Desserts:'Десерты',ad30Drinks:'Напитки'
+},{
+  ad30Plov:'Pilaf',ad30Burgers:'Burgers',ad30Pizza:'Pizza',ad30Shawarma:'Shawarma',
+  ad30Sushi:'Sushi',ad30Desserts:'Desserts',ad30Drinks:'Drinks'
+});
+const CUISINE_MAP=[
+  {id:'plov',test:/плов|pilaf|plov/i,art:'basket',name:'ad30Plov'},
+  {id:'burger',test:/бургер|burger/i,art:'hamburger',name:'ad30Burgers'},
+  {id:'pizza',test:/пицц|pizza/i,art:'pizza',name:'ad30Pizza'},
+  {id:'shawarma',test:/шаурм|shawarma/i,art:'bread',name:'ad30Shawarma'},
+  {id:'sushi',test:/суши|sushi/i,art:'sushi',name:'ad30Sushi'},
+  {id:'dessert',test:/десерт|сладост|торт|dessert|cake/i,art:'shortcake',name:'ad30Desserts'},
+  {id:'drinks',test:/напитк|drink|beverage|сок|juice/i,art:'basket',name:'ad30Drinks'}
+];
+let chosenCuisine='';
+function cuisineSource(){
+  const menus=TLB.allMenus(true)||{},seen=new Map();
+  for(const store of STORES){
+    if(store.c!=='rest')continue;
+    for(const item of menus[store.n]||[]){
+      const raw=String(item.section||'').trim();
+      if(!raw)continue;
+      const match=CUISINE_MAP.find(c=>c.test.test(raw));
+      const id=match?match.id:'section:'+raw.toLocaleLowerCase();
+      if(!seen.has(id))seen.set(id,{id,title:match?t(match.name):raw,art:match?match.art:'basket',image:'',rank:seen.size,stores:new Set()});
+      seen.get(id).stores.add(store.id);
+    }
+  }
+  const configured=typeof TLB.restaurantCuisines==='function'?TLB.restaurantCuisines():[];
+  if(Array.isArray(configured))for(const item of configured){
+    if(!item||!seen.has(item.id))continue;
+    const c=seen.get(item.id);
+    const title=TLB.lang()==='en'?item.name_en:item.name_ru;
+    if(typeof title==='string'&&title.trim())c.title=title.trim().slice(0,32);
+    if(typeof item.image_url==='string'&&item.image_url)c.image=item.image_url;
+    if(Number.isFinite(+item.sort))c.rank=+item.sort;
+  }
+  return [...seen.values()].sort((a,b)=>a.rank-b.rank);
+}
+function cuisineRail(){
+  const types=cuisineSource();if(!types.length)return '';
+  return '<div class="ad30-cuisines" aria-label="'+esc(t('sections'))+'">'
+    +types.map(c=>'<button type="button" class="ad30-cuisine'+(chosenCuisine===c.id?' on':'')+'" aria-pressed="'+(chosenCuisine===c.id)+'" '
+      +'onclick="TALABOT_RESTAURANTS_BRIEF30.cuisine('+esc(JSON.stringify(c.id))+')">'
+      +'<span class="ad30-cuisine-circle"><img src="'+esc(c.image||A3(c.art))+'" alt="" loading="lazy" onerror="this.remove()"></span>'
+      +'<span class="ad30-cuisine-label">'+esc(c.title)+'</span></button>').join('')
+    +'</div>';
+}
+function toggleCuisine(id){
+  chosenCuisine=chosenCuisine===id?'':id;render();
+}
+
 function rows(){
   const q=String(S.cq||'').trim().toLowerCase(),mine=d6Mine();
   let list=matches(TLB.allMenus(true),q).filter(({s})=>s.c==='rest');
+  if(chosenCuisine){const allowed=cuisineSource().find(c=>c.id===chosenCuisine)?.stores;
+    list=list.filter(({s})=>allowed&&allowed.has(s.id));}
   if(S.fo)list=list.filter(({s})=>TLB.isOpen(s.n));
   if(S.srt==='free')list=list.filter(({s})=>hasFreeDelivery(s));
   if(S.srt==='disc')list=list.filter(({s})=>s.disc>0);
@@ -65,10 +124,11 @@ function rows(){
 }
 function renderRestaurants(){
   return ad30Header(curAddr())+search()+rail()+againRail()
-    +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2><div class="pg c01-list-content">'+rows()+'</div></section>';
+    +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2>'+cuisineRail()+'<div class="pg c01-list-content">'+rows()+'</div></section>';
 }
 window.TALABOT_RESTAURANTS_BRIEF30={
   render:renderRestaurants,
-  banner:function(id){bannerGo(id)}
+  banner:function(id){bannerGo(id)},
+  cuisine:toggleCuisine
 };
 })();
