@@ -4,12 +4,12 @@ on:
     branches: [review/unified-fix-brief15-20261117, ci/brief-ci1-20261120]
     paths-ignore:
       - 'qa-shots/**'
+      - 'ci/FULL-VISUAL-TRIGGER.txt'
       - 'docs/**'
       - '**/*.md'
       - '*.md'
-  workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -33,37 +33,6 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
           python tools/ci1_fast_webkit.py "$RUNNER_TEMP/home-approved" "qa-artifacts/ci1-fast"
-      - name: Run offline WebKit geometry, image, action and financial checks
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
-          # BRIEF-25 reviews the candidate offline; the live preview is checked by Ops.
-          python tools/brief23_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-regression"
-          python tools/brief24_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-evidence"
-          python tools/brief25b_webkit.py "$RUNNER_TEMP/home-evidence/brief25b"
-          python tools/brief25c_webkit.py "$RUNNER_TEMP/home-evidence/brief25c"
-          python tools/brief25c_y08_webkit.py "$RUNNER_TEMP/home-evidence/brief25c-y08"
-      - name: Persist frozen BRIEF-25b and new BRIEF-25c synthetic WebKit captures on isolated review branch
-        shell: bash
-        if: github.event_name == 'workflow_dispatch' && github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
-        continue-on-error: true
-        run: |
-          set -euo pipefail
-          mkdir -p qa-shots/unified-fix/brief25b
-          # Evidence is immutable once captured for owner review; never churn screenshots on CI reruns.
-          cp -n "$RUNNER_TEMP/home-evidence/brief25b/"*.webp qa-shots/unified-fix/brief25b/
-          mkdir -p qa-shots/unified-fix/brief25c
-          cp -n "$RUNNER_TEMP/home-evidence/brief25c/"*.webp qa-shots/unified-fix/brief25c/
-          cp -n "$RUNNER_TEMP/home-evidence/brief25c-y08/"*.webp qa-shots/unified-fix/brief25c/
-          git config user.name "talabot-brief25c-webkit"
-          git config user.email "talabot-brief25c-webkit@users.noreply.github.com"
-          git add -- qa-shots/unified-fix/brief25b/ qa-shots/unified-fix/brief25c/
-          if ! git diff --cached --quiet; then
-            git commit -m "test(BRIEF-25c): fixture-labelled RU375 WebKit screenshots only [skip ci]"
-            git fetch origin review/unified-fix-brief15-20261117
-            git rebase origin/review/unified-fix-brief15-20261117
-            git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
-          fi
       - name: Stage WebKit-only evidence under checkout for artifact upload
         if: always()
         run: |

@@ -1,0 +1,464 @@
+name: TALABOT CI1 FULL VISUAL — explicit review trigger only (NO PROD)
+on:
+  push:
+    branches: [review/unified-fix-brief15-20261117]
+    paths: ['ci/FULL-VISUAL-TRIGGER.txt']
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  visual:
+    if: github.repository == 'merapplications-sketch/Talabat-v3' && github.ref == 'refs/heads/review/unified-fix-brief15-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read  # full QA is read-only; upload artifacts only
+    steps:
+      - name: Checkout exact isolated UI candidate for real-source WebKit snapshots
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: true, fetch-depth: 0}
+      - name: No production/backend/finance changes in BRIEF-15
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=f85f927db58280c24773768f4aa5ddc88956a448
+          test "$GITHUB_REF" = refs/heads/review/unified-fix-brief15-20261117 || test "$GITHUB_REF" = refs/heads/ci/brief-ci1-20261120
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          for f in sql/proposed/gate1_cash_and_idempotent_delivery.sql sql/proposed/patch40_navigation_budget.sql; do
+            test "$(git rev-parse "$BASE:$f")" = "$(git rev-parse "HEAD:$f")"
+          done
+          python3 - <<'PY'
+          import pathlib,subprocess
+          baseline='f85f927db58280c24773768f4aa5ddc88956a448'
+          original=subprocess.check_output(['git','show',baseline+':talabat-core.js']).decode('utf8')
+          current=pathlib.Path('talabat-core.js').read_text('utf8')
+          start="    /* BRIEF-18 U-02 nonfinancial courier-instruction APIs; financial RPC unchanged. */"
+          stop="    checkPromo: function (storeN, cart, code) {"
+          assert current.count(start)==1 and current.count(stop)==1,'U-02 source uniqueness'
+          a=current.index(start);b=current.index(stop,a)
+          addition=current[a:b]
+          assert all(addition.count('    '+x+': function')==1 for x in ('deliveryInstructionsReady','saveDeliveryInstructions','getDeliveryInstructions')),'U-02 methods missing'
+          assert current[:a]+current[b:]==original,'Money / existing core code differs from frozen baseline'
+          PY
+          python3 -m py_compile tools/brief15_webkit.py tools/brief15b_webkit.py tools/brief18_webkit.py tools/brief18b_webkit.py tools/brief18c_webkit.py tools/brief18d_webkit.py tools/brief11_webkit_layout.py tools/full_audit.py
+      - name: Install pinned WebKit test engine only in disposable runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check playwright==1.57.0
+          python3 -m playwright install --with-deps webkit
+          mkdir -p "$RUNNER_TEMP/brief18c-leaflet"
+          npm --prefix "$RUNNER_TEMP/brief18c-leaflet" install --no-save --ignore-scripts --package-lock=false leaflet@1.9.4
+      - name: Diagnose the formerly failing 375px RU dish keyboard before the full visual suite
+        shell: bash
+        run: |
+          set +e
+          BRIEF15_CASES=F-04 BRIEF15_WIDTHS=375 BRIEF15_LANGS=ru python3 tools/brief15_webkit.py > "$RUNNER_TEMP/f04-probe.log" 2>&1
+          rc=$?
+          grep -E 'BRIEF15_WEBKIT_(COVERAGE|FAIL)' "$RUNNER_TEMP/f04-probe.log" | tail -8 || true
+          if test "$rc" -ne 0; then echo 'F04_DIAGNOSTIC_ONLY: failing focus geometry, full-suite still runs'; fi
+          exit 0
+      - name: Run F-01..F-10 tests on original four-app HTML/JS, not synthetic DOM
+        shell: bash
+        run: |
+          set +e
+          python3 tools/brief15_webkit.py > "$RUNNER_TEMP/brief15-visual.log" 2>&1
+          rc=$?
+          grep -E 'BRIEF15_WEBKIT_(COVERAGE|FAIL)' "$RUNNER_TEMP/brief15-visual.log" | tail -35 || true
+          echo "BRIEF15_VISUAL_RC=$rc" >> "$GITHUB_ENV"
+          exit 0
+      - name: Run source-backed WebKit O-12..O-15 and previous C/O regressions
+        shell: bash
+        run: |
+          set +e
+          python3 tools/brief11_webkit_layout.py > "$RUNNER_TEMP/brief15-cash.log" 2>&1
+          rc=$?
+          grep -E '(^O1[2345]_|LAYOUT_webkit_suite PASS|Traceback|AssertionError)' "$RUNNER_TEMP/brief15-cash.log" | tail -25 || true
+          if test "$rc" -ne 0; then tail -12 "$RUNNER_TEMP/brief15-cash.log"; fi
+          echo "BRIEF15_CASH_RC=$rc" >> "$GITHUB_ENV"
+          exit 0
+      - name: Create pinned BEFORE WebKit PNGs from original BRIEF-14 source (NO app edits)
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=f85f927db58280c24773768f4aa5ddc88956a448
+          BEFORE_WORK="$RUNNER_TEMP/brief15-original-before"
+          mkdir -p qa-shots/unified-fix/before
+          git worktree add --detach "$BEFORE_WORK" "$BASE" >/dev/null
+          # Read-only old app source, using current test driver only to photograph it.
+          cp tools/brief15_webkit.py "$BEFORE_WORK/tools/brief15_webkit.py"
+          (cd "$BEFORE_WORK" && BRIEF15_WIDTHS=375 BRIEF15_LANGS=ru python3 tools/brief15_webkit.py >"$RUNNER_TEMP/brief15-before-webkit.log" 2>&1) || true
+          for kind in F-01 F-02 F-03 F-04 F-05 F-06 F-07 F-08 F-09 F-10; do
+            case "$kind" in
+              F-01|F-02|F-03|F-04|F-05) app=customer;;
+              F-06|F-07|F-08) app=merchant;;
+              F-09) app=driver;;
+              F-10) app=admin;;
+            esac
+            src="$BEFORE_WORK/qa-shots/unified-fix/$kind-$app-ru-375-after.png"
+            test -s "$src" || { echo "MISSING original BEFORE screenshot $kind";exit 1; }
+            cp "$src" "qa-shots/unified-fix/before/$kind-$app-ru-375-before.png"
+          done
+          for app in customer merchant driver admin; do
+            src="$BEFORE_WORK/qa-shots/unified-fix/NOTIFY-01-$app-ru-375-after.png"
+            test -s "$src" || { echo "MISSING original BEFORE NOTIFY-01 $app";exit 1; }
+            cp "$src" "qa-shots/unified-fix/before/NOTIFY-01-$app-ru-375-before.png"
+          done
+          # One extra screenshot of the ORIGINAL cash full-mode before choosing
+          # Different, produced in disposable baseline worktree only.
+          python3 - "$BEFORE_WORK" <<'PY'
+          import pathlib,sys
+          root=pathlib.Path(sys.argv[1])
+          p=root/'tools/brief11_webkit_layout.py'
+          s=p.read_text('utf8')
+          old='    p.locator("#b8-different").click()'
+          assert s.count(old)==1
+          s=s.replace(old,'    p.screenshot(path=str(OUT/f"webkit_cash_full_{lang}_{width}.png"))\n'+old)
+          p.write_text(s,encoding='utf8')
+          PY
+          (cd "$BEFORE_WORK" && python3 tools/brief11_webkit_layout.py >"$RUNNER_TEMP/brief15-before-cash.log" 2>&1) || true
+          SRC="$BEFORE_WORK/evidence/cash-sheet-brief11"
+          test -s "$SRC/webkit_cash_full_ru_375.png"
+          test -s "$SRC/webkit_cash_short_ru_375.png"
+          test -s "$SRC/webkit_cash_keyboard_other_ru_375.png"
+          cp "$SRC/webkit_cash_full_ru_375.png" qa-shots/unified-fix/before/O13-cash-ru-375-before.png
+          cp "$SRC/webkit_cash_short_ru_375.png" qa-shots/unified-fix/before/O14-cash-ru-375-before.png
+          cp "$SRC/webkit_cash_keyboard_other_ru_375.png" qa-shots/unified-fix/before/O12-cash-ru-375-before.png
+          cp "$SRC/webkit_cash_keyboard_other_ru_375.png" qa-shots/unified-fix/before/O15-cash-ru-375-before.png
+          cat > qa-shots/unified-fix/before/README.md <<'DOC'
+          # BRIEF-15 BEFORE screenshots (RU/375)
+          Source pinned to f85f927db58280c24773768f4aa5ddc88956a448.
+          F-01..F-10 + NOTIFY-01: original app HTML/CSS/JS, WebKit,
+          read-only synthetic fixture, exact targeted screen state.
+          O-12..O-15: original BRIEF-11 WebKit cash UI with reduced-height
+          keyboard approximation; no money/order/delivery action.
+          AFTER images are in parent qa-shots/unified-fix.
+          Neither set is a native iPhone Safari or live-app screenshot.
+          DOC
+          python3 - <<'PY'
+          import pathlib
+          p=pathlib.Path('qa-shots/unified-fix/before')
+          images=list(p.glob('*.png'))
+          assert len(images)==18,(len(images),images)
+          for f in images:
+              assert f.stat().st_size>2500 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n',f
+          print('BRIEF15_BEFORE_REPRODUCED 18 pinned WebKit original-source PNG (RU/375)')
+          PY
+      - name: BRIEF-15b WebKit RU/375 and EN/390 geometry and BEFORE/AFTER original-source evidence
+        shell: bash
+        run: |
+          set +e
+          BRIEF15B_MODE=after python3 tools/brief15b_webkit.py > "$RUNNER_TEMP/brief15b-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF15B|Traceback|AssertionError' "$RUNNER_TEMP/brief15b-after.log" | tail -25 || true
+          # BRIEF-15d G-12 BEFORE is the approved BRIEF-15c head; AFTER is the current candidate.
+          BRIEF15B_BASE=099a38b4b699679fe44c1be43d36bb0c3273e097
+          BEFORE_WORK="$RUNNER_TEMP/brief15d-before-099a38b4"
+          git worktree add --detach "$BEFORE_WORK" "$BRIEF15B_BASE" >/dev/null 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
+            cp tools/brief15b_webkit.py "$BEFORE_WORK/tools/brief15b_webkit.py"
+            (cd "$BEFORE_WORK" && BRIEF15B_MODE=before python3 tools/brief15b_webkit.py) > "$RUNNER_TEMP/brief15b-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/b/before
+            cp -a "$BEFORE_WORK/qa-shots/unified-fix/b/before/." qa-shots/unified-fix/b/before/ 2>/dev/null || before_rc=1
+          else
+            echo 'BRIEF15D_BEFORE_MISSING_PINNED_099a38b4' >&2
+          fi
+          echo "BRIEF15B_AFTER_RC=$after_rc" >> "$GITHUB_ENV"
+          echo "BRIEF15B_BEFORE_RC=$before_rc" >> "$GITHUB_ENV"
+          printf 'BRIEF15B_AFTER_RC=%s BRIEF15B_BEFORE_RC=%s\n' "$after_rc" "$before_rc"
+          python3 - <<'PY'
+          import pathlib
+          p=pathlib.Path('qa-shots/unified-fix/b')
+          for mode in ('before','after'):
+              folder=p/mode; images=list(folder.glob('*.png'))
+              assert len(images)>=30,(mode,len(images))
+              assert (folder/'REPORT.json').exists() and (folder/'INDEX.md').exists(),mode
+              assert all(x.stat().st_size>2000 and x.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for x in images),mode
+          print('BRIEF15B_SCREENSHOT_EVIDENCE_VERIFIED')
+          PY
+          img_rc=$?
+          echo "BRIEF15B_IMAGE_RC=$img_rc" >> "$GITHUB_ENV"
+          exit 0
+      - name: BRIEF-18 original WebKit RU375 EN390 width320 visual and parity evidence
+        shell: bash
+        run: |
+          set +e
+          BRIEF18_MODE=after python3 tools/brief18_webkit.py > "$RUNNER_TEMP/brief18-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF18_WEBKIT|BRIEF18_FAIL|Traceback' "$RUNNER_TEMP/brief18-after.log" | tail -35 || true
+          BEFORE18="$RUNNER_TEMP/brief18-original-before"
+          git worktree add --detach "$BEFORE18" f7d961ecd444ee4299e727beb64a0e98afcd0408 > "$RUNNER_TEMP/brief18-worktree.log" 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
+            cp tools/brief18_webkit.py "$BEFORE18/tools/brief18_webkit.py"
+            (cd "$BEFORE18" && BRIEF18_MODE=before python3 tools/brief18_webkit.py) > "$RUNNER_TEMP/brief18-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/brief18/before
+            cp -a "$BEFORE18/qa-shots/unified-fix/brief18/before/." qa-shots/unified-fix/brief18/before/ || before_rc=1
+          fi
+          echo "BRIEF18_AFTER_RC=$after_rc" >> "$GITHUB_ENV"
+          echo "BRIEF18_BEFORE_RC=$before_rc" >> "$GITHUB_ENV"
+          echo "BRIEF18_AFTER_RC=$after_rc BRIEF18_BEFORE_RC=$before_rc"
+          python3 - <<'PY'
+          import json,pathlib,math
+          root=pathlib.Path('qa-shots/unified-fix/brief18')
+          before=json.loads((root/'before/REPORT.json').read_text())
+          after=json.loads((root/'after/REPORT.json').read_text())
+          assert len(after['cases'])==28,(len(after['cases']),after['errors'])
+          assert len(before['cases'])==28,len(before['cases'])
+          assert not after['errors'] and all(x['status']=='PASS' for x in after['cases']),after['errors']
+          for mode in ('before','after'):
+              dir=root/mode;pngs=list(dir.glob('*.png'))
+              assert len(pngs)>=28,(mode,len(pngs))
+              assert (dir/'INDEX.md').exists()
+              assert all(f.stat().st_size>2000 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for f in pngs)
+          fmt=lambda r:(r['id'],r['app'],r['lang'],r['width'])
+          prior={fmt(x):x for x in before['cases']}
+          keys=('total','sub','discount','happyHour','promo','pointsValue','fee','tip','saved','due','wallet')
+          count=0
+          for item in after['cases']:
+              new=item.get('financial');old=prior[fmt(item)].get('financial')
+              if new is None:continue
+              assert old is not None,fmt(item)
+              for key in keys:
+                  assert math.isclose(float(new[key]),float(old[key]),abs_tol=0.011),(
+                    'NONFINANCIAL_PARITY_FAIL',fmt(item),key,old[key],new[key])
+              count+=1
+          assert count>=16,count
+          print('BRIEF18_VISUAL_ALL_PASS',len(after['cases']),'/28')
+          print('BRIEF18_FINANCIAL_PARITY',count,'cases x',len(keys),'metrics PASS')
+          print('BRIEF18_BEFORE_AFTER_PNG_VERIFIED')
+          PY
+          image_rc=$?
+          echo "BRIEF18_IMAGE_RC=$image_rc" >> "$GITHUB_ENV"
+          exit 0
+      - name: BRIEF-18b P-01..P-04 WebKit before/after and financial parity
+        shell: bash
+        run: |
+          set +e
+          BRIEF18B_MODE=after python3 tools/brief18b_webkit.py >"$RUNNER_TEMP/brief18b-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF18B_WEBKIT|BRIEF18B_FAIL|Traceback|SyntaxError' "$RUNNER_TEMP/brief18b-after.log" | tail -25 || true
+          BEFORE18B="$RUNNER_TEMP/brief18b-original-before"
+          git worktree add --detach "$BEFORE18B" 70dfaf9aa43fd7cf34212a7caf2db1cbafc21d2b >"$RUNNER_TEMP/brief18b-worktree.log" 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
+            cp tools/brief18b_webkit.py "$BEFORE18B/tools/brief18b_webkit.py"
+            (cd "$BEFORE18B" && BRIEF18B_MODE=before python3 tools/brief18b_webkit.py) >"$RUNNER_TEMP/brief18b-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/brief18b/before
+            cp -a "$BEFORE18B/qa-shots/unified-fix/brief18b/before/." qa-shots/unified-fix/brief18b/before/ || before_rc=1
+          fi
+          python3 - <<'PY'
+          import json,pathlib,math
+          root=pathlib.Path('qa-shots/unified-fix/brief18b')
+          b=json.loads((root/'before/REPORT.json').read_text('utf8'))
+          a=json.loads((root/'after/REPORT.json').read_text('utf8'))
+          assert len(b['cases'])==len(a['cases'])==16,(len(b['cases']),len(a['cases']))
+          assert not a['errors'] and all(r['status']=='PASS' for r in a['cases']),a['errors']
+          fmt=lambda x:(x['id'],x['app'],x['lang'],x['width'])
+          before={fmt(r):r for r in b['cases']}
+          keys=('total','sub','discount','happyHour','promo','pointsValue','fee','tip','saved','due','wallet')
+          count=0
+          for r in a['cases']:
+              prev=before[fmt(r)]
+              if r['id']=='P-04':
+                  for k in keys:
+                      assert math.isclose(float(r['financial'][k]),float(prev['financial'][k]),abs_tol=0.011),('FINANCIAL_PARITY',fmt(r),k)
+                  count+=1
+              if r['id']=='P-03':
+                  assert r['availablePhone']['ok'] and r['geometry']['ok'],r
+          assert count==4,count
+          for mode in ('before','after'):
+              d=root/mode
+              assert (d/'REPORT.json').exists() and (d/'INDEX.md').exists()
+              pngs=list(d.glob('*.png'))
+              assert len(pngs)>=24,(mode,len(pngs))
+              assert all(p.stat().st_size>2000 and p.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for p in pngs)
+          print('BRIEF18B_16_16_WEBKIT_PASS; 4 x 11 financial parity; original-source before/after PNG verified')
+          PY
+          evidence_rc=$?
+          echo "BRIEF18B_AFTER_RC=$after_rc BEFORE_RC=$before_rc EVIDENCE_RC=$evidence_rc"
+          if test "$after_rc" -eq 0 && test "$before_rc" -eq 0 && test "$evidence_rc" -eq 0; then
+            echo "BRIEF18B_RC=0" >>"$GITHUB_ENV"
+          else
+            echo "BRIEF18B_RC=1" >>"$GITHUB_ENV"
+          fi
+          exit 0
+      - name: BRIEF-18c M-01 original app Leaflet checkout — local tile WebKit QA
+        shell: bash
+        run: |
+          set +e
+          export BRIEF18C_LEAFLET_JS="$RUNNER_TEMP/brief18c-leaflet/node_modules/leaflet/dist/leaflet.js"
+          export BRIEF18C_LEAFLET_CSS="$RUNNER_TEMP/brief18c-leaflet/node_modules/leaflet/dist/leaflet.css"
+          test -s "$BRIEF18C_LEAFLET_JS" && test -s "$BRIEF18C_LEAFLET_CSS"
+          leaflet_rc=$?
+          BRIEF18C_MODE=after python3 tools/brief18c_webkit.py >"$RUNNER_TEMP/brief18c-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF18C_WEBKIT|BRIEF18C_FAIL|Traceback|Error' "$RUNNER_TEMP/brief18c-after.log" | tail -25 || true
+          BEFORE18C="$RUNNER_TEMP/brief18c-before-ef69571a"
+          git worktree add --detach "$BEFORE18C" ef69571ab08d46225c71eaf839e0a02296cfc81f >"$RUNNER_TEMP/brief18c-worktree.log" 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
+            cp tools/brief18c_webkit.py "$BEFORE18C/tools/brief18c_webkit.py"
+            (cd "$BEFORE18C" && BRIEF18C_MODE=before python3 tools/brief18c_webkit.py) >"$RUNNER_TEMP/brief18c-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/brief18c/before
+            cp -a "$BEFORE18C/qa-shots/unified-fix/brief18c/before/." qa-shots/unified-fix/brief18c/before/ || before_rc=1
+          fi
+          python3 - <<'PY'
+          import json,pathlib,math
+          root=pathlib.Path('qa-shots/unified-fix/brief18c')
+          b=json.loads((root/'before/REPORT.json').read_text('utf8'))
+          a=json.loads((root/'after/REPORT.json').read_text('utf8'))
+          assert len(a['cases'])==len(b['cases'])==12,('CASE_COUNT',len(a['cases']),len(b['cases']))
+          assert not a['errors'] and all(r['status']=='PASS' for r in a['cases']),a['errors']
+          prior={(r['lang'],r['width'],r['state']):r for r in b['cases']}
+          keys=('total','sub','discount','happyHour','promo','pointsValue','fee','tip','saved','due','wallet')
+          matches=0
+          for row in a['cases']:
+              old=prior[(row['lang'],row['width'],row['state'])]
+              for key in keys:
+                  assert math.isclose(float(row['financial'][key]),float(old['financial'][key]),abs_tol=0.011),('M01_FINANCIAL_PARITY',row['lang'],row['width'],row['state'],key)
+              matches+=1
+              if row['state']!='no_coordinates':
+                  assert row['lifecycle']['ok'],('LEAK_OR_EDITOR',row)
+          assert matches==12
+          for mode in ('before','after'):
+              folder=root/mode
+              files=list(folder.glob('*.png'))
+              assert len(files)==12,(mode,len(files))
+              assert all(f.stat().st_size>2500 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for f in files)
+              assert (folder/'INDEX.md').is_file() and (folder/'REPORT.json').is_file()
+          print('BRIEF18C_M01_WEBKIT_PASS 12/12; CENTER<=4PX; DRAG_LOCK; NO_LEAK; LOCAL_TILES')
+          print('BRIEF18C_M01_FINANCIAL_PARITY 12 cases x 11 metrics PASS')
+          PY
+          proof_rc=$?
+          echo "BRIEF18C_AFTER_RC=$after_rc BEFORE_RC=$before_rc PROOF_RC=$proof_rc LEAFLET_RC=$leaflet_rc"
+          if test "$leaflet_rc" -eq 0 && test "$after_rc" -eq 0 && test "$before_rc" -eq 0 && test "$proof_rc" -eq 0; then
+            echo 'BRIEF18C_RC=0' >>"$GITHUB_ENV"
+          else
+            echo 'BRIEF18C_RC=1' >>"$GITHUB_ENV"
+          fi
+          exit 0
+      - name: BRIEF-18d A-01/A-02 WebKit address layout, one-session readiness, synthetic orders and financial parity
+        shell: bash
+        run: |
+          set +e
+          export BRIEF18C_LEAFLET_JS="$RUNNER_TEMP/brief18c-leaflet/node_modules/leaflet/dist/leaflet.js"
+          export BRIEF18C_LEAFLET_CSS="$RUNNER_TEMP/brief18c-leaflet/node_modules/leaflet/dist/leaflet.css"
+          BRIEF18D_MODE=after python3 tools/brief18d_webkit.py >"$RUNNER_TEMP/brief18d-after.log" 2>&1
+          after_rc=$?
+          grep -E 'BRIEF18D_WEBKIT|BRIEF18D_FAIL|Traceback|AssertionError' "$RUNNER_TEMP/brief18d-after.log" | tail -25 || true
+          BEFORE18D="$RUNNER_TEMP/brief18d-before-8a416e67"
+          git worktree add --detach "$BEFORE18D" 8a416e67324da2e04f43cc4f8ab95452ecc0c360 >"$RUNNER_TEMP/brief18d-worktree.log" 2>&1
+          before_rc=$?
+          if test "$before_rc" -eq 0; then
+            cp tools/brief18d_webkit.py "$BEFORE18D/tools/brief18d_webkit.py"
+            (cd "$BEFORE18D" && BRIEF18D_MODE=before python3 tools/brief18d_webkit.py) >"$RUNNER_TEMP/brief18d-before.log" 2>&1
+            before_rc=$?
+            mkdir -p qa-shots/unified-fix/brief18d/before
+            cp -a "$BEFORE18D/qa-shots/unified-fix/brief18d/before/." qa-shots/unified-fix/brief18d/before/ || before_rc=1
+          fi
+          python3 - <<'PY'
+          import json,pathlib,math
+          root=pathlib.Path('qa-shots/unified-fix/brief18d')
+          before=json.loads((root/'before/REPORT.json').read_text())
+          after=json.loads((root/'after/REPORT.json').read_text())
+          assert len(before['cases'])==len(after['cases'])==8,('BRIEF18D_CASES',len(before['cases']),len(after['cases']))
+          assert not after['errors'] and all(r['status']=='PASS' for r in after['cases']),after['errors']
+          fmt=lambda x:(x['lang'],x['width'],x['state'])
+          prior={fmt(r):r for r in before['cases']}
+          keys=('total','sub','discount','happyHour','promo','pointsValue','fee','tip','saved','due','wallet')
+          counts={'ready':0,'unready':0}
+          for row in after['cases']:
+            old=prior[fmt(row)]
+            for key in keys:
+              assert math.isclose(float(row['financial'][key]),float(old['financial'][key]),abs_tol=.011),('FINANCIAL_PARITY',fmt(row),key,old['financial'][key],row['financial'][key])
+            assert row['result']['checkCalls']==1 and row['fakeOrder']['ok'] and row['editUnchanged'],fmt(row)
+            if row['width']==375:assert row['result']['geometry']['lines']<=3,fmt(row)
+            counts[row['state']]+=1
+          assert counts=={'ready':4,'unready':4},counts
+          for mode in ('before','after'):
+            folder=root/mode
+            png=list(folder.glob('*.png'))
+            assert len(png)==8,(mode,len(png))
+            assert all(f.stat().st_size>2500 and f.read_bytes()[:8]==b'\x89PNG\r\n\x1a\n' for f in png)
+            assert (folder/'INDEX.md').is_file() and (folder/'REPORT.json').is_file()
+          print('BRIEF18D_WEBKIT_ALL_PASS 8/8; A01_FULL_WIDTH_MAX3_LINES; A02_READY_UNREADY_NO_BLOCK')
+          print('BRIEF18D_FINANCIAL_PARITY 8 cases x 11 metrics PASS')
+          PY
+          proof_rc=$?
+          echo "BRIEF18D_AFTER_RC=$after_rc BEFORE_RC=$before_rc PROOF_RC=$proof_rc"
+          if test "$after_rc" -eq 0 && test "$before_rc" -eq 0 && test "$proof_rc" -eq 0; then
+            echo 'BRIEF18D_RC=0' >>"$GITHUB_ENV"
+          else
+            echo 'BRIEF18D_RC=1' >>"$GITHUB_ENV"
+          fi
+          exit 0
+      - name: Upload source-backed visual evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: talabot-brief15-f01-f10-o12-o15-webkit-evidence
+          path: |
+            qa-shots/unified-fix/
+            evidence/cash-sheet-brief11/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Prevent acceptance when any named visual contract failed
+        if: always()
+        shell: bash
+        run: |
+          test "$BRIEF15_VISUAL_RC" = 0
+          test "$BRIEF15_CASH_RC" = 0
+          test "$BRIEF15B_BEFORE_RC" = 0
+          test "$BRIEF15B_AFTER_RC" = 0
+          test "$BRIEF15B_IMAGE_RC" = 0
+          test "$BRIEF18_AFTER_RC" = 0
+          test "$BRIEF18_BEFORE_RC" = 0
+          test "$BRIEF18_IMAGE_RC" = 0
+          test "$BRIEF18B_RC" = 0
+          test "$BRIEF18C_RC" = 0
+          test "$BRIEF18D_RC" = 0
+          echo 'BRIEF15_VISUAL_WEBKIT_ALL_PASS (NOT physical iPhone approval)'
+  home-full:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    container: mcr.microsoft.com/playwright/python:v1.57.0-noble
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with: {persist-credentials: true, fetch-depth: 0}
+      - name: Load the approved customer app and reference photos
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git fetch --depth=1 --no-tags origin c5a8ff8a2d3a74301a3f35130a8f84316528449c 83e94496141375d6e6f1e99ed735cccb70254c32
+          git worktree add --detach "$RUNNER_TEMP/home-approved" c5a8ff8a2d3a74301a3f35130a8f84316528449c
+          git diff --exit-code c5a8ff8a HEAD -- sql supabase talabat-core.js driver.html merchant.html ':(exclude)sql/proposed/brief29-banner-presentation.md'
+          git diff --exit-code 69cfbbb1132aa8e0aba9d151e2edd21024217f4d HEAD -- admin.html
+      - name: Run offline WebKit geometry, image, action and financial checks
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
+          # BRIEF-25 reviews the candidate offline; the live preview is checked by Ops.
+          python tools/brief23_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-regression"
+          python tools/brief24_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/home-evidence"
+          python tools/brief25b_webkit.py "$RUNNER_TEMP/home-evidence/brief25b"
+          python tools/brief25c_webkit.py "$RUNNER_TEMP/home-evidence/brief25c"
+          python tools/brief25c_y08_webkit.py "$RUNNER_TEMP/home-evidence/brief25c-y08"
+      - name: Stage WebKit-only evidence under checkout for artifact upload
+        if: always()
+        run: |
+          mkdir -p qa-artifacts
+          if [ -d "$RUNNER_TEMP/home-evidence" ]; then
+            cp -R "$RUNNER_TEMP/home-evidence" qa-artifacts/home-evidence
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: brief24-home-cart
+          path: qa-artifacts/
+          if-no-files-found: error
+          retention-days: 7
