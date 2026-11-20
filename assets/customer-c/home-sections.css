@@ -235,24 +235,39 @@
 .reel-comment-form .reel-chat-send { flex:0 0 44px; width:44px; height:44px; display:grid; place-items:center; border:0; border-radius:50%; background:#ed551c; color:#fff; padding:0; cursor:pointer; }
 .reel-comment-form .reel-chat-send:disabled { opacity:.55; cursor:default; }
 
-/* BRIEF-25c Y-10 — full-width DineOut image with the action above it. */
+/* BRIEF-25c Y-11 — owner artwork and circular action in one row. */
 #app .d6h .dine-head {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
   margin: 0 16px 10px;
   padding: 16px 0 0;
 }
 #app .d6h .dine-head h2 {
   display: block;
-  align-self: stretch;
+  width: 100%;
   margin: 0;
+}
+#app .d6h .dine-head:has(button) h2 {
+  width: calc(100% - 52px);
 }
 #app .d6h .dine-head h2 img {
   display: block;
   width: 100%;
   height: auto;
+}
+#app .d6h .dine-head button {
+  box-sizing: border-box;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  justify-content: center;
+  border: 1px solid #e4e6e9;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px #0000000f;
 }
 #app .d6h .home-dine { display:flex; gap:10px; overflow-x:auto; padding:2px 16px 7px; scroll-padding-inline:16px; scrollbar-width:none; scroll-snap-type:x proximity; }
 #app .d6h .home-dine::-webkit-scrollbar { display:none; }

@@ -2478,8 +2478,8 @@ function dineH(expanded=false){
     .sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99)));
   const l=expanded?eligible:eligible.slice(0,12);
   const heading=expanded?'':`<div class="d6-sh home-heading dine-head" data-section="dine">
-    ${l.length?`<button type="button" onclick="go('dineAll')">${t('d6All')} ${ico('chev',14)}</button>`:''}
     <h2><img src="assets/customer-c/dineout-header.webp" alt="DineOut — Скидка до 50% на счёт" width="750" height="250"></h2>
+    ${l.length?`<button type="button" aria-label="${t('d6All')}" onclick="go('dineAll')">${ico('chev',14)}</button>`:''}
   </div>`;
   if(!l.length)return heading;
   return heading+`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{

@@ -54,13 +54,23 @@ def test_dineout(browser,server,photos,out):
         page.wait_for_function("()=>document.querySelector('.dine-head img').naturalWidth===750")
         assert image.evaluate("i=>i.naturalHeight===250")
         assert action.is_visible()
+        assert action.get_attribute('aria-label')=='Все'
+        assert action.inner_text().strip()==''
+        assert action.locator('svg').count()==1
+        assert page.locator('.home-heading:not(.dine-head) button').filter(has_text='Все').first.is_visible()
         assert heading.evaluate("""e=>{
           const section=e.getBoundingClientRect();
           const art=e.querySelector('img').getBoundingClientRect();
           const link=e.querySelector('button').getBoundingClientRect();
-          return Math.abs(art.width-section.width)<1
+          const cover=e.nextElementSibling.querySelector('.dine-brand-cover').getBoundingClientRect();
+          return Math.abs(art.width-(section.width-52))<1
             && Math.abs(art.height-art.width/3)<1
-            && link.bottom<=art.top && Math.abs(link.right-art.right)<1;
+            && Math.abs(art.left-section.left)<1 && Math.abs(link.right-section.right)<1
+            && Math.abs(link.left-art.right-12)<1
+            && link.width===40 && link.height===40
+            && Math.abs((link.top+link.bottom-art.top-art.bottom)/2)<1
+            && Math.abs(art.top-section.top-16)<1
+            && Math.abs(cover.top-section.bottom-12)<1;
         }""")
         assert page.locator('.d6-dn').count()==0
         widths=cards.evaluate_all("nodes=>nodes.slice(0,3).map(n=>n.getBoundingClientRect().width)")
@@ -94,7 +104,7 @@ def test_dineout(browser,server,photos,out):
         missing.locator('.dine-fallback-mark').evaluate("e=>e.loading='eager'")
         page.wait_for_function("()=>[...document.querySelectorAll('.home-dine .d6-dc .dine-fallback-mark')].some(e=>e.complete&&e.naturalWidth>0)")
         page.locator('.dine-head').scroll_into_view_if_needed()
-        prior.shot(page,out,'ru-375-dineout-y10-fixture.webp')
+        prior.shot(page,out,'ru-375-dineout-y11-fixture.webp')
         heading.get_by_role('button',name='Все').click()
         assert page.locator('.dine-head').count()==0
         assert page.locator('.home-dine .d6-dc').count()>=4
