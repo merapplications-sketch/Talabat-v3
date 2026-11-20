@@ -1882,7 +1882,7 @@ function bannerRotationTick(){
   for(const rail of document.querySelectorAll('[data-banner-rail]')){
     const place=rail.dataset.bannerRail,state=B31_ROT.get(place),vertical=place==='home_side';
     if(!state||state.paused||rail.children.length<2||rail.contains(document.activeElement))continue;
-    const now=Date.now();if(now<state.holdUntil||now<state.nextAt)continue;
+    const now=Date.now(),bounds=rail.getBoundingClientRect();if(bounds.bottom<=0||bounds.top>=innerHeight){state.nextAt=now+bannerRotationMs(place);continue;}if(now<state.holdUntil||now<state.nextAt)continue;
     const step=bannerRailStep(rail),max=vertical?rail.scrollHeight-rail.clientHeight:rail.scrollWidth-rail.clientWidth;
     if(step<=0||max<=1)continue;
     const last=Math.ceil(max/step),next=state.index>=last?0:state.index+1;
@@ -1895,7 +1895,7 @@ function bannersAfterRender(){
     const place=rail.dataset.bannerRail,ids=[...rail.children].map(el=>el.dataset.bannerId||''),old=B31_ROT.get(place),interval=bannerRotationMs(place);
     const index=old&&ids.includes(old.id)?ids.indexOf(old.id):0;
     const state=old||{index:0,id:ids[0],paused:false,holdUntil:0,nextAt:Date.now()+interval,interval};
-    if(state.interval!==interval){state.nextAt=Date.now()+interval;state.interval=interval}
+    if(state.interval!==interval||state.view!==S.v){state.nextAt=Date.now()+interval;state.interval=interval;state.view=S.v}
     state.index=index;state.id=ids[index];B31_ROT.set(place,state);
     if(!rail.dataset.bannerBound){
       rail.dataset.bannerBound='1';
@@ -1910,6 +1910,7 @@ function bannersAfterRender(){
   }
 }
 if(!window.__banner31Rotation)window.__banner31Rotation=setInterval(bannerRotationTick,250);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)for(const [place,state] of B31_ROT)state.nextAt=Date.now()+bannerRotationMs(place)});
 /* ---------- shared view pieces ---------- */
 const cnt=n=>n>=1000?Math.floor(n/1000)+'k+':String(n);
 const rate=s=>s.rt>0?`<span class="rt">${ico('star',13,1)}${s.rt.toFixed(1)}${s.rc?` <i>(${cnt(s.rc)})</i>`:''}</span>`:'';
