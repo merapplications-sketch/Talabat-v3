@@ -1,0 +1,4327 @@
+{
+  "brief": "BRIEF-31",
+  "scope": "original HTML / synthetic SDK / offline WebKit",
+  "physical_phone_tested": false,
+  "production_tested": false,
+  "assertions": [
+    {
+      "item": "AG-02",
+      "case": "owner-source-assets",
+      "name": "ru art byte-identical to owner source",
+      "pass": true,
+      "details": {
+        "actual": "63bca41639ccefcbde4bf8c9d8049303d5e9fdd9",
+        "expected": "63bca41639ccefcbde4bf8c9d8049303d5e9fdd9"
+      }
+    },
+    {
+      "item": "AG-02",
+      "case": "owner-source-assets",
+      "name": "en art byte-identical to owner source",
+      "pass": true,
+      "details": {
+        "actual": "c70b04c0ca131f0456eaddcb3299d67593ce70d3",
+        "expected": "c70b04c0ca131f0456eaddcb3299d67593ce70d3"
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-home",
+      "name": "taste heading",
+      "pass": true,
+      "details": {
+        "actual": "на твой вкус",
+        "expected": "на твой вкус"
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-home",
+      "name": "administration pins lead by rank",
+      "pass": true,
+      "details": {
+        "actual": [
+          "Стейк",
+          "Hot honey"
+        ],
+        "expected": [
+          "Стейк",
+          "Hot honey"
+        ]
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-home",
+      "name": "automatic food remains after pins",
+      "pass": true,
+      "details": [
+        "Стейк",
+        "Hot honey",
+        "Плов"
+      ]
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-home",
+      "name": "drinks sauces and extras excluded",
+      "pass": true,
+      "details": [
+        "Стейк",
+        "Hot honey",
+        "Плов"
+      ]
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-home",
+      "name": "both pins visibly labelled as advertising",
+      "pass": true,
+      "details": {
+        "actual": [
+          "Реклама",
+          "Реклама"
+        ],
+        "expected": [
+          "Реклама",
+          "Реклама"
+        ]
+      }
+    },
+    {
+      "item": "AG-01",
+      "case": "ru-375-home",
+      "name": "popular heading has no slash decoration",
+      "pass": true,
+      "details": "ТОП НЕДЕЛИ\nПопулярные рестораны\nВсе"
+    },
+    {
+      "item": "AG-01",
+      "case": "ru-375-home",
+      "name": "approximately two and a half cards visible",
+      "pass": true,
+      "details": {
+        "rail": [
+          0,
+          375
+        ],
+        "cards": [
+          [
+            16,
+            150,
+            134
+          ],
+          [
+            162,
+            296,
+            134
+          ],
+          [
+            308,
+            442,
+            134
+          ]
+        ],
+        "thirdVisible": 0.5
+      }
+    },
+    {
+      "item": "AG-02",
+      "case": "ru-375-home",
+      "name": "locale selects supplied image",
+      "pass": true,
+      "details": {
+        "actual": "assets/customer-c/dineout-header-ru.webp",
+        "expected": "assets/customer-c/dineout-header-ru.webp"
+      }
+    },
+    {
+      "item": "AG-02",
+      "case": "ru-375-home",
+      "name": "localized descriptive alt",
+      "pass": true,
+      "details": {
+        "actual": "В ресторане — Скидка до 50% на счёт",
+        "expected": "В ресторане — Скидка до 50% на счёт"
+      }
+    },
+    {
+      "item": "AG-01",
+      "case": "ru-375-home",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "document": 375
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-06",
+      "case": "ru-375-empty",
+      "name": "empty DineOut title and rail absent",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-empty",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-empty",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-empty",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-empty",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "options have no horizontal scroll or displacement",
+      "pass": true,
+      "details": {
+        "width": 343,
+        "scroll": 343,
+        "left": 16,
+        "right": 359,
+        "prices": [
+          [
+            "+5 TJS",
+            286.453125,
+            325
+          ],
+          [
+            "+30 TJS",
+            277.9375,
+            325
+          ],
+          [
+            "+3 TJS",
+            286.453125,
+            325
+          ],
+          [
+            "+3 TJS",
+            286.453125,
+            325
+          ],
+          [
+            "+3 TJS",
+            286.453125,
+            325
+          ],
+          [
+            "+3 TJS",
+            286.453125,
+            325
+          ]
+        ],
+        "badges": [
+          [
+            "Обязательно",
+            269.75,
+            359
+          ],
+          [
+            "Выберите",
+            287.28125,
+            359
+          ]
+        ]
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: +5 TJS",
+      "pass": true,
+      "details": {
+        "left": 286.453125,
+        "right": 325,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: +30 TJS",
+      "pass": true,
+      "details": {
+        "left": 277.9375,
+        "right": 325,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 286.453125,
+        "right": 325,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 286.453125,
+        "right": 325,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 286.453125,
+        "right": 325,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 286.453125,
+        "right": 325,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: Обязательно",
+      "pass": true,
+      "details": {
+        "left": 269.75,
+        "right": 359,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "option price or choice badge fits: Выберите",
+      "pass": true,
+      "details": {
+        "left": 287.28125,
+        "right": 359,
+        "width": 375
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "fixture exercises additional 30 TJS option",
+      "pass": true,
+      "details": [
+        [
+          "+5 TJS",
+          286.453125,
+          325
+        ],
+        [
+          "+30 TJS",
+          277.9375,
+          325
+        ],
+        [
+          "+3 TJS",
+          286.453125,
+          325
+        ],
+        [
+          "+3 TJS",
+          286.453125,
+          325
+        ],
+        [
+          "+3 TJS",
+          286.453125,
+          325
+        ],
+        [
+          "+3 TJS",
+          286.453125,
+          325
+        ]
+      ]
+    },
+    {
+      "item": "AG-05",
+      "case": "ru-375-dish",
+      "name": "handle is an accessible button",
+      "pass": true,
+      "details": {
+        "actual": "button",
+        "expected": "button"
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "ru-375-dish",
+      "name": "options begin at lower detent",
+      "pass": true,
+      "details": {
+        "actual": "false",
+        "expected": "false"
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "ru-375-dish",
+      "name": "options have rounded separation and shadow",
+      "pass": true,
+      "details": {
+        "top": 152,
+        "photo": 176,
+        "radius": 28,
+        "shadow": "rgba(23, 36, 60, 0.14) 0px -5px 18px 0px"
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "ru-375-dish",
+      "name": "drag raises options over photo",
+      "pass": true,
+      "details": {
+        "before": {
+          "top": 152,
+          "photo": 176,
+          "radius": 28,
+          "shadow": "rgba(23, 36, 60, 0.14) 0px -5px 18px 0px"
+        },
+        "after": {
+          "top": 56,
+          "photo": 80
+        }
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "ru-375-dish",
+      "name": "photo shrinks on expansion",
+      "pass": true,
+      "details": {
+        "before": {
+          "top": 152,
+          "photo": 176,
+          "radius": 28,
+          "shadow": "rgba(23, 36, 60, 0.14) 0px -5px 18px 0px"
+        },
+        "after": {
+          "top": 56,
+          "photo": 80
+        }
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "ru-375-dish",
+      "name": "keyboard alternative expands options",
+      "pass": true,
+      "details": {
+        "actual": "true",
+        "expected": "true"
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "ru-375-dish",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "document": 375
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-dish",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-dish",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-dish",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-dish",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "banner order follows administration sort",
+      "pass": true,
+      "details": {
+        "actual": [
+          "b31-multiple",
+          "b31-plain",
+          "b31-dish",
+          "b31-restaurant",
+          "b31-campaign"
+        ],
+        "expected": [
+          "b31-multiple",
+          "b31-plain",
+          "b31-dish",
+          "b31-restaurant",
+          "b31-campaign"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "current locale chooses banner image",
+      "pass": true,
+      "details": {
+        "actual": "/qa-image/kfc",
+        "expected": "/qa-image/kfc"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "blank CTA leaves no overlaid button",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "one campaign can occupy home_main",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "one campaign can occupy home_side",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "one campaign can occupy dont_miss",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "one campaign can occupy home_bottom",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "unselected placement does not fall back",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "whole image remains clickable without CTA",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "dish slide owns its CTA",
+      "pass": true,
+      "details": {
+        "actual": "Купить сейчас",
+        "expected": "Купить сейчас"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "order action opens assigned dish",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "next slide owns different CTA",
+      "pass": true,
+      "details": {
+        "actual": "Открыть ресторан",
+        "expected": "Открыть ресторан"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "next slide owns different destination",
+      "pass": true
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-banners",
+      "name": "untimed free-delivery banner has no countdown",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-banners",
+      "name": "expired and future and inactive banners hidden",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-banners",
+      "name": "countdown over a day uses days and hours",
+      "pass": true,
+      "details": {
+        "actual": "2 д 05:10",
+        "expected": "2 д 05:10"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "campaign action opens existing Z07 sheet",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "list action applies assigned filter",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "unsafe link is never executed",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "links with embedded credentials rejected",
+      "pass": true,
+      "details": {
+        "actual": "",
+        "expected": ""
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-banners",
+      "name": "near-expiry banner starts visible",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-banners",
+      "name": "expiry removes every placement of the banner",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "document": 375
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "side-only placement stays in its own rail",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-banners",
+      "name": "side-only banner is not promoted into main placement",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-banners",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "admin offers all seven banner locations",
+      "pass": true,
+      "details": {
+        "actual": [
+          "home_main",
+          "home_side",
+          "dont_miss",
+          "home_bottom",
+          "orders",
+          "restaurants",
+          "checkout"
+        ],
+        "expected": [
+          "home_main",
+          "home_side",
+          "dont_miss",
+          "home_bottom",
+          "orders",
+          "restaurants",
+          "checkout"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "multiple existing locations load selected",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "admin has one image control for each locale",
+      "pass": true,
+      "details": {
+        "actual": 3,
+        "expected": 3
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "free text CTA also offers preset labels",
+      "pass": true,
+      "details": {
+        "actual": [
+          "Купить сейчас",
+          "Смотреть",
+          "Открыть"
+        ],
+        "expected": [
+          "Купить сейчас",
+          "Смотреть",
+          "Открыть"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "concurrent presentation change displays existing conflict warning",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "concurrent change preserves typed editor draft",
+      "pass": true,
+      "details": {
+        "actual": "Смотреть выбор",
+        "expected": "Смотреть выбор"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "upload uses selected locale and preserves edited CTA",
+      "pass": true,
+      "details": {
+        "actual": "View selection",
+        "expected": "View selection"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "upload preserves other locales",
+      "pass": true,
+      "details": {
+        "actual": "/qa-image/kfc",
+        "expected": "/qa-image/kfc"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "upload called once for selected file",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "upload rerender preserves multi-selection",
+      "pass": true,
+      "details": {
+        "actual": [
+          "orders",
+          "restaurants"
+        ],
+        "expected": [
+          "orders",
+          "restaurants"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "save targets edited banner",
+      "pass": true,
+      "details": {
+        "actual": "b31-multiple",
+        "expected": "b31-multiple"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "save carries exact selected locations",
+      "pass": true,
+      "details": {
+        "actual": [
+          "orders",
+          "restaurants"
+        ],
+        "expected": [
+          "orders",
+          "restaurants"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "save carries own action/filter",
+      "pass": true,
+      "details": {
+        "actual": [
+          "list",
+          "disc"
+        ],
+        "expected": [
+          "list",
+          "disc"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "save keeps blank localized CTA blank",
+      "pass": true,
+      "details": {
+        "actual": "",
+        "expected": ""
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "save carries display order",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-admin",
+      "name": "end time saves exact seconds in Dushanbe timezone",
+      "pass": true,
+      "details": {
+        "actual": "2026-11-21T17:24:31+05:00",
+        "expected": "2026-11-21T17:24:31+05:00"
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-admin",
+      "name": "end time round trip does not truncate to a day",
+      "pass": true,
+      "details": {
+        "actual": "2026-11-21T17:24:31",
+        "expected": "2026-11-21T17:24:31"
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "ru-375-admin",
+      "name": "empty expiry serializes as null",
+      "pass": true,
+      "details": {
+        "actual": null,
+        "expected": null
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "document": 375
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-admin",
+      "name": "each placement has an interval control",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-admin",
+      "name": "absent timing keys stay disabled",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-admin",
+      "name": "orders timing default is three seconds",
+      "pass": true,
+      "details": {
+        "actual": "3",
+        "expected": "3"
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-admin",
+      "name": "interval saves only the selected existing setting",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "key": "banner_rotation_orders_seconds",
+            "value": 5
+          }
+        ],
+        "expected": [
+          {
+            "key": "banner_rotation_orders_seconds",
+            "value": 5
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-admin",
+      "name": "other missing interval keys remain disabled",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-admin",
+      "name": "invalid zero interval sends no request",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-admin",
+      "name": "taste pin editor retains existing pin and appends selected dish",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ],
+        "expected": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-admin",
+      "name": "adding the same dish twice creates no duplicate",
+      "pass": true,
+      "details": {
+        "actual": 2,
+        "expected": 2
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-admin",
+      "name": "failed pin save preserves draft",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ],
+        "expected": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-admin",
+      "name": "pin save writes only authorized existing optional field",
+      "pass": true,
+      "details": {
+        "actual": {
+          "id": "s1",
+          "payload": {
+            "home_sponsored_dishes": [
+              {
+                "item_id": "hot",
+                "rank": 1
+              },
+              {
+                "item_id": "combo",
+                "rank": 3
+              }
+            ]
+          }
+        },
+        "expected": {
+          "id": "s1",
+          "payload": {
+            "home_sponsored_dishes": [
+              {
+                "item_id": "hot",
+                "rank": 1
+              },
+              {
+                "item_id": "combo",
+                "rank": 3
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "ru-375-admin",
+      "name": "store without pin column remains read only",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "campaign select exposes its actual default",
+      "pass": true,
+      "details": {
+        "actual": "happy",
+        "expected": "happy"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "untouched secondary campaign select is serialized",
+      "pass": true,
+      "details": {
+        "actual": "happy",
+        "expected": "happy"
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "missing schema makes advanced controls read only",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "missing schema omits optional save fields",
+      "pass": true,
+      "details": {
+        "actual": {},
+        "expected": {}
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "missing schema is visible to admin",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "ru-375-admin",
+      "name": "legacy save contains no proposed presentation column",
+      "pass": true
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-admin",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AG-03",
+      "case": "ru-375-restaurants",
+      "name": "restaurant rail uses only assigned advertising",
+      "pass": true,
+      "details": {
+        "actual": [
+          "b31-multiple",
+          "b31-free",
+          "b31-campaign"
+        ],
+        "expected": [
+          "b31-multiple",
+          "b31-free",
+          "b31-campaign"
+        ]
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "ru-375-restaurants",
+      "name": "first advertising card has 16px screen inset",
+      "pass": true,
+      "details": {
+        "left": 16
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "ru-375-restaurants",
+      "name": "advertising cards do not expose pressed filter state",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "ru-375-restaurants",
+      "name": "restaurant advertising opens assigned destination",
+      "pass": true
+    },
+    {
+      "item": "AG-04",
+      "case": "ru-375-restaurants",
+      "name": "sorting is an accessible round icon button",
+      "pass": true,
+      "details": {
+        "width": 44,
+        "height": 44,
+        "radius": "50%",
+        "text": "",
+        "label": "Сортировать",
+        "icons": 1
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "ru-375-restaurants",
+      "name": "default sort has no orange marker",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "ru-375-restaurants",
+      "name": "recommended caption removed from filter row",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "ru-375-restaurants",
+      "name": "four actual sort options remain inside sheet",
+      "pass": true,
+      "details": {
+        "actual": 4,
+        "expected": 4
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "ru-375-restaurants",
+      "name": "default choice remains named inside sheet",
+      "pass": true
+    },
+    {
+      "item": "AG-04",
+      "case": "ru-375-restaurants",
+      "name": "nondefault choice adds orange dot",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "ru-375-restaurants",
+      "name": "returning to default removes orange dot",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "ru-375-restaurants",
+      "name": "campaign advertisement opens existing campaign dialog",
+      "pass": true
+    },
+    {
+      "item": "AG-03",
+      "case": "ru-375-restaurants",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "document": 375
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-restaurants",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-restaurants",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-restaurants",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-restaurants",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "group back restores menu and restaurant",
+      "pass": true,
+      "details": {
+        "actual": {
+          "view": "menu",
+          "store": "KFC"
+        },
+        "expected": {
+          "view": "menu",
+          "store": "KFC"
+        }
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "group identity survives back navigation",
+      "pass": true,
+      "details": {
+        "actual": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "expected": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "back navigation makes no group mutation",
+      "pass": true,
+      "details": {
+        "actual": [],
+        "expected": []
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "active group has persistent reentry control",
+      "pass": true
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "resume control is visible and receives taps",
+      "pass": true,
+      "details": {
+        "visible": true,
+        "hit": true,
+        "width": 194.734375
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "resume reopens the same group",
+      "pass": true
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "only one close or reopen control exists",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "open group offers close collection",
+      "pass": true,
+      "details": "Закрыть сбор"
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "same toggle becomes reopen",
+      "pass": true,
+      "details": "Открыть снова"
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "close and reopen keep the same control position",
+      "pass": true,
+      "details": {
+        "before": {
+          "x": 16,
+          "y": 737,
+          "width": 165.5,
+          "height": 59
+        },
+        "after": {
+          "x": 16,
+          "y": 737,
+          "width": 165.5,
+          "height": 59
+        }
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "toggle commits only close then reopen",
+      "pass": true,
+      "details": {
+        "actual": [
+          "closed",
+          "open"
+        ],
+        "expected": [
+          "closed",
+          "open"
+        ]
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "repeated back still restores original menu",
+      "pass": true,
+      "details": {
+        "actual": "menu",
+        "expected": "menu"
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "back restores category query and restrictions",
+      "pass": true,
+      "details": {
+        "actual": {
+          "v": "cat",
+          "cat": "rest",
+          "q": "KFC",
+          "sort": "free",
+          "open": true
+        },
+        "expected": {
+          "v": "cat",
+          "cat": "rest",
+          "q": "KFC",
+          "sort": "free",
+          "open": true
+        }
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "no navigation cancellation was sent",
+      "pass": true,
+      "details": {
+        "actual": [
+          "closed",
+          "open"
+        ],
+        "expected": [
+          "closed",
+          "open"
+        ]
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "ru-375-group",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "document": 375
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-group",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-group",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-group",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-group",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "orders have exactly their own assigned banners",
+      "pass": true,
+      "details": {
+        "actual": [
+          "b31-multiple",
+          "b31-orders-second"
+        ],
+        "expected": [
+          "b31-multiple",
+          "b31-orders-second"
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "one large banner fills available screen width",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "left": 0,
+        "right": 375,
+        "contentWidth": 343,
+        "contentRight": 359,
+        "cards": [
+          {
+            "width": 343,
+            "height": 180.515625,
+            "left": 16,
+            "right": 359,
+            "fit": "contain"
+          },
+          {
+            "width": 343,
+            "height": 180.515625,
+            "left": 375,
+            "right": 718,
+            "fit": "contain"
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "printed banner copy is not cropped",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "left": 0,
+        "right": 375,
+        "contentWidth": 343,
+        "contentRight": 359,
+        "cards": [
+          {
+            "width": 343,
+            "height": 180.515625,
+            "left": 16,
+            "right": 359,
+            "fit": "contain"
+          },
+          {
+            "width": 343,
+            "height": 180.515625,
+            "left": 375,
+            "right": 718,
+            "fit": "contain"
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "only one whole slide is in view",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "left": 0,
+        "right": 375,
+        "contentWidth": 343,
+        "contentRight": 359,
+        "cards": [
+          {
+            "width": 343,
+            "height": 180.515625,
+            "left": 16,
+            "right": 359,
+            "fit": "contain"
+          },
+          {
+            "width": 343,
+            "height": 180.515625,
+            "left": 375,
+            "right": 718,
+            "fit": "contain"
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "unconfigured orders rotation is three seconds",
+      "pass": true,
+      "details": {
+        "actual": 3000,
+        "expected": 3000
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "default clock automatically advances orders banner",
+      "pass": true,
+      "details": {
+        "initial": 0,
+        "rotated": 359
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "configured five seconds does not advance after three",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "configured five seconds advances when due",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "orders timing does not change another placement",
+      "pass": true,
+      "details": {
+        "actual": 3000,
+        "expected": 3000
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "visible pause control reflects paused state",
+      "pass": true,
+      "details": {
+        "actual": "true",
+        "expected": "true"
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "pause keeps the same slide",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "reduced motion disables automatic rotation",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "long held pointer prevents rotation beyond normal cooldown",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "native swipe scrolling is not disabled",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "pointer cancellation starts a fresh release cooldown",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "rotation resumes after cancelled pointer is released",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "gesture lifecycle never activates a banner",
+      "pass": true,
+      "details": {
+        "actual": "orders",
+        "expected": "orders"
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "ru-375-orders",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "document": 375
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-orders",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-orders",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-orders",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-orders",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-home",
+      "name": "taste heading",
+      "pass": true,
+      "details": {
+        "actual": "for your taste",
+        "expected": "for your taste"
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-home",
+      "name": "administration pins lead by rank",
+      "pass": true,
+      "details": {
+        "actual": [
+          "Стейк",
+          "Hot honey"
+        ],
+        "expected": [
+          "Стейк",
+          "Hot honey"
+        ]
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-home",
+      "name": "automatic food remains after pins",
+      "pass": true,
+      "details": [
+        "Стейк",
+        "Hot honey",
+        "Плов"
+      ]
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-home",
+      "name": "drinks sauces and extras excluded",
+      "pass": true,
+      "details": [
+        "Стейк",
+        "Hot honey",
+        "Плов"
+      ]
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-home",
+      "name": "both pins visibly labelled as advertising",
+      "pass": true,
+      "details": {
+        "actual": [
+          "Ad",
+          "Ad"
+        ],
+        "expected": [
+          "Ad",
+          "Ad"
+        ]
+      }
+    },
+    {
+      "item": "AG-01",
+      "case": "en-390-home",
+      "name": "popular heading has no slash decoration",
+      "pass": true,
+      "details": "TOP OF THE WEEK\nPopular restaurants\nAll"
+    },
+    {
+      "item": "AG-01",
+      "case": "en-390-home",
+      "name": "approximately two and a half cards visible",
+      "pass": true,
+      "details": {
+        "rail": [
+          0,
+          390
+        ],
+        "cards": [
+          [
+            16,
+            156,
+            140
+          ],
+          [
+            168,
+            308,
+            140
+          ],
+          [
+            320,
+            460,
+            140
+          ]
+        ],
+        "thirdVisible": 0.5
+      }
+    },
+    {
+      "item": "AG-02",
+      "case": "en-390-home",
+      "name": "locale selects supplied image",
+      "pass": true,
+      "details": {
+        "actual": "assets/customer-c/dineout-header-en.webp",
+        "expected": "assets/customer-c/dineout-header-en.webp"
+      }
+    },
+    {
+      "item": "AG-02",
+      "case": "en-390-home",
+      "name": "localized descriptive alt",
+      "pass": true,
+      "details": {
+        "actual": "DineOut — Up to 50% off your bill",
+        "expected": "DineOut — Up to 50% off your bill"
+      }
+    },
+    {
+      "item": "AG-01",
+      "case": "en-390-home",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-06",
+      "case": "en-390-empty",
+      "name": "empty DineOut title and rail absent",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-empty",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-empty",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-empty",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-empty",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "options have no horizontal scroll or displacement",
+      "pass": true,
+      "details": {
+        "width": 358,
+        "scroll": 358,
+        "left": 16,
+        "right": 374,
+        "prices": [
+          [
+            "+5 TJS",
+            301.453125,
+            340
+          ],
+          [
+            "+30 TJS",
+            292.9375,
+            340
+          ],
+          [
+            "+3 TJS",
+            301.453125,
+            340
+          ],
+          [
+            "+3 TJS",
+            301.453125,
+            340
+          ],
+          [
+            "+3 TJS",
+            301.453125,
+            340
+          ],
+          [
+            "+3 TJS",
+            301.453125,
+            340
+          ]
+        ],
+        "badges": [
+          [
+            "Required",
+            308.3125,
+            374
+          ],
+          [
+            "Choose",
+            316.296875,
+            374
+          ]
+        ]
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: +5 TJS",
+      "pass": true,
+      "details": {
+        "left": 301.453125,
+        "right": 340,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: +30 TJS",
+      "pass": true,
+      "details": {
+        "left": 292.9375,
+        "right": 340,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 301.453125,
+        "right": 340,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 301.453125,
+        "right": 340,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 301.453125,
+        "right": 340,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: +3 TJS",
+      "pass": true,
+      "details": {
+        "left": 301.453125,
+        "right": 340,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: Required",
+      "pass": true,
+      "details": {
+        "left": 308.3125,
+        "right": 374,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "option price or choice badge fits: Choose",
+      "pass": true,
+      "details": {
+        "left": 316.296875,
+        "right": 374,
+        "width": 390
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "fixture exercises additional 30 TJS option",
+      "pass": true,
+      "details": [
+        [
+          "+5 TJS",
+          301.453125,
+          340
+        ],
+        [
+          "+30 TJS",
+          292.9375,
+          340
+        ],
+        [
+          "+3 TJS",
+          301.453125,
+          340
+        ],
+        [
+          "+3 TJS",
+          301.453125,
+          340
+        ],
+        [
+          "+3 TJS",
+          301.453125,
+          340
+        ],
+        [
+          "+3 TJS",
+          301.453125,
+          340
+        ]
+      ]
+    },
+    {
+      "item": "AG-05",
+      "case": "en-390-dish",
+      "name": "handle is an accessible button",
+      "pass": true,
+      "details": {
+        "actual": "button",
+        "expected": "button"
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "en-390-dish",
+      "name": "options begin at lower detent",
+      "pass": true,
+      "details": {
+        "actual": "false",
+        "expected": "false"
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "en-390-dish",
+      "name": "options have rounded separation and shadow",
+      "pass": true,
+      "details": {
+        "top": 152,
+        "photo": 176,
+        "radius": 28,
+        "shadow": "rgba(23, 36, 60, 0.14) 0px -5px 18px 0px"
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "en-390-dish",
+      "name": "drag raises options over photo",
+      "pass": true,
+      "details": {
+        "before": {
+          "top": 152,
+          "photo": 176,
+          "radius": 28,
+          "shadow": "rgba(23, 36, 60, 0.14) 0px -5px 18px 0px"
+        },
+        "after": {
+          "top": 56,
+          "photo": 80
+        }
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "en-390-dish",
+      "name": "photo shrinks on expansion",
+      "pass": true,
+      "details": {
+        "before": {
+          "top": 152,
+          "photo": 176,
+          "radius": 28,
+          "shadow": "rgba(23, 36, 60, 0.14) 0px -5px 18px 0px"
+        },
+        "after": {
+          "top": 56,
+          "photo": 80
+        }
+      }
+    },
+    {
+      "item": "AG-05",
+      "case": "en-390-dish",
+      "name": "keyboard alternative expands options",
+      "pass": true,
+      "details": {
+        "actual": "true",
+        "expected": "true"
+      }
+    },
+    {
+      "item": "AF-04",
+      "case": "en-390-dish",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-dish",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-dish",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-dish",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-dish",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "banner order follows administration sort",
+      "pass": true,
+      "details": {
+        "actual": [
+          "b31-multiple",
+          "b31-plain",
+          "b31-dish",
+          "b31-restaurant",
+          "b31-campaign"
+        ],
+        "expected": [
+          "b31-multiple",
+          "b31-plain",
+          "b31-dish",
+          "b31-restaurant",
+          "b31-campaign"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "current locale chooses banner image",
+      "pass": true,
+      "details": {
+        "actual": "/qa-image/romant",
+        "expected": "/qa-image/romant"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "blank CTA leaves no overlaid button",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "one campaign can occupy home_main",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "one campaign can occupy home_side",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "one campaign can occupy dont_miss",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "one campaign can occupy home_bottom",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "unselected placement does not fall back",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "whole image remains clickable without CTA",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "dish slide owns its CTA",
+      "pass": true,
+      "details": {
+        "actual": "Buy now",
+        "expected": "Buy now"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "order action opens assigned dish",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "next slide owns different CTA",
+      "pass": true,
+      "details": {
+        "actual": "Open restaurant",
+        "expected": "Open restaurant"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "next slide owns different destination",
+      "pass": true
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-banners",
+      "name": "untimed free-delivery banner has no countdown",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-banners",
+      "name": "expired and future and inactive banners hidden",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-banners",
+      "name": "countdown over a day uses days and hours",
+      "pass": true,
+      "details": {
+        "actual": "2 d 05:10",
+        "expected": "2 d 05:10"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "campaign action opens existing Z07 sheet",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "list action applies assigned filter",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "unsafe link is never executed",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "links with embedded credentials rejected",
+      "pass": true,
+      "details": {
+        "actual": "",
+        "expected": ""
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-banners",
+      "name": "near-expiry banner starts visible",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-banners",
+      "name": "expiry removes every placement of the banner",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "side-only placement stays in its own rail",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-banners",
+      "name": "side-only banner is not promoted into main placement",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-banners",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "admin offers all seven banner locations",
+      "pass": true,
+      "details": {
+        "actual": [
+          "home_main",
+          "home_side",
+          "dont_miss",
+          "home_bottom",
+          "orders",
+          "restaurants",
+          "checkout"
+        ],
+        "expected": [
+          "home_main",
+          "home_side",
+          "dont_miss",
+          "home_bottom",
+          "orders",
+          "restaurants",
+          "checkout"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "multiple existing locations load selected",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "admin has one image control for each locale",
+      "pass": true,
+      "details": {
+        "actual": 3,
+        "expected": 3
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "free text CTA also offers preset labels",
+      "pass": true,
+      "details": {
+        "actual": [
+          "Купить сейчас",
+          "Смотреть",
+          "Открыть"
+        ],
+        "expected": [
+          "Купить сейчас",
+          "Смотреть",
+          "Открыть"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "concurrent presentation change displays existing conflict warning",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "concurrent change preserves typed editor draft",
+      "pass": true,
+      "details": {
+        "actual": "Смотреть выбор",
+        "expected": "Смотреть выбор"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "upload uses selected locale and preserves edited CTA",
+      "pass": true,
+      "details": {
+        "actual": "View selection",
+        "expected": "View selection"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "upload preserves other locales",
+      "pass": true,
+      "details": {
+        "actual": "/qa-image/kfc",
+        "expected": "/qa-image/kfc"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "upload called once for selected file",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "upload rerender preserves multi-selection",
+      "pass": true,
+      "details": {
+        "actual": [
+          "orders",
+          "restaurants"
+        ],
+        "expected": [
+          "orders",
+          "restaurants"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "save targets edited banner",
+      "pass": true,
+      "details": {
+        "actual": "b31-multiple",
+        "expected": "b31-multiple"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "save carries exact selected locations",
+      "pass": true,
+      "details": {
+        "actual": [
+          "orders",
+          "restaurants"
+        ],
+        "expected": [
+          "orders",
+          "restaurants"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "save carries own action/filter",
+      "pass": true,
+      "details": {
+        "actual": [
+          "list",
+          "disc"
+        ],
+        "expected": [
+          "list",
+          "disc"
+        ]
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "save keeps blank localized CTA blank",
+      "pass": true,
+      "details": {
+        "actual": "",
+        "expected": ""
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "save carries display order",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-admin",
+      "name": "end time saves exact seconds in Dushanbe timezone",
+      "pass": true,
+      "details": {
+        "actual": "2026-11-21T17:24:31+05:00",
+        "expected": "2026-11-21T17:24:31+05:00"
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-admin",
+      "name": "end time round trip does not truncate to a day",
+      "pass": true,
+      "details": {
+        "actual": "2026-11-21T17:24:31",
+        "expected": "2026-11-21T17:24:31"
+      }
+    },
+    {
+      "item": "AF-02",
+      "case": "en-390-admin",
+      "name": "empty expiry serializes as null",
+      "pass": true,
+      "details": {
+        "actual": null,
+        "expected": null
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-admin",
+      "name": "each placement has an interval control",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-admin",
+      "name": "absent timing keys stay disabled",
+      "pass": true,
+      "details": {
+        "actual": 7,
+        "expected": 7
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-admin",
+      "name": "orders timing default is three seconds",
+      "pass": true,
+      "details": {
+        "actual": "3",
+        "expected": "3"
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-admin",
+      "name": "interval saves only the selected existing setting",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "key": "banner_rotation_orders_seconds",
+            "value": 5
+          }
+        ],
+        "expected": [
+          {
+            "key": "banner_rotation_orders_seconds",
+            "value": 5
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-admin",
+      "name": "other missing interval keys remain disabled",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-admin",
+      "name": "invalid zero interval sends no request",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-admin",
+      "name": "taste pin editor retains existing pin and appends selected dish",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ],
+        "expected": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-admin",
+      "name": "adding the same dish twice creates no duplicate",
+      "pass": true,
+      "details": {
+        "actual": 2,
+        "expected": 2
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-admin",
+      "name": "failed pin save preserves draft",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ],
+        "expected": [
+          {
+            "item_id": "hot",
+            "rank": 1
+          },
+          {
+            "item_id": "combo",
+            "rank": 3
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-admin",
+      "name": "pin save writes only authorized existing optional field",
+      "pass": true,
+      "details": {
+        "actual": {
+          "id": "s1",
+          "payload": {
+            "home_sponsored_dishes": [
+              {
+                "item_id": "hot",
+                "rank": 1
+              },
+              {
+                "item_id": "combo",
+                "rank": 3
+              }
+            ]
+          }
+        },
+        "expected": {
+          "id": "s1",
+          "payload": {
+            "home_sponsored_dishes": [
+              {
+                "item_id": "hot",
+                "rank": 1
+              },
+              {
+                "item_id": "combo",
+                "rank": 3
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "item": "AF-03",
+      "case": "en-390-admin",
+      "name": "store without pin column remains read only",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "campaign select exposes its actual default",
+      "pass": true,
+      "details": {
+        "actual": "happy",
+        "expected": "happy"
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "untouched secondary campaign select is serialized",
+      "pass": true,
+      "details": {
+        "actual": "happy",
+        "expected": "happy"
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "missing schema makes advanced controls read only",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "missing schema omits optional save fields",
+      "pass": true,
+      "details": {
+        "actual": {},
+        "expected": {}
+      }
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "missing schema is visible to admin",
+      "pass": true
+    },
+    {
+      "item": "AF-01",
+      "case": "en-390-admin",
+      "name": "legacy save contains no proposed presentation column",
+      "pass": true
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-admin",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AG-03",
+      "case": "en-390-restaurants",
+      "name": "restaurant rail uses only assigned advertising",
+      "pass": true,
+      "details": {
+        "actual": [
+          "b31-multiple",
+          "b31-free",
+          "b31-campaign"
+        ],
+        "expected": [
+          "b31-multiple",
+          "b31-free",
+          "b31-campaign"
+        ]
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "en-390-restaurants",
+      "name": "first advertising card has 16px screen inset",
+      "pass": true,
+      "details": {
+        "left": 16
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "en-390-restaurants",
+      "name": "advertising cards do not expose pressed filter state",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "en-390-restaurants",
+      "name": "restaurant advertising opens assigned destination",
+      "pass": true
+    },
+    {
+      "item": "AG-04",
+      "case": "en-390-restaurants",
+      "name": "sorting is an accessible round icon button",
+      "pass": true,
+      "details": {
+        "width": 44,
+        "height": 44,
+        "radius": "50%",
+        "text": "",
+        "label": "Sort",
+        "icons": 1
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "en-390-restaurants",
+      "name": "default sort has no orange marker",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "en-390-restaurants",
+      "name": "recommended caption removed from filter row",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "en-390-restaurants",
+      "name": "four actual sort options remain inside sheet",
+      "pass": true,
+      "details": {
+        "actual": 4,
+        "expected": 4
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "en-390-restaurants",
+      "name": "default choice remains named inside sheet",
+      "pass": true
+    },
+    {
+      "item": "AG-04",
+      "case": "en-390-restaurants",
+      "name": "nondefault choice adds orange dot",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AG-04",
+      "case": "en-390-restaurants",
+      "name": "returning to default removes orange dot",
+      "pass": true,
+      "details": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AG-03",
+      "case": "en-390-restaurants",
+      "name": "campaign advertisement opens existing campaign dialog",
+      "pass": true
+    },
+    {
+      "item": "AG-03",
+      "case": "en-390-restaurants",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-restaurants",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-restaurants",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-restaurants",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-restaurants",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "group back restores menu and restaurant",
+      "pass": true,
+      "details": {
+        "actual": {
+          "view": "menu",
+          "store": "KFC"
+        },
+        "expected": {
+          "view": "menu",
+          "store": "KFC"
+        }
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "group identity survives back navigation",
+      "pass": true,
+      "details": {
+        "actual": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "expected": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "back navigation makes no group mutation",
+      "pass": true,
+      "details": {
+        "actual": [],
+        "expected": []
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "active group has persistent reentry control",
+      "pass": true
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "resume control is visible and receives taps",
+      "pass": true,
+      "details": {
+        "visible": true,
+        "hit": true,
+        "width": 164.46875
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "resume reopens the same group",
+      "pass": true
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "only one close or reopen control exists",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "open group offers close collection",
+      "pass": true,
+      "details": "Close collection"
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "same toggle becomes reopen",
+      "pass": true,
+      "details": "Reopen"
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "close and reopen keep the same control position",
+      "pass": true,
+      "details": {
+        "before": {
+          "x": 16,
+          "y": 769,
+          "width": 173,
+          "height": 59
+        },
+        "after": {
+          "x": 16,
+          "y": 769,
+          "width": 173,
+          "height": 59
+        }
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "toggle commits only close then reopen",
+      "pass": true,
+      "details": {
+        "actual": [
+          "closed",
+          "open"
+        ],
+        "expected": [
+          "closed",
+          "open"
+        ]
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "repeated back still restores original menu",
+      "pass": true,
+      "details": {
+        "actual": "menu",
+        "expected": "menu"
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "back restores category query and restrictions",
+      "pass": true,
+      "details": {
+        "actual": {
+          "v": "cat",
+          "cat": "rest",
+          "q": "KFC",
+          "sort": "free",
+          "open": true
+        },
+        "expected": {
+          "v": "cat",
+          "cat": "rest",
+          "q": "KFC",
+          "sort": "free",
+          "open": true
+        }
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "no navigation cancellation was sent",
+      "pass": true,
+      "details": {
+        "actual": [
+          "closed",
+          "open"
+        ],
+        "expected": [
+          "closed",
+          "open"
+        ]
+      }
+    },
+    {
+      "item": "AG-06",
+      "case": "en-390-group",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-group",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-group",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-group",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-group",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "orders have exactly their own assigned banners",
+      "pass": true,
+      "details": {
+        "actual": [
+          "b31-multiple",
+          "b31-orders-second"
+        ],
+        "expected": [
+          "b31-multiple",
+          "b31-orders-second"
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "one large banner fills available screen width",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "left": 0,
+        "right": 390,
+        "contentWidth": 358,
+        "contentRight": 374,
+        "cards": [
+          {
+            "width": 358,
+            "height": 188.40625,
+            "left": 16,
+            "right": 374,
+            "fit": "contain"
+          },
+          {
+            "width": 358,
+            "height": 188.40625,
+            "left": 390,
+            "right": 748,
+            "fit": "contain"
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "printed banner copy is not cropped",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "left": 0,
+        "right": 390,
+        "contentWidth": 358,
+        "contentRight": 374,
+        "cards": [
+          {
+            "width": 358,
+            "height": 188.40625,
+            "left": 16,
+            "right": 374,
+            "fit": "contain"
+          },
+          {
+            "width": 358,
+            "height": 188.40625,
+            "left": 390,
+            "right": 748,
+            "fit": "contain"
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "only one whole slide is in view",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "left": 0,
+        "right": 390,
+        "contentWidth": 358,
+        "contentRight": 374,
+        "cards": [
+          {
+            "width": 358,
+            "height": 188.40625,
+            "left": 16,
+            "right": 374,
+            "fit": "contain"
+          },
+          {
+            "width": 358,
+            "height": 188.40625,
+            "left": 390,
+            "right": 748,
+            "fit": "contain"
+          }
+        ]
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "unconfigured orders rotation is three seconds",
+      "pass": true,
+      "details": {
+        "actual": 3000,
+        "expected": 3000
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "default clock automatically advances orders banner",
+      "pass": true,
+      "details": {
+        "initial": 0,
+        "rotated": 374
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "configured five seconds does not advance after three",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "configured five seconds advances when due",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "orders timing does not change another placement",
+      "pass": true,
+      "details": {
+        "actual": 3000,
+        "expected": 3000
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "visible pause control reflects paused state",
+      "pass": true,
+      "details": {
+        "actual": "true",
+        "expected": "true"
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "pause keeps the same slide",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "reduced motion disables automatic rotation",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "long held pointer prevents rotation beyond normal cooldown",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "native swipe scrolling is not disabled",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "pointer cancellation starts a fresh release cooldown",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "rotation resumes after cancelled pointer is released",
+      "pass": true
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "gesture lifecycle never activates a banner",
+      "pass": true,
+      "details": {
+        "actual": "orders",
+        "expected": "orders"
+      }
+    },
+    {
+      "item": "AF-05",
+      "case": "en-390-orders",
+      "name": "page fits horizontal viewport",
+      "pass": true,
+      "details": {
+        "width": 390,
+        "document": 390
+      }
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-orders",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-orders",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-orders",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-orders",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AG-02",
+      "case": "tg-390-art",
+      "name": "Tajik temporarily uses supplied RU art",
+      "pass": true,
+      "details": {
+        "actual": "assets/customer-c/dineout-header-ru.webp",
+        "expected": "assets/customer-c/dineout-header-ru.webp"
+      }
+    },
+    {
+      "item": "AG-02",
+      "case": "tg-390-art",
+      "name": "Tajik alternative text is localized",
+      "pass": true,
+      "details": "Дар тарабхона — То 50% тахфиф ба ҳисоб"
+    },
+    {
+      "item": "NETWORK",
+      "case": "tg-390-art",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "tg-390-art",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "tg-390-art",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "tg-390-art",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    }
+  ],
+  "covered_items": [
+    "AF-01",
+    "AF-02",
+    "AF-03",
+    "AF-04",
+    "AF-05",
+    "AF-06",
+    "AG-01",
+    "AG-02",
+    "AG-03",
+    "AG-04",
+    "AG-05",
+    "AG-06"
+  ],
+  "missing_items": [],
+  "failures": [],
+  "contexts": [
+    {
+      "case": "ru-375-home",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-empty",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-dish",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-banners",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-banners",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-admin",
+      "role": "admin",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-admin",
+      "role": "admin",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-restaurants",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-group",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-orders",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-home",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-empty",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-dish",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-banners",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-banners",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-admin",
+      "role": "admin",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-admin",
+      "role": "admin",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-restaurants",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-group",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-orders",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "tg-390-art",
+      "role": "customer",
+      "language": "tg",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "ru-375-taste-advertising.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "858333286799a09a41d466f653842848cbe3de28619bf00897449d15d44e153c"
+    },
+    {
+      "file": "ru-375-popular-rail.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "acbe6bb77501f69f0c06bb863730eb0205a703b52d2c42c2098f1ce0eea9c77e"
+    },
+    {
+      "file": "ru-375-dineout.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "12701d7f23486304a1c4a759cca3b74fcac04b1a59d3dd9baa4e9e7bf27d2080"
+    },
+    {
+      "file": "ru-375-empty-dineout-hidden.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "555e801d3462368b684aeebd6eeec6aa368cc64087bd313626bc5d006ec1daea"
+    },
+    {
+      "file": "ru-375-dish-options-collapsed.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "0e9f54c2775fb4ed2eea7ebee097fb020bfdf5843f9a3bdcf8e2613655e6f74f"
+    },
+    {
+      "file": "ru-375-dish-options-expanded.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "1ff06973dc9bc46ee60ff07cdda48e1bf6555c6570f31bf3e1bb80fbf8ab31d6"
+    },
+    {
+      "file": "ru-375-managed-home-banners.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "3ad3bd3217b93b35f8098b083bbd7333d5a54da7720fb90b35d2af2984f62145"
+    },
+    {
+      "file": "ru-375-managed-campaign-sheet.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "12ad5b0554559d16ad3cddf5886e2188305ade0266dc605dd1a3418e339f4282"
+    },
+    {
+      "file": "ru-375-admin-banner-placements-images.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "fb316d181c8975f8c3ef2056364eb9e7fe2f6c7d948bc912768a8ee08cc6ac94"
+    },
+    {
+      "file": "ru-375-admin-banner-actions-expiry.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "bf0cacc44d692bf9dadab3c26000977f1ed8329676c161fe7ec6739d70a80ba0"
+    },
+    {
+      "file": "ru-375-admin-placement-timing.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "60562c69eb0af14f897c057a5f8e54e7896b5ca704cd7eaa51feb8abc4923ce3"
+    },
+    {
+      "file": "ru-375-admin-taste-pins.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "0209352e904dff65607be73578113c0cca2c95e29b72a32e3a5608ff8b3e904e"
+    },
+    {
+      "file": "ru-375-restaurant-advertising.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "f87781b63198991e7850191f63e39ce6cbaea6a7de1ede8203d40799aeb94ae5"
+    },
+    {
+      "file": "ru-375-sort-sheet.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "f797f2db2c53529c197ff99c5f6a9689f7f303ba1a3089f234daa9ae95475557"
+    },
+    {
+      "file": "ru-375-group-preserved-resume.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "6e94f2ae5eddbfe3d767688639b3dffb490ee45eceb4b5876a0f9e56d629e3ce"
+    },
+    {
+      "file": "ru-375-group-closed-toggle.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "351e43b313669dec652be28f7782c8a01ba9731408a9e9303ba9963faa4bfd27"
+    },
+    {
+      "file": "ru-375-orders-large-banner.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "9b79c31cd689fea7924445d599de9198de5b07edc0ff99af874801a194b383ab"
+    },
+    {
+      "file": "en-390-taste-advertising.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "b88997d73805d247651c45dc41c08470b58219606089876bb92cb3dc49b92c71"
+    },
+    {
+      "file": "en-390-popular-rail.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "9b75a520245df71ac17d4decd1f0934d9b11b91e0f7098436766920f000b08ec"
+    },
+    {
+      "file": "en-390-dineout.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "8aedab9b0fd6d37221f192bf268e04f0be0176d69460b3392cbaf1e66521f148"
+    },
+    {
+      "file": "en-390-empty-dineout-hidden.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "989fcc5ce041e888fcf724841e76e4294891e9714a80b6d9ccc909817814575c"
+    },
+    {
+      "file": "en-390-dish-options-collapsed.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "39589ac8b097e488f7eacd2af73a7ab319eb63f0f82637ff0425b1289d2b4208"
+    },
+    {
+      "file": "en-390-dish-options-expanded.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "f30c83651be1bc3e8bff8c310fad12b4073562f1a4c53d722c6656a721e96807"
+    },
+    {
+      "file": "en-390-managed-home-banners.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "1656a8862539c1305dbe9bd28760777b83f08f7b96b94e652150675e23fa3567"
+    },
+    {
+      "file": "en-390-managed-campaign-sheet.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "13ea63bb42fdcccc1c2ce338740c80059b163768784836cea18b6c0d0dba7c68"
+    },
+    {
+      "file": "en-390-admin-banner-placements-images.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "619e71b8708865cc0f4ee63ff14e3183604002213e7966fc149221f2844fb088"
+    },
+    {
+      "file": "en-390-admin-banner-actions-expiry.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "426aa81b96046c20fac78b8d9f1deda625b5d4d11e1251e5d9dacd36366bb215"
+    },
+    {
+      "file": "en-390-admin-placement-timing.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "7ed0b8abebac53cbffd2b7fffbb5c1fd166afa58d31c7667a43d37e7d5a8fe23"
+    },
+    {
+      "file": "en-390-admin-taste-pins.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "91a6ed4bbd8fcdb7db5ea46ed0f99a3482ca62698b001f52d770a993d8a1eae7"
+    },
+    {
+      "file": "en-390-restaurant-advertising.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "529b7827cd62200673f67cfc80730b1ea96db39b5c18e33b9fe2a5084e256de1"
+    },
+    {
+      "file": "en-390-sort-sheet.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "f2af2af87939b1ea00f30579e29b96fa6e0cfc1c6840da3d94713c5327207bf8"
+    },
+    {
+      "file": "en-390-group-preserved-resume.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "61640c20fe160a5eff14162844a7ec15db299cc996e6e2d26d994ebc1241f165"
+    },
+    {
+      "file": "en-390-group-closed-toggle.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "40d6c3177ad41ab916cdff6b9ec10022e9b2d3ef47a15954e5104bd7ae349250"
+    },
+    {
+      "file": "en-390-orders-large-banner.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "ae82b6b5845278ed9499e8e27b098543ab70dddd507fcf7e7ca4afadfcd6ccfa"
+    }
+  ],
+  "provenance": {
+    "started_at": "2026-11-20T23:03:12.382494+00:00",
+    "git_head": "eb12d4d14ae1fa1120d17c73f2db52d074a7a120",
+    "git_tree": "5434d55a7d2239a5e953f088bd4fdbf2182b5d6b",
+    "harness_sha256": "904ac29c1d9a2d13f3783ac87dc15d2c256bdb32ae2d0776b147e5a06dc15b32",
+    "product_sha256": {
+      "customer.html": "d5d3476071899c1a44a1a92b4f8e7d05d327213d7623ff4db079aca553d18331",
+      "admin.html": "89edfbd518d99775dfb3b2c36daae4af426e09ce5ee3f57e3ca9412a68155875",
+      "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+      "assets/shared/banner-system-brief31.js": "f5dc10c02026b0fdc5f61f888ffd109482bd121424d9586eb91511c1717f5e1d",
+      "assets/customer-c/banners-brief31.css": "1772689fbb0177a1a9d603ce320279d287378629c4d73b13dc1ec4486f513888",
+      "assets/customer-c/home-brief31.css": "9a5d11ac5cf59d139ca46f468efa423fd4a531c272ffe0499670a445cbf220c5",
+      "assets/customer-c/dish-group-brief31.css": "51ab87c9f9112c18e95dc58a5a0bf71c8bd95f6d8924bca8b1d06bdcbcf51c2e",
+      "assets/customer-c/dish-group-brief31.js": "058c2559bdad03c5cef49f7a81262fcfd97923077f812b6d8b2181eef212ab5b",
+      "assets/customer-c/restaurants-brief30.js": "f8b75cfa691df4df326e774ae7852f540e488eab1ca28a27d7f170e10e5f1aea",
+      "assets/customer-c/restaurants-brief30.css": "ca9f406a2fb7d6dfd75d313b79d423677640db1bce3f1baf9342d72626b8ddef",
+      "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a"
+    },
+    "fixture_time": "2026-11-18T09:00:00+00:00",
+    "completed_at": "2026-11-20T23:04:01.613231+00:00",
+    "source_unchanged_during_run": true
+  },
+  "pass": true
+}

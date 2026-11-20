@@ -1,0 +1,39 @@
+{
+  "brief": "BRIEF-31",
+  "code_sha": "cd7e0b6bcf7d66abfb6732d72f704ac12c6f899f",
+  "verified_at": "2026-11-20T23:12:41.580Z",
+  "runs": [
+    {
+      "id": 44834383817,
+      "name": "TALABOT BRIEF15 H-01 Real LOCAL Auth QA (NO PROD)",
+      "head_sha": "cd7e0b6bcf7d66abfb6732d72f704ac12c6f899f",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44834383817",
+      "run_started_at": "2026-11-20T23:07:11Z",
+      "updated_at": "2026-11-20T23:11:20Z"
+    },
+    {
+      "id": 44834383823,
+      "name": "TALABOT BRIEF-24 customer Home and cart",
+      "head_sha": "cd7e0b6bcf7d66abfb6732d72f704ac12c6f899f",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44834383823",
+      "run_started_at": "2026-11-20T23:07:11Z",
+      "updated_at": "2026-11-20T23:08:53Z"
+    }
+  ],
+  "home": {
+    "assertions": 358,
+    "focused_viewport_screenshots": 34,
+    "home_smoke": "PASS",
+    "financial_parity": "PASS"
+  },
+  "h01": {
+    "authenticated_contexts": 24,
+    "required_contexts": 24,
+    "blockers": 0,
+    "scope": "Original application local Auth gate; not a claim that all historical visual-audit findings are resolved."
+  }
+}

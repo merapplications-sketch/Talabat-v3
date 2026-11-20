@@ -1,0 +1,296 @@
+{
+  "brief": "BRIEF-31",
+  "code_sha": "cd7e0b6bcf7d66abfb6732d72f704ac12c6f899f",
+  "product_sha": "b55bf5fd4cf38061551a6f8ee78f5154dc177bb5",
+  "focused_screenshots": 34,
+  "home_smoke_screenshots": 1,
+  "assertions": 358,
+  "files": [
+    {
+      "path": "en-390-admin-banner-actions-expiry.webp",
+      "size_bytes": 18980,
+      "git_blob": "1df50a00eeae410d0064e32b6ca70be13128a9cc",
+      "sha256": "426aa81b96046c20fac78b8d9f1deda625b5d4d11e1251e5d9dacd36366bb215",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-admin-banner-placements-images.webp",
+      "size_bytes": 17772,
+      "git_blob": "b4ec6352bf27a91b36058a02aba0ac85247f23bd",
+      "sha256": "619e71b8708865cc0f4ee63ff14e3183604002213e7966fc149221f2844fb088",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-admin-placement-timing.webp",
+      "size_bytes": 26944,
+      "git_blob": "6d362ef73f63e0ea7045458668754724e254e2d7",
+      "sha256": "7ed0b8abebac53cbffd2b7fffbb5c1fd166afa58d31c7667a43d37e7d5a8fe23",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-admin-taste-pins.webp",
+      "size_bytes": 20258,
+      "git_blob": "4d1a84ed13519ccf26467a5caada1d3b9399a41a",
+      "sha256": "91a6ed4bbd8fcdb7db5ea46ed0f99a3482ca62698b001f52d770a993d8a1eae7",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-dineout.webp",
+      "size_bytes": 38574,
+      "git_blob": "53d403e8e172911e341bd0bbbba61174172ea671",
+      "sha256": "8aedab9b0fd6d37221f192bf268e04f0be0176d69460b3392cbaf1e66521f148",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-dish-options-collapsed.webp",
+      "size_bytes": 27178,
+      "git_blob": "9ab67bf7c595ae5a37b3dbcdb0ea53fc300e5146",
+      "sha256": "39589ac8b097e488f7eacd2af73a7ab319eb63f0f82637ff0425b1289d2b4208",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-dish-options-expanded.webp",
+      "size_bytes": 24068,
+      "git_blob": "bd7c33e71c28ddb4e0c75ea99d89adf2f0ec867e",
+      "sha256": "f30c83651be1bc3e8bff8c310fad12b4073562f1a4c53d722c6656a721e96807",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-empty-dineout-hidden.webp",
+      "size_bytes": 34088,
+      "git_blob": "e01cec6c31262e85713d738c1cd88640cf4fb03d",
+      "sha256": "989fcc5ce041e888fcf724841e76e4294891e9714a80b6d9ccc909817814575c",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-group-closed-toggle.webp",
+      "size_bytes": 24814,
+      "git_blob": "d833e9358e2d5dcb51a8accf2c76b241228893dc",
+      "sha256": "40d6c3177ad41ab916cdff6b9ec10022e9b2d3ef47a15954e5104bd7ae349250",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-group-preserved-resume.webp",
+      "size_bytes": 30572,
+      "git_blob": "257704a7863502c710fbbb7e2548da82ae4408a9",
+      "sha256": "61640c20fe160a5eff14162844a7ec15db299cc996e6e2d26d994ebc1241f165",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-managed-campaign-sheet.webp",
+      "size_bytes": 16014,
+      "git_blob": "3802c33ec7a2a04b5356f2767fb340764cf24966",
+      "sha256": "13ea63bb42fdcccc1c2ce338740c80059b163768784836cea18b6c0d0dba7c68",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-managed-home-banners.webp",
+      "size_bytes": 43318,
+      "git_blob": "b46e0eb7feea33242e0a75edb809e6ceaf0cd325",
+      "sha256": "1656a8862539c1305dbe9bd28760777b83f08f7b96b94e652150675e23fa3567",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-orders-large-banner.webp",
+      "size_bytes": 17988,
+      "git_blob": "fe1dc34cfad8ae9a3d619897f682705ae1f3fcc0",
+      "sha256": "ae82b6b5845278ed9499e8e27b098543ab70dddd507fcf7e7ca4afadfcd6ccfa",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-popular-rail.webp",
+      "size_bytes": 40164,
+      "git_blob": "6ff691d3495267a9924a9107bca183f9357b5112",
+      "sha256": "9b75a520245df71ac17d4decd1f0934d9b11b91e0f7098436766920f000b08ec",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-restaurant-advertising.webp",
+      "size_bytes": 28638,
+      "git_blob": "ece5a781a1a7d9587c6c2e42f4298f25955317fd",
+      "sha256": "529b7827cd62200673f67cfc80730b1ea96db39b5c18e33b9fe2a5084e256de1",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-sort-sheet.webp",
+      "size_bytes": 19630,
+      "git_blob": "1b335999d92883cb9378a26636f2112c8b0fff27",
+      "sha256": "f2af2af87939b1ea00f30579e29b96fa6e0cfc1c6840da3d94713c5327207bf8",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-taste-advertising.webp",
+      "size_bytes": 39608,
+      "git_blob": "44487e147236fb18fdaf68117b5c16440ca960d2",
+      "sha256": "b88997d73805d247651c45dc41c08470b58219606089876bb92cb3dc49b92c71",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "results.json",
+      "size_bytes": 98004,
+      "git_blob": "6877398c404aea53c42991de5541dcf3aa850588",
+      "sha256": "31971baecc1e9a1d980d0e82d567e1aeeeeddaa88145cb10c779a66d1e55002a"
+    },
+    {
+      "path": "ru-375-admin-banner-actions-expiry.webp",
+      "size_bytes": 20808,
+      "git_blob": "657c29992b19dfffb8f95e4c791a9b17237d1873",
+      "sha256": "bf0cacc44d692bf9dadab3c26000977f1ed8329676c161fe7ec6739d70a80ba0",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-admin-banner-placements-images.webp",
+      "size_bytes": 19636,
+      "git_blob": "7b8e77ded44ac780b88f3c3ce9a74943b0dbf9f3",
+      "sha256": "fb316d181c8975f8c3ef2056364eb9e7fe2f6c7d948bc912768a8ee08cc6ac94",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-admin-placement-timing.webp",
+      "size_bytes": 24926,
+      "git_blob": "9c6b5d8d6a30c52e944896aa0bc330819c060635",
+      "sha256": "60562c69eb0af14f897c057a5f8e54e7896b5ca704cd7eaa51feb8abc4923ce3",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-admin-taste-pins.webp",
+      "size_bytes": 20444,
+      "git_blob": "408f282c262885d310dc41440132b43946cc2ff0",
+      "sha256": "0209352e904dff65607be73578113c0cca2c95e29b72a32e3a5608ff8b3e904e",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-dineout.webp",
+      "size_bytes": 38122,
+      "git_blob": "237785846cfb46c7590b567185f71bb74f9ae715",
+      "sha256": "12701d7f23486304a1c4a759cca3b74fcac04b1a59d3dd9baa4e9e7bf27d2080",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-dish-options-collapsed.webp",
+      "size_bytes": 27944,
+      "git_blob": "7e682ec41826154a2984b486bb810f74a70c5728",
+      "sha256": "0e9f54c2775fb4ed2eea7ebee097fb020bfdf5843f9a3bdcf8e2613655e6f74f",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-dish-options-expanded.webp",
+      "size_bytes": 25172,
+      "git_blob": "ce588c0187dfbf4dcd8f4f3e3d8979f3c0ef02b9",
+      "sha256": "1ff06973dc9bc46ee60ff07cdda48e1bf6555c6570f31bf3e1bb80fbf8ab31d6",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-empty-dineout-hidden.webp",
+      "size_bytes": 31344,
+      "git_blob": "d6b1a2cc8a08c9f0bddec5ede2814b8456dc34de",
+      "sha256": "555e801d3462368b684aeebd6eeec6aa368cc64087bd313626bc5d006ec1daea",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-group-closed-toggle.webp",
+      "size_bytes": 24680,
+      "git_blob": "0347576f8ad14bc4e243da16b6961d0c3d10d72b",
+      "sha256": "351e43b313669dec652be28f7782c8a01ba9731408a9e9303ba9963faa4bfd27",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-group-preserved-resume.webp",
+      "size_bytes": 30900,
+      "git_blob": "b95843a2ff6d9f56a49ebb2b4968e873349c861b",
+      "sha256": "6e94f2ae5eddbfe3d767688639b3dffb490ee45eceb4b5876a0f9e56d629e3ce",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-home-smoke.webp",
+      "size_bytes": 24862,
+      "git_blob": "c61d959bb9f6d85c3482f7690016b4526ea2ae82",
+      "sha256": "53530ed165f14ac7560fdb64fecc330211c2489085e2d3ef2debefeb08490bd9",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-managed-campaign-sheet.webp",
+      "size_bytes": 16766,
+      "git_blob": "f7cc219b6366ee7b2ddb80884d9cffc912a2754a",
+      "sha256": "12ad5b0554559d16ad3cddf5886e2188305ade0266dc605dd1a3418e339f4282",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-managed-home-banners.webp",
+      "size_bytes": 37238,
+      "git_blob": "7076125967f99d169b0f57fc6314a8cf8a8dd0e6",
+      "sha256": "3ad3bd3217b93b35f8098b083bbd7333d5a54da7720fb90b35d2af2984f62145",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-orders-large-banner.webp",
+      "size_bytes": 17472,
+      "git_blob": "c5a86f99c965346625ee402f3fff874c817ba0ec",
+      "sha256": "9b79c31cd689fea7924445d599de9198de5b07edc0ff99af874801a194b383ab",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-popular-rail.webp",
+      "size_bytes": 39488,
+      "git_blob": "da2ba9217c2af6c392e27285577ebad1222454f4",
+      "sha256": "acbe6bb77501f69f0c06bb863730eb0205a703b52d2c42c2098f1ce0eea9c77e",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-restaurant-advertising.webp",
+      "size_bytes": 27846,
+      "git_blob": "46b04054e20c85c2518de9b210f96c828fa50c56",
+      "sha256": "f87781b63198991e7850191f63e39ce6cbaea6a7de1ede8203d40799aeb94ae5",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-sort-sheet.webp",
+      "size_bytes": 19814,
+      "git_blob": "9d5fefdf56dac170b93ecf9a27ae1441387b4109",
+      "sha256": "f797f2db2c53529c197ff99c5f6a9689f7f303ba1a3089f234daa9ae95475557",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-taste-advertising.webp",
+      "size_bytes": 38770,
+      "git_blob": "031623ead2c601eb8a9bdac01a04b4ff30d30b19",
+      "sha256": "858333286799a09a41d466f653842848cbe3de28619bf00897449d15d44e153c",
+      "width": 375,
+      "height": 812
+    }
+  ]
+}
