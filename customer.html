@@ -1798,7 +1798,29 @@ function sendLoc(){
   update(r&&!r.error?'sent':'error',r&&!r.error?'locShareSent':'locShareFailed');
  },null,{canOpen:()=>locShareAllowed(id),onState:(phase,key)=>{if(phase==='cancelled'){delete CLoc[id];if(S.v==='track'&&String(S.tid)===String(id))render()}else update(phase,key||(phase==='loading'?'locShareLoading':'locShareSelecting'))}})}catch(e){update('error','locShareFailed')}
 }
+TLB.addDict({bannerOrder:'Заказать сейчас',bannerRestaurant:'Открыть ресторан',bannerView:'Смотреть'},
+  {bannerOrder:'Order now',bannerRestaurant:'Open restaurant',bannerView:'View'});
+const bannerConfig=b=>b.presentation&&typeof b.presentation==='object'?b.presentation:{};
+const bannerLabel=b=>{
+  const cfg=bannerConfig(b),custom=cfg.label?.[TLB.lang()];
+  return typeof custom==='string'&&custom.trim()?custom.trim().slice(0,40):
+    t(cfg.action==='order'?'bannerOrder':cfg.action==='restaurant'||!cfg.action&&b.link_type==='store'?'bannerRestaurant':'bannerView');
+};
+function openBannerList(filter,category='rest'){
+  const catKey=filter==='category'&&Object.hasOwn(IC,category)?category:'rest';
+  go('cat',{catKey,cq:'',srt:filter==='free'||filter==='disc'?filter:'',fo:filter==='free'||filter==='disc'});
+}
 function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
+  const cfg=bannerConfig(b);
+  if(cfg.action==='campaign'&&['happy','discount','free'].includes(cfg.campaign)){openCampaign(cfg.campaign,b);return}
+  if(cfg.action==='list'&&['free','disc','category'].includes(cfg.filter)){openBannerList(cfg.filter,b.link_value);return}
+  if(cfg.action==='order'||cfg.action==='restaurant'){
+    const store=ALLS.find(st=>st.id===b.link_value);
+    if(!store||!TLB.isOpen(store.n))return;
+    openN(store.n);
+    if(cfg.action==='order'&&cfg.item_id&&menuOf(store.n).some(item=>item.id===cfg.item_id&&item.approved&&item.available&&!item.optsBlocked))openItem(cfg.item_id);
+    return;
+  }
   if(b.link_type=='store'){const o=ALLS.find(x=>x.id==b.link_value);if(o)openN(o.n)}
   else if(b.link_type=='category'){S.q='';openCat(b.link_value)}
   else if(b.link_type=='partner')location.href='partner.html'}
@@ -1967,7 +1989,7 @@ function freePlaces(count){
 const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?happyCountdown(x.end):'',t('hHeroGo'),"openHappyHour()",'hamburger'],
   disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),`go('offer',{oid:${esc(JSON.stringify(x.id))}})`,'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"go('cat',{catKey:'*',cq:'',srt:'free',fo:true})",'motor-scooter'],
   brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza']})[x.k];
-function d6Tile(x,cls){if(x.k=='bn')return `<button type="button" class="d6-bt img ${cls}" ${bannerAction(x.b)}>${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}</button>`;
+function d6Tile(x,cls){if(x.k=='bn')return `<button type="button" class="d6-bt img ${cls}" ${bannerAction(x.b)}>${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}${cls==='d6tm'?`<span class="cta">${esc(bannerLabel(x.b))} ${ico('arr',15)}</span>`:''}</button>`;
   const d=heroD(x);
   if(x.k==='hap'&&x.art?.image_url)return `<button type="button" class="d6-bt img k-hap ${cls}" onclick="${d[4]}"><img src="${esc(x.art.image_url)}" alt=""><b class="tt">${d[0]}</b>${d[2]}</button>`;
   return `<button type="button" class="d6-bt ${cls} k-${x.k}" onclick="${d[4]}"><b class="tt">${d[0]}</b><span class="su">${d[1]}</span>${d[2]}${cls=='d6tm'?`<span class="cta">${d[3]} ${ico('arr',15)}</span>`:`<span class="ar">${ico('arr',18)}</span>`}<img class="art" src="${A3(d[5])}" alt="" width="120" height="120"></button>`}

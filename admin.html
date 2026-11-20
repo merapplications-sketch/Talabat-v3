@@ -195,12 +195,45 @@ function draw(){const q=inp.value.trim().toLowerCase();list.textContent='';const
 if(!m.length){const e=document.createElement('div');e.style.cssText='padding:20px;color:#718096;text-align:center';e.textContent=t('aNoRes');list.appendChild(e);return}
 m.forEach(r=>{const b=document.createElement('button');b.style.cssText='display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #edf2f7;background:#fff;padding:14px 6px;font-size:15px;cursor:pointer';b.textContent=r[1];b.onclick=()=>{ov.remove();cb(r[0])};list.appendChild(b)})}
 inp.oninput=draw;draw();setTimeout(()=>inp.focus(),50)}
+TLB.addDict({
+  bannerActionTitle:'Действие кнопки',bannerLegacy:'По ссылке баннера',bannerOrder:'Заказать сейчас',
+  bannerRestaurant:'Открыть ресторан',bannerList:'Смотреть список',bannerCampaign:'Открыть кампанию',
+  bannerCtaRu:'Текст кнопки (RU)',bannerCtaEn:'Текст кнопки (EN)',bannerDish:'ID блюда (необязательно)',
+  bannerFree:'Бесплатная доставка',bannerDiscount:'Скидки',bannerCategory:'Категория',bannerHappy:'Счастливые часы',
+  bannerPending:'Поля готовы к подключению. Пока применяется текущая ссылка баннера.'
+},{
+  bannerActionTitle:'Button action',bannerLegacy:'Use banner link',bannerOrder:'Order now',
+  bannerRestaurant:'Open restaurant',bannerList:'View list',bannerCampaign:'Open campaign',
+  bannerCtaRu:'Button label (RU)',bannerCtaEn:'Button label (EN)',bannerDish:'Dish ID (optional)',
+  bannerFree:'Free delivery',bannerDiscount:'Discounts',bannerCategory:'Category',bannerHappy:'Happy Hours',
+  bannerPending:'These fields are ready to connect. The existing banner link applies until then.'
+});
+const bannerSchema=()=>TLB.banners(true).some(b=>Object.hasOwn(b,'presentation'));
+const bannerOptions=(choices,selected)=>choices.map(([id,label])=>`<option value="${id}"${id===selected?' selected':''}>${t(label)}</option>`).join('');
+function bannerActionFields(cfg={}){
+  const select=(id,label,choices)=>`<label><small>${t(label)}</small><select id="${id}">${bannerOptions(choices,cfg[id])}</select></label>`;
+  const field=(id,label,val)=>`<label><small>${t(label)}</small><input id="${id}" maxlength="40" value="${esc(val||'')}"></label>`;
+  return select('action','bannerActionTitle',[['','bannerLegacy'],['order','bannerOrder'],['restaurant','bannerRestaurant'],['list','bannerList'],['campaign','bannerCampaign']])
+    +field('labelRu','bannerCtaRu',cfg.label?.ru)+field('labelEn','bannerCtaEn',cfg.label?.en)
+    +field('item_id','bannerDish',cfg.item_id)
+    +select('filter','bannerList',[['category','bannerCategory'],['free','bannerFree'],['disc','bannerDiscount']])
+    +select('campaign','bannerCampaign',[['happy','bannerHappy'],['discount','bannerDiscount'],['free','bannerFree']])
+    +(!bannerSchema()?`<small>${t('bannerPending')}</small>`:'');
+}
+function bannerPresentation(previous={}){
+  if(!bannerSchema())return {};
+  const action=v('action'),presentation={...previous,action,label:{ru:v('labelRu').trim(),en:v('labelEn').trim()}};
+  if(action==='order')presentation.item_id=v('item_id').trim();
+  if(action==='list')presentation.filter=v('filter');
+  if(action==='campaign')presentation.campaign=v('campaign');
+  return {presentation};
+}
 function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').split(':'),lt=p[0]=='cat'?'category':p[0];
-  run(TLB.addBanner({title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';render()}}));bimg='';bannerCreateSize=null}
+  run(TLB.addBanner({...bannerPresentation(),title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';render()}}));bimg='';bannerCreateSize=null}
 const dIso=(v,end)=>v?v+(end?'T23:59:59+05:00':'T00:00:00+05:00'):null;
 const dShow=ts=>ts?new Date(ts).toLocaleDateString('sv-SE',{timeZone:'Asia/Dushanbe'}):'';
 let BD=null,lastTk=-1;
-const bdOf=b=>({title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active});
+const bdOf=b=>({presentation:b.presentation||{},title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active});
 let BD0=null;
 function openBE(id){const b=TLB.banners(true).find(x=>x.id==id);if(!b)return;BE=id;BD=bdOf(b);BD0=bdOf(b);render();window.scrollTo(0,0)}
 /* someone else saved this banner / happy hour while it is open here: the admin's unsaved edits stay, a notice says what changed on the server */
@@ -223,7 +256,7 @@ function bannerLink(val){const p=(val+':').split(':');BD.link_type=p[0]=='cat'?'
 function bannerSave(){const title=String(BD.title||'').trim().slice(0,80);if(!title){alert(t('aFill'));return}
   if(BD.from&&BD.to&&BD.from>BD.to){alert(t('aBDates'));return}
   const sort=Number.isFinite(+BD.sort)?Math.trunc(+BD.sort):0;
-  run(TLB.updateBanner(BE,{title,image_url:BD.image_url,link_type:BD.link_type,link_value:BD.link_value,sort,placement:BD.placement=='bottom'?'bottom':'top',starts_at:dIso(BD.from,false),ends_at:dIso(BD.to,true),is_active:!!BD.is_active}).then(r=>{if(!(r&&r.error)){BE=null;BD=null;render()}}))}
+  run(TLB.updateBanner(BE,{...bannerPresentation(BD.presentation),title,image_url:BD.image_url,link_type:BD.link_type,link_value:BD.link_value,sort,placement:BD.placement=='bottom'?'bottom':'top',starts_at:dIso(BD.from,false),ends_at:dIso(BD.to,true),is_active:!!BD.is_active}).then(r=>{if(!(r&&r.error)){BE=null;BD=null;render()}}))}
 function openStoreEdit(id){const s=TLB.stores(true).find(x=>x.id==id);if(!s)return;E=id;
 ED={name:s.name||'',description:s.description||'',phone:s.phone||'',address:s.address||'',category:s.category,commission_pct:s.commission_pct,fee_type:s.fee_type,fee_base:s.fee_base,fee_per_km:s.fee_per_km,discount_pct:s.discount_pct||0,max_discount_pct:s.max_discount_pct==null?30:s.max_discount_pct,lat:s.lat==null?null:+s.lat,lng:s.lng==null?null:+s.lng,free_first_delivery:!!s.free_first_delivery,gpid:s.google_place_id||'',rating:s.rating==null?'':s.rating,rcount:s.rating_count==null?'':s.rating_count,cover:null,logo:null,owner:''};render();window.scrollTo(0,0)}
 function ed(k,v){ED[k]=v}
@@ -408,6 +441,7 @@ function vBanners(){const bs=TLB.banners(true);
   <small style="display:block;margin-bottom:6px">${t('aBHint')}</small>${bannerSizeHelp('banner-create-size',bannerCreateSize)}<label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${ic('cam')}${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
   <img id="bp" ${bimg?`src="${bimg}"`:''} style="display:${bimg?'block':'none'};width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" alt="">
   <button id="blb" class="b g" style="width:100%;margin-bottom:8px;padding:11px;text-align:left" onclick="pickLink(v=>{BL=v;$('blb').innerHTML=ic('link')+' '+linkLabel(v)})">${ic('link')} ${linkLabel(BL)}</button>
+  ${bannerActionFields()}
   <small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>
   <small>${t('aBFrom')}</small><input id="bfr" type="date"><small>${t('aBTo')}</small><input id="bto" type="date">
   <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>`;
@@ -426,6 +460,7 @@ function vBannerEdit(){if(!BD){BE=null;return vBanners()}const b0=TLB.banners(tr
   <small>${t('aBTitle')}</small><input type="text" maxlength="80" value="${esc(BD.title)}" oninput="bd('title',this.value)">
   <small>${t('aBOrd')}</small><input type="number" inputmode="numeric" value="${+BD.sort}" oninput="bd('sort',this.value)">
   <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink(v))">${ic('link')} ${linkLabel(cur)}</button>
+  ${bannerActionFields(BD.presentation)}
   <small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>
   <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)"><small>${t('aBTo')}</small><input type="date" value="${esc(BD.to)}" oninput="bd('to',this.value)" onchange="bd('to',this.value)">
   ${bannerSizeHelp('banner-edit-size',BD.imageSize)}

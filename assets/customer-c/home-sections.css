@@ -395,3 +395,10 @@
 .hh-sheet-copy .rt i { font-style: normal; }
 .hh-sheet-meta { color: #665b54; font-size: 12px; }
 .hh-sheet-deal { padding: 2px 7px; border-radius: 7px; color: #273b13; background: #e0f4bd; font-size: 12px; font-weight: 700; }
+
+/* Configured hero artwork and its own call to action share a single accessible control. */
+#app .d6h .d6-bsc > .d6-bt.img .cta {
+  position: absolute; bottom: 10px; left: 10px; right: auto; max-width: calc(100% - 20px);
+  text-align: start;
+}
+#app .d6h .d6-bm:has(.hdt) .d6-bsc > .d6-bt.img .cta { bottom: 32px; }
