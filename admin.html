@@ -253,7 +253,7 @@ async function bannerLocaleImage(event,locale){
   const input=event.target,file=input.files[0],draft=bannerDraft();
   if(!file||!bannerSchema())return;
   const url=await TLB.uploadImage(file,{maxW:1600,q:.85});
-  if(!url||!input.isConnected||draft!==bannerDraft())return;
+  if(!url||!input.isConnected||input.files[0]!==file||draft!==bannerDraft())return;
   bannerCfg('images',url,locale);render();
 }
 function bannerActionFields(cfg={}){
@@ -273,6 +273,7 @@ function bannerActionFields(cfg={}){
 function bannerPresentation(previous={}){
   if(!bannerSchema())return {};
   const draft=bannerDraft(),presentation={...previous,...draft};
+  for(const key of ['action','filter','campaign']){const control=$('banner-'+key);if(control)presentation[key]=control.value;}
   presentation.placements=[...document.querySelectorAll('[name="banner-place"]:checked')].map(e=>e.value).filter(x=>TALABOT_BANNERS.places.includes(x));
   presentation.label=Object.fromEntries(['ru','en','tg'].map(locale=>[locale,String(presentation.label?.[locale]||'').trim().slice(0,40)]));
   delete presentation.audience;

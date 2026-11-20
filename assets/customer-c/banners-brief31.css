@@ -29,3 +29,7 @@
 #app .banner31-rotation-toggle:focus-visible{outline:2px solid var(--o);border-radius:8px}
 #app .d79-payads .banner31-order-carousel .d76-order-banners{padding-inline:0}
 @media(prefers-reduced-motion:reduce){#app [data-banner-rail]{scroll-behavior:auto}}
+
+#app .banner31-only-side{padding:0 16px}
+#app .banner31-only-side>.banner31-side-rail{display:flex;flex-direction:column;gap:8px;overflow-y:auto;scroll-snap-type:y mandatory;height:200px;border-radius:16px;scrollbar-width:none}
+#app .banner31-only-side>.banner31-side-rail>.d6-bt{position:relative;min-height:96px}

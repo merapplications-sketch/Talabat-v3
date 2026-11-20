@@ -2068,8 +2068,8 @@ function d6Tile(x,cls,place='home_main'){return bannerMarkup(x.b,'d6-bt '+cls,pl
 function heroH(){
   const main=heroSlides(),side=bannersAt('home_side');
   if(!main.length&&!side.length)return '';
-  const primary=main.length?main:side.map(b=>({k:'bn',b}));
-  const secondary=main.length?side:[];
+  if(!main.length)return `<div class="banner31-only-side"><div class="banner31-side-rail" data-banner-rail="home_side">${side.map(b=>bannerMarkup(b,'d6-bt d6tg','home_side')).join('')}</div></div>`;
+  const primary=main,secondary=side;
   return `<div class="d6-bento ${secondary.length?'':'one'}"><div class="d6-bm"><div class="d6-bsc" id="hsc" data-banner-rail="home_main" onscroll="heroSync(this)" ontouchstart="HROT.t=Date.now()" onpointerdown="HROT.t=Date.now()">${primary.map(x=>d6Tile(x,'d6tm')).join('')}</div>${primary.length>1?`<div class="hdt">${primary.map((_,i)=>`<i class="${i==HROT.i?'on':''}"></i>`).join('')}</div>`:''}</div>${secondary.length?`<div class="banner31-side-rail" data-banner-rail="home_side">${secondary.map(b=>bannerMarkup(b,'d6-bt d6tg','home_side')).join('')}</div>`:''}</div>`;
 }
 const HROT={i:0,t:0};
