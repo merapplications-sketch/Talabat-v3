@@ -519,14 +519,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Счастливые часыскидка до 25",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Скидки до 25%Любимые блюдаЗ",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 375,
-            "height": 3124.5,
+            "height": 3151.5,
             "right": 375,
-            "bottom": 3132.5
+            "bottom": 3159.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1154,7 +1154,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Ожидание подтверждения · #ord0 12:16",
+          "text": "Ожидание подтверждения · #ord0 12:35",
           "rect": {
             "x": 10,
             "y": 222,
@@ -1182,7 +1182,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Принять с 11:16",
+          "text": "Принять с 11:35",
           "rect": {
             "x": 22,
             "y": 604,
@@ -1197,7 +1197,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Ожидание подтверждения · #ord0\n 12:16\n",
+        "heading": "Ожидание подтверждения · #ord0\n 12:35\n",
         "headerWidth": 355,
         "spans": [
           {
@@ -1218,7 +1218,7 @@
             "scroll": 112
           },
           {
-            "txt": "Принять с 11:16",
+            "txt": "Принять с 11:35",
             "width": 209,
             "scroll": 209
           }
@@ -1613,11 +1613,11 @@
           "text": "Р−25%Очень длинное название блюда с несколькими ингредиентами и ",
           "rect": {
             "x": 0,
-            "y": 560,
+            "y": 587,
             "width": 375,
             "height": 288,
             "right": 375,
-            "bottom": 848
+            "bottom": 875
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1627,11 +1627,11 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1608.5,
+            "y": 1635.5,
             "width": 375,
             "height": 95,
             "right": 375,
-            "bottom": 1703.5
+            "bottom": 1730.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -1641,11 +1641,11 @@
           "text": "Р\n    −25%Р\n      Ресторан «Дар-ул-Хилоф Шарқи Бузург» (централь",
           "rect": {
             "x": 0,
-            "y": 2514,
+            "y": 2541,
             "width": 375,
             "height": 228.5,
             "right": 375,
-            "bottom": 2742.5
+            "bottom": 2769.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -2515,14 +2515,14 @@
       "geometry": [
         {
           "selector": "#app",
-          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Happy hourup to 25% off9:42",
+          "text": "BRIEF15B_TOAST_PROBEпр. Рудаки 100\n  Up to 25% offFavourite dish",
           "rect": {
             "x": 0,
             "y": 8,
             "width": 390,
-            "height": 3109.5,
+            "height": 3136.5,
             "right": 390,
-            "bottom": 3117.5
+            "bottom": 3144.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3150,7 +3150,7 @@
       "geometry": [
         {
           "selector": "#app .oc.new .oh",
-          "text": "Waiting for confirmation · #ord0 12:16",
+          "text": "Waiting for confirmation · #ord0 12:35",
           "rect": {
             "x": 10,
             "y": 222,
@@ -3178,7 +3178,7 @@
         },
         {
           "selector": "#app .oc.new .b.g",
-          "text": "Accept from 11:16",
+          "text": "Accept from 11:35",
           "rect": {
             "x": 22,
             "y": 589,
@@ -3193,7 +3193,7 @@
       ],
       "result": {
         "ok": true,
-        "heading": "Waiting for confirmation · #ord0\n 12:16\n",
+        "heading": "Waiting for confirmation · #ord0\n 12:35\n",
         "headerWidth": 370,
         "spans": [
           {
@@ -3214,7 +3214,7 @@
             "scroll": 117
           },
           {
-            "txt": "Accept from 11:16",
+            "txt": "Accept from 11:35",
             "width": 219,
             "scroll": 219
           }
@@ -3609,11 +3609,11 @@
           "text": "Р−25%Очень длинное название блюда с несколькими ингредиентами и ",
           "rect": {
             "x": 0,
-            "y": 560,
+            "y": 587,
             "width": 390,
             "height": 288,
             "right": 390,
-            "bottom": 848
+            "bottom": 875
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3623,11 +3623,11 @@
           "text": "−25%Ресторан «Дар-ул-Хилоф Шарқи Бузург» (центральный филиал на ",
           "rect": {
             "x": 0,
-            "y": 1608.5,
+            "y": 1635.5,
             "width": 390,
             "height": 95,
             "right": 390,
-            "bottom": 1703.5
+            "bottom": 1730.5
           },
           "disabled": false,
           "ariaDisabled": null
@@ -3637,11 +3637,11 @@
           "text": "Р\n    −25%Р\n      Ресторан «Дар-ул-Хилоф Шарқи Бузург» (централь",
           "rect": {
             "x": 0,
-            "y": 2499,
+            "y": 2526,
             "width": 390,
             "height": 228.5,
             "right": 390,
-            "bottom": 2727.5
+            "bottom": 2754.5
           },
           "disabled": false,
           "ariaDisabled": null
