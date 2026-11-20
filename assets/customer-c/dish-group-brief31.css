@@ -1,0 +1,7 @@
+/* BRIEF-31 AF-04: the options scroller stays inside the sheet's content width.
+   Negative separator margins previously created 16px of horizontal scroll. */
+#app .d6s .d6s-p{min-width:0;max-width:100%;box-sizing:border-box}
+#app .d6s .osh{width:auto;min-width:0;max-width:100%;overflow-x:hidden}
+#app .d6s .osh>.og.u18-options{min-width:0;margin-inline:0}
+#app .d6s .osh>.og.u18-options+.og.u18-options:before{margin-inline:0}
+#app .d6s .u18-options .d6-gh,#app .d6s .u18-options-list{min-width:0;max-width:100%}
