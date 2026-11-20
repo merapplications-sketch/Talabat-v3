@@ -13,7 +13,6 @@ from playwright.sync_api import sync_playwright
 
 import brief25b_webkit as fixture
 from brief24_webkit import money
-from brief25c_webkit import test_brief29
 
 
 def main():
@@ -23,13 +22,14 @@ def main():
     out = Path(sys.argv[2]).resolve()
     out.mkdir(parents=True, exist_ok=True)
     assert (baseline / "customer.html").is_file(), "Approved baseline is absent"
-    # Fail closed on a category/product delta if BRIEF-30 acceptance is missing.
+    # BRIEF-31 supersedes the old banner/sort contracts. Run its focused
+    # acceptance only, preserving the independent financial/Home smoke below.
     changed = set(subprocess.check_output(
         ["git", "diff", "--name-only", "af466951", "HEAD"], text=True
     ).splitlines())
     if {"customer.html", "admin.html"} & changed:
-        assert (Path("tools") / "brief30_webkit.py").is_file(), (
-            "BRIEF-30 product was changed without its focused acceptance script"
+        assert (Path("tools") / "brief31_webkit.py").is_file(), (
+            "BRIEF-31 product was changed without its focused acceptance script"
         )
     assert not os.environ.get("SUPABASE_URL"), "Cloud database context forbidden"
     assert not os.environ.get("SUPABASE_ACCESS_TOKEN"), "Cloud credentials forbidden"
@@ -58,20 +58,13 @@ def main():
             finally:
                 current_ctx.close()
 
-            # Once the BRIEF-30 test is delivered, run ONLY that brief on pushes.
-            # Otherwise retain BRIEF-29's last source-backed focused acceptance.
-            if (Path("tools") / "brief30_webkit.py").is_file():
-                print("CI1_SELECTED_BRIEF_30", flush=True)
-            else:
-                print("CI1_SELECTED_BRIEF_29", flush=True)
-                test_brief29(browser, current_server, photos, out)
+            print("CI1_SELECTED_BRIEF_31", flush=True)
             browser.close()
     finally:
         current_server.shutdown()
         approved_server.shutdown()
 
-    if (Path("tools") / "brief30_webkit.py").is_file():
-        subprocess.run([sys.executable, "tools/brief30_webkit.py", str(out)], check=True)
+    subprocess.run([sys.executable, "tools/brief31_webkit.py", str(out / "brief31")], check=True)
     print("CI1_FAST_WEBKIT_PASS; ONE_BRIEF_AND_ONE_HOME_SMOKE", flush=True)
 
 
