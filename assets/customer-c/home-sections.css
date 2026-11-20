@@ -236,6 +236,9 @@
 .reel-comment-form .reel-chat-send { flex:0 0 44px; width:44px; height:44px; display:grid; place-items:center; border:0; border-radius:50%; background:#ed551c; color:#fff; padding:0; cursor:pointer; }
 .reel-comment-form .reel-chat-send:disabled { opacity:.55; cursor:default; }
 
+.home-dine-section { background: #f7f3ee; border-radius: 20px; padding-bottom: 6px; }
+#app .d6h .home-dine-section .dine-head h2 img { mix-blend-mode: multiply; }
+
 /* BRIEF-25c Y-11 — owner artwork and circular action in one row. */
 #app .d6h .dine-head {
   display: flex;

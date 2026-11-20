@@ -2491,8 +2491,8 @@ function dineH(expanded=false){
     <h2><img src="assets/customer-c/dineout-header.webp" alt="DineOut — Скидка до 50% на счёт" width="750" height="250"></h2>
     ${l.length?`<button type="button" aria-label="${t('d6All')}" onclick="go('dineAll')">${ico('chev',14)}</button>`:''}
   </div>`;
-  if(!l.length)return heading;
-  return heading+`<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
+  if(!l.length)return heading?`<section class="home-dine-section">${heading}</section>`:'';
+  return `${expanded?'':'<section class="home-dine-section">'}${heading}<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
     const km=kmOf(st),rawPrice=st.dine2;
     const two=rawPrice!=null&&Number.isFinite(rawPrice)&&rawPrice>0&&rawPrice<10000000?
       t('dinePriceTwo').replace('{n}',rawPrice):'';
@@ -2504,7 +2504,7 @@ function dineH(expanded=false){
       ${d6Rt(st)?`<span class="mt dine-meta">${d6Rt(st)}</span>`:''}
       ${details?`<span class="dine-bill-distance">${details}</span>`:''}
     </button>`;
-  }).join('')}</div>`;
+  }).join('')}</div>${expanded?'':'</section>'}`;
 }
 const bottomBn=()=>{const bb=inB('bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" onscroll="rotSync(this)">${bb.map(b=>`<div class="bb" onclick="bannerGo('${b.id}')">${b.image_url?`<img src="${esc(b.image_url)}" alt="">`:`<b>${esc(b.title)}</b>`}</div>`).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */
