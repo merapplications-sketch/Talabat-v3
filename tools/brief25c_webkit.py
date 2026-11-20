@@ -449,6 +449,12 @@ def test_brief27(browser,server,photos,out):
 
 
 def test_brief29(browser,server,photos,out):
+    # The BRIEF-30 restaurant-category replacement retains BRIEF-29 navigation
+    # contracts but intentionally changes .d6-sr to the approved .ad30-card.
+    def restaurant_names(page):
+        if page.locator('.ad30-card').count():
+            return page.locator('.ad30-card-name').all_inner_texts()
+        return page.locator('.d6-sr .nt').all_inner_texts()
     seed="""
       stores[0].fee_type='free';
       stores[1].logo_url='/qa-image/pro-khinkali';
@@ -499,18 +505,18 @@ def test_brief29(browser,server,photos,out):
 
         page.locator('.d6-bento > button').filter(has=page.get_by_alt_text('Доставка бесплатно',exact=True)).click()
         assert page.evaluate("S.v==='cat'&&S.catKey==='rest'&&S.srt==='free'")
-        assert page.locator('.d6-sr .nt').all_inner_texts()==['KFC','Romant Restaurant']
+        assert restaurant_names(page)==['KFC','Romant Restaurant'],restaurant_names(page)
         prior.shot(page,out,'ru-375-brief29-free-delivery.webp')
         page.evaluate("go('home')")
         page.locator('.d6-bento > button').filter(has=page.get_by_alt_text('Скидки до 20%',exact=True)).click()
         assert page.evaluate("S.v==='cat'&&S.catKey==='rest'&&S.srt==='disc'")
-        assert page.locator('.d6-sr .nt').all_inner_texts()==['Romant Restaurant']
+        assert restaurant_names(page)==['Romant Restaurant'],restaurant_names(page)
         prior.shot(page,out,'ru-375-brief29-discounts.webp')
         page.evaluate("go('home')")
         activate(3,'Смотреть доставку').click()
         assert page.evaluate("S.v==='cat'&&S.srt==='free'")
         page.evaluate("go('cat',{catKey:'rest',cq:'',srt:'',fo:false})")
-        row=page.locator('.d6-sr').filter(has_text='Romant Restaurant')
+        row=page.locator('.ad30-card' if page.locator('.ad30-card').count() else '.d6-sr').filter(has_text='Romant Restaurant')
         assert row.locator('img').first.get_attribute('src')=='/qa-image/pro-khinkali'
         prior.shot(page,out,'ru-375-brief29-category-logos.webp')
 
