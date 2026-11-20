@@ -53,7 +53,7 @@ jobs:
               tools/gate1_local_seed.py|tools/full_audit_seed.py|tools/full_audit.py|tools/brief15_webkit.py|tools/brief15b_webkit.py|tools/brief18_webkit.py|tools/brief18b_webkit.py|tools/brief18c_webkit.py|tools/brief18d_webkit.py|talabat-core.js|assets/3d/motor-scooter-yellow.png|sql/proposed/brief18_delivery_instructions.sql|sql/proposed/brief18_delivery_instructions_rollback.sql|sql/proposed/brief18_delivery_instructions_owner_purge.sql|tools/brief19_sec18_local.py|tools/brief11_webkit_layout.py|tools/check_all.sh|customer.html|merchant.html|driver.html|admin.html|assets/customer-c/customer-c.js|assets/customer-c/customer-c.css|assets/driver-a/driver-a.js|assets/driver-tech/map-view.js|assets/driver-tech/cash-sheet-polish-brief11.js|assets/shared/safe-toast.js|qa-shots/unified-fix/*|.github/workflows/unified-fix-brief15-20261117.yml) ;;
               .github/workflows/brief20-homeb-restore.yml|.github/workflows/brief20-owner-commit.yml|.github/workflows/brief20-source-evidence.yml|tools/brief20_restore_probe.sh|tools/brief20_revert.py|tools/brief20_visual.py|assets/size-brief7/customer.css)
                 git diff --exit-code 78c4551b193d4a877a93727ccabda10df9059cb3 HEAD -- "$changed" ;;
-              .github/workflows/brief21-customer-review.yml|tools/brief21_webkit.py|tools/ci1_fast_webkit.py|tools/brief30_webkit.py|qa-fixtures/home-brief30.json|docs/ci/brief-ci1-evidence-only-trigger-check-20261120.md|.github/workflows/ci1-full-visual.yml|ci/FULL-VISUAL-TRIGGER.txt) ;;
+              .github/workflows/brief21-customer-review.yml|tools/brief21_webkit.py|tools/ci1_fast_webkit.py|tools/brief30_webkit.py|qa-fixtures/home-brief30.json|assets/customer-c/restaurants-brief30.js|assets/customer-c/restaurants-brief30.css|docs/ci/brief-ci1-evidence-only-trigger-check-20261120.md|.github/workflows/ci1-full-visual.yml|ci/FULL-VISUAL-TRIGGER.txt) ;;
               .github/workflows/brief22-home.yml|tools/brief22_webkit.py|tools/brief23_webkit.py|tools/brief24_webkit.py|tools/brief25b_webkit.py|tools/brief25c_webkit.py|tools/brief25c_y08_webkit.py|qa-fixtures/home-brief2*.json|qa-shots/*) ;;
               sql/proposed/brief29-banner-presentation.md) ;;
               assets/customer-c/dineout-header.webp)
@@ -80,7 +80,7 @@ jobs:
                     '<script src="assets/shared/safe-toast.js"></script></body></html>')
               current=pathlib.Path(path).read_text('utf8')
               if path=='admin.html':
-                  assert subprocess.check_output(['git','hash-object',path],text=True).strip()=='8e4d8ffbddbd665651c5a46616f29860c81b2894', 'Admin banner UI must match BRIEF-29 exactly'
+                  assert subprocess.check_output(['git','hash-object',path],text=True).strip()=='ded1d89d3c88043264364fba11cab52cbf24c4d6', 'Admin banner placement must match BRIEF-30 AD-02 approved exactly'
                   current=subprocess.check_output(['git','show','c5280ab7f89c5617b90da4155fb8777f0113ba14:admin.html']).decode('utf8')
               if path=='driver.html':
                   current=undo(current,'',"""/* G-04: delivery progress is distinct from the courier's server-acknowledged shift. */

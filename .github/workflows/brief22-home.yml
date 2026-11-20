@@ -27,7 +27,7 @@ jobs:
           git fetch --depth=1 --no-tags origin c5a8ff8a2d3a74301a3f35130a8f84316528449c 83e94496141375d6e6f1e99ed735cccb70254c32
           git worktree add --detach "$RUNNER_TEMP/home-approved" c5a8ff8a2d3a74301a3f35130a8f84316528449c
           git diff --exit-code c5a8ff8a HEAD -- sql supabase talabat-core.js driver.html merchant.html ':(exclude)sql/proposed/brief29-banner-presentation.md'
-          git diff --exit-code 69cfbbb1132aa8e0aba9d151e2edd21024217f4d HEAD -- admin.html
+          git diff --exit-code 1461e80443b74e2528e9058ef72f243d7d4b9bb5 HEAD -- admin.html
       - name: CI1 fast current brief + one RU375 Home smoke with approved financial parity
         if: github.event_name == 'push'
         run: |
