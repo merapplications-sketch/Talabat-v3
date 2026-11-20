@@ -2139,32 +2139,47 @@ function triedRestaurants(){
   return tried;
 }
 function discoveryCards(){
-  const now=Date.now(),raw=TLB.stores(),restaurants=STORES.filter(st=>st.c==='rest');
-  const fresh=restaurants.filter(st=>Date.parse(st.cr)<=now&&now-Date.parse(st.cr)<=30*864e5)
+  const now=Date.now(),tried=triedRestaurants(),raw=TLB.stores();
+  const restaurants=STORES.filter(st=>st.c==='rest');
+  const isRecent=date=>{const time=Date.parse(date);return time<=now&&now-time<=30*864e5};
+  const newStores=restaurants.filter(st=>tried&&!tried.has(st.n)&&isRecent(st.cr))
     .sort((a,b)=>Date.parse(b.cr)-Date.parse(a.cr));
-  const tried=triedRestaurants();
-  const eligible=fresh.length?fresh:restaurants.filter(st=>TLB.isOpen(st.n)&&tried&&!tried.has(st.n));
-  const cards=eligible.map(st=>{
-    const pct=Number(raw.find(r=>r.id===st.id)?.first_order_discount_pct);
-    return {st,data:raw.find(r=>r.id===st.id),type:'restaurant',id:'restaurant:'+st.id,first:tried&&!tried.has(st.n)&&pct>0&&pct<=100?pct:0};
+  const cards=newStores.map(st=>{
+    const data=raw.find(r=>r.id===st.id),pct=Number(data?.first_order_discount_pct);
+    return {st,data,type:'restaurant',id:'restaurant:'+st.id,first:pct>0&&pct<=100?pct:0};
   });
-  return {cards,fresh:fresh.length>0};
+  const menus=TLB.allMenus(true),offers=[],dishKeys=new Set(),offerStores=new Set(),keys=new Set(cards.map(card=>card.id));
+  for(const store of raw){
+    if(!Array.isArray(store.home_reels))continue;
+    const st=restaurants.find(s=>s.id===store.id);
+    if(!st||!TLB.isOpen(st.n))continue;
+    for(const entry of store.home_reels){
+      if(!entry||!['restaurant','dish','offer'].includes(entry.type)||entry.id==null)continue;
+      const id=entry.type+':'+entry.id;
+      if(keys.has(id))continue;
+      const item=entry.type==='dish'?(menus[st.n]||[]).find(it=>it.id===entry.item_id&&!it.optsBlocked):null;
+      if(entry.type==='restaurant'&&!newStores.includes(st))continue;
+      if((entry.type==='dish'&&!item)||(entry.type==='offer'&&st.disc<=0))continue;
+      keys.add(id);
+      const card={id,st,type:entry.type,item,first:0,title:item?.name||entry.title,cover:entry.cover_url||item?.image||st.i,video:entry.reel_url};
+      if(item)dishKeys.add(item.id);
+      if(entry.type==='offer'){offers.push(card);offerStores.add(st.id)}
+      else cards.push(card);
+    }
+  }
+  for(const st of restaurants){
+    if(!TLB.isOpen(st.n))continue;
+    if(st.disc>0&&!offerStores.has(st.id))offers.push({id:'offer:store:'+st.id,st,type:'offer',first:0});
+    for(const item of menus[st.n]||[]){
+      if(item.optsBlocked||dishKeys.has(item.id))continue;
+      if(item.discount>0)offers.push({id:'dish:discount:'+item.id,st,type:'dish',item,title:item.name,cover:item.image||st.i,first:0});
+    }
+  }
+  offers.sort((a,b)=>reelDiscountPct(b)-reelDiscountPct(a));
+  return cards.concat(offers);
 }
 function discoverH(expanded=false){
-  const {cards:restaurants,fresh}=discoveryCards();
-  const extras=TLB.stores().flatMap(store=>Array.isArray(store.home_reels)?store.home_reels.map(reel=>({...reel,store_id:store.id})):[]);
-  const cards=restaurants.slice(),keys=new Set(cards.map(c=>c.id));
-  for(const entry of Array.isArray(extras)?extras:[]){
-    if(!entry||!['restaurant','dish','offer'].includes(entry.type)||entry.id==null)continue;
-    const st=STORES.find(store=>store.id===entry.store_id);
-    if(!st)continue;
-    const item=entry.type==='dish'?menuOf(st.n).find(it=>it.id===entry.item_id&&it.available&&it.approved&&!it.optsBlocked):null;
-    if((entry.type==='dish'&&!item)||(entry.type==='offer'&&!(st.disc>0)))continue;
-    const id=entry.type+':'+entry.id;
-    if(keys.has(id))continue;
-    keys.add(id);
-    cards.push({id,st,type:entry.type,item,first:0,title:item?.name||entry.title,cover:entry.cover_url||item?.image||st.i,video:entry.reel_url});
-  }
+  const cards=discoveryCards();
   homeReels=expanded?cards:cards.slice(0,12);
   if(!cards.length)return '';
   const max=Math.max(...cards.map(c=>c.first));
@@ -2172,7 +2187,7 @@ function discoverH(expanded=false){
   return `<section class="home-discover">${homeHeading('discover',cards.length>1&&!expanded?"go('discoverAll')":'')}${sub?`<p class="home-picks-summary">${sub}</p>`:''}<div class="discovery-rail">${homeReels.map(discoveryTile).join('')}</div></section>`;
 }
 function discoveryTile(card,index){
-  const {st,first}=card,open=TLB.isOpen(st.n),discount=Math.max(st.disc||0,first),rating=d6Rt(st);
+  const {st,first}=card,open=TLB.isOpen(st.n),discount=reelDiscountPct(card),rating=d6Rt(st);
   return `<div class="reel-tile" data-reel-key="${esc(card.id)}">
     <button class="discover-row reel-card" type="button" data-reel-key="${esc(card.id)}" ${open?`onclick="openReel(${index},this)"`:'disabled'}>${discoveryMedia(card)}${dishStoreLogo(st,true)}
       ${!open?homeClosedBadge():discount>0?`<span class="reel-deal">−${discount}%</span>`:''}
