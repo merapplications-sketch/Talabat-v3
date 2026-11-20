@@ -1333,7 +1333,8 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .d6l .ad30-address>span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
 </style><link rel="stylesheet" href="assets/size-brief7/customer.css"><link rel="stylesheet" href="assets/customer-c/home-sections.css"><link rel="stylesheet" href="assets/customer-c/restaurants-brief30.css">
-<link rel="stylesheet" href="assets/customer-c/banners-brief31.css"></head><body>
+<link rel="stylesheet" href="assets/customer-c/banners-brief31.css">
+<link rel="stylesheet" href="assets/customer-c/home-brief31.css"></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
@@ -1926,7 +1927,7 @@ function homeHeading(kind, all) {
     discover:()=>art('gem-stone')+`<b>${t('reelsTitle')}</b>`,
     flash:()=>art('high-voltage')+`<b>${t('flashTitle')}</b>`,
     advert:()=>art('party-popper')+`<b>${t('dontMiss')}</b>`,
-    meals:()=>art('hamburger')+`<b>${t('lunchA')}</b><b>${t('lunchB')}</b><b>${t('lunchC')}</b>`,
+    meals:()=>art('hamburger')+homeTasteWords().map(word=>`<b>${esc(word)}</b>`).join(' '),
     again:()=>`<i aria-hidden="true">↻</i><span>${t('homeOrder')} <b>${t('homeAgain')}</b></span>`,
     offers:()=>art('fire')+`<b>${t('hBestT')}</b>`,
     popular:()=>`<small>${t('homeWeek')}</small><span>${art('star')}${t('d6PopR')}<em aria-hidden="true">///</em></span>`,
@@ -2104,15 +2105,39 @@ function homeProducts(){
   }
   return cards;
 }
-TLB.addDict({lunchA:'Обеды',lunchB:'на твой',lunchC:'вкус',lunchFree:'бесплатная доставка'},
-            {lunchA:'Lunch',lunchB:'your',lunchC:'way',lunchFree:'free delivery'});
+TLB.addDict({lunchFree:'бесплатная доставка'},
+            {lunchFree:'free delivery'});
+const homeTasteWords=()=>({ru:['на твой','вкус'],en:['for your','taste'],tg:['ба завқи','шумо']}[TLB.lang()]||['на твой','вкус']);
+function homeTasteDish(item){
+  if(item.is_drink===true||item.is_drink===1)return false;
+  const categories=[item.section,item.section_ru,item.section_en,item.category_name,item.category_ru,item.category_en]
+    .filter(value=>typeof value==='string').join(' ').normalize('NFKC');
+  return !/(?:н[аы]питк|добавк|дополнени|соус|топпинг|чай|кофе|соки|фреш|(?:^|[^a-z])(?:drinks?|beverages?|extras?|add[\s-]?ons?|additions?|sauces?|toppings?|tea|coffee|juices?)(?:$|[^a-z]))/iu.test(categories);
+}
 function mealsH(products,expanded=false){
   const setting=Number(TLB.settings()?.home_meal_price_cap);
   const cap=Number.isFinite(setting)&&setting>0?setting:100;
-  const restaurants=products.filter(c=>c.st.c==='rest');
-  const selected=restaurants.filter(c=>c.it.meal_for_one);
-  const cards=(selected.length?selected:restaurants.filter(c=>c.price<=cap))
-    .sort((a,b)=>Number(Boolean(b.it.image))-Number(Boolean(a.it.image))||a.price-b.price).slice(0,10);
+  const restaurants=products.filter(c=>c.st.c==='rest'&&homeTasteDish(c.it));
+  const byDish=new Map(restaurants.map(card=>[String(card.st.id)+':'+String(card.it.id),card]));
+  const pins=TLB.stores().flatMap(store=>Array.isArray(store.home_sponsored_dishes)?
+    store.home_sponsored_dishes.filter(pin=>pin&&typeof pin==='object'&&pin.item_id!=null)
+      .map(pin=>({...pin,store_id:store.id})):[]);
+  const rank=pin=>typeof pin.rank==='number'&&Number.isFinite(pin.rank)?pin.rank:Infinity;
+  pins.sort((a,b)=>rank(a)-rank(b));
+  const cards=[],seen=new Set();
+  for(const pin of pins){
+    const key=String(pin.store_id)+':'+String(pin.item_id),card=byDish.get(key);
+    if(card&&!seen.has(key)){seen.add(key);cards.push({...card,sponsored:true})}
+  }
+  const automatic=restaurants.filter(c=>c.it.meal_for_one||c.price<=cap)
+    .sort((a,b)=>Number(Boolean(b.it.meal_for_one))-Number(Boolean(a.it.meal_for_one))||
+      Number(Boolean(b.it.image))-Number(Boolean(a.it.image))||a.price-b.price);
+  for(const card of automatic){
+    const key=String(card.st.id)+':'+String(card.it.id);
+    if(cards.length>=10)break;
+    if(!seen.has(key)){seen.add(key);cards.push(card)}
+  }
+  cards.splice(10);
   if(!cards.length)return '';
   const price=Math.min(...cards.map(c=>c.price));
   const tried=cards.some(c=>c.st.ffd)?triedRestaurants():null;
@@ -3367,7 +3392,7 @@ function render(){
   if(TLB.me().banned&&!['support','ticket'].includes(S.v)){S.v='support';TLB.wantSupport(true)}
   if(S.v=='menu'&&!TLB.isOpen(S.store)){S.sh=null}
   if(S.v=='track'&&TLB.unread(S.tid))setTimeout(()=>TLB.markRead(S.tid),0);
-  const V={dineAll:()=>topbar('DineOut','',"go('home')")+'<div class="d6 d6h">'+dineH(true)+'</div>',discoverAll:()=>topbar(t('reelsTitle'),'', "go('home')")+'<div class="d6 d6h">'+discoverH(true)+'</div>',flashAll:()=>topbar(t('flashTitle'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+flashH(homeProducts(),true)+'</div>',mealsAll:()=>topbar(t('lunchA'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+mealsH(homeProducts(),true)+'</div>',nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
+  const V={dineAll:()=>topbar('DineOut','',"go('home')")+'<div class="d6 d6h">'+dineH(true)+'</div>',discoverAll:()=>topbar(t('reelsTitle'),'', "go('home')")+'<div class="d6 d6h">'+discoverH(true)+'</div>',flashAll:()=>topbar(t('flashTitle'),'', "go('home')")+'<div class="d6 d6h home-expanded">'+flashH(homeProducts(),true)+'</div>',mealsAll:()=>topbar(homeTasteWords().join(' '),'', "go('home')")+'<div class="d6 d6h home-expanded">'+mealsH(homeProducts(),true)+'</div>',nearby:()=>topbar(t('d6Near'),'',"go('home')")+'<div class="d6 d6h">'+nearH(true)+'</div>',home:vHome,cat:vCat,menu:vMenu,cart:vCart,pay:vPay,group:vGroup,addr:vAddr,addrForm:vAddrForm,orders:vOrders,track:vTrack,fav:vFav,promo:vPromo,me:vMe,settings:vSettings,about:vAbout,privacy:vPrivacy,offer:vOffer,wallet:vWallet,support:vSupport,ticket:vTicket}[S.v]();
   const full=['cart','pay','group','addr','addrForm','ticket'].includes(S.v),nav=['home','orders','wallet','promo','me'],ni={home:'home',orders:'receipt',wallet:'card',promo:'tag',me:'user'},un=TLB.totalUnread();
   const n=cartCount(),cc=n?calc():null,bar=n&&['home','menu','cat','fav','promo'].includes(S.v)&&!S.sh?`<div class="bar" onclick="goCart()" role="button" aria-label="${t('cartBarL')}"><span class="n">${n}</span><span class="l">${t('cartBarL')}</span><span class="p">${Math.round((cc.sub-cc.d-cc.h)*100)/100} TJS</span></div>`:'';
   const on=k=>S.v==k||(k=='home'&&['cat','menu'].includes(S.v))||(k=='orders'&&S.v=='track')||(k=='me'&&['support','settings','about','privacy'].includes(S.v))||(k=='promo'&&S.v=='offer');

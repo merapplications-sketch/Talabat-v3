@@ -498,6 +498,27 @@ function vDrivers(){const all=TLB.drivers(),n={on:all.filter(isLive).length};n.o
   ${over?`<div class="warn">${t('aOver')}</div>`:''}${x.accept_blocked?`<div class="warn">${ic('ban',14)} ${t('aBlocked')}</div>`:''}
   <div class="btns">${x.phone?tel(x.phone):`<small style="color:#d92d20;align-self:center">${t('aDrvNoPh')}</small>`}<button class="b" onclick="openDrvEdit('${x.id}')">${ic('edit')} ${t('aEdit')}</button></div></div>`}).join(''):emptyA(t('aNoD')))}
 function bState(b){const n=Date.now();if(!b.is_active)return['suspended',t('aBOffS')];if(b.starts_at&&Date.parse(b.starts_at)>n)return['pending',t('aBSched')+' '+dShow(b.starts_at)];if(b.ends_at&&Date.parse(b.ends_at)<=n)return['rejected',t('aBExp')];return['approved',t('aBNow')]}
+/* AF-03: reuse W-09 sponsored dishes, behind observed field capability. */
+TLB.addDict({tasteAdmin:'Реклама — на твой вкус / Рекомендуем',tasteStore:'Ресторан',tasteDish:'Блюдо',tasteRank:'Порядок',tasteAdd:'Добавить блюдо',tasteEmpty:'Нет закреплённых блюд',tastePending:'Закрепление станет доступно после подключения поля home_sponsored_dishes.',tasteSaved:'Закреплённые блюда сохранены'},
+ {tasteAdmin:'Advertising — for your taste / Recommended',tasteStore:'Restaurant',tasteDish:'Dish',tasteRank:'Order',tasteAdd:'Add dish',tasteEmpty:'No pinned dishes',tastePending:'Pinning becomes available when home_sponsored_dishes is connected.',tasteSaved:'Pinned dishes saved'});
+let tasteStoreId='',tasteDraft=null,tasteBusy=false;
+function tasteChoose(id){tasteStoreId=id;tasteDraft=null;render();$('taste-admin').open=true}
+function tasteStore(){const stores=TLB.stores(true).filter(st=>st.category==='rest');return stores.find(st=>st.id===tasteStoreId)||stores.find(st=>Object.hasOwn(st,'home_sponsored_dishes'))||stores[0]}
+function tastePins(){const store=tasteStore();if(!store)return [];if(!tasteDraft||tasteDraft.id!==store.id)tasteDraft={id:store.id,pins:Array.isArray(store.home_sponsored_dishes)?store.home_sponsored_dishes.filter(pin=>pin&&pin.item_id!=null).map(pin=>({item_id:pin.item_id,rank:Number.isFinite(Number(pin.rank))?Number(pin.rank):0})):[]};return tasteDraft.pins}
+function tasteAdd(){const pins=tastePins(),item=$('taste-dish').value,rank=Number($('taste-rank').value);if(!item||!Number.isInteger(rank)||rank<0||rank>9999){alert(t('err_bad_value'));return}if(!pins.some(pin=>String(pin.item_id)===item))pins.push({item_id:item,rank});render();$('taste-admin').open=true}
+async function tasteSave(){
+  const store=tasteStore();if(tasteBusy||!store||!Object.hasOwn(store,'home_sponsored_dishes'))return;
+  const draft=tasteDraft,pins=tastePins().map(pin=>({...pin}));tasteBusy=true;render();
+  try{const result=await TLB.updateStore(store.id,{home_sponsored_dishes:pins});if(result?.error){if(!result.toasted)alert(t('err_'+result.error));return}if(tasteDraft===draft)tasteDraft=null;TLB.toast?.(t('tasteSaved'));}
+  catch{alert(t('err_generic'));}finally{tasteBusy=false;render();}
+}
+function tasteAdmin(){
+  const stores=TLB.stores(true).filter(st=>st.category==='rest'),store=tasteStore();if(!store)return '';
+  const ready=Object.hasOwn(store,'home_sponsored_dishes'),pins=tastePins(),items=TLB.allMenus(true)[store.name]||[];
+  return `<details class="card banner31-taste" id="taste-admin"><summary><b>${t('tasteAdmin')}</b></summary><label><small>${t('tasteStore')}</small><select id="taste-store" ${tasteBusy?'disabled':''} onchange="tasteChoose(this.value)">${stores.map(st=>`<option value="${esc(st.id)}" ${st.id===store.id?'selected':''}>${esc(st.name)}</option>`).join('')}</select></label>
+   ${ready?'':`<p class="banner31-note">${t('tastePending')}</p>`}<fieldset ${ready&&!tasteBusy?'':'disabled'} style="min-width:0;border:0;padding:0"><label><small>${t('tasteDish')}</small><select id="taste-dish">${items.filter(it=>it.approved&&it.available).map(it=>`<option value="${esc(it.id)}">${esc(it.name)}</option>`).join('')}</select></label><label><small>${t('tasteRank')}</small><input id="taste-rank" type="number" min="0" max="9999" step="1" value="0"></label><button type="button" class="b g" onclick="tasteAdd()">${t('tasteAdd')}</button>
+   <div>${pins.length?pins.map((pin,index)=>`<div class="row" style="margin:10px 0;gap:8px"><span style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(items.find(it=>String(it.id)===String(pin.item_id))?.name||String(pin.item_id))} · ${pin.rank}</span><button type="button" class="b g" aria-label="${t('aRm')}" onclick="tastePins().splice(${index},1);render();document.getElementById('taste-admin').open=true">${ic('x')}</button></div>`).join(''):`<p>${t('tasteEmpty')}</p>`}</div><button type="button" class="b" id="taste-save" onclick="tasteSave()">${t('aSv')}</button></fieldset></details>`;
+}
 function vBanners(){const bs=TLB.banners(true);
   const addF=`<div class="card"><div class="row"><b>${t('aBAdd')}</b><button class="b g" onclick="showAddB=false;render()">${ic('x')}${t('aClose')}</button></div><div style="height:8px"></div><input id="bt" placeholder="${t('aBTitle')}">
   <small style="display:block;margin-bottom:6px">${t('aBHint')}</small>${bannerSizeHelp('banner-create-size',bannerCreateSize)}<label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${ic('cam')}${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
@@ -507,7 +528,7 @@ function vBanners(){const bs=TLB.banners(true);
   ${bannerSchema()?'':`<small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>`}
   <small>${t('aBFrom')}</small><input id="bfr" type="date"><label><small>${t('bannerEndTime')}</small><input id="bto" type="datetime-local" step="1"></label><small>${t('bannerEndHint')}</small>
   <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>`;
-  return `${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;bannerCreatePresentation={};render()">${ic('plus')}${t('aAddB')}</button>`}
+  return `${tasteAdmin()}${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;bannerCreatePresentation={};render()">${ic('plus')}${t('aAddB')}</button>`}
   ${bs.length?bs.map(b=>{const st=bState(b);
   return `<div class="card row" style="gap:10px"><div style="display:flex;gap:10px;align-items:center;min-width:0">${b.image_url?`<img src="${esc(b.image_url)}" style="width:64px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0" alt="">`:`<div style="width:64px;height:40px;border-radius:6px;background:#e2e8f0;flex-shrink:0"></div>`}<div style="min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.title)}</b><span class="s ${st[0]}">${st[1]}</span></div></div>
   <button class="b" onclick="openBE('${b.id}')">${ic('edit')} ${t('aEdit')}</button></div>`}).join(''):emptyA(t('aBNo'))}`}

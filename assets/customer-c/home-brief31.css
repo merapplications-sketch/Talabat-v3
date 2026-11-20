@@ -1,0 +1,3 @@
+/* BRIEF-31 AF-03: retain the two remaining title blocks after removing “Lunch”. */
+[data-section="meals"] h2 b:first-of-type { background: #3b1d14; }
+[data-section="meals"] h2 b:nth-of-type(2) { background: var(--o); }
