@@ -13,3 +13,4 @@ preview update 2026-11-20: approved BRIEF-26 and BRIEF-26b c5280ab7 (#48, 703614
 preview update 2026-11-20: approved BRIEF-27 3a6fce78 (#48, 7037740750); rollback c5280ab7
 preview update 2026-11-20: approved BRIEF-28 8546cc98 (#48, 7038416419); rollback 3a6fce78
 preview update 2026-11-20: approved BRIEF-29 af466951 (#48, 7039946018); rollback 8546cc98
+preview update 2026-11-21: approved BRIEF-30 and BRIEF-30b 8cd90a8a (#48, 7049888768); rollback af466951
