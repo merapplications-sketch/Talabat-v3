@@ -1854,9 +1854,19 @@ function quickAdd(n,id){addFrom(id,n,true)}
 function cartNudge(){if(!cartCount()||S.nudgeOff)return '';const at=S.cartAt||0;if(!at||Date.now()-at<15*60000)return '';
   return `<div class="ndg"><span>${ico('store',18)}</span><div style="flex:1;min-width:0"><b>${t('ndgT')}</b><div class="xs">${t('ndgS').replace('{n}',cartCount()).replace('{s}',esc(S.cartStore))}</div></div><button class="btn t2" onclick="goCart()">${t('ndgGo')}</button><button class="ndx" aria-label="${t('roCancel')}" onclick="S.nudgeOff=1;render()">${ico('x',14)}</button></div>`}
 /* ================= HOME (v53, owner reference of 10 Oct): every section shows only REAL data; empty ones are hidden ================= */
-const kmOf=st=>{const a=curAddr();return a&&a.lat!=null&&st.la!=null&&isFinite(st.la)?Math.round(Math.hypot((st.la-a.lat)*111,(st.lo-a.lng)*87)*10)/10:null};
+TLB.addDict({hNearbyMetres:'< 100 м'},{hNearbyMetres:'< 100 m'});
+const kmOf=st=>{
+  const a=curAddr();
+  if(![a?.lat,a?.lng,st.la,st.lo].every(Number.isFinite))return null;
+  return Math.hypot((st.la-a.lat)*111,(st.lo-a.lng)*87);
+};
+const distanceLabel=st=>{
+  const km=kmOf(st);
+  if(km==null)return '';
+  return km<0.1?t('hNearbyMetres'):t('hKm').replace('{n}',Math.round(km*10)/10);
+};
 /* delivery time only from real data: the restaurant's measured preparation time + the road (about 3 min per km) */
-function etaOf(st){const sp=TLB.speed&&TLB.speed(st.id);if(!sp||!(sp.min>0))return '';const km=kmOf(st),a=Math.max(10,Math.round((sp.min+(km!=null?km*3+5:10))/5)*5);return t('hMin').replace('{a}',a).replace('{b}',a+10)}
+function etaOf(st){const sp=TLB.speed&&TLB.speed(st.id);if(!sp||!(sp.min>0))return '';const km=kmOf(st),a=Math.max(10,Math.round((sp.min+(km!=null?(Math.round(km*10)/10)*3+5:10))/5)*5);return t('hMin').replace('{a}',a).replace('{b}',a+10)}
 const ofCat=(cs,limit)=>STORES.filter(x=>cs.includes(x.c)).sort((a,b)=>(TLB.isOpen(b.n)-TLB.isOpen(a.n))||((b.rt*Math.log(2+b.rc))-(a.rt*Math.log(2+a.rc)))||((kmOf(a)??99)-(kmOf(b)??99))).slice(0,limit||10);
 /* v06.1 Home B / list helpers: section title (icon + title + «Все»), photo = the store's own picture or the «no photo» slot */
 TLB.addDict(
@@ -1881,7 +1891,7 @@ function homeHeading(kind, all) {
   return `<div class="d6-sh home-heading" data-section="${kind}"><h2>${titles[kind]()}</h2>${all?`<button onclick="${all}">${t('d6All')} ${ico('chev',14)}</button>`:''}</div>`;
 }
 const secH=(icon,title,all,sub)=>`<div class="d6-sh"><h2>${icon?ico(icon,20):({[t('d6FavAgain')]:'❤️',[t('hBestT')]:'🏷️',[t('d6PopR')]:'🍽️',[t('hRecT')]:'✨'}[title]?`<span class="d80-section-emoji" aria-hidden="true">${{[t('d6FavAgain')]:'❤️',[t('hBestT')]:'🏷️',[t('d6PopR')]:'🍽️',[t('hRecT')]:'✨'}[title]}</span>`:'')}<span>${title}</span></h2>${all?`<button onclick="${all}">${t('d6All')} ${ico('chev',14)}</button>`:''}</div>${sub?`<p class="d6-shs">${sub}</p>`:''}`;
-const d6Meta=st=>{const eta=etaOf(st),km=kmOf(st);return eta||(km!=null?t('hKm').replace('{n}',km):'')};
+const d6Meta=st=>esc(etaOf(st)||distanceLabel(st));
 const d6Rt=st=>st.rt>0?`<b class="rt">${ico('star',13,1)} ${st.rt.toFixed(1)}${st.rc?` <i>(${cnt(st.rc)})</i>`:''}</b>`:'';
 /* «2 дня назад» from the order's real date; older than a week → the date */
 function d6Ago(ts){const d=new Date(ts);if(isNaN(d))return '';const day=x=>{const y=new Date(x);y.setHours(0,0,0,0);return y.getTime()},n=Math.round((day(Date.now())-day(d))/864e5),L=TLB.lang()=='ru'?'ru-RU':'en-GB';
@@ -2524,16 +2534,15 @@ function dineH(expanded=false){
   </div>`;
   if(!l.length)return heading?`<section class="home-dine-section">${heading}</section>`:'';
   return `${expanded?'':'<section class="home-dine-section">'}${heading}<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
-    const km=kmOf(st),rawPrice=st.dine2;
+    const rawPrice=st.dine2;
     const two=rawPrice!=null&&Number.isFinite(rawPrice)&&rawPrice>0&&rawPrice<10000000?
       t('dinePriceTwo').replace('{n}',rawPrice):'';
-    const distance=km==null?'':t('hKm').replace('{n}',km);
-    const details=[two,distance].filter(Boolean).join(' · ');
+    const details=[two,distanceLabel(st)].filter(Boolean).join(' · ');
     return `<button type="button" class="d6-dc" ${storeTap(st)}>
       ${dineCardPhoto(st,`<span class="hb r">−${st.disc}%</span>`)}
       <b class="nm">${esc(st.n)}</b>
       ${d6Rt(st)?`<span class="mt dine-meta">${d6Rt(st)}</span>`:''}
-      ${details?`<span class="dine-bill-distance">${details}</span>`:''}
+      ${details?`<span class="dine-bill-distance">${esc(details)}</span>`:''}
     </button>`;
   }).join('')}</div>${expanded?'':'</section>'}`;
 }
