@@ -279,7 +279,7 @@ def test_brief26(browser, server, photos, out):
         page.locator('.d6-bt').filter(has=page.get_by_alt_text('Top Romant',exact=True)).click()
         assert page.evaluate("S.v==='menu'&&S.store==='Romant Restaurant'")
         page.evaluate("go('home')")
-        for title,store in [('KFC offer','KFC'),('Romant offer','Romant Restaurant')]:
+        for title,store in [('Скидка 5% в KFC','KFC'),('Скидка 20% в Romant Restaurant','Romant Restaurant')]:
             page.locator('.home-ad-card').filter(has=page.get_by_text(title,exact=True)).click()
             assert page.evaluate("name=>S.v==='menu'&&S.store===name",store)
             page.evaluate("go('home')")
@@ -317,6 +317,53 @@ def test_brief26(browser, server, photos, out):
         ctx.close()
 
 
+    preview_seed=seed+"T.banners=T.banners.filter(b=>!b.id.startsWith('ad-'));"
+    ctx,page=prior.page_for(browser,server,photos,preview_seed)
+    try:
+        page.emulate_media(reduced_motion='reduce')
+        assert page.locator('.d6-bento > .k-free .tt').inner_text()=='Доставка бесплатно'
+        assert page.locator('.d6-bento > .k-free img').get_attribute('src')=='assets/3d/motor-scooter.webp'
+        happy=page.locator('.d6-bento > .k-hap.img')
+        assert happy.locator('.tt').inner_text()=='Счастливые часы'
+        assert happy.locator('.hcd').inner_text()=='12:20'
+        assert page.locator('.d6-bm .hcd').count()==0
+        assert happy.evaluate("""e=>{
+          const img=e.querySelector('img').getBoundingClientRect(), cd=e.querySelector('.cd').getBoundingClientRect();
+          const title=e.querySelector('.tt').getBoundingClientRect();
+          return cd.left>=img.left && cd.top>=img.top && cd.bottom<=img.bottom && cd.right<=img.right
+            && title.bottom<=cd.top;
+        }""")
+        assert page.locator('.home-ad-card b').first.inner_text()=='Скидка 20% в Romant Restaurant'
+        kfc=page.locator('.home-dine .d6-dc').filter(has_text='KFC')
+        assert kfc.locator('.dine-bill-distance').inner_text()=='< 100 м'
+        assert not page.get_by_text('0 км',exact=True).count()
+        page.evaluate("()=>{document.querySelectorAll('.d6h img').forEach(i=>i.loading='eager');scrollTo(0,0)}")
+        page.wait_for_function("()=>[...document.querySelectorAll('.d6h img')].every(i=>i.complete&&i.naturalWidth>0)")
+        full=page.screenshot(full_page=True,animations='disabled',style='body{position:relative}#app .nav{position:absolute}')
+        Image.open(BytesIO(full)).convert('RGB').save(out/'ru-375-home-brief26b-fixture.webp',quality=90,method=6)
+        # Unrounded 50–100 m must still be shown as below 100, and no longitude means no distance.
+        assert page.evaluate("""()=>{
+          const a=curAddr(), st=STORES.find(s=>s.n==='KFC');
+          return distanceLabel({...st,la:a.lat+0.0007,lo:a.lng})==='< 100 м'
+            && distanceLabel({...st,la:a.lat+0.001,lo:a.lng})==='0.1 км'
+            && distanceLabel({...st,lo:null})==='';
+        }""")
+        page.evaluate("()=>{STORES.find(s=>s.n==='KFC').lo=null;render()}")
+        assert kfc.locator('.dine-bill-distance').count()==0
+    finally:
+        ctx.close()
+
+    ctx,page=prior.page_for(browser,server,photos,preview_seed,lang='en',width=390)
+    try:
+        page.emulate_media(reduced_motion='reduce')
+        assert page.locator('.home-ad-card b').first.inner_text()=='20% off at Romant Restaurant'
+        assert page.locator('.home-dine .d6-dc').filter(has_text='KFC').locator('.dine-bill-distance').inner_text()=='< 100 m'
+        page.locator('[data-section="advert"]').evaluate("e=>scrollTo(0,scrollY+e.getBoundingClientRect().top-78)")
+        prior.shot(page,out,'en-390-dont-miss-brief26b-fixture.webp')
+    finally:
+        ctx.close()
+
+
 def main():
     import sys
     out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
@@ -338,7 +385,7 @@ def main():
     finally:
         server.shutdown()
     (out/'results.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
-    print('BRIEF-25c Y-01..Y-04 and BRIEF-26 Z-01..Z-07 PASS')
+    print('BRIEF-25c Y-01..Y-04 and BRIEF-26 Z-01..Z-10 PASS')
 
 if __name__=='__main__':
     main()
