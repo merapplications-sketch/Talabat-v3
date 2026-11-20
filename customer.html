@@ -1810,6 +1810,8 @@ function openBannerList(filter,category='rest'){
   const catKey=filter==='category'&&Object.hasOwn(IC,category)?category:'rest';
   go('cat',{catKey,cq:'',srt:filter==='free'||filter==='disc'?filter:'',fo:filter==='free'||filter==='disc'});
 }
+const bannerDeadline=b=>{const end=Date.parse(b.ends_at);return end>Date.now()?end:null};
+const isDiscountBanner=b=>/(?:^скидк|^discount|^deals?\b)/iu.test(String(b.title||'').trim());
 const isFreeDeliveryBanner=b=>/^(?:доставка бесплатно|бесплатная доставка|free delivery)$/iu.test(String(b.title||'').trim());
 function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
   const cfg=bannerConfig(b);
@@ -1822,7 +1824,14 @@ function bannerGo(id){const b=TLB.banners().find(x=>x.id==id);if(!b)return;
     if(cfg.action==='order'&&cfg.item_id&&menuOf(store.n).some(item=>item.id===cfg.item_id&&item.approved&&item.available&&!item.optsBlocked))openItem(cfg.item_id);
     return;
   }
-  if(!cfg.action&&isFreeDeliveryBanner(b)){openBannerList('free');return}
+  if(!cfg.action&&isFreeDeliveryBanner(b)){
+    if(bannerDeadline(b))openCampaign('free',b);else openBannerList('free');
+    return;
+  }
+  if(!cfg.action&&isDiscountBanner(b)){
+    if(bannerDeadline(b))openCampaign('discount',b);else openBannerList('disc');
+    return;
+  }
   if(b.link_type=='store'){const o=ALLS.find(x=>x.id==b.link_value);if(o)openN(o.n)}
   else if(b.link_type=='category'){S.q='';openCat(b.link_value)}
   else if(b.link_type=='partner')location.href='partner.html'}
@@ -1980,8 +1989,8 @@ function heroSlides(){const out=[],hh=hhStores();
     if(!isHappyHourBanner(b))out.push({k:'bn',b});
     else if(b===art&&hh.length)out.push({k:'hap',p:hh[0].p,end:hh[0].end,art:b});
   }
-  const best=STORES.reduce((lead,st)=>TLB.isOpen(st.n)&&st.disc>(lead?.disc||0)?st:lead,null),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
-  if(hh.length&&!out.some(x=>x.k==='hap'))out.push({k:'hap',p:hh[0].p,end:hh[0].end,art});if(best)out.push({k:'disc',n:best.disc,id:best.id});if(fr.length)out.push({k:'free',n:fr.length});out.push({k:'brand'});return out}
+  const best=STORES.reduce((lead,st)=>TLB.isOpen(st.n)&&st.rd>(lead?.rd||0)?st:lead,null),fr=STORES.filter(x=>TLB.isOpen(x.n)&&(x.ft=='free'||x.ffd||x.fdm>0));
+  if(hh.length&&!out.some(x=>x.k==='hap'))out.push({k:'hap',p:hh[0].p,end:hh[0].end,art});if(best)out.push({k:'disc',n:best.rd});if(fr.length)out.push({k:'free',n:fr.length});out.push({k:'brand'});return out}
 /* Bento (Home B): the same slides — admin banners first, then real offers. Big tile = first slide (+ the slides after the
    third, swipeable), two small tiles = slides 2 and 3. Fewer than 3 slides → one wide tile. */
 function freePlaces(count){
@@ -1989,9 +1998,13 @@ function freePlaces(count){
   return count===1?'at 1 place nearby':t('hFreeD').replace('{n}',count);
 }
 const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?happyCountdown(x.end):'',t('hHeroGo'),"openHappyHour()",'hamburger'],
-  disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),`go('offer',{oid:${esc(JSON.stringify(x.id))}})`,'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"openBannerList('free')",'motor-scooter'],
+  disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),"openBannerList('disc')",'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"openBannerList('free')",'motor-scooter'],
   brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza']})[x.k];
-function d6Tile(x,cls){if(x.k=='bn')return `<button type="button" class="d6-bt img ${cls}" ${bannerAction(x.b)}>${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}${cls==='d6tm'?`<span class="cta">${esc(bannerLabel(x.b))} ${ico('arr',15)}</span>`:''}</button>`;
+const bannerCountdown=b=>{
+  const cfg=bannerConfig(b),end=bannerDeadline(b);
+  return end&&(cfg.action==='campaign'||!cfg.action&&(isDiscountBanner(b)||isFreeDeliveryBanner(b)))?happyCountdown(end):'';
+};
+function d6Tile(x,cls){if(x.k=='bn')return `<button type="button" class="d6-bt ${x.b.image_url?'img':''} ${cls}" ${bannerAction(x.b)}>${x.b.image_url?`<img src="${esc(x.b.image_url)}" alt="${esc(x.b.title||'')}">`:`<b class="tt">${esc(x.b.title)}</b>`}${bannerCountdown(x.b)}${cls==='d6tm'?`<span class="cta">${esc(bannerLabel(x.b))} ${ico('arr',15)}</span>`:''}</button>`;
   const d=heroD(x);
   if(x.k==='hap'&&x.art?.image_url)return `<button type="button" class="d6-bt img k-hap ${cls}" onclick="${d[4]}"><img src="${esc(x.art.image_url)}" alt=""><b class="tt">${d[0]}</b>${d[2]}</button>`;
   return `<button type="button" class="d6-bt ${cls} k-${x.k}" onclick="${d[4]}"><b class="tt">${d[0]}</b><span class="su">${d[1]}</span>${d[2]}${cls=='d6tm'?`<span class="cta">${d[3]} ${ico('arr',15)}</span>`:`<span class="ar">${ico('arr',18)}</span>`}<img class="art" src="${A3(d[5])}" alt="" width="120" height="120"></button>`}

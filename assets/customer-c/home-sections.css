@@ -402,3 +402,9 @@
   text-align: start;
 }
 #app .d6h .d6-bm:has(.hdt) .d6-bsc > .d6-bt.img .cta { bottom: 32px; }
+
+#app .d6h .d6-bt.img .cd {
+  display: inline-flex; align-items: center; position: absolute; top: 8px; left: 8px;
+  background: #fff; color: #37251e;
+}
+#app .d6h .d6-bt.k-hap.img .cd { top: auto; }
