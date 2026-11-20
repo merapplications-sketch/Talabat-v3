@@ -1859,7 +1859,54 @@ function rotDots(k){document.querySelectorAll('[data-dots="'+k+'"] i').forEach((
 function rotSync(el){const st=rotStep(el);if(st>0){ROT[el.dataset.k]=Math.round(el.scrollLeft/st);rotDots(el.dataset.k)}}
 function rotRestore(){document.querySelectorAll('[data-k]').forEach(el=>{const st=rotStep(el),k=el.dataset.k;if(st>0&&ROT[k]<el.children.length)el.scrollLeft=ROT[k]*st})}
 function rotTick(){if(S.v!='home'||S.q.trim())return;document.querySelectorAll('[data-k]').forEach(el=>{const n=el.children.length,k=el.dataset.k;if(n<2)return;ROT[k]=(ROT[k]+1)%n;el.scrollTo({left:ROT[k]*rotStep(el),behavior:'smooth'});rotDots(k)})}
-if(typeof setInterval=='function'&&!window.__rot)window.__rot=setInterval(rotTick,3000);
+
+/* AF-05: one lifecycle for every managed placement; wall-clock deadlines remain separate. */
+TLB.addDict({bannerPause:'Остановить смену баннеров',bannerPlay:'Продолжить смену баннеров'},
+  {bannerPause:'Pause banner rotation',bannerPlay:'Resume banner rotation'});
+const B31_ROT=new Map();
+const bannerRotationMs=place=>TALABOT_BANNERS.rotationMs(place,TLB.settings());
+const bannerMotionReduced=()=>window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function bannerRailStep(rail){const vertical=rail.dataset.bannerRail==='home_side',first=rail.children[0],next=rail.children[1];return next?(vertical?next.offsetTop-first.offsetTop:next.offsetLeft-first.offsetLeft):(vertical?rail.clientHeight:rail.clientWidth)}
+function bannerRailSync(rail){
+  const place=rail.dataset.bannerRail,state=B31_ROT.get(place),step=bannerRailStep(rail);if(!state||!step)return;
+  state.index=Math.max(0,Math.min(rail.children.length-1,Math.round((place==='home_side'?rail.scrollTop:rail.scrollLeft)/step)));
+  state.id=rail.children[state.index]?.dataset.bannerId;
+  document.querySelectorAll('[data-banner-dots="'+place+'"] i').forEach((dot,i)=>dot.classList.toggle('on',i===state.index));
+}
+function bannerPause(place){const state=B31_ROT.get(place);if(!state)return;state.paused=!state.paused;state.nextAt=Date.now()+bannerRotationMs(place);bannersAfterRender()}
+function bannerRotationTick(){
+  if(document.hidden||bannerMotionReduced())return;
+  for(const rail of document.querySelectorAll('[data-banner-rail]')){
+    const place=rail.dataset.bannerRail,state=B31_ROT.get(place),vertical=place==='home_side';
+    if(!state||state.paused||rail.children.length<2||rail.contains(document.activeElement))continue;
+    const now=Date.now();if(now<state.holdUntil||now<state.nextAt)continue;
+    const step=bannerRailStep(rail),max=vertical?rail.scrollHeight-rail.clientHeight:rail.scrollWidth-rail.clientWidth;
+    if(step<=0||max<=1)continue;
+    const last=Math.ceil(max/step),next=state.index>=last?0:state.index+1;
+    state.index=next;state.id=rail.children[next]?.dataset.bannerId;state.nextAt=now+bannerRotationMs(place);
+    rail.scrollTo(vertical?{top:Math.min(next*step,max),behavior:'smooth'}:{left:Math.min(next*step,max),behavior:'smooth'});
+  }
+}
+function bannersAfterRender(){
+  for(const rail of document.querySelectorAll('[data-banner-rail]')){
+    const place=rail.dataset.bannerRail,ids=[...rail.children].map(el=>el.dataset.bannerId||''),old=B31_ROT.get(place),interval=bannerRotationMs(place);
+    const index=old&&ids.includes(old.id)?ids.indexOf(old.id):0;
+    const state=old||{index:0,id:ids[0],paused:false,holdUntil:0,nextAt:Date.now()+interval,interval};
+    if(state.interval!==interval){state.nextAt=Date.now()+interval;state.interval=interval}
+    state.index=index;state.id=ids[index];B31_ROT.set(place,state);
+    if(!rail.dataset.bannerBound){
+      rail.dataset.bannerBound='1';
+      const hold=()=>{state.holdUntil=Date.now()+8000;state.nextAt=state.holdUntil+bannerRotationMs(place)};
+      rail.addEventListener('pointerdown',hold,{passive:true});rail.addEventListener('touchstart',hold,{passive:true});rail.addEventListener('wheel',hold,{passive:true});
+      rail.addEventListener('scroll',()=>bannerRailSync(rail),{passive:true});
+      const offset=index*bannerRailStep(rail);if(place==='home_side')rail.scrollTop=offset;else rail.scrollLeft=offset;
+    }
+    const toggle=document.querySelector('[data-banner-toggle="'+place+'"]');
+    if(toggle){toggle.setAttribute('aria-label',t(state.paused?'bannerPlay':'bannerPause'));toggle.setAttribute('aria-pressed',String(state.paused));toggle.innerHTML=state.paused?'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m8 5 11 7-11 7z" fill="currentColor"/></svg>':'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4"/></svg>'}
+    bannerRailSync(rail);
+  }
+}
+if(!window.__banner31Rotation)window.__banner31Rotation=setInterval(bannerRotationTick,250);
 /* ---------- shared view pieces ---------- */
 const cnt=n=>n>=1000?Math.floor(n/1000)+'k+':String(n);
 const rate=s=>s.rt>0?`<span class="rt">${ico('star',13,1)}${s.rt.toFixed(1)}${s.rc?` <i>(${cnt(s.rc)})</i>`:''}</span>`:'';
@@ -2024,7 +2071,7 @@ function heroH(){
 }
 const HROT={i:0,t:0};
 function heroSync(e){const i=Math.round(e.scrollLeft/Math.max(1,e.clientWidth));if(i!==HROT.i){HROT.i=i;e.parentNode.querySelectorAll('.hdt i').forEach((d,k)=>d.classList.toggle('on',k==i))}}
-if(!window.__heroTick)window.__heroTick=setInterval(()=>{const e=$('hsc');if(!e||S.v!='home'||document.hidden||Date.now()-HROT.t<8000||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;const n=e.children.length;if(n<2)return;const i=(HROT.i+1)%n;e.scrollTo({left:i*e.clientWidth,behavior:'smooth'})},5000);
+
 /* the last delivered order, one tap to repeat (the re-order sheet checks today's prices and availability) */
 function favouritePhoto(store, index){
   const brand={n:store.name,lg:store.logo_url,i:store.cover_url};
@@ -3183,7 +3230,7 @@ function cxnSheet(){if(S.cxn==null)return '';const o=TLB.order(S.cxn);if(!o)retu
 const actSt=['pending','preparing','ready','pickedup'];
 function ordersAd(useOrdersSet=false){
   const place=useOrdersSet?'orders':'checkout',ads=bannersAt(place);
-  return ads.length?`<div class="d76-order-banners" data-banner-rail="${place}" aria-label="${t('d6Partn')}">${ads.map(b=>bannerMarkup(b,'banner31-order',place)).join('')}</div>`:'';
+  return ads.length?`<section class="banner31-order-carousel"><div class="d76-order-banners" data-banner-rail="${place}" aria-label="${t('d6Partn')}">${ads.map(b=>bannerMarkup(b,'banner31-order',place)).join('')}</div>${ads.length>1?`<div class="banner31-order-controls"><div class="banner31-dots" data-banner-dots="${place}" aria-hidden="true">${ads.map((_,index)=>`<i class="${index===0?'on':''}"></i>`).join('')}</div><button type="button" class="banner31-rotation-toggle" data-banner-toggle="${place}" aria-label="${t('bannerPause')}" aria-pressed="false" onclick="bannerPause('${place}')"></button></div>`:''}</section>`:'';
 }
 function vOrders(){const all=TLB.orders(),f=S.ofl,l=all.filter(o=>f=='all'||(f=='act'&&actSt.includes(o.status))||(f=='done'&&o.status=='delivered')||(f=='can'&&(o.status=='rejected'||o.status=='cancelled')));
   const fl=[['all','fAll'],['act','fAct'],['done','fDone'],['can','fCan']];
@@ -3406,7 +3453,7 @@ function render(){
   if(walletFocus)$(walletFocus)?.focus({preventScroll:true});
   m01Observe();
   observeReelMedia();
-  dishViewport();const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();menuAfter();
+  dishViewport();const ch=$('ch');if(ch)ch.scrollTop=ch.scrollHeight;rotRestore();bannersAfterRender();menuAfter();
   cartSave();if(['home','wallet','track'].includes(S.v))milestone();
   if(document.body&&document.body.style)document.body.style.paddingBottom=full?'0px':bar?'max('+Math.ceil(innerHeight-document.querySelector('.bar').getBoundingClientRect().top+16)+'px, calc(84px + env(safe-area-inset-bottom,0px) + '+(document.querySelector('.bar').offsetHeight+16)+'px))':'calc(84px + env(safe-area-inset-bottom,0px))'}
 /* a happy hour starts or ends with no data event: refresh prices once a minute while any is scheduled */

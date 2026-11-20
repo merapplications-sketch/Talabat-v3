@@ -26,5 +26,9 @@
     const raw=text(value);if(!raw)return '';
     try{const url=new URL(raw);return ['http:','https:'].includes(url.protocol)&&!url.username&&!url.password?url.href:'';}catch{return '';}
   }
-  root.TALABOT_BANNERS=Object.freeze({places,config,placements,list,image,label,safeLink});
+  function rotationMs(place,settings={}){
+    const seconds=Number(settings['banner_rotation_'+place+'_seconds']);
+    return Number.isFinite(seconds)&&seconds>=1&&seconds<=60?seconds*1000:3000;
+  }
+  root.TALABOT_BANNERS=Object.freeze({places,config,placements,list,image,label,safeLink,rotationMs});
 })(window);

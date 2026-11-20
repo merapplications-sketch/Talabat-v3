@@ -14,3 +14,18 @@
 #app [data-banner-id] .cd svg{flex:none}
 
 #app .banner31-side-rail>.d6-bt:only-child{flex-basis:100%}
+
+/* AF-05: a whole single slide at the viewport's content width, with no art crop. */
+#app .banner31-order-carousel{min-width:0;margin:0 0 10px}
+#app .banner31-order-carousel .d76-order-banners{gap:12px;padding:0 16px;scroll-padding-inline:16px;overscroll-behavior-inline:contain;scrollbar-width:none}
+#app .banner31-order-carousel .d76-order-banners::-webkit-scrollbar{display:none}
+#app .banner31-order-carousel .banner31-order{flex:0 0 100%;aspect-ratio:1.9;min-height:160px;max-height:360px;border-radius:18px;background:var(--tint);overflow:hidden}
+#app .banner31-order-carousel .banner31-order>img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+#app .banner31-order-controls{height:32px;display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 16px 0}
+#app .banner31-dots{display:flex;gap:5px;align-items:center}
+#app .banner31-dots i{width:5px;height:5px;border-radius:50%;background:#d6d2ce}
+#app .banner31-dots i.on{width:14px;border-radius:6px;background:var(--o)}
+#app .banner31-rotation-toggle{width:44px;min-height:32px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;color:var(--ink);cursor:pointer}
+#app .banner31-rotation-toggle:focus-visible{outline:2px solid var(--o);border-radius:8px}
+#app .d79-payads .banner31-order-carousel .d76-order-banners{padding-inline:0}
+@media(prefers-reduced-motion:reduce){#app [data-banner-rail]{scroll-behavior:auto}}
