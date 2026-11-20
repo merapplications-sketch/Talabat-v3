@@ -32,7 +32,7 @@ jobs:
         if: github.event_name == 'push'
         run: |
           python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
-          python tools/ci1_fast_webkit.py "$RUNNER_TEMP/home-approved" "$RUNNER_TEMP/ci1-fast"
+          python tools/ci1_fast_webkit.py "$RUNNER_TEMP/home-approved" "qa-artifacts/ci1-fast"
       - name: Run offline WebKit geometry, image, action and financial checks
         if: github.event_name == 'workflow_dispatch'
         run: |
@@ -64,11 +64,16 @@ jobs:
             git rebase origin/review/unified-fix-brief15-20261117
             git push origin HEAD:refs/heads/review/unified-fix-brief15-20261117
           fi
+      - name: Stage WebKit-only evidence under checkout for artifact upload
+        if: always()
+        run: |
+          mkdir -p qa-artifacts
+          if [ -d "$RUNNER_TEMP/home-evidence" ]; then
+            cp -R "$RUNNER_TEMP/home-evidence" qa-artifacts/home-evidence
+          fi
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: brief24-home-cart
-          path: |
-            ${{ runner.temp }}/home-evidence/
-            ${{ runner.temp }}/ci1-fast/
+          path: qa-artifacts/
           if-no-files-found: error
           retention-days: 7
