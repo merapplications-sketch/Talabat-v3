@@ -386,7 +386,7 @@ def test_brief27(browser,server,photos,out):
     """
     check_image="""i=>{
       const css=getComputedStyle(i),image=i.getBoundingClientRect(),tile=i.parentNode.getBoundingClientRect();
-      return i.naturalWidth===300 && i.naturalHeight===200 && css.objectFit==='cover' && css.objectPosition==='50% 50%'
+      return i.naturalWidth===300 && i.naturalHeight===200 && css.objectFit==='cover' && css.objectPosition==='0% 50%'
         && ['left','top','right','bottom'].every(edge=>Math.abs(image[edge]-tile[edge])<1);
     }"""
     ctx,page=prior.page_for(browser,server,small_photos,seed)
