@@ -141,7 +141,46 @@ function addStore(){if(!v('sn')){alert(t('aFill'));return}
   const ph=TLB.normPhone(v('sp'));if(!ph){alert(t('aPhReq'));return}
   const ft=v('sf'),fb=v('sb');if(ft!='free'&&(fb===''||!(+fb>=0))){alert(t('aFeeReq'));return}
   TLB.addStore({name:v('sn').slice(0,80),category:v('sc'),description:v('ss'),phone:ph,commission_pct:v('sm')===''?10:+v('sm'),fee_type:ft,fee_base:ft=='free'?0:+fb,fee_per_km:$('sk')?+v('sk')||0:0,discount_pct:+v('sd')||0}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddS=false;render()}})}
-function pickB(e){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>{bimg=d;$('bp').src=d;$('bp').style.display='block'})}
+TLB.addDict({
+  bannerSizeHint:'Рекомендуемый размер: большой баннер — 1200×1260, боковой — 900×600.',
+  bannerSizeBoth:'Изображение {size} меньше рекомендуемого размера для большого и бокового баннеров.',
+  bannerSizeLarge:'Изображение {size} меньше рекомендуемого размера для большого баннера.'
+},{
+  bannerSizeHint:'Recommended size: large banner — 1200×1260, side banner — 900×600.',
+  bannerSizeBoth:'Image {size} is below the recommended size for both large and side banners.',
+  bannerSizeLarge:'Image {size} is below the recommended size for a large banner.'
+});
+let bannerCreateSize=null;
+const bannerSizeWarning=size=>{
+  if(!size||size.width>=1200&&size.height>=1260)return '';
+  const small=size.width<900||size.height<600;
+  return t(small?'bannerSizeBoth':'bannerSizeLarge').replace('{size}',size.width+'×'+size.height);
+};
+const bannerSizeHelp=(id,size)=>`<small style="display:block;margin-bottom:6px">${t('bannerSizeHint')}</small>
+  <small id="${id}" role="status" style="display:block;color:#9b321c;margin-bottom:6px">${esc(bannerSizeWarning(size))}</small>`;
+function inspectBannerImage(file){
+  if(!file.type.startsWith('image/')||file.size>12*1024*1024)return Promise.resolve(null);
+  return new Promise(resolve=>{
+    const reader=new FileReader(),image=new Image();
+    reader.onerror=image.onerror=()=>resolve(null);
+    reader.onload=()=>{image.src=reader.result};
+    image.onload=()=>resolve({width:image.naturalWidth,height:image.naturalHeight});
+    reader.readAsDataURL(file);
+  });
+}
+async function pickB(e){
+  const input=e.target,file=input.files[0];
+  if(!file)return;
+  const size=await inspectBannerImage(file);
+  const current=()=>input.isConnected&&input.files[0]===file;
+  if(!current())return;
+  $('banner-create-size').textContent=bannerSizeWarning(size);
+  resizeImg(file,1260,.7,url=>{
+    if(!current())return;
+    bimg=url;bannerCreateSize=size;
+    const preview=$('bp');preview.src=url;preview.style.display='block';
+  });
+}
 function linkLabel(v,plain){if(!v||v=='none')return t('aBNone');const p=String(v).split(':');if(p[0]=='store'){const s=TLB.stores(true).find(x=>x.id==p[1]);return plain?(s?s.name:'?'):ic('store')+' '+esc(s?s.name:'?')}if(p[0]=='cat')return plain?t(p[1]):ic('folder')+' '+t(p[1]);if(p[0]=='partner')return plain?t('aBPartner'):ic('store')+' '+t('aBPartner');return t('aBNone')}
 /* v82: the partner page (v57) is not activated (patch 36, Edge Function, Turnstile keys pending): no new banner may point to it. Set true
    only together with the v57 activation list. Existing banners keep whatever they have. */
@@ -157,7 +196,7 @@ if(!m.length){const e=document.createElement('div');e.style.cssText='padding:20p
 m.forEach(r=>{const b=document.createElement('button');b.style.cssText='display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #edf2f7;background:#fff;padding:14px 6px;font-size:15px;cursor:pointer';b.textContent=r[1];b.onclick=()=>{ov.remove();cb(r[0])};list.appendChild(b)})}
 inp.oninput=draw;draw();setTimeout(()=>inp.focus(),50)}
 function addBanner(){if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').split(':'),lt=p[0]=='cat'?'category':p[0];
-  run(TLB.addBanner({title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';render()}}));bimg=''}
+  run(TLB.addBanner({title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:$('bpl').value=='bottom'?'bottom':'top',starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';render()}}));bimg='';bannerCreateSize=null}
 const dIso=(v,end)=>v?v+(end?'T23:59:59+05:00':'T00:00:00+05:00'):null;
 const dShow=ts=>ts?new Date(ts).toLocaleDateString('sv-SE',{timeZone:'Asia/Dushanbe'}):'';
 let BD=null,lastTk=-1;
@@ -168,7 +207,18 @@ function openBE(id){const b=TLB.banners(true).find(x=>x.id==id);if(!b)return;BE=
 function srvDiff(now,was,lab){return Object.keys(lab).filter(k=>JSON.stringify(now[k])!==JSON.stringify(was[k])).map(k=>lab[k][0]+': '+lab[k][1](now[k]))}
 function confCard(lines,gone,reload){return `<div class="confn" style="margin:10px 0">${ic('alert')} <b>${gone?t('uConfGone'):t('uConfObj')}</b>${lines.length?`<br>${lines.map(esc).join('<br>')}`:''}<br>${t(gone?'uConfGone2':'uConfObj2')}${reload?`<button type="button" class="b g" onclick="${reload}">${t('uConfReload')}</button>`:''}</div>`}
 function bd(k,v){BD[k]=v}
-function bannerImg(e){const fl=e.target.files[0];if(fl)resizeImg(fl,1200,.7,d=>{BD.image_url=d;render()})}
+async function bannerImg(e){
+  const input=e.target,file=input.files[0],draft=BD;
+  if(!file)return;
+  const size=await inspectBannerImage(file);
+  const current=()=>input.isConnected&&input.files[0]===file&&BD===draft;
+  if(!current())return;
+  $('banner-edit-size').textContent=bannerSizeWarning(size);
+  resizeImg(file,1260,.7,url=>{
+    if(!current())return;
+    draft.image_url=url;draft.imageSize=size;render();
+  });
+}
 function bannerLink(val){const p=(val+':').split(':');BD.link_type=p[0]=='cat'?'category':(p[0]=='none'?null:p[0]);BD.link_value=p[1]||null;render()}
 function bannerSave(){const title=String(BD.title||'').trim().slice(0,80);if(!title){alert(t('aFill'));return}
   if(BD.from&&BD.to&&BD.from>BD.to){alert(t('aBDates'));return}
@@ -355,7 +405,7 @@ function vDrivers(){const all=TLB.drivers(),n={on:all.filter(isLive).length};n.o
 function bState(b){const n=Date.now();if(!b.is_active)return['suspended',t('aBOffS')];if(b.starts_at&&Date.parse(b.starts_at)>n)return['pending',t('aBSched')+' '+dShow(b.starts_at)];if(b.ends_at&&Date.parse(b.ends_at)<=n)return['rejected',t('aBExp')];return['approved',t('aBNow')]}
 function vBanners(){const bs=TLB.banners(true);
   const addF=`<div class="card"><div class="row"><b>${t('aBAdd')}</b><button class="b g" onclick="showAddB=false;render()">${ic('x')}${t('aClose')}</button></div><div style="height:8px"></div><input id="bt" placeholder="${t('aBTitle')}">
-  <small style="display:block;margin-bottom:6px">${t('aBHint')}</small><label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${ic('cam')}${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
+  <small style="display:block;margin-bottom:6px">${t('aBHint')}</small>${bannerSizeHelp('banner-create-size',bannerCreateSize)}<label class="b g" style="display:block;text-align:center;margin-bottom:8px;padding:11px">${ic('cam')}${t('aBImg')}<input type="file" accept="image/*" style="display:none" onchange="pickB(event)"></label>
   <img id="bp" ${bimg?`src="${bimg}"`:''} style="display:${bimg?'block':'none'};width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" alt="">
   <button id="blb" class="b g" style="width:100%;margin-bottom:8px;padding:11px;text-align:left" onclick="pickLink(v=>{BL=v;$('blb').innerHTML=ic('link')+' '+linkLabel(v)})">${ic('link')} ${linkLabel(BL)}</button>
   <small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>
@@ -378,6 +428,7 @@ function vBannerEdit(){if(!BD){BE=null;return vBanners()}const b0=TLB.banners(tr
   <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink(v))">${ic('link')} ${linkLabel(cur)}</button>
   <small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>
   <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)"><small>${t('aBTo')}</small><input type="date" value="${esc(BD.to)}" oninput="bd('to',this.value)" onchange="bd('to',this.value)">
+  ${bannerSizeHelp('banner-edit-size',BD.imageSize)}
   <div class="btns"><label class="b g" style="margin:0">${ic('cam')} ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event)"></label>
   <button class="b ${BD.is_active?'r':''}" onclick="BD.is_active=!BD.is_active;render()">${BD.is_active?t('aSus'):t('aAc')}</button>
   <button class="b g" onclick="if(confirm('?')){const i=BE;BE=null;BD=null;run(TLB.deleteBanner(i))}">${t('aRm')}</button></div>
