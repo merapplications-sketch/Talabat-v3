@@ -229,14 +229,14 @@ TLB.addDict({
   bannerMiss:'Не пропустите',bannerBottom:'Главная — нижний',bannerCheckout:'Оформление заказа',
   bannerImages:'Изображения по языкам',bannerNoImage:'Используется основное изображение',bannerRemoveImage:'Убрать',
   bannerOptionalCta:'Оставьте текст пустым, чтобы показывать баннер без кнопки.',bannerCtaTg:'Текст кнопки (TG)',
-  bannerLinkAction:'Открыть ссылку',bannerUrl:'Ссылка (https://...)',bannerChoosePlace:'Выберите хотя бы одно место показа.',
+  bannerLinkAction:'Открыть ссылку',bannerUrl:'Ссылка (https://...)',bannerChoosePlace:'Выберите хотя бы одно место показа.',bannerPresentationChanged:'Изменены изображения, места показа или действие баннера.',
   bannerSchemaNote:'Настройки изображений, мест и действий станут доступны после подключения полей. Основной баннер можно сохранить.'
 },{
   bannerPlaces:'Display placements',bannerMain:'Home — large',bannerSide:'Home — side',
   bannerMiss:"Don’t miss",bannerBottom:'Home — bottom',bannerCheckout:'Checkout',
   bannerImages:'Images by language',bannerNoImage:'Uses the main image',bannerRemoveImage:'Remove',
   bannerOptionalCta:'Leave the label empty to show the banner without a button.',bannerCtaTg:'Button label (TG)',
-  bannerLinkAction:'Open link',bannerUrl:'Link (https://...)',bannerChoosePlace:'Choose at least one placement.',
+  bannerLinkAction:'Open link',bannerUrl:'Link (https://...)',bannerChoosePlace:'Choose at least one placement.',bannerPresentationChanged:'The banner images, placements or action changed.',
   bannerSchemaNote:'Language images, placements and actions become available when their fields are connected. You can still save the main banner.'
 });
 let bannerCreatePresentation={};
@@ -545,7 +545,7 @@ function vBanners(){const bs=TLB.banners(true);
 function vBannerEdit(){if(!BD){BE=null;return vBanners()}const b0=TLB.banners(true).find(x=>x.id==BE),gone=!b0,b=b0||{is_active:BD.is_active,starts_at:null,ends_at:null};
   const cur=BD.link_type=='store'?'store:'+BD.link_value:BD.link_type=='category'?'cat:'+BD.link_value:BD.link_type=='partner'?'partner':'none',st=gone?['rejected','—']:bState(b);
   const now=b0?bdOf(b0):null,yes=v=>v?'✓':'✗',same=v=>v==null||v===''?'—':String(v);
-  const dif=now&&BD0?srvDiff(now,BD0,{title:[t('aBTitle'),same],sort:[t('aBOrd'),same],placement:[t('aBPl'),v=>v=='bottom'?t('aBBot'):t('aBTop')],from:[t('aBFrom'),same],to:[t('aBTo'),same],is_active:[t('uConfAct'),yes],image_url:[t('uConfImg'),()=>t('uConfNew')],link_type:[t('uLinkL'),()=>linkLabel(now.link_type=='store'?'store:'+now.link_value:now.link_type=='category'?'cat:'+now.link_value:now.link_type=='partner'?'partner':'none',true)],link_value:[t('uLinkL'),()=>linkLabel(now.link_type=='store'?'store:'+now.link_value:now.link_type=='category'?'cat:'+now.link_value:now.link_type=='partner'?'partner':'none',true)]}).filter((x,i,a)=>a.indexOf(x)==i):[];
+  const dif=now&&BD0?srvDiff(now,BD0,{presentation:[t('bannerPlaces'),()=>t('bannerPresentationChanged')],title:[t('aBTitle'),same],sort:[t('aBOrd'),same],placement:[t('aBPl'),v=>v=='bottom'?t('aBBot'):t('aBTop')],from:[t('aBFrom'),same],to:[t('aBTo'),same],is_active:[t('uConfAct'),yes],image_url:[t('uConfImg'),()=>t('uConfNew')],link_type:[t('uLinkL'),()=>linkLabel(now.link_type=='store'?'store:'+now.link_value:now.link_type=='category'?'cat:'+now.link_value:now.link_type=='partner'?'partner':'none',true)],link_value:[t('uLinkL'),()=>linkLabel(now.link_type=='store'?'store:'+now.link_value:now.link_type=='category'?'cat:'+now.link_value:now.link_type=='partner'?'partner':'none',true)]}).filter((x,i,a)=>a.indexOf(x)==i):[];
   const warn=gone?confCard([],true,''):dif.length?confCard(dif,false,`if(confirm('${t('uConfSure')}'))openBE('${esc(String(BE))}')`):'';
   return `<button class="b g" onclick="BE=null;BD=null;render()">← ${t('aBack')}</button>
   ${warn}<div class="card" style="margin-top:12px"><div class="row"><b>${ic('edit')} ${t('aBEd')}</b><span class="s ${st[0]}">${st[1]}</span></div>
