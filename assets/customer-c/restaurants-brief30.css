@@ -15,3 +15,16 @@
 #app .d6l .ad30-list>h2{font-size:20px;line-height:26px;font-weight:800;margin:16px 0 4px}
 #app .d6l .ad30-list .pg{padding-inline:0}
 #app .d6l .ad30-banner:focus-visible{outline:2px solid var(--o);outline-offset:2px}
+
+/* AD-03 repeat-order logos; does not alter Home cards. */
+#app .d6l .ad30-again{padding:4px 0 2px}
+#app .d6l .ad30-again>h2{font-size:19px;line-height:26px;font-weight:800;margin:8px 16px}
+#app .d6l .ad30-again-rail{display:flex;overflow-x:auto;gap:14px;padding:2px 16px 10px;scroll-snap-type:x mandatory;scrollbar-width:none}
+#app .d6l .ad30-again-rail::-webkit-scrollbar{display:none}
+#app .d6l .ad30-again-item{display:flex;flex:0 0 76px;width:76px;flex-direction:column;align-items:center;gap:5px;min-width:0;background:none;border:0;color:var(--ink);font:inherit;text-align:center;scroll-snap-align:start;cursor:pointer}
+#app .d6l .ad30-again-logo{display:flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:17px;background:#faf7f4;overflow:hidden}
+#app .d6l .ad30-again-logo img{height:100%;width:100%;object-fit:contain}
+#app .d6l .ad30-again-badge{margin-top:0;padding:1px 6px;color:#216639;background:#d9f3df;font-weight:800;font-size:11px;line-height:17px;border-radius:10px;white-space:nowrap}
+#app .d6l .ad30-again-name{max-width:100%;font-size:12px;line-height:16px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#app .d6l .ad30-again-item.closed{opacity:.5;cursor:default}
+#app .d6l .ad30-again-item:focus-visible{outline:2px solid var(--o);outline-offset:2px;border-radius:12px}

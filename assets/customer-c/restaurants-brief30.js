@@ -33,6 +33,24 @@ function search(){
   +ico('search',20)+'<input type="search" id="cq" value="'+esc(S.cq||'')+'" placeholder="'+esc(ad30Hint())+'" '
   +'oninput="S.cq=this.value;render()" enterkeyhint="search"></div>';
 }
+
+/* AD-03: repeat-order carousel of actual delivered restaurant purchases only. */
+TLB.addDict({ad30Deal:'Акция'},{ad30Deal:'Offer'});
+function againRail(){
+  const mine=d6Mine(),last=STORES.filter(s=>s.c==='rest'&&Object.hasOwn(mine,s.n))
+    .sort((a,b)=>mine[b.n]-mine[a.n]);
+  if(!last.length)return '';
+  return '<section class="ad30-again"><h2>'+esc(t('ad30Again'))+'</h2><div class="ad30-again-rail">'
+    +last.map(s=>{
+      const open=TLB.isOpen(s.n),deal=s.disc>0?'−'+s.disc+'%':hasFreeDelivery(s)?t('ad30Deal'):'';
+      const badge=deal?'<span class="ad30-again-badge">'+esc(deal)+'</span>':'';
+      return '<button class="ad30-again-item'+(open?'':' closed')+'" type="button" '
+        +(open?'onclick="openN('+esc(JSON.stringify(s.n))+')"':'disabled aria-disabled="true"')
+        +' aria-label="'+esc(s.n)+'"><span class="ad30-again-logo">'+homeRestaurantImage(s)+'</span>'
+        +badge+'<span class="ad30-again-name">'+esc(s.n)+'</span></button>';
+    }).join('')+'</div></section>';
+}
+
 function rows(){
   const q=String(S.cq||'').trim().toLowerCase(),mine=d6Mine();
   let list=matches(TLB.allMenus(true),q).filter(({s})=>s.c==='rest');
@@ -46,7 +64,7 @@ function rows(){
     emptyV(t('noRes'),t('emNoResS'),'','search');
 }
 function renderRestaurants(){
-  return ad30Header(curAddr())+search()+rail()
+  return ad30Header(curAddr())+search()+rail()+againRail()
     +'<section class="ad30-list"><h2>'+esc(t('ad30All'))+'</h2><div class="pg c01-list-content">'+rows()+'</div></section>';
 }
 window.TALABOT_RESTAURANTS_BRIEF30={
