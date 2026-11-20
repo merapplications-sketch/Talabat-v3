@@ -301,3 +301,12 @@
 #app .d6h .d6-bt.k-hap .cd { flex: none; width: max-content; background: #fff; color: #37251e; }
 #app .d6h .d6-bt.k-hap .cd > span:first-child { display: inline-flex; }
 #app .d6h .d6-bt.k-hap.img .cd { position: absolute; top: 10px; left: 10px; }
+
+/* Indicators have their own row beneath both Home carousels. */
+#app .d6h .d6-bm { display: flex; flex-direction: column; overflow: visible; }
+#app .d6h .d6-bsc { flex: 1 1 auto; min-height: 0; height: auto; border-radius: 14px; }
+#app .d6h .d6-bsc > .d6-bt:not(.img) { padding-bottom: 12px; }
+#app .d6h .d6-bm .hdt { position: static; flex: none; margin-top: 8px; }
+#app .d6h .d6-bm .hdt i { background: #ed551c40; }
+#app .d6h .d6-bm .hdt i.on { background: #ed551c; }
+#app .d6h .home-ad-dots { padding-top: 8px; }
