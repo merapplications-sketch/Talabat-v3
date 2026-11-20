@@ -286,11 +286,16 @@ function bannerConfigValid(){
   return true;
 }
 function addBanner(){if(!bannerConfigValid())return;if(!v('bt')){alert(t('aFill'));return}const p=(BL+':').split(':'),lt=p[0]=='cat'?'category':p[0];
-  run(TLB.addBanner({...bannerPresentation(),title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:bannerSchema()?(bannerPresentation().presentation.placements.includes('home_bottom')?'bottom':'top'):($('bpl').value=='bottom'?'bottom':'top'),starts_at:dIso($('bfr').value,false),ends_at:dIso($('bto').value,true)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';bannerCreatePresentation={};render()}}));bimg='';bannerCreateSize=null}
+  run(TLB.addBanner({...bannerPresentation(),title:v('bt').slice(0,80),image_url:bimg||null,link_type:lt,link_value:p[1]||null,sort:+v('bo')||0,placement:bannerSchema()?(bannerPresentation().presentation.placements.includes('home_bottom')?'bottom':'top'):($('bpl').value=='bottom'?'bottom':'top'),starts_at:dIso($('bfr').value,false),ends_at:bannerEndIso($('bto').value)}).then(r=>{if(r&&r.error&&!r.toasted)alert(t('err_'+r.error));if(!(r&&r.error)){showAddB=false;BL='none';bannerCreatePresentation={};render()}}));bimg='';bannerCreateSize=null}
 const dIso=(v,end)=>v?v+(end?'T23:59:59+05:00':'T00:00:00+05:00'):null;
 const dShow=ts=>ts?new Date(ts).toLocaleDateString('sv-SE',{timeZone:'Asia/Dushanbe'}):'';
+TLB.addDict({bannerEndTime:'Дата и время окончания (Душанбе, UTC+05:00)',bannerEndHint:'Без даты — без таймера. По окончании баннер скрывается.'},
+  {bannerEndTime:'End date and time (Dushanbe, UTC+05:00)',bannerEndHint:'No date means no countdown. The banner is hidden when it expires.'});
+const bannerEndIso=value=>value?value+'+05:00':null;
+const bannerEndShow=value=>{const time=Date.parse(value);return Number.isFinite(time)?new Date(time+5*3600000).toISOString().slice(0,19):''};
+
 let BD=null,lastTk=-1;
-const bdOf=b=>({presentation:JSON.parse(JSON.stringify(b.presentation||{})),title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:dShow(b.ends_at),is_active:!!b.is_active});
+const bdOf=b=>({presentation:JSON.parse(JSON.stringify(b.presentation||{})),title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:bannerEndShow(b.ends_at),is_active:!!b.is_active});
 let BD0=null;
 function openBE(id){const b=TLB.banners(true).find(x=>x.id==id);if(!b)return;BE=id;BD=bdOf(b);BD0=bdOf(b);render();window.scrollTo(0,0)}
 /* someone else saved this banner / happy hour while it is open here: the admin's unsaved edits stay, a notice says what changed on the server */
@@ -313,7 +318,7 @@ function bannerLink(val){const p=(val+':').split(':');BD.link_type=p[0]=='cat'?'
 function bannerSave(){if(!bannerConfigValid())return;const title=String(BD.title||'').trim().slice(0,80);if(!title){alert(t('aFill'));return}
   if(BD.from&&BD.to&&BD.from>BD.to){alert(t('aBDates'));return}
   const sort=Number.isFinite(+BD.sort)?Math.trunc(+BD.sort):0;
-  run(TLB.updateBanner(BE,{...bannerPresentation(BD.presentation),title,image_url:BD.image_url,link_type:BD.link_type,link_value:BD.link_value,sort,placement:BD.placement=='bottom'?'bottom':'top',starts_at:dIso(BD.from,false),ends_at:dIso(BD.to,true),is_active:!!BD.is_active}).then(r=>{if(!(r&&r.error)){BE=null;BD=null;render()}}))}
+  run(TLB.updateBanner(BE,{...bannerPresentation(BD.presentation),title,image_url:BD.image_url,link_type:BD.link_type,link_value:BD.link_value,sort,placement:BD.placement=='bottom'?'bottom':'top',starts_at:dIso(BD.from,false),ends_at:bannerEndIso(BD.to),is_active:!!BD.is_active}).then(r=>{if(!(r&&r.error)){BE=null;BD=null;render()}}))}
 function openStoreEdit(id){const s=TLB.stores(true).find(x=>x.id==id);if(!s)return;E=id;
 ED={name:s.name||'',description:s.description||'',phone:s.phone||'',address:s.address||'',category:s.category,commission_pct:s.commission_pct,fee_type:s.fee_type,fee_base:s.fee_base,fee_per_km:s.fee_per_km,discount_pct:s.discount_pct||0,max_discount_pct:s.max_discount_pct==null?30:s.max_discount_pct,lat:s.lat==null?null:+s.lat,lng:s.lng==null?null:+s.lng,free_first_delivery:!!s.free_first_delivery,gpid:s.google_place_id||'',rating:s.rating==null?'':s.rating,rcount:s.rating_count==null?'':s.rating_count,cover:null,logo:null,owner:''};render();window.scrollTo(0,0)}
 function ed(k,v){ED[k]=v}
@@ -500,7 +505,7 @@ function vBanners(){const bs=TLB.banners(true);
   <button id="blb" class="b g" style="width:100%;margin-bottom:8px;padding:11px;text-align:left" onclick="pickLink(v=>{BL=v;$('blb').innerHTML=ic('link')+' '+linkLabel(v)})">${ic('link')} ${linkLabel(BL)}</button>
   ${bannerActionFields(bannerCreatePresentation)}
   ${bannerSchema()?'':`<small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>`}
-  <small>${t('aBFrom')}</small><input id="bfr" type="date"><small>${t('aBTo')}</small><input id="bto" type="date">
+  <small>${t('aBFrom')}</small><input id="bfr" type="date"><label><small>${t('bannerEndTime')}</small><input id="bto" type="datetime-local" step="1"></label><small>${t('bannerEndHint')}</small>
   <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>`;
   return `${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;bannerCreatePresentation={};render()">${ic('plus')}${t('aAddB')}</button>`}
   ${bs.length?bs.map(b=>{const st=bState(b);
@@ -519,7 +524,7 @@ function vBannerEdit(){if(!BD){BE=null;return vBanners()}const b0=TLB.banners(tr
   <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink(v))">${ic('link')} ${linkLabel(cur)}</button>
   ${bannerActionFields(BD.presentation)}
   ${bannerSchema()?'':`<small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>`}
-  <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)"><small>${t('aBTo')}</small><input type="date" value="${esc(BD.to)}" oninput="bd('to',this.value)" onchange="bd('to',this.value)">
+  <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)"><label><small>${t('bannerEndTime')}</small><input id="banner-end-time" type="datetime-local" step="1" value="${esc(BD.to)}" oninput="bd('to',this.value)" onchange="bd('to',this.value)"></label><small>${t('bannerEndHint')}</small>
   ${bannerSizeHelp('banner-edit-size',BD.imageSize)}
   <div class="btns"><label class="b g" style="margin:0">${ic('cam')} ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event)"></label>
   <button class="b ${BD.is_active?'r':''}" onclick="BD.is_active=!BD.is_active;render()">${BD.is_active?t('aSus'):t('aAc')}</button>

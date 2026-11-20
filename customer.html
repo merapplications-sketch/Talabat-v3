@@ -1892,7 +1892,7 @@ function hhStores(includeClosed=false){
   })).filter(o=>(o.open||includeClosed)&&o.p>0&&o.end>now)
     .sort((a,b)=>Number(b.open)-Number(a.open)||b.p-a.p);
 }
-const cdTxt=ms=>{if(!ms||ms<=0)return '';const x=Math.floor(ms/1000),h=Math.floor(x/3600),m=Math.floor(x%3600/60),sc=x%60;return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(sc).padStart(2,'0')};
+const cdTxt=ms=>{if(!ms||ms<=0)return '';const x=Math.floor(ms/1000),h=Math.floor(x/3600),m=Math.floor(x%3600/60),sc=x%60;if(h>=24)return Math.floor(h/24)+' '+(TLB.lang()==='ru'?'д':TLB.lang()==='tg'?'р':'d')+' '+String(h%24).padStart(2,'0')+':'+String(m).padStart(2,'0');return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(sc).padStart(2,'0')};
 if(!window.__cdTick)window.__cdTick=setInterval(()=>{document.querySelectorAll('.hht[data-end]').forEach(e=>{const end=+e.dataset.end;const sp=e.querySelector('span');if(end&&sp)sp.textContent=cdTxt(end-Date.now())})},1000);
 /* best-selling dishes of the whole app, with a quick + */
 const isBest=id=>(TLB.bestDishes?TLB.bestDishes():[]).some(b=>b.item_id==id);
@@ -2007,10 +2007,7 @@ function freePlaces(count){
 const heroD=x=>({hap:[t('hHhT'),t('hHhD').replace('{n}',x.p),x.end?happyCountdown(x.end):'',t('hHeroGo'),"openHappyHour()",'hamburger'],
   disc:[t('hFlashD').replace('{n}',x.n),t('hHeroT'),'',t('hHeroGo'),"openBannerList('disc')",'hamburger'],free:[t('hFreeT'),freePlaces(x.n),'',t('hFreeGo'),"openBannerList('free')",'motor-scooter'],
   brand:[t('hBrandT'),t('hBrandD'),'',t('hBrandGo'),"openCat('rest')",'pizza']})[x.k];
-const bannerCountdown=b=>{
-  const cfg=bannerConfig(b),end=bannerDeadline(b);
-  return end&&(cfg.action==='campaign'||!cfg.action&&(isDiscountBanner(b)||isFreeDeliveryBanner(b)))?happyCountdown(end):'';
-};
+const bannerCountdown=b=>{const end=bannerDeadline(b);return end?happyCountdown(end):''};
 function bannerMarkup(b,cls='',place=''){
   const image=bannerImage(b),label=bannerLabel(b);
   return `<button type="button" class="${cls} ${image?'img':''}" data-banner-id="${esc(b.id)}" data-banner-place="${esc(place)}" ${bannerAction(b)} aria-label="${esc(b.title||label||t('d6Partn'))}">${image?`<img src="${esc(image)}" alt="${esc(b.title||'')}" loading="lazy">`:`<b class="tt">${esc(b.title||'')}</b>`}${bannerCountdown(b)}${label?`<span class="banner31-cta">${esc(label)} ${ico('arr',15)}</span>`:''}</button>`;
@@ -2633,7 +2630,7 @@ function openCampaign(kind,b=null){
       s,open:TLB.isOpen(s.n),p:kind==='discount'?s.disc:0,end:deadline
     })).sort((a,c)=>Number(c.open)-Number(a.open)||c.p-a.p);
   const rows=linkedStore&&kind!=='happy'?offers.filter(o=>o.s.id===linkedStore):offers;
-  const lead=rows[0],end=deadline||(kind==='happy'?lead?.end:null);
+  const lead=rows[0],end=b?deadline:(kind==='happy'?lead?.end:null);
   if(!lead&&!b)return;
   const title=t(kind==='happy'?'hHhT':kind==='discount'?'bestOffers':'hFreeT');
   const menus=TLB.allMenus(true),sheet=document.createElement('dialog');
@@ -2662,7 +2659,7 @@ if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{
       expired=true;
     }else timer.textContent=cdTxt(remaining);
   }
-  if(expired&&S.v==='home'){syncStores();render()}
+  if(expired&&['home','orders','pay','cat'].includes(S.v)){syncStores();render()}
 },1000);
 
 /* BRIEF-30 AD-01 — category "Рестораны" only, without changing Home/other categories. */
