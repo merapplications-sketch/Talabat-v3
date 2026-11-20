@@ -10,3 +10,4 @@ preview update 2026-11-18: owner-approved BRIEF-23 and BRIEF-23b c5a8ff8a (#48, 
 preview update 2026-11-19: approved 67279805 (#48, 7010848430); rollback c5a8ff8a
 preview update 2026-11-20: approved BRIEF-25 through Y-11 7aacca78 (#48, 7034375545); rollback 67279805
 preview update 2026-11-20: approved BRIEF-26 and BRIEF-26b c5280ab7 (#48, 7036143546); rollback 7aacca78
+preview update 2026-11-20: approved BRIEF-27 3a6fce78 (#48, 7037740750); rollback c5280ab7
