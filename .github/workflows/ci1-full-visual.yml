@@ -438,8 +438,17 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --depth=1 --no-tags origin c5a8ff8a2d3a74301a3f35130a8f84316528449c 83e94496141375d6e6f1e99ed735cccb70254c32
           git worktree add --detach "$RUNNER_TEMP/home-approved" c5a8ff8a2d3a74301a3f35130a8f84316528449c
-          git diff --exit-code c5a8ff8a HEAD -- sql supabase talabat-core.js driver.html merchant.html ':(exclude)sql/proposed/brief29-banner-presentation.md' ':(exclude)sql/proposed/brief31-banner-system.md'
-          git diff --exit-code b55bf5fd4cf38061551a6f8ee78f5154dc177bb5 HEAD -- admin.html
+          git diff --exit-code c5a8ff8a HEAD -- sql supabase talabat-core.js ':(exclude)sql/proposed/brief29-banner-presentation.md' ':(exclude)sql/proposed/brief31-banner-system.md'
+          python3 - <<'PY_GUARD'
+          import pathlib,subprocess
+          tag='<script src="assets/shared/brand-brief31b.js"></script>\n'
+          for path in ('driver.html','merchant.html'):
+              current=pathlib.Path(path).read_text('utf8')
+              expected=subprocess.check_output(['git','show','c5a8ff8a:'+path]).decode('utf8')
+              assert current.count(tag)==1, ('AH-03 include missing/duplicated',path)
+              assert current.replace(tag,'')==expected, ('Beyond AH-03 brand include',path)
+          PY_GUARD
+          test "$(git rev-parse HEAD:admin.html)" = "1e265041f8a0d151448540f70c90ac69f9361eff" # AH-02/03 reviewed admin bytes
       - name: Run offline WebKit geometry, image, action and financial checks
         run: |
           python -m pip install --disable-pip-version-check playwright==1.57.0 Pillow==11.3.0
