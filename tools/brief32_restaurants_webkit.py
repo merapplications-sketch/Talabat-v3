@@ -46,7 +46,7 @@ MANAGED_EXTRA = DEFAULT_EXTRA + r"""
 def enter(page):
     page.evaluate("openCat('rest')")
     page.locator('.ad30-head').wait_for()
-    page.evaluate("""()=>Promise.all([...document.querySelectorAll('.ad30-banner img')].map(i=>{
+    page.evaluate("""()=>Promise.all([...document.querySelectorAll('.ad30-banner img,.ad30-cuisine img')].map(i=>{
       i.loading='eager';return i.decode().catch(()=>null);
     }))""")
     prior.settle(page)
@@ -161,15 +161,130 @@ def test_managed(run,browser,server,photos,lang,width):
         prior.no_overflow(run,page,'AI03')
 
 
+def cuisine_labels(page):
+    return page.locator('.ad30-cuisine-label').all_text_contents()
+
+
+def test_declared_types(run,browser,server,photos,lang,width):
+    with run.page(browser,server,photos,lang,width,extra=DEFAULT_EXTRA) as page:
+        enter(page)
+        run.equal('AI06','only the existing restaurant type is shown',cuisine_labels(page),['Local & European'])
+        run.equal('AI06','type uses its restaurant cover, not a menu image or default art',
+                  page.locator('.ad30-cuisine img').get_attribute('src'),'/qa-image/romant')
+        dimensions=page.locator('.ad30-cuisine-label').evaluate("""e=>({
+          height:e.getBoundingClientRect().height,line:parseFloat(getComputedStyle(e).lineHeight),
+          width:e.clientWidth,contentWidth:e.scrollWidth,contentHeight:e.scrollHeight
+        })""")
+        run.check('AI06','the complete Local & European type is readable in the existing chip',
+                  dimensions['height']>=dimensions['line']*2 and dimensions['contentWidth']<=dimensions['width']
+                  and dimensions['contentHeight']<=dimensions['height']+1,dimensions)
+        run.capture(page,f'{lang}-{width}-restaurant-cuisine-types.webp')
+        page.get_by_role('button',name='Local & European',exact=True).click()
+        run.equal('AI06','type selection filters by the declared restaurant membership',
+                  page.locator('.ad30-card-name').all_text_contents(),['Romant Restaurant'])
+        run.equal('AI06','type selection has a visible pressed chip',page.locator('.ad30-cuisine[aria-pressed="true"]').count(),1)
+        run.capture(page,f'{lang}-{width}-restaurant-cuisine-filter.webp')
+        page.get_by_role('button',name='Local & European',exact=True).click()
+        run.equal('AI06','type deselection restores unclassified restaurants too',
+                  page.locator('.ad30-card-name').all_text_contents(),['KFC','Romant Restaurant'])
+        prior.no_overflow(run,page,'AI06')
+
+
+def test_type_without_data(run,browser,server,photos,kind):
+    extra=DEFAULT_EXTRA+('stores.forEach(s=>s.description="");' if kind=='no-types'
+                         else 'stores[1].cover_url="";')
+    with run.page(browser,server,photos,extra=extra) as page:
+        enter(page)
+        run.equal('AI06',kind+' hides the entire cuisine row despite menu sections and photos',
+                  page.locator('.ad30-cuisines,.ad30-cuisine').count(),0)
+        run.check('AI06',kind+' leaves no placeholder between the heading and filters',
+                  page.locator('.ad30-list>h2').evaluate("e=>e.nextElementSibling?.classList.contains('ad30-filters')"))
+        run.equal('AI06',kind+' keeps both real restaurant cards',page.locator('.ad30-card-name').all_text_contents(),
+                  ['KFC','Romant Restaurant'])
+        run.capture(page,f'ru-375-cuisines-{kind}.webp')
+
+
+def test_cuisine_grouping(run,browser,server,photos):
+    extra=DEFAULT_EXTRA+r"""
+      stores[0].description=' Fast food ';
+      stores[1].description='Local & European';
+      items.forEach(i=>{i.section=i.store_id==='s1'?'Напитки':'Pizza';});
+    """
+    with run.page(browser,server,photos,extra=extra) as page:
+        enter(page)
+        run.equal('AI06','restaurant types remain independent of arbitrary menu sections',
+                  cuisine_labels(page),['Fast food','Local & European'])
+        page.get_by_role('button',name='Fast food',exact=True).click()
+        run.equal('AI06','Fast food contains only the restaurant explicitly declaring that type',
+                  page.locator('.ad30-card-name').all_text_contents(),['KFC'])
+        page.evaluate("()=>{const stores=TLB.stores();stores[0].description=' Local  & European ';stores[0].cover_url='';stores[1].description='local & european';syncStores();render()}")
+        run.equal('AI06','same restaurant type groups across case and whitespace',cuisine_labels(page),['Local & European'])
+        run.equal('AI06','group can use a cover from another member',
+                  page.locator('.ad30-cuisine img').get_attribute('src'),'/qa-image/romant')
+        page.get_by_role('button',name='Local & European',exact=True).click()
+        run.equal('AI06','grouped type contains both declared restaurants',
+                  page.locator('.ad30-card-name').all_text_contents(),['KFC','Romant Restaurant'])
+        page.evaluate("()=>{const stores=TLB.stores();stores[0].category='grocery';stores[0].description='Fast food';syncStores();render()}")
+        run.equal('AI06','a non-restaurant cannot introduce a restaurant type',cuisine_labels(page),['local & european'])
+
+
+def test_excluded_types(run,browser,server,photos):
+    with run.page(browser,server,photos,extra=DEFAULT_EXTRA) as page:
+        enter(page)
+        for label in [' Drinks ','Напитки','Beverages','Соусы','Sauces','Добавки','Extras']:
+            page.evaluate("label=>{const stores=TLB.stores();stores[0].description=label;stores[1].description='';syncStores();render()}",label)
+            run.equal('AI06',label.strip()+' cannot appear as a restaurant cuisine type',cuisine_labels(page),[])
+            run.equal('AI06',label.strip()+' leaves no empty cuisine rail',page.locator('.ad30-cuisines').count(),0)
+
+
+def test_failed_cuisine_image(run,browser,server,photos):
+    with run.page(browser,server,photos,extra=DEFAULT_EXTRA) as page:
+        enter(page)
+        run.equal('AI06','declared type with working image is initially usable',cuisine_labels(page),['Local & European'])
+        page.get_by_role('button',name='Local & European',exact=True).click()
+        run.equal('AI06','selected type has one matching restaurant before its image fails',page.locator('.ad30-card').count(),1)
+        page.route('**/qa-image/ai06-broken',lambda route:route.fulfill(status=200,content_type='image/jpeg',body=b'not an image'))
+        page.evaluate("()=>{TLB.stores()[1].cover_url='/qa-image/ai06-broken';syncStores();render();document.querySelectorAll('.ad30-cuisine img').forEach(i=>i.loading='eager')}")
+        page.wait_for_function("()=>!document.querySelector('.ad30-cuisine img[src=\"/qa-image/ai06-broken\"]')")
+        run.equal('AI06','decoder failure removes the whole type and empty rail',page.locator('.ad30-cuisines,.ad30-cuisine').count(),0)
+        run.equal('AI06','failed selected type cannot leave an invisible restriction',
+                  page.locator('.ad30-card-name').all_text_contents(),['KFC','Romant Restaurant'])
+        page.evaluate('render()')
+        run.equal('AI06','known broken image stays hidden on later render',page.locator('.ad30-cuisine').count(),0)
+        page.evaluate("()=>{TLB.stores()[1].cover_url='/qa-image/romant?updated=1';syncStores();render()}")
+        page.locator('.ad30-cuisine img').evaluate("i=>{i.loading='eager';return i.decode()}")
+        run.equal('AI06','a corrected real image makes the declared type available again',cuisine_labels(page),['Local & European'])
+        run.equal('AI06','image recovery does not silently reapply an old selection',page.locator('.ad30-cuisine[aria-pressed="true"]').count(),0)
+
+
+def run_ai03(run,browser,servers,photos):
+    """Run AI03 with the master's Acceptance and baseline/candidate servers."""
+    if not hasattr(run,'pixel_comparisons'):run.pixel_comparisons=[]
+    for lang,width in [('ru',375),('en',390)]:
+        run.run(f'{lang}-{width}-original-defaults',lambda l=lang,w=width:test_defaults(run,browser,servers,photos,l,w))
+        run.run(f'{lang}-{width}-managed-continuation',lambda l=lang,w=width:test_managed(run,browser,servers['candidate'],photos,l,w))
+    run.run('three-independent-default-destinations',lambda:test_default_destinations(run,browser,servers['candidate'],photos))
+
+
+def run_ai06(run,browser,server,photos):
+    """Run AI06 with the master's Acceptance and unmodified candidate server."""
+    for lang,width in [('ru',375),('en',390)]:
+        run.run(f'{lang}-{width}-declared-cuisine-types',lambda l=lang,w=width:test_declared_types(run,browser,server,photos,l,w))
+    for kind in ('no-types','no-type-images'):
+        run.run(kind,lambda k=kind:test_type_without_data(run,browser,server,photos,k))
+    for name,check in [('type-grouping',test_cuisine_grouping),('excluded-types',test_excluded_types),('failed-type-image',test_failed_cuisine_image)]:
+        run.run(name,lambda c=check:c(run,browser,server,photos))
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output',type=Path)
     parser.add_argument('--baseline',type=Path)
-    parser.add_argument('--case',choices=['ai03'],default='ai03')
+    parser.add_argument('--case',choices=['ai03','ai06','all'],default='all')
     args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
     for key in ('SUPABASE_URL','SUPABASE_ACCESS_TOKEN','DATABASE_URL','SUPABASE_DB_PASSWORD'):
         assert not os.environ.get(key),'Cloud context forbidden: '+key
-    prior.EXPECTED_IDS={'AI03'}
+    prior.EXPECTED_IDS={'AI03','AI06'} if args.case=='all' else {args.case.upper()}
     run=prior.Acceptance(args.output);run.pixel_comparisons=[]
     run.provenance.update({'baseline':BASELINE,'harness_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                            'playwright_version':importlib.metadata.version('playwright')})
@@ -180,14 +295,14 @@ def main():
             with sync_playwright() as pw:
                 browser=pw.webkit.launch(executable_path=os.environ.get('TALABOT_WEBKIT') or None)
                 run.provenance['webkit_version']=browser.version
-                for lang,width in [('ru',375),('en',390)]:
-                    run.run(f'{lang}-{width}-original-defaults',lambda l=lang,w=width:test_defaults(run,browser,servers,photos,l,w))
-                    run.run(f'{lang}-{width}-managed-continuation',lambda l=lang,w=width:test_managed(run,browser,servers['candidate'],photos,l,w))
-                run.run('three-independent-default-destinations',lambda:test_default_destinations(run,browser,servers['candidate'],photos))
+                if args.case in ('ai03','all'):
+                    run_ai03(run,browser,servers,photos)
+                if args.case in ('ai06','all'):
+                    run_ai06(run,browser,servers['candidate'],photos)
                 browser.close()
         finally:
             for server in servers.values():server.shutdown()
-    result=run.save();result.update({'brief':'BRIEF-32','scope':'AI03 / original HTML / synthetic SDK / offline WebKit',
+    result=run.save();result.update({'brief':'BRIEF-32','scope':args.case.upper()+' / original HTML / synthetic SDK / offline WebKit',
         'case_selection':args.case,'pixel_comparisons':run.pixel_comparisons})
     (args.output/'results.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     if not result['pass']:raise SystemExit('BRIEF32_RESTAURANTS_FAIL: see results.json')

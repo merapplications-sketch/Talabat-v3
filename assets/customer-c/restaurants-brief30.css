@@ -29,7 +29,7 @@
 #app .d6l .ad30-again-item.closed{opacity:.5;cursor:default}
 #app .d6l .ad30-again-item:focus-visible{outline:2px solid var(--o);outline-offset:2px;border-radius:12px}
 
-/* AD-04: scrollable 3D cuisine chip circles from existing menu sections. */
+/* AI06: existing restaurant-type labels and cover imagery. */
 #app .d6l .ad30-cuisines{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:8px 0 15px}
 #app .d6l .ad30-cuisines::-webkit-scrollbar{display:none}
 #app .d6l .ad30-cuisine{flex:0 0 72px;width:72px;display:flex;align-items:center;flex-direction:column;gap:5px;background:transparent;border:0;padding:0;cursor:pointer;scroll-snap-align:start;font:inherit;color:var(--ink)}
@@ -38,7 +38,7 @@
 #app .d6l .ad30-cuisine-circle.photo img{width:100%;height:100%;object-fit:cover}
 #app .d6l .ad30-cuisine.no-image{min-height:88px;justify-content:center}
 #app .d6l .ad30-cuisine.on .ad30-cuisine-circle{border-color:var(--o);background:#fff3e7}
-#app .d6l .ad30-cuisine-label{font-size:12px;line-height:17px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#app .d6l .ad30-cuisine-label{font-size:12px;line-height:17px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:normal;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 #app .d6l .ad30-cuisine.on .ad30-cuisine-label{color:var(--o)}
 #app .d6l .ad30-cuisine:focus-visible{outline:2px solid var(--o);outline-offset:2px;border-radius:14px}
 

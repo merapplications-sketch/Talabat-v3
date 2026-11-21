@@ -1,0 +1,29 @@
+{
+  "source": "Existing Talabat public restaurant rows and stores column metadata, cross-checked with repository schema and talabat-core.js STORE_COLS",
+  "project_ref": "dzydscryrnahnneydnry",
+  "recorded_at_utc": "2026-11-21T11:29:14Z",
+  "observed_before_recorded_at": true,
+  "database_writes": false,
+  "dedicated_cuisine_column_present": false,
+  "existing_fields_used": {
+    "category": "STORES.c",
+    "description": "STORES.d",
+    "cover_url": "STORES.i"
+  },
+  "sanitized_public_rows": [
+    {
+      "name": "KFC",
+      "description": "",
+      "has_logo": true,
+      "has_cover": true
+    },
+    {
+      "name": "Romant Restaurant",
+      "description": "Local & European",
+      "has_logo": true,
+      "has_cover": true
+    }
+  ],
+  "decision": "Use only existing declared restaurant descriptions and covers; no inferred Fast food label for KFC, no menu sections, no new schema/core fields.",
+  "qa": "Browser tests use synthetic offline fixtures only; no live read or write is performed by the harness."
+}

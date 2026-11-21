@@ -48,62 +48,24 @@ function againRail(){
 }
 
 
-/* AD-04: cuisine categories derive from existing menu sections and optional admin imagery.
-   No fabricated categories: only categories attached to actual menu items appear. */
-TLB.addDict({
-  ad30Plov:'Плов',ad30Burgers:'Бургеры',ad30Pizza:'Пицца',ad30Shawarma:'Шаурма',
-  ad30Sushi:'Суши',ad30Desserts:'Десерты',ad30Drinks:'Напитки'
-},{
-  ad30Plov:'Pilaf',ad30Burgers:'Burgers',ad30Pizza:'Pizza',ad30Shawarma:'Shawarma',
-  ad30Sushi:'Sushi',ad30Desserts:'Desserts',ad30Drinks:'Drinks'
-});
-const CUISINE_MAP=[
-  {id:'plov',test:/плов|pilaf|plov/i,art:'',name:'ad30Plov'},
-  {id:'burger',test:/бургер|burger/i,art:'hamburger',name:'ad30Burgers'},
-  {id:'pizza',test:/пицц|pizza/i,art:'pizza',name:'ad30Pizza'},
-  {id:'shawarma',test:/шаурм|shawarma/i,art:'',name:'ad30Shawarma'},
-  {id:'sushi',test:/суши|sushi/i,art:'sushi',name:'ad30Sushi'},
-  {id:'dessert',test:/десерт|сладост|торт|dessert|cake/i,art:'shortcake',name:'ad30Desserts'},
-  {id:'drinks',test:/напитк|drink|beverage|сок|juice/i,art:'',name:'ad30Drinks'}
-];
-const CUISINE_EXCLUDED=/^(соусы|extras|добавки|sauces)$/i;
+/* AI06: existing store descriptions carry the declared restaurant type.
+   Group those labels with real restaurant covers; never infer from menu sections. */
+const CUISINE_EXCLUDED=/^(соусы|extras|добавки|sauces|напитки|drinks|beverages)$/i;
 const failedCuisineImages=new Map();
 let chosenCuisine='';
 function cuisineSource(){
-  const menus=TLB.allMenus(true)||{},seen=new Map();
+  const seen=new Map();
   for(const store of STORES){
     if(store.c!=='rest')continue;
-    for(const item of menus[store.n]||[]){
-      const raw=String(item.section||'').trim();
-      if(!raw||CUISINE_EXCLUDED.test(raw))continue;
-      const match=CUISINE_MAP.find(c=>c.test.test(raw));
-      const id=match?match.id:'section:'+raw.toLocaleLowerCase();
-      if(!seen.has(id))seen.set(id,{id,title:match?t(match.name):raw,art:match?match.art:'',image:'',photos:[],rank:seen.size,stores:new Set()});
-      const cuisine=seen.get(id);
-      cuisine.stores.add(store.id);
-      // allMenus() exposes approved menu image_url values as item.image.
-      if(typeof item.image==='string'&&item.image.trim()&&!cuisine.photos.includes(item.image.trim()))cuisine.photos.push(item.image.trim());
-    }
+    const title=typeof store.d==='string'?store.d.trim().replace(/\s+/g,' '):'';
+    if(!title||CUISINE_EXCLUDED.test(title))continue;
+    const id='type:'+title.toLowerCase();
+    if(!seen.has(id))seen.set(id,{id,title,image:'',photo:true,stores:new Set()});
+    const cuisine=seen.get(id);
+    cuisine.stores.add(store.id);
+    if(!cuisine.image&&typeof store.i==='string')cuisine.image=store.i.trim();
   }
-  const configured=typeof TLB.restaurantCuisines==='function'?TLB.restaurantCuisines():[];
-  if(Array.isArray(configured))for(const item of configured){
-    if(!item||!seen.has(item.id))continue;
-    if([item.name_ru,item.name_en].some(name=>typeof name==='string'&&CUISINE_EXCLUDED.test(name.trim()))){seen.delete(item.id);continue;}
-    const c=seen.get(item.id);
-    const title=TLB.lang()==='en'?item.name_en:item.name_ru;
-    if(typeof title==='string'&&title.trim())c.title=title.trim().slice(0,32);
-    if(typeof item.image_url==='string')c.image=item.image_url.trim();
-    if(Number.isFinite(+item.sort))c.rank=+item.sort;
-  }
-  const used=new Set();
-  return [...seen.values()].sort((a,b)=>a.rank-b.rank).map(c=>{
-    const art=c.art?A3(c.art):'';
-    // Keep configured artwork, otherwise semantic 3D art, then the first dish
-    // photo in this cuisine. AH-01: types without usable imagery stay hidden.
-    const source=[c.image,art,...c.photos].find(src=>src&&!used.has(src)&&!/(^|\/)assets\/3d\/basket\.webp(?:[?#]|$)/i.test(src))||'';
-    if(source)used.add(source);
-    return {...c,image:source,photo:!!source&&source!==art};
-  }).filter(c=>c.image&&failedCuisineImages.get(c.id)!==c.image);
+  return [...seen.values()].filter(c=>c.image&&failedCuisineImages.get(c.id)!==c.image);
 }
 function cuisineRail(){
   const types=cuisineSource();

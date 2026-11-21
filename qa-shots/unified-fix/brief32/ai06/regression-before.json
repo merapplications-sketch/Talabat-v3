@@ -1,0 +1,180 @@
+{
+  "scope": "AI06 / original HTML / synthetic SDK / offline WebKit",
+  "case_selection": "ai06",
+  "provenance": {
+    "started_at": "2026-11-21T11:35:36.854760+00:00",
+    "git_head": "be093fae6f11c902dde75b744ada7e9acc9c8019",
+    "git_tree": "b118ac3b14027d1b9572b23ab04d1eb0bec63fd6",
+    "harness_sha256": "254adddf367fcbfe699f62a3ad7a5dcd1068d3ab12f9fa170e3f505de4b0b08c",
+    "product_sha256": {
+      "customer.html": "0414e36a62bd5a309d5a901b4e620524bc8b281bea916d55b1c94f6f0dbe61fa",
+      "admin.html": "056b35f3973715dd515d1c4517145560c5bc4812cd5f0c32cc33ecbb293962dc",
+      "driver.html": "abcbda2fc706b867573208fd6e1cd64f18579cc1b8762bae9388b2dfd655b355",
+      "merchant.html": "50ea3999df4ff2eab960bbeae7b44674a0d500058da8668e056c371e3d66e0f9",
+      "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+      "assets/shared/brand-brief31b.js": "2ec06e843a31a33f00b51caa283c4c2765f3ea47217866cde40dce9415592b66",
+      "assets/brand/logo-talabot-en.webp": "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3",
+      "assets/brand/logo-talabot-ru.webp": "b4e016d9c81f28b87f7c77d5458d4ba7b84e840480d650433478fa39dbff2af7",
+      "assets/shared/banner-system-brief31.js": "a3fd82d7fd40cd2fbb7ceaf262fbcded17c60801936da21e193a56163c2b25f6",
+      "assets/shared/login-banners-ah06.js": "aee94e08e10626bb3a987f5f2c10f568eacc38975034e20f75053dafa8068aba",
+      "assets/shared/login-banners-ah06.css": "c3ad29f0ddd0a910e06089118dc4c63c9c71c1a531b344904810a8ee77c75642",
+      "assets/3d/motor-scooter.webp": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+      "assets/3d/hamburger.webp": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+      "assets/customer-c/banners-brief31.css": "1772689fbb0177a1a9d603ce320279d287378629c4d73b13dc1ec4486f513888",
+      "assets/customer-c/home-brief31.css": "9a5d11ac5cf59d139ca46f468efa423fd4a531c272ffe0499670a445cbf220c5",
+      "assets/customer-c/dish-group-brief31.css": "51ab87c9f9112c18e95dc58a5a0bf71c8bd95f6d8924bca8b1d06bdcbcf51c2e",
+      "assets/customer-c/dish-group-brief31.js": "058c2559bdad03c5cef49f7a81262fcfd97923077f812b6d8b2181eef212ab5b",
+      "assets/customer-c/restaurants-brief30.js": "2654464791e1a45985e053dac2ab7da5655fe8a87da95c90d4848f2c1b1c4fd7",
+      "assets/customer-c/restaurants-brief30.css": "9ff94b68487e7766fc200808aece99b0c39d72dac9e5246a448e5d66ab223729",
+      "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a"
+    },
+    "fixture_time": "2026-11-18T09:00:00+00:00",
+    "baseline": "8cd90a8ac14ff01413b63f79c5db676c0081d34d",
+    "playwright_version": "1.62.0",
+    "webkit_version": "26.5",
+    "completed_at": "2026-11-21T11:35:44.832645+00:00",
+    "source_unchanged_during_run": true
+  },
+  "failures": [
+    {
+      "case": "ru-375-declared-cuisine-types",
+      "error": "{\"item\": \"AI06\", \"case\": \"ru-375-declared-cuisine-types\", \"name\": \"only the existing restaurant type is shown\", \"pass\": false, \"details\": {\"actual\": [\"Бургеры\", \"Напитки\", \"Стейки\", \"Плов\"], \"expected\": [\"Local & European\"]}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 286, in <lambda>\n    run.run(f'{lang}-{width}-declared-cuisine-types',lambda l=lang,w=width:test_declared_types(run,browser,servers['candidate'],photos,l,w))\n                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 171, in test_declared_types\n    run.equal('AI06','only the existing restaurant type is shown',cuisine_labels(page),['Local & European'])\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI06\", \"case\": \"ru-375-declared-cuisine-types\", \"name\": \"only the existing restaurant type is shown\", \"pass\": false, \"details\": {\"actual\": [\"Бургеры\", \"Напитки\", \"Стейки\", \"Плов\"], \"expected\": [\"Local & European\"]}}\n"
+    },
+    {
+      "case": "en-390-declared-cuisine-types",
+      "error": "{\"item\": \"AI06\", \"case\": \"en-390-declared-cuisine-types\", \"name\": \"only the existing restaurant type is shown\", \"pass\": false, \"details\": {\"actual\": [\"Burgers\", \"Drinks\", \"Стейки\", \"Pilaf\"], \"expected\": [\"Local & European\"]}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 286, in <lambda>\n    run.run(f'{lang}-{width}-declared-cuisine-types',lambda l=lang,w=width:test_declared_types(run,browser,servers['candidate'],photos,l,w))\n                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 171, in test_declared_types\n    run.equal('AI06','only the existing restaurant type is shown',cuisine_labels(page),['Local & European'])\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI06\", \"case\": \"en-390-declared-cuisine-types\", \"name\": \"only the existing restaurant type is shown\", \"pass\": false, \"details\": {\"actual\": [\"Burgers\", \"Drinks\", \"Стейки\", \"Pilaf\"], \"expected\": [\"Local & European\"]}}\n"
+    },
+    {
+      "case": "no-types",
+      "error": "{\"item\": \"AI06\", \"case\": \"no-types\", \"name\": \"no-types hides the entire cuisine row despite menu sections and photos\", \"pass\": false, \"details\": {\"actual\": 5, \"expected\": 0}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 288, in <lambda>\n    run.run(kind,lambda k=kind:test_type_without_data(run,browser,servers['candidate'],photos,k))\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 198, in test_type_without_data\n    run.equal('AI06',kind+' hides the entire cuisine row despite menu sections and photos',\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI06\", \"case\": \"no-types\", \"name\": \"no-types hides the entire cuisine row despite menu sections and photos\", \"pass\": false, \"details\": {\"actual\": 5, \"expected\": 0}}\n"
+    },
+    {
+      "case": "no-type-images",
+      "error": "{\"item\": \"AI06\", \"case\": \"no-type-images\", \"name\": \"no-type-images hides the entire cuisine row despite menu sections and photos\", \"pass\": false, \"details\": {\"actual\": 5, \"expected\": 0}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 288, in <lambda>\n    run.run(kind,lambda k=kind:test_type_without_data(run,browser,servers['candidate'],photos,k))\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 198, in test_type_without_data\n    run.equal('AI06',kind+' hides the entire cuisine row despite menu sections and photos',\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI06\", \"case\": \"no-type-images\", \"name\": \"no-type-images hides the entire cuisine row despite menu sections and photos\", \"pass\": false, \"details\": {\"actual\": 5, \"expected\": 0}}\n"
+    },
+    {
+      "case": "type-grouping",
+      "error": "{\"item\": \"AI06\", \"case\": \"type-grouping\", \"name\": \"restaurant types remain independent of arbitrary menu sections\", \"pass\": false, \"details\": {\"actual\": [\"Напитки\", \"Пицца\"], \"expected\": [\"Fast food\", \"Local & European\"]}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 290, in <lambda>\n    run.run(name,lambda c=check:c(run,browser,servers['candidate'],photos))\n                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 215, in test_cuisine_grouping\n    run.equal('AI06','restaurant types remain independent of arbitrary menu sections',\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI06\", \"case\": \"type-grouping\", \"name\": \"restaurant types remain independent of arbitrary menu sections\", \"pass\": false, \"details\": {\"actual\": [\"Напитки\", \"Пицца\"], \"expected\": [\"Fast food\", \"Local & European\"]}}\n"
+    },
+    {
+      "case": "excluded-types",
+      "error": "{\"item\": \"AI06\", \"case\": \"excluded-types\", \"name\": \"Drinks cannot appear as a restaurant cuisine type\", \"pass\": false, \"details\": {\"actual\": [\"Бургеры\", \"Напитки\", \"Стейки\", \"Плов\"], \"expected\": []}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 290, in <lambda>\n    run.run(name,lambda c=check:c(run,browser,servers['candidate'],photos))\n                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 236, in test_excluded_types\n    run.equal('AI06',label.strip()+' cannot appear as a restaurant cuisine type',cuisine_labels(page),[])\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI06\", \"case\": \"excluded-types\", \"name\": \"Drinks cannot appear as a restaurant cuisine type\", \"pass\": false, \"details\": {\"actual\": [\"Бургеры\", \"Напитки\", \"Стейки\", \"Плов\"], \"expected\": []}}\n"
+    },
+    {
+      "case": "failed-type-image",
+      "error": "{\"item\": \"AI06\", \"case\": \"failed-type-image\", \"name\": \"declared type with working image is initially usable\", \"pass\": false, \"details\": {\"actual\": [\"Бургеры\", \"Напитки\", \"Стейки\", \"Плов\"], \"expected\": [\"Local & European\"]}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 290, in <lambda>\n    run.run(name,lambda c=check:c(run,browser,servers['candidate'],photos))\n                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief32_restaurants_webkit.py\", line 243, in test_failed_cuisine_image\n    run.equal('AI06','declared type with working image is initially usable',cuisine_labels(page),['Local & European'])\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-restaurants/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI06\", \"case\": \"failed-type-image\", \"name\": \"declared type with working image is initially usable\", \"pass\": false, \"details\": {\"actual\": [\"Бургеры\", \"Напитки\", \"Стейки\", \"Плов\"], \"expected\": [\"Local & European\"]}}\n"
+    }
+  ],
+  "failed_assertions": [
+    {
+      "item": "AI06",
+      "case": "ru-375-declared-cuisine-types",
+      "name": "only the existing restaurant type is shown",
+      "pass": false,
+      "details": {
+        "actual": [
+          "Бургеры",
+          "Напитки",
+          "Стейки",
+          "Плов"
+        ],
+        "expected": [
+          "Local & European"
+        ]
+      }
+    },
+    {
+      "item": "AI06",
+      "case": "en-390-declared-cuisine-types",
+      "name": "only the existing restaurant type is shown",
+      "pass": false,
+      "details": {
+        "actual": [
+          "Burgers",
+          "Drinks",
+          "Стейки",
+          "Pilaf"
+        ],
+        "expected": [
+          "Local & European"
+        ]
+      }
+    },
+    {
+      "item": "AI06",
+      "case": "no-types",
+      "name": "no-types hides the entire cuisine row despite menu sections and photos",
+      "pass": false,
+      "details": {
+        "actual": 5,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AI06",
+      "case": "no-type-images",
+      "name": "no-type-images hides the entire cuisine row despite menu sections and photos",
+      "pass": false,
+      "details": {
+        "actual": 5,
+        "expected": 0
+      }
+    },
+    {
+      "item": "AI06",
+      "case": "type-grouping",
+      "name": "restaurant types remain independent of arbitrary menu sections",
+      "pass": false,
+      "details": {
+        "actual": [
+          "Напитки",
+          "Пицца"
+        ],
+        "expected": [
+          "Fast food",
+          "Local & European"
+        ]
+      }
+    },
+    {
+      "item": "AI06",
+      "case": "excluded-types",
+      "name": "Drinks cannot appear as a restaurant cuisine type",
+      "pass": false,
+      "details": {
+        "actual": [
+          "Бургеры",
+          "Напитки",
+          "Стейки",
+          "Плов"
+        ],
+        "expected": []
+      }
+    },
+    {
+      "item": "AI06",
+      "case": "failed-type-image",
+      "name": "declared type with working image is initially usable",
+      "pass": false,
+      "details": {
+        "actual": [
+          "Бургеры",
+          "Напитки",
+          "Стейки",
+          "Плов"
+        ],
+        "expected": [
+          "Local & European"
+        ]
+      }
+    }
+  ]
+}
