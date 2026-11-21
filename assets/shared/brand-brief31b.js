@@ -45,6 +45,9 @@
   const style = document.createElement('style');
   style.id = 'talabot-brand-brief31b';
   style.textContent = `
+    /* AH-04: fit the 36px Home mark in its own row without overlapping the address. */
+    #app .d6h .d6-hh .d6-hr{grid-template-rows:36px 44px}
+    #app .d6h .d6-hh .d6-hr>.d6-logo{width:auto;height:36px;max-width:100%}
     .talabot-auth-logo{display:block;width:180px;height:auto;margin:0 auto 12px;object-fit:contain}
     .talabot-loading-logo{display:block;width:150px;height:auto;margin:0 auto 18px;object-fit:contain}
     /* Previous driver logo: 104px wide, original 2404x504 canvas. */
