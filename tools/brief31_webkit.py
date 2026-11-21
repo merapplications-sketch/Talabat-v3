@@ -40,8 +40,12 @@ OWNER_IMAGES = {
     'en': 'c70b04c0ca131f0456eaddcb3299d67593ce70d3',
 }
 PRODUCT_PATHS = [
-    'customer.html','admin.html','talabat-core.js',
+    'customer.html','admin.html','driver.html','merchant.html','talabat-core.js',
+    'assets/shared/brand-brief31b.js',
+    'assets/brand/logo-talabot-en.webp','assets/brand/logo-talabot-ru.webp',
     'assets/shared/banner-system-brief31.js',
+    'assets/shared/login-banners-ah06.js','assets/shared/login-banners-ah06.css',
+    'assets/3d/motor-scooter.webp','assets/3d/hamburger.webp',
     'assets/customer-c/banners-brief31.css','assets/customer-c/home-brief31.css',
     'assets/customer-c/dish-group-brief31.css','assets/customer-c/dish-group-brief31.js',
     'assets/customer-c/restaurants-brief30.js','assets/customer-c/restaurants-brief30.css',
@@ -368,8 +372,8 @@ def test_admin(run, browser, server, photos, lang, width):
     with run.page(browser,server,photos,lang,width,extra=BANNER_EXTRA,role='admin') as page:
         page.evaluate("()=>{tab='b';openBE('b31-multiple')}")
         fields=page.locator('[name="banner-place"]')
-        run.equal('AF-01','admin offers all seven banner locations',fields.evaluate_all('es=>es.map(e=>e.value)'),
-                  ['home_main','home_side','dont_miss','home_bottom','orders','restaurants','checkout'])
+        run.equal('AF-01','admin offers existing locations plus approved AH-06 login',fields.evaluate_all('es=>es.map(e=>e.value)'),
+                  ['home_main','home_side','dont_miss','home_bottom','orders','restaurants','checkout','login'])
         run.equal('AF-01','multiple existing locations load selected',page.locator('[name="banner-place"]:checked').count(),7)
         run.equal('AF-01','admin has one image control for each locale',page.locator('.banner31-images input[type=file]').count(),3)
         run.equal('AF-01','free text CTA also offers preset labels',page.locator('#banner-label-options-ru option').evaluate_all('es=>es.map(e=>e.value)'),
@@ -414,8 +418,8 @@ def test_admin(run, browser, server, photos, lang, width):
         no_overflow(run,page,'AF-01')
 
         page.locator('#banner-timing summary').click()
-        run.equal('AF-05','each placement has an interval control',page.locator('#banner-timing input[type=number]').count(),7)
-        run.equal('AF-05','absent timing keys stay disabled',page.locator('#banner-timing input:disabled').count(),7)
+        run.equal('AF-05','each placement has an interval control',page.locator('#banner-timing input[type=number]').count(),8)
+        run.equal('AF-05','absent timing keys stay disabled',page.locator('#banner-timing input:disabled').count(),8)
         run.equal('AF-05','orders timing default is three seconds',page.locator('#rotation-orders').input_value(),'3')
         page.evaluate("""()=>{const settings=TLB.settings.bind(TLB);TLB.settings=()=>({...settings(),banner_rotation_orders_seconds:3});
           window.__timingWrites=[];TLB.setSetting=async(key,value)=>{__timingWrites.push({key,value});return {}};render();document.getElementById('banner-timing').open=true}""")

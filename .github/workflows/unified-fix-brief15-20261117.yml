@@ -57,6 +57,7 @@ jobs:
               .github/workflows/brief22-home.yml|tools/brief22_webkit.py|tools/brief23_webkit.py|tools/brief24_webkit.py|tools/brief25b_webkit.py|tools/brief25c_webkit.py|tools/brief25c_y08_webkit.py|qa-fixtures/home-brief2*.json|qa-shots/*) ;;
               tools/brief31_webkit.py|assets/shared/banner-system-brief31.js|assets/customer-c/banners-brief31.css|assets/customer-c/home-brief31.css|assets/customer-c/dish-group-brief31.css|assets/customer-c/dish-group-brief31.js|docs/superpowers/plans/2026-11-21-brief31.md) ;;
               assets/shared/brand-brief31b.js|tools/brief31b_webkit.py|tools/brief31b_cuisines.py|docs/superpowers/plans/2026-11-21-brief31b.md) ;;
+              assets/shared/login-banners-ah06.js|assets/shared/login-banners-ah06.css|tools/brief31c_webkit.py|docs/superpowers/plans/2026-11-21-brief31c.md) ;;
               # AH-03 owner source: 991e86727a307564e08c36be5360b89300e2bbdd/mockups-20261120.
               assets/brand/logo-talabot-en.webp)
                 test "$(git show HEAD:"$changed" | sha256sum | cut -d' ' -f1)" = "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3" || { echo "STOP: AH-03 EN logo differs from owner source" >&2; exit 1; } ;;
@@ -91,10 +92,14 @@ jobs:
                     '<script src="assets/shared/safe-toast.js"></script></body></html>')
               current=pathlib.Path(path).read_text('utf8')
               if path=='admin.html':
-                  assert subprocess.check_output(['git','hash-object',path],text=True).strip()=='1e265041f8a0d151448540f70c90ac69f9361eff', 'Admin must match reviewed AH-02 expiry and AH-03 branding exactly'
+                  assert subprocess.check_output(['git','hash-object',path],text=True).strip()=='c566c9fa49fc77ef9444268240c654a14a641d48', 'Admin must match reviewed AH-06 login banner controls and success hook exactly'
                   current=subprocess.check_output(['git','show','c5280ab7f89c5617b90da4155fb8777f0113ba14:admin.html']).decode('utf8')
               if path=='driver.html':
                   current=undo(current,'','<script src="assets/shared/brand-brief31b.js"></script>\n')
+                  current=undo(current,'','<script src="assets/shared/banner-system-brief31.js"></script>\n')
+                  current=undo(current,'','<link rel="stylesheet" href="assets/shared/login-banners-ah06.css">\n')
+                  current=undo(current,'','<script src="assets/shared/login-banners-ah06.js"></script>\n')
+                  current=undo(current,'',";TALABOT_LOGIN_BANNERS.ready('driver')")
                   current=undo(current,'',"""/* G-04: delivery progress is distinct from the courier's server-acknowledged shift. */
           TLB.addDict({g04Delivering:'Доставка активна'},{g04Delivering:'Delivery in progress'});
           """)

@@ -160,8 +160,8 @@ def test_app(run, browser, server, photos, role, lang, width):
         check_logo(run, page, selector, lang, role + ' application brand')
         run.check('AH-03', role + ' brand is visible', page.locator(selector).first.is_visible())
         if role == 'customer':
-            # Accepted size-brief7/customer.css overrides the older inline 23px rule.
-            run.equal('AH-03', 'customer header logo retains accepted 20px box height', page.locator(selector).evaluate('e=>e.getBoundingClientRect().height'), 20)
+            # AH-04 explicitly supersedes the former 20px Home logo box.
+            run.equal('AH-03', 'customer header logo follows approved AH-04 height', page.locator(selector).evaluate('e=>e.getBoundingClientRect().height'), 36)
             store_images = page.locator('.home-brand-image').evaluate_all('xs=>xs.map(i=>i.getAttribute("src"))')
             run.check('AH-03', 'restaurant logos stay restaurant assets', bool(store_images) and all('assets/brand/logo-talabot-' not in x for x in store_images), store_images)
             if lang in ('ru', 'en'):
