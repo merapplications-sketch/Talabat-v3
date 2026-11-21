@@ -1,7 +1,7 @@
 /* BRIEF-31: presentation of existing banner rows; no database or core mutation. */
 (function(root){
   'use strict';
-  const places=Object.freeze(['home_main','home_side','dont_miss','home_bottom','orders','restaurants','checkout']);
+  const places=Object.freeze(['home_main','home_side','dont_miss','home_bottom','orders','restaurants','checkout','login']);
   const config=b=>b&&b.presentation&&typeof b.presentation==='object'&&!Array.isArray(b.presentation)?b.presentation:{};
   const text=x=>typeof x==='string'?x.trim():'';
   function placements(b,settings={}){
@@ -22,13 +22,16 @@
   }
   function image(b,lang){return text(config(b).images?.[lang])||text(b.image_url);}
   function label(b,lang){return text(config(b).label?.[lang]).slice(0,40);}
+  function headline(b,lang){return (text(config(b).headline?.[lang])||text(b?.title)).slice(0,80);}
+  function subtitle(b,lang){return text(config(b).subtitle?.[lang]).slice(0,160);}
+  function loginAccess(b){return config(b).login_access==='public'?'public':'after_auth';}
   function safeLink(value){
     const raw=text(value);if(!raw)return '';
     try{const url=new URL(raw);return ['http:','https:'].includes(url.protocol)&&!url.username&&!url.password?url.href:'';}catch{return '';}
   }
   function rotationMs(place,settings={}){
     const seconds=Number(settings['banner_rotation_'+place+'_seconds']);
-    return Number.isFinite(seconds)&&seconds>=1&&seconds<=60?seconds*1000:3000;
+    return Number.isFinite(seconds)&&seconds>=1&&seconds<=60?seconds*1000:place==='login'?5000:3000;
   }
-  root.TALABOT_BANNERS=Object.freeze({places,config,placements,list,image,label,safeLink,rotationMs});
+  root.TALABOT_BANNERS=Object.freeze({places,config,placements,list,image,label,headline,subtitle,loginAccess,safeLink,rotationMs});
 })(window);

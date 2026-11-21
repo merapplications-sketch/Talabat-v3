@@ -95,6 +95,8 @@ input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;displa
 <script src="talabat-core.js?v=56"></script>
 <script src="assets/shared/brand-brief31b.js"></script>
 <script src="assets/shared/banner-system-brief31.js"></script>
+<link rel="stylesheet" href="assets/shared/login-banners-ah06.css">
+<script src="assets/shared/login-banners-ah06.js"></script>
 <script>
 TLB.addDict({uOrdLoad:'Загружаем заказ #{n}…',uOrdMissing:'Заказ #{n} не найден или нет доступа.'},{uOrdLoad:'Loading order #{n}…',uOrdMissing:'Order #{n} was not found or you have no access.'});
 TLB.addDict({uCuShown:'Заказы этого аккаунта: показано {n} из {m}',uCuShown0:'Показано заказов: {n}'},{uCuShown:'Orders of this account: showing {n} of {m}',uCuShown0:'Orders shown: {n}'});
@@ -233,21 +235,25 @@ TLB.addDict({
 TLB.addDict({
   bannerPlaces:'Места показа',bannerMain:'Главная — большой',bannerSide:'Главная — боковые',
   bannerMiss:'Не пропустите',bannerBottom:'Главная — нижний',bannerCheckout:'Оформление заказа',
+  bannerLogin:'Вход / Login',bannerLoginHeadline:'Заголовок',bannerLoginSubtitle:'Подзаголовок',bannerLoginAccess:'Открытие ссылки',bannerLoginAfterAuth:'После входа',bannerLoginPublic:'Без входа',
+  bannerLoginLinkHint:'Для баннера на экране входа выберите «Открыть ссылку» и укажите действительную ссылку HTTP(S).',
   bannerImages:'Изображения по языкам',bannerNoImage:'Используется основное изображение',bannerRemoveImage:'Убрать',
-  bannerOptionalCta:'Оставьте текст пустым, чтобы показывать баннер без кнопки.',bannerCtaTg:'Текст кнопки (TG)',
+  bannerOptionalCta:'Оставьте текст пустым, чтобы показывать баннер без кнопки. На экране входа пустой текст заменяется на «Смотреть».',bannerCtaTg:'Текст кнопки (TG)',
   bannerLinkAction:'Открыть ссылку',bannerUrl:'Ссылка (https://...)',bannerChoosePlace:'Выберите хотя бы одно место показа.',bannerPresentationChanged:'Изменены изображения, места показа или действие баннера.',
   bannerSchemaNote:'Настройки изображений, мест и действий станут доступны после подключения полей. Основной баннер можно сохранить.'
 },{
   bannerPlaces:'Display placements',bannerMain:'Home — large',bannerSide:'Home — side',
   bannerMiss:"Don’t miss",bannerBottom:'Home — bottom',bannerCheckout:'Checkout',
+  bannerLogin:'Вход / Login',bannerLoginHeadline:'Headline',bannerLoginSubtitle:'Subtitle',bannerLoginAccess:'Link access',bannerLoginAfterAuth:'After sign-in',bannerLoginPublic:'Without signing in',
+  bannerLoginLinkHint:'For a login banner, select “Open link” and enter a valid HTTP(S) URL.',
   bannerImages:'Images by language',bannerNoImage:'Uses the main image',bannerRemoveImage:'Remove',
-  bannerOptionalCta:'Leave the label empty to show the banner without a button.',bannerCtaTg:'Button label (TG)',
+  bannerOptionalCta:'Leave the label empty to show the banner without a button. Login banners use the default “View” label when the text is empty.',bannerCtaTg:'Button label (TG)',
   bannerLinkAction:'Open link',bannerUrl:'Link (https://...)',bannerChoosePlace:'Choose at least one placement.',bannerPresentationChanged:'The banner images, placements or action changed.',
   bannerSchemaNote:'Language images, placements and actions become available when their fields are connected. You can still save the main banner.'
 });
 let bannerCreatePresentation={};
 const bannerSchema=()=>TLB.banners(true).some(b=>Object.hasOwn(b,'presentation'))||Number(TLB.settings()?.banner_presentation_ready)===1;
-const bannerPlaceLabels={home_main:'bannerMain',home_side:'bannerSide',dont_miss:'bannerMiss',home_bottom:'bannerBottom',orders:'bannerOrdersAudience',restaurants:'bannerRestaurantsAudience',checkout:'bannerCheckout'};
+const bannerPlaceLabels={home_main:'bannerMain',home_side:'bannerSide',dont_miss:'bannerMiss',home_bottom:'bannerBottom',orders:'bannerOrdersAudience',restaurants:'bannerRestaurantsAudience',checkout:'bannerCheckout',login:'bannerLogin'};
 const bannerOptions=(choices,selected)=>choices.map(([id,label])=>`<option value="${id}"${id===selected?' selected':''}>${t(label)}</option>`).join('');
 function bannerDraft(){return BD?BD.presentation:bannerCreatePresentation}
 function bannerCfg(key,value,locale){
@@ -269,6 +275,8 @@ function bannerActionFields(cfg={}){
   return `<div class="banner31-editor">${!ready?`<p class="banner31-note" role="status">${t('bannerSchemaNote')}</p>`:''}<fieldset ${ready?'':'disabled'}><legend>${t('bannerPlaces')}</legend>
     <div class="banner31-placements">${TALABOT_BANNERS.places.map(place=>`<label><input type="checkbox" name="banner-place" value="${place}" ${places.includes(place)?'checked':''} onchange="bannerPlaceChanged()"><span>${t(bannerPlaceLabels[place])}</span></label>`).join('')}</div>
     <h3>${t('bannerImages')}</h3><div class="banner31-images">${['ru','en','tg'].map(locale=>`<div><b>${locale.toUpperCase()}</b>${cfg.images?.[locale]?`<img src="${esc(cfg.images[locale])}" alt="${locale.toUpperCase()}">`:`<small>${t('bannerNoImage')}</small>`}<label class="b g">${ic('cam')}${t('aBImg')}<input aria-label="${t('aBImg')} ${locale.toUpperCase()}" type="file" accept="image/*" onchange="bannerLocaleImage(event,'${locale}')"></label>${cfg.images?.[locale]?`<button type="button" class="b g" onclick="bannerCfg('images','','${locale}');render()">${t('bannerRemoveImage')}</button>`:''}</div>`).join('')}</div>
+    <h3>${t('bannerLogin')}</h3>${['ru','en','tg'].map(locale=>`<label><small>${t('bannerLoginHeadline')} (${locale.toUpperCase()})</small><input id="banner-headline-${locale}" maxlength="80" value="${esc(cfg.headline?.[locale]||'')}" oninput="bannerCfg('headline',this.value,'${locale}')"></label><label><small>${t('bannerLoginSubtitle')} (${locale.toUpperCase()})</small><input id="banner-subtitle-${locale}" maxlength="160" value="${esc(cfg.subtitle?.[locale]||'')}" oninput="bannerCfg('subtitle',this.value,'${locale}')"></label>`).join('')}
+    ${select('login_access','bannerLoginAccess',[['after_auth','bannerLoginAfterAuth'],['public','bannerLoginPublic']])}<p>${t('bannerLoginLinkHint')}</p>
     <p>${t('bannerOptionalCta')}</p>${['ru','en','tg'].map(locale=>`<label><small>${t('bannerCta'+locale[0].toUpperCase()+locale.slice(1))}</small><input id="banner-label-${locale}" maxlength="40" list="banner-label-options-${locale}" value="${esc(cfg.label?.[locale]||'')}" oninput="bannerCfg('label',this.value,'${locale}')"><datalist id="banner-label-options-${locale}">${(locale==='ru'?['Купить сейчас','Смотреть','Открыть']:locale==='en'?['Buy now','View','Open']:['Ҳозир харед','Дидан','Кушодан']).map(label=>`<option value="${esc(label)}"></option>`).join('')}</datalist></label>`).join('')}
     ${select('action','bannerActionTitle',[['','bannerLegacy'],['order','bannerOrder'],['restaurant','bannerRestaurant'],['list','bannerList'],['campaign','bannerCampaign'],['link','bannerLinkAction']])}
     ${field('item_id','bannerDish',cfg.item_id)}${field('url','bannerUrl',cfg.url)}
@@ -279,9 +287,11 @@ function bannerActionFields(cfg={}){
 function bannerPresentation(previous={}){
   if(!bannerSchema())return {};
   const draft=bannerDraft(),presentation={...previous,...draft};
-  for(const key of ['action','filter','campaign']){const control=$('banner-'+key);if(control)presentation[key]=control.value;}
+  for(const key of ['action','filter','campaign','login_access']){const control=$('banner-'+key);if(control)presentation[key]=control.value;}
   presentation.placements=[...document.querySelectorAll('[name="banner-place"]:checked')].map(e=>e.value).filter(x=>TALABOT_BANNERS.places.includes(x));
   presentation.label=Object.fromEntries(['ru','en','tg'].map(locale=>[locale,String(presentation.label?.[locale]||'').trim().slice(0,40)]));
+  for(const [key,max] of [['headline',80],['subtitle',160]])presentation[key]=Object.fromEntries(['ru','en','tg'].map(locale=>[locale,String(presentation[key]?.[locale]||'').trim().slice(0,max)]));
+  presentation.login_access=TALABOT_BANNERS.loginAccess({presentation});
   delete presentation.audience;
   return {presentation};
 }
@@ -289,6 +299,7 @@ function bannerConfigValid(){
   if(!bannerSchema())return true;
   const cfg=bannerPresentation().presentation;
   if(!cfg.placements.length){alert(t('bannerChoosePlace'));return false;}
+  if(cfg.placements.includes('login')&&(cfg.action!=='link'||!TALABOT_BANNERS.safeLink(cfg.url))){alert(t('bannerLoginLinkHint'));return false;}
   if(cfg.action==='link'&&!TALABOT_BANNERS.safeLink(cfg.url)){alert(t('err_bad_value'));return false;}
   return true;
 }
@@ -544,9 +555,9 @@ function tasteAdmin(){
    ${ready?'':`<p class="banner31-note">${t('tastePending')}</p>`}<fieldset ${ready&&!tasteBusy?'':'disabled'} style="min-width:0;border:0;padding:0"><label><small>${t('tasteDish')}</small><select id="taste-dish">${items.filter(it=>it.approved&&it.available).map(it=>`<option value="${esc(it.id)}">${esc(it.name)}</option>`).join('')}</select></label><label><small>${t('tasteRank')}</small><input id="taste-rank" type="number" min="0" max="9999" step="1" value="0"></label><button type="button" class="b g" onclick="tasteAdd()">${t('tasteAdd')}</button>
    <div>${pins.length?pins.map((pin,index)=>`<div class="row" style="margin:10px 0;gap:8px"><span style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(items.find(it=>String(it.id)===String(pin.item_id))?.name||String(pin.item_id))} · ${pin.rank}</span><button type="button" class="b g" aria-label="${t('aRm')}" onclick="tastePins().splice(${index},1);render();document.getElementById('taste-admin').open=true">${ic('x')}</button></div>`).join(''):`<p>${t('tasteEmpty')}</p>`}</div><button type="button" class="b" id="taste-save" onclick="tasteSave()">${t('aSv')}</button></fieldset></details>`;
 }
-TLB.addDict({bannerTiming:'Смена баннеров по местам',bannerSeconds:'сек.',bannerTimingPending:'Интервал станет доступен после подключения настройки. По умолчанию — 3 секунды.'},
-  {bannerTiming:'Rotation by placement',bannerSeconds:'sec',bannerTimingPending:'The interval becomes available when its setting is connected. The default is 3 seconds.'});
-function bannerRotationSettings(){const settings=TLB.settings()||{};return `<details class="card" id="banner-timing"><summary><b>${t('bannerTiming')}</b></summary>${TALABOT_BANNERS.places.map(place=>{const key='banner_rotation_'+place+'_seconds',ready=Object.hasOwn(settings,key);return `<label class="banner31-timing"><small>${t(bannerPlaceLabels[place])} · ${t('bannerSeconds')}</small><input id="rotation-${place}" type="number" min="1" max="60" step="1" value="${TALABOT_BANNERS.rotationMs(place,settings)/1000}" ${ready?'':'disabled'}><button type="button" class="b g" ${ready?'':'disabled'} onclick="saveBannerRotation('${place}')">${t('aSv')}</button>${ready?'':`<small>${t('bannerTimingPending')}</small>`}</label>`}).join('')}</details>`}
+TLB.addDict({bannerTiming:'Смена баннеров по местам',bannerSeconds:'сек.',bannerTimingPending:'Интервал станет доступен после подключения настройки. По умолчанию — 3 секунды.',bannerLoginTimingPending:'Интервал станет доступен после подключения настройки. По умолчанию — 5 секунд.'},
+  {bannerTiming:'Rotation by placement',bannerSeconds:'sec',bannerTimingPending:'The interval becomes available when its setting is connected. The default is 3 seconds.',bannerLoginTimingPending:'The interval becomes available when its setting is connected. The default is 5 seconds.'});
+function bannerRotationSettings(){const settings=TLB.settings()||{};return `<details class="card" id="banner-timing"><summary><b>${t('bannerTiming')}</b></summary>${TALABOT_BANNERS.places.map(place=>{const key='banner_rotation_'+place+'_seconds',ready=Object.hasOwn(settings,key);return `<label class="banner31-timing"><small>${t(bannerPlaceLabels[place])} · ${t('bannerSeconds')}</small><input id="rotation-${place}" type="number" min="1" max="60" step="1" value="${TALABOT_BANNERS.rotationMs(place,settings)/1000}" ${ready?'':'disabled'}><button type="button" class="b g" ${ready?'':'disabled'} onclick="saveBannerRotation('${place}')">${t('aSv')}</button>${ready?'':`<small>${t(place==='login'?'bannerLoginTimingPending':'bannerTimingPending')}</small>`}</label>`}).join('')}</details>`}
 async function saveBannerRotation(place){
  const key='banner_rotation_'+place+'_seconds',input=$('rotation-'+place);if(!TALABOT_BANNERS.places.includes(place)||!Object.hasOwn(TLB.settings()||{},key)||!input)return;
  const seconds=Number(input.value);if(!Number.isInteger(seconds)||seconds<1||seconds>60){alert(t('err_bad_value'));return}
@@ -906,7 +917,7 @@ function uiRestore(){let s;try{s=JSON.parse(sessionStorage.getItem(UIK)||'null')
   let n=0;for(const id in (s.f||{})){if(!DRAFTF.test(id))continue;const e=document.getElementById(id),k=s.f[id];if(!e||e.type=='file')continue;const nd=defOf(e);setVal(e,k.v);n++;if(nd!==k.d&&k.v!==nd){CONF[id]=1;confNote(e)}}
   const y=+s.y||0;requestAnimationFrame(()=>window.scrollTo(0,y));UIR={screen:tab,fields:n,y,age:Math.round((Date.now()-s.at)/1000)}}
 TLB.staffUI('admin');
-TLB.start('admin',()=>{TLB.on(autoR);uiRestore();render()});
+TLB.start('admin',()=>{TLB.on(autoR);uiRestore();render();TALABOT_LOGIN_BANNERS.ready('admin')});
 
 /* Redraw of the SAME screen (automatic refresh, or a click that stays on this screen): the live page is patched to match the new
    HTML instead of being thrown away and rebuilt. Nodes that did not change are not touched, so focus, an open date/time picker,

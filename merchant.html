@@ -163,6 +163,9 @@ body.f08-profile-keyboard #app .nav{visibility:hidden;pointer-events:none}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="talabat-core.js?v=56"></script>
 <script src="assets/shared/brand-brief31b.js"></script>
+<script src="assets/shared/banner-system-brief31.js"></script>
+<link rel="stylesheet" href="assets/shared/login-banners-ah06.css">
+<script src="assets/shared/login-banners-ah06.js"></script>
 <script>
 TLB.addDict({rjT:'Отменить заказ #{n}',rjS:'Выберите причину — клиент увидит её с извинением. Деньги и баллы вернутся клиенту автоматически.',rjNote:'Сообщение клиенту (необязательно)',rjNoteO:'Опишите причину',rjGo:'Отменить заказ',rjBack:'Назад',rjCancel:'Отменить заказ',mAtStore:'Курьер в ресторане',odRj:'Причина отмены'},{rjT:'Cancel order #{n}',rjS:'Choose the reason — the customer will see it with an apology. Money and points go back to the customer automatically.',rjNote:'Message to the customer (optional)',rjNoteO:'Describe the reason',rjGo:'Cancel the order',rjBack:'Back',rjCancel:'Cancel order',mAtStore:'Courier is at the restaurant',odRj:'Cancel reason'});
 TLB.addDict({mSched:'К',mGrp:'Групповой заказ',mEarly:'Принять с {t}',mEarlyS:'Заказ на {t}. Принять и начать готовить можно за час до этого.',mFdT:'Бесплатная доставка от суммы, TJS',mFdS:'Если блюда в заказе на эту сумму или больше — клиент не платит за доставку. Доставку тогда оплачивает ресторан (вычитается из выплаты). 0 — выключено.',odFw:'Бесплатная доставка (за счёт ресторана)'},{mSched:'At',mGrp:'Group order',mEarly:'Accept from {t}',mEarlyS:'Order for {t}. You can accept and start cooking one hour before.',mFdT:'Free delivery from, TJS',mFdS:'If the dishes reach this amount, the customer pays no delivery. The restaurant then pays it (taken from the payout). 0 = off.',odFw:'Free delivery (paid by the restaurant)'});
@@ -382,7 +385,7 @@ function render0(){
   if(document.body&&document.body.style)document.body.style.overflow=(SH||OD!=null||RQ||RL||RJ)?'hidden':''}
 TLB.addDict({stMiss:'{n} доставл. заказ(ов) без записанной комиссии — «Чистыми к получению» посчитано без них',stCut:'Данные неполные: загружены только последние 200 заказов (с {d})'},{stMiss:'{n} delivered order(s) have no recorded commission — «Net payable to you» excludes them',stCut:'Incomplete: only the latest 200 orders are loaded (since {d})'});
 TLB.staffUI('merchant');
-TLB.start('merchant',()=>{TLB.chrome(false);TLB.on(()=>{if(SH||RQ||RJ)return;if((tab=='m'||tab=='p')&&document.activeElement&&/^(mqs|sdesc|sdis|rqn|rqp|rqa|rqt)$/.test(document.activeElement.id))return;render()});render()});
+TLB.start('merchant',()=>{TLB.chrome(false);TLB.on(()=>{if(SH||RQ||RJ)return;if((tab=='m'||tab=='p')&&document.activeElement&&/^(mqs|sdesc|sdis|rqn|rqp|rqa|rqt)$/.test(document.activeElement.id))return;render()});render();TALABOT_LOGIN_BANNERS.ready('merchant')});
 
 /* F-07: adapt only the reject sheet on keyboard focus, without altering status/RPC handlers. */
 (function(){

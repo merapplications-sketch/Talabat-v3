@@ -97,6 +97,9 @@ body.mapmode{background:#e8edf2;padding-bottom:0}body.mapmode .hd{position:relat
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script src="talabat-core.js?v=53"></script>
 <script src="assets/shared/brand-brief31b.js"></script>
+<script src="assets/shared/banner-system-brief31.js"></script>
+<link rel="stylesheet" href="assets/shared/login-banners-ah06.css">
+<script src="assets/shared/login-banners-ah06.js"></script>
 <script>
 TLB.addDict({dlvBusy:'Подтверждаем доставку…'},{dlvBusy:'Confirming the delivery…'});
 TLB.addDict({dSched:'Доставить к',sw1:'На месте в ресторане',sw2:'Заказ забран',sw3:'На месте у клиента',sw4:'Заказ доставлен',swWait:'Ждите: ресторан ещё готовит',swHint:'Проведите вправо',stepN4:'Шаг {n} из 4',st4_1:'Езжайте в ресторан',st4_2:'Заберите заказ',st4_3:'Езжайте к клиенту',st4_4:'Передайте заказ клиенту',atRestOk:'Вы в ресторане',atCustMsg:'Я на месте, пожалуйста, выходите 🚪',toTarget:'≈ {n} км до цели · по прямой',restToCust:'≈ {n} км до клиента · оценка',feeFor:'За доставку',cashOrder:'Сумма заказа',cashPts:'Оплачено баллами',cashWal:'Из кошелька',cashGet:'Возьмите наличными',paidAll:'Оплачено онлайн — деньги не брать',photoT:'Фото у двери',photoS:'Клиент просил оставить заказ у двери. Сфотографируйте его — без фото доставку не закрыть.',photoB:'Сделать фото',photoRe:'Переснять',photoUp:'Загружаем фото…',cxlT:'Заказ #{n} отменён',cxlS:'Не забирайте заказ. Если он уже у вас — верните его в ресторан.',cxlBy:'Причина',cxlOk:'Понятно',recenter:'Показать маршрут',expand:'Подробнее'},
@@ -360,7 +363,7 @@ function render0(){
 TLB.start('driver',me=>{DRV=me;TLB.chrome(false);TLB.on(render);render();ping();
   setInterval(()=>{if(online){ping();pushGeo(true)}},30000);
   setInterval(()=>{if(online&&!mine()&&TLB.offers().length)render()},1000);
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&online){ping();pushGeo(true);keepAwake()}})});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&online){ping();pushGeo(true);keepAwake()}});TALABOT_LOGIN_BANNERS.ready('driver')});
 
 function render(){if(window.__drag){window.__rp=1;return}const _sb=document.querySelector('.shb'),_st=_sb?_sb.scrollTop:0;const a=document.activeElement,ok=a&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!='file',all=ok?[...document.querySelectorAll('input,textarea')]:[],ix=all.indexOf(a),id=ok&&a.id,ss=ok&&a.selectionStart,se=ok&&a.selectionEnd,y=window.scrollY;
   render0();{const nb=document.querySelector('.shb');if(nb&&_st)nb.scrollTop=_st}
