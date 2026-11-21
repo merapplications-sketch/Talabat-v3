@@ -1,0 +1,34 @@
+{
+  "actualFormatter": true,
+  "cases": [
+    {
+      "mode": "clock",
+      "accepted": true,
+      "retained": true,
+      "deadlineRejected": true,
+      "outerAttributeRejected": true,
+      "shapeRejected": true,
+      "values": 3,
+      "displayActuallyDiffers": true,
+      "actualShape": true
+    },
+    {
+      "mode": "days",
+      "accepted": true,
+      "retained": true,
+      "deadlineRejected": true,
+      "outerAttributeRejected": true,
+      "shapeRejected": true,
+      "values": 3,
+      "displayActuallyDiffers": true,
+      "actualShape": true
+    }
+  ],
+  "formatter_sha256": "54c57fac742a9f907fa270d9aad3d7544902139a50dbf3e32441e18ff063d405",
+  "trace": {
+    "page_errors": [],
+    "blocked": [],
+    "http_errors": [],
+    "failed_requests": []
+  }
+}

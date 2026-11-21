@@ -3541,6 +3541,60 @@ TLB.addDict({v69Slide:'Сдвиньте, чтобы заказать',v69SlideHi
 TLB.addDict({p18bCartShort:'В корзину',p18bSlideShort:'Сдвиньте для заказа',p18bWhenShort:'Скорее'},
             {p18bCartShort:'Add',p18bSlideShort:'Slide to order',p18bWhenShort:'ASAP'});
 /* ---------- RENDER ---------- */
+/* AI-05: small Home/menu changes keep the existing photos, rails and flow notices.
+   Only these existing control slots may differ; any other change uses the original render. */
+const smallViewRender={key:'',html:''};
+function smallViewKey(){return !S.sh&&!S.sheetAddr&&!S.ro&&!S.rep&&S.cxn==null&&!S.hfs&&!S.ntf&&!S.sinfo&&!S.hcf?
+  S.v==='home'?'home':S.v==='menu'?'menu:'+S.store:'':''}
+function updateSmallView(app,html,key){
+  if(!key||key!==smallViewRender.key)return false;
+  const before=document.createElement('template'),after=document.createElement('template');
+  before.innerHTML=smallViewRender.html;after.innerHTML=html;
+  const selectors=[
+    '.home-picks .d6-pt .d6-ph > .d6-pa,.home-picks .d6-pt .d6-ph > .d75-qty',
+    '.d6m .d69-product-photo > .d6-add,.d6m .d69-product-photo > .d75-qty,.d6m .d6-ctl > .d6-add,.d6m .d6-ctl > .d75-qty',
+    '.hrt,.d6m .d6-act > .d6-circ[aria-pressed]',
+    '.d6-hh .d6-hr > .d6-hib','.d6m .d71-reward-copy','.d6m > div[style^="height:"]'
+  ],changes=[];
+  for(const [slot,selector] of selectors.entries()){
+    const old=[...before.content.querySelectorAll(selector)],next=[...after.content.querySelectorAll(selector)],live=[...app.querySelectorAll(selector)];
+    if(old.length!==next.length||old.length!==live.length)return false;
+    old.forEach((node,index)=>{
+      if(node.outerHTML!==next[index].outerHTML)changes.push([live[index],next[index]]);
+      node.replaceWith(document.createComment('small-slot-'+slot));
+      next[index].replaceWith(document.createComment('small-slot-'+slot));
+    });
+  }
+  const oldBar=before.content.querySelector('.bar'),nextBar=after.content.querySelector('.bar'),liveBar=app.querySelector(':scope > .bar');
+  if(!!oldBar!==!!liveBar)return false;
+  oldBar?.remove();nextBar?.remove();
+  // The hero's own scroll handler owns its active dot; never replace its rail.
+  for(const fragment of [before.content,after.content])fragment.querySelectorAll('.hdt i').forEach(dot=>dot.removeAttribute('class'));
+  // The existing timer updates its own text. A new deadline or shape still needs the full render.
+  const oldTimers=[...before.content.querySelectorAll('.hcd[data-end]')],nextTimers=[...after.content.querySelectorAll('.hcd[data-end]')];
+  if(oldTimers.length!==nextTimers.length)return false;
+  for(const [index,timer] of oldTimers.entries()){
+    const next=nextTimers[index];
+    if(timer.dataset.end!==next.dataset.end)return false;
+    for(const node of [timer,next]){
+      if(!node.childElementCount){node.textContent='';continue}
+      const cells=node.firstElementChild,values=[...cells.querySelectorAll(':scope > .countdown32-cell > .countdown32-value')];
+      if(node.childElementCount!==1||!cells.matches('span.countdown32-cells')||values.length!==3||values.some(value=>value.childElementCount))return false;
+      cells.removeAttribute('aria-label');values.forEach(value=>value.textContent='');
+    }
+  }
+  if(before.innerHTML!==after.innerHTML)return false;
+  for(const [node,next] of changes){
+    const focused=document.activeElement,inside=node.contains(focused),index=inside?[...node.querySelectorAll('button')].indexOf(focused):-1;
+    node.replaceWith(next);
+    if(inside){const buttons=next.querySelectorAll('button');(next.matches('button')?next:buttons[focused===node?buttons.length-1:index])?.focus({preventScroll:true})}
+  }
+  if(oldBar?.outerHTML!==nextBar?.outerHTML){
+    if(liveBar){if(nextBar)liveBar.replaceWith(nextBar);else liveBar.remove()}
+    else if(nextBar)app.insertBefore(nextBar,app.querySelector(':scope > .nav'));
+  }
+  return true;
+}
 function render(){
   m01Dispose();
   if(!ME.phone){$('app').innerHTML=phoneGateV();return}
@@ -3554,7 +3608,14 @@ function render(){
   const navH=full?'':`<div class="nav">${nav.map(k=>`<div class="${on(k)?'on':''}" onclick="${k=='home'?"S.q='';":''}go('${k}')">${ico(ni[k],24)}${t(k=='promo'?'promoTab':k)}${k=='orders'&&un?`<span class="bdg">${un}</span>`:''}</div>`).join('')}</div>`;
   const a=document.activeElement,walletFocus=a&&/^wallet-tab-(wallet|points)$/.test(a.id)?a.id:null,kid=a&&['ci','sq','cq','ph','pc','mq','nt','shn','rc','afs','afh','afe','aff','afa','afn','rpm','tkm','tmpn','gfn','gfp'].includes(a.id)?a.id:null,keep=kid?a.value:null;
   const _o=document.querySelector('.osh'),_ost=_o?_o.scrollTop:0,_osw=!!_o;
-  const D6P=['pay','wallet','me','addrForm'].includes(S.v),D6W=D6P?'d6p':S.v=='home'?'d6h':S.v=='cat'?'d6l':'';$('app').innerHTML=(D6W?'<div class="d6 '+D6W+'">'+V+'</div>':V)+bar+navH+grpBanner()+addrSheet()+roSheet()+repSheet()+cxnSheet()+(S.v=='home'?hfSheet()+ntfSheet():'');
+  const D6P=['pay','wallet','me','addrForm'].includes(S.v),D6W=D6P?'d6p':S.v=='home'?'d6h':S.v=='cat'?'d6l':'',app=$('app'),key=smallViewKey();
+  const html=(D6W?'<div class="d6 '+D6W+'">'+V+'</div>':V)+bar+navH+grpBanner()+addrSheet()+roSheet()+repSheet()+cxnSheet()+(S.v=='home'?hfSheet()+ntfSheet():'');
+  if(!updateSmallView(app,html,key)){
+    const notices=key&&key===smallViewRender.key?[...app.querySelectorAll(':scope > .t15-flow-toast')]:[];
+    app.innerHTML=html;
+    if(notices.length)app.prepend(...notices);
+  }
+  smallViewRender.key=key;smallViewRender.html=html;
   const _n=document.querySelector('.osh');if(_n&&_osw&&S.sh&&S.sh.keep)_n.scrollTop=_ost;document.documentElement.classList.toggle('shopen',!!S.sh);
   if(kid&&$(kid)){const e=$(kid);if(kid!=='ci')e.value=keep;e.focus();e.setSelectionRange(e.value.length,e.value.length)}   /* the chat field takes its text from the per-order draft (never another order's text) */
   if(walletFocus)$(walletFocus)?.focus({preventScroll:true});
