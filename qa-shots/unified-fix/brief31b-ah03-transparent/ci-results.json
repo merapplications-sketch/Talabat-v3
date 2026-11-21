@@ -1,0 +1,226 @@
+{
+  "code_sha": "544dd8b658b784315d16672279f97f5541003421",
+  "status": "BLOCKED_CI_EXPECTATIONS",
+  "source_transparency_blocker_resolved": true,
+  "all_required_ci_success": false,
+  "runs": [
+    {
+      "id": 44879650300,
+      "name": "TALABOT BRIEF15 H-01 Real LOCAL Auth QA (NO PROD)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44879650300",
+      "head_sha": "544dd8b658b784315d16672279f97f5541003421"
+    },
+    {
+      "id": 44879650265,
+      "name": "TALABOT BRIEF-24 customer Home and cart",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44879650265",
+      "head_sha": "544dd8b658b784315d16672279f97f5541003421"
+    }
+  ],
+  "h01_jobs": [
+    {
+      "id": 136771907724,
+      "name": "h01",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 44879650300,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout isolated review for ephemeral authentication evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Guard immutable backend/finance and strictly scoped owner F/O app repairs",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 3
+        },
+        {
+          "name": "Install immutable QA browsers and dependencies",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4
+        },
+        {
+          "name": "Run supabase/setup-cli@v1",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5
+        },
+        {
+          "name": "Start isolated LOCAL Supabase schema-only test",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6
+        },
+        {
+          "name": "Original Gate1 tests + authentic H01 UI login through original application",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7
+        },
+        {
+          "name": "Commit H-01 AFTER-login screenshots to isolated review branch (no credentials)",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8
+        },
+        {
+          "name": "Preserve source-backed local test screenshots and findings (no account secrets)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Stop throwaway local DB",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Checkout isolated review for ephemeral authentication evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        }
+      ]
+    }
+  ],
+  "home_jobs": [
+    {
+      "id": 136771907777,
+      "name": "home",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 44879650265,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Initialize containers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Load the approved customer app and reference photos",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "CI1 fast current brief + one RU375 Home smoke with approved financial parity",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 5
+        },
+        {
+          "name": "Stage WebKit-only evidence under checkout for artifact upload",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Stop containers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        }
+      ]
+    }
+  ],
+  "h01_log_lines": [
+    "2026-11-21T07:19:03.3025888Z STOP: AH-03 EN logo differs from owner source",
+    "2026-11-21T07:19:03.3038002Z ##[error]Process completed with exit code 1."
+  ],
+  "home_log_lines": [
+    "2026-11-21T07:19:33.1838879Z CI1_HOME_RU375_SMOKE_PASS; FINANCIAL_PARITY_PASS",
+    "2026-11-21T07:19:37.2812122Z BRIEF31_CASE_FAIL ru-customer-brand: {\"item\": \"AH-03\", \"case\": \"ru-customer-brand\", \"name\": \"customer application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:37.7464255Z BRIEF31_CASE_FAIL ru-customer-login: {\"item\": \"AH-03\", \"case\": \"ru-customer-login\", \"name\": \"customer login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:38.1702055Z BRIEF31_CASE_FAIL ru-customer-loading: {\"item\": \"AH-03\", \"case\": \"ru-customer-loading\", \"name\": \"customer loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:38.6420970Z BRIEF31_CASE_FAIL ru-driver-brand: {\"item\": \"AH-03\", \"case\": \"ru-driver-brand\", \"name\": \"driver application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:39.0926451Z BRIEF31_CASE_FAIL ru-driver-login: {\"item\": \"AH-03\", \"case\": \"ru-driver-login\", \"name\": \"driver login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}, {\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:39.4871152Z BRIEF31_CASE_FAIL ru-driver-loading: {\"item\": \"AH-03\", \"case\": \"ru-driver-loading\", \"name\": \"driver loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:39.9249433Z BRIEF31_CASE_FAIL ru-merchant-brand: {\"item\": \"AH-03\", \"case\": \"ru-merchant-brand\", \"name\": \"merchant application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:40.3480685Z BRIEF31_CASE_FAIL ru-merchant-login: {\"item\": \"AH-03\", \"case\": \"ru-merchant-login\", \"name\": \"merchant login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:40.7320601Z BRIEF31_CASE_FAIL ru-merchant-loading: {\"item\": \"AH-03\", \"case\": \"ru-merchant-loading\", \"name\": \"merchant loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:41.2741415Z BRIEF31_CASE_FAIL ru-admin-brand: {\"item\": \"AH-03\", \"case\": \"ru-admin-brand\", \"name\": \"admin application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:41.6773038Z BRIEF31_CASE_FAIL ru-admin-login: {\"item\": \"AH-03\", \"case\": \"ru-admin-login\", \"name\": \"admin login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:42.0829306Z BRIEF31_CASE_FAIL ru-admin-loading: {\"item\": \"AH-03\", \"case\": \"ru-admin-loading\", \"name\": \"admin loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:53.0750754Z BRIEF31_CASE_FAIL en-customer-brand: {\"item\": \"AH-03\", \"case\": \"en-customer-brand\", \"name\": \"customer header switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:53.7045105Z BRIEF31_CASE_FAIL en-customer-login: {\"item\": \"AH-03\", \"case\": \"en-customer-login\", \"name\": \"customer login switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:54.1727055Z BRIEF31_CASE_FAIL en-customer-loading: {\"item\": \"AH-03\", \"case\": \"en-customer-loading\", \"name\": \"customer loading switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:54.6969348Z BRIEF31_CASE_FAIL en-driver-brand: {\"item\": \"AH-03\", \"case\": \"en-driver-brand\", \"name\": \"driver header switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:55.1697143Z BRIEF31_CASE_FAIL en-driver-login: {\"item\": \"AH-03\", \"case\": \"en-driver-login\", \"name\": \"driver login switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}, {\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:55.6041808Z BRIEF31_CASE_FAIL en-driver-loading: {\"item\": \"AH-03\", \"case\": \"en-driver-loading\", \"name\": \"driver loading switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:56.1371087Z BRIEF31_CASE_FAIL en-merchant-brand: {\"item\": \"AH-03\", \"case\": \"en-merchant-brand\", \"name\": \"merchant header switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:56.6116122Z BRIEF31_CASE_FAIL en-merchant-login: {\"item\": \"AH-03\", \"case\": \"en-merchant-login\", \"name\": \"merchant login switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:57.0391817Z BRIEF31_CASE_FAIL en-merchant-loading: {\"item\": \"AH-03\", \"case\": \"en-merchant-loading\", \"name\": \"merchant loading switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:57.7441327Z BRIEF31_CASE_FAIL en-admin-brand: {\"item\": \"AH-03\", \"case\": \"en-admin-brand\", \"name\": \"admin header switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:58.2686478Z BRIEF31_CASE_FAIL en-admin-login: {\"item\": \"AH-03\", \"case\": \"en-admin-login\", \"name\": \"admin login switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:19:58.7050017Z BRIEF31_CASE_FAIL en-admin-loading: {\"item\": \"AH-03\", \"case\": \"en-admin-loading\", \"name\": \"admin loading switches to tg\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:09.1362199Z BRIEF31_CASE_FAIL tg-customer-brand: {\"item\": \"AH-03\", \"case\": \"tg-customer-brand\", \"name\": \"customer application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:09.6168931Z BRIEF31_CASE_FAIL tg-customer-login: {\"item\": \"AH-03\", \"case\": \"tg-customer-login\", \"name\": \"customer login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:10.0815076Z BRIEF31_CASE_FAIL tg-customer-loading: {\"item\": \"AH-03\", \"case\": \"tg-customer-loading\", \"name\": \"customer loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:10.4895524Z BRIEF31_CASE_FAIL tg-driver-brand: {\"item\": \"AH-03\", \"case\": \"tg-driver-brand\", \"name\": \"driver application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:10.9163234Z BRIEF31_CASE_FAIL tg-driver-login: {\"item\": \"AH-03\", \"case\": \"tg-driver-login\", \"name\": \"driver login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}, {\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:11.3258404Z BRIEF31_CASE_FAIL tg-driver-loading: {\"item\": \"AH-03\", \"case\": \"tg-driver-loading\", \"name\": \"driver loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:11.7558120Z BRIEF31_CASE_FAIL tg-merchant-brand: {\"item\": \"AH-03\", \"case\": \"tg-merchant-brand\", \"name\": \"merchant application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:12.1757222Z BRIEF31_CASE_FAIL tg-merchant-login: {\"item\": \"AH-03\", \"case\": \"tg-merchant-login\", \"name\": \"merchant login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:12.5517569Z BRIEF31_CASE_FAIL tg-merchant-loading: {\"item\": \"AH-03\", \"case\": \"tg-merchant-loading\", \"name\": \"merchant loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:13.0770165Z BRIEF31_CASE_FAIL tg-admin-brand: {\"item\": \"AH-03\", \"case\": \"tg-admin-brand\", \"name\": \"admin application brand\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:13.5022416Z BRIEF31_CASE_FAIL tg-admin-login: {\"item\": \"AH-03\", \"case\": \"tg-admin-login\", \"name\": \"admin login localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:13.8726044Z BRIEF31_CASE_FAIL tg-admin-loading: {\"item\": \"AH-03\", \"case\": \"tg-admin-loading\", \"name\": \"admin loading localized logo\", \"pass\": false, \"details\": [{\"src\": \"assets/brand/logo-talabot-ru.webp\", \"alt\": \"Talabot\", \"width\": 900, \"height\": 298}]}",
+    "2026-11-21T07:20:15.1146264Z BRIEF31_CASE_FAIL owner-assets: {\"item\": \"AH-03\", \"case\": \"owner-assets\", \"name\": \"en logo is byte-identical to owner source\", \"pass\": false, \"details\": {\"actual\": \"29dc5374536233fd4ad021f4d06872c256eaa208\", \"expected\": \"826e10b9d3be9bc7ba3e3b00d069f2cb445d5656\"}}",
+    "2026-11-21T07:20:15.7342874Z BRIEF31B_FAIL: see results.json"
+  ],
+  "scope": "Product change is exactly two owner-supplied image files. CI and application code remain unchanged. Updating source hash/dimension expectations requires approval outside the two-image-only instruction."
+}

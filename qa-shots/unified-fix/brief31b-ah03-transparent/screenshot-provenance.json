@@ -1,0 +1,260 @@
+{
+  "scope": "Screenshot capture only; original HTML, existing synthetic SDK, offline WebKit. Does not replace CI acceptance.",
+  "code_sha": "544dd8b658b784315d16672279f97f5541003421",
+  "physical_phone_tested": false,
+  "production_tested": false,
+  "ci_acceptance": false,
+  "observations": [
+    {
+      "language": "ru",
+      "width": 375,
+      "screen": "home",
+      "logo": {
+        "src": "assets/brand/logo-talabot-ru.webp",
+        "alt": "Talabot",
+        "naturalWidth": 900,
+        "naturalHeight": 298,
+        "renderedWidth": 108,
+        "renderedHeight": 20,
+        "complete": true
+      }
+    },
+    {
+      "language": "ru",
+      "width": 375,
+      "screen": "login",
+      "logo": {
+        "src": "assets/brand/logo-talabot-ru.webp",
+        "alt": "Talabot",
+        "naturalWidth": 900,
+        "naturalHeight": 298,
+        "renderedWidth": 180,
+        "renderedHeight": 59.59375,
+        "complete": true
+      }
+    },
+    {
+      "language": "en",
+      "width": 390,
+      "screen": "home",
+      "logo": {
+        "src": "assets/brand/logo-talabot-en.webp",
+        "alt": "Talabot",
+        "naturalWidth": 900,
+        "naturalHeight": 302,
+        "renderedWidth": 108,
+        "renderedHeight": 20,
+        "complete": true
+      }
+    },
+    {
+      "language": "en",
+      "width": 390,
+      "screen": "login",
+      "logo": {
+        "src": "assets/brand/logo-talabot-en.webp",
+        "alt": "Talabot",
+        "naturalWidth": 900,
+        "naturalHeight": 302,
+        "renderedWidth": 180,
+        "renderedHeight": 60.390625,
+        "complete": true
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "ru-375-customer-home.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "85d792c950d7b06a00f9866af4c2c2902578c876b67175f41689670c3510e81a"
+    },
+    {
+      "file": "ru-375-customer-login.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "3ab55ee389bbe51136ace0114c3ee2033a42907e0a87374cf1060ba8b29b1f71"
+    },
+    {
+      "file": "en-390-customer-home.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "9d4a100fb29815745f4e6652cf0d5eab77fc415fe50dffd73e498d79baa8e191"
+    },
+    {
+      "file": "en-390-customer-login.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "ec055a81544c3afe2bde069e1360a9016de7043c79306839e1d7169935c2b329"
+    }
+  ],
+  "network_checks": [
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home-screenshot",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home-screenshot",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home-screenshot",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-home-screenshot",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-login-screenshot",
+      "name": "overlay blocks unexpected outside requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-login-screenshot",
+      "name": "overlay has no runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ru-375-login-screenshot",
+      "name": "overlay assets load successfully",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home-screenshot",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home-screenshot",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home-screenshot",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-home-screenshot",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-login-screenshot",
+      "name": "overlay blocks unexpected outside requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-login-screenshot",
+      "name": "overlay has no runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "en-390-login-screenshot",
+      "name": "overlay assets load successfully",
+      "pass": true,
+      "details": []
+    }
+  ],
+  "contexts": [
+    {
+      "case": "ru-375-home-screenshot",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ru-375-login-screenshot",
+      "role": "customer",
+      "language": "ru",
+      "mode": "login",
+      "blocked": [],
+      "page_errors": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-home-screenshot",
+      "role": "customer",
+      "language": "en",
+      "width": 390,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "en-390-login-screenshot",
+      "role": "customer",
+      "language": "en",
+      "mode": "login",
+      "blocked": [],
+      "page_errors": [],
+      "http_errors": []
+    }
+  ],
+  "provenance": {
+    "started_at": "2026-11-21T07:20:51.786004+00:00",
+    "git_head": "544dd8b658b784315d16672279f97f5541003421",
+    "git_tree": "3bcfa0b0f5b4bfc0f8d2eb9dc8d9aa0fdf7bf8a6",
+    "harness_sha256": "904ac29c1d9a2d13f3783ac87dc15d2c256bdb32ae2d0776b147e5a06dc15b32",
+    "product_sha256": {
+      "customer.html": "f811f8c510c652af6a9c81f6aac2cd1cdbf42ab4bb229a309566aab3528af5f3",
+      "admin.html": "51dd7cbf764615d2f5c196989ac3ac7c8ab1d253a1af543be8e612df93ae5977",
+      "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+      "assets/shared/banner-system-brief31.js": "f5dc10c02026b0fdc5f61f888ffd109482bd121424d9586eb91511c1717f5e1d",
+      "assets/customer-c/banners-brief31.css": "1772689fbb0177a1a9d603ce320279d287378629c4d73b13dc1ec4486f513888",
+      "assets/customer-c/home-brief31.css": "9a5d11ac5cf59d139ca46f468efa423fd4a531c272ffe0499670a445cbf220c5",
+      "assets/customer-c/dish-group-brief31.css": "51ab87c9f9112c18e95dc58a5a0bf71c8bd95f6d8924bca8b1d06bdcbcf51c2e",
+      "assets/customer-c/dish-group-brief31.js": "058c2559bdad03c5cef49f7a81262fcfd97923077f812b6d8b2181eef212ab5b",
+      "assets/customer-c/restaurants-brief30.js": "f4b0ae64348b1a08ca31a65dc45c52a95ce86666a6ec146448e69746a2abad11",
+      "assets/customer-c/restaurants-brief30.css": "ca9f406a2fb7d6dfd75d313b79d423677640db1bce3f1baf9342d72626b8ddef",
+      "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a",
+      "driver.html": "7ccec8a36c32c8821968e4e4fbba845ebec79e8906b677e773ec636d9c87c920",
+      "merchant.html": "2fa21eaf85d1b19152cc25436054651194d3877db7040de7394c0e69f8756af5",
+      "assets/shared/brand-brief31b.js": "cf80e2cde2ebbd6946efe3da8d62a68d869e71d48ab85697927728091660243e",
+      "assets/brand/logo-talabot-en.webp": "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3",
+      "assets/brand/logo-talabot-ru.webp": "b4e016d9c81f28b87f7c77d5458d4ba7b84e840480d650433478fa39dbff2af7"
+    },
+    "fixture_time": "2026-11-18T09:00:00+00:00",
+    "webkit_version": "26.5",
+    "completed_at": "2026-11-21T07:20:56.863788+00:00",
+    "source_unchanged_during_capture": true
+  }
+}

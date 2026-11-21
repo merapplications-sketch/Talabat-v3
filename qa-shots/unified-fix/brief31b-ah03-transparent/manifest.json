@@ -1,0 +1,73 @@
+{
+  "code_sha": "544dd8b658b784315d16672279f97f5541003421",
+  "source_commit": "991e86727a307564e08c36be5360b89300e2bbdd",
+  "status": "BLOCKED_CI_EXPECTATIONS",
+  "source_transparency_blocker_resolved": true,
+  "required_ci_success": false,
+  "product_files_match_code_sha": true,
+  "screenshots": 4,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6386,
+      "sha256": "9a840219aaace224e09f48fc233296b5a49deca4e63f6408d262130930f19034",
+      "git_blob": "db105a2d18029fae535f14a286de7442e6bea8ff"
+    },
+    {
+      "path": "ci-results.json",
+      "bytes": 17534,
+      "sha256": "94c1d791384ec55af0d61a48a9a30a68c45c3c3ed2d589890be2a2d1710509dd",
+      "git_blob": "d1ce5b94779f4740a5dd78e0c235e1fcba564b3b"
+    },
+    {
+      "path": "en-390-customer-home.webp",
+      "bytes": 41070,
+      "sha256": "9d4a100fb29815745f4e6652cf0d5eab77fc415fe50dffd73e498d79baa8e191",
+      "git_blob": "f244bb12cd526d58b40f5417233e6e1294cc504b",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-customer-login.webp",
+      "bytes": 9066,
+      "sha256": "ec055a81544c3afe2bde069e1360a9016de7043c79306839e1d7169935c2b329",
+      "git_blob": "cf9bdd9af3a0044ba4dced87a820f403a0ec3d2f",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "ru-375-customer-home.webp",
+      "bytes": 39382,
+      "sha256": "85d792c950d7b06a00f9866af4c2c2902578c876b67175f41689670c3510e81a",
+      "git_blob": "8b7e6bfa43347484bb3e035b7e1dca687bc1366d",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-customer-login.webp",
+      "bytes": 9024,
+      "sha256": "3ab55ee389bbe51136ace0114c3ee2033a42907e0a87374cf1060ba8b29b1f71",
+      "git_blob": "45b847833e3455a270834243e3d7114d045b4b4d",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "screenshot-provenance.json",
+      "bytes": 7925,
+      "sha256": "6dde25f0d0f4fe55fb8b87c9e5852433082233b758ce62da219c2632dfd4ba94",
+      "git_blob": "0287b3e3594d70d948002e9e020f06b1046cd982"
+    },
+    {
+      "path": "source-asset-audit.json",
+      "bytes": 1169,
+      "sha256": "c4d478284c96ab8b85fcf1ac3005a9459c342eb24133d55df79a4fb0bffe0d40",
+      "git_blob": "2a06fd9c580ca5d6a3e50a02e23f06394270d47b"
+    },
+    {
+      "path": "unchanged-harness-results.json",
+      "bytes": 95311,
+      "sha256": "80e2104bb3d31f0e2e5c87ad3d102eca9f5eaf7753487f2ba34769e7da5458ac",
+      "git_blob": "b1e522d8acadf2ea23b135e8fc97c98a12519742"
+    }
+  ]
+}
