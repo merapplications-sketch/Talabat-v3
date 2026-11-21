@@ -1,6 +1,6 @@
 # BRIEF-32 delivery evidence
 
-Scope: owner comments `7061725687`, `7061808632` (overrides), and `7061817909` (AI-07), from product baseline `1d54020a8a4de60e118b342b19fb8d0c3ab2e876`. Seven independently named product commits. No deployment or database writes.
+Scope: owner comments `7061725687`, `7061808632` (overrides), and `7061817909` (AI-07), from product baseline `1d54020a8a4de60e118b342b19fb8d0c3ab2e876`. Seven item commits, followed by a scoped AI-05 correction. No deployment or production database writes.
 
 ## Verified candidate
 
@@ -9,6 +9,17 @@ The combined original-HTML WebKit run passed **746 assertions with 40 viewport/c
 The primary catalogue fixture matches the reported state: **two restaurants, no DineOut eligibility, no admin banners**. It uses the observed restaurant names/cuisine descriptions with synthetic offline menu/pricing/photo fixtures. Configured-banner screenshots and the third-card sizing case are explicitly separate fixtures. These are browser acceptance results, not production or physical-phone screenshots.
 
 All product hashes, test dependencies, network traces, assertions, and screenshot hashes are recorded in [the combined results](acceptance/results.json). The exact pushed SHA is additionally checked by the existing Home and H-01 GitHub workflows; their run links are supplied with delivery.
+
+## GitHub verification on the delivered code
+
+Both required workflows completed successfully on the same code SHA, [`5e85042b9681874ab2657ca8c822e54b5273faa7`](https://github.com/merapplications-sketch/Talabat-v3/commit/5e85042b9681874ab2657ca8c822e54b5273faa7):
+
+- [Home — run 44904622609](https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44904622609): Home smoke and approved financial parity passed; **746 assertions, 40 screenshots, and 105 AI-05 checks** passed in the pinned CI environment. All nine measured candidate interactions have zero visible anchor drift and zero whole-app writes.
+- [H-01 — run 44904622576](https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44904622576): **24/24 authenticated cases, zero H-01 blockers**. This gate uses an isolated local test database; it does not deploy or modify production data.
+
+Home artifact: `brief24-home-cart` / `14707806116`. H-01 artifact: `talabot-brief15-h01-local-auth-evidence` / `14707816090`.
+
+The subsequent [H-01 evidence commit](https://github.com/merapplications-sketch/Talabat-v3/commit/57fb3f3f30a26ee9dbd279d4ce4ac75b243afa48) changes only four existing screenshots. This verification-record update also changes evidence text only; the tested product remains exactly the code SHA above. H-01's zero blockers is specific to its authentication gate, not a claim that the broader legacy visual audit has zero findings.
 
 ## Requested changes and evidence
 
