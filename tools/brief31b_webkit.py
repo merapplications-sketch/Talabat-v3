@@ -18,8 +18,9 @@ import brief31_webkit as prior
 import brief31b_cuisines as cuisines
 
 ROOT = Path.cwd()
-LOGOS = {'en': '826e10b9d3be9bc7ba3e3b00d069f2cb445d5656',
-         'ru': '4979b3fdb053b89d57670a8bc82f8fd9147f6e00'}
+OWNER_LOGO_SOURCE_COMMIT = '991e86727a307564e08c36be5360b89300e2bbdd'
+LOGO_SHA256 = {'en': 'd70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3',
+               'ru': 'b4e016d9c81f28b87f7c77d5458d4ba7b84e840480d650433478fa39dbff2af7'}
 BRAND_SOURCE = 'assets/shared/brand-brief31b.js'
 prior.PRODUCT_PATHS += ['driver.html', 'merchant.html', BRAND_SOURCE,
                         'assets/brand/logo-talabot-en.webp', 'assets/brand/logo-talabot-ru.webp']
@@ -36,15 +37,15 @@ def check_logo(run, page, selector, lang, name):
     images = page.locator(selector).evaluate_all("nodes=>Promise.all(nodes.map(async i=>{"
         "await i.decode();return {src:i.getAttribute('src'),alt:i.alt,width:i.naturalWidth,height:i.naturalHeight}}))")
     run.check('AH-03', name, bool(images) and all(i['src'] == expected_logo(lang) and
-              i['alt'] == 'Talabot' and i['width'] == 900 and i['height'] == 302 for i in images), images)
+              i['alt'] == 'Talabot' and i['width'] == 900 and i['height'] == (302 if lang == 'en' else 298) for i in images), images)
 
 
 def test_assets(run):
-    for lang, expected in LOGOS.items():
+    for lang, expected in LOGO_SHA256.items():
         path = ROOT / expected_logo(lang)
         data = path.read_bytes()
-        blob = hashlib.sha1(f'blob {len(data)}\0'.encode() + data).hexdigest()
-        run.equal('AH-03', lang + ' logo is byte-identical to owner source', blob, expected)
+        digest = hashlib.sha256(data).hexdigest()
+        run.equal('AH-03', lang + ' logo is byte-identical to owner source', digest, expected)
         im = Image.open(path)
         run.equal('AH-03', lang + ' source alpha channel is retained', im.convert('RGBA').getchannel('A').getextrema(), (0, 255))
 
@@ -166,7 +167,7 @@ def test_app(run, browser, server, photos, role, lang, width):
             if lang in ('ru', 'en'):
                 run.capture(page, f'{lang}-{width}-customer-home.webp')
         if role == 'driver':
-            height = page.locator(selector).evaluate('e=>e.getBoundingClientRect().height')
+            height = page.evaluate('s=>document.querySelector(s).getBoundingClientRect().height', selector)
             run.check('AH-03', 'driver header retains original image height', abs(height - 104 * 504 / 2404) < .1, height)
         for locale in ('en', 'tg', 'ru'):
             page.evaluate('(l)=>TLB.setLang(l)', locale)
@@ -184,6 +185,7 @@ def main():
         assert not os.environ.get(key), f'Cloud context forbidden: {key}'
     prior.EXPECTED_IDS = set(args.items)
     run = prior.Acceptance(args.output)
+    run.provenance['owner_logo_source_commit'] = OWNER_LOGO_SOURCE_COMMIT
     run.provenance['harness_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     run.provenance['harness_dependencies_sha256'] = {
         path:hashlib.sha256((ROOT/path).read_bytes()).hexdigest()
