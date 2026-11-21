@@ -10,7 +10,20 @@ TLB.addDict({
 });
 /* AG-03: this rail contains advertisements with their own destinations. */
 function bannerItems(){return bannersAt('restaurants')}
-function rail(){const banners=bannerItems();return banners.length?'<div class="ad30-banner-row" data-banner-rail="restaurants" aria-label="'+esc(t('d6Partn'))+'">'+banners.map(b=>bannerMarkup(b,'ad30-banner ad30-tone-managed','restaurants')).join('')+'</div>':''}
+function rail(){
+  const banners=bannerItems();
+  if(banners.length)return '<div class="ad30-banner-row" data-banner-rail="restaurants" aria-label="'+esc(t('d6Partn'))+'">'+banners.map(b=>bannerMarkup(b,'ad30-banner ad30-tone-managed','restaurants')).join('')+'</div>';
+  /* AI03: the original 8cd90a8a trio remains until this placement has ads. */
+  const defaults=[
+    {id:'disc',label:t('ad30Offers'),picture:'fire',tone:'disc',action:"openBannerList('disc')"},
+    {id:'free',label:t('ad30Free'),picture:'motor-scooter',tone:'free',action:"openBannerList('free')"},
+    {id:'you',label:t('ad30ForYou'),picture:'hamburger',tone:'you',action:"openBannerList('category','rest')"}
+  ];
+  return '<div class="ad30-banner-row" aria-label="'+esc(t('d6Partn'))+'">'+defaults.map(b=>
+    '<button type="button" class="ad30-banner ad30-tone-'+b.tone+'" onclick="'+b.action+'" aria-label="'+esc(b.label)+'">'
+      +'<img class="ad30-banner-art" src="'+A3(b.picture)+'" alt="" loading="lazy"><b>'+esc(b.label)+'</b></button>'
+  ).join('')+'</div>';
+}
 function search(){
   return '<div class="d6-sf ad30-search" onclick="if(event.target===this)document.getElementById(\'cq\').focus()">'
   +ico('search',20)+'<input type="search" id="cq" value="'+esc(S.cq||'')+'" placeholder="'+esc(ad30Hint())+'" '
