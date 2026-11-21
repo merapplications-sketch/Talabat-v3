@@ -2059,6 +2059,31 @@ body{font-size:var(--type-body);line-height:20px;font-weight:var(--weight-regula
 #app .d6m .d6-hd{min-height:0}
 #app:has(.d6m) .nav>div{color:#536176}
 #app:has(.d6m) .nav>div.on{color:#a43408}
+#app .d6m .d6-cover{height:152px;min-height:152px;padding:12px 16px;overflow:hidden}
+#app .d6m .d6-cover:after{background:linear-gradient(180deg,#0003,transparent 55%);z-index:0}
+#app .rp-identity{position:relative;z-index:2;margin:-42px 16px 0;padding:14px 14px 8px;background:white;border:1px solid #e0e5ec;border-radius:14px;box-shadow:0 3px 10px #17243c0d}
+#app .rp-identity .d6-id{align-items:center;gap:12px;margin:0;color:#17243c}
+#app .rp-identity .d6-id h1{color:#17243c;text-shadow:none;font-size:19px}
+#app .rp-identity .d6-logo{width:54px;height:54px;border-radius:10px;box-shadow:none;border:1px solid #e0e5ec}
+#app .rp-identity .d6-tag,#app .rp-identity .d6-rt{color:#536176;opacity:1;white-space:normal}
+#app .rp-identity .d6-rt svg:first-child{color:#a43408}
+#app .rp-identity .d6-stats{margin:10px 0 0;border:0;border-top:1px solid #e0e5ec;padding:6px 0 0;border-radius:0;box-shadow:none}
+#app .rp-identity .d6-stat{flex-direction:column-reverse;gap:1px}
+#app .rp-identity .d6-stat + .d6-stat{border-inline-start:1px solid #e0e5ec}
+#app .rp-offers{margin:10px 16px 4px;background:#fff1e9;color:#a43408;border-radius:9px}
+#app .rp-offers summary{min-height:44px;display:flex;align-items:center;gap:8px;padding:8px 12px;list-style:none;cursor:pointer}
+#app .rp-offers summary::-webkit-details-marker{display:none}
+#app .rp-offers summary svg:last-child{margin-left:auto}
+#app .rp-terms{padding:2px 12px 12px;color:#17243c;display:grid;gap:8px}
+#app .rp-terms span{display:block;color:#536176}
+#app .d6m .d69-menu-nav{margin-top:4px}
+#app .d6m .msec{margin-top:16px}
+#app .d6m .d69-grid .d6-ph{aspect-ratio:1.55}
+#app .d6m .d68-earn{margin-top:16px}
+#app .rp-empty-cart{display:flex;align-items:center;gap:10px;position:fixed;left:16px;right:16px;bottom:calc(70px + env(safe-area-inset-bottom,0px));z-index:42;height:44px;max-width:398px;margin:auto;width:calc(100% - 32px);border-radius:10px;padding:0 12px;background:#ffe1cf;color:#743010;opacity:1;cursor:default;box-shadow:0 0 0 5px white}
+#app .rp-empty-cart span{font-weight:600}
+#app .rp-empty-cart b{margin-left:auto}
+#app .rp-cart-space{height:50px}
 </style></head><body>
 <div id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
@@ -6000,6 +6025,10 @@ function rpControls(){
   const button=(title,active,action)=>'<button type="button" aria-pressed="'+active+'" onclick="'+action+'">'+title+'</button>';
   return '<details id="review" '+(rpReview?'open':'')+' ontoggle="rpReview=this.open"><summary>'+rpText('Варианты макета','Preview options')+'</summary><div class="choices">'+['ru','en'].map(l=>button(l.toUpperCase(),lang===l,"rpChoose('"+l+"','"+store+"')")).join('')+'</div><div class="choices">'+['Romant Restaurant','KFC'].map((n,i)=>button(n,S.store===n,"rpChoose('"+lang+"','"+(i?'kfc':'romant')+"')")).join('')+'</div><button disabled class="closed"><span><b>Café Atlas</b><small>'+rpText('Закрыто · Откроется в 09:00','Closed · Opens at 09:00')+' · 4.2 (9)</small></span></button><p class="choices"><label><input type="checkbox" '+(rpAdvertising?'checked':'')+' onchange="rpReview=true;rpAdvertising=this.checked;render()"> '+rpText('Показать пример рекламы','Show sample ad')+'</label></p></details>';
 }
+let rpOffers=false;
+function rpEmptyCart(){
+  return '<div class="rp-cart-space"><button class="rp-empty-cart" disabled>'+ico('cart',18)+'<span>'+rpText('Корзина','View basket')+'</span><b>0 TJS</b></button></div>';
+}
 
 function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store),st=TLB.stores().find(x=>x.name==S.store)||{},sd=storeOf(S.store),q=S.msq.trim().toLowerCase(),sdp=sd.disc||0;
   const fav=st.id&&TLB.isFav(st.id),eta=etaOf(sd),maxIt=M.reduce((m,i)=>Math.max(m,+i.discount||0),0);
@@ -6012,19 +6041,19 @@ function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store
   const sec=x=>`<section class="msec d6-sec ${x.kind=='h'?'d73-again':''}" id="${x.id}"><div class="d6-hd"><h2 class="d6-h2">${esc(x.kind=='g'?t('d6Pop'):x.title)}</h2></div>${x.kind=='l'?`<div class="d6-list">${x.items.map(i=>d6Row(i,sdp)).join('')}</div>`:`<div class="d6-rail ${x.kind=='g'||x.kind=='h'?'d69-grid':''}">${x.items.map(i=>d6Card(i,sdp)).join('')}</div>`}</section>`;
   const search=`<label class="d6-sb">${ico('search',20)}<input type="search" id="mq" placeholder="${t('searchMenu')}" value="${esc(S.msq)}" oninput="S.msq=this.value;render()" enterkeyhint="search" aria-label="${t('searchMenu')}"></label>`;
   const body=q?(()=>{const f=M.filter(i=>i.name.toLowerCase().includes(q));return search+(f.length?`<div class="d6-list" style="margin-top:12px">${f.map(i=>d6Row(i,sdp)).join('')}</div>`:`<div class="d6-empty">${emptyV(t('noItemsF'),t('emNoResS'),'','search')}</div>`)})()
-    :M.length?again.map(sec).join('')+search+rest.map((x,index)=>sec(x)+(index===0&&rest.length>1?rpAd(M):'')).join(''):`<div class="d6-empty">${emptyV(t('noMenu'),'','','receipt')}</div>`;
+    :M.length?again.map(sec).join('')+(S.msearch?search:'')+rest.map((x,index)=>sec(x)+(index===0&&rest.length>1?rpAd(M):'')).join(''):`<div class="d6-empty">${emptyV(t('noMenu'),'','','receipt')}</div>`;
   const n=S.cartStore==S.store?cartCount():0;
   return `<div class="d6 d6m ${open?'':'c01-closed-menu'}"><div class="d6-cover">${st.cover_url?`<img src="${esc(st.cover_url)}" alt="" onerror="this.remove()">`:''}
   <div class="d6-act"><button class="d6-circ" onclick="go('${S.back||'home'}')" aria-label="${t('back')}">${ico('back')}</button><span class="sp"></span>
-  <button class="d6-circ ${fav?'on':''}" aria-label="${t('favs')}" aria-pressed="${!!fav}" onclick="TLB.toggleFav('${st.id}')">${ico('heart',22,fav)}</button><button class="d6-circ" aria-label="${t('shareStore')}" onclick="shareStore()">${ico('share')}</button></div>
-  <div class="d6-id"><div class="d6-logo">${st.logo_url?`<img src="${esc(st.logo_url)}" alt="" onerror="this.remove()">`:esc(String(S.store||'?').charAt(0).toUpperCase())}</div><div style="min-width:0;flex:1"><h1>${esc(S.store)}</h1>${st.description?`<div class="d6-tag">${esc(st.description)}</div>`:''}
-  ${sd.rt>0?`<button class="d6-rt" onclick="S.sinfo=true;render()" aria-label="${t('d6Info')}">${ico('star',14,1)} ${sd.rt.toFixed(1)}${sd.rc?` (${cnt(sd.rc)})`:''} ${ico('chev',13)}</button>`:''}</div></div></div>
-  <div class="d6-stats">${stats.map(x=>`<div class="d6-stat"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join('')}<button class="d6-more" onclick="S.sinfo=true;render()" aria-label="${t('d6Info')}">${ico('chev')}</button></div>
+  <button class="d6-circ ${fav?'on':''}" aria-label="${t('favs')}" aria-pressed="${!!fav}" onclick="TLB.toggleFav('${st.id}')">${ico('heart',22,fav)}</button><button class="d6-circ" aria-label="${t('shareStore')}" onclick="shareStore()">${ico('share')}</button><button class="d6-circ" aria-label="${t('searchMenu')}" onclick="S.msearch=!S.msearch;render();if(S.msearch)document.getElementById('mq')?.focus()">${ico('search')}</button></div>
+  </div><div class="rp-identity"><div class="d6-id"><div class="d6-logo">${st.logo_url?`<img src="${esc(st.logo_url)}" alt="" onerror="this.remove()">`:esc(String(S.store||'?').charAt(0).toUpperCase())}</div><div style="min-width:0;flex:1"><h1>${esc(S.store)}</h1>${!st.description?`<div class="d6-tag">${S.store==='KFC'?rpText('Курица · Бургеры','Chicken · Burgers'):rpText('Гриль · Плов · Бургеры','Grill · Pilaf · Burgers')}</div>`:''}${st.description?`<div class="d6-tag">${esc(st.description)}</div>`:''}
+  ${sd.rt>0?`<button class="d6-rt" onclick="S.sinfo=true;render()" aria-label="${t('d6Info')}">${ico('star',14,1)} ${sd.rt.toFixed(1)}${sd.rc?` (${cnt(sd.rc)})`:''} ${ico('chev',13)}</button>`:''}</div></div>
+  <div class="d6-stats">${stats.map(x=>x[1]===t('minU')?[x[0]+' '+x[1],rpText('Время доставки','Delivery time')]:[x[0],rpText('Доставка','Delivery fee')]).map(x=>`<div class="d6-stat"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join('')}<button class="d6-more" onclick="S.sinfo=true;render()" aria-label="${t('d6Info')}">${ico('chev')}</button></div></div>
 
   ${open?'':`<div class="d6-note"><div class="closedb">${t('closedBanner')}</div></div>`}
-  ${rpReward(d6Earn())}
-  ${tiles.length?`<div class="d6-ofs">${tiles.map(o=>`<div class="d6-of ${o[0]}"><span class="ic">${o[1]}</span><div><b>${esc(o[2])}</b>${o[3]?`<span>${esc(o[3])}</span>`:''}</div></div>`).join('')}</div>`:''}
-  ${!q&&secs.length?`<nav class="d69-menu-nav" aria-label="${t('v69Sections')}">${secs.map(x=>`<a href="#${x.id}" onclick="event.preventDefault();document.getElementById('${x.id}').scrollIntoView({behavior:'smooth',block:'start'})">${esc(x.kind=='g'?t('d6Pop'):x.title)}</a>`).join('')}</nav>`:''}${body}${rpControls()}<div style="height:${n?96:12}px"></div>${S.sinfo?sinfoSheet(st,sd):''}</div>
+  
+  ${tiles.length?`<details class="rp-offers" ${rpOffers?'open':''} ontoggle="rpOffers=this.open"><summary>${ico('tag',16)} <b>${esc(tiles[0][2])}</b>${ico('down',15)}</summary><div class="rp-terms">${tiles.map(o=>`<div><b>${esc(o[2])}</b>${o[3]?`<span>${esc(o[3])}</span>`:''}</div>`).join('')}</div></details>`:''}
+  ${!q&&secs.length?`<nav class="d69-menu-nav" aria-label="${t('v69Sections')}">${secs.map(x=>`<a href="#${x.id}" onclick="event.preventDefault();document.getElementById('${x.id}').scrollIntoView({behavior:'smooth',block:'start'})">${esc(x.kind=='g'?t('d6Pop'):x.title)}</a>`).join('')}</nav>`:''}${body}${rpReward(d6Earn())}${rpControls()}${!cartCount()&&!S.sh?rpEmptyCart():''}<div style="height:${n?96:12}px"></div>${S.sinfo?sinfoSheet(st,sd):''}</div>
   ${itemSheet()}`}
 /* «Подробнее о ресторане»: the store's existing data only */
 function sinfoSheet(st,sd){const m=mapH(sd);
