@@ -84,6 +84,11 @@ input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;displa
 .banner31-images img{width:100%;height:64px;object-fit:contain;border-radius:8px;background:#f5f5f5}.banner31-images label{font-size:12px;flex-wrap:wrap;overflow-wrap:anywhere}.banner31-images input[type=file]{width:100%;font-size:11px}
 .banner31-editor .banner31-note{font-size:13px;line-height:1.5;padding:10px;border-radius:8px;background:#fff6eb;color:#7a4b00}.banner31-editor p{font-size:13px;line-height:1.5}
 @media(max-width:420px){.banner31-images{grid-template-columns:1fr}.banner31-images>div{display:grid;grid-template-columns:36px minmax(0,1fr);align-items:center}.banner31-images img{height:80px}.banner31-images label,.banner31-images button{grid-column:2}}
+.banner31-end-control{display:flex;align-items:center;position:relative;min-height:48px;padding:12px 14px;margin-bottom:10px;background:#f3f3f6;border:1.5px solid transparent;border-radius:14px;font-size:16px;line-height:21px}
+.banner31-end-control:focus-within{border-color:var(--o);background:#fff}
+.banner31-end-control input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.banner31-end-control>span,.banner31-end-control>svg{pointer-events:none}
+.banner31-end-control>svg{margin-left:auto;color:var(--mut);flex:none}
 </style></head><body><div class="w" id="app"></div>
 <script>window.onerror=function(m,s,l){if(window.__errShown)return;window.__errShown=1;var d=document.createElement('div');d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:99999;background:#1c1c21;color:#fff;font:600 13px -apple-system,sans-serif;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 8px 24px #0005';d.innerHTML='Что-то пошло не так · Something went wrong<br><span style="font-weight:500;opacity:.8">Нажмите, чтобы обновить · Tap to reload</span>';d.onclick=function(){location.reload()};(document.body||document.documentElement).appendChild(d)};window.addEventListener('unhandledrejection',function(e){window.onerror('Promise','',0)})</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
@@ -294,6 +299,24 @@ TLB.addDict({bannerEndTime:'Дата и время окончания (Душа�
   {bannerEndTime:'End date and time (Dushanbe, UTC+05:00)',bannerEndHint:'No date means no countdown. The banner is hidden when it expires.'});
 const bannerEndIso=value=>value?value+'+05:00':null;
 const bannerEndShow=value=>{const time=Date.parse(value);return Number.isFinite(time)?new Date(time+5*3600000).toISOString().slice(0,19):''};
+/* AH-02: localize the displayed value without changing the native picker or saved deadline. */
+function bannerEndLabel(value){
+  const parts=String(value||'').match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  if(!parts)return '—';
+  const [,year,month,day,hour,minute]=parts;
+  return (TLB.lang()==='en'?day+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+month-1]+' '+year:day+'.'+month+'.'+year)+' '+hour+':'+minute;
+}
+function bannerEndField(id,value='',editing=false){
+  return `<label><small>${t('bannerEndTime')}</small><span class="banner31-end-control"><input id="${id}" data-banner-end-input type="datetime-local" step="1" value="${esc(value)}" aria-label="${t('bannerEndTime')}" aria-description="${esc(bannerEndLabel(value))}" ${editing?'oninput="bd(\'to\',this.value)" onchange="bd(\'to\',this.value)"':''}><span data-banner-end-display="${id}" aria-hidden="true">${bannerEndLabel(value)}</span>${ic('cal',18)}</span></label>`;
+}
+function syncBannerEnd(input){
+  if(!input?.hasAttribute('data-banner-end-input'))return;
+  const label=input.parentElement.querySelector('[data-banner-end-display]'),text=bannerEndLabel(input.value);
+  if(label)label.textContent=text;
+  input.setAttribute('aria-description',text);
+}
+['input','change'].forEach(event=>document.addEventListener(event,e=>syncBannerEnd(e.target)));
+TLB.on(()=>document.querySelectorAll('[data-banner-end-input]').forEach(syncBannerEnd));
 
 let BD=null,lastTk=-1;
 const bdOf=b=>({presentation:JSON.parse(JSON.stringify(b.presentation||{})),title:b.title||'',image_url:b.image_url||null,link_type:b.link_type||null,link_value:b.link_value||null,sort:+b.sort||0,placement:b.placement=='bottom'?'bottom':'top',from:dShow(b.starts_at),to:bannerEndShow(b.ends_at),is_active:!!b.is_active});
@@ -536,7 +559,7 @@ function vBanners(){const bs=TLB.banners(true);
   <button id="blb" class="b g" style="width:100%;margin-bottom:8px;padding:11px;text-align:left" onclick="pickLink(v=>{BL=v;$('blb').innerHTML=ic('link')+' '+linkLabel(v)})">${ic('link')} ${linkLabel(BL)}</button>
   ${bannerActionFields(bannerCreatePresentation)}
   ${bannerSchema()?'':`<small>${t('aBPl')}</small><select id="bpl"><option value="top">${t('aBTop')}</option><option value="bottom">${t('aBBot')}</option></select>`}
-  <small>${t('aBFrom')}</small><input id="bfr" type="date"><label><small>${t('bannerEndTime')}</small><input id="bto" type="datetime-local" step="1"></label><small>${t('bannerEndHint')}</small>
+  <small>${t('aBFrom')}</small><input id="bfr" type="date">${bannerEndField('bto')}<small>${t('bannerEndHint')}</small>
   <small style="display:block;margin-bottom:4px">${t('aBOrd')}</small><input id="bo" type="number" value="0"><button class="b" style="width:100%;padding:12px" onclick="addBanner()">${t('aBAdd')}</button></div>`;
   return `${bannerRotationSettings()}${tasteAdmin()}${showAddB?addF:`<button class="b" style="width:100%;padding:13px;margin-bottom:12px" onclick="showAddB=true;bannerCreatePresentation={};render()">${ic('plus')}${t('aAddB')}</button>`}
   ${bs.length?bs.map(b=>{const st=bState(b);
@@ -555,7 +578,7 @@ function vBannerEdit(){if(!BD){BE=null;return vBanners()}const b0=TLB.banners(tr
   <button class="b g" style="width:100%;margin-bottom:8px;padding:10px;text-align:left" onclick="pickLink(v=>bannerLink(v))">${ic('link')} ${linkLabel(cur)}</button>
   ${bannerActionFields(BD.presentation)}
   ${bannerSchema()?'':`<small>${t('aBPl')}</small><select onchange="bd('placement',this.value)"><option value="top" ${BD.placement=='top'?'selected':''}>${t('aBTop')}</option><option value="bottom" ${BD.placement=='bottom'?'selected':''}>${t('aBBot')}</option></select>`}
-  <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)"><label><small>${t('bannerEndTime')}</small><input id="banner-end-time" type="datetime-local" step="1" value="${esc(BD.to)}" oninput="bd('to',this.value)" onchange="bd('to',this.value)"></label><small>${t('bannerEndHint')}</small>
+  <small>${t('aBFrom')}</small><input type="date" value="${esc(BD.from)}" oninput="bd('from',this.value)" onchange="bd('from',this.value)">${bannerEndField('banner-end-time',BD.to,true)}<small>${t('bannerEndHint')}</small>
   ${bannerSizeHelp('banner-edit-size',BD.imageSize)}
   <div class="btns"><label class="b g" style="margin:0">${ic('cam')} ${t('aImgB')}<input type="file" accept="image/*" style="display:none" onchange="bannerImg(event)"></label>
   <button class="b ${BD.is_active?'r':''}" onclick="BD.is_active=!BD.is_active;render()">${BD.is_active?t('aSus'):t('aAc')}</button>
@@ -844,7 +867,7 @@ const defOf=e=>isChk(e)?e.defaultChecked:e.tagName=='SELECT'?selDef(e):e.default
 /* only fields without a handler: fields with oninput/onchange keep their value in memory themselves. Nothing is carried to another screen/record. */
 const ctxKey=()=>[tab,D,E,DE,BE,TK.sel,CU.sel,showAddP,showAddB,showAddS].join('|');
 function formKeep(){const m={},ap=$('app');if(!ap)return m;ap.querySelectorAll('input[id],select[id],textarea[id]').forEach(e=>{if(e.type=='file'||e.hasAttribute('oninput')||e.hasAttribute('onchange'))return;const v=valOf(e),d=defOf(e);if(v!==d)m[e.id]={v,d}});return m}
-function setVal(e,v){if(isChk(e))e.checked=v;else e.value=v}
+function setVal(e,v){if(isChk(e))e.checked=v;else e.value=v;syncBannerEnd(e)}
 function confNote(e){const sv=isChk(e)?(e.defaultChecked?'✓':'✗'):e.tagName=='SELECT'?(([...e.options].find(o=>o.defaultSelected)||e.options[0]||{}).text||''):e.defaultValue;
   const n=document.createElement('div');n.className='confn';n.dataset.for=e.id;n.innerHTML=ic('alert')+' '+esc(t('uConf').replace('{v}',sv===''?'—':sv))+`<button type="button" class="b g" onclick="confTake('${e.id}')">${t('uConfTake')}</button>`;
   e.classList.add('confi');(e.closest('label.slf')||e).insertAdjacentElement('afterend',n)}
