@@ -256,7 +256,7 @@ function rows(){
 let lastFloatScroll=0,floatFrame=0,floatObserver=null,floatObserved=null;
 function floatingCampaign(){
   const selected=bannersAt('restaurants').find(b=>{
-    const cfg=bannerConfig(b);
+    const cfg=managedBannerConfig(b);
     return (cfg.floating===true||b.placement==='restaurants_float')
       &&(cfg.action==='campaign'||cfg.campaign);
   });
@@ -323,7 +323,7 @@ function renderRestaurants(){
 }
 window.TALABOT_RESTAURANTS_BRIEF30={
   render:renderRestaurants,
-  banner:function(id){bannerGo(id)},
+  banner:function(id){managedBannerGo(id)},
   cuisine:toggleCuisine,
   cuisineImageFailed:hideFailedCuisine,
   filter:toggleFilter,

@@ -1,0 +1,128 @@
+{
+  "instruction": "https://github.com/merapplications-sketch/Talabat-v3/issues/48#issuecomment-7061237799",
+  "design_ref": "8cd90a8ac14ff01413b63f79c5db676c0081d34d",
+  "scope_ref": "81ddd9c6f2cfce9fae8a30c3401ad1615006e839",
+  "hero_bytes": 4509,
+  "hero_sha256": "831021e2186f17fa9abb88e37a68b83307927b6e01d6f55bc43430c92c1fd371",
+  "literal_hero_diff_empty": true,
+  "changed_product_paths": [
+    "assets/customer-c/restaurants-brief30.js",
+    "customer.html"
+  ],
+  "other_product_files_unchanged": 153,
+  "product_sha256": {
+    "customer.html": "0414e36a62bd5a309d5a901b4e620524bc8b281bea916d55b1c94f6f0dbe61fa",
+    "admin.html": "056b35f3973715dd515d1c4517145560c5bc4812cd5f0c32cc33ecbb293962dc",
+    "driver.html": "abcbda2fc706b867573208fd6e1cd64f18579cc1b8762bae9388b2dfd655b355",
+    "merchant.html": "50ea3999df4ff2eab960bbeae7b44674a0d500058da8668e056c371e3d66e0f9",
+    "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+    "assets/shared/brand-brief31b.js": "2ec06e843a31a33f00b51caa283c4c2765f3ea47217866cde40dce9415592b66",
+    "assets/brand/logo-talabot-en.webp": "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3",
+    "assets/brand/logo-talabot-ru.webp": "b4e016d9c81f28b87f7c77d5458d4ba7b84e840480d650433478fa39dbff2af7",
+    "assets/shared/banner-system-brief31.js": "a3fd82d7fd40cd2fbb7ceaf262fbcded17c60801936da21e193a56163c2b25f6",
+    "assets/shared/login-banners-ah06.js": "aee94e08e10626bb3a987f5f2c10f568eacc38975034e20f75053dafa8068aba",
+    "assets/shared/login-banners-ah06.css": "c3ad29f0ddd0a910e06089118dc4c63c9c71c1a531b344904810a8ee77c75642",
+    "assets/3d/motor-scooter.webp": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+    "assets/3d/hamburger.webp": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+    "assets/customer-c/banners-brief31.css": "1772689fbb0177a1a9d603ce320279d287378629c4d73b13dc1ec4486f513888",
+    "assets/customer-c/home-brief31.css": "9a5d11ac5cf59d139ca46f468efa423fd4a531c272ffe0499670a445cbf220c5",
+    "assets/customer-c/dish-group-brief31.css": "51ab87c9f9112c18e95dc58a5a0bf71c8bd95f6d8924bca8b1d06bdcbcf51c2e",
+    "assets/customer-c/dish-group-brief31.js": "058c2559bdad03c5cef49f7a81262fcfd97923077f812b6d8b2181eef212ab5b",
+    "assets/customer-c/restaurants-brief30.js": "1b41512068088c4d3321e0581541150f2f17271c4a324ef9eec6796865a4fee2",
+    "assets/customer-c/restaurants-brief30.css": "ca9f406a2fb7d6dfd75d313b79d423677640db1bce3f1baf9342d72626b8ddef",
+    "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+    "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a"
+  },
+  "harness_sha256": "c7f8ddc4c2c1b4b378e90fc5b51e4baa10de8dd0c2eafb903ee3d2511e68ff99",
+  "local_acceptance": {
+    "pass": true,
+    "assertions": 129,
+    "cases": 7,
+    "contexts": 12,
+    "home_ru375_smoke_pass": true,
+    "financial_parity_pass": true,
+    "ci1_runner_pass": true,
+    "playwright_version": "1.62.0",
+    "webkit_version": "26.5"
+  },
+  "pixel_comparisons": [
+    {
+      "scene": "hero",
+      "size_equal": true,
+      "different_pixels": 0,
+      "difference_bbox": null
+    },
+    {
+      "scene": "happy-hero",
+      "size_equal": true,
+      "different_pixels": 0,
+      "difference_bbox": null
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "ru-375-home-baseline.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "6d827ebd9d088089f2fd949723960c7fae0eb343fb733f13ab385a1fd2d1a465"
+    },
+    {
+      "file": "ru-375-hero-baseline.png",
+      "width": 375,
+      "height": 236,
+      "kind": "original hero element screenshot",
+      "sha256": "197bc3efdf402061f16838d27455d7558ef7f233da4fa865d5808e06856a4fd1"
+    },
+    {
+      "file": "ru-375-home-candidate.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "baeaea8cab3afbdef191bcf97be4af9e9005aa052d766d02bb5a3ad8ea79a2c0"
+    },
+    {
+      "file": "ru-375-hero-candidate.png",
+      "width": 375,
+      "height": 236,
+      "kind": "original hero element screenshot",
+      "sha256": "197bc3efdf402061f16838d27455d7558ef7f233da4fa865d5808e06856a4fd1"
+    },
+    {
+      "file": "ru-375-home-baseline-candidate.webp",
+      "width": 762,
+      "height": 844,
+      "kind": "unaltered source screenshots, side by side",
+      "sha256": "6f2d26e52ee53b6bc9a3eb1e3b2041565afa7a1152bd9684658412f36d4731c2"
+    },
+    {
+      "file": "ru-375-hero-baseline-candidate.webp",
+      "width": 762,
+      "height": 268,
+      "kind": "unaltered source screenshots, side by side",
+      "sha256": "cc0cb94a26de0af05f9cf23bd477413b49b0885b5dbccf91b5a8b24d6a5ee7b7"
+    },
+    {
+      "file": "ru-375-happy-hero-baseline.png",
+      "width": 375,
+      "height": 236,
+      "kind": "original hero element screenshot",
+      "sha256": "7adb81d00d3d6f8909606aecd4db2ea61bcbcacf6cbef4235ebeb4f3fa8056a1"
+    },
+    {
+      "file": "ru-375-happy-hero-candidate.png",
+      "width": 375,
+      "height": 236,
+      "kind": "original hero element screenshot",
+      "sha256": "7adb81d00d3d6f8909606aecd4db2ea61bcbcacf6cbef4235ebeb4f3fa8056a1"
+    },
+    {
+      "file": "ru-375-happy-hero-baseline-candidate.webp",
+      "width": 762,
+      "height": 268,
+      "kind": "unaltered source screenshots, side by side",
+      "sha256": "f6b93f3adf41f35a667e5823cf84dffd349b34d3c6c2bfb8e2d765323180c1b2"
+    }
+  ],
+  "production_tested": false,
+  "physical_phone_tested": false,
+  "deployment_performed": false
+}
