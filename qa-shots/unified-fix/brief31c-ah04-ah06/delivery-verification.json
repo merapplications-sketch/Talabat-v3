@@ -1,0 +1,153 @@
+{
+  "date": "2026-11-21",
+  "code_sha": "b026f439224018b35333fd963e72452484e74dd2",
+  "code_tree": "c551b4f82e2e52a5d02f4082a50b99baf37dc8b7",
+  "local_capture_provenance": {
+    "started_at": "2026-11-21T09:17:14.325400+00:00",
+    "git_head": "ced1f2f86c1c6e855580d4271bb96f88c20e7e30",
+    "git_tree": "5260fe7d037994995f00921bcd2b05b787142eee",
+    "harness_sha256": "802d826d4b40ce0d952f96479da11fe2fd8614ea52e9a8775a8c67a4e533b283",
+    "product_sha256": {
+      "customer.html": "eca71f8c7014a8de1bcec489e46c2a675758ec8c84ee64bf7e97467e941dc54f",
+      "admin.html": "056b35f3973715dd515d1c4517145560c5bc4812cd5f0c32cc33ecbb293962dc",
+      "driver.html": "abcbda2fc706b867573208fd6e1cd64f18579cc1b8762bae9388b2dfd655b355",
+      "merchant.html": "50ea3999df4ff2eab960bbeae7b44674a0d500058da8668e056c371e3d66e0f9",
+      "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+      "assets/shared/brand-brief31b.js": "2ec06e843a31a33f00b51caa283c4c2765f3ea47217866cde40dce9415592b66",
+      "assets/brand/logo-talabot-en.webp": "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3",
+      "assets/brand/logo-talabot-ru.webp": "b4e016d9c81f28b87f7c77d5458d4ba7b84e840480d650433478fa39dbff2af7",
+      "assets/shared/banner-system-brief31.js": "a3fd82d7fd40cd2fbb7ceaf262fbcded17c60801936da21e193a56163c2b25f6",
+      "assets/shared/login-banners-ah06.js": "aee94e08e10626bb3a987f5f2c10f568eacc38975034e20f75053dafa8068aba",
+      "assets/shared/login-banners-ah06.css": "c3ad29f0ddd0a910e06089118dc4c63c9c71c1a531b344904810a8ee77c75642",
+      "assets/3d/motor-scooter.webp": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+      "assets/3d/hamburger.webp": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+      "assets/customer-c/banners-brief31.css": "1772689fbb0177a1a9d603ce320279d287378629c4d73b13dc1ec4486f513888",
+      "assets/customer-c/home-brief31.css": "9a5d11ac5cf59d139ca46f468efa423fd4a531c272ffe0499670a445cbf220c5",
+      "assets/customer-c/dish-group-brief31.css": "51ab87c9f9112c18e95dc58a5a0bf71c8bd95f6d8924bca8b1d06bdcbcf51c2e",
+      "assets/customer-c/dish-group-brief31.js": "058c2559bdad03c5cef49f7a81262fcfd97923077f812b6d8b2181eef212ab5b",
+      "assets/customer-c/restaurants-brief30.js": "f4b0ae64348b1a08ca31a65dc45c52a95ce86666a6ec146448e69746a2abad11",
+      "assets/customer-c/restaurants-brief30.css": "ca9f406a2fb7d6dfd75d313b79d423677640db1bce3f1baf9342d72626b8ddef",
+      "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a"
+    },
+    "fixture_time": "2026-11-18T09:00:00+00:00",
+    "harness_dependencies_sha256": {
+      "tools/brief31_webkit.py": "ca51cec94ad5f72e0c2616fc25a02d0ebbe8b09fa454c4550811f1f0982b6a4c",
+      "tools/brief25b_webkit.py": "94bd6c22f6b7199e060e003997b695749e2feb2eeec05e19679d6def1ad83d3b",
+      "tools/qa_all.py": "f2ff15674872de081873b1a97dd63841c2e7b97e46bf3cde80bc3c708222c2e3"
+    },
+    "playwright_version": "1.62.0",
+    "webkit_version": "26.5",
+    "completed_at": "2026-11-21T09:18:50.489815+00:00",
+    "source_unchanged_during_run": true
+  },
+  "captured_product_matches_code_sha": {
+    "customer.html": true,
+    "admin.html": true,
+    "driver.html": true,
+    "merchant.html": true,
+    "talabat-core.js": true,
+    "assets/shared/brand-brief31b.js": true,
+    "assets/brand/logo-talabot-en.webp": true,
+    "assets/brand/logo-talabot-ru.webp": true,
+    "assets/shared/banner-system-brief31.js": true,
+    "assets/shared/login-banners-ah06.js": true,
+    "assets/shared/login-banners-ah06.css": true,
+    "assets/3d/motor-scooter.webp": true,
+    "assets/3d/hamburger.webp": true,
+    "assets/customer-c/banners-brief31.css": true,
+    "assets/customer-c/home-brief31.css": true,
+    "assets/customer-c/dish-group-brief31.css": true,
+    "assets/customer-c/dish-group-brief31.js": true,
+    "assets/customer-c/restaurants-brief30.js": true,
+    "assets/customer-c/restaurants-brief30.css": true,
+    "assets/customer-c/dineout-header-ru.webp": true,
+    "assets/customer-c/dineout-header-en.webp": true
+  },
+  "local_assertions": 776,
+  "screenshots": [
+    {
+      "file": "ru-375-home-logo.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "7591922375f9daa487e8150e18e602f0fa035185ebb64b373f5e442af4777f36"
+    },
+    {
+      "file": "ru-375-login-story-1.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "72e6b86f6cbed1483c0214f78627368ce9a126095810225d0ede6afe2da7c359"
+    },
+    {
+      "file": "ru-375-login-story-2.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "d1fa943382a4e02370a0d51e443f169167b9074c16ae306f4f4964f8bd64da7e"
+    },
+    {
+      "file": "ru-375-loading.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "4fb58e6b1c59322261ac6a67864c308b14824237b314f28228e21f9c62e63046"
+    },
+    {
+      "file": "en-390-home-logo.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "2c8691e8b4312e2203efc742000e4f9be3fe270de6d66fc902c2811603902a61"
+    },
+    {
+      "file": "en-390-login-story-1.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "f3c0ee7dd40c4198d80187e68507b8d8cf5a40405c36d2d7a97d5ae0c51495b5"
+    },
+    {
+      "file": "en-390-login-story-2.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "2a29e5a2966c35bf9da48117a25f8265f13e7ebb0c295ad640e61cabf14e6f98"
+    },
+    {
+      "file": "en-390-loading.webp",
+      "width": 390,
+      "height": 844,
+      "sha256": "a6a77ee5a80d1acfc34a5f7173b505524ac3a41d6f31c03b3f5d56174cdfff0c"
+    }
+  ],
+  "ci": {
+    "code_sha": "b026f439224018b35333fd963e72452484e74dd2",
+    "home": {
+      "run": 44889672843,
+      "job": 136802550411,
+      "sha": "b026f439224018b35333fd963e72452484e74dd2",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44889672843",
+      "proof": [
+        "2026-11-21T09:28:24.3656284Z CI1_HOME_RU375_SMOKE_PASS; FINANCIAL_PARITY_PASS",
+        "2026-11-21T09:29:08.8372129Z BRIEF31C_PASS 776 assertions; 8 viewport screenshots",
+        "2026-11-21T09:29:08.8726381Z CI1_FAST_WEBKIT_PASS; ONE_BRIEF_AND_ONE_HOME_SMOKE"
+      ]
+    },
+    "h01": {
+      "run": 44889672744,
+      "job": 136802549845,
+      "sha": "b026f439224018b35333fd963e72452484e74dd2",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44889672744",
+      "proof": [
+        "2026-11-21T09:30:09.9837213Z BRIEF19_SEC18_LOCAL_PASS 16/16",
+        "2026-11-21T09:31:01.5848797Z H01_LOCAL_AUTHENTICATED 24/24"
+      ]
+    },
+    "automatic_evidence_sha": "91474c06c0ae0c733388ea0d1e9c83544c0a6645"
+  },
+  "production_deployed": false,
+  "public_feed_connected": false,
+  "ci_compatibility_fix": "One assertion strips only surrounding rendered-label whitespace; the product sources are unchanged from the local 776-assertion acceptance.",
+  "provider_state": "Unconnected by approved scope; three local fallback stories. Connected-empty feeds stay neutral."
+}
