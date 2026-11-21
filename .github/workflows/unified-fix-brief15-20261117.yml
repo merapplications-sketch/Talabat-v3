@@ -59,7 +59,7 @@ jobs:
               assets/shared/brand-brief31b.js|tools/brief31b_webkit.py|tools/brief31b_cuisines.py|docs/superpowers/plans/2026-11-21-brief31b.md) ;;
               assets/shared/login-banners-ah06.js|assets/shared/login-banners-ah06.css|tools/brief31c_webkit.py|docs/superpowers/plans/2026-11-21-brief31c.md) ;;
               tools/brief31d_webkit.py) ;;
-              tools/brief32_webkit.py|tools/brief32_login_webkit.py|tools/brief32_restaurants_webkit.py|tools/brief32_scroll_webkit.py|assets/shared/banner-countdown-brief32.css|assets/preview/dineout-demo.json) ;;
+              tools/brief32_webkit.py|tools/brief32_login_webkit.py|tools/brief32_restaurants_webkit.py|tools/brief32_scroll_webkit.py|assets/shared/banner-countdown-brief32.css|assets/preview/dineout-demo.json|assets/shared/login-free-delivery-ai01b.png|assets/shared/login-burger-ai01b.png) ;;
               # AH-03 owner source: 991e86727a307564e08c36be5360b89300e2bbdd/mockups-20261120.
               assets/brand/logo-talabot-en.webp)
                 test "$(git show HEAD:"$changed" | sha256sum | cut -d' ' -f1)" = "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3" || { echo "STOP: AH-03 EN logo differs from owner source" >&2; exit 1; } ;;

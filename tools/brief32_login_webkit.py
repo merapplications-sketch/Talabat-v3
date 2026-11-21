@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""AI-01: original four-app login DOM, offline SDK and actual local artwork.
+"""AI-01b: original four-app login DOM, offline SDK and audited banner artwork.
 
 This focused suite does not access a production account, database, or endpoint.
 It exports run_ai01(run, browser, server, photos) for the BRIEF-32 master gate.
@@ -20,9 +20,44 @@ import brief31c_webkit as login
 
 prior = login.prior
 ROOT = Path.cwd()
-BASE = '99db45a7f713615468e7ce9f2cb3c5493826a4e3'
+BASE = '7cc3136280b491cf23c4bf7e8f723d48ccfb10ce'
 ITEM = 'AI-01'
 DEFAULT_IDS = login.DEFAULT_IDS
+ARTWORK = {
+    'free': {'path': 'assets/shared/login-free-delivery-ai01b.png', 'size': [1514, 1039],
+             'sha256': '6a9ca929a0abec75ed9aacd7082c59cbb21d6d6a14470837ce73238b1a5dd009'},
+    'happy': {'path': 'assets/shared/login-burger-ai01b.png', 'size': [1298, 1212],
+              'sha256': '1869136642bdbb3597682b6ee1e6f61f1096d3229918c3fcc1fb7dc5fff2a928'},
+    'dineout-ru': {'path': 'assets/customer-c/dineout-header-ru.webp', 'size': [1200, 400],
+                   'sha256': '6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09'},
+    'dineout-en': {'path': 'assets/customer-c/dineout-header-en.webp', 'size': [1200, 400],
+                   'sha256': '345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a'},
+}
+OLD_IMAGE_EXPRESSION = """        image: kind === 'dineout' ? 'assets/customer-c/dineout-header-' + (lang === 'en' ? 'en' : 'ru') + '.webp' :
+          'assets/3d/' + (kind === 'free' ? 'motor-scooter' : 'hamburger') + '.webp'};
+"""
+OLD_RADIUS = '  border-radius: 50% 50% 0 0 / var(--ah06-arc) var(--ah06-arc) 0 0 !important;\n'
+NEW_RADIUS = '  border-radius: 32px 32px 0 0 !important;\n'
+OLD_FOCAL_SELECTOR = '.ah06-slide--dineout:not(.ah06-slide--managed) .ah06-art img { object-position: right center; }\n'
+NEW_FOCAL_SELECTOR = '.ah06-slide--free:not(.ah06-slide--managed) .ah06-art img,\n' + OLD_FOCAL_SELECTOR
+WORKFLOW = '.github/workflows/unified-fix-brief15-20261117.yml'
+OLD_WORKFLOW_ALLOWLINE = ('              tools/brief32_webkit.py|tools/brief32_login_webkit.py|tools/brief32_restaurants_webkit.py|'
+                          'tools/brief32_scroll_webkit.py|assets/shared/banner-countdown-brief32.css|assets/preview/dineout-demo.json) ;;\n')
+
+
+def artwork_paths():
+    return [row['path'] for row in ARTWORK.values()]
+
+
+def expected_artwork(lang):
+    assert set(ARTWORK) == {'free', 'happy', 'dineout-ru', 'dineout-en'}, 'Audited original photo pins are required'
+    return [ARTWORK['free'], ARTWORK['happy'], ARTWORK['dineout-en' if lang == 'en' else 'dineout-ru']]
+
+
+def approved_image_expression():
+    free, happy, _ = expected_artwork('ru')
+    return ("        image: kind === 'dineout' ? 'assets/customer-c/dineout-header-' + (lang === 'en' ? 'en' : 'ru') + '.webp' :\n"
+            "          (kind === 'free' ? " + json.dumps(free['path']) + ' : ' + json.dumps(happy['path']) + ')};\n')
 
 
 class ItemAssertions:
@@ -41,12 +76,39 @@ class ItemAssertions:
 
 
 def test_source_scope(run):
-    for name in ('customer.html', 'driver.html', 'merchant.html', 'admin.html',
-                 'talabat-core.js', 'assets/shared/brand-brief31b.js',
-                 'assets/shared/banner-system-brief31.js',
-                 'assets/brand/logo-talabot-en.webp', 'assets/brand/logo-talabot-ru.webp'):
-        expected = subprocess.check_output(['git', 'show', BASE + ':' + name])
-        run.check(ITEM, name + ' stays unchanged for AI-01', (ROOT / name).read_bytes() == expected)
+    expected_artwork('ru')
+    allowed = {
+        'assets/shared/login-banners-ah06.js', 'assets/shared/login-banners-ah06.css',
+        'tools/brief32_login_webkit.py', 'tools/brief32_webkit.py', WORKFLOW, *artwork_paths(),
+    }
+    paths = set(subprocess.check_output(['git', 'diff', '--name-only', BASE], text=True).splitlines())
+    untracked = subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard'], text=True).splitlines()
+    paths.update(path for path in untracked if not path.startswith('qa-artifacts/ci1-fast/'))
+    outside = sorted(path for path in paths if path not in allowed and
+                     not path.startswith('qa-shots/unified-fix/brief32/ai01b/'))
+    run.equal(ITEM, 'AI-01b freezes all unrelated product, workflow and prior evidence paths', outside, [])
+    for name, substitutions in (
+        ('assets/shared/login-banners-ah06.js', [(OLD_IMAGE_EXPRESSION, approved_image_expression())]),
+        ('assets/shared/login-banners-ah06.css', [(OLD_RADIUS, NEW_RADIUS), (OLD_FOCAL_SELECTOR, NEW_FOCAL_SELECTOR)]),
+    ):
+        previous = subprocess.check_output(['git', 'show', BASE + ':' + name])
+        expected = previous
+        for old, new in substitutions:
+            run.equal(ITEM, name + ' has exactly one authorized original expression', previous.count(old.encode()), 1)
+            expected = expected.replace(old.encode(), new.encode(), 1)
+        run.equal(ITEM, name + ' changes only the exact authorized image, corner or focal selector expressions',
+                  hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), hashlib.sha256(expected).hexdigest())
+    previous = subprocess.check_output(['git', 'show', BASE + ':' + WORKFLOW])
+    run.equal(ITEM, 'H-01 workflow has exactly one original BRIEF32 allowlist line',
+              previous.count(OLD_WORKFLOW_ALLOWLINE.encode()), 1)
+    updated_line = OLD_WORKFLOW_ALLOWLINE.replace(') ;;\n',
+        '|' + ARTWORK['free']['path'] + '|' + ARTWORK['happy']['path'] + ') ;;\n')
+    expected = previous.replace(OLD_WORKFLOW_ALLOWLINE.encode(), updated_line.encode(), 1)
+    run.equal(ITEM, 'H-01 workflow only adds the two exact audited image paths',
+              hashlib.sha256((ROOT / WORKFLOW).read_bytes()).hexdigest(), hashlib.sha256(expected).hexdigest())
+    for row in ARTWORK.values():
+        run.equal(ITEM, row['path'] + ' matches the audited original bytes',
+                  hashlib.sha256((ROOT / row['path']).read_bytes()).hexdigest(), row['sha256'])
 
 
 def active(page):
@@ -70,8 +132,10 @@ def scene_geometry(page):
         left=document.elementFromPoint(s.x+3,s.top+3),right=document.elementFromPoint(s.right-3,s.top+3);
       return {story:{x:h.x,y:h.y,width:h.width,height:h.height,bottom:h.bottom},
         image:{x:i.x,y:i.y,width:i.width,height:i.height,fit:ic.objectFit,natural:[img.naturalWidth,img.naturalHeight]},
-        sheet:{top:s.top,bottom:s.bottom,background:sc.backgroundColor,corners:[sc.borderTopLeftRadius,sc.borderTopRightRadius],
+        sheet:{top:s.top,bottom:s.bottom,background:sc.backgroundColor,
+          corners:[sc.borderTopLeftRadius,sc.borderTopRightRadius,sc.borderBottomLeftRadius,sc.borderBottomRightRadius],
           shadow:sc.boxShadow,center:!!center?.closest('.ah06-sheet'),
+          flatTop:[40,s.width/2,s.width-40].map(x=>document.elementFromPoint(s.x+x,s.top+1)?.closest('.ah06-sheet')===sheet),
           clearCorners:!left?.closest('.ah06-sheet')&&!right?.closest('.ah06-sheet')},
         title:{color:tc.color,size:parseFloat(tc.fontSize)},subtitle:{color:sub.color,size:parseFloat(sub.fontSize)},
         cta:{left:c.left,right:c.right,top:c.top,bottom:c.bottom,width:c.width,height:c.height,color:cc.color,
@@ -91,15 +155,33 @@ def test_default(run, browser, server, photos, role, lang, width, capture=True):
         run.equal(ITEM, 'two transparent edge tap controls replace visible arrows', edge(page, 'prev').count() + edge(page, 'next').count(), 2)
         login.original_form(ItemAssertions(run), page, admin=role == 'admin')
         login.check_pill(ItemAssertions(run), page, '.ah06-brand-slot .talabot-brand-pill', lang)
+        expected = expected_artwork(lang)
+        images = page.locator('.ah06-slide .ah06-art img').evaluate_all("""es=>es.map(i=>{
+          const r=i.getBoundingClientRect(),s=i.closest('.ah06-slide').getBoundingClientRect(),
+            h=i.closest('.ah06-stories').getBoundingClientRect(),css=getComputedStyle(i);
+          return {src:i.getAttribute('src'),size:[i.naturalWidth,i.naturalHeight],decoded:i.complete&&i.naturalWidth>0&&i.naturalHeight>0,
+            position:css.objectPosition,
+            cover:css.objectFit==='cover'&&['x','y','width','height'].every(k=>Math.abs(r[k]-s[k])<1)&&
+              ['width','height'].every(k=>Math.abs(s[k]-h[k])<1)};
+        })""")
+        run.equal(ITEM, 'all three default stories use the exact audited localized sources',
+                  [row['src'] for row in images], [row['path'] for row in expected])
+        run.equal(ITEM, 'all three default images retain the audited natural dimensions',
+                  [row['size'] for row in images], [row['size'] for row in expected])
+        run.equal(ITEM, 'scooter and DineOut retain right-center focal crops while burger stays centered',
+                  [row['position'] for row in images], ['100% 50%', '50% 50%', '100% 50%'])
+        run.check(ITEM, 'all three real story images decode and cover the full story frame',
+                  len(images) == 3 and all(row['decoded'] and row['cover'] for row in images), images)
         metrics = scene_geometry(page)
         image, hero = metrics['image'], metrics['story']
         run.check(ITEM, 'actual story image covers the complete upper story area',
                   image['fit'] == 'cover' and image['natural'][0] > 0 and
                   all(abs(image[key] - hero[key]) < 1 for key in ('x', 'y', 'width', 'height')), metrics)
-        run.check(ITEM, 'form has a broad white arc with a separate upward shadow',
+        run.check(ITEM, 'white sheet has a straight top edge and exactly 32px top corners',
                   metrics['sheet']['background'] == 'rgb(255, 255, 255)' and
+                  metrics['sheet']['corners'] == ['32px', '32px', '0px', '0px'] and all(metrics['sheet']['flatTop']) and
                   metrics['sheet']['center'] and metrics['sheet']['clearCorners'] and
-                  metrics['sheet']['shadow'] != 'none' and hero['bottom'] - metrics['sheet']['top'] >= 40, metrics)
+                  metrics['sheet']['shadow'] != 'none' and abs(hero['bottom'] - metrics['sheet']['top'] - 60) < 1, metrics)
         run.check(ITEM, 'large white headline and readable white subtitle overlay artwork',
                   metrics['title']['color'] == metrics['subtitle']['color'] == 'rgb(255, 255, 255)' and
                   metrics['title']['size'] >= 32 and metrics['subtitle']['size'] >= 14, metrics)
@@ -175,7 +257,7 @@ def test_managed_copy(run, browser, server, photos, lang, width):
         lengths = active(page).locator('.ah06-headline,.ah06-subtitle,.ah06-cta').evaluate_all('es=>es.map(e=>e.textContent.length)')
         run.equal(ITEM, 'admin copy limits are preserved', lengths, [80, 160, 40])
         metrics = scene_geometry(page)
-        run.check(ITEM, 'maximum admin copy keeps the CTA visible above the white arc', metrics['cta']['hit'] and
+        run.check(ITEM, 'maximum admin copy keeps the CTA visible above the white sheet', metrics['cta']['hit'] and
                   metrics['cta']['bottom'] < metrics['sheet']['top'], metrics)
         prior.no_overflow(run, page, ITEM)
         run.capture(page, f'{lang}-{width}-customer-managed-maximum-copy.webp')
@@ -215,6 +297,7 @@ def main():
     for key in ('SUPABASE_URL','SUPABASE_ACCESS_TOKEN','DATABASE_URL','SUPABASE_DB_PASSWORD'):
         assert not os.environ.get(key), 'Production context forbidden: ' + key
     prior.EXPECTED_IDS = {ITEM}
+    prior.PRODUCT_PATHS += [path for path in artwork_paths() if path not in prior.PRODUCT_PATHS]
     run = prior.Acceptance(args.output)
     run.provenance['harness_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     run.provenance['harness_dependencies_sha256'] = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()

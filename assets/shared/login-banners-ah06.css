@@ -32,7 +32,7 @@
   margin: calc(-1 * var(--ah06-arc)) 0 0 !important;
   padding: 16px max(24px, calc((100vw - 390px) / 2)) calc(22px + env(safe-area-inset-bottom, 0px)) !important;
   border: 0 !important;
-  border-radius: 50% 50% 0 0 / var(--ah06-arc) var(--ah06-arc) 0 0 !important;
+  border-radius: 32px 32px 0 0 !important;
   background: #fff !important;
   color: #182c38;
   box-shadow: 0 -7px 24px #12232f24 !important;
@@ -90,6 +90,7 @@
   object-position: center;
   pointer-events: none;
 }
+.ah06-slide--free:not(.ah06-slide--managed) .ah06-art img,
 .ah06-slide--dineout:not(.ah06-slide--managed) .ah06-art img { object-position: right center; }
 .ah06-copy { position: relative; z-index: 1; max-width: 540px; width: 100%; margin-inline: auto; }
 #tlb-ov.ah06-auth .ah06-headline {

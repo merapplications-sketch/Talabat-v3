@@ -70,7 +70,7 @@
         access: staff ? 'public' : 'after_auth', headline: text[kind][0],
         subtitle: staff ? customerEntry[0] : text[kind][1], label: text.view,
         image: kind === 'dineout' ? 'assets/customer-c/dineout-header-' + (lang === 'en' ? 'en' : 'ru') + '.webp' :
-          'assets/3d/' + (kind === 'free' ? 'motor-scooter' : 'hamburger') + '.webp'};
+          (kind === 'free' ? "assets/shared/login-free-delivery-ai01b.png" : "assets/shared/login-burger-ai01b.png")};
     });
   }
   function entries() {

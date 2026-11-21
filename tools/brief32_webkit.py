@@ -113,7 +113,7 @@ def test_source_scope(run):
       'assets/customer-c/restaurants-brief30.js','assets/customer-c/restaurants-brief30.css',
       'assets/preview/dineout-demo.json','tools/brief32_webkit.py','tools/brief32_login_webkit.py',
       'tools/brief32_restaurants_webkit.py','tools/brief32_scroll_webkit.py','tools/ci1_fast_webkit.py',
-      '.github/workflows/unified-fix-brief15-20261117.yml',
+      '.github/workflows/unified-fix-brief15-20261117.yml', *login.artwork_paths(),
     }
     paths=set(subprocess.check_output(['git','diff','--name-only',SCOPE_BASE],text=True).splitlines())
     # CI1 creates its smoke screenshot before this gate. Ignore only generated,
@@ -382,6 +382,7 @@ def main():
     prior.EXPECTED_IDS=coverage.get(args.case,{'SOURCE',*(f'AI-{number:02}' for number in range(1,8))})
     prior.PRODUCT_PATHS += ['assets/preview/dineout-demo.json','assets/shared/banner-countdown-brief32.css',
                             'assets/shared/safe-toast.js']
+    prior.PRODUCT_PATHS += login.artwork_paths()
     run = Acceptance(args.output)
     run.provenance.update({'scope_base': SCOPE_BASE,
         'harness_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -406,7 +407,7 @@ def main():
                 if args.case in (None,'source'):
                     run.run('matching-state-frozen-Home',lambda:test_frozen_home(run,browser,server,baseline,photos))
                 if args.case in (None,'login'):
-                    login.run_ai01(run,browser,server,photos,check_source=False)
+                    login.run_ai01(run,browser,server,photos,check_source=True)
                 if args.case in (None,'restaurants'):
                     restaurants.run_ai03(run,browser,{'baseline':original_server,'candidate':server},photos)
                     restaurants.run_ai06(run,browser,server,photos)
