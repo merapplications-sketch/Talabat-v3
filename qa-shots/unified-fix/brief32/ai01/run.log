@@ -1,0 +1,23 @@
+BRIEF31_CASE_PASS AI-01-source-scope
+BRIEF31_CASE_PASS AI-01-ru-managed
+BRIEF31_CASE_PASS AI-01-ru-customer-default
+BRIEF31_CASE_PASS AI-01-ru-customer-auth
+BRIEF31_CASE_PASS AI-01-ru-driver-default
+BRIEF31_CASE_PASS AI-01-ru-driver-auth
+BRIEF31_CASE_PASS AI-01-ru-merchant-default
+BRIEF31_CASE_PASS AI-01-ru-merchant-auth
+BRIEF31_CASE_PASS AI-01-ru-admin-default
+BRIEF31_CASE_PASS AI-01-ru-admin-auth
+BRIEF31_CASE_PASS AI-01-en-managed
+BRIEF31_CASE_PASS AI-01-en-customer-default
+BRIEF31_CASE_PASS AI-01-en-customer-auth
+BRIEF31_CASE_PASS AI-01-en-driver-default
+BRIEF31_CASE_PASS AI-01-en-driver-auth
+BRIEF31_CASE_PASS AI-01-en-merchant-default
+BRIEF31_CASE_PASS AI-01-en-merchant-auth
+BRIEF31_CASE_PASS AI-01-en-admin-default
+BRIEF31_CASE_PASS AI-01-en-admin-auth
+BRIEF31_CASE_PASS AI-01-tap-swipe-clock
+BRIEF31_CASE_PASS AI-01-cta-public
+BRIEF31_CASE_PASS AI-01-cta-after_auth
+BRIEF32_AI01_PASS 452 assertions; 14 viewport screenshots

@@ -9,7 +9,7 @@
   const words = {
     ru: {
       offers: 'Предложения Талабот', previous: 'Предыдущее предложение', next: 'Следующее предложение',
-      pause: 'Остановить смену предложений', play: 'Продолжить смену предложений', view: 'Смотреть',
+      view: 'Смотреть',
       pending: 'Войдите, чтобы открыть предложение.', unavailable: 'Это предложение больше недоступно.',
       error: 'Пока показываем подборку Талабот.', empty: 'Новые предложения — скоро',
       emptySub: 'А пока войдите в свой аккаунт.', loading: 'Подбираем предложения',
@@ -19,7 +19,7 @@
     },
     en: {
       offers: 'Talabot offers', previous: 'Previous offer', next: 'Next offer',
-      pause: 'Pause offers', play: 'Resume offers', view: 'View',
+      view: 'View',
       pending: 'Sign in to open this offer.', unavailable: 'This offer is no longer available.',
       error: 'Showing Talabot highlights for now.', empty: 'More good things soon',
       emptySub: 'In the meantime, sign in to your account.', loading: 'Finding your next favourite',
@@ -29,7 +29,7 @@
     },
     tg: {
       offers: 'Пешниҳодҳои Талабот', previous: 'Пешниҳоди пешина', next: 'Пешниҳоди навбатӣ',
-      pause: 'Қатъи ивазшавии пешниҳодҳо', play: 'Идомаи ивазшавии пешниҳодҳо', view: 'Дидан',
+      view: 'Дидан',
       pending: 'Барои кушодани пешниҳод ворид шавед.', unavailable: 'Ин пешниҳод дигар дастрас нест.',
       error: 'Ҳоло интихоби Талаботро нишон медиҳем.', empty: 'Пешниҳодҳои нав — ба зудӣ',
       emptySub: 'Ҳоло ба ҳисоби худ ворид шавед.', loading: 'Пешниҳодҳоро интихоб мекунем',
@@ -52,11 +52,6 @@
     if (text !== undefined) node.textContent = text;
     return node;
   }
-  function icon(name) {
-    const paths = {previous: '<path d="m14 5-7 7 7 7"/>', next: '<path d="m10 5 7 7-7 7"/>',
-      pause: '<path d="M9 5v14M15 5v14"/>', play: '<path d="m9 5 10 7-10 7z"/>'};
-    return '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + paths[name] + '</svg>';
-  }
   function safeURL(value) {
     return helpers()?.safeLink(value) || '';
   }
@@ -73,7 +68,7 @@
       url.searchParams.set('login_offer', kind); url.searchParams.set('lang', lang);
       return {id: 'ah06-fallback-' + kind, kind: 'fallback', theme: kind, href: url.href,
         access: staff ? 'public' : 'after_auth', headline: text[kind][0],
-        subtitle: staff ? customerEntry[0] : text[kind][1], label: staff ? customerEntry[1] : text[kind][2],
+        subtitle: staff ? customerEntry[0] : text[kind][1], label: text.view,
         image: kind === 'dineout' ? 'assets/customer-c/dineout-header-' + (lang === 'en' ? 'en' : 'ru') + '.webp' :
           'assets/3d/' + (kind === 'free' ? 'motor-scooter' : 'hamburger') + '.webp'};
     });
@@ -155,7 +150,7 @@
   }
 
   function canRun() {
-    return scene && scene.root.isConnected && scene.items.length > 1 && !scene.paused && !motion.matches &&
+    return scene && scene.root.isConnected && scene.items.length > 1 && !motion.matches &&
       !document.hidden && !scene.pointers.size && !scene.stage.contains(document.activeElement);
   }
   function progress() {
@@ -192,14 +187,10 @@
     scene.section.dataset.activeId = active?.id || '';
     scene.section.dataset.theme = active?.theme || 'free';
     scene.section.dataset.managed = String(active?.kind === 'connected');
-    scene.count.textContent = active ? String(scene.index + 1).padStart(2, '0') + ' / ' + String(scene.items.length).padStart(2, '0') : '';
     [...scene.stage.children].forEach((slide, index) => {
       const on = index === scene.index;
       slide.classList.toggle('is-active', on); slide.setAttribute('aria-hidden', String(!on)); slide.inert = !on;
     });
-    scene.pause.setAttribute('aria-pressed', String(scene.paused));
-    scene.pause.setAttribute('aria-label', scene.paused ? copy().play : copy().pause);
-    scene.pause.innerHTML = icon(scene.paused ? 'play' : 'pause');
     progress();
   }
   function slideFor(item) {
@@ -213,7 +204,6 @@
     image.addEventListener('error', () => {failedImages.add(item.image); syncStories();}, {once: true});
     art.append(image);
     const button = element('button', 'ah06-cta', item.label); button.type = 'button'; button.dataset.bannerId = item.id;
-    const arrow = element('span'); arrow.innerHTML = icon('next'); button.append(arrow);
     slide.append(text, art, button);
     return slide;
   }
@@ -231,8 +221,8 @@
     scene.bars.replaceChildren(...items.map(item => {
       const bar = element('span', 'ah06-progress-step'); bar.dataset.bannerId = item.id; bar.append(element('i')); return bar;
     }));
-    scene.controls.hidden = items.length < 2; scene.bars.hidden = !items.length;
-    scene.count.hidden = !items.length;
+    scene.previous.hidden = scene.next.hidden = items.length < 2;
+    scene.bars.hidden = !items.length;
     scene.empty.hidden = !!items.length;
     scene.empty.firstElementChild.textContent = mode === 'loading' ? copy().loading : copy().empty;
     scene.empty.lastElementChild.textContent = copy().emptySub;
@@ -245,26 +235,23 @@
   function buildScene(root) {
     const section = element('section', 'ah06-stories'); section.setAttribute('aria-roledescription', 'carousel');
     const bars = element('div', 'ah06-progress'); bars.setAttribute('aria-hidden', 'true');
-    const stage = element('div', 'ah06-stage'), controls = element('div', 'ah06-controls');
-    const count = element('span', 'ah06-count'); count.setAttribute('aria-hidden', 'true');
-    const buttons = ['previous', 'next', 'pause'].map(action => {
-      const button = element('button', 'ah06-control'); button.type = 'button';
-      button.dataset.ah06Action = action === 'previous' ? 'prev' : action; button.innerHTML = icon(action); return button;
+    const stage = element('div', 'ah06-stage');
+    const buttons = ['previous', 'next'].map(action => {
+      const button = element('button', 'ah06-edge'); button.type = 'button';
+      button.dataset.ah06Action = action === 'previous' ? 'prev' : action; return button;
     });
-    controls.append(...buttons);
     const empty = element('div', 'ah06-empty'); empty.append(element('h2'), element('p'));
     const note = element('p', 'ah06-feed-note'), feedback = element('p', 'ah06-feedback'); feedback.setAttribute('role', 'status');
-    section.append(stage, empty, bars, count, controls, note, feedback);
-    const result = {root, card: null, section, bars, stage, controls, count, empty, note, feedback,
-      previous: buttons[0], next: buttons[1], pause: buttons[2], items: [], index: 0, elapsed: 0, lastAt: 0,
-      paused: false, keyboard: false, pointers: new Map(), multiPointer: false, signature: '', controller: new AbortController(), suppressClickUntil: 0};
+    section.append(stage, empty, bars, ...buttons, note, feedback);
+    const result = {root, card: null, section, bars, stage, empty, note, feedback,
+      previous: buttons[0], next: buttons[1], items: [], index: 0, elapsed: 0, lastAt: 0,
+      keyboard: false, pointers: new Map(), multiPointer: false, signature: '', controller: new AbortController(), suppressClickUntil: 0};
     const signal = result.controller.signal;
     section.addEventListener('click', event => {
       const button = event.target.closest('button'); if (!button) return;
       if (performance.now() < result.suppressClickUntil) {event.preventDefault(); return;}
       const action = button.dataset.ah06Action;
-      if (action === 'pause') {result.paused = !result.paused; paintActive(); runClock();}
-      else if (action) select(result.index + (action === 'next' ? 1 : -1));
+      if (action) select(result.index + (action === 'next' ? 1 : -1));
       else if (button.dataset.bannerId) activate(button.dataset.bannerId);
     }, {signal});
     section.addEventListener('pointerdown', event => {

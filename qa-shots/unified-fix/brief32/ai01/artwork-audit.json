@@ -1,0 +1,50 @@
+{
+  "base_commit": "99db45a7f713615468e7ce9f2cb3c5493826a4e3",
+  "method": "Read existing repository bytes and compare with git show of the same file at the base commit. No raster images generated, redrawn, recolored, or replaced.",
+  "assets": [
+    {
+      "path": "assets/3d/motor-scooter.webp",
+      "dimensions": [
+        256,
+        256
+      ],
+      "bytes": 4020,
+      "sha256": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+      "base_sha256": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "assets/3d/hamburger.webp",
+      "dimensions": [
+        256,
+        256
+      ],
+      "bytes": 4266,
+      "sha256": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+      "base_sha256": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "assets/customer-c/dineout-header-ru.webp",
+      "dimensions": [
+        1200,
+        400
+      ],
+      "bytes": 127802,
+      "sha256": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "base_sha256": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "assets/customer-c/dineout-header-en.webp",
+      "dimensions": [
+        1200,
+        400
+      ],
+      "bytes": 121714,
+      "sha256": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a",
+      "base_sha256": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a",
+      "unchanged_from_base": true
+    }
+  ]
+}

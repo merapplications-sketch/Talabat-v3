@@ -1,0 +1,125 @@
+{
+  "brief": "BRIEF-32",
+  "scope": "original HTML / synthetic SDK / offline WebKit",
+  "physical_phone_tested": false,
+  "production_tested": false,
+  "assertions": [
+    {
+      "item": "AI-01",
+      "case": "AI-01-ru-customer",
+      "name": "exactly three existing default stories",
+      "pass": true,
+      "details": {
+        "actual": [
+          "ah06-fallback-free",
+          "ah06-fallback-happy",
+          "ah06-fallback-dineout"
+        ],
+        "expected": [
+          "ah06-fallback-free",
+          "ah06-fallback-happy",
+          "ah06-fallback-dineout"
+        ]
+      }
+    },
+    {
+      "item": "AI-01",
+      "case": "AI-01-ru-customer",
+      "name": "only story bars remain at the upper edge",
+      "pass": false,
+      "details": {
+        "actual": [
+          3,
+          5
+        ],
+        "expected": [
+          3,
+          0
+        ]
+      }
+    }
+  ],
+  "covered_items": [
+    "AI-01"
+  ],
+  "missing_items": [],
+  "failures": [
+    {
+      "case": "AI-01-ru-customer",
+      "error": "{\"item\": \"AI-01\", \"case\": \"AI-01-ru-customer\", \"name\": \"only story bars remain at the upper edge\", \"pass\": false, \"details\": {\"actual\": [3, 5], \"expected\": [3, 0]}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/3b5ade2c649c/brief32-login/tools/brief31_webkit.py\", line 202, in run\n    callback()\n  File \"/workspace/scratch/3b5ade2c649c/brief32-login/tools/brief32_login_webkit.py\", line 192, in <lambda>\n    run.run('AI-01-ru-customer', lambda: test_default(run, browser, server, photos, 'customer', 'ru', 375))\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/3b5ade2c649c/brief32-login/tools/brief32_login_webkit.py\", line 89, in test_default\n    run.equal(ITEM, 'only story bars remain at the upper edge',\n  File \"/workspace/scratch/3b5ade2c649c/brief32-login/tools/brief31_webkit.py\", line 135, in equal\n    self.check(item, name, actual == expected, {'actual': actual, 'expected': expected})\n  File \"/workspace/scratch/3b5ade2c649c/brief32-login/tools/brief31_webkit.py\", line 132, in check\n    assert passed, json.dumps(entry, ensure_ascii=False)\n           ^^^^^^\nAssertionError: {\"item\": \"AI-01\", \"case\": \"AI-01-ru-customer\", \"name\": \"only story bars remain at the upper edge\", \"pass\": false, \"details\": {\"actual\": [3, 5], \"expected\": [3, 0]}}\n"
+    }
+  ],
+  "contexts": [
+    {
+      "case": "AI-01-ru-customer",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "mode": "login",
+      "blocked": [],
+      "page_errors": [],
+      "http_errors": [],
+      "failed_local_requests": [],
+      "navigation_cancellations": [],
+      "auth": [
+        {
+          "kind": "getSession",
+          "role": "customer",
+          "email": ""
+        }
+      ],
+      "clients": [
+        {
+          "role": "customer",
+          "storageKey": "tlb-auth-customer"
+        }
+      ]
+    }
+  ],
+  "screenshots": [],
+  "provenance": {
+    "started_at": "2026-11-21T11:31:11.607252+00:00",
+    "git_head": "99db45a7f713615468e7ce9f2cb3c5493826a4e3",
+    "git_tree": "b3027df167405b23f7fd2a636e1d2639d9bec918",
+    "harness_sha256": "c418788217f038d866b8ce994b6f43b8c67e2ed33c58bed61ce3b24e593f8c18",
+    "product_sha256": {
+      "customer.html": "0414e36a62bd5a309d5a901b4e620524bc8b281bea916d55b1c94f6f0dbe61fa",
+      "admin.html": "056b35f3973715dd515d1c4517145560c5bc4812cd5f0c32cc33ecbb293962dc",
+      "driver.html": "abcbda2fc706b867573208fd6e1cd64f18579cc1b8762bae9388b2dfd655b355",
+      "merchant.html": "50ea3999df4ff2eab960bbeae7b44674a0d500058da8668e056c371e3d66e0f9",
+      "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+      "assets/shared/brand-brief31b.js": "2ec06e843a31a33f00b51caa283c4c2765f3ea47217866cde40dce9415592b66",
+      "assets/brand/logo-talabot-en.webp": "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3",
+      "assets/brand/logo-talabot-ru.webp": "b4e016d9c81f28b87f7c77d5458d4ba7b84e840480d650433478fa39dbff2af7",
+      "assets/shared/banner-system-brief31.js": "a3fd82d7fd40cd2fbb7ceaf262fbcded17c60801936da21e193a56163c2b25f6",
+      "assets/shared/login-banners-ah06.js": "aee94e08e10626bb3a987f5f2c10f568eacc38975034e20f75053dafa8068aba",
+      "assets/shared/login-banners-ah06.css": "c3ad29f0ddd0a910e06089118dc4c63c9c71c1a531b344904810a8ee77c75642",
+      "assets/3d/motor-scooter.webp": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+      "assets/3d/hamburger.webp": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+      "assets/customer-c/banners-brief31.css": "1772689fbb0177a1a9d603ce320279d287378629c4d73b13dc1ec4486f513888",
+      "assets/customer-c/home-brief31.css": "9a5d11ac5cf59d139ca46f468efa423fd4a531c272ffe0499670a445cbf220c5",
+      "assets/customer-c/dish-group-brief31.css": "51ab87c9f9112c18e95dc58a5a0bf71c8bd95f6d8924bca8b1d06bdcbcf51c2e",
+      "assets/customer-c/dish-group-brief31.js": "058c2559bdad03c5cef49f7a81262fcfd97923077f812b6d8b2181eef212ab5b",
+      "assets/customer-c/restaurants-brief30.js": "1b41512068088c4d3321e0581541150f2f17271c4a324ef9eec6796865a4fee2",
+      "assets/customer-c/restaurants-brief30.css": "ca9f406a2fb7d6dfd75d313b79d423677640db1bce3f1baf9342d72626b8ddef",
+      "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a"
+    },
+    "fixture_time": "2026-11-18T09:00:00+00:00",
+    "harness_dependencies_sha256": {
+      "tools/brief31c_webkit.py": "83f9035c6f6f38856df736ee2db367aef0a33215ff14509409ba9df3bfa948ea",
+      "tools/brief31_webkit.py": "ca51cec94ad5f72e0c2616fc25a02d0ebbe8b09fa454c4550811f1f0982b6a4c",
+      "tools/brief25b_webkit.py": "94bd6c22f6b7199e060e003997b695749e2feb2eeec05e19679d6def1ad83d3b",
+      "tools/brief24_webkit.py": "dff41d64581b21b4a29f059f7c97e07a18f2c2dabc58bd8684cc43d9fbc00db6",
+      "tools/qa_all.py": "f2ff15674872de081873b1a97dd63841c2e7b97e46bf3cde80bc3c708222c2e3"
+    },
+    "playwright_version": "1.62.0",
+    "webkit_version": "26.5",
+    "completed_at": "2026-11-21T11:31:13.263706+00:00",
+    "source_unchanged_during_run": true
+  },
+  "pass": false,
+  "item": "AI-01",
+  "case_selection": "smoke"
+}
