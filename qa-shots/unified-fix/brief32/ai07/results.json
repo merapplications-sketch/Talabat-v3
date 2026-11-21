@@ -1,0 +1,431 @@
+{
+  "brief": "BRIEF-32",
+  "scope": "BRIEF-32: original app HTML, offline matching-state SDK, no live services.\n\nPrimary state matches the owner's reported conditions: two restaurants, no\nDineOut eligibility, no admin banners. Names/cuisine descriptions match the\nobserved public restaurant fields; prices, menu rows, and fixture photographs\nremain synthetic QA data. Additional configured-banner cases are labelled.",
+  "physical_phone_tested": false,
+  "production_tested": false,
+  "assertions": [
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "only the two reported restaurants are used for primary proof",
+      "pass": true,
+      "details": {
+        "actual": 2,
+        "expected": 2
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "heading remains identical",
+      "pass": true,
+      "details": {
+        "actual": "<div class=\"d6-sh home-heading\" data-section=\"popular\"><h2><small>Топ недели</small><span><img src=\"assets/3d/star.webp\" alt=\"\" width=\"28\" height=\"28\">Популярные рестораны</span></h2><button onclick=\"openCat('rest')\">Все <svg class=\"i\" viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M9 6l6 6-6 6\"></path></svg></button></div>",
+        "expected": "<div class=\"d6-sh home-heading\" data-section=\"popular\"><h2><small>Топ недели</small><span><img src=\"assets/3d/star.webp\" alt=\"\" width=\"28\" height=\"28\">Популярные рестораны</span></h2><button onclick=\"openCat('rest')\">Все <svg class=\"i\" viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M9 6l6 6-6 6\"></path></svg></button></div>"
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "row count remains identical",
+      "pass": true,
+      "details": {
+        "actual": 1,
+        "expected": 1
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 0 stays exactly 120px square at375",
+      "pass": true,
+      "details": {
+        "actual": [
+          120,
+          120
+        ],
+        "expected": [
+          120,
+          120
+        ]
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 0 is smaller than live baseline",
+      "pass": true
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 0 text styling remains identical",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "text": "⚡ Экспресс",
+            "style": {
+              "fontSize": "12px",
+              "fontWeight": "500",
+              "lineHeight": "18px",
+              "color": "rgb(255, 255, 255)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": "KFC",
+            "style": {
+              "fontSize": "13px",
+              "fontWeight": "500",
+              "lineHeight": "18px",
+              "color": "rgb(23, 36, 60)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": " 4.7 (293)·25–35 мин",
+            "style": {
+              "fontSize": "12px",
+              "fontWeight": "400",
+              "lineHeight": "18px",
+              "color": "rgb(83, 97, 118)",
+              "letterSpacing": "normal"
+            }
+          }
+        ],
+        "expected": [
+          {
+            "text": "⚡ Экспресс",
+            "style": {
+              "fontSize": "12px",
+              "fontWeight": "500",
+              "lineHeight": "18px",
+              "color": "rgb(255, 255, 255)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": "KFC",
+            "style": {
+              "fontSize": "13px",
+              "fontWeight": "500",
+              "lineHeight": "18px",
+              "color": "rgb(23, 36, 60)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": " 4.7 (293)·25–35 мин",
+            "style": {
+              "fontSize": "12px",
+              "fontWeight": "400",
+              "lineHeight": "18px",
+              "color": "rgb(83, 97, 118)",
+              "letterSpacing": "normal"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 0 DOM, heart, badge, metadata remain identical",
+      "pass": true,
+      "details": {
+        "actual": "<div class=\"d6-sc \" role=\"button\" onclick=\"openStore(0)\"><div class=\"d6-ph  \"><img class=\" home-brand-image\" src=\"/qa-image/kfc\" alt=\"\" loading=\"lazy\" data-cover=\"assets/3d/hamburger.webp\" onerror=\"homeImageError(this)\"><span class=\"hb d\">⚡ Экспресс</span><button class=\"hrt\" aria-label=\"Избранное\" onclick=\"event.stopPropagation();TLB.toggleFav('s1')\" style=\"color:#f1511b\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z\"></path></svg></button></div><b class=\"nm\">KFC</b><div class=\"mt\"><b class=\"rt\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"13\" height=\"13\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z\"></path></svg> 4.7 <i>(293)</i></b><span>·</span><span>25–35 мин</span></div></div>",
+        "expected": "<div class=\"d6-sc \" role=\"button\" onclick=\"openStore(0)\"><div class=\"d6-ph  \"><img class=\" home-brand-image\" src=\"/qa-image/kfc\" alt=\"\" loading=\"lazy\" data-cover=\"assets/3d/hamburger.webp\" onerror=\"homeImageError(this)\"><span class=\"hb d\">⚡ Экспресс</span><button class=\"hrt\" aria-label=\"Избранное\" onclick=\"event.stopPropagation();TLB.toggleFav('s1')\" style=\"color:#f1511b\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z\"></path></svg></button></div><b class=\"nm\">KFC</b><div class=\"mt\"><b class=\"rt\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"13\" height=\"13\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z\"></path></svg> 4.7 <i>(293)</i></b><span>·</span><span>25–35 мин</span></div></div>"
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 1 stays exactly 120px square at375",
+      "pass": true,
+      "details": {
+        "actual": [
+          120,
+          120
+        ],
+        "expected": [
+          120,
+          120
+        ]
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 1 is smaller than live baseline",
+      "pass": true
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 1 text styling remains identical",
+      "pass": true,
+      "details": {
+        "actual": [
+          {
+            "text": "Romant Restaurant",
+            "style": {
+              "fontSize": "13px",
+              "fontWeight": "500",
+              "lineHeight": "18px",
+              "color": "rgb(23, 36, 60)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": " 3.4 (11)·30–40 мин",
+            "style": {
+              "fontSize": "12px",
+              "fontWeight": "400",
+              "lineHeight": "18px",
+              "color": "rgb(83, 97, 118)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": "Бесплатно от 350 TJS",
+            "style": {
+              "fontSize": "10.5px",
+              "fontWeight": "600",
+              "lineHeight": "20px",
+              "color": "rgb(15, 122, 76)",
+              "letterSpacing": "normal"
+            }
+          }
+        ],
+        "expected": [
+          {
+            "text": "Romant Restaurant",
+            "style": {
+              "fontSize": "13px",
+              "fontWeight": "500",
+              "lineHeight": "18px",
+              "color": "rgb(23, 36, 60)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": " 3.4 (11)·30–40 мин",
+            "style": {
+              "fontSize": "12px",
+              "fontWeight": "400",
+              "lineHeight": "18px",
+              "color": "rgb(83, 97, 118)",
+              "letterSpacing": "normal"
+            }
+          },
+          {
+            "text": "Бесплатно от 350 TJS",
+            "style": {
+              "fontSize": "10.5px",
+              "fontWeight": "600",
+              "lineHeight": "20px",
+              "color": "rgb(15, 122, 76)",
+              "letterSpacing": "normal"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "card 1 DOM, heart, badge, metadata remain identical",
+      "pass": true,
+      "details": {
+        "actual": "<div class=\"d6-sc \" role=\"button\" onclick=\"openStore(1)\"><div class=\"d6-ph  \"><img class=\" home-brand-image\" src=\"/qa-image/pro-khinkali\" alt=\"\" loading=\"lazy\" data-cover=\"/qa-image/romant\" onerror=\"homeImageError(this)\"><button class=\"hrt\" aria-label=\"Избранное\" onclick=\"event.stopPropagation();TLB.toggleFav('s2')\" style=\"color:#1c1c21\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z\"></path></svg></button></div><b class=\"nm\">Romant Restaurant</b><div class=\"mt\"><b class=\"rt\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"13\" height=\"13\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z\"></path></svg> 3.4 <i>(11)</i></b><span>·</span><span>30–40 мин</span></div><span class=\"pk g\">Бесплатно от 350 TJS</span></div>",
+        "expected": "<div class=\"d6-sc \" role=\"button\" onclick=\"openStore(1)\"><div class=\"d6-ph  \"><img class=\" home-brand-image\" src=\"/qa-image/pro-khinkali\" alt=\"\" loading=\"lazy\" data-cover=\"/qa-image/romant\" onerror=\"homeImageError(this)\"><button class=\"hrt\" aria-label=\"Избранное\" onclick=\"event.stopPropagation();TLB.toggleFav('s2')\" style=\"color:#1c1c21\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z\"></path></svg></button></div><b class=\"nm\">Romant Restaurant</b><div class=\"mt\"><b class=\"rt\"><svg class=\"i\" viewBox=\"0 0 24 24\" width=\"13\" height=\"13\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z\"></path></svg> 3.4 <i>(11)</i></b><span>·</span><span>30–40 мин</span></div><span class=\"pk g\">Бесплатно от 350 TJS</span></div>"
+      }
+    },
+    {
+      "item": "AI-07",
+      "case": "ai07-popular-only-sizing",
+      "name": "approximately 2.7 cards visible with sufficient data",
+      "pass": true,
+      "details": 2.7916666666666665
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no unexpected external requests",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no JavaScript runtime errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no failed local transport",
+      "pass": true,
+      "details": []
+    },
+    {
+      "item": "NETWORK",
+      "case": "ai07-popular-only-sizing",
+      "name": "no HTTP error responses",
+      "pass": true,
+      "details": []
+    }
+  ],
+  "covered_items": [
+    "AI-07"
+  ],
+  "missing_items": [],
+  "failures": [],
+  "contexts": [
+    {
+      "case": "ai07-popular-only-sizing",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ai07-popular-only-sizing",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    },
+    {
+      "case": "ai07-popular-only-sizing",
+      "role": "customer",
+      "language": "ru",
+      "width": 375,
+      "blocked": [],
+      "page_errors": [],
+      "failed_local_requests": [],
+      "http_errors": []
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "ai07-ru-375-before.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "4209405e83c7cdf702a734331472d07d240aa0e856e6cf37e5579d37a53cb3cc"
+    },
+    {
+      "file": "ai07-ru-375-after.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "20a4e60413bc247383d1006341dfc7e2bb36bb2f10e6adb17efea3fd2b4b773f"
+    },
+    {
+      "file": "ai07-ru-375-three-card-geometry-fixture.webp",
+      "width": 375,
+      "height": 812,
+      "sha256": "e3239d12c62259d9ac43fdb4225e511fafc2a9d011f4b5fc043d447368e2725a"
+    }
+  ],
+  "provenance": {
+    "started_at": "2026-11-21T11:36:11.058590+00:00",
+    "git_head": "4cc494e23d3f80ad20a90a72199b9d664b4b159e",
+    "git_tree": "84c433fb595febe09de6a7922f43eb438e0c97b9",
+    "harness_sha256": "b4b332de812ec961ebcf0cf8cab9f1e49c8f9efa0d42ec0ef2023d1c33d6b1a0",
+    "product_sha256": {
+      "customer.html": "fd6646fcc18983fccffd605c85f362b8511ebbe837e13a9f8c39ff0a90bde669",
+      "admin.html": "056b35f3973715dd515d1c4517145560c5bc4812cd5f0c32cc33ecbb293962dc",
+      "driver.html": "abcbda2fc706b867573208fd6e1cd64f18579cc1b8762bae9388b2dfd655b355",
+      "merchant.html": "50ea3999df4ff2eab960bbeae7b44674a0d500058da8668e056c371e3d66e0f9",
+      "talabat-core.js": "a8c498da32adb12faa1a81df2aebb6350d1e2d3b06f391a6bef5ff30ae989eea",
+      "assets/shared/brand-brief31b.js": "2ec06e843a31a33f00b51caa283c4c2765f3ea47217866cde40dce9415592b66",
+      "assets/brand/logo-talabot-en.webp": "d70ab0a9901e4754f375d7967d43604c84cf9f57f36aea2b9beb15e0e694eaa3",
+      "assets/brand/logo-talabot-ru.webp": "b4e016d9c81f28b87f7c77d5458d4ba7b84e840480d650433478fa39dbff2af7",
+      "assets/shared/banner-system-brief31.js": "a3fd82d7fd40cd2fbb7ceaf262fbcded17c60801936da21e193a56163c2b25f6",
+      "assets/shared/login-banners-ah06.js": "aee94e08e10626bb3a987f5f2c10f568eacc38975034e20f75053dafa8068aba",
+      "assets/shared/login-banners-ah06.css": "c3ad29f0ddd0a910e06089118dc4c63c9c71c1a531b344904810a8ee77c75642",
+      "assets/3d/motor-scooter.webp": "a9d3d8069b818ffab57d15592a7c7a07c8b125eb6d49fbf80f0e9076af657c58",
+      "assets/3d/hamburger.webp": "fd3d5f44f56d2184f274433dc49ca0cdee6ce6bb39656eab930757d5250c9326",
+      "assets/customer-c/banners-brief31.css": "1772689fbb0177a1a9d603ce320279d287378629c4d73b13dc1ec4486f513888",
+      "assets/customer-c/home-brief31.css": "8cc7529d5ebbfac48b12760f9675f20579c7aa075a0631d6ede27838e3a2cc34",
+      "assets/customer-c/dish-group-brief31.css": "51ab87c9f9112c18e95dc58a5a0bf71c8bd95f6d8924bca8b1d06bdcbcf51c2e",
+      "assets/customer-c/dish-group-brief31.js": "058c2559bdad03c5cef49f7a81262fcfd97923077f812b6d8b2181eef212ab5b",
+      "assets/customer-c/restaurants-brief30.js": "1b41512068088c4d3321e0581541150f2f17271c4a324ef9eec6796865a4fee2",
+      "assets/customer-c/restaurants-brief30.css": "ca9f406a2fb7d6dfd75d313b79d423677640db1bce3f1baf9342d72626b8ddef",
+      "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
+      "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a",
+      "assets/preview/dineout-demo.json": "e8dab9fbe9faf1720e1e5ebb9b4bffe3c23c80ddeb494808d7637465d5c1ce90"
+    },
+    "fixture_time": "2026-11-18T09:00:00+00:00",
+    "scope_base": "1d54020a8a4de60e118b342b19fb8d0c3ab2e876",
+    "matching_state": "2 restaurants; discount_pct=0; no happy hours; no admin banners; synthetic SDK and fixture photographs",
+    "webkit_version": "26.5",
+    "completed_at": "2026-11-21T11:36:16.971160+00:00",
+    "source_unchanged_during_run": true
+  },
+  "pass": true
+}
