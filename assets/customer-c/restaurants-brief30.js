@@ -53,6 +53,8 @@ const CUISINE_MAP=[
   {id:'dessert',test:/десерт|сладост|торт|dessert|cake/i,art:'shortcake',name:'ad30Desserts'},
   {id:'drinks',test:/напитк|drink|beverage|сок|juice/i,art:'',name:'ad30Drinks'}
 ];
+const CUISINE_EXCLUDED=/^(соусы|extras|добавки|sauces)$/i;
+const failedCuisineImages=new Map();
 let chosenCuisine='';
 function cuisineSource(){
   const menus=TLB.allMenus(true)||{},seen=new Map();
@@ -60,7 +62,7 @@ function cuisineSource(){
     if(store.c!=='rest')continue;
     for(const item of menus[store.n]||[]){
       const raw=String(item.section||'').trim();
-      if(!raw)continue;
+      if(!raw||CUISINE_EXCLUDED.test(raw))continue;
       const match=CUISINE_MAP.find(c=>c.test.test(raw));
       const id=match?match.id:'section:'+raw.toLocaleLowerCase();
       if(!seen.has(id))seen.set(id,{id,title:match?t(match.name):raw,art:match?match.art:'',image:'',photos:[],rank:seen.size,stores:new Set()});
@@ -73,30 +75,41 @@ function cuisineSource(){
   const configured=typeof TLB.restaurantCuisines==='function'?TLB.restaurantCuisines():[];
   if(Array.isArray(configured))for(const item of configured){
     if(!item||!seen.has(item.id))continue;
+    if([item.name_ru,item.name_en].some(name=>typeof name==='string'&&CUISINE_EXCLUDED.test(name.trim()))){seen.delete(item.id);continue;}
     const c=seen.get(item.id);
     const title=TLB.lang()==='en'?item.name_en:item.name_ru;
     if(typeof title==='string'&&title.trim())c.title=title.trim().slice(0,32);
-    if(typeof item.image_url==='string'&&item.image_url)c.image=item.image_url;
+    if(typeof item.image_url==='string')c.image=item.image_url.trim();
     if(Number.isFinite(+item.sort))c.rank=+item.sort;
   }
   const used=new Set();
   return [...seen.values()].sort((a,b)=>a.rank-b.rank).map(c=>{
     const art=c.art?A3(c.art):'';
     // Keep configured artwork, otherwise semantic 3D art, then the first dish
-    // photo in this cuisine. Missing/duplicate imagery stays a text filter.
+    // photo in this cuisine. AH-01: types without usable imagery stay hidden.
     const source=[c.image,art,...c.photos].find(src=>src&&!used.has(src)&&!/(^|\/)assets\/3d\/basket\.webp(?:[?#]|$)/i.test(src))||'';
     if(source)used.add(source);
     return {...c,image:source,photo:!!source&&source!==art};
-  });
+  }).filter(c=>c.image&&failedCuisineImages.get(c.id)!==c.image);
 }
 function cuisineRail(){
-  const types=cuisineSource();if(!types.length)return '';
+  const types=cuisineSource();
+  if(chosenCuisine&&!types.some(c=>c.id===chosenCuisine))chosenCuisine='';
+  if(!types.length)return '';
   return '<div class="ad30-cuisines" aria-label="'+esc(t('sections'))+'">'
-    +types.map(c=>'<button type="button" class="ad30-cuisine'+(chosenCuisine===c.id?' on':'')+(c.image?'':' no-image')+'" aria-pressed="'+(chosenCuisine===c.id)+'" '
+    +types.map(c=>'<button type="button" class="ad30-cuisine'+(chosenCuisine===c.id?' on':'')+'" aria-pressed="'+(chosenCuisine===c.id)+'" '
       +'onclick="TALABOT_RESTAURANTS_BRIEF30.cuisine('+esc(JSON.stringify(c.id))+')">'
-      +(c.image?'<span class="ad30-cuisine-circle'+(c.photo?' photo':'')+'"><img src="'+esc(c.image)+'" alt="" loading="lazy" onerror="this.closest(\'button\').classList.add(\'no-image\');this.parentElement.remove()"></span>':'')
+      +'<span class="ad30-cuisine-circle'+(c.photo?' photo':'')+'"><img src="'+esc(c.image)+'" alt="" loading="lazy" onerror="TALABOT_RESTAURANTS_BRIEF30.cuisineImageFailed(this,'+esc(JSON.stringify(c.id))+')"></span>'
       +'<span class="ad30-cuisine-label">'+esc(c.title)+'</span></button>').join('')
     +'</div>';
+}
+function hideFailedCuisine(image,id){
+  if(!image.isConnected)return;
+  failedCuisineImages.set(id,image.getAttribute('src'));
+  const button=image.closest('.ad30-cuisine'),rail=button?.parentElement;
+  button?.remove();
+  if(rail&&!rail.children.length)rail.remove();
+  if(chosenCuisine===id){chosenCuisine='';render();}
 }
 function toggleCuisine(id){
   chosenCuisine=chosenCuisine===id?'':id;render();revealEmptyFilter();
@@ -312,6 +325,7 @@ window.TALABOT_RESTAURANTS_BRIEF30={
   render:renderRestaurants,
   banner:function(id){bannerGo(id)},
   cuisine:toggleCuisine,
+  cuisineImageFailed:hideFailedCuisine,
   filter:toggleFilter,
   reset:resetFilters,
   sort:setSort,
