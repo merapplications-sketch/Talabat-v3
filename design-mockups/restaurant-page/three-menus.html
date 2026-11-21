@@ -6098,7 +6098,7 @@ function rpEmptyCart(){
   return '<div class="rp-cart-space"><button class="rp-empty-cart" disabled>'+ico('cart',18)+'<span>'+rpText('Корзина','View basket')+'</span><b>0 TJS</b></button></div>';
 }
 
-function threeDirection(){const mode=new URLSearchParams(location.search).get('style');return ['careem','doordash','uber'].includes(mode)?mode:'careem'}
+function threeDirection(){const mode=new URLSearchParams(location.search).get('style');return ['careem','doordash','uber'].includes(mode)?mode:'doordash'}
 function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store),st=TLB.stores().find(x=>x.name==S.store)||{},sd=storeOf(S.store),q=S.msq.trim().toLowerCase(),sdp=sd.disc||0;
   const fav=st.id&&TLB.isFav(st.id),eta=etaOf(sd),maxIt=M.reduce((m,i)=>Math.max(m,+i.discount||0),0);
   /* offers: only what the data says (store discount or the best dish discount, free first delivery, free delivery threshold) */
@@ -6106,7 +6106,7 @@ function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store
   if(sd.ffd&&sd.ft!='free')tiles.push(['sp',ico('bike',26),t('offFree'),t('offFreeSub')]);if(sd.fdm>0&&sd.ft!='free')tiles.push(['sp',ico('bike',26),t('fdOff').replace('{m}',sd.fdm),'']);
   /* info card v06.1: equal columns + 44 px entry; only real values (no minimum order exists in the data, so no third column) */
   const stats=[];if(eta)stats.push([eta.replace(/\s*(?:мин|min)\.?$/i,''),t('minU')]);stats.push([sd.ft=='free'?t('free'):sd.fee+' TJS',t('deliv')]);
-  const secs=menuSecs(M,S.store),again=secs.filter(x=>x.kind=='h'),rest=secs.filter(x=>x.kind!='h');
+  const secs=menuSecs(M,S.store),again=secs.filter(x=>x.kind=='h'),featured=threeDirection()==='doordash'?secs.filter(x=>x.kind==='g'):[], menu=secs.filter(x=>!featured.includes(x)), rest=menu.filter(x=>x.kind!='h');
   const sec=x=>`<section class="msec d6-sec ${x.kind=='h'?'d73-again':''}" id="${x.id}"><div class="d6-hd"><h2 class="d6-h2">${esc(x.kind=='g'?t('d6Pop'):x.title)}</h2></div>${(x.kind==='l'||(x.kind==='g'&&threeDirection()!=='doordash'))?`<div class="d6-list">${x.items.map(i=>d6Row(i,sdp)).join('')}</div>`:`<div class="d6-rail ${x.kind=='g'||x.kind=='h'?'d69-grid':''}">${x.items.map(i=>d6Card(i,sdp)).join('')}</div>`}</section>`;
   const search=`<label class="d6-sb">${ico('search',20)}<input type="search" id="mq" placeholder="${t('searchMenu')}" value="${esc(S.msq)}" oninput="S.msq=this.value;render()" enterkeyhint="search" aria-label="${t('searchMenu')}"></label>`;
   const body=q?(()=>{const f=M.filter(i=>i.name.toLowerCase().includes(q));return (f.length?`<div class="d6-list" style="margin-top:12px">${f.map(i=>d6Row(i,sdp)).join('')}</div>`:`<div class="d6-empty">${emptyV(t('noItemsF'),t('emNoResS'),'','search')}</div>`)})()
@@ -6122,7 +6122,7 @@ function vMenu(){const M=TLB.allMenus(true)[S.store]||[],open=TLB.isOpen(S.store
   ${open?'':`<div class="d6-note"><div class="closedb">${t('closedBanner')}</div></div>`}
   
   ${tiles.length?`<details class="rp-offers" ${rpOffers?'open':''} ontoggle="rpOffers=this.open"><summary>${ico('tag',16)} <b>${esc(tiles[0][2])}</b>${ico('down',15)}</summary><div class="rp-terms">${tiles.map(o=>`<div><b>${esc(o[2])}</b>${o[3]?`<span>${esc(o[3])}</span>`:''}</div>`).join('')}</div></details>`:''}
-  ${search}${!q&&secs.length?`<nav class="d69-menu-nav" aria-label="${t('v69Sections')}">${secs.map(x=>`<a href="#${x.id}" onclick="event.preventDefault();document.getElementById('${x.id}').scrollIntoView({behavior:'smooth',block:'start'})">${esc(x.kind=='g'?t('d6Pop'):x.title)}</a>`).join('')}</nav>`:''}${body}${rpReward(d6Earn())}${rpControls()}${!cartCount()&&!S.sh?rpEmptyCart():''}<div style="height:${n?96:12}px"></div>${S.sinfo?sinfoSheet(st,sd):''}</div>
+  ${q?'':featured.map(sec).join('')}${search}${!q&&menu.length?`<nav class="d69-menu-nav" aria-label="${t('v69Sections')}">${menu.map(x=>`<a href="#${x.id}" onclick="event.preventDefault();document.getElementById('${x.id}').scrollIntoView({behavior:'smooth',block:'start'})">${esc(x.kind=='g'?t('d6Pop'):x.title)}</a>`).join('')}</nav>`:''}${body}${rpReward(d6Earn())}${rpControls()}${!cartCount()&&!S.sh?rpEmptyCart():''}<div style="height:${n?96:12}px"></div>${S.sinfo?sinfoSheet(st,sd):''}</div>
   ${itemSheet()}`}
 /* «Подробнее о ресторане»: the store's existing data only */
 function sinfoSheet(st,sd){const m=mapH(sd);
