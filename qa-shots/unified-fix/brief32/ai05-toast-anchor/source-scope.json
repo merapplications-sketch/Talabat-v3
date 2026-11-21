@@ -1,0 +1,17 @@
+{
+  "base": "31b6afa707f19128e3c3a5d1ce69cfc53e93b5a3",
+  "only_changed_product_path": "assets/shared/safe-toast.js",
+  "baseline_safe_toast_sha256": "e79becd5afdd9156d4b332ba4e61d9d90e2583804fd4872426b5690496ad044c",
+  "candidate_safe_toast_sha256": "5a29cad099e192696d026447d9ef33e1f2680c26f3ec162bb988836627835426",
+  "candidate_customer_sha256": "7b83e7d24d1eacfb7538859036ff7ba955a027c8a3b3485be226adc76c4f7b7f",
+  "harness_sha256": "5cc81279afc4c57fb56977936679c0d550154506e6e32f5126af79d63379a13b",
+  "marked_additions_removed_equals_base_except_final_newline": true,
+  "tracked_diff_paths": [
+    "assets/shared/safe-toast.js",
+    "tools/brief32_scroll_webkit.py"
+  ],
+  "before_runtime": "Playwright 1.62.0 / WebKit 26.5, native overflow anchoring disabled by test CSS",
+  "after_runtime": "Playwright 1.62.0 / WebKit 26.5",
+  "after_checks": 105,
+  "after_pass": true
+}

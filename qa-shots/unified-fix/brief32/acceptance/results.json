@@ -123,19 +123,7 @@
     {
       "item": "SOURCE",
       "case": "scoped-source-immutability",
-      "name": "assets/customer-c/dineout-header-ru.webp is frozen",
-      "pass": true
-    },
-    {
-      "item": "SOURCE",
-      "case": "scoped-source-immutability",
-      "name": "assets/customer-c/dish-group-brief31.js is frozen",
-      "pass": true
-    },
-    {
-      "item": "SOURCE",
-      "case": "scoped-source-immutability",
-      "name": "assets/brand/logo-talabot-en.webp is frozen",
+      "name": "admin.html is frozen",
       "pass": true
     },
     {
@@ -147,37 +135,7 @@
     {
       "item": "SOURCE",
       "case": "scoped-source-immutability",
-      "name": "admin.html is frozen",
-      "pass": true
-    },
-    {
-      "item": "SOURCE",
-      "case": "scoped-source-immutability",
-      "name": "driver.html is frozen",
-      "pass": true
-    },
-    {
-      "item": "SOURCE",
-      "case": "scoped-source-immutability",
-      "name": "assets/brand/logo-talabot-ru.webp is frozen",
-      "pass": true
-    },
-    {
-      "item": "SOURCE",
-      "case": "scoped-source-immutability",
       "name": "talabat-core.js is frozen",
-      "pass": true
-    },
-    {
-      "item": "SOURCE",
-      "case": "scoped-source-immutability",
-      "name": "merchant.html is frozen",
-      "pass": true
-    },
-    {
-      "item": "SOURCE",
-      "case": "scoped-source-immutability",
-      "name": "assets/customer-c/dineout-header-en.webp is frozen",
       "pass": true
     },
     {
@@ -189,7 +147,49 @@
     {
       "item": "SOURCE",
       "case": "scoped-source-immutability",
+      "name": "driver.html is frozen",
+      "pass": true
+    },
+    {
+      "item": "SOURCE",
+      "case": "scoped-source-immutability",
+      "name": "assets/brand/logo-talabot-en.webp is frozen",
+      "pass": true
+    },
+    {
+      "item": "SOURCE",
+      "case": "scoped-source-immutability",
       "name": "assets/shared/brand-brief31b.js is frozen",
+      "pass": true
+    },
+    {
+      "item": "SOURCE",
+      "case": "scoped-source-immutability",
+      "name": "assets/brand/logo-talabot-ru.webp is frozen",
+      "pass": true
+    },
+    {
+      "item": "SOURCE",
+      "case": "scoped-source-immutability",
+      "name": "merchant.html is frozen",
+      "pass": true
+    },
+    {
+      "item": "SOURCE",
+      "case": "scoped-source-immutability",
+      "name": "assets/customer-c/dish-group-brief31.js is frozen",
+      "pass": true
+    },
+    {
+      "item": "SOURCE",
+      "case": "scoped-source-immutability",
+      "name": "assets/customer-c/dineout-header-ru.webp is frozen",
+      "pass": true
+    },
+    {
+      "item": "SOURCE",
+      "case": "scoped-source-immutability",
+      "name": "assets/customer-c/dineout-header-en.webp is frozen",
       "pass": true
     },
     {
@@ -215,7 +215,7 @@
     {
       "item": "SOURCE",
       "case": "scoped-source-immutability",
-      "name": "assets/shared/safe-toast.js retains approved layout/notice behavior",
+      "name": "shared notice stays byte-identical outside the customer flow-anchor addition",
       "pass": true,
       "details": {
         "actual": "/* TALABOT / NOTIFY-01 — shared visual safety for the original core 2.3s toast.\n * Four apps, NO changes to money, RPC, timing, permissions or other alert semantics.\n * Convert the core's bottom:96px fixed toast into a normal-flow status element;\n * insertion shifts the affected content rather than covering text or buttons.\n * Driver map errors are delegated to F-09's existing map status region.\n */\n(function(){\n 'use strict';\n if(window.__talabotSafeToast)return;\n const css=document.createElement('style');css.id='talabot-safe-toast';\n css.textContent=\n '.t15-flow-toast{position:static!important;inset:auto!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;'+\n 'z-index:auto!important;display:block!important;width:fit-content!important;min-height:0!important;max-width:min(86%,320px)!important;'+\n 'box-sizing:border-box!important;overflow-wrap:break-word!important;white-space:normal!important;margin:8px auto 12px!important;'+\n 'text-align:center!important;font-size:13px!important;line-height:18px!important;border-radius:22px!important;'+\n 'pointer-events:none!important}';\n document.head.appendChild(css);\n function isCoreToast(e){\n   if(!e||e.nodeType!==1||e.tagName!=='DIV'||e.parentElement!==document.body)return false;\n   // Strictly recognize the ONE app-core toast primitive, independent of\n   // Safari's normalized transform/left style serialization.\n   const p=e.style.position||getComputedStyle(e).position;\n   const z=Number(e.style.zIndex||getComputedStyle(e).zIndex);\n   const b=parseFloat(e.style.bottom||getComputedStyle(e).bottom);\n   return p==='fixed'&&z===10001&&Number.isFinite(b)&&Math.abs(b-96)<1;\n }\n function target(){\n   // Product note and choices are scrolled together. New notice follows the note\n   // in normal flow, never overlaying \"Халапеньо\" or \"Пожелания\".\n   const options=document.querySelector('#app .d6s .osh');\n   if(options){const note=options.querySelector('.d6-nt');return {container:options,after:note||null};}\n   // Every modal owns its own scroller. An in-flow notification cannot cover\n   // its footer buttons, even when the visual viewport is keyboard-reduced.\n   const modal=document.querySelector('#app .ov .md,#app .sheet .asheet,#app .f07-reject');\n   if(modal)return {container:modal};\n   const mission=document.querySelector('#app #a-sheet-body');\n   if(mission)return {container:mission};\n   const main=document.querySelector('#app .pg,#app main,#app .a-utility,#app');\n   return main?{container:main}:null;\n }\n /* Closed-customer ordering feedback does not belong in courier/merchant workflows. */\n function suppressClosedMerchantDriver(msg){\n   if(!/(?:^|\\/)(?:driver|merchant)\\.html$/i.test(location.pathname))return false;\n   const value=String(msg||'').trim();\n   return /^(?:Ресторан сейчас закрыт|The restaurant is closed|Restaurant is currently closed)/i.test(value);\n }\n function place(e){\n   if(!isCoreToast(e))return false;\n   if(suppressClosedMerchantDriver(e.textContent)){e.remove();return true;}\n   if(document.body.classList.contains('a-mission')&&\n      typeof window.__talabotF09MapNotice==='function'&&\n      window.__talabotF09MapNotice(e))return true;\n   const dest=target();if(!dest)return false;\n   e.classList.add('t15-flow-toast');\n   e.setAttribute('role',e.style.backgroundColor==='rgb(231, 76, 60)'?'alert':'status');\n   e.setAttribute('aria-live','polite');\n   if(dest.after&&dest.after.parentNode===dest.container)dest.after.after(e);\n   else dest.container.prepend(e);\n   // Keep focus where the user was typing. No scroll-to-top and no button clicks.\n   return true;\n }\n function sweep(){\n   if(!document.body)return;\n   // On slow first loads, a failing Leaflet script may have emitted a toast\n   // BEFORE this final script was parsed. MutationObserver does not replay it.\n   for(const n of [...document.body.children])if(isCoreToast(n))place(n);\n }\n const obs=new MutationObserver(rs=>{\n   for(const r of rs)for(const n of r.addedNodes)if(isCoreToast(n))place(n);\n });\n if(document.body){\n   obs.observe(document.body,{childList:true});\n   sweep();requestAnimationFrame(sweep);\n   document.addEventListener('DOMContentLoaded',sweep,{once:true});\n   window.addEventListener('pageshow',sweep);\n }\n // Intercept only *future explicit* map-failure toasts at their API entry;\n // internal core Leaflet callbacks are still caught by the observer and sweep.\n if(window.TLB&&typeof TLB.toast==='function'){\n   const original=TLB.toast;\n   TLB.toast=function(message,bad){\n     const msg=String(message);\n     if(suppressClosedMerchantDriver(msg))return;\n     if(document.body.classList.contains('a-mission')&&\n       (msg===TLB.t('mapFail')||msg===TLB.t('locMapFail'))&&\n       typeof window.__talabotF09MapNotice==='function'){\n       const virtual=document.createElement('div');virtual.textContent=msg;\n       if(window.__talabotF09MapNotice(virtual))return;\n     }\n     return original.apply(this,arguments);\n   };\n }\n window.__talabotSafeToast={isCoreToast,place,sweep};\n})();",
@@ -8964,8 +8964,8 @@
       "name": "default privateCTA waits at login",
       "pass": true,
       "details": {
-        "actual": "http://127.0.0.1:40859/customer.html",
-        "expected": "http://127.0.0.1:40859/customer.html"
+        "actual": "http://127.0.0.1:39829/customer.html",
+        "expected": "http://127.0.0.1:39829/customer.html"
       }
     },
     {
@@ -8984,8 +8984,8 @@
       "name": "failed sign-in cannot release deferredCTA",
       "pass": true,
       "details": {
-        "actual": "http://127.0.0.1:40859/customer.html",
-        "expected": "http://127.0.0.1:40859/customer.html"
+        "actual": "http://127.0.0.1:39829/customer.html",
+        "expected": "http://127.0.0.1:39829/customer.html"
       }
     },
     {
@@ -13680,7 +13680,7 @@
           "storageKey": "tlb-auth-customer"
         }
       ],
-      "expected_destination": "http://127.0.0.1:40859/qa-public/public"
+      "expected_destination": "http://127.0.0.1:39829/qa-public/public"
     },
     {
       "case": "AI-01-cta-after_auth",
@@ -13716,7 +13716,7 @@
           "storageKey": "tlb-auth-customer"
         }
       ],
-      "expected_destination": "http://127.0.0.1:40859/qa-public/after_auth"
+      "expected_destination": "http://127.0.0.1:39829/qa-public/after_auth"
     },
     {
       "case": "ru-375-original-defaults",
@@ -14182,10 +14182,10 @@
     }
   ],
   "provenance": {
-    "started_at": "2026-11-21T12:00:31.768172+00:00",
-    "git_head": "e4aa152a0ad538ee669f3a465fa059306cb09668",
-    "git_tree": "d025bc4e58dd00140df0b631394a929366c278d4",
-    "harness_sha256": "95b75d0ed84eff5a6afdf31d69cbe190ddf7ec55def391e909fa6e9ab4faf17b",
+    "started_at": "2026-11-21T12:30:21.166835+00:00",
+    "git_head": "2883291cc0adfc57823ce8f13b1fdca1818979f9",
+    "git_tree": "1cc4d323376d2c8fecdf556c6bfe78b4ff287add",
+    "harness_sha256": "7318e39895224c85790f1f7023f048e4d4ef4f06bab362765ea4801becab46f3",
     "product_sha256": {
       "customer.html": "7b83e7d24d1eacfb7538859036ff7ba955a027c8a3b3485be226adc76c4f7b7f",
       "admin.html": "056b35f3973715dd515d1c4517145560c5bc4812cd5f0c32cc33ecbb293962dc",
@@ -14209,7 +14209,8 @@
       "assets/customer-c/dineout-header-ru.webp": "6d17335f4cb7b5cd219a2dc7bd710c0be873108c3070b7807595028b0efc4c09",
       "assets/customer-c/dineout-header-en.webp": "345da3771866be9d6207b2a4fa97540aebb2d6ccf53e7d4414e8214434ec0d9a",
       "assets/preview/dineout-demo.json": "e8dab9fbe9faf1720e1e5ebb9b4bffe3c23c80ddeb494808d7637465d5c1ce90",
-      "assets/shared/banner-countdown-brief32.css": "5e2d7513c7b91982f407880fe21a023f964c179ab3d0280635637b2bee3f58cc"
+      "assets/shared/banner-countdown-brief32.css": "5e2d7513c7b91982f407880fe21a023f964c179ab3d0280635637b2bee3f58cc",
+      "assets/shared/safe-toast.js": "5a29cad099e192696d026447d9ef33e1f2680c26f3ec162bb988836627835426"
     },
     "fixture_time": "2026-11-18T09:00:00+00:00",
     "scope_base": "1d54020a8a4de60e118b342b19fb8d0c3ab2e876",
@@ -14220,13 +14221,13 @@
       "tools/brief31d_webkit.py": "c7f8ddc4c2c1b4b378e90fc5b51e4baa10de8dd0c2eafb903ee3d2511e68ff99",
       "tools/brief32_login_webkit.py": "565edcefec7b240b38b07f2e8ff1560f7caa0035d662b64cefb5b27fef95b9bd",
       "tools/brief32_restaurants_webkit.py": "025482478c31798670a60602729a1847e6694e618d63b4adc3b7152f7e14c2ac",
-      "tools/brief32_scroll_webkit.py": "5551f7be2ff09bdd0f59d10bf6e5bf5a6e2453dd9a1528c01e70f330f6f40fe7",
+      "tools/brief32_scroll_webkit.py": "5cc81279afc4c57fb56977936679c0d550154506e6e32f5126af79d63379a13b",
       "tools/brief25b_webkit.py": "94bd6c22f6b7199e060e003997b695749e2feb2eeec05e19679d6def1ad83d3b",
       "qa-fixtures/home-brief25b.json": "833cfcd5ab422ecdf827f756046b9ac3d7c412740d86599082de93d1c2c55526"
     },
     "frozen_hero_sha256": "831021e2186f17fa9abb88e37a68b83307927b6e01d6f55bc43430c92c1fd371",
     "webkit_version": "26.5",
-    "completed_at": "2026-11-21T12:01:58.010247+00:00",
+    "completed_at": "2026-11-21T12:32:07.425161+00:00",
     "source_unchanged_during_run": true
   },
   "pass": true,

@@ -202,6 +202,65 @@ def exercise_keyboard_focus(page):
     return {'first':first,'last':last,'add_to_plus':add_to_plus,'minus_to_add':minus_to_add}
 
 
+def exercise_flow_notice_anchor(page, mode):
+    """Preserve the current reading position without relying on native anchoring."""
+    if mode == 'none':
+        page.add_style_tag(content='html{overflow-anchor:none}')
+    support=page.evaluate("({supported:CSS.supports('overflow-anchor','none'),computed:getComputedStyle(document.documentElement).getPropertyValue('overflow-anchor')})")
+    anchor='.home-meals .d6-pt'
+    page.locator(anchor).first.evaluate('e=>scrollTo(0,scrollY+e.getBoundingClientRect().top-230)')
+    stable(page)
+    first=measure(page, mode+'-notice-insert', anchor,
+                  lambda: page.locator('.home-meals .d6-pa').first.click(), 150)
+    repeated=measure(page, mode+'-notice-repeat-plus', anchor,
+                     lambda: page.locator('.home-meals .d75-qty button:last-child').first.click(), 150)
+    page.evaluate('scrollBy(0,80)');stable(page)
+    expiry=measure(page, mode+'-notice-expiry-after-user-scroll', anchor, lambda: None, 2400)
+    # A real navigation replaces the old notice's host. Its later native timeout
+    # must not move the new page or restore a stale Home reading position.
+    page.evaluate("TLB.toast('AI05 navigation notice')")
+    stable(page)
+    page.locator('.nav > div').nth(1).click()
+    stable(page)
+    navigation=measure(page, mode+'-navigation-before-expiry', '.d76-orders .chips', lambda: None, 2400)
+    navigation['view']=page.evaluate('S.v')
+    return {'mode':mode,'native_css':support,'first':first,'repeated':repeated,'expiry':expiry,'navigation':navigation}
+
+
+def exercise_flow_notice_boundaries(page):
+    """Top-of-page notices stay visible; staff paths and open dialogs retain their original path."""
+    page.add_style_tag(content='html{overflow-anchor:none}')
+    page.evaluate('scrollTo(0,0)');stable(page)
+    page.locator('.d6-hh .d6-hr > .d6-hib').last.click()
+    stable(page)
+    top=page.evaluate("""()=>{const notice=document.querySelector('#app > .t15-flow-toast'),r=notice.getBoundingClientRect();
+      return {scrollY,visible:r.top>=0&&r.bottom<=innerHeight,text:notice.textContent}}""")
+    page.wait_for_timeout(2400);stable(page)
+    top['afterExpiry']=page.evaluate("({scrollY,notices:document.querySelectorAll('#app > .t15-flow-toast').length})")
+    excluded=[]
+    for path in ('driver.html','merchant.html','admin.html'):
+        result=page.evaluate("""path=>{
+          history.replaceState(history.state,'',path);TLB.toast('AI05 staff path notice');
+          return new Promise(resolve=>requestAnimationFrame(()=>{const notice=document.querySelector('#app > .t15-flow-toast');
+            const result={path,ownRemove:Object.hasOwn(notice,'remove'),flow:getComputedStyle(notice).position};
+            notice.remove();history.replaceState(history.state,'','customer.html');resolve(result)}));
+        }""",path)
+        excluded.append(result)
+    dialog=page.evaluate("""()=>{
+      const dialog=document.createElement('dialog');dialog.innerHTML='<button>AI05 modal focus</button>';document.body.append(dialog);dialog.showModal();
+      const focused=document.activeElement;TLB.toast('AI05 modal notice');
+      return new Promise(resolve=>requestAnimationFrame(()=>{const notice=document.querySelector('#app > .t15-flow-toast');
+        const result={ownRemove:Object.hasOwn(notice,'remove'),focusRetained:document.activeElement===focused,open:dialog.open};
+        notice.remove();dialog.close();dialog.remove();resolve(result)}));
+    }""")
+    page.evaluate("openN('KFC')");stable(page)
+    anchor='.d6-list .d6-mi:last-child'
+    page.locator(anchor).evaluate('e=>scrollTo(0,scrollY+e.getBoundingClientRect().top-280)');stable(page)
+    menu=measure(page,'menu-notice-insert',anchor,lambda: page.evaluate("TLB.toast('AI05 menu notice')"),150)
+    menu_expiry=measure(page,'menu-notice-expiry',anchor,lambda: None,2400)
+    return {'top':top,'staff':excluded,'dialog':dialog,'menu':menu,'menu_expiry':menu_expiry}
+
+
 def exercise_segmented_comparison(page):
     """Known timer shapes exercise the real updater; merged runs use the actual AI-04 formatter."""
     return page.evaluate("""()=>{
@@ -312,10 +371,17 @@ def run_variant(browser, server, photos, sdk, output, label):
     with original_page(browser, server, photos, sdk, output, label, record_video=False) as (page, focus_trace, _):
         focus = exercise_keyboard_focus(page)
         segmented = exercise_segmented_comparison(page) if label == 'candidate' else None
+    notice_modes=[];notice_traces=[];notice_boundaries=None
+    if label == 'candidate':
+        for mode in ('auto','none'):
+            with original_page(browser, server, photos, sdk, output, label, record_video=False) as (page, notice_trace, _):
+                notice_modes.append(exercise_flow_notice_anchor(page,mode));notice_traces.append(notice_trace)
+        with original_page(browser, server, photos, sdk, output, label, record_video=False) as (page, notice_trace, _):
+            notice_boundaries=exercise_flow_notice_boundaries(page);notice_traces.append(notice_trace)
     return {'label': label, 'metrics': metrics, 'inventory': inventory, 'trace': trace,
             'delayed_images': {'before': before, 'after': after, 'trace': image_trace},
             'active_countdown':active,'timer_trace':timer_trace,'keyboard_focus':focus,'focus_trace':focus_trace,
-            'segmented_comparison':segmented}
+            'segmented_comparison':segmented,'notice_modes':notice_modes,'notice_boundaries':notice_boundaries,'notice_traces':notice_traces}
 
 
 def main():
@@ -332,6 +398,7 @@ def main():
     provenance = {'baseline': subprocess.check_output(['git', 'rev-parse', BASELINE], text=True).strip(),
                   'candidate_head': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
                   'candidate_customer_sha256': sha((ROOT / 'customer.html').read_bytes()),
+                  'candidate_safe_toast_sha256': sha((ROOT / 'assets/shared/safe-toast.js').read_bytes()),
                   'harness_sha256': sha(Path(__file__).read_bytes()), 'sdk_sha256': sha(sdk.encode()),
                   'catalog': catalog, 'viewport': {'width': 375, 'height': 812}, 'integrated':args.integrated,
                   'physical_phone_tested': False, 'production_tested': False,
@@ -354,7 +421,8 @@ def main():
     def check(name, condition, details=None):
         assertions.append({'name': name, 'pass': bool(condition), 'details': details})
     check('candidate source stayed fixed throughout the run',
-          sha((ROOT/'customer.html').read_bytes())==provenance['candidate_customer_sha256'])
+          sha((ROOT/'customer.html').read_bytes())==provenance['candidate_customer_sha256'] and
+          sha((ROOT/'assets/shared/safe-toast.js').read_bytes())==provenance['candidate_safe_toast_sha256'])
     if not args.integrated:
         approved=subprocess.check_output(['git','show',BASELINE+':customer.html'],text=True)
         actual=(ROOT/'customer.html').read_text()
@@ -387,6 +455,26 @@ def main():
               {'timer':variant['timer_trace'],'focus':variant['focus_trace']})
         if variant['label'] != 'candidate':
             continue
+        check('notice anchor scenarios have no runtime/network errors',
+              not any(any(trace.values()) for trace in variant['notice_traces']),variant['notice_traces'])
+        for mode in variant['notice_modes']:
+            for name in ('first','repeated','expiry','navigation'):
+                case=mode[name]
+                check(case['name']+' keeps the current viewport anchor',case['max_anchor_drift_px']<=1,case['max_anchor_drift_px'])
+                check(case['name']+' avoids whole-app replacement',case['appWrites']==0,case['appWrites'])
+            check(mode['mode']+' notice remains on the original native lifetime',
+                  mode['first']['after']['toastCount']==1 and mode['expiry']['after']['toastCount']==0)
+            check(mode['mode']+' expiry after navigation does not move the new page',
+                  mode['navigation']['view']=='orders' and mode['navigation']['scroll_delta_px']==0)
+        boundary=variant['notice_boundaries']
+        check('top-of-page flow notice remains visible without forced scrolling',boundary['top']['scrollY']==0 and boundary['top']['visible'],boundary['top'])
+        check('top-of-page notice expiry retains the document top',boundary['top']['afterExpiry']=={'scrollY':0,'notices':0},boundary['top']['afterExpiry'])
+        check('staff paths retain native removal and flow styling',
+              all(not row['ownRemove'] and row['flow']=='static' for row in boundary['staff']),boundary['staff'])
+        check('open body dialog retains focus and the original notice path',
+              boundary['dialog']=={'ownRemove':False,'focusRetained':True,'open':True},boundary['dialog'])
+        for name in ('menu','menu_expiry'):
+            check(boundary[name]['name']+' keeps current menu position',boundary[name]['max_anchor_drift_px']<=1,boundary[name]['max_anchor_drift_px'])
         timer=variant['active_countdown']
         check('active countdown advances its original live text', timer['live']['displayAdvanced'], timer['live'])
         check('quantity taps more than one second apart keep the active timer node', timer['live']['sameNode'], timer['live'])

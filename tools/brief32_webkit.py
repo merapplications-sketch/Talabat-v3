@@ -107,6 +107,7 @@ def test_source_scope(run):
         run.equal('SOURCE',start+' remains unchanged',section(actual,start,end),section(baseline,start,end))
     allowed={
       'customer.html','assets/shared/login-banners-ah06.js','assets/shared/login-banners-ah06.css',
+      'assets/shared/safe-toast.js',
       'assets/shared/banner-system-brief31.js','assets/shared/banner-countdown-brief32.css',
       'assets/customer-c/banners-brief31.css','assets/customer-c/home-brief31.css',
       'assets/customer-c/restaurants-brief30.js','assets/customer-c/restaurants-brief30.css',
@@ -115,14 +116,29 @@ def test_source_scope(run):
       '.github/workflows/unified-fix-brief15-20261117.yml',
     }
     paths=set(subprocess.check_output(['git','diff','--name-only',SCOPE_BASE],text=True).splitlines())
-    paths.update(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
+    # CI1 creates its smoke screenshot before this gate. Ignore only generated,
+    # untracked output in that declared directory; tracked edits still count.
+    untracked=subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines()
+    paths.update(path for path in untracked if not path.startswith('qa-artifacts/ci1-fast/'))
     outside=sorted(path for path in paths if path not in allowed and not path.startswith('qa-shots/'))
     run.equal('SOURCE','changed paths stay inside requested product/evidence/CI scope',outside,[])
     for name in set(prior.PRODUCT_PATHS)-allowed:
         frozen=subprocess.check_output(['git','show',SCOPE_BASE+':'+name])
         run.check('SOURCE',name+' is frozen', (ROOT/name).read_bytes()==frozen)
-    for name in ('assets/size-brief7/customer.css','assets/customer-c/home-sections.css','assets/shared/safe-toast.js'):
+    for name in ('assets/size-brief7/customer.css','assets/customer-c/home-sections.css'):
         run.equal('SOURCE',name+' retains approved layout/notice behavior',(ROOT/name).read_text(),source_text(SCOPE_BASE,name))
+    toast=(ROOT/'assets/shared/safe-toast.js').read_text()
+    start=' /* AI-05 flow anchor: customer Home/menu only; keep the existing notice design. */\n'
+    end=' /* End AI-05 flow anchor. */\n'
+    toast=toast.replace(section(toast,start,end)+end,'',1)
+    for line in (
+        '   const anchor=customerFlowAnchor(dest.container); // AI-05 flow anchor\n',
+        '   restoreCustomerFlowAnchor(anchor);guardCustomerToastRemoval(e,dest.container); // AI-05 flow anchor\n',
+    ):
+        assert toast.count(line)==1, line
+        toast=toast.replace(line,'',1)
+    run.equal('SOURCE','shared notice stays byte-identical outside the customer flow-anchor addition',
+              toast.removesuffix('\n'),source_text(SCOPE_BASE,'assets/shared/safe-toast.js').removesuffix('\n'))
     forbidden=subprocess.check_output(['git','diff','--name-only',SCOPE_BASE,'--','sql','supabase','talabat-core.js'],text=True).splitlines()
     run.equal('SOURCE','no database, backend, or financial core change',forbidden,[])
 
@@ -364,7 +380,8 @@ def main():
     coverage={'source':{'SOURCE'},'preview':{'AI-02'},'popular':{'AI-07'},'timers':{'AI-04'},
               'login':{'AI-01'},'restaurants':{'AI-03','AI-06'},'scroll':{'AI-05'}}
     prior.EXPECTED_IDS=coverage.get(args.case,{'SOURCE',*(f'AI-{number:02}' for number in range(1,8))})
-    prior.PRODUCT_PATHS += ['assets/preview/dineout-demo.json','assets/shared/banner-countdown-brief32.css']
+    prior.PRODUCT_PATHS += ['assets/preview/dineout-demo.json','assets/shared/banner-countdown-brief32.css',
+                            'assets/shared/safe-toast.js']
     run = Acceptance(args.output)
     run.provenance.update({'scope_base': SCOPE_BASE,
         'harness_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

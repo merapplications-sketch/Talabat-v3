@@ -38,6 +38,34 @@
    const main=document.querySelector('#app .pg,#app main,#app .a-utility,#app');
    return main?{container:main}:null;
  }
+ /* AI-05 flow anchor: customer Home/menu only; keep the existing notice design. */
+ function customerFlowContent(container){
+   if(!container||container!==document.getElementById('app')||
+      !/(?:^|\/)customer\.html$/i.test(location.pathname)||typeof S==='undefined'||
+      !['home','menu'].includes(S.v)||document.querySelector('dialog[open],#app .sheet,#app .ov'))return null;
+   return container.querySelector(':scope > .d6h,:scope > .d6m');
+ }
+ function customerFlowAnchor(container){
+   const node=customerFlowContent(container);
+   // At the document top, retain the original visible in-flow notification.
+   return node&&scrollY>0?{node,container,view:S.v,top:node.getBoundingClientRect().top}:null;
+ }
+ function restoreCustomerFlowAnchor(anchor){
+   if(!anchor||!anchor.node.isConnected||S.v!==anchor.view||customerFlowContent(anchor.container)!==anchor.node)return;
+   const delta=anchor.node.getBoundingClientRect().top-anchor.top;
+   // Measure what remains after native anchoring; newer WebKit may already be at zero.
+   if(Math.abs(delta)>.5)window.scrollBy(0,delta);
+ }
+ function guardCustomerToastRemoval(notice,container){
+   if(!customerFlowContent(container))return;
+   const remove=notice.remove;
+   notice.remove=function(){
+     const anchor=customerFlowAnchor(this.parentElement);
+     remove.call(this);
+     restoreCustomerFlowAnchor(anchor);
+   };
+ }
+ /* End AI-05 flow anchor. */
  /* Closed-customer ordering feedback does not belong in courier/merchant workflows. */
  function suppressClosedMerchantDriver(msg){
    if(!/(?:^|\/)(?:driver|merchant)\.html$/i.test(location.pathname))return false;
@@ -51,11 +79,13 @@
       typeof window.__talabotF09MapNotice==='function'&&
       window.__talabotF09MapNotice(e))return true;
    const dest=target();if(!dest)return false;
+   const anchor=customerFlowAnchor(dest.container); // AI-05 flow anchor
    e.classList.add('t15-flow-toast');
    e.setAttribute('role',e.style.backgroundColor==='rgb(231, 76, 60)'?'alert':'status');
    e.setAttribute('aria-live','polite');
    if(dest.after&&dest.after.parentNode===dest.container)dest.after.after(e);
    else dest.container.prepend(e);
+   restoreCustomerFlowAnchor(anchor);guardCustomerToastRemoval(e,dest.container); // AI-05 flow anchor
    // Keep focus where the user was typing. No scroll-to-top and no button clicks.
    return true;
  }
