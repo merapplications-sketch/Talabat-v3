@@ -1,0 +1,42 @@
+/* AI-04: one visual treatment for timers already selected by the application. */
+.cd.countdown32,
+#app .cd.countdown32,
+#app .d6h .d6-bt .cd.countdown32,
+.hh-sheet-hero .cd.countdown32 {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: calc(100% - 16px);
+  padding: 4px 6px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 999px;
+  background: linear-gradient(105deg,#ed373f 0%,#ff7a1b 100%);
+  box-shadow: 0 2px 7px rgba(119,35,18,.15);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cd.countdown32 > span:first-child { display: inline-flex; flex: none; color: #fff; }
+.cd.countdown32 .hcd { display: inline-flex; min-width: 0; }
+.countdown32-cells { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+.countdown32-cell { display: inline-flex; align-items: baseline; justify-content: center; gap: 2px; padding: 3px 4px; border-radius: 4px; background: rgba(57,15,18,.24); }
+.countdown32-value { margin: 0; color: inherit; font: inherit; font-weight: 800; font-variant-numeric: tabular-nums; }
+.countdown32-cell small { font-size: .75em; font-weight: 700; line-height: 1; }
+.countdown32-separator { color: rgba(255,255,255,.8); font-weight: 700; }
+.countdown32-cells[data-mode="clock"] .countdown32-cell:last-child { animation: countdown32-pulse 1s ease-out infinite; }
+#app .d6h .d6-bt:not(.d6tm) .cd.countdown32,
+#app .d6l .ad30-banner .cd.countdown32 { gap: 3px; padding: 3px 4px; font-size: 10px; }
+#app .d6h .d6-bt:not(.d6tm) .countdown32-cells,
+#app .d6l .ad30-banner .countdown32-cells { gap: 2px; }
+#app .d6h .d6-bt:not(.d6tm) .countdown32-cell,
+#app .d6l .ad30-banner .countdown32-cell { gap: 1px; padding: 3px 2px; }
+#app .d6h .d6-bt:not(.d6tm) .cd.countdown32 svg,
+#app .d6l .ad30-banner .cd.countdown32 svg { width: 11px; height: 11px; }
+@keyframes countdown32-pulse { 0%,100% { opacity: 1; } 38% { opacity: .76; } }
+@media (prefers-reduced-motion: reduce) {
+  .countdown32-cells[data-mode="clock"] .countdown32-cell:last-child { animation: none; }
+}

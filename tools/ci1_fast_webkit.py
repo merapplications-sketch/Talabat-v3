@@ -22,14 +22,14 @@ def main():
     out = Path(sys.argv[2]).resolve()
     out.mkdir(parents=True, exist_ok=True)
     assert (baseline / "customer.html").is_file(), "Approved baseline is absent"
-    # BRIEF-31d restores the Home hero. Retain the independent Home smoke
-    # and financial parity alongside focused hero and scope acceptance.
+    # BRIEF-32: the seven requested corrections, with the approved hero and
+    # financial baseline independently guarded alongside current acceptance.
     changed = set(subprocess.check_output(
-        ["git", "diff", "--name-only", "81ddd9c6f2cfce9fae8a30c3401ad1615006e839", "HEAD"], text=True
+        ["git", "diff", "--name-only", "1d54020a8a4de60e118b342b19fb8d0c3ab2e876", "HEAD"], text=True
     ).splitlines())
     if {"customer.html", "admin.html"} & changed:
-        assert (Path("tools") / "brief31d_webkit.py").is_file(), (
-            "BRIEF-31d product was changed without its focused acceptance script"
+        assert (Path("tools") / "brief32_webkit.py").is_file(), (
+            "BRIEF-32 product was changed without its focused acceptance script"
         )
     assert not os.environ.get("SUPABASE_URL"), "Cloud database context forbidden"
     assert not os.environ.get("SUPABASE_ACCESS_TOKEN"), "Cloud credentials forbidden"
@@ -58,13 +58,13 @@ def main():
             finally:
                 current_ctx.close()
 
-            print("CI1_SELECTED_BRIEF_31D", flush=True)
+            print("CI1_SELECTED_BRIEF_32", flush=True)
             browser.close()
     finally:
         current_server.shutdown()
         approved_server.shutdown()
 
-    subprocess.run([sys.executable, "tools/brief31d_webkit.py", str(out / "brief31d")], check=True)
+    subprocess.run([sys.executable, "tools/brief32_webkit.py", str(out / "brief32")], check=True)
     print("CI1_FAST_WEBKIT_PASS; ONE_BRIEF_AND_ONE_HOME_SMOKE", flush=True)
 
 

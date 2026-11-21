@@ -2086,7 +2086,7 @@ function ntfSheet(){if(!S.ntf)return '';const act=TLB.orders().filter(o=>['pendi
   return `<div class="sheet" onclick="S.ntf=false;render()"><div class="asheet" onclick="event.stopPropagation()"><div class="grab"><i></i></div><div class="ash-h"><h3>${t('hNotif')}</h3><button class="ib" style="position:static;box-shadow:none;background:#f1f1f4" aria-label="${t('roCancel')}" onclick="S.ntf=false;render()">${ico('x',16)}</button></div>
   ${l.length?l.map(o=>{const un=TLB.unread(o.id),st=storeOf(o.store);return `<div class="ntr" onclick="S.ntf=false;go('track',{tid:${JSON.stringify(o.id).replace(/"/g,'&quot;')}})"><span class="nti">${homeRestaurantImage(st)}</span><div style="flex:1;min-width:0"><b class="sm">${esc(o.store)} · #${o.id}</b><div class="xs mut">${un?t('hNotifMsg')+' · '+un:t('trk_'+o.status)}</div></div>${ico('chev',16)}</div>`}).join(''):emptyV(t('hNotifNone'),t('hNotifNoneS'),'','bell')}</div></div>`}
 const catTile=c=>`<button class="d6-ct" onclick="openCat('${c}')"><span style="background:${CAT3[c][1]}"><img src="${A3(CAT3[c][0])}" alt="" width="40" height="40"></span><b>${t('d6c_'+c)}</b></button>`;
-const managedHappyCountdown=end=>`<span class="cd"><span aria-hidden="true">${ico('clock',13)}</span><span class="hcd" data-end="${end}">${managedCdTxt(end-Date.now())}</span></span>`;
+const managedHappyCountdown=end=>`<span class="cd countdown32"><span aria-hidden="true">${ico('clock',13)}</span><span class="hcd" data-end="${end}">${TALABOT_BANNERS.countdownHTML(end-Date.now(),TLB.lang())}</span></span>`;
 const managedBannerCountdown=b=>{const end=bannerDeadline(b);return end?managedHappyCountdown(end):''};
 function bannerMarkup(b,cls='',place=''){
   const image=bannerImage(b),label=managedBannerLabel(b);
@@ -2095,7 +2095,7 @@ function bannerMarkup(b,cls='',place=''){
 /* hero carousel: the admin's banners first, then slides made from offers that really exist now */
 const isHappyHourBanner=b=>b.placement==='happy_hour'||b.link_type==='happy_hour'||
   /^(?:счастливые часы|happy hours?)(?=$|[\s:!—–])/iu.test(String(b.title||'').trim());
-const happyCountdown=end=>`<span class="cd"><span aria-hidden="true">${ico('clock',13)}</span><span class="hcd" data-end="${end}">${cdTxt(end-Date.now())}</span></span>`;
+const happyCountdown=end=>`<span class="cd countdown32"><span aria-hidden="true">${ico('clock',13)}</span><span class="hcd" data-end="${end}">${TALABOT_BANNERS.countdownHTML(end-Date.now(),TLB.lang())}</span></span>`;
 function heroSlides(){const out=[],hh=hhStores();
   const top=inB('top'),art=top.find(isHappyHourBanner)||inB('happy_hour')[0];
   for(const b of top){
@@ -2816,7 +2816,7 @@ if(!window.__hcdTick)window.__hcdTick=setInterval(()=>{
       const sheet=timer.closest('dialog');
       if(sheet?.open)sheet.close();
       expired=true;
-    }else timer.textContent=timer.closest('.d6-bento')?cdTxt(remaining):managedCdTxt(remaining);
+    }else TALABOT_BANNERS.updateCountdown(timer,remaining,TLB.lang());
   }
   if(expired&&['home','orders','pay','cat'].includes(S.v)){syncStores();render()}
 },1000);
@@ -3337,7 +3337,7 @@ function cxnSheet(){if(S.cxn==null)return '';const o=TLB.order(S.cxn);if(!o)retu
 const actSt=['pending','preparing','ready','pickedup'];
 function ordersAd(useOrdersSet=false){
   const place=useOrdersSet?'orders':'checkout',ads=bannersAt(place);
-  return ads.length?`<section class="banner31-order-carousel"><div class="d76-order-banners" data-banner-rail="${place}" aria-label="${t('d6Partn')}">${ads.map(b=>bannerMarkup(b,'banner31-order',place)).join('')}</div>${ads.length>1?`<div class="banner31-order-controls"><div class="banner31-dots" data-banner-dots="${place}" aria-hidden="true">${ads.map((_,index)=>`<i class="${index===0?'on':''}"></i>`).join('')}</div><button type="button" class="banner31-rotation-toggle" data-banner-toggle="${place}" aria-label="${t('bannerPause')}" aria-pressed="false" onclick="bannerPause('${place}')"></button></div>`:''}</section>`:'';
+  return ads.length?`<section class="banner31-order-carousel"><div class="d76-order-banners" data-banner-rail="${place}" aria-label="${t('d6Partn')}">${ads.map(b=>bannerMarkup(b,'banner31-order',place)).join('')}</div>${ads.length>1?`<div class="banner31-order-controls"><div class="banner31-dots" data-banner-dots="${place}" aria-hidden="true">${ads.map((_,index)=>`<i class="${index===0?'on':''}"></i>`).join('')}</div></div>`:''}</section>`:'';
 }
 function vOrders(){const all=TLB.orders(),f=S.ofl,l=all.filter(o=>f=='all'||(f=='act'&&actSt.includes(o.status))||(f=='done'&&o.status=='delivered')||(f=='can'&&(o.status=='rejected'||o.status=='cancelled')));
   const fl=[['all','fAll'],['act','fAct'],['done','fDone'],['can','fCan']];
