@@ -1,0 +1,92 @@
+{
+  "status": "BLOCKED_SOURCE_ARTWORK",
+  "source_commit": "0830d6deca558944a33352ac17801a00a3cfcf32",
+  "png_and_webp_alpha_planes_identical": true,
+  "files": [
+    {
+      "language": "en",
+      "format": "webp",
+      "source_url": "https://github.com/merapplications-sketch/Talabat-v3/blob/0830d6deca558944a33352ac17801a00a3cfcf32/mockups-20261120/logo-talabot-en.webp",
+      "bytes": 13166,
+      "git_blob": "826e10b9d3be9bc7ba3e3b00d069f2cb445d5656",
+      "sha256": "1f0dca76c6aeb8d8c0c1e16131b7ac8cfcfbe110484bdf7cbaf91d66b1da4986",
+      "width": 900,
+      "height": 302,
+      "fully_transparent_pixels": 2401,
+      "fully_opaque_pixels": 265816,
+      "opaque_black_pixels": 171099,
+      "top_edge_opaque_pixels": 895,
+      "left_edge_opaque_pixels": 297,
+      "top_left_rgba": [
+        0,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "language": "en",
+      "format": "png",
+      "source_url": "https://github.com/merapplications-sketch/Talabat-v3/blob/0830d6deca558944a33352ac17801a00a3cfcf32/mockups-20261120/logo-talabot-en.png",
+      "bytes": 99545,
+      "git_blob": "a30d993be5a3e1926f5cea05d5e09d0cc03a5be4",
+      "sha256": "52ab47bcaae0b1d7b557df67d5586f9d0a81ba711fc1033d04dfe71984071594",
+      "width": 900,
+      "height": 302,
+      "fully_transparent_pixels": 2401,
+      "fully_opaque_pixels": 265816,
+      "opaque_black_pixels": 184052,
+      "top_edge_opaque_pixels": 895,
+      "left_edge_opaque_pixels": 297,
+      "top_left_rgba": [
+        0,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "language": "ru",
+      "format": "webp",
+      "source_url": "https://github.com/merapplications-sketch/Talabat-v3/blob/0830d6deca558944a33352ac17801a00a3cfcf32/mockups-20261120/logo-talabot-ru.webp",
+      "bytes": 13216,
+      "git_blob": "4979b3fdb053b89d57670a8bc82f8fd9147f6e00",
+      "sha256": "628b1d1ca6ebf181cf927027407230e00da3b695eed91ca5594c2e660de9d3d4",
+      "width": 900,
+      "height": 302,
+      "fully_transparent_pixels": 2401,
+      "fully_opaque_pixels": 265807,
+      "opaque_black_pixels": 172437,
+      "top_edge_opaque_pixels": 895,
+      "left_edge_opaque_pixels": 297,
+      "top_left_rgba": [
+        0,
+        0,
+        0,
+        255
+      ]
+    },
+    {
+      "language": "ru",
+      "format": "png",
+      "source_url": "https://github.com/merapplications-sketch/Talabat-v3/blob/0830d6deca558944a33352ac17801a00a3cfcf32/mockups-20261120/logo-talabot-ru.png",
+      "bytes": 95750,
+      "git_blob": "f8fd8b986e41c2f9d34eb89a5029c4a87b5253d9",
+      "sha256": "908e34925571602b8f475eb6355d68344b74646afbfb8f7a245e1f8aced236fd",
+      "width": 900,
+      "height": 302,
+      "fully_transparent_pixels": 2401,
+      "fully_opaque_pixels": 265807,
+      "opaque_black_pixels": 185808,
+      "top_edge_opaque_pixels": 895,
+      "left_edge_opaque_pixels": 297,
+      "top_left_rgba": [
+        0,
+        0,
+        0,
+        255
+      ]
+    }
+  ],
+  "conclusion": "The supplied PNGs already contain the opaque black background. Copying the corresponding WEBP bytes preserves the same alpha; corrected owner artwork is required for visual acceptance. No artwork was edited or regenerated."
+}

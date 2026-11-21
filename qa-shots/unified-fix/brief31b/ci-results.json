@@ -1,0 +1,41 @@
+{
+  "code_sha": "6d27acfae1a4fa281f4ba828773fb1e76ed321f4",
+  "home": {
+    "run_id": 44876515784,
+    "head_sha": "6d27acfae1a4fa281f4ba828773fb1e76ed321f4",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44876515784",
+    "updated_at": "2026-11-21T06:40:29Z",
+    "job_id": 136762295279,
+    "job_status": "completed",
+    "job_conclusion": "success"
+  },
+  "h01": {
+    "run_id": 44876515803,
+    "head_sha": "6d27acfae1a4fa281f4ba828773fb1e76ed321f4",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/merapplications-sketch/Talabat-v3/actions/runs/44876515803",
+    "updated_at": "2026-11-21T06:42:42Z",
+    "job_id": 136762295647,
+    "job_status": "completed",
+    "job_conclusion": "success"
+  },
+  "home_verified_log_lines": [
+    "2026-11-21T06:39:33.5870425Z CI1_HOME_RU375_SMOKE_PASS; FINANCIAL_PARITY_PASS",
+    "2026-11-21T06:40:24.3655703Z BRIEF31B_SOURCE_ASSET_BLOCKER: exact supplied logos retain an opaque black background; see owner_asset_review",
+    "2026-11-21T06:40:24.3703875Z BRIEF31B_FUNCTIONAL_PASS 508 assertions; 6 viewport screenshots",
+    "2026-11-21T06:40:24.4148542Z CI1_FAST_WEBKIT_PASS; ONE_BRIEF_AND_ONE_HOME_SMOKE"
+  ],
+  "h01_verified_log_lines": [
+    "2026-11-21T06:41:39.0223964Z BRIEF19_SEC18_LOCAL_PASS 16/16",
+    "2026-11-21T06:42:22.3831371Z H01_LOCAL_AUTHENTICATED 24/24",
+    "2026-11-21T06:42:22.3832390Z FULL_APP_AUDIT_BY_TYPE {\"TAP_TARGET_LT44\": 210, \"CONTRAST_LT4_5\": 270, \"COVERED\": 24, \"CONTROL_OUTSIDE_VIEWPORT\": 96, \"RAWKEY\": 6}",
+    "2026-11-21T06:42:22.4017914Z H01_REAL_AUTH_VERIFIED 24 /24 blockers 0"
+  ],
+  "h01_post_auth_evidence_commit": "d8b59a995568a3cf88babb4bc4c370c49af71bf5",
+  "scope": "GitHub workflows tested the code_sha above. Later commits add evidence only. Functional/authentication success does not override the separately recorded source-artwork visual blocker.",
+  "source_artwork_status": "BLOCKED_SOURCE_ARTWORK",
+  "visual_acceptance": false
+}

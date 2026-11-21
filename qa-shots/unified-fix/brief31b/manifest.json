@@ -1,0 +1,86 @@
+{
+  "code_sha": "6d27acfae1a4fa281f4ba828773fb1e76ed321f4",
+  "code_tree": "b846cba8dc0981f161392a19a0aee3942dfbb84d",
+  "product_commit": "8fc52cbf6a83195fbf763de9d1a1fc39d9207ede",
+  "product_tree": "d34023a1df51cde59ff2413a8f817b4d8cb8edb1",
+  "local_product_commit": "c49de5ec311a5697ac7bdc17c9db3717fa155310",
+  "all_recorded_product_hashes_match_code_sha": true,
+  "harness_hashes_match_current_code": true,
+  "screenshots_are_real_viewports": true,
+  "functional_assertions": 508,
+  "visual_acceptance": false,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 9192,
+      "sha256": "66b0fa4fadbbf24de02d702d3399288052f6920d53c7d1386aa2b7f1d0972e83",
+      "git_blob": "356f6545489c50b084e51d780cdde4989c7b8e31"
+    },
+    {
+      "path": "ci-results.json",
+      "bytes": 2074,
+      "sha256": "dfc7d9722694361b570f2baf324fb9f8b758b99f1394160ec8f2c47be90fc4c7",
+      "git_blob": "5ae938ad9c1567ce1d9646779df043647bfcb2cd"
+    },
+    {
+      "path": "en-390-customer-home.webp",
+      "bytes": 40770,
+      "sha256": "b2517bb65b71701cd42881429710b42eda2bbb260a718aeac5971457cd50608d",
+      "git_blob": "4ef4b55a9a8d97e45569ad54e87a0d0e6756b553",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "en-390-customer-login.webp",
+      "bytes": 8376,
+      "sha256": "fa9d0512f2100d6bde23de341cb4aa6225a4d583162bbf53573573bb903db9b8",
+      "git_blob": "b93420ed8cd4c477366237496be5c236e5bb62e4",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "path": "owner-asset-audit.json",
+      "bytes": 3194,
+      "sha256": "3257a44232828c3cccb6e629a82d05a2a6995665c2f46fb9b2adfafc817b806e",
+      "git_blob": "6b364690718866ab30465a3d0f11bb49205462ed"
+    },
+    {
+      "path": "results.json",
+      "bytes": 134819,
+      "sha256": "e31b117709673e8ec453c9bf3b5bb744c31363bb3454daa6af4773c4997c64db",
+      "git_blob": "41d03eed2a100bda44284268da6dda6a1650e192"
+    },
+    {
+      "path": "ru-375-admin-expiry.webp",
+      "bytes": 19054,
+      "sha256": "d0c9e5ab0b80d800d285682744f351a7f76328c57c66a0d1305f08e4302b641c",
+      "git_blob": "f28ec81c6ff504ea83c5e0fcc5c92828f24b2683",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-customer-home.webp",
+      "bytes": 39070,
+      "sha256": "98814219b87329beaec0bbdd5cfbe068058006a4a2f21f85570d953556f91aad",
+      "git_blob": "0165cd1b613fa6bfbc6a83cbdd25afec73a81d18",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-customer-login.webp",
+      "bytes": 8378,
+      "sha256": "5ac1e9c4201883b33329dc11765a59a093161fe4bee3cca678487034c8741b24",
+      "git_blob": "ef63b2719a541abd69fe356eb339ac5c4141301d",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "path": "ru-375-restaurants-cuisines.webp",
+      "bytes": 25514,
+      "sha256": "5e6a1e35447b5054c8865f59d69b81d99132414eedfe37448bdf3e6f0d98b480",
+      "git_blob": "1c21c8201efd588f19ff7c5e016c36a78a869ff8",
+      "width": 375,
+      "height": 812
+    }
+  ]
+}
