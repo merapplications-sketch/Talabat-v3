@@ -2691,27 +2691,51 @@ function dineCardPhoto(st,badges=''){
 /* BRIEF-25c Y-10: owner-supplied DineOut heading artwork. */
 TLB.addDict({dinePriceTwo:'≈ {n} TJS на двоих',dineHeadingAlt:'В ресторане — Скидка до 50% на счёт'},
             {dinePriceTwo:'≈ {n} TJS for two',dineHeadingAlt:'DineOut — Up to 50% off your bill'});
+/* BRIEF-32 AI-02: opt-in display data only; never enters STORES, menus, or orders. */
+const dinePreviewEnabled=location.hostname==='talabot-gate1-preview-20261116.pages.dev'||new URLSearchParams(location.search).get('demo')==='dineout';
+let dinePreviewState='idle',dinePreviewRestaurant=null;
+function loadDinePreview(){
+  if(!dinePreviewEnabled||dinePreviewState!=='idle')return;
+  dinePreviewState='loading';
+  fetch('assets/preview/dineout-demo.json',{credentials:'omit',cache:'no-store'})
+    .then(response=>{if(!response.ok)throw new Error('preview unavailable');return response.json()})
+    .then(data=>{
+      if(typeof data.name!=='string'||!data.name.trim()||data.label!=='Тест'||
+        !/^assets\/[\w./-]+\.(?:webp|png|jpe?g)$/i.test(data.image)||data.image.includes('..')||
+        !Number.isFinite(data.discount_pct)||data.discount_pct<=0||data.discount_pct>100)throw new Error('invalid preview');
+      dinePreviewRestaurant={n:data.name.trim().slice(0,80),i:data.image,bc:data.brand_color,
+        disc:data.discount_pct,preview:true};
+      dinePreviewState='ready';
+    }).catch(()=>{dinePreviewState='failed'}).finally(()=>{
+      document.querySelectorAll('[data-dine-preview-slot]').forEach(slot=>{
+        slot.outerHTML=dineH(slot.dataset.dinePreviewSlot==='expanded');
+      });
+    });
+}
 function dineH(expanded=false){
+  loadDinePreview();
   const eligible=STORES.filter(x=>x.c==='rest'&&TLB.isOpen(x.n)&&x.disc>0)
     .sort((a,b)=>(b.disc-a.disc)||((kmOf(a)??99)-(kmOf(b)??99)));
+  if(dinePreviewEnabled&&dinePreviewRestaurant)eligible.push(dinePreviewRestaurant);
   const l=expanded?eligible:eligible.slice(0,12);
+  const previewWrap=content=>dinePreviewEnabled?`<div data-dine-preview-slot="${expanded?'expanded':'compact'}"${content?'':' hidden'}>${content}</div>`:content;
   const heading=expanded?'':`<div class="d6-sh home-heading dine-head" data-section="dine">
     <h2><img src="assets/customer-c/dineout-header-${TLB.lang()==='en'?'en':'ru'}.webp" alt="${esc(TLB.lang()==='tg'?'Дар тарабхона — То 50% тахфиф ба ҳисоб':t('dineHeadingAlt'))}" width="1200" height="400"></h2>
     ${l.length?`<button type="button" aria-label="${t('d6All')}" onclick="go('dineAll')">${ico('chev',14)}</button>`:''}
   </div>`;
-  if(!l.length)return '';
-  return `${expanded?'':'<section class="home-dine-section">'}${heading}<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
+  if(!l.length)return previewWrap('');
+  return previewWrap(`${expanded?'':'<section class="home-dine-section">'}${heading}<div class="d6-rl home-dine home-dine-proposal">${l.map(st=>{
     const rawPrice=st.dine2;
     const two=rawPrice!=null&&Number.isFinite(rawPrice)&&rawPrice>0&&rawPrice<10000000?
       t('dinePriceTwo').replace('{n}',rawPrice):'';
     const details=[two,distanceLabel(st)].filter(Boolean).join(' · ');
-    return `<button type="button" class="d6-dc" ${storeTap(st)}>
-      ${dineCardPhoto(st,`<span class="hb r">−${st.disc}%</span>`)}
+    return `<${st.preview?'article':'button type="button"'} class="d6-dc" ${st.preview?'data-dineout-demo aria-label="DineOut Demo — Тест"':storeTap(st)}>
+      ${dineCardPhoto(st,`<span class="hb r">−${st.disc}%</span>${st.preview?'<span class="hb k" style="left:auto;right:8px">Тест</span>':''}`)}
       <b class="nm">${esc(st.n)}</b>
       ${d6Rt(st)?`<span class="mt dine-meta">${d6Rt(st)}</span>`:''}
       ${details?`<span class="dine-bill-distance">${esc(details)}</span>`:''}
-    </button>`;
-  }).join('')}</div>${expanded?'':'</section>'}`;
+    </${st.preview?'article':'button'}>`;
+  }).join('')}</div>${expanded?'':'</section>'}`);
 }
 const bottomBn=()=>{const bb=bannersAt('home_bottom');return bb.length?secH('tag',t('d6Partn'))+`<div class="bbs" data-k="bottom" data-banner-rail="home_bottom" onscroll="rotSync(this)">${bb.map(b=>bannerMarkup(b,'bb','home_bottom')).join('')}</div>${bb.length>1?`<div class="dots" data-dots="bottom">${bb.map((_,k)=>`<i class="${k==ROT.bottom?'on':''}"></i>`).join('')}</div>`:''}`:''};
 /* list row (restaurants list, Home search): photo, name, discount, description, rating · time, delivery, closed */

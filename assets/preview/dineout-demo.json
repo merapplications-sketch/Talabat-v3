@@ -1,0 +1,7 @@
+{
+  "name": "DineOut Demo",
+  "image": "assets/3d/pizza.webp",
+  "brand_color": "#813c2d",
+  "discount_pct": 20,
+  "label": "Тест"
+}
