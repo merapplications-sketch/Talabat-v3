@@ -548,7 +548,7 @@ def test_staff_customer_entry(run, browser, server, photos, role):
     with overlay_page(run, browser, server, photos, role=role, lang='en', width=390) as (page, trace):
         run.equal('AH-06', 'staff default starts with the free-delivery story', active_id(page), DEFAULT_IDS[0])
         run.equal('AH-06', 'staff fallback explicitly names the customer destination',
-                  page.locator('.ah06-slide.is-active .ah06-cta').inner_text(), 'Open customer app')
+                  page.locator('.ah06-slide.is-active .ah06-cta').inner_text().strip(), 'Open customer app')
         run.equal('AH-06', 'staff fallback explains the separate customer account',
                   page.locator('.ah06-slide.is-active .ah06-subtitle').inner_text(),
                   'Offers open in the customer app. A customer account is required.')
